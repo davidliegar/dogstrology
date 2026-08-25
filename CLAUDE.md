@@ -10,6 +10,7 @@ real de la mascota con efemérides astronómicas y entrega contenido diario.
 | `PLAN.md` | **Estado vivo**: en qué bloque estamos y qué toca ahora | Siempre, al empezar sesión |
 | `BRD_Dogstrology.md` | Referencia estable: decisiones, requisitos, el *por qué* | Cuando necesites contexto de una decisión |
 | `proto/` | Motor astrológico validado | Al integrar cálculos en la app |
+| `app/AGENTS.md` | Arquitectura de la app: capas, quién importa qué, estado | **Antes de tocar código en `app/`** |
 
 Al terminar algo: marca el `[ ]` en `PLAN.md` y añade línea al registro de sesiones.
 

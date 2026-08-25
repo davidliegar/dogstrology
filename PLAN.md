@@ -8,17 +8,43 @@
 
 ## Estado actual
 
-**Fase**: Bloque 2 en curso — prompt, esquema, filtro, scripts de generación y
-GitHub Action hechos (esta última, desactivada a propósito)
+**Fase**: Bloque 2 cerrado salvo dos cabos editoriales (ver abajo). **Bloque 3
+con la app corriendo en local en Android e iOS** (emulador y simulador) y con
+**la arquitectura ya saneada**: motor astrológico, SQLite con migraciones,
+capa de repositorios y UUIDv7/borrado lógico, todo en hexagonal de verdad
+(puertos y adaptadores, composition root, capas impuestas por ESLint) y en
+inglés. Los tres fallos de build nativo de la sesión anterior siguen
+arreglados de raíz (ERESOLVE de `react-dom`, mismatch de C++ de
+`expo-modules-core`/`worklets`, Pods desincronizados). Falta la mitad "de
+pantalla": F1, F2, F3
 **Última sesión**: 2026-08-25
-**Siguiente acción concreta**: seguir con Bloque 3 (o el catálogo) usando el
-contenido de prueba ya generado (`contenido/diario/`, ver su README) — no hace
-falta activar el cron para avanzar. Cuando se quiera activar de verdad:
-descomentar el `schedule` de `.github/workflows/generar-diario.yml` y
-configurar el secreto `ANTHROPIC_API_KEY` en GitHub. Dos cabos sueltos del
-catálogo siguen abiertos: lista de razas y desglose de personalidad (ver
-`pipeline/README.md`). Lanzar el catálogo completo de verdad (`--confirmar`,
-~$25 una vez) **espera luz verde tuya**
+**Decisión: los builds de EAS se posponen.** Consumen cuota limitada (15+15
+builds/mes); un build local (`npx expo run:ios` / `run:android`) es
+ilimitado y sirve igual para desarrollar contra módulos nativos (RevenueCat,
+Skia, etc. — **Expo Go sigue sin servir**, BRD §5.2, pero un build local con
+`expo-dev-client` sí). EAS se retoma cuando haga falta distribuir a un
+dispositivo sin cable o a un tester externo — no antes
+**Siguiente acción concreta, decidida para la próxima sesión**: **no hay
+ningún bloqueo, ni de infraestructura ni de arquitectura.** F1 — Onboarding
+express (≤60s hasta el signo) es el primer `[ ]` sin marcar del Bloque 3, y
+ahora tiene raíles: la pantalla pide `usePets()`/`useCreatePet()` a
+`pet/ui/petQueries.ts`, que llaman a casos de uso de la fachada `Dogstrology`
+(`src/index.ts`) — ninguna pantalla construye repositorios ni ve SQL, y el
+lint lo impide. El proyecto vive en `app/`; **léete `app/AGENTS.md` antes de
+tocar código**: ahí están las capas, quién puede importar qué y la regla de
+estado (TanStack Query para lo que sale del dominio, zustand solo para estado
+efímero de pantalla). `npm test` (80 en verde), `npx tsc --noEmit` y
+`npm run lint` deben estar los tres limpios antes de cerrar sesión
+
+Pendiente, sin bloquear el resto del Bloque 3:
+- Dos cabos sueltos del catálogo: lista de 60 razas y desglose de la
+  categoría de personalidad (68) — decisiones editoriales, no técnicas, ver
+  `pipeline/README.md`
+- Activar de verdad la GitHub Action del diario cuando se decida: descomentar
+  el `schedule` de `.github/workflows/generar-diario.yml` y configurar el
+  secreto `ANTHROPIC_API_KEY` en GitHub
+- Lanzar el catálogo completo de verdad (`--confirmar`, ~$25 una vez) **espera
+  luz verde tuya**
 
 Del Bloque 1 quedan 3 cabos que no se cierran desde aquí: el contorno del perro
 (necesita mano de dibujo), el icono en dispositivo real, y el tratamiento de las
@@ -131,12 +157,176 @@ Referencia: **BRD §7.4, §7.5**.
 
 ## Bloque 3 — App: F1-F3 (base + motor)
 
-- [ ] Proyecto Expo + development build de EAS (**Expo Go no sirve**, BRD §5.2)
-- [ ] Bundle ID neutro: `com.nexus.zoodiac` (D1 — **no se puede cambiar nunca**)
-- [ ] Portar `proto/astro.mjs` al proyecto
-- [ ] SQLite: esquema + framework de migraciones desde v1 (BRD §12.2.7)
-- [ ] Capa de repositorios — **la UI nunca ve SQL** (BRD §12.2.3)
-- [ ] UUIDv7 en dispositivo + borrado lógico (BRD §12.2.1-2, **irreversible**)
+- [x] Proyecto Expo creado (`app/`, TS estricto, Expo Router, SDK 57) y
+      **corriendo en local de verdad en Android e iOS** (`npx expo
+      run:android`/`run:ios`, emulador y simulador) — no Expo Go, un build
+      con `expo-dev-client` (BRD §5.2). EAS enlazado (`eas login` + proyecto
+      bajo `davidliegars-team`, `eas.json` con 4 perfiles verificados) pero
+      **pospuesto a propósito** (decisión de sesión, ver "Estado actual"):
+      consume cuota limitada (15+15/mes) y el build local no, así que se
+      retoma solo cuando haga falta distribuir a un dispositivo sin cable o
+      a un tester externo
+      - **Android**: funciona. Dos fallos nativos reales encontrados y
+        arreglados de raíz vía `overrides` en `package.json` (nunca
+        `--legacy-peer-deps`): `react-dom` (ERESOLVE de las devtools web de
+        Expo Router, fijado a `19.2.3` para que coincida con nuestro
+        `react`) y el par `react-native-reanimated`/`react-native-worklets`
+        (`expo-modules-core@57.0.13` solo compila contra
+        `worklets ^0.7-0.10.x`, pero `expo-router` arrastraba `reanimated
+        4.6.0`→`worklets 0.12.1`; fijados a `4.5.0`/`0.10.4`, el primer par
+        de esas líneas que sí encaja). Ninguno de los dos es dependencia
+        nuestra — ambos son transitivos de `expo-router`
+      - **iOS: funciona.** Primer bloqueo real: Expo SDK 57 exige Xcode
+        26.4+ (tabla de compatibilidad de `docs.expo.dev`) y la máquina
+        tenía 26.3 — el usuario actualizó Xcode. Segundo bloqueo, ya nuestro:
+        el proyecto `ios/` se había generado (primer intento fallido) con
+        `react-native-worklets@0.12.1` antes de bajarlo a `0.10.4`; el
+        `Podfile.lock` quedó apuntando a rutas de fichero de la versión
+        vieja (`RNReanimated 4.6.0` en el lock, `ScriptLoader.mm` en una
+        ruta que no existe en la 0.10.4 instalada) y CocoaPods no lo
+        resincronizaba solo. Arreglado borrando `ios/` entero y dejando que
+        `expo run:ios` lo regenere desde cero contra el `node_modules`
+        actual — build limpio, sin tocar nada a mano. `ios/` y `android/`
+        son carpetas generadas: siempre se pueden borrar y recrear con
+        `expo prebuild`/`expo run:*` si algo similar vuelve a pasar
+- [x] Bundle ID neutro: `com.nexus.zoodiac` (D1 — **no se puede cambiar nunca**)
+      → `app/app.json` (`ios.bundleIdentifier` y `android.package`)
+- [x] Portar `proto/astro.mjs` al proyecto → `app/src/_engine/astro.ts`. Puerto
+      literal (solo tipos e identificadores añadidos/traducidos, cero cambio de
+      lógica): comparado contra el prototipo en 9 casos de carta natal
+      (incluido el contrastado con astro.com) + 20 combinaciones de
+      `selfVerify` + tránsitos de hoy, resultado idéntico. No hace falta
+      repetir el contraste externo — la fórmula no cambió, se verificó que el
+      puerto (y su posterior traducción a inglés) no la tocaron
+- [x] SQLite: esquema + framework de migraciones desde v1 (BRD §12.2.7) →
+      `app/src/_db/` (`migrate.ts` + `migrations/001_pets.ts`, solo la tabla
+      `pets` — `diary_entries`/`preferences`/`purchases` esperan a su bloque).
+      Runner probado con `node:sqlite` (sin depender del módulo nativo):
+      aplica desde vacío, retoma desde una versión anterior, es idempotente,
+      y no avanza `user_version` si una migración falla a mitad
+- [x] Capa de repositorios — **la UI nunca ve SQL** (BRD §12.2.3) →
+      `app/src/pet/infrastructure/SqlitePetRepository.ts` (interfaz en
+      `pet/domain/PetRepository.ts`). Reescrita en arquitectura
+      hexagonal — ver el bullet dedicado más abajo
+- [x] UUIDv7 en dispositivo + borrado lógico (BRD §12.2.1-2, **irreversible**)
+      → `app/src/_kernel/id.ts` (`uuid`@14 + `react-native-get-random-values`).
+      El borrado lógico ahora es una regla del modelo (`Pet.deleted()`),
+      no del repositorio — ver el bullet de arquitectura hexagonal
+- [x] **Arquitectura hexagonal** (dominio/aplicación/infraestructura por bounded
+      context), a petición expresa tras revisar el código: el modelo había
+      quedado anémico (interfaz de datos sin comportamiento, con toda la
+      lógica en el repositorio). Referencia real: `../workspaces/pwa` →
+      `packages/stayforlong` (SDK de arquitectura limpia con 6 skills que
+      documentan el patrón al detalle: `overview`, `bounded-contexts`,
+      `domain-models`, `repository-interfaces`, `repository-implementations`,
+      `use-cases`) — adoptado y adaptado a la escala de esta app (local-only,
+      sin HTTP/cookies/facade multi-consumidor). Adaptaciones documentadas en
+      el plan de la sesión: sin value-object `ID` todavía, sin
+      `UseCaseCache`/`Config`/`AbortSignal` (no hay red que cachear ni
+      cancelar), `NatalChart` sin Zod (fuente 100% interna y ya tipada).
+      - `app/src/_kernel/`: `Model`, `UseCase`/`InfallibleUseCase`,
+        `DomainError` + `ErrorCode`
+      - `app/src/pet/`: `Pet` (aggregate root, Zod en `create()`,
+        métodos semánticos — `withChanges()`, `deleted()`,
+        `canCalculateAscendant()`, `ageInYears()`), `Birth` y
+        `MediaReference` (value objects), `PetRepository` (puerto de 3
+        métodos: `list`/`get`/`save` — no hace falta un `delete`
+        aparte), 5 casos de uso en `application/`
+      - `app/src/chart/` (bounded context nuevo, adelantado para F3):
+        `NatalChart` envuelve el resultado de `_engine/astro.ts` con métodos
+        semánticos (`isComplete()`, `planetsInHouse()`, `mainAspect()`…);
+        `CalculateNatalChartUseCase` conecta `Pet.birth()` con el motor
+      - 57 tests en verde (10 suites): Zod (rama "requerido" y rama "tipo
+        incorrecto"), métodos semánticos, round-trip SQLite con `node:sqlite`,
+        casos de uso con un repositorio falso en memoria, y regresión de
+        `CalculateNatalChartUseCase` contra el motor directo (mismo caso
+        contrastado con astro.com)
+      - **Traducción completa a inglés** (identificadores, ficheros y
+        carpetas — código en inglés, comentarios y prosa de tests en español,
+        CLAUDE.md ya lo pedía y no se estaba cumpliendo): `mascota/`→`pet/`,
+        `carta/`→`chart/`, `motor/`→`engine/`, y todos los símbolos de
+        `_engine/astro.ts` (`SIGNOS`→`SIGNS`, `cartaNatal`→`calculateNatalChart`,
+        `planetas`→`planets`…). Los **valores** de contenido que el usuario ve
+        (nombres de signo/planeta/elemento/aspecto/fase lunar) se dejan en
+        español a propósito: no son identificadores, son el vocabulario del
+        producto en su mercado. Tres estados internos sí se tradujeron como
+        valor, no solo como nombre, alineándolos con el propio esquema en
+        inglés del BRD §12.1: `precision`→`accuracy` (`'exacta'`→`'exact'`,
+        `'dia_adopcion'`→`'gotcha_day'`…), `confianza`→`confidence`
+        (`'completa'`→`'full'`…), `sistemaCasas`→`houseSystem`
+        (`'iguales'`→`'equal'`, `'signos'`→`'whole_sign'`). Verificado con el
+        mismo mecanismo de regresión contra `proto/astro.mjs` que el puerto
+        original, traduciendo la salida española sobre la marcha para
+        compararla campo a campo — 57 tests siguen en verde, `tsc` limpio
+- [x] **Repaso de arquitectura y corrección de la deuda encontrada** (sesión
+      dedicada, a petición del usuario tras revisar el bloque). Lo que se
+      arregló, por orden de gravedad:
+      - **El motor estaba dentro del dominio.** `chart/domain/NatalChart.ts`
+        importaba tipos de `engine/astro.ts` y el caso de uso importaba
+        `calculateNatalChart()` directamente: el dominio dependía de la forma
+        que devuelve una librería y la aplicación de una implementación
+        concreta. Ahora hay puerto (`chart/domain/ChartCalculator`), adaptador
+        (`chart/infrastructure/AstronomyEngineChartCalculator`) y un doble
+        (`chart/testing/StubChartCalculator`). El motor se movió a
+        `src/_engine/` — es una librería de cálculo, no un bounded context, y
+        ahora **solo su adaptador la importa**
+      - `NatalChart` era un envoltorio de DTO: `houseSystem()` devolvía
+        `string` porque el motor metía ahí la frase `'equal (placidus
+        degenerate at this latitude)'` — un mensaje de estado dentro de un
+        campo de datos, imposible de usar en un `switch`. Ahora el motor
+        devuelve `houseSystem: HouseSystem | null` + `houseSystemDegraded:
+        boolean`, y el dominio tiene vocabulario propio (`PlanetPosition`,
+        `ChartAspect`, `Sign`, `AspectType`…) con métodos semánticos. El
+        adaptador traduce campo a campo: si el motor renombrara un signo, deja
+        de compilar ahí y en ningún otro sitio
+      - **No había composition root.** Nadie conectaba `openDatabase()` →
+        repositorio → casos de uso; F1 habría acabado construyendo un
+        `SqlitePetRepository` dentro de una pantalla. Ahora `src/index.ts`
+        expone la fachada `Dogstrology` con los casos de uso ya cableados y
+        memorizados (mismo patrón que el `index.ts` del proyecto de
+        referencia, sin los getters diferidos que aquí no hacen falta)
+      - **Frontera de estado decidida** (zustand y TanStack Query estaban
+        instalados y sin usar): `_ui/DomainProvider` mete el dominio en React,
+        `pet/ui/petQueries.ts` y `chart/ui/chartQueries.ts` son los hooks, y la
+        regla es que un `queryFn` solo llama a un caso de uso. Cliente afinado
+        para local-first (`staleTime: Infinity`, `retry: 0`). Zustand queda
+        reservado a estado efímero de pantalla — el wizard de F1
+      - **Bug real: `syncedAt` se perdía al guardar.** La columna existía, se
+        leía y el `INSERT` no la incluía; el test de round-trip no lo veía
+        porque `createNew()` nunca la rellena. BRD §12.1 la exige *presente
+        desde el día 1* en toda fila sincronizable, así que se persiste (no se
+        borra) y hay test que lo prueba. Además, toda modificación limpia
+        `syncedAt` (BRD §12.2.4: una fila editada vuelve a estar pendiente de
+        subir)
+      - **Bug real: `openDatabase()` cacheaba la promesa rechazada.** Una
+        migración fallida en el arranque en frío dejaba la app muerta hasta
+        reiniciar el proceso, sin reintento posible. Ahora limpia la caché al
+        fallar. De paso, `openDatabase()` devuelve el puerto `SqlDatabase`: esa
+        firma es la única comprobación de que `expo-sqlite` lo satisface por
+        estructura, que hasta ahora no verificaba nadie
+      - **Errores de infraestructura envueltos**: un fallo de SQLite sale como
+        `DomainError(STORAGE_ERROR)` con la causa dentro, y uno del motor como
+        `CHART_CALCULATION_FAILED`. Ninguna librería asoma fuera de su adaptador
+      - **Regla duplicada eliminada**: `Birth.chartConfidence()` reimplementaba
+        el criterio de degradación que ya aplica el motor. La confianza la
+        decide quien calcula y viaja en `NatalChart.confidence()`
+      - Puerto alineado con la referencia (`save({ pet }): Promise<void>`),
+        `Pet.withChanges()`/`deleted()` unificados en un `copyWith` privado con
+        el reloj inyectable, y `ENGINE_VERSION` sellado en cada carta (BRD
+        §12.1: sin él, las cartas cacheadas serían indistinguibles al cambiar
+        una fórmula)
+      - **ESLint 9 con las capas puestas como reglas** (`eslint.config.js`,
+        `npm run lint`): dominio y aplicación no pueden importar el motor, la
+        base ni React; la UI no puede importar infraestructura; y ningún hex
+        de color fuera de `theme.ts` (BRD §11.2). Verificado que las reglas
+        saltan de verdad con un fichero de prueba
+      - `metro.config.js` nuevo: `watchFolders` a `design/`, para que el
+        symlink del tema recargue en caliente al editarlo
+      - **80 tests en verde (12 suites)**, `tsc` limpio, `eslint` limpio y
+        `expo export --platform ios` empaqueta — el dominio de la carta ahora
+        se prueba sin ejecutar efemérides (object mother), y el motor real se
+        prueba en su propio test de infraestructura, incluido el caso
+        contrastado con astro.com y la degeneración de Placidus en Tromsø
 - [ ] F1 — Onboarding express, ≤60s hasta el signo
 - [ ] F2 — Perfil de mascota (foto, raza, sexo, nacimiento, gotcha day)
 - [ ] F3 — Carta natal integrada, con degradación por datos faltantes
@@ -335,3 +525,335 @@ cero. Si algún día se hace: límite duro de 5 mensajes/día aplicado en servid
   a activar el cron o regenerar cada vez. Documentado en `contenido/README.md`:
   es fixture de desarrollo, no contenido publicado, y se sustituye sin más
   ceremonia cuando la Action se active de verdad
+
+### 2026-08-25 (4)
+- **Bloque 3 arrancado.** Proyecto Expo creado en `app/` con
+  `create-expo-app@latest` (SDK 57, TypeScript estricto), Expo Router
+  instalado a mano (SDK 57 no lo trae por defecto en la plantilla en blanco):
+  `app/_layout.tsx` + `app/index.tsx`, `main: "expo-router/entry"`, alias
+  `@/*` → `src/*`
+- `app.json`: `name`/`slug` a `Dogstrology`/`dogstrology`, `scheme`, y **el
+  bundle ID fijo** (`ios.bundleIdentifier` / `android.package` =
+  `com.nexus.zoodiac`, D1)
+- `design/theme.ts` enlazado en `app/src/design/theme.ts` como **symlink**, no
+  copia: sigue siendo una sola fuente de verdad, y Metro lo resuelve sin
+  problema (confirmado con `expo export --platform ios`)
+- **Motor astrológico portado**: `proto/astro.mjs` → `app/src/motor/astro.ts`.
+  Deliberadamente un puerto literal — misma lógica línea a línea, solo tipos
+  añadidos — para no disparar la regla de CLAUDE.md de repetir el contraste
+  con astro.com, que solo aplica a cambios reales de fórmula. Verificado con
+  un script de regresión (`tsx`) que compara ambos módulos con el mismo input:
+  9 casos de carta natal (incluido el contrastado con astro.com, más latitud
+  extrema, hemisferio sur, sin hora, sin lugar), 20 combinaciones de
+  `autoVerificar` y tránsitos de hoy — **idénticos byte a byte**. Mismo
+  `astronomy-engine@2.1.19` en `proto/` y en `app/`
+- **SQLite con framework de migraciones** (`app/src/db/`): `PRAGMA
+  user_version` + migraciones numeradas (BRD §12.2.7). El runner recibe la
+  lista de migraciones por parámetro (con las reales como default) para poder
+  probarlo con una lista sintética sin tocar el esquema de verdad. v1 = solo
+  `pets`; `diary_entries`/`preferences`/`purchases` esperan a que su bloque
+  las necesite de verdad, no antes
+- Migración v1 y repositorio probados con `node:sqlite` (Node 24 lo trae
+  nativo) detrás de una interfaz propia (`BaseDatosSql`) que `expo-sqlite`
+  también cumple por estructura — así el motor de migraciones y el
+  repositorio se prueban en Node sin el módulo nativo, que solo existe en el
+  dispositivo. 10 tests en verde: el runner (aplica desde vacío, retoma desde
+  versión anterior, idempotente, no avanza `user_version` si una migración
+  falla a mitad) + el repositorio de mascotas (round-trip completo, borrado
+  lógico con fila viva en la tabla, fusión de cambios parciales, degradación
+  sin foto/sin hora)
+- **Capa de repositorios**: `RepositorioMascotasSqlite` es la única puerta a
+  la tabla `pets` (BRD §12.2.3). Tipos de dominio en español
+  (`app/src/datos/tipos.ts`) traducidos del esquema TS del BRD §12.1;
+  columnas de la tabla en inglés porque son el contrato físico, no el dominio
+- **UUIDv7 en dispositivo**: `app/src/datos/id.ts`, `uuid@14` (trae `v7()`)
+  más el polyfill `react-native-get-random-values` que necesita en RN
+- Fricciones de instalación en SDK 57, todas resueltas, ninguna de diseño:
+  `npm install` normal choca en ERESOLVE por un conflicto de `react-dom` en
+  las devtools web de Expo (ajeno a lo que se instalaba) → `--legacy-peer-deps`
+  en todo lo posterior. `expo install` para paquetes nuevos, pero para los que
+  disparaban el mismo ERESOLVE, edición manual de `package.json` + `npm
+  install --legacy-peer-deps`. `@react-native/jest-preset` sin fijar versión
+  se llevó la última (0.87.0) contra RN 0.86.2 del proyecto → fijado a
+  `0.86.2`. El paquete `uuid` publica solo ESM y Jest lo rompía → añadido a
+  `transformIgnorePatterns`
+- Sin Context7 disponible en esta sesión (no está entre las MCP tools
+  cargadas pese a la regla del proyecto); se usó `WebFetch` contra
+  `docs.expo.dev` versionado a SDK 57 para Expo Router y `expo-sqlite` antes
+  de escribir código, dentro del espíritu de la regla
+- **No se ha hecho login de EAS ni lanzado ningún build**: requiere
+  `eas login` interactivo, que una sesión sin usuario no puede completar.
+  Queda como primer bloqueo real de la próxima sesión, antes incluso de F1
+
+### 2026-08-25 (5)
+- Intentado `eas login` — falta `eas-cli` (es un paquete distinto del `expo`
+  CLI que ya usamos). Sin resolver: queda pendiente decidir `npx eas-cli` vs
+  instalación global la próxima vez que se retome
+- **Refactor a arquitectura hexagonal**, a petición expresa del usuario tras
+  revisar el código de la sesión anterior: `Mascota` era anémica (interfaz de
+  datos, cero comportamiento; toda la lógica vivía en el repositorio). Se
+  planificó en modo plan (`EnterPlanMode`/`ExitPlanMode`) antes de tocar nada,
+  usando como referencia real `../workspaces/pwa` → `packages/stayforlong`,
+  cuyas 6 skills de arquitectura (`overview`, `bounded-contexts`,
+  `domain-models`, `repository-interfaces`, `repository-implementations`,
+  `use-cases`) se leyeron completas. Detalle de qué se adoptó, qué se adaptó
+  y por qué está en el bullet dedicado de Bloque 3 — no se repite aquí
+- Tres preguntas resueltas con el usuario antes de escribir código: adoptar
+  Zod para validar los modelos (sí), refactorizar ya el código de la sesión
+  anterior en vez de dejarlo conviviendo con el patrón nuevo (sí, es el
+  momento barato), adelantar el bounded context `carta` aunque F3 no esté
+  construida todavía (sí, para que F3 solo tenga que construir pantalla)
+- `app/src/datos/` desaparece por completo: `Mascota`, `Nacimiento` y
+  `ReferenciaMedia` nacen como modelos ricos en `mascota/domain/` (Zod en
+  `create()`, métodos semánticos); `RepositorioMascotasSqlite` se parte en
+  interfaz (`MascotaRepository`, puerto) + `SqliteMascotaRepository`
+  (adaptador); 5 casos de uso nuevos en `mascota/application/`
+- Momento más ilustrativo del cambio: **el borrado lógico deja de ser código
+  del repositorio**. Antes `RepositorioMascotasSqlite.borrarLogico()` hacía el
+  `UPDATE ... SET deleted_at = ?`. Ahora `Mascota.borrada()` es un método del
+  modelo que devuelve una instancia nueva con `deletedAt`/`updatedAt` puestos,
+  y `BorrarMascotaUseCase` es solo `obtener → .borrada() → guardar` — el
+  repositorio ya no necesita ni un método `borrar` propio, `guardar()` basta
+- `db/` renombrado a `_db/` (convención del proyecto de referencia: prefijo
+  `_` para infraestructura transversal que no es un bounded context, como
+  `_kernel/`)
+- `carta/` es bounded context nuevo, adelantado: `CartaNatal` envuelve el
+  resultado de `motor/astro.ts` (sin tocarlo, sigue siendo el cálculo puro ya
+  verificado) con métodos semánticos — `esCompleta()`, `planetasEnCasa()`,
+  `planetasRetrogrados()`, `aspectoPrincipal()`. Deliberadamente sin Zod: la
+  única fuente que lo alimenta es el propio motor, ya tipado — no hay
+  frontera de confianza externa que validar
+- 57 tests en verde (10 suites, subiendo desde los 10 de la sesión anterior):
+  ramas de validación Zod ("requerido" vs. "tipo incorrecto"), métodos
+  semánticos, round-trip SQLite vía `node:sqlite`, casos de uso probados con
+  un `RepositorioMascotaEnMemoria` falso (sin el patrón "Object Mother" del
+  proyecto de referencia — de más aparato del que esta app necesita hoy), y
+  una regresión de `CalcularCartaNatalUseCase` contra llamar al motor
+  directo, reusando el caso ya contrastado con astro.com
+- Verificado con `tsc --noEmit` limpio y un `expo export --platform ios` con
+  una importación temporal de las cuatro rutas nuevas (`@/_kernel`,
+  `@/mascota`, `@/carta`, `@/_db`) para confirmar que Metro resuelve el alias
+  `@/*` también en directorios con prefijo `_` — sí, sin cambios de config
+
+### 2026-08-25 (6)
+- El usuario, revisando el código, señaló un "splash generalizado" de español
+  en identificadores — contradice `CLAUDE.md`, que ya pedía "identificadores
+  de código en inglés" desde el principio (regla que veníamos incumpliendo
+  siguiendo el precedente de `proto/` y `pipeline/`). Confirmado el alcance
+  con una pregunta: **solo `app/`** por ahora — `proto/` y `pipeline/` quedan
+  en español, marcados como deuda a decidir más adelante (reabrirlos ahora
+  obligaría a repetir la auto-verificación del motor y los 33 tests del
+  pipeline sin necesidad real)
+- Traducidos identificadores, ficheros y carpetas de todo `app/src/` a
+  inglés: `mascota/`→`pet/` (`Mascota`→`Pet`, `Nacimiento`→`Birth`,
+  `ReferenciaMedia`→`MediaReference`), `carta/`→`chart/`
+  (`CartaNatal`→`NatalChart`), `motor/`→`engine/` (el fichero más delicado:
+  ~60 identificadores traducidos en `astro.ts`, incluida cada función interna
+  del solucionador Placidus), `_kernel/CodigosDeError.ts`→`ErrorCodes.ts`,
+  `ErrorDeDominio.ts`→`DomainError.ts`, `_db/migrar.ts`→`migrate.ts`,
+  `_db/tipos.ts`→`types.ts`, `_db/migraciones/`→`migrations/`,
+  `_db/pruebas/`→`_db/testing/`, `mascota/pruebas/`→`pet/testing/`
+- **Regla aplicada con criterio, no mecánicamente**: identificador (nombre de
+  variable/función/clase/fichero) → inglés siempre. Pero los **valores** de
+  contenido en español que el producto muestra de verdad — nombres de signo
+  (`'Aries'`, `'Géminis'`…), de planeta (`'Sol'`, `'Luna'`…), de elemento
+  (`'Fuego'`…), de aspecto (`'Trígono'`…), de fase lunar (`'Luna llena'`…) —
+  se quedan tal cual: no son identificadores de código, son vocabulario del
+  producto en su mercado de habla hispana. Si se tradujeran, la app hablaría
+  en inglés a un usuario español
+- Tres estados internos (no vocabulario de producto, sino códigos que la app
+  usa para decidir qué mostrar) sí se tradujeron también como **valor**,
+  alineándolos con el esquema TS que el propio BRD §12.1 ya define en inglés:
+  `Nacimiento.precision`→`Birth.accuracy` (`'exacta'→'exact'`,
+  `'aproximada'→'approx'`, `'dia_adopcion'→'gotcha_day'`,
+  `'inferida'→'inferred'` — coincide letra por letra con
+  `Pet.birth.accuracy` del BRD), `confianza`→`confidence`
+  (`'completa'→'full'`, `'sin_lugar'→'no_location'`, `'sin_hora'→'no_time'`),
+  `sistemaCasas`→`houseSystem` (`'iguales'→'equal'`, `'signos'→'whole_sign'`,
+  coincide con `NatalChart.houseSystem` del BRD; `'placidus'` no cambia, es
+  un término técnico internacional, no español)
+- **`engine/astro.ts` verificado de nuevo tras la traducción**, mismo
+  mecanismo que en el puerto original: un script de regresión (`tsx`) que
+  llama a `proto/astro.mjs` (sin tocar, sigue en español) y a
+  `engine/astro.ts` con los mismos inputs, traduciendo sobre la marcha los
+  nombres de campo y los tres valores de estado que cambiaron, y comparando
+  por igualdad estructural. Mismos 9 casos de carta + 20 de auto-verificación
+  + tránsitos de hoy que en la verificación anterior — todo idéntico
+- 57 tests siguen en verde tras la traducción (mismos que antes, reescritos
+  con los nombres nuevos) y `tsc --noEmit` limpio. Verificado también que
+  Metro resuelve `@/pet`, `@/chart`, `@/engine` igual que las rutas
+  anteriores — sin cambios de configuración
+- Actualizada la memoria del proyecto (`arquitectura_hexagonal_app.md`) con
+  los nombres de bounded context en inglés
+
+### 2026-08-25 (7)
+- **`eas login` hecho por el usuario** (`davidliegar`). Al comprobar el
+  estado, el proyecto EAS ya estaba enlazado en `app/app.json`
+  (`extra.eas.projectId`) — pero bajo la cuenta de **equipo**
+  `davidliegars-team`, no la personal, y había quedado un `app.json` suelto
+  en `pipeline/` (con el mismo `projectId`): `eas init` se había ejecutado
+  una vez por error desde ahí antes de hacerse bien desde `app/`. Confirmado
+  con el usuario mantener el equipo (única implicación real identificada:
+  quién más puede ver el proyecto si se añaden miembros a
+  `davidliegars-team`; la doc de Expo no aclara si el plan gratuito de 15+15
+  builds/mes se comparte entre cuenta personal y de equipo o es independiente
+  por cuenta) — borrado el `pipeline/app.json` suelto
+- `eas.json` creado con 4 perfiles: `development` (dispositivo real, necesita
+  `expo-dev-client` — instalado), `development-simulator` (`ios.simulator:
+  true`, no necesita cuenta de Apple Developer porque los builds de
+  simulador no llevan firma), `preview` y `production`. Los tres
+  verificados con `eas config` (resuelve sin errores) antes de lanzar nada
+- **Primer build de Android (`development`) falló** en la fase "Install
+  dependencies". Diagnosticado reproduciendo el mismo `npm install` limpio
+  en local (sin `--legacy-peer-deps`): el mismo ERESOLVE que nos venía
+  bloqueando toda la sesión — `react-dom@19.2.8` (arrastrado por
+  `expo-router` vía `@expo/ui`/`vaul`/`@radix-ui`, para el panel de
+  rutas/devtools web de Expo Router, no para el bundle nativo) exige
+  `react@^19.2.8`, y nuestro `react` está fijado en `19.2.3` porque así lo
+  exige Expo SDK 57. En local lo veníamos sorteando con
+  `--legacy-peer-deps` a mano; EAS Build hace `npm install` limpio y no lo
+  lleva, así que fallaba siempre
+- **El usuario pidió no tapar el problema con `--legacy-peer-deps` de forma
+  ciega** (ni cambiar Radix por Base UI — inviable, Radix no es una
+  dependencia nuestra, es interna de `expo-router`). Encontrada la causa
+  raíz real y arreglada sin desactivar la comprobación de peer deps en
+  ningún sitio: `react-dom@19.2.3` (la versión hermana exacta de nuestro
+  `react@19.2.3`) pide `react: ^19.2.3` — encaja perfecto. Añadido
+  `"overrides": { "react-dom": "19.2.3" }` a `package.json` para forzar esa
+  versión en todo el árbol; verificado en una instalación limpia aislada
+  (`/tmp`) antes de aplicarlo al proyecto real: `npm install` sin ningún flag
+  especial, cero ERESOLVE, `react-dom` sale `overridden` a 19.2.3 en
+  `npm ls`. Quitado el `.npmrc` con `legacy-peer-deps=true` que se había
+  añadido como parche de urgencia — ya no hace falta ni en local ni en EAS
+  Build. `node_modules`/`package-lock.json` regenerados desde cero con el
+  fix; 57 tests siguen en verde, `tsc` limpio, `expo export` sigue
+  bundlando bien
+- Relanzado el build de Android `development` (segundo intento) con el
+  `.npmrc` puesto (antes de encontrar el fix real de `overrides`) — quedó en
+  cola ~32 min y el usuario lo **canceló a mano**. No se ha vuelto a lanzar
+  nada desde entonces: el fix de `overrides` está verificado en local pero
+  todavía no se ha probado en un build real de EAS. **No se ha lanzado
+  ningún build de iOS todavía**
+- **Decisión: posponer EAS.** El usuario cortó ahí — builds de EAS gastan
+  cuota limitada, un build local no. Confirmado que la máquina tiene todo lo
+  necesario para build local: Xcode 26.3 con simuladores iOS instalados,
+  Android SDK con 5 AVD ya creados (`Pixel_8_Pro`, `Medium_Phone`…). Próximo
+  paso: `npx expo run:ios` — build local, sin cuota, primera vez que la app
+  corre de verdad. EAS se retoma cuando haga falta distribuir sin cable o a
+  un tester externo, no antes
+
+### 2026-08-25 (8)
+- **`npx expo run:ios` falló**: `expo-modules-jsi` no compila —
+  `'RuntimeScheduler' cannot be annotated with... SWIFT_RETURNS_RETAINED...
+  because it is not returning a SWIFT_SHARED_REFERENCE type`. No es un bug
+  nuestro: **Expo SDK 57 exige Xcode 26.4+** (confirmado en la tabla de
+  compatibilidad de `docs.expo.dev`) y la máquina tiene **Xcode 26.3**, un
+  punto por debajo. Sin arreglo posible desde el código — hace falta que el
+  usuario actualice Xcode (descarga grande, gestionada por Apple). Queda
+  pendiente hasta que lo actualice
+- **`npx expo run:android` también falló**, error distinto y sí arreglable:
+  `WorkletJSCallInvoker.cpp:27:21: error: no member named 'executeSync' in
+  'worklets::WorkletRuntime'`. Causa raíz (confirmada con `npm ls
+  --all` + búsqueda del error exacto, que resultó ser un patrón conocido y
+  todavía no resuelto oficialmente en varias versiones de Expo SDK, no
+  exclusivo de la 57): `expo-router` arrastra `react-native-reanimated` y
+  `react-native-worklets` como dependencias transitivas — **no son
+  dependencias nuestras, no las elegimos** — y npm resolvió las últimas
+  (`reanimated@4.6.0` → `worklets@0.12.1`), pero el C++ ya compilado de
+  `expo-modules-core@57.0.13` (la última versión publicada, no hay parche
+  más nuevo) solo sabe hablar con `worklets` en el rango
+  `^0.7.4 || ^0.8.0 || ^0.9.0 || ^0.10.0`. Es un desajuste interno del
+  propio SDK 57 de Expo entre dos paquetes suyos, no algo que nosotros
+  rompiéramos
+- Comprobado con `npm view react-native-reanimated@<versión>
+  peerDependencies` qué versión de `reanimated` pide qué versión de
+  `worklets`: **`reanimated@4.5.0` pide `worklets@0.10.x`** — cae justo
+  dentro del rango que `expo-modules-core` sabe compilar, y `4.5.0` también
+  soporta React Native 0.83-0.86 (la nuestra es 0.86.2). Añadido a
+  `overrides` en `package.json`:
+  ```json
+  "react-native-reanimated": "4.5.0",
+  "react-native-worklets": "0.10.4"
+  ```
+  Verificado primero en una instalación aislada en `/tmp` (mismo método que
+  con el `overrides` de `react-dom`) antes de tocar el proyecto real:
+  `npm ls` confirma `overridden` en los dos paquetes, sin ERESOLVE. Aplicado
+  al proyecto real, `node_modules`/lockfile regenerados, `tsc --noEmit`
+  limpio
+- **`npx expo run:android` funcionó** con el fix puesto — la app corre por
+  primera vez en el emulador (`Pixel_8_Pro`/`Medium_Phone`, ya había uno
+  arrancado). Primer punto real de "aplicación funcionando en local"
+  conseguido, aunque solo en Android — iOS sigue bloqueado por la versión de
+  Xcode
+- `overrides` final en `package.json` tras esta sesión: `react-dom` (fix del
+  ERESOLVE de las devtools web de Expo Router), `react-native-reanimated` +
+  `react-native-worklets` (fix del mismatch de C++ con `expo-modules-core`).
+  Ninguno usa `--legacy-peer-deps` ni `.npmrc` — todos son fixes de raíz,
+  verificados con `npm install` limpio sin flags especiales antes de
+  aplicarse
+- **El usuario actualizó Xcode a 26.4+.** Al reintentar `npx expo run:ios`,
+  fallo nuevo y distinto: `Build input file cannot be found:
+  '.../react-native-worklets/apple/worklets/apple/ScriptLoader.mm'`.
+  Diagnosticado con `find` (ese fichero no existe en absoluto en el paquete
+  `worklets@0.10.4` que tenemos instalado — es de la estructura de carpetas
+  de la 0.12.x) y `grep` sobre `ios/Podfile.lock` (seguía fijando
+  `RNReanimated (4.6.0)`, la versión de antes del `overrides`). Causa: el
+  proyecto `ios/` se generó en el primer intento, con `worklets 0.12.1`
+  todavía instalado; el `overrides` bajó `node_modules` a `0.10.4` después,
+  pero nadie le dijo a CocoaPods que volviera a resolver — build nativo y
+  `node_modules` quedaron desincronizados. Arreglo: `rm -rf ios/` y dejar que
+  `expo run:ios` lo regenere desde cero (prebuild + `pod install` limpios
+  contra el `node_modules` ya correcto) — sin editar nada a mano en Xcode ni
+  en los Pods
+- **`npx expo run:ios` funcionó tras la regeneración.** `Build Succeeded`,
+  la app se instaló y abrió en el simulador de iPhone 15 Pro, Metro sirvió
+  el bundle. **Primer objetivo real del bloque conseguido: la app corre en
+  local en Android e iOS.** Tres fallos nativos distintos esta sesión (dos
+  de versión de dependencias, uno de Pods desincronizados tras cambiar esas
+  versiones), los tres diagnosticados desde el log real y arreglados de
+  raíz — ninguno tapado con un flag. Sin bloqueos de infraestructura
+  pendientes para empezar F1
+
+### 2026-08-25 (9)
+- **Sesión de repaso de arquitectura, pedida por el usuario.** Primero un
+  repaso completo del Bloque 3 con el código delante (`tsc` limpio, 57 tests
+  verdes, constantes del puerto del motor idénticas a `proto/astro.mjs`,
+  `SQLiteDatabase` comprobado contra el puerto `SqlDatabase`); después,
+  corregir todo lo encontrado. Detalle por punto en el bullet dedicado del
+  Bloque 3
+- **Dos bugs reales, los dos confirmados con un test antes de arreglarlos**:
+  `syncedAt` no se persistía (columna leída pero ausente del `INSERT`; el
+  round-trip no lo veía porque `createNew()` nunca la rellena) y
+  `openDatabase()` cacheaba la promesa rechazada, dejando la app muerta hasta
+  reiniciar el proceso si fallaba una migración en el arranque en frío
+- **La corrección de fondo**: el motor astrológico estaba dentro del dominio.
+  Ahora hay puerto + adaptador + stub, el motor vive en `_engine/` como
+  librería de cálculo, y **solo su adaptador lo importa** (impuesto por
+  ESLint). Consecuencia práctica: el dominio de la carta se prueba sin
+  ejecutar efemérides, y el motor se prueba aparte, en infraestructura
+- **Composition root** (`src/index.ts`, fachada `Dogstrology`) y **frontera de
+  estado** (TanStack Query sobre casos de uso, zustand reservado a UI
+  efímera): las dos cosas que F1 habría decidido mal por comodidad si se
+  empezaba sin ellas
+- **Las capas dejan de ser disciplina y pasan a ser lint**: `eslint.config.js`
+  con `no-restricted-imports` por zona (dominio y aplicación sin motor, sin
+  SQLite y sin React; UI sin infraestructura) y un `no-restricted-syntax` que
+  prohíbe hex de color fuera de `theme.ts` (BRD §11.2). Verificado que saltan
+  con un fichero de prueba deliberadamente ilegal
+- Dos cosas de mi propio repaso que resultaron **estar mal y no se tocaron**:
+  los tipos de entrada en minúscula (`getInput`) son la convención del
+  proyecto de referencia, no un descuido; y `syncedAt` no se podía borrar
+  porque BRD §12.1 lo exige *presente desde el día 1*. Se persiste, no se
+  elimina
+- `metro.config.js` nuevo (`watchFolders` a `design/`, para que el symlink del
+  tema recargue en caliente). Cierre de sesión: **80 tests en verde (12
+  suites)**, `tsc --noEmit` limpio, `eslint .` limpio y `expo export
+  --platform ios` empaquetando (3,4 MB de bundle)
+- **`app/` versionado por primera vez** (67 ficheros: `src/`, `app/`,
+  `assets/`, configuración y `package-lock.json`). `node_modules/`, `.expo/` y
+  las carpetas nativas generadas `ios/`/`android/` quedan fuera por el
+  `.gitignore` del propio `app/` — se regeneran con `expo prebuild`/`run:*`.
+  `src/design/theme.ts` se versiona **como symlink** al `design/theme.ts` de
+  la raíz, así que sigue habiendo una sola fuente de verdad tras un `clone`.
+  Con esto desaparece el último impedimento para un build de EAS: EAS archiva
+  desde git, y hasta ahora habría subido un proyecto sin código
