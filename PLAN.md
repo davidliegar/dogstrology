@@ -9,14 +9,13 @@
 ## Estado actual
 
 **Fase**: Bloque 2 cerrado salvo dos cabos editoriales (ver abajo). **Bloque 3
-con la app corriendo en local en Android e iOS** (emulador y simulador) y con
-**la arquitectura ya saneada**: motor astrológico, SQLite con migraciones,
-capa de repositorios y UUIDv7/borrado lógico, todo en hexagonal de verdad
-(puertos y adaptadores, composition root, capas impuestas por ESLint) y en
-inglés. Los tres fallos de build nativo de la sesión anterior siguen
-arreglados de raíz (ERESOLVE de `react-dom`, mismatch de C++ de
-`expo-modules-core`/`worklets`, Pods desincronizados). Falta la mitad "de
-pantalla": F1, F2, F3
+con F1 terminado**: la app arranca, reparte según haya mascota o no, y el
+onboarding express lleva de cero a signo solar en tres pantallas — con las
+fuentes de verdad cargadas y las 12 constelaciones reales pintadas desde
+coordenadas. Debajo, la arquitectura de la sesión anterior intacta: motor
+astrológico, SQLite con migraciones, repositorios, UUIDv7/borrado lógico, todo
+hexagonal (puertos y adaptadores, composition root, capas impuestas por ESLint)
+y en inglés. Quedan F2 y F3
 **Última sesión**: 2026-08-25
 **Decisión: los builds de EAS se posponen.** Consumen cuota limitada (15+15
 builds/mes); un build local (`npx expo run:ios` / `run:android`) es
@@ -24,17 +23,22 @@ ilimitado y sirve igual para desarrollar contra módulos nativos (RevenueCat,
 Skia, etc. — **Expo Go sigue sin servir**, BRD §5.2, pero un build local con
 `expo-dev-client` sí). EAS se retoma cuando haga falta distribuir a un
 dispositivo sin cable o a un tester externo — no antes
-**Siguiente acción concreta, decidida para la próxima sesión**: **no hay
-ningún bloqueo, ni de infraestructura ni de arquitectura.** F1 — Onboarding
-express (≤60s hasta el signo) es el primer `[ ]` sin marcar del Bloque 3, y
-ahora tiene raíles: la pantalla pide `usePets()`/`useCreatePet()` a
-`pet/ui/petQueries.ts`, que llaman a casos de uso de la fachada `Dogstrology`
-(`src/index.ts`) — ninguna pantalla construye repositorios ni ve SQL, y el
-lint lo impide. El proyecto vive en `app/`; **léete `app/AGENTS.md` antes de
-tocar código**: ahí están las capas, quién puede importar qué y la regla de
-estado (TanStack Query para lo que sale del dominio, zustand solo para estado
-efímero de pantalla). `npm test` (80 en verde), `npx tsc --noEmit` y
-`npm run lint` deben estar los tres limpios antes de cerrar sesión
+**Decisión: el diseño se implementa contra el canvas, no contra el resumen.**
+`design/componentes.md` y `design/pantallas-mvp.md` sirven para orientarse, pero
+el detalle fino solo está en el proyecto de Claude Design (`Pantallas MVP.dc.html`,
+`ebb0a79e-9647-4378-913f-349475c3a6b5`), y en F1 tres detalles que no estaban en
+el resumen habrían salido mal. Antes de maquetar una pantalla de F2/F3, **importar
+su artboard**
+**Siguiente acción concreta, decidida para la próxima sesión**: **F2 — Perfil
+de mascota** (foto, raza, sexo, nacimiento, gotcha day), que es el primer `[ ]`
+sin marcar. Los raíles están puestos y ahora además probados por F1: pantallas
+contra `pet/ui/petQueries.ts` → casos de uso de la fachada `Dogstrology`, kit de
+UI en `src/_ui/components/`, y `app/AGENTS.md` con las capas y la regla de
+estado. F2 estrena dos cosas que F1 no tocó: `MediaReference` (la foto va por
+referencia relativa, **nunca** ruta absoluta ni BLOB) y `UpdatePetUseCase`.
+**Léete `app/AGENTS.md` antes de tocar código.** `npm test` (114 en verde),
+`npx tsc --noEmit` y `npm run lint` deben estar los tres limpios antes de
+cerrar sesión
 
 Pendiente, sin bloquear el resto del Bloque 3:
 - Dos cabos sueltos del catálogo: lista de 60 razas y desglose de la
@@ -44,7 +48,11 @@ Pendiente, sin bloquear el resto del Bloque 3:
   el `schedule` de `.github/workflows/generar-diario.yml` y configurar el
   secreto `ANTHROPIC_API_KEY` en GitHub
 - Lanzar el catálogo completo de verdad (`--confirmar`, ~$25 una vez) **espera
-  luz verde tuya**
+  luz verde tuya**. Ahora tiene un consumidor concreto esperando: la pantalla
+  de revelación de F1 tiene el hueco de la frase de personalidad del signo
+  (`app/onboarding/reveal.tsx`), que sale de la categoría `personalidad` del
+  catálogo. No se ha escrito a mano a propósito — el contenido es un pipeline
+  de build con revisión humana por PR, no texto suelto en el bundle
 
 Del Bloque 1 quedan 3 cabos que no se cierran desde aquí: el contorno del perro
 (necesita mano de dibujo), el icono en dispositivo real, y el tratamiento de las
@@ -327,7 +335,80 @@ Referencia: **BRD §7.4, §7.5**.
         se prueba sin ejecutar efemérides (object mother), y el motor real se
         prueba en su propio test de infraestructura, incluido el caso
         contrastado con astro.com y la degeneración de Placidus en Tromsø
-- [ ] F1 — Onboarding express, ≤60s hasta el signo
+- [x] **F1 — Onboarding express, ≤60 s hasta el signo.** Tres pantallas
+      (`app/onboarding/name|date|reveal.tsx`), implementadas contra el canvas
+      de diseño real, no contra el resumen: se importó el proyecto de Claude
+      Design (`Pantallas MVP.dc.html`) con la herramienta de design, y de ahí
+      salieron detalles que `design/componentes.md` no recogía — el halo de la
+      estrella dominante son **dos círculos concéntricos** (r 46/72, opacidad
+      .35/.18), no un `drop-shadow`; los nodos van en oro y el acento de
+      elemento aparece solo en el punto del chip; la tira de progreso
+      desaparece en la revelación; y los tres campos de fecha llevan pesos
+      1 / 1,7 / 1,1 porque el del mes carga con "septiembre"
+      - **Flujo**: `app/index.tsx` reparte según `usePets()` (sin mascota →
+        onboarding, con mascota → Hoy). La mascota se crea al pulsar "Ver su
+        signo", **no** en la revelación: si el guardado falla, el error sale
+        con el botón todavía en pantalla. La revelación lee `usePet(petId)` +
+        `useNatalChart(pet)` — ninguna pantalla toca un repositorio
+      - **Estado**: `pet/ui/onboardingStore.ts` (zustand) solo mientras dura el
+        wizard; `reset()` al acabar, porque a partir de ahí la verdad es el
+        repositorio. Es el primer uso real de la frontera que se decidió en la
+        sesión de arquitectura
+      - `app/home.tsx` es un **hueco de F5** (Bloque 4), no una pantalla: existe
+        porque "Ver su día" tiene que aterrizar en algún sitio, y demuestra que
+        la mascota se relee del repositorio y no del store
+- [x] **Tipografías cargadas de verdad** — cabo abierto del Bloque 1 que
+      bloqueaba cualquier pantalla: `theme.ts` declaraba `Fraunces_*`/`Karla_*`
+      pero no había ningún paquete instalado, así que **todo `typography` caía
+      a la fuente de sistema**, que es justo lo que BRD §11.2.2 prohíbe.
+      Instaladas `@expo-google-fonts/fraunces` y `/karla`; las cinco variantes
+      existen con los nombres exactos que usa el tema — **incluida
+      `Fraunces_600SemiBold_Italic`**, que `design/README.md` dejaba por
+      confirmar — y ambas son OFL 1.1 (leído en el `LICENSE_FONT` de cada
+      paquete, no en lo que declara Google Fonts). Se cargan con `useFonts` en
+      `app/_layout.tsx` sujetando el splash: el config-plugin de `expo-font`
+      embebe en build y evita el parpadeo, pero obliga a regenerar los
+      proyectos nativos, y el coste real de cargar 5 TTF detrás del splash es
+      invisible. `_ui/fonts.ts` indexa el mapa por los valores de
+      `theme.fonts`, de modo que renombrar una variante rompe la compilación en
+      vez de degradar en silencio. Verificado en el bundle: `expo export`
+      empaqueta 5 `.ttf`
+- [x] **Las 12 constelaciones, en la app** — `scripts/generateConstellations.mjs`
+      convierte `design/constelaciones/svg/*.svg` en
+      `src/chart/ui/constellations.generated.ts`, y `chart/ui/Constellation.tsx`
+      las pinta con `react-native-svg`. Se genera en vez de importar el SVG
+      por dos razones: Metro no lee `.svg` sin un transformer (máquina de más
+      para 12 assets estáticos), y el contrato del asset exige **dos ranuras de
+      color** que con un `<SvgXml>` opaco habría que reteñir a base de
+      reemplazos de cadena. El generador **rompe** si un fichero no cumple el
+      contrato (cero o dos dominantes, lienzo no cuadrado, grupos ausentes).
+      De paso calcula la longitud exacta de cada polilínea, que es lo que
+      permite trazar el asterismo con `strokeDasharray` — `react-native-svg` no
+      expone `getTotalLength()`. El trazado es el revelado único de entrada a
+      `motion.duration.trace`, **no** el bucle ambiental de 9000 ms del canvas
+      (`design/componentes.md` ya avisaba)
+- [x] **Kit de UI compartido** en `src/_ui/components/`: `Screen` (fondo, zona
+      segura, campo estelar y pie fijo — el margen lateral sale de
+      `screenPadding` en un solo sitio), `PrimaryButton`, `TextField` con el
+      doble anillo de `focusRing` (RN no acepta dos `box-shadow`: es una `View`
+      envolvente, como anotaba `componentes.md`), `Chip` compacto de 36 px,
+      `CheckboxRow`, `ProgressSteps`, `DateFields` y `StarField`
+- [x] **Dos fallos reales encontrados por el camino**
+      - `Birth` validaba la fecha **solo con un regex**, así que `2025-02-31`
+        pasaba y `new Date()` la desplazaba a marzo en silencio: la carta
+        saldría de un día que no existe. Ahora se comprueba que sea una fecha
+        del calendario (ida y vuelta en UTC), con test del 29 de febrero
+        bisiesto y no bisiesto
+      - `react-hooks/refs` (compilador de React) rechaza el
+        `useRef(new Animated.Value(…)).current` de toda la vida. Sustituido por
+        el inicializador perezoso de `useState`, que es igual de estable y no
+        lee una ref durante el render
+- [x] **Ayudante `_ui/typography.ts`**: `theme.ts` declara los tokens `as
+      const`, y el tuple readonly de `ephemeris.fontVariant` hace que
+      `StyleSheet.create` deje de inferir clave por clave y ensanche todas a
+      `ViewStyle | TextStyle | ImageStyle` — el error de tipos aparece en una
+      `<View>` cualquiera del mismo fichero, lejos de la causa. `text('token')`
+      lo normaliza una vez; el tema no se toca
 - [ ] F2 — Perfil de mascota (foto, raza, sexo, nacimiento, gotcha day)
 - [ ] F3 — Carta natal integrada, con degradación por datos faltantes
 
@@ -857,3 +938,45 @@ cero. Si algún día se hace: límite duro de 5 mensajes/día aplicado en servid
   la raíz, así que sigue habiendo una sola fuente de verdad tras un `clone`.
   Con esto desaparece el último impedimento para un build de EAS: EAS archiva
   desde git, y hasta ahora habría subido un proyecto sin código
+
+### 2026-08-25 (5)
+- **F1 cerrado**: onboarding express de tres pantallas, de cero a signo solar.
+  El detalle de lo implementado está en el bloque de F1, arriba; aquí solo lo
+  que se aprendió
+- **El canvas de diseño se importó y cambió tres decisiones.** Se venía
+  trabajando con `design/componentes.md` como sustituto del proyecto de Claude
+  Design, y el resumen es bueno pero no es la maqueta: el halo de la estrella
+  dominante no es una sombra sino **dos círculos concéntricos** (algo que
+  además React Native no sabría hacer con `drop-shadow`); los nodos de la
+  constelación van en **oro** y el acento de elemento vive solo en el punto del
+  chip de al lado; y la tira de progreso **desaparece** en la revelación. Se
+  añade como decisión permanente: antes de maquetar, importar el artboard
+- **La deuda que más costaba estaba en el sitio menos visible.** `theme.ts`
+  llevaba desde el Bloque 1 declarando Fraunces y Karla, y no había ningún
+  paquete de fuentes instalado: cada `typography` caía a la fuente de sistema,
+  que es literalmente la firma delatora que BRD §11.2.2 prohíbe. No se había
+  notado porque la única pantalla que existía era un placeholder de dos líneas.
+  Cerrado, y de paso cerrado el cabo que `design/README.md` dejaba abierto:
+  `Fraunces_600SemiBold_Italic` **sí existe**, y ambas fuentes son OFL 1.1
+  leído en el `LICENSE_FONT` del paquete
+- **Dos fallos reales, los dos silenciosos.** `Birth` aceptaba `2025-02-31`
+  porque solo miraba el regex, y `new Date()` la habría desplazado a marzo sin
+  decir nada: la carta natal saldría de un día inexistente y nadie se
+  enteraría. Y el compilador de React rechaza el `useRef(new
+  Animated.Value(…)).current` clásico, que es el patrón que aparece en toda la
+  documentación de RN — el sustituto es el inicializador perezoso de `useState`
+- **Los assets de diseño entran generados, no importados.** Las 12
+  constelaciones pasan por `scripts/generateConstellations.mjs`, que valida el
+  contrato del SVG y **rompe** si no se cumple, en vez de por un transformer de
+  Metro que las trataría como cajas negras. El generador calcula además la
+  longitud de cada polilínea, que es lo único que permite animar el trazado:
+  `react-native-svg` no tiene `getTotalLength()`
+- **Lo que no se hizo, y por qué**: la frase de personalidad del signo de la
+  pantalla de revelación se queda como hueco. Sale de la categoría
+  `personalidad` del catálogo, que no está generada ni revisada. Escribir doce
+  líneas a mano en el bundle habría sido rápido y habría saltado por encima del
+  modelo entero de contenido (pipeline de build + revisión humana por PR)
+- **Verificado**: 114 tests en verde (17 suites), `tsc` limpio, `eslint` limpio,
+  `expo export` empaqueta con los 5 `.ttf` dentro, y **el onboarding probado a
+  mano en el simulador de iOS** sobre un build nativo nuevo (hizo falta rehacerlo:
+  `react-native-svg` es un módulo nativo y el dev client anterior no lo tenía)

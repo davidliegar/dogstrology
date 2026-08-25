@@ -16,7 +16,11 @@ src/
 ├── _kernel/                  Building blocks (Model, UseCase, DomainError, id)
 ├── _db/                      SQLite: puerto SqlDatabase, migraciones, apertura
 ├── _engine/                  Motor astrológico (librería de cálculo, no un contexto)
-├── _ui/                      Puente React ↔ dominio (DomainProvider, useDomain)
+├── _ui/                      Puente React ↔ dominio y kit de UI compartido
+│   ├── DomainProvider.tsx    El dominio entra en React aquí, y solo aquí
+│   ├── fonts.ts              Las 5 variantes que declara theme.ts
+│   ├── typography.ts         text(token) → TextStyle utilizable por StyleSheet
+│   └── components/           Screen, PrimaryButton, TextField, Chip…
 ├── pet/                      Bounded context
 │   ├── domain/               Modelos, value objects, puertos (PetRepository)
 │   ├── application/          Casos de uso
@@ -25,6 +29,11 @@ src/
 │   └── testing/              Dobles y object mothers
 └── chart/                    Bounded context (misma estructura)
 ```
+
+Fuera de `src/`: `scripts/` guarda los generadores de assets. Hoy solo hay uno,
+`generateConstellations.mjs` (`npm run generate:constellations`), que convierte
+`design/constelaciones/svg/*.svg` en `src/chart/ui/constellations.generated.ts`.
+Los ficheros `.generated.ts` **no se editan a mano**: se regeneran.
 
 ## Reglas de dependencia
 
@@ -59,6 +68,19 @@ Dos consecuencias que conviene tener claras:
   F1). Si un dato se puede volver a leer del repositorio, no va en un store.
 - Ningún componente llama a un caso de uso directamente: pasa por un hook de
   `<contexto>/ui/`.
+
+## Tipografía y color en la UI
+
+- **Las fuentes se cargan en `app/_layout.tsx`** con `useFonts(fontAssets)`, y
+  el splash se sujeta hasta que están listas: el primer fotograma con la fuente
+  de sistema es exactamente lo que BRD §11.2.2 prohíbe. `_ui/fonts.ts` indexa el
+  mapa por los valores de `theme.fonts`, así que renombrar una variante en el
+  tema rompe la compilación en vez de degradar en silencio.
+- **`text('token')` en vez de `...typography.token`** cuando el estilo lleva
+  `fontVariant` (hoy, `ephemeris`). `theme.ts` los declara `as const` y el tuple
+  readonly hace que `StyleSheet.create` deje de inferir por clave: el error
+  aparece en una `<View>` cualquiera del mismo fichero, lejos de la causa.
+- Ni un hex fuera de `theme.ts` — está puesto como regla de ESLint.
 
 ## Convenciones
 

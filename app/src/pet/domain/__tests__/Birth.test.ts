@@ -18,6 +18,18 @@ describe('Birth', () => {
     expect(() => Birth.create({ ...valid, date: '14-12-2025' })).toThrow('[Birth] date debe ser YYYY-MM-DD');
   });
 
+  it('date con la forma correcta pero un día que no existe', () => {
+    // El regex la deja pasar; `new Date()` la desplazaría a marzo en silencio y
+    // la carta saldría de un día inexistente.
+    expect(() => Birth.create({ ...valid, date: '2025-02-31' })).toThrow('[Birth] date no existe en el calendario');
+    expect(() => Birth.create({ ...valid, date: '2025-13-01' })).toThrow('[Birth] date no existe en el calendario');
+    expect(() => Birth.create({ ...valid, date: '2023-02-29' })).toThrow('[Birth] date no existe en el calendario');
+  });
+
+  it('el 29 de febrero de un año bisiesto sí es válido', () => {
+    expect(Birth.create({ ...valid, date: '2024-02-29' }).date()).toBe('2024-02-29');
+  });
+
   it('accuracy es obligatoria', () => {
     // @ts-expect-error accuracy ausente a propósito
     expect(() => Birth.create({ ...valid, accuracy: undefined })).toThrow('[Birth] accuracy es obligatoria');

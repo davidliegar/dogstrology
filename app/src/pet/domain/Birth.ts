@@ -7,10 +7,27 @@ import { Model } from '@/_kernel/architecture';
 export const BIRTH_ACCURACIES = ['exact', 'approx', 'gotcha_day', 'inferred'] as const;
 export type BirthAccuracy = (typeof BIRTH_ACCURACIES)[number];
 
+/**
+ * Una fecha del calendario, no solo una cadena con la forma correcta.
+ *
+ * El regex por sí solo deja pasar `2025-02-31`, y `new Date()` la desplaza a
+ * marzo sin avisar: la carta saldría de un día que no existe y nadie se
+ * enteraría. Se comprueba reconstruyendo la fecha en UTC y exigiendo que los
+ * tres componentes sobrevivan al viaje de ida y vuelta.
+ */
+const isCalendarDate = (value: string): boolean => {
+  const [year, month, day] = value.split('-').map(Number);
+  const date = new Date(Date.UTC(year, month - 1, day));
+  return (
+    date.getUTCFullYear() === year && date.getUTCMonth() === month - 1 && date.getUTCDate() === day
+  );
+};
+
 const BirthValidation = z.object({
   date: z
     .string({ error: (iss) => (iss.input === undefined ? '[Birth] date es obligatoria' : undefined) })
-    .regex(/^\d{4}-\d{2}-\d{2}$/, '[Birth] date debe ser YYYY-MM-DD'),
+    .regex(/^\d{4}-\d{2}-\d{2}$/, '[Birth] date debe ser YYYY-MM-DD')
+    .refine(isCalendarDate, '[Birth] date no existe en el calendario'),
   time: z
     .string()
     .regex(/^\d{2}:\d{2}$/, '[Birth] time debe ser HH:mm')
