@@ -8,11 +8,17 @@
 
 ## Estado actual
 
-**Fase**: Bloque 2 en curso — prompt, esquema y filtro hechos
-**Última sesión**: 2026-08-21
-**Siguiente acción concreta**: los dos **scripts de generación** (diario y catálogo)
-contra la Batch API, con el filtro ya enchufado. Generar el catálogo completo
-(~$25, una vez) **espera luz verde tuya**
+**Fase**: Bloque 2 en curso — prompt, esquema, filtro, scripts de generación y
+GitHub Action hechos (esta última, desactivada a propósito)
+**Última sesión**: 2026-08-25
+**Siguiente acción concreta**: seguir con Bloque 3 (o el catálogo) usando el
+contenido de prueba ya generado (`contenido/diario/`, ver su README) — no hace
+falta activar el cron para avanzar. Cuando se quiera activar de verdad:
+descomentar el `schedule` de `.github/workflows/generar-diario.yml` y
+configurar el secreto `ANTHROPIC_API_KEY` en GitHub. Dos cabos sueltos del
+catálogo siguen abiertos: lista de razas y desglose de personalidad (ver
+`pipeline/README.md`). Lanzar el catálogo completo de verdad (`--confirmar`,
+~$25 una vez) **espera luz verde tuya**
 
 Del Bloque 1 quedan 3 cabos que no se cierran desde aquí: el contorno del perro
 (necesita mano de dibujo), el icono en dispositivo real, y el tratamiento de las
@@ -107,9 +113,15 @@ Referencia: **BRD §7.4, §7.5**.
 - [x] Filtro post-proceso → `pipeline/src/filtro.mjs`, **16 tests en verde**. Dos
       niveles: bloqueo, y "exige redirect al veterinario". El segundo es el que cubre
       el riesgo real de §7.5 sin empobrecer el contenido
-- [ ] Script de generación del catálogo inmutable (~2.074 fragmentos, BRD §7.3)
-- [ ] Script de generación del diario (37 fragmentos/día)
-- [ ] GitHub Action: cron nocturno → Batch API → filtro → commit a rama → PR (D12, D13)
+- [x] Script de generación del catálogo inmutable → `pipeline/src/generar-catalogo.mjs`.
+      Solo 2 de las 4 categorías MVP están implementadas (aspectos 500 + planeta
+      en signo/casa 240 = 740); raza×signo y personalidad quedan bloqueadas por
+      falta de datos/desglose, ver `pipeline/README.md`
+- [x] Script de generación del diario → `pipeline/src/generar-diario.mjs` (37/día)
+- [x] GitHub Action → `.github/workflows/generar-diario.yml` (D12, D13).
+      **Desactivada a propósito**: el `schedule` del cron nocturno está
+      comentado, solo se lanza a mano (`workflow_dispatch`) hasta decidir
+      activarla de verdad — ver `pipeline/README.md`
 - [ ] Alerta si pasan 2 días sin generar
 - [ ] Cloudflare Pages: despliegue al mergear (D11)
 - [ ] **Generar el catálogo inmutable completo** (~$25 one-off, Opus 5)
@@ -235,3 +247,91 @@ cero. Si algún día se hace: límite duro de 5 mensajes/día aplicado en servid
 - Cazado por un test: **Cáncer es un signo**, y el patrón de la dolencia bloqueaba
   todos sus fragmentos, una docena al día para siempre. Se distingue por la
   mayúscula (nombre propio vs. dolencia) enmascarando los signos antes de filtrar
+
+### 2026-08-25
+- Importado y revisado el proyecto de Claude Design (`Dosgtrology aplicación
+  móvil`) con dos canvases: sistema de diseño (espejo visual de `theme.ts`) y
+  13 pantallas del MVP maquetadas con esos tokens
+- Comparación completa canvas ↔ `theme.ts`: **ningún color nuevo**. Sí faltaban
+  tres grupos de tokens que se repiten en las 13 pantallas → añadidos:
+  `icon` (trazo 1,75, tallas 16/20/24 con esquina proporcional), `glyphSize`
+  (tamaño de los símbolos de planeta/signo) y `focusRing` (anillo de foco de
+  campo de texto, reutiliza `colors.starGlow`, no es un color nuevo)
+- **Decisión**: no se toca `motion.duration.trace`. El canvas anima el trazado
+  de la constelación en bucle de 9000ms como efecto ambiental de presentación;
+  el token real sigue siendo el revelado único de 1200ms al abrir F4/F5 — no
+  hay ninguna pantalla del MVP que pida un bucle infinito
+- Escrito `design/componentes.md` (catálogo de los 9 patrones de UI del canvas)
+  y `design/pantallas-mvp.md` (mapa de las 13 pantallas a feature/bloque), como
+  referencia para cuando arranque el Bloque 3 sin tener que releer el canvas
+- Detectado que el disco de fase lunar del mock usa `box-shadow: inset`, que no
+  existe en React Native — anotado en `componentes.md`: hace falta Skia
+
+### 2026-08-25 (2)
+- Escritos los dos scripts de generación del pipeline contra la Batch API de
+  Anthropic (`@anthropic-ai/sdk`, `claude-opus-5`, `output_config.format` con
+  `ESQUEMA_FRAGMENTO`, sin tocar `esquema.mjs`: la API no soporta
+  `minLength`/`maximum` y ya estaba cubierto por `revisarLongitudes()`)
+- `generar-diario.mjs` compone los 37 fragmentos reusando `proto/astro.mjs`
+  tal cual (`posicionesPlanetarias`/`faseLunar`, sin copiar el motor) para el
+  resumen del cielo del día. Los 36 fragmentos por eje (Sol/Luna/Ascendente ×
+  signo) son cualitativos, no un aspecto geométrico exacto — esa geometría
+  solo existe en el cliente, sobre la carta natal real (BRD §7.4, Capa 3)
+- `generar-catalogo.mjs` genera por categoría, un lote y un informe de PR por
+  categoría. Implementadas **aspectos** (500 = 10×10×5) y **planeta en
+  signo/casa** (240); sus claves usan los mismos nombres de campo que
+  `transitos()`/`aspectos()` devuelven en runtime, para indexar sin tabla
+  intermedia
+- **Dos categorías del catálogo MVP quedan bloqueadas, no implementadas**:
+  raza×signo (720, no hay lista de razas en el repo) y personalidad
+  especie×signo/fases/casas (68, el BRD no desglosa de dónde sale el número).
+  Son decisiones editoriales, no técnicas — ver `pipeline/README.md`
+- Ningún script llama a la API sin `--confirmar` explícito: sin él, simulan
+  (imprimen lo que enviarían; el catálogo además estima coste) — nada se
+  gasta sin pedirlo. No se ha lanzado ninguna generación real en esta sesión
+- 27 tests en verde (16 de antes + 11 nuevos), incluida una comprobación por
+  comportamiento de que los 5 nombres de aspecto que usa el catálogo
+  coinciden con lo que `aspectos()` devuelve de verdad (sin exportar la
+  constante interna del motor)
+- **Primera prueba real contra la Batch API** (`generar-diario.mjs --confirmar`,
+  2026-08-25): las 37 peticiones fallaron. Dos bugs reales, no de diseño:
+  1. `output_config.format.schema` rechaza `minLength`/`maxLength`/`minimum`/
+     `maximum` cuando se construye la petición a mano (la limpieza automática
+     que documenta la API solo se aplica al pasar por el helper `.parse()`/Zod,
+     no al construir `params` directamente para la Batch API). Arreglado con
+     `limpiarEsquema()` en `lote.mjs`: limpia una copia antes de enviarla,
+     nunca toca `esquema.mjs` — ese sigue siendo el contrato real que
+     `revisarLongitudes()` re-verifica después
+  2. El parseo de errores asumía `resultado.result.error.message`; la forma
+     real anida `error` dos veces (`resultado.result.error.error.message`),
+     por eso el primer intento solo mostraba la palabra "error" en el informe
+  Añadido `src/depurar-lote.mjs` (vuelca el JSON crudo de un batch) para
+  diagnosticar esto sin tener que adivinar ni gastar de nuevo — los
+  resultados de un batch se conservan 29 días. 6 tests de regresión nuevos
+  (33 en total) fijan los dos bugs.
+- **Segunda prueba real, con el fix puesto: funcionó de punta a punta.** 37/37
+  peticiones respondieron, filtro incluido: 35 publicables, 2 bloqueados por
+  mención de "sordera" en el cuerpo (categoría diagnóstico) — el guardarraíl
+  hizo justo su trabajo, no un fallo. Contenido de buen tono: concreto,
+  observable, sin astrologuismos vacíos, y razona relaciones cualitativas de
+  elemento (identifica trígono aire-aire/fuego-aire por Luna en Acuario sin
+  que se le pidiera un aspecto exacto) — confirma que la decisión de no
+  construir geometría de aspecto por signo era la correcta. Salida en
+  `contenido/diario/2026-08-25.json` (no comprometida a git: el flujo real
+  sería PR + revisión humana antes de mergear, BRD §7.4)
+
+### 2026-08-25 (3)
+- Montada la GitHub Action del Bloque 2 → `.github/workflows/generar-diario.yml`
+  (checkout, npm ci, calcula fecha objetivo = hoy+7 días para el buffer de F12
+  o la fecha que se pase a mano, `generar-diario.mjs --confirmar`, PR con
+  `peter-evans/create-pull-request` usando el `.informe.md` como cuerpo)
+- **Decisión: la Action se deja desactivada a propósito.** El `schedule` del
+  cron está comentado; solo se puede lanzar a mano (`workflow_dispatch`)
+  hasta que se decida activarla de verdad. Motivo: seguir validando/avanzando
+  sin comprometerse todavía a un gasto recurrente automático ni a publicar
+  contenido sin más revisión que la de hoy
+- **Decisión: se sigue con el contenido de prueba ya generado** (`contenido/diario/2026-08-25.json`,
+  35 fragmentos) para avanzar con el desarrollo (Bloque 3+) en vez de esperar
+  a activar el cron o regenerar cada vez. Documentado en `contenido/README.md`:
+  es fixture de desarrollo, no contenido publicado, y se sustituye sin más
+  ceremonia cuando la Action se active de verdad
