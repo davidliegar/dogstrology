@@ -64,7 +64,16 @@ Reanimated + Skia + Lottie · RevenueCat · PostHog EU · Sentry
 
 ## Convenciones
 
-- Documento y código en español; identificadores de código en inglés.
+- **Prosa en español, código en inglés** — y "código" incluye los *valores*:
+  los signos, planetas y elementos son identificadores (`aries`, `sun`,
+  `fire`), no lo que se enseña. Lo que lee el usuario vive en tablas de
+  etiquetas (`app/src/chart/ui/labels.ts`, `pipeline/src/labels.mjs`), que son
+  espejo la una de la otra y hay tests que las atan.
+- **Las claves del contenido son inglés en minúscula** (`planet=sun;sign=aries`).
+  App y pipeline las construyen por separado y nunca se comparan en
+  producción: si divergen, la app no encuentra el fragmento y la tarjeta sale
+  vacía, sin error. El mensaje que se le manda al modelo sí va en español,
+  porque el texto que escribe es español.
 - Módulos ES (`.mjs` en el prototipo, TS en la app).
 - Antes de tocar el motor: `cd proto && npm run verificar`.
 - Cualquier cambio en `oblicuidad()`, fórmulas de ángulos o cúspides obliga a

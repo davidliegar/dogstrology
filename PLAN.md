@@ -23,6 +23,13 @@ ilimitado y sirve igual para desarrollar contra módulos nativos (RevenueCat,
 Skia, etc. — **Expo Go sigue sin servir**, BRD §5.2, pero un build local con
 `expo-dev-client` sí). EAS se retoma cuando haga falta distribuir a un
 dispositivo sin cable o a un tester externo — no antes
+**Decisión: todo el código en inglés, valores incluidos.** Los signos, planetas,
+elementos y fases son **identificadores** (`aries`, `sun`, `fire`, `full_moon`),
+y lo que lee el usuario vive en tablas de etiquetas: `app/src/chart/ui/labels.ts`
+y su espejo `pipeline/src/labels.mjs`. Antes eran lo mismo, y eso metía el idioma
+del mercado dentro de las claves de caché del contenido — sacar la app en inglés
+habría obligado a regenerar el catálogo entero. Se hizo ahora porque no hay nada
+publicado ni ningún dispositivo con datos: era la única ventana barata.
 **Decisión: el diseño se implementa contra el canvas, no contra el resumen.**
 `design/componentes.md` y `design/pantallas-mvp.md` sirven para orientarse, pero
 el detalle fino solo está en el proyecto de Claude Design (`Pantallas MVP.dc.html`,
@@ -45,7 +52,7 @@ Pendiente, sin bloquear el resto del Bloque 3:
   categoría de personalidad (68) — decisiones editoriales, no técnicas, ver
   `pipeline/README.md`
 - Activar de verdad la GitHub Action del diario cuando se decida: descomentar
-  el `schedule` de `.github/workflows/generar-diario.yml` y configurar el
+  el `schedule` de `.github/workflows/generate-daily.yml` y configurar el
   secreto `ANTHROPIC_API_KEY` en GitHub
 - **Lanzar `aspectos` + `planeta-signo-casa` — aprobado, pendiente de la clave.**
   Son 740 fragmentos por **~$3,70**, no los $25 del catálogo completo (esa cifra
@@ -53,7 +60,7 @@ Pendiente, sin bloquear el resto del Bloque 3:
   razas). Es justo lo que consume F3: las hojas de planeta son
   `planeta=X;signo=Y` y `planeta=X;casa=N`. Falta solo `ANTHROPIC_API_KEY` en el
   entorno; el prompt ya está corregido para el catálogo (ver registro).
-- Lanzar el catálogo completo de verdad (`--confirmar`, ~$25 una vez) **espera
+- Lanzar el catálogo completo de verdad (`--confirm`, ~$25 una vez) **espera
   luz verde tuya**. Ahora tiene un consumidor concreto esperando: la pantalla
   de revelación de F1 tiene el hueco de la frase de personalidad del signo
   (`app/onboarding/reveal.tsx`), que sale de la categoría `personalidad` del
@@ -147,18 +154,18 @@ Referencia: **BRD §7.4, §7.5**.
 - [x] Estructura del repo del pipeline → `pipeline/`, sin dependencias
 - [x] System prompt → `pipeline/src/prompt.mjs`. Reglas de §6, tono, prohibiciones de
       §7.5 y forma de salida. ~1,4k tokens, por debajo de los 2,5k estimados
-- [x] Esquema de salida estructurada → `pipeline/src/esquema.mjs`. `color_del_dia` es
+- [x] Esquema de salida estructurada → `pipeline/src/schema.mjs`. `colorOfDay` es
       un **enum de nombres de token**, no texto libre: así el modelo no se inventa la
       paleta. Longitudes duras para que no rompa el layout
-- [x] Filtro post-proceso → `pipeline/src/filtro.mjs`, **16 tests en verde**. Dos
+- [x] Filtro post-proceso → `pipeline/src/filter.mjs`, **16 tests en verde**. Dos
       niveles: bloqueo, y "exige redirect al veterinario". El segundo es el que cubre
       el riesgo real de §7.5 sin empobrecer el contenido
-- [x] Script de generación del catálogo inmutable → `pipeline/src/generar-catalogo.mjs`.
+- [x] Script de generación del catálogo inmutable → `pipeline/src/generateCatalog.mjs`.
       Solo 2 de las 4 categorías MVP están implementadas (aspectos 500 + planeta
       en signo/casa 240 = 740); raza×signo y personalidad quedan bloqueadas por
       falta de datos/desglose, ver `pipeline/README.md`
-- [x] Script de generación del diario → `pipeline/src/generar-diario.mjs` (37/día)
-- [x] GitHub Action → `.github/workflows/generar-diario.yml` (D12, D13).
+- [x] Script de generación del diario → `pipeline/src/generateDaily.mjs` (37/día)
+- [x] GitHub Action → `.github/workflows/generate-daily.yml` (D12, D13).
       **Desactivada a propósito**: el `schedule` del cron nocturno está
       comentado, solo se lanza a mano (`workflow_dispatch`) hasta decidir
       activarla de verdad — ver `pipeline/README.md`
@@ -1005,3 +1012,51 @@ cero. Si algún día se hace: límite duro de 5 mensajes/día aplicado en servid
   hay test que lo fija
 - 39 tests del pipeline en verde (6 nuevos)
 - **No lanzado todavía**: no hay `ANTHROPIC_API_KEY` en el entorno
+
+### 2026-08-25 (7)
+- **Todo el código pasa a inglés, valores y claves incluidos** — a petición
+  tuya, aprovechando que no hay consumidores. Alcance: app, `proto/`,
+  `pipeline/` y los generadores de `design/`
+- **Lo que de verdad cambió no es el idioma, es que `'Aries'` hacía dos
+  trabajos.** Era el tipo de TypeScript *y* el texto de la pantalla *y* la
+  clave del contenido, todo a la vez. Ahora son dos cosas: `aries` es el
+  identificador y "Aries" es la etiqueta. La regla nueva es que el dominio no
+  sabe en qué idioma sale la app
+- **Formato de clave elegido: slug en minúscula** (`planet=sun;sign=aries`).
+  Es la convención de identificador de contenido y quita la duda de mayúsculas
+  cuando la app y el pipeline construyen la misma clave por separado
+- **El mensaje al modelo se queda en español** aunque la clave sea inglesa
+  (`key: planet=sun;sign=aries` / `"…para: Sol en Aries"`). Chirría al leerlo
+  junto y es a propósito: el modelo escribe mejor español si se lo pides en
+  español, y el día que haya inglés se traducen las etiquetas y **las claves no
+  se tocan** — que es justo lo que evita repagar el catálogo
+- **Dos tablas de etiquetas que no se importan entre sí**, una en TS y otra en
+  `.mjs`. Hay test a cada lado que las ata (`contentKeys.test.ts` y
+  `labels.test.mjs`, este último leyendo el fichero de la app como texto). Si
+  divergieran, el pipeline generaría una clave y la app buscaría otra: no hay
+  error, la tarjeta sale vacía
+- **Un fallo real y peligroso, encontrado por el camino.** Al renombrar la
+  propiedad `patron`→`pattern` en el filtro pero no en `bannedTerms.mjs`, todas
+  las reglas del guardarraíl de salud pasaron a casar con **cadena vacía**:
+  `'texto'.match(undefined)` devuelve una coincidencia en el índice 0 en vez de
+  fallar. Esta vez cayó del lado seguro (bloqueaba todo y los tests lo vieron),
+  pero con la condición al revés habría dejado pasar cualquier cosa sin una
+  sola línea de error. `reviewText()` ahora comprueba que cada regla tenga
+  `RegExp`, y hay dos tests que lo fijan
+- **`proto/astro.mjs` se puso al día con la app de paso**: el sistema de casas
+  devolvía la frase `'iguales (Placidus degenerado en esta latitud)'` dentro
+  del campo de datos — un mensaje de estado donde debería haber un valor. Ahora
+  es `houseSystem: HouseSystem|null` + `houseSystemDegraded: boolean`, como el
+  puerto de la app ya hacía desde la sesión de arquitectura
+- **Campos del contenido alineados con el BRD §12.1**, que ya los definía en
+  inglés y el pipeline no cumplía: `titular`→`headline`, `cuerpo`→`body`,
+  `consejo`→`advice`, `puntuacion_energia`→`energyScore`,
+  `color_del_dia`→`colorOfDay`
+- **Dos tablas de traducción eliminadas**: los SVG de constelación pasan a
+  llamarse por su identificador (`taurus.svg`), así que ni `plot.mjs` ni el
+  generador de la app necesitan mapear nombre de fichero a signo
+- **Verificado**: motor con Δ=0' en las 20 combinaciones de la auto-verificación
+  (renombrar no movió un número), 45 tests del pipeline, 119 de la app, `tsc` y
+  `eslint` limpios, y los dos CLI del pipeline probados en seco
+- **Regenerados**: `contenido/diario/2026-08-25.json` (claves y campos nuevos,
+  prosa en español intacta), los 12 SVG y `constellations.generated.ts`

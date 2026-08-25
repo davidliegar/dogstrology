@@ -55,20 +55,32 @@ const ICONO = {
   margenConFigura: 28,
 };
 
-const SLUG = {
-  Aries: 'aries',
-  Tauro: 'tauro',
-  'Géminis': 'geminis',
-  'Cáncer': 'cancer',
-  Leo: 'leo',
-  Virgo: 'virgo',
-  Libra: 'libra',
-  Escorpio: 'escorpio',
-  Sagitario: 'sagitario',
-  Capricornio: 'capricornio',
-  Acuario: 'acuario',
-  Piscis: 'piscis',
+/**
+ * Los nombres en español, solo para lo que lee una persona: el `aria-label` del
+ * SVG y el pie de la hoja de contacto. El **identificador** de la constelación
+ * (`aries`, `taurus`) es el que viene de `catalogo.json`, y es también el
+ * nombre del fichero — antes había una tabla de traducción aquí porque los
+ * ficheros iban en español, y ya no hace falta.
+ *
+ * Espejo de `app/src/chart/ui/labels.ts`.
+ */
+const LABELS = {
+  aries: 'Aries',
+  taurus: 'Tauro',
+  gemini: 'Géminis',
+  cancer: 'Cáncer',
+  leo: 'Leo',
+  virgo: 'Virgo',
+  libra: 'Libra',
+  scorpio: 'Escorpio',
+  sagittarius: 'Sagitario',
+  capricorn: 'Capricornio',
+  aquarius: 'Acuario',
+  pisces: 'Piscis',
+  'canis-major': 'Canis Major',
 };
+
+const labelOf = (id) => LABELS[id] ?? id;
 
 const rad = (grados) => (grados * Math.PI) / 180;
 
@@ -123,7 +135,7 @@ const radioDe = (mag) => {
 };
 
 function svgDe(constelacion) {
-  const { nombre, estrellas, segmentos, dominante } = constelacion;
+  const { id, estrellas, segmentos, dominante } = constelacion;
   const puntos = proyectar(estrellas);
 
   const trazos = segmentos
@@ -144,7 +156,7 @@ function svgDe(constelacion) {
   const estrellaDominante = estrellas.find((e) => e.hip === dominante);
 
   return `<!--
-  ${nombre} — generado por plot.mjs desde catalogo.json. NO editar a mano.
+  ${labelOf(id)} — generado por plot.mjs desde catalogo.json. NO editar a mano.
 
   ${estrellas.length} estrellas del asterismo convencional, en posición real
   (J2000). El radio de cada punto sale de su magnitud aparente.
@@ -156,7 +168,7 @@ function svgDe(constelacion) {
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ${ENCUADRE.lienzo} ${ENCUADRE.lienzo}"
      fill="none" stroke="currentColor" stroke-width="${ENCUADRE.trazo}"
      stroke-linecap="round" stroke-linejoin="round"
-     role="img" aria-label="Constelación de ${nombre}">
+     role="img" aria-label="Constelación de ${labelOf(id)}">
 
   <g class="lineas" opacity="${ENCUADRE.opacidadLineas}">
 ${trazos}
@@ -195,7 +207,7 @@ async function contornoAutorado(fichero) {
 }
 
 function svgIcono(constelacion, { fondo, contorno }) {
-  const { nombre, estrellas, segmentos, dominante } = constelacion;
+  const { id, estrellas, segmentos, dominante } = constelacion;
   const puntos = proyectar(estrellas, ICONO.margen);
 
   const visibles = new Set(estrellas.map((e, i) => (e.mag < ICONO.corteMag ? i : null)).filter((i) => i !== null));
@@ -256,7 +268,7 @@ function svgIcono(constelacion, { fondo, contorno }) {
   return `<!--
   Icono de app — generado por plot.mjs. NO editar a mano.
 
-  ${nombre} en posición real, recortada a magnitud < ${ICONO.corteMag}
+  ${labelOf(id)} en posición real, recortada a magnitud < ${ICONO.corteMag}
   (${visibles.size} de ${estrellas.length} estrellas) y con más contraste, porque
   a 48 px el asset de app no se lee. Halo sobre ${estrellaDominante.nombre}, mag ${estrellaDominante.mag}.
 
@@ -264,7 +276,7 @@ function svgIcono(constelacion, { fondo, contorno }) {
   adaptativo de Android.
 -->
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ${ENCUADRE.lienzo} ${ENCUADRE.lienzo}"
-     role="img" aria-label="Dogstrology — la constelación de ${nombre} con Sirio">
+     role="img" aria-label="Dogstrology — la constelación de ${labelOf(id)} con Sirio">
 
   <rect width="${ENCUADRE.lienzo}" height="${ENCUADRE.lienzo}" fill="${fondo.fondo}" />
 
@@ -322,7 +334,7 @@ function hojaDeContacto(constelaciones) {
       return `  <g transform="translate(${dx} ${dy})">
     <g fill="none" stroke="#F2EFE6" stroke-width="${ENCUADRE.trazo}" stroke-linecap="round" opacity="${ENCUADRE.opacidadLineas}">${trazos}</g>
     <g fill="#E8C87A">${nodos}</g>
-    <text x="${L / 2}" y="${L - 28}" fill="#8E96B4" font-size="20" text-anchor="middle" font-family="sans-serif">${c.nombre} · ${c.estrellas.length}</text>
+    <text x="${L / 2}" y="${L - 28}" fill="#8E96B4" font-size="20" text-anchor="middle" font-family="sans-serif">${labelOf(c.id)} · ${c.estrellas.length}</text>
     <rect x="0.5" y="0.5" width="${L - 1}" height="${L - 1}" fill="none" stroke="#2B3566" />
   </g>`;
     })
@@ -340,8 +352,8 @@ const destino = new URL('svg/', import.meta.url);
 await mkdir(destino, { recursive: true });
 
 for (const constelacion of catalogo.constelaciones) {
-  const slug = SLUG[constelacion.nombre];
-  if (!slug) throw new Error(`sin slug para ${constelacion.nombre}`);
+  // El id **es** el nombre del fichero: `aries` → `aries.svg`.
+  const slug = constelacion.id;
   await writeFile(new URL(`${slug}.svg`, destino), svgDe(constelacion));
   const puntos = proyectar(constelacion.estrellas);
   const xs = puntos.map((p) => p.x);

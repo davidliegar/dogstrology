@@ -11,10 +11,10 @@ function baloo(overrides: { id?: string; name?: string } = {}) {
   return Pet.createNew({
     id: overrides.id ?? '01996a3e-7e2a-7000-8000-000000000000',
     name: overrides.name ?? 'Baloo',
-    species: 'perro',
+    species: 'dog',
     photo: MediaReference.local({ relativePath: 'pets/baloo.jpg' }),
     breedId: 'perro-de-agua-espanol',
-    sex: 'macho',
+    sex: 'male',
     neutered: true,
     birth: Birth.create({
       date: '2025-12-14',
@@ -90,7 +90,7 @@ describe('SqlitePetRepository (BRD §12.2.3)', () => {
     const pet = Pet.createNew({
       id: '01996a3e-7e2a-7000-8000-000000000003',
       name: 'Sin datos',
-      species: 'perro',
+      species: 'dog',
       birth: Birth.create({ date: '2024-01-01', accuracy: 'gotcha_day' }),
     });
     await repo.save({ pet });

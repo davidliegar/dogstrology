@@ -32,19 +32,25 @@ const SOURCES = {
 };
 
 /** Los 12 signos y la constelación que les da nombre. Ver la nota de README.md. */
-const ZODIACO = [
-  ['Ari', 'Aries'],
-  ['Tau', 'Tauro'],
-  ['Gem', 'Géminis'],
-  ['Cnc', 'Cáncer'],
-  ['Leo', 'Leo'],
-  ['Vir', 'Virgo'],
-  ['Lib', 'Libra'],
-  ['Sco', 'Escorpio'],
-  ['Sgr', 'Sagitario'],
-  ['Cap', 'Capricornio'],
-  ['Aqr', 'Acuario'],
-  ['Psc', 'Piscis'],
+/**
+ * Abreviatura IAU → **identificador** de la constelación. En inglés y en
+ * minúscula, porque es lo que acaba siendo el nombre del fichero SVG y la clave
+ * con la que la app la busca. El nombre en español que lee el usuario vive en
+ * `plot.mjs` (`LABELS`) y en `app/src/chart/ui/labels.ts`.
+ */
+const ZODIAC = [
+  ['Ari', 'aries'],
+  ['Tau', 'taurus'],
+  ['Gem', 'gemini'],
+  ['Cnc', 'cancer'],
+  ['Leo', 'leo'],
+  ['Vir', 'virgo'],
+  ['Lib', 'libra'],
+  ['Sco', 'scorpio'],
+  ['Sgr', 'sagittarius'],
+  ['Cap', 'capricorn'],
+  ['Aqr', 'aquarius'],
+  ['Psc', 'pisces'],
 ];
 
 /**
@@ -55,20 +61,20 @@ const ZODIACO = [
  * nocturno, mag −1,44— y **es un perro de verdad en el cielo**. Con esto, la app
  * tiene su perro celeste sin inventar ni una sola estrella.
  */
-const MARCA = [['CMa', 'Canis Major']];
+const BRAND = [['CMa', 'canis-major']];
 
 /** Tolerancia de emparejamiento vértice→estrella, en grados. */
 const TOLERANCIA = 0.05;
 
 const CACHE = new URL('.cache/', import.meta.url);
 
-async function obtener(nombre, { refresh }) {
-  const destino = new URL(`${nombre}.json`, CACHE);
+async function obtener(id, { refresh }) {
+  const destino = new URL(`${id}.json`, CACHE);
   if (!refresh && existsSync(destino)) {
     return JSON.parse(await readFile(destino, 'utf8'));
   }
-  const { url } = SOURCES[nombre];
-  process.stdout.write(`descargando ${nombre}… `);
+  const { url } = SOURCES[id];
+  process.stdout.write(`descargando ${id}… `);
   const res = await fetch(url);
   if (!res.ok) throw new Error(`${url} devolvió ${res.status}`);
   const texto = await res.text();
@@ -105,7 +111,7 @@ const main = async () => {
 
   const avisos = [];
 
-  const construir = ([abrev, nombre]) => {
+  const construir = ([abrev, id]) => {
     const feature = lineas.features.find((f) => f.id === abrev);
     if (!feature) throw new Error(`sin trazado para ${abrev}`);
 
@@ -160,15 +166,15 @@ const main = async () => {
 
     return {
       abrev,
-      nombre,
+      id,
       estrellas: usadas,
       segmentos,
       dominante: dominante.hip,
     };
   };
 
-  const constelaciones = ZODIACO.map(construir);
-  const marca = MARCA.map(construir);
+  const constelaciones = ZODIAC.map(construir);
+  const marca = BRAND.map(construir);
 
   const salida = {
     fuentes: Object.entries(SOURCES).map(([clave, s]) => ({ clave, url: s.url, cita: s.cita, da: s.da })),

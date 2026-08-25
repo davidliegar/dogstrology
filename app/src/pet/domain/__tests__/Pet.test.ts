@@ -15,10 +15,10 @@ function validPet() {
   return Pet.createNew({
     id: '01996a3e-7e2a-7000-8000-000000000000',
     name: 'Baloo',
-    species: 'perro',
+    species: 'dog',
     photo: MediaReference.local({ relativePath: 'pets/baloo.jpg' }),
     breedId: 'perro-de-agua-espanol',
-    sex: 'macho',
+    sex: 'male',
     neutered: true,
     birth,
     adoptionDate: undefined,
@@ -59,7 +59,7 @@ describe('Pet', () => {
     const noTime = Pet.createNew({
       id: '01996a3e-7e2a-7000-8000-000000000001',
       name: 'Sin hora',
-      species: 'perro',
+      species: 'dog',
       birth: Birth.create({ date: '2020-01-01', accuracy: 'approx' }),
     });
     expect(noTime.canCalculateAscendant()).toBe(false);
@@ -124,7 +124,7 @@ describe('Pet', () => {
     const pet = Pet.createNew({
       id: '01996a3e-7e2a-7000-8000-00000000000b',
       name: 'Cumpleañero',
-      species: 'perro',
+      species: 'dog',
       birth: Birth.create({ date: '2020-06-14', accuracy: 'exact' }),
     });
 

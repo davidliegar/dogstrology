@@ -11,8 +11,8 @@ export const CHART_CONFIDENCES = ['full', 'no_location', 'no_time'] as const;
 export type ChartConfidence = (typeof CHART_CONFIDENCES)[number];
 
 export const MOON_PHASE_NAMES = [
-  'Luna nueva', 'Luna creciente', 'Cuarto creciente', 'Gibosa creciente',
-  'Luna llena', 'Gibosa menguante', 'Cuarto menguante', 'Luna menguante',
+  'new_moon', 'waxing_crescent', 'first_quarter', 'waxing_gibbous',
+  'full_moon', 'waning_gibbous', 'last_quarter', 'waning_crescent',
 ] as const;
 export type MoonPhaseName = (typeof MOON_PHASE_NAMES)[number];
 
@@ -130,11 +130,11 @@ export class NatalChart extends Model {
   /** El signo solar: lo único que se puede prometer con solo la fecha, y lo
    * que F1 tiene que enseñar en menos de 60 s (BRD §9.1). */
   sunSign(): Sign {
-    return this.signOf('Sol') as Sign;
+    return this.signOf('sun') as Sign;
   }
 
   moonSign(): Sign {
-    return this.signOf('Luna') as Sign;
+    return this.signOf('moon') as Sign;
   }
 
   signOf(planet: PlanetId): Sign | undefined {

@@ -4,6 +4,7 @@ import Svg, { Circle, G, Path } from 'react-native-svg';
 
 import type { Sign } from '../domain/PlanetPosition';
 import { CONSTELLATION_CANVAS, CONSTELLATIONS } from './constellations.generated';
+import { SIGN_LABELS } from './labels';
 
 import { colors, motion } from '@/design/theme';
 
@@ -63,7 +64,7 @@ export function Constellation({ sign, size, animate = false, style }: Constellat
   }, [animate, progress]);
 
   return (
-    <View style={style} accessible accessibilityRole="image" accessibilityLabel={`Constelación de ${sign}`}>
+    <View style={style} accessible accessibilityRole="image" accessibilityLabel={`Constelación de ${SIGN_LABELS[sign]}`}>
       <Svg width={size} height={size} viewBox={`0 0 ${CONSTELLATION_CANVAS} ${CONSTELLATION_CANVAS}`}>
         <G stroke={colors.constellationLine} strokeWidth={2} strokeLinecap="round" strokeLinejoin="round" fill="none">
           {art.paths.map(({ d, length }) => (

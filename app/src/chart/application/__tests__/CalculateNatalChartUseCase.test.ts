@@ -6,7 +6,7 @@ import { StubChartCalculator } from '../../testing/StubChartCalculator';
 import CalculateNatalChartUseCase from '../CalculateNatalChartUseCase';
 
 const petWith = (birth: Birth) =>
-  Pet.createNew({ id: '01996a3e-7e2a-7000-8000-000000000000', name: 'Baloo', species: 'perro', birth });
+  Pet.createNew({ id: '01996a3e-7e2a-7000-8000-000000000000', name: 'Baloo', species: 'dog', birth });
 
 describe('CalculateNatalChartUseCase', () => {
   it('traduce el nacimiento de la mascota al vocabulario del contexto chart', async () => {
@@ -60,8 +60,8 @@ describe('CalculateNatalChartUseCase', () => {
     const chart = await useCase.execute({ pet: petWith(birth), houseSystem: 'placidus' });
 
     // Sol 23°26' Géminis · ASC 21°18' Cáncer (proto/README.md, contrastado con astro.com).
-    expect(chart.sunSign()).toBe('Géminis');
-    expect(chart.ascendantSign()).toBe('Cáncer');
+    expect(chart.sunSign()).toBe('gemini');
+    expect(chart.ascendantSign()).toBe('cancer');
     expect(chart.isComplete()).toBe(true);
   });
 });

@@ -8,11 +8,11 @@ import type { PlanetPositionData } from '../domain/PlanetPosition';
  */
 const planet = (data: Partial<PlanetPositionData> & Pick<PlanetPositionData, 'id'>): PlanetPositionData => ({
   lon: 83.5,
-  sign: 'Géminis',
+  sign: 'gemini',
   signIndex: 2,
   degree: 23.5,
-  element: 'Aire',
-  modality: 'Mutable',
+  element: 'air',
+  modality: 'mutable',
   retrograde: false,
   dailySpeed: 0.95,
   signBorder: false,
@@ -26,19 +26,19 @@ const COMPLETE: NatalChartData = {
   houseSystem: 'placidus',
   houseSystemDegraded: false,
   planets: [
-    planet({ id: 'Sol', house: 11 }),
-    planet({ id: 'Luna', sign: 'Leo', signIndex: 4, element: 'Fuego', modality: 'Fijo', lon: 128.2, degree: 8.2, house: 1 }),
-    planet({ id: 'Mercurio', retrograde: true, house: 11 }),
-    planet({ id: 'Plutón', sign: 'Capricornio', signIndex: 9, element: 'Tierra', modality: 'Cardinal', lon: 296.4, degree: 26.4, retrograde: true, house: 6, signBorder: true }),
+    planet({ id: 'sun', house: 11 }),
+    planet({ id: 'moon', sign: 'leo', signIndex: 4, element: 'fire', modality: 'fixed', lon: 128.2, degree: 8.2, house: 1 }),
+    planet({ id: 'mercury', retrograde: true, house: 11 }),
+    planet({ id: 'pluto', sign: 'capricorn', signIndex: 9, element: 'earth', modality: 'cardinal', lon: 296.4, degree: 26.4, retrograde: true, house: 6, signBorder: true }),
   ],
-  ascendant: { lon: 120.1, sign: 'Leo', degree: 0.1 },
-  midheaven: { lon: 30.4, sign: 'Tauro', degree: 0.4 },
+  ascendant: { lon: 120.1, sign: 'leo', degree: 0.1 },
+  midheaven: { lon: 30.4, sign: 'taurus', degree: 0.4 },
   cusps: [120.1, 150.1, 180.1, 210.1, 240.1, 270.1, 300.1, 330.1, 0.1, 30.4, 60.1, 90.1],
   aspects: [
-    { a: 'Sol', b: 'Luna', type: 'Sextil', nature: 'facilidad', orb: 0.7, exactness: 0.83 },
-    { a: 'Luna', b: 'Plutón', type: 'Cuadratura', nature: 'tensión', orb: 3.1, exactness: 0.48 },
+    { a: 'sun', b: 'moon', type: 'sextile', nature: 'ease', orb: 0.7, exactness: 0.83 },
+    { a: 'moon', b: 'pluto', type: 'square', nature: 'tension', orb: 3.1, exactness: 0.48 },
   ],
-  moonPhaseAtBirth: { angle: 45.2, fraction: 0.126, name: 'Luna creciente', illumination: 0.148 },
+  moonPhaseAtBirth: { angle: 45.2, fraction: 0.126, name: 'waxing_crescent', illumination: 0.148 },
   moonUncertain: false,
 };
 

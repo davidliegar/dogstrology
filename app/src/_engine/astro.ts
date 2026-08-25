@@ -44,21 +44,21 @@ import * as A from 'astronomy-engine';
 export const ENGINE_VERSION = '1.0.0';
 
 export const SIGNS = [
-  'Aries', 'Tauro', 'Géminis', 'Cáncer', 'Leo', 'Virgo',
-  'Libra', 'Escorpio', 'Sagitario', 'Capricornio', 'Acuario', 'Piscis',
+  'aries', 'taurus', 'gemini', 'cancer', 'leo', 'virgo',
+  'libra', 'scorpio', 'sagittarius', 'capricorn', 'aquarius', 'pisces',
 ] as const;
 
 export type Sign = (typeof SIGNS)[number];
 
-export const ELEMENTS = ['Fuego', 'Tierra', 'Aire', 'Agua'] as const;
+export const ELEMENTS = ['fire', 'earth', 'air', 'water'] as const;
 export type Element = (typeof ELEMENTS)[number];
 
-export const MODALITIES = ['Cardinal', 'Fijo', 'Mutable'] as const;
+export const MODALITIES = ['cardinal', 'fixed', 'mutable'] as const;
 export type Modality = (typeof MODALITIES)[number];
 
 export type BodyId =
-  | 'Sol' | 'Luna' | 'Mercurio' | 'Venus' | 'Marte'
-  | 'Júpiter' | 'Saturno' | 'Urano' | 'Neptuno' | 'Plutón';
+  | 'sun' | 'moon' | 'mercury' | 'venus' | 'mars'
+  | 'jupiter' | 'saturn' | 'uranus' | 'neptune' | 'pluto';
 
 interface BodyDefinition {
   id: BodyId;
@@ -69,20 +69,20 @@ interface BodyDefinition {
 
 /** Cuerpos de la carta. */
 const BODIES: BodyDefinition[] = [
-  { id: 'Sol', body: A.Body.Sun },
-  { id: 'Luna', body: A.Body.Moon, dedicated: true },
-  { id: 'Mercurio', body: A.Body.Mercury },
-  { id: 'Venus', body: A.Body.Venus },
-  { id: 'Marte', body: A.Body.Mars },
-  { id: 'Júpiter', body: A.Body.Jupiter },
-  { id: 'Saturno', body: A.Body.Saturn },
-  { id: 'Urano', body: A.Body.Uranus },
-  { id: 'Neptuno', body: A.Body.Neptune },
-  { id: 'Plutón', body: A.Body.Pluto },
+  { id: 'sun', body: A.Body.Sun },
+  { id: 'moon', body: A.Body.Moon, dedicated: true },
+  { id: 'mercury', body: A.Body.Mercury },
+  { id: 'venus', body: A.Body.Venus },
+  { id: 'mars', body: A.Body.Mars },
+  { id: 'jupiter', body: A.Body.Jupiter },
+  { id: 'saturn', body: A.Body.Saturn },
+  { id: 'uranus', body: A.Body.Uranus },
+  { id: 'neptune', body: A.Body.Neptune },
+  { id: 'pluto', body: A.Body.Pluto },
 ];
 
-export type AspectName = 'Conjunción' | 'Sextil' | 'Cuadratura' | 'Trígono' | 'Oposición';
-export type AspectNature = 'fusión' | 'facilidad' | 'tensión' | 'armonía' | 'polaridad';
+export type AspectName = 'conjunction' | 'sextile' | 'square' | 'trine' | 'opposition';
+export type AspectNature = 'fusion' | 'ease' | 'tension' | 'harmony' | 'polarity';
 
 interface AspectDefinition {
   id: AspectName;
@@ -93,11 +93,11 @@ interface AspectDefinition {
 
 /** Aspectos mayores con sus orbes. Ver BRD §6.5. */
 const ASPECTS: AspectDefinition[] = [
-  { id: 'Conjunción', angle: 0, orb: 8, nature: 'fusión' },
-  { id: 'Sextil', angle: 60, orb: 4, nature: 'facilidad' },
-  { id: 'Cuadratura', angle: 90, orb: 6, nature: 'tensión' },
-  { id: 'Trígono', angle: 120, orb: 6, nature: 'armonía' },
-  { id: 'Oposición', angle: 180, orb: 8, nature: 'polaridad' },
+  { id: 'conjunction', angle: 0, orb: 8, nature: 'fusion' },
+  { id: 'sextile', angle: 60, orb: 4, nature: 'ease' },
+  { id: 'square', angle: 90, orb: 6, nature: 'tension' },
+  { id: 'trine', angle: 120, orb: 6, nature: 'harmony' },
+  { id: 'opposition', angle: 180, orb: 8, nature: 'polarity' },
 ];
 
 // ─── Utilidades ──────────────────────────────────────────────────────────────
@@ -426,8 +426,8 @@ export function transits(natalPlanets: Planet[], todayPlanets: Planet[]): Transi
 // ─── Fase lunar ──────────────────────────────────────────────────────────────
 
 const PHASE_NAMES = [
-  'Luna nueva', 'Luna creciente', 'Cuarto creciente', 'Gibosa creciente',
-  'Luna llena', 'Gibosa menguante', 'Cuarto menguante', 'Luna menguante',
+  'new_moon', 'waxing_crescent', 'first_quarter', 'waxing_gibbous',
+  'full_moon', 'waning_gibbous', 'last_quarter', 'waning_crescent',
 ] as const;
 
 export type PhaseName = (typeof PHASE_NAMES)[number];
@@ -553,7 +553,7 @@ export function calculateNatalChart(birth: BirthInput, houseSystem: HouseSystem 
     // Con solo la fecha, la Luna avanza ~13°/día: si está a menos de 6,5° de
     // cambiar de signo, el signo lunar es incierto y hay que pedir la hora.
     moonUncertain: !hasTime && (() => {
-      const g = planets.find((p) => p.id === 'Luna')!.degree;
+      const g = planets.find((p) => p.id === 'moon')!.degree;
       return g < 6.5 || g > 23.5;
     })(),
   };

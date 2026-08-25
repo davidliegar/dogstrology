@@ -30,7 +30,7 @@ export interface ConstellationArt {
 }
 
 export const CONSTELLATIONS: Record<Sign, ConstellationArt> = {
-  'Aries': {
+  'aries': {
     paths: [
       { d: "M64 138 L355.2 250.5 L440.5 329.1 L448 374", length: 473.7 },
     ],
@@ -41,7 +41,7 @@ export const CONSTELLATIONS: Record<Sign, ConstellationArt> = {
       { cx: 448, cy: 374, r: 4.6, name: "Mesarthim", dominant: false },
     ],
   },
-  'Tauro': {
+  'taurus': {
     paths: [
       { d: "M64 176.7 L242.4 232.1 L263.4 239.7 L289.1 242.6 L280 219.7 L263.6 200.2 L96.8 87.6", length: 486.4 },
       { d: "M289.1 242.6 L344.3 280.1 L441.2 313 L337.2 357.7", length: 282.3 },
@@ -62,7 +62,7 @@ export const CONSTELLATIONS: Record<Sign, ConstellationArt> = {
       { cx: 413.1, cy: 424.4, r: 4, name: null, dominant: false },
     ],
   },
-  'Géminis': {
+  'gemini': {
     paths: [
       { d: "M448 253.9 L413.7 253.8 L324.6 205.7 L209.1 111.7 L109.5 81.6 L64 152.5 L103.9 173.3 L171 263.5 L239 289.5 L351 366.1 L318.9 430.4", length: 910.5 },
       { d: "M171 263.5 L179.6 363.5", length: 100.4 },
@@ -82,7 +82,7 @@ export const CONSTELLATIONS: Record<Sign, ConstellationArt> = {
       { cx: 179.6, cy: 363.5, r: 5, name: null, dominant: false },
     ],
   },
-  'Cáncer': {
+  'cancer': {
     paths: [
       { d: "M158.7 395.6 L222.7 272.1 L229.2 207 L213.3 64", length: 348.4 },
       { d: "M222.7 272.1 L353.3 448", length: 219.1 },
@@ -95,7 +95,7 @@ export const CONSTELLATIONS: Record<Sign, ConstellationArt> = {
       { cx: 353.3, cy: 448, r: 5.1, name: "Tarf", dominant: true },
     ],
   },
-  'Leo': {
+  'leo': {
     paths: [
       { d: "M377.8 348.6 L381.1 285.3 L341.7 244.7 L172.9 235.7 L64 314.2 L172.5 302.9 L377.8 348.6", length: 742.7 },
       { d: "M341.7 244.7 L351.9 197.6 L426.5 163.4 L448 192.9", length: 166.8 },
@@ -112,7 +112,7 @@ export const CONSTELLATIONS: Record<Sign, ConstellationArt> = {
       { cx: 448, cy: 192.9, r: 5.8, name: "Algenubi", dominant: false },
     ],
   },
-  'Virgo': {
+  'virgo': {
     paths: [
       { d: "M448 199.5 L437.7 240.1 L375.5 260.8 L329.2 267.5 L269 302.3 L236.5 350.2 L128.4 306.2 L70.8 303.3", length: 456 },
       { d: "M285.5 161.8 L299.5 226.2 L329.2 267.5", length: 116.8 },
@@ -134,7 +134,7 @@ export const CONSTELLATIONS: Record<Sign, ConstellationArt> = {
       { cx: 64, cy: 239, r: 4.8, name: null, dominant: false },
     ],
   },
-  'Libra': {
+  'libra': {
     paths: [
       { d: "M303.4 363.4 L361.9 189.4 L246.1 64 L163.9 165.8 L157.3 417.1 L150.1 448", length: 768.2 },
       { d: "M361.9 189.4 L163.9 165.8", length: 199.4 },
@@ -148,7 +148,7 @@ export const CONSTELLATIONS: Record<Sign, ConstellationArt> = {
       { cx: 150.1, cy: 448, r: 4.9, name: null, dominant: false },
     ],
   },
-  'Escorpio': {
+  'scorpio': {
     paths: [
       { d: "M445.9 167.4 L440.7 110.1 L422.9 64", length: 107 },
       { d: "M440.7 110.1 L367.9 158.8 L339.2 172.6 L316.5 201.8 L266.7 301.4 L260.7 362.9 L251.2 433.6 L189.9 448 L102 444 L66.1 397 L83.9 379 L115 347.5", length: 680.6 },
@@ -170,7 +170,7 @@ export const CONSTELLATIONS: Record<Sign, ConstellationArt> = {
       { cx: 115, cy: 347.5, r: 7.7, name: "Shaula", dominant: false },
     ],
   },
-  'Sagitario': {
+  'sagittarius': {
     paths: [
       { d: "M387.4 344.3 L368.4 312.3 L377.6 250.9 L357.3 191.5 L398.6 132.8", length: 233.8 },
       { d: "M198.2 448 L194.5 396.2 L256.5 251.6 L305.8 212.7 L357.3 191.5", length: 327.8 },
@@ -205,7 +205,7 @@ export const CONSTELLATIONS: Record<Sign, ConstellationArt> = {
       { cx: 281, cy: 155.5, r: 3.2, name: "Ainalrami", dominant: false },
     ],
   },
-  'Capricornio': {
+  'capricorn': {
     paths: [
       { d: "M448 124.5 L433.6 166 L399.8 221.3 L325.8 357.4 L301.2 387.5 L151.5 305.2 L64 190.5 L93.9 200.3 L170.5 203.4 L240.5 210.7 L448 124.5", length: 1020.8 },
     ],
@@ -222,7 +222,7 @@ export const CONSTELLATIONS: Record<Sign, ConstellationArt> = {
       { cx: 240.5, cy: 210.7, r: 4.3, name: null, dominant: false },
     ],
   },
-  'Acuario': {
+  'aquarius': {
     paths: [
       { d: "M448 252.4 L437 247.8 L351.2 217.3 L275.7 170.2 L240.7 179.8 L224.9 167.5 L210.5 168.4 L172.4 235.2 L116.6 249.6 L135.3 357", length: 506.3 },
       { d: "M351.2 217.3 L274.3 291.6", length: 106.9 },
@@ -248,7 +248,7 @@ export const CONSTELLATIONS: Record<Sign, ConstellationArt> = {
       { cx: 64, cy: 326.9, r: 3.3, name: null, dominant: false },
     ],
   },
-  'Piscis': {
+  'pisces': {
     paths: [
       { d: "M168.1 176.2 L172.6 126.9 L155.8 152.2 L168.1 176.2 L173 208 L129.9 258.9 L99.9 314.3 L64 371.6 L82.3 367.8 L108.4 347.2 L132.7 341.3 L168.1 328.5 L191.4 325.7 L222.1 328.4 L328.5 334.9 L370.3 346 L396.1 339.2 L412.5 348.1 L419.4 366.9 L398.3 385.1 L365.7 380.4 L356.4 365.1 L370.3 346", length: 822.8 },
       { d: "M419.4 366.9 L448 362.1", length: 29 },

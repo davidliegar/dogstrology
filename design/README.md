@@ -33,11 +33,11 @@ import theme, { elementColor, typography } from '@/theme';
 Detalles que no son obvios:
 
 - **`spacing` se indexa por posición**, no por nombre: `spacing[4]` son 16 px.
-- **`elements` usa claves en español** (`Fuego`, `Tierra`, `Aire`, `Agua`) porque
-  son literalmente los valores que devuelve el motor (`proto/astro.mjs` →
-  `ELEMENTOS`). Para pintar según el signo: `elementColor(signo.elemento)`, que
-  cae al oro si el dato falta. El resto de identificadores van en inglés,
-  siguiendo la convención de `CLAUDE.md`.
+- **`elements` se indexa con los identificadores del motor** (`fire`, `earth`,
+  `air`, `water`), no con lo que lee el usuario. Para pintar según el signo:
+  `elementColor(planet.element())`, que cae al oro si el dato falta. El nombre
+  en español ("Fuego") sale de `app/src/chart/ui/labels.ts`, nunca de aquí:
+  el tema no sabe en qué idioma sale la app.
 - **`typography` son estilos cerrados**: se elige uno, no se compone un tamaño
   suelto. `ephemeris` lleva cifras tabulares para que `12°34' Aries` no baile.
 - **La elevación no es sombra gris**: sobre fondo oscuro no se ve. La jerarquía

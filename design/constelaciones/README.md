@@ -23,9 +23,9 @@ hace reproducible el resultado.
 | Fichero | Qué es |
 |---------|--------|
 | `catalogo.mjs` | Descarga las fuentes y construye el catálogo. Aquí vive la procedencia |
-| `catalogo.json` | **Derivado, no editar.** 12 constelaciones con HIP, nombre, RA/Dec, magnitud y segmentos |
+| `catalogo.json` | **Derivado, no editar.** 12 constelaciones con `id`, HIP, nombre de estrella, RA/Dec, magnitud y segmentos |
 | `plot.mjs` | Proyecta y escribe los SVG. Aquí vive el encuadre |
-| `svg/*.svg` | **Derivados, no editar.** Los 12 assets |
+| `svg/*.svg` | **Derivados, no editar.** Los 12 assets. El nombre del fichero es el identificador del signo (`aries.svg`, `taurus.svg`), que es también la clave con la que la app lo busca |
 | `revision.svg` | Hoja de contacto para mirar las 12 juntas. Artefacto de revisión, no un asset de la app |
 
 `plot.mjs` escribe además la marca en `../marca/` — Canis Major y el icono de app,

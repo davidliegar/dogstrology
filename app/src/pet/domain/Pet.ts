@@ -4,10 +4,10 @@ import { Model } from '@/_kernel/architecture';
 import { Birth } from './Birth';
 import { MediaReference } from './MediaReference';
 
-export const SPECIES = ['perro', 'gato'] as const;
+export const SPECIES = ['dog', 'cat'] as const;
 export type Species = (typeof SPECIES)[number];
 
-export const SEXES = ['macho', 'hembra'] as const;
+export const SEXES = ['male', 'female'] as const;
 export type Sex = (typeof SEXES)[number];
 
 const PetValidation = z.object({

@@ -26,7 +26,7 @@ describe('F1 — onboarding express, con la fecha y nada más', () => {
     const domain = app();
     const pet = await domain.CreatePetUseCase.execute({
       name,
-      species: 'perro',
+      species: 'dog',
       birth: { date, accuracy: accuracyFor(dateIsApproximate) },
     });
     return { pet, chart: await domain.CalculateNatalChartUseCase.execute({ pet }) };
@@ -36,15 +36,15 @@ describe('F1 — onboarding express, con la fecha y nada más', () => {
     const { pet, chart } = await onboard('Baloo', '2025-12-14');
 
     expect(pet.name()).toBe('Baloo');
-    expect(chart.sunSign()).toBe('Sagitario');
+    expect(chart.sunSign()).toBe('sagittarius');
   });
 
   it('la revelación tiene todo lo que pinta: elemento, modalidad y grado', async () => {
     const { chart } = await onboard('Baloo', '2025-12-14');
-    const sun = chart.planet('Sol')!;
+    const sun = chart.planet('sun')!;
 
-    expect(sun.element()).toBe('Fuego');
-    expect(sun.modality()).toBe('Mutable');
+    expect(sun.element()).toBe('fire');
+    expect(sun.modality()).toBe('mutable');
     expect(formatDegree(sun.degree())).toMatch(/^\d{1,2}°\d{2}′$/);
   });
 

@@ -34,10 +34,10 @@ const palette = {
   bone300: '#C6C2B8', // texto secundario
   slate400: '#8E96B4', // texto terciario / deshabilitado
 
-  fire: '#E86A50', // Fuego  — coral
-  earth: '#7C9A7E', // Tierra — verde salvia
-  air: '#B8A6DC', // Aire   — lavanda
-  water: '#5FB3B8', // Agua   — turquesa
+  fire: '#E86A50', // coral
+  earth: '#7C9A7E', // verde salvia
+  air: '#B8A6DC', // lavanda
+  water: '#5FB3B8', // turquesa
 } as const;
 
 // ---------------------------------------------------------------------------
@@ -78,14 +78,16 @@ export const colors = {
 
 // ---------------------------------------------------------------------------
 // Elementos. Las claves replican literalmente los valores que devuelve el motor
-// (`proto/astro.mjs` → `ELEMENTOS`), para poder indexar sin tabla intermedia.
+// (`proto/astro.mjs` → `ELEMENTS`), para poder indexar sin tabla intermedia.
+// Son identificadores, no lo que lee el usuario: el "Fuego" de la pantalla sale
+// de `ELEMENT_LABELS` en la capa de UI.
 // ---------------------------------------------------------------------------
 
 export const elements = {
-  Fuego: palette.fire,
-  Tierra: palette.earth,
-  Aire: palette.air,
-  Agua: palette.water,
+  fire: palette.fire,
+  earth: palette.earth,
+  air: palette.air,
+  water: palette.water,
 } as const;
 
 export type Element = keyof typeof elements;

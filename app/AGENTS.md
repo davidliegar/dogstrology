@@ -84,10 +84,17 @@ Dos consecuencias que conviene tener claras:
 
 ## Convenciones
 
-- Código en inglés (identificadores, ficheros, carpetas). Comentarios y prosa
-  de tests en español. Los **valores** de contenido que ve el usuario (signos,
-  planetas, elementos, fases lunares) van en español: son vocabulario de
-  producto, no identificadores.
+- **Todo el código en inglés**: identificadores, ficheros, carpetas **y
+  valores**. Comentarios y prosa de tests, en español.
+- Los signos, planetas, elementos y fases lunares son **identificadores**
+  (`aries`, `sun`, `fire`, `full_moon`), en minúscula y sin acentos. Viajan en
+  las claves del contenido (`planet=sun;sign=aries`), que la app y el pipeline
+  construyen **por separado** y tienen que coincidir carácter a carácter.
+- Lo que el usuario lee vive en `<contexto>/ui/labels.ts` y solo ahí. Antes
+  eran lo mismo, y eso metía el idioma del mercado dentro de las claves de
+  caché: sacar la app en inglés habría obligado a regenerar todo el catálogo.
+  El espejo del pipeline está en `pipeline/src/labels.mjs`, y hay un test a
+  cada lado que los ata (`src/__tests__/contentKeys.test.ts`).
 - Casos de uso: `{Acción}{Entidad}UseCase`, `export default`, con
   `static create({ deps })`.
 - Los tipos de entrada de un puerto van en minúscula (`getInput`, `saveInput`,

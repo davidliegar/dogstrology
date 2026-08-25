@@ -34,7 +34,7 @@ export default function OnboardingDate() {
     createPet.mutate(
       {
         name,
-        species: 'perro',
+        species: 'dog',
         // Hora y lugar se piden después, como mejora progresiva (BRD §11.3).
         birth: { date: isoDate, accuracy: accuracyFor(dateIsApproximate) },
       },

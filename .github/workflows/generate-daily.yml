@@ -52,7 +52,7 @@ jobs:
         working-directory: pipeline
         env:
           ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
-        run: node src/generar-diario.mjs --fecha "${{ steps.fecha.outputs.valor }}" --confirmar
+        run: node src/generateDaily.mjs --date "${{ steps.fecha.outputs.valor }}" --confirm
 
       - name: Leer el informe del filtro para el cuerpo del PR
         id: informe

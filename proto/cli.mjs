@@ -2,36 +2,36 @@
  * Demo del motor. Imprime la carta natal de una mascota y sus tránsitos de hoy.
  *
  *   node cli.mjs
- *   node cli.mjs --fecha 2021-06-14 --hora 08:30 --tz 120 --lat 41.3874 --lon 2.1686
+ *   node cli.mjs --date 2021-06-14 --time 08:30 --tz 120 --lat 41.3874 --lon 2.1686
  *   node cli.mjs --casas signos
  *   node cli.mjs --verificar
  */
 
 import {
-  cartaNatal, posicionesPlanetarias, transitos, faseLunar,
-  formatearPos, autoVerificar, aSigno,
+  natalChart, planetPositions, transits, moonPhase,
+  formatPosition, selfVerify, toSign,
 } from './astro.mjs';
 
 // ─── Argumentos ──────────────────────────────────────────────────────────────
 
-const arg = (nombre, def) => {
-  const i = process.argv.indexOf(`--${nombre}`);
+const arg = (name, def) => {
+  const i = process.argv.indexOf(`--${name}`);
   return i > -1 && process.argv[i + 1] ? process.argv[i + 1] : def;
 };
-const flag = (nombre) => process.argv.includes(`--${nombre}`);
+const flag = (name) => process.argv.includes(`--${name}`);
 
 // Perro de ejemplo: nacido en Barcelona, 14/06/2021 a las 08:30 (CEST = UTC+2)
-const nacimiento = {
-  nombre: arg('nombre', 'Toby'),
+const birth = {
+  name: arg('name', 'Toby'),
   raza: arg('raza', 'Border Collie'),
-  fecha: arg('fecha', '2021-06-14'),
-  hora: flag('sin-hora') ? undefined : arg('hora', '08:30'),
+  date: arg('date', '2021-06-14'),
+  time: flag('sin-time') ? undefined : arg('time', '08:30'),
   tzOffsetMin: Number(arg('tz', 120)),
   lat: Number(arg('lat', 41.3874)),   // Barcelona
   lon: Number(arg('lon', 2.1686)),
 };
 
-const sistemaCasas = arg('casas', 'placidus');
+const houseSystem = arg('casas', 'placidus');
 
 // ─── Modo verificación ───────────────────────────────────────────────────────
 
@@ -50,12 +50,12 @@ if (flag('verificar')) {
     // Cuatro instantes del día para cubrir distintos RAMC
     for (const h of [0, 6, 12, 18]) {
       const d = new Date(Date.UTC(2021, 5, 14, h, 30));
-      const r = autoVerificar(d, lat, lon);
+      const r = selfVerify(d, lat, lon);
       const etiqueta = `${ciudad.padEnd(24)} ${String(h).padStart(2, '0')}:30 UTC`;
       if (r.ok === null) {
         console.log(`  ~  ${etiqueta}  ${r.motivo} → fallback a casas iguales`);
       } else if (r.ok) {
-        console.log(`  OK ${etiqueta}  ASC ${formatearPos(r.ascCerrado)}  Δ=${r.desviacionArcmin}'`);
+        console.log(`  OK ${etiqueta}  ASC ${formatPosition(r.ascCerrado)}  Δ=${r.desviacionArcmin}'`);
       } else {
         console.log(`  XX ${etiqueta}  DESVIACIÓN ${r.desviacionArcmin}'`);
         fallos++;
@@ -72,40 +72,40 @@ if (flag('verificar')) {
 
 // ─── Carta natal ─────────────────────────────────────────────────────────────
 
-const carta = cartaNatal(nacimiento, sistemaCasas);
+const carta = natalChart(birth, houseSystem);
 
 const linea = (t = '') => console.log(t);
 const titulo = (t) => { linea(); linea(`  ${t}`); linea(`  ${'─'.repeat(t.length)}`); };
 
 linea();
-linea(`  ${nacimiento.nombre.toUpperCase()} — ${nacimiento.raza}`);
-linea(`  Nacimiento: ${nacimiento.fecha}${nacimiento.hora ? ` ${nacimiento.hora}` : ' (hora desconocida)'}` +
-      `  ·  ${nacimiento.lat}°, ${nacimiento.lon}°`);
-linea(`  Instante UTC: ${carta.instanteUTC}`);
-linea(`  Confianza: ${carta.confianza}   Casas: ${carta.sistemaCasas}   ε=${carta.oblicuidad}°`);
+linea(`  ${birth.name.toUpperCase()} — ${birth.raza}`);
+linea(`  Nacimiento: ${birth.date}${birth.time ? ` ${birth.time}` : ' (time desconocida)'}` +
+      `  ·  ${birth.lat}°, ${birth.lon}°`);
+linea(`  Instante UTC: ${carta.utcInstant}`);
+linea(`  Confianza: ${carta.confidence}   Casas: ${carta.houseSystem}   ε=${carta.obliquity}°`);
 
 titulo('BIG THREE');
-const sol = carta.planetas.find((p) => p.id === 'Sol');
-const luna = carta.planetas.find((p) => p.id === 'Luna');
-linea(`  Sol .......... ${formatearPos(sol.lon)}  (${sol.elemento}, ${sol.modalidad})`);
-linea(`  Luna ......... ${formatearPos(luna.lon)}  (${luna.elemento})${carta.lunaIncierta ? '   ⚠ INCIERTA sin hora de nacimiento' : ''}`);
-linea(carta.ascendente != null
-  ? `  Ascendente ... ${formatearPos(carta.ascendente)}`
-  : '  Ascendente ... no calculable (falta hora y/o lugar)');
-if (carta.medioCielo != null) linea(`  Medio Cielo .. ${formatearPos(carta.medioCielo)}`);
+const sol = carta.planets.find((p) => p.id === 'sun');
+const luna = carta.planets.find((p) => p.id === 'moon');
+linea(`  Sol .......... ${formatPosition(sol.lon)}  (${sol.element}, ${sol.modality})`);
+linea(`  Luna ......... ${formatPosition(luna.lon)}  (${luna.element})${carta.moonUncertain ? '   ⚠ INCIERTA sin time de birth' : ''}`);
+linea(carta.ascendant != null
+  ? `  Ascendente ... ${formatPosition(carta.ascendant)}`
+  : '  Ascendente ... no calculable (falta time y/o lugar)');
+if (carta.midheaven != null) linea(`  Medio Cielo .. ${formatPosition(carta.midheaven)}`);
 
 titulo('PLANETAS');
-for (const p of carta.planetas) {
+for (const p of carta.planets) {
   linea(
-    `  ${p.id.padEnd(10)} ${formatearPos(p.lon).padEnd(20)}` +
-    `${p.casa ? `casa ${String(p.casa).padStart(2)}  ` : '          '}` +
-    `${p.retrogrado ? 'Rx ' : '   '}` +
-    `${p.velocidadDiaria >= 0 ? '+' : ''}${p.velocidadDiaria.toFixed(2)}°/día` +
-    `${p.bordeDeSigno ? '   ⚠ borde de signo' : ''}`,
+    `  ${p.id.padEnd(10)} ${formatPosition(p.lon).padEnd(20)}` +
+    `${p.house ? `house ${String(p.house).padStart(2)}  ` : '          '}` +
+    `${p.retrograde ? 'Rx ' : '   '}` +
+    `${p.dailySpeed >= 0 ? '+' : ''}${p.dailySpeed.toFixed(2)}°/día` +
+    `${p.signBorder ? '   ⚠ borde de sign' : ''}`,
   );
 }
 
-if (carta.cuspides) {
+if (carta.cusps) {
   titulo('CÚSPIDES DE CASAS');
   for (let i = 0; i < 12; i++) {
     const areas = [
@@ -113,39 +113,39 @@ if (carta.cuspides) {
       'juego', 'salud y rutina', 'vínculo con su humano', 'miedos',
       'viajes', 'rol en la familia', 'la manada', 'sueño y ansiedades',
     ];
-    linea(`  Casa ${String(i + 1).padStart(2)}  ${formatearPos(carta.cuspides[i]).padEnd(20)} ${areas[i]}`);
+    linea(`  Casa ${String(i + 1).padStart(2)}  ${formatPosition(carta.cusps[i]).padEnd(20)} ${areas[i]}`);
   }
 }
 
-titulo('ASPECTOS NATALES');
-if (carta.aspectos.length === 0) linea('  (ninguno dentro de orbe)');
-for (const a of carta.aspectos.slice(0, 12)) {
-  linea(`  ${a.a.padEnd(10)} ${a.aspecto.padEnd(12)} ${a.b.padEnd(10)} orbe ${String(a.orbe).padStart(5)}°  (${a.naturaleza})`);
+titulo('ASPECTS NATALES');
+if (carta.aspects.length === 0) linea('  (ninguno dentro de orb)');
+for (const a of carta.aspects.slice(0, 12)) {
+  linea(`  ${a.a.padEnd(10)} ${a.aspecto.padEnd(12)} ${a.b.padEnd(10)} orb ${String(a.orb).padStart(5)}°  (${a.nature})`);
 }
 
-const fn = carta.faseLunarNacimiento;
+const fn = carta.moonPhaseAtBirth;
 linea();
-linea(`  Fase lunar al nacer: ${fn.nombre} (${(fn.iluminacion * 100).toFixed(0)}% iluminada)`);
+linea(`  Fase lunar al nacer: ${fn.name} (${(fn.illumination * 100).toFixed(0)}% iluminada)`);
 
 // ─── Tránsitos de hoy ────────────────────────────────────────────────────────
 
 const ahora = new Date();
-const hoy = posicionesPlanetarias(ahora);
-const fh = faseLunar(ahora);
+const hoy = planetPositions(ahora);
+const fh = moonPhase(ahora);
 
 titulo(`EL CIELO DE HOY (${ahora.toISOString().slice(0, 16)}Z)`);
-const lunaHoy = hoy.find((p) => p.id === 'Luna');
-linea(`  Luna en ${aSigno(lunaHoy.lon).signo} (${aSigno(lunaHoy.lon).elemento})  ·  ${fh.nombre}, ${(fh.iluminacion * 100).toFixed(0)}% iluminada`);
-const rx = hoy.filter((p) => p.retrogrado).map((p) => p.id);
+const lunaHoy = hoy.find((p) => p.id === 'moon');
+linea(`  Luna en ${toSign(lunaHoy.lon).sign} (${toSign(lunaHoy.lon).element})  ·  ${fh.name}, ${(fh.illumination * 100).toFixed(0)}% iluminada`);
+const rx = hoy.filter((p) => p.retrograde).map((p) => p.id);
 linea(`  Retrógrados: ${rx.length ? rx.join(', ') : 'ninguno'}`);
 
 titulo('TRÁNSITOS SOBRE LA CARTA NATAL');
-const tr = transitos(carta.planetas, hoy);
-if (tr.length === 0) linea('  (ninguno dentro de orbe)');
+const tr = transits(carta.planets, hoy);
+if (tr.length === 0) linea('  (ninguno dentro de orb)');
 for (const t of tr.slice(0, 10)) {
   linea(
     `  ${t.transito.padEnd(10)} en tránsito  ${t.aspecto.padEnd(12)} ` +
-    `${t.natal} natal`.padEnd(20) + `orbe ${String(t.orbe).padStart(5)}°  (${t.naturaleza})`,
+    `${t.natal} natal`.padEnd(20) + `orb ${String(t.orb).padStart(5)}°  (${t.nature})`,
   );
 }
 

@@ -4,43 +4,43 @@
  * Calcula carta natal y tránsitos usando astronomy-engine (MIT).
  * Determinista, sin red, sin IA. Todo esto corre en el cliente.
  *
- * Precisión: astronomy-engine da ~1-3 minutos de arco. Un signo mide 1800',
- * así que sobra. Los casos borde (planeta a <3' de cambiar de signo) se marcan.
+ * Precisión: astronomy-engine da ~1-3 minutos de arco. Un sign mide 1800',
+ * así que sobra. Los casos borde (planeta a <3' de cambiar de sign) se marcan.
  */
 
 import * as A from 'astronomy-engine';
 
 // ─── Constantes ──────────────────────────────────────────────────────────────
 
-export const SIGNOS = [
-  'Aries', 'Tauro', 'Géminis', 'Cáncer', 'Leo', 'Virgo',
-  'Libra', 'Escorpio', 'Sagitario', 'Capricornio', 'Acuario', 'Piscis',
+export const SIGNS = [
+  'aries', 'taurus', 'gemini', 'cancer', 'leo', 'virgo',
+  'libra', 'scorpio', 'sagittarius', 'capricorn', 'aquarius', 'pisces',
 ];
 
-export const ELEMENTOS = ['Fuego', 'Tierra', 'Aire', 'Agua'];
-export const MODALIDADES = ['Cardinal', 'Fijo', 'Mutable'];
+export const ELEMENTS = ['fire', 'earth', 'air', 'water'];
+export const MODALITIES = ['cardinal', 'fixed', 'mutable'];
 
-/** Cuerpos de la carta. `dedicado` = tiene función propia más precisa. */
-const CUERPOS = [
-  { id: 'Sol', body: A.Body.Sun },
-  { id: 'Luna', body: A.Body.Moon, dedicado: true },
-  { id: 'Mercurio', body: A.Body.Mercury },
-  { id: 'Venus', body: A.Body.Venus },
-  { id: 'Marte', body: A.Body.Mars },
-  { id: 'Júpiter', body: A.Body.Jupiter },
-  { id: 'Saturno', body: A.Body.Saturn },
-  { id: 'Urano', body: A.Body.Uranus },
-  { id: 'Neptuno', body: A.Body.Neptune },
-  { id: 'Plutón', body: A.Body.Pluto },
+/** Cuerpos de la carta. `dedicated` = tiene función propia más precisa. */
+const BODIES = [
+  { id: 'sun', body: A.Body.Sun },
+  { id: 'moon', body: A.Body.Moon, dedicated: true },
+  { id: 'mercury', body: A.Body.Mercury },
+  { id: 'venus', body: A.Body.Venus },
+  { id: 'mars', body: A.Body.Mars },
+  { id: 'jupiter', body: A.Body.Jupiter },
+  { id: 'saturn', body: A.Body.Saturn },
+  { id: 'uranus', body: A.Body.Uranus },
+  { id: 'neptune', body: A.Body.Neptune },
+  { id: 'pluto', body: A.Body.Pluto },
 ];
 
 /** Aspectos mayores con sus orbes. Ver BRD §6.5. */
-const ASPECTOS = [
-  { id: 'Conjunción', angulo: 0, orbe: 8, naturaleza: 'fusión' },
-  { id: 'Sextil', angulo: 60, orbe: 4, naturaleza: 'facilidad' },
-  { id: 'Cuadratura', angulo: 90, orbe: 6, naturaleza: 'tensión' },
-  { id: 'Trígono', angulo: 120, orbe: 6, naturaleza: 'armonía' },
-  { id: 'Oposición', angulo: 180, orbe: 8, naturaleza: 'polaridad' },
+const ASPECTS = [
+  { id: 'conjunction', angle: 0, orb: 8, nature: 'fusion' },
+  { id: 'sextile', angle: 60, orb: 4, nature: 'ease' },
+  { id: 'square', angle: 90, orb: 6, nature: 'tension' },
+  { id: 'trine', angle: 120, orb: 6, nature: 'harmony' },
+  { id: 'opposition', angle: 180, orb: 8, nature: 'polarity' },
 ];
 
 // ─── Utilidades ──────────────────────────────────────────────────────────────
@@ -55,52 +55,52 @@ const norm180 = (x) => {
   return n > 180 ? n - 360 : n;
 };
 
-/** Índice de signo (0=Aries) y grado dentro del signo. */
-export function aSigno(lonEclip) {
+/** Índice de sign (0=Aries) y degree dentro del sign. */
+export function toSign(lonEclip) {
   const lon = norm360(lonEclip);
   const idx = Math.floor(lon / 30);
   return {
-    signo: SIGNOS[idx],
-    signoIdx: idx,
-    grado: lon - idx * 30,
-    elemento: ELEMENTOS[idx % 4],
-    modalidad: MODALIDADES[idx % 3],
+    sign: SIGNS[idx],
+    signIndex: idx,
+    degree: lon - idx * 30,
+    element: ELEMENTS[idx % 4],
+    modality: MODALITIES[idx % 3],
   };
 }
 
-export const formatearPos = (lon) => {
-  const s = aSigno(lon);
-  const g = Math.floor(s.grado);
-  const m = Math.round((s.grado - g) * 60);
-  return `${String(g).padStart(2, '0')}°${String(m).padStart(2, '0')}' ${s.signo}`;
+export const formatPosition = (lon) => {
+  const s = toSign(lon);
+  const g = Math.floor(s.degree);
+  const m = Math.round((s.degree - g) * 60);
+  return `${String(g).padStart(2, '0')}°${String(m).padStart(2, '0')}' ${s.sign}`;
 };
 
 /**
  * Oblicuidad media de la eclíptica (IAU), en grados.
- * Polinomio estándar; precisión de segundos de arco. Ignoramos la nutación
+ * Polinomio estándar; precisión de seconds de arco. Ignoramos la nutación
  * (máx ~9,2"), irrelevante a escala astrológica.
  */
-function oblicuidad(date) {
+function obliquity(date) {
   const jd = A.MakeTime(date).tt + 2451545.0;
   const T = (jd - 2451545.0) / 36525.0;
-  const segundos =
+  const seconds =
     84381.448 - 46.8150 * T - 0.00059 * T * T + 0.001813 * T * T * T;
-  return segundos / 3600;
+  return seconds / 3600;
 }
 
-/** Longitud eclíptica geocéntrica aparente de un cuerpo, en grados. */
-function longitudEcliptica(cuerpo, date) {
-  if (cuerpo.dedicado) return norm360(A.EclipticGeoMoon(date).lon);
-  const vec = A.GeoVector(cuerpo.body, date, true); // true = corrige aberración
+/** Longitud eclíptica geocéntrica aparente de un body, en grados. */
+function eclipticLongitude(body, date) {
+  if (body.dedicated) return norm360(A.EclipticGeoMoon(date).lon);
+  const vec = A.GeoVector(body.body, date, true); // true = corrige aberración
   return norm360(A.Ecliptic(vec).elon);
 }
 
 /** Declinación de un punto de la eclíptica (latitud eclíptica 0), en grados. */
-const declinacionEcliptica = (lon, eps) =>
+const eclipticDeclination = (lon, eps) =>
   Math.asin(Math.sin(eps * RAD) * Math.sin(lon * RAD)) * DEG;
 
 /** Ascensión recta de un punto de la eclíptica, en grados. */
-const ascensionRectaEcliptica = (lon, eps) =>
+const eclipticRightAscension = (lon, eps) =>
   norm360(
     Math.atan2(Math.cos(eps * RAD) * Math.sin(lon * RAD), Math.cos(lon * RAD)) * DEG,
   );
@@ -111,23 +111,23 @@ const ascensionRectaEcliptica = (lon, eps) =>
  * Posiciones planetarias para un instante.
  * Retrogradación: se compara la longitud ±12h (una posición que decrece = Rx).
  */
-export function posicionesPlanetarias(date) {
-  const antes = new Date(date.getTime() - 12 * 3600 * 1000);
-  const despues = new Date(date.getTime() + 12 * 3600 * 1000);
+export function planetPositions(date) {
+  const before = new Date(date.getTime() - 12 * 3600 * 1000);
+  const after = new Date(date.getTime() + 12 * 3600 * 1000);
 
-  return CUERPOS.map((c) => {
-    const lon = longitudEcliptica(c, date);
-    const delta = norm180(longitudEcliptica(c, despues) - longitudEcliptica(c, antes));
-    const s = aSigno(lon);
+  return BODIES.map((c) => {
+    const lon = eclipticLongitude(c, date);
+    const delta = norm180(eclipticLongitude(c, after) - eclipticLongitude(c, before));
+    const s = toSign(lon);
     return {
       id: c.id,
       lon,
       ...s,
-      retrogrado: delta < 0,
-      velocidadDiaria: delta,
-      // Caso borde: a menos de 3' de cambiar de signo → la precisión del motor
-      // (~1-3') deja de garantizar el signo. Se marca para mostrar el grado.
-      bordeDeSigno: s.grado < 0.05 || s.grado > 29.95,
+      retrograde: delta < 0,
+      dailySpeed: delta,
+      // Caso borde: a menos de 3' de cambiar de sign → la precisión del motor
+      // (~1-3') deja de garantizar el sign. Se marca para mostrar el degree.
+      signBorder: s.degree < 0.05 || s.degree > 29.95,
     };
   });
 }
@@ -138,19 +138,19 @@ export function posicionesPlanetarias(date) {
  * Tiempo sidéreo local aparente, en grados. Es también la ascensión recta
  * del Medio Cielo (RAMC).
  */
-export function tiempoSidereoLocal(date, lonGeo) {
+export function localSiderealTime(date, lonGeo) {
   return norm360(A.SiderealTime(date) * 15 + lonGeo);
 }
 
 /** Medio Cielo: punto de la eclíptica cuya ascensión recta es RAMC. */
-function medioCielo(ramc, eps) {
+function midheaven(ramc, eps) {
   return norm360(
     Math.atan2(Math.sin(ramc * RAD), Math.cos(ramc * RAD) * Math.cos(eps * RAD)) * DEG,
   );
 }
 
 /** Ascendente: punto de la eclíptica en el horizonte este (fórmula cerrada). */
-function ascendente(ramc, eps, lat) {
+function ascendant(ramc, eps, lat) {
   const y = Math.cos(ramc * RAD);
   const x = -(
     Math.sin(ramc * RAD) * Math.cos(eps * RAD) +
@@ -165,14 +165,14 @@ function ascendente(ramc, eps, lat) {
  * es lo que permite resolver las cúspides por bisección sin saltos.
  */
 const anguloHorarioContinuo = (lon, ramc, eps) =>
-  -norm360(ascensionRectaEcliptica(lon, eps) - ramc);
+  -norm360(eclipticRightAscension(lon, eps) - ramc);
 
 /**
  * Semiarco diurno de un punto de la eclíptica, en grados.
  * null si el punto es circumpolar (no sale o no se pone en esa latitud).
  */
 function semiarcoDiurno(lon, eps, lat) {
-  const dec = declinacionEcliptica(lon, eps);
+  const dec = eclipticDeclination(lon, eps);
   const t = Math.tan(dec * RAD) * Math.tan(lat * RAD);
   if (Math.abs(t) >= 1) return null; // circumpolar
   return 90 + Math.asin(t) * DEG;
@@ -183,14 +183,14 @@ function semiarcoDiurno(lon, eps, lat) {
  * la iteración cerrada habitual.
  *
  * Definición de Placidus: cada cúspide es el punto de la eclíptica que ha
- * recorrido una fracción dada de su semiarco. Expresado en ángulo horario:
+ * recorrido una fracción dada de su semiArc. Expresado en ángulo horario:
  *
  *   MC   → AH = 0                  Casa 11 → AH = -SD/3
  *   ASC  → AH = -SD                Casa 12 → AH = -2·SD/3
  *   IC   → AH = -180               Casa 2  → AH = -SD - SN/3
  *                                  Casa 3  → AH = -SD - 2·SN/3
  *
- * donde SD = semiarco diurno y SN = 180 - SD = semiarco nocturno.
+ * donde SD = semiArc diurno y SN = 180 - SD = semiArc nocturno.
  *
  * Se busca la raíz de g(lon) = AH(lon) - objetivo(lon) por bisección. Ventaja
  * frente a la iteración cerrada: es correcto por construcción y auto-verificable
@@ -199,15 +199,15 @@ function semiarcoDiurno(lon, eps, lat) {
  * En latitudes extremas (>~66°) hay puntos circumpolares y Placidus degenera;
  * ahí se devuelve null y el llamante cae a casas iguales.
  */
-function cuspidesPlacidus(ramc, eps, lat) {
-  const lonMC = medioCielo(ramc, eps);
+function placidusCusps(ramc, eps, lat) {
+  const lonMC = midheaven(ramc, eps);
 
   const objetivos = [
-    { casa: 11, f: (sd, sn) => -sd / 3 },
-    { casa: 12, f: (sd, sn) => (-2 * sd) / 3 },
-    { casa: 1, f: (sd, sn) => -sd },
-    { casa: 2, f: (sd, sn) => -sd - sn / 3 },
-    { casa: 3, f: (sd, sn) => -sd - (2 * sn) / 3 },
+    { house: 11, f: (sd, sn) => -sd / 3 },
+    { house: 12, f: (sd, sn) => (-2 * sd) / 3 },
+    { house: 1, f: (sd, sn) => -sd },
+    { house: 2, f: (sd, sn) => -sd - sn / 3 },
+    { house: 3, f: (sd, sn) => -sd - (2 * sn) / 3 },
   ];
 
   const resolver = (objetivo) => {
@@ -225,7 +225,7 @@ function cuspidesPlacidus(ramc, eps, lat) {
     const gLo = g(lo);
     const gHi = g(hi);
     if (gLo === null || gHi === null) return null;
-    if (gLo * gHi > 0) return null; // sin cambio de signo: no hay raíz aquí
+    if (gLo * gHi > 0) return null; // sin cambio de sign: no hay raíz aquí
 
     for (let i = 0; i < 80; i++) {
       const mid = (lo + hi) / 2;
@@ -237,191 +237,196 @@ function cuspidesPlacidus(ramc, eps, lat) {
     return norm360(lonMC + (lo + hi) / 2);
   };
 
-  const cuspides = new Array(13).fill(null);
-  cuspides[10] = lonMC;
+  const cusps = new Array(13).fill(null);
+  cusps[10] = lonMC;
   for (const o of objetivos) {
     const r = resolver(o);
     if (r === null) return null; // degenerado → el llamante decide el fallback
-    cuspides[o.casa] = r;
+    cusps[o.house] = r;
   }
   // Las casas 4-9 son opuestas a las 10-3.
   for (const [a, b] of [[10, 4], [11, 5], [12, 6], [1, 7], [2, 8], [3, 9]]) {
-    cuspides[b] = norm360(cuspides[a] + 180);
+    cusps[b] = norm360(cusps[a] + 180);
   }
-  return cuspides.slice(1); // índice 0 = casa 1
+  return cusps.slice(1); // índice 0 = house 1
 }
 
 /** Casas iguales: 12 sectores de 30° desde el Ascendente. */
-const cuspidesIguales = (asc) =>
+const equalCusps = (asc) =>
   Array.from({ length: 12 }, (_, i) => norm360(asc + i * 30));
 
-/** Signos enteros: cada casa ES un signo, empezando por el del Ascendente. */
-const cuspidesSignosEnteros = (asc) => {
+/** Signos enteros: cada house ES un sign, empezando por el del Ascendente. */
+const wholeSignCusps = (asc) => {
   const inicio = Math.floor(norm360(asc) / 30) * 30;
   return Array.from({ length: 12 }, (_, i) => norm360(inicio + i * 30));
 };
 
 /** Casa (1-12) que contiene una longitud dada. */
-function casaDe(lon, cuspides) {
+function houseOf(lon, cusps) {
   const l = norm360(lon);
   for (let i = 0; i < 12; i++) {
-    const ini = cuspides[i];
-    const fin = cuspides[(i + 1) % 12];
-    const ancho = norm360(fin - ini);
-    if (norm360(l - ini) < ancho) return i + 1;
+    const start = cusps[i];
+    const end = cusps[(i + 1) % 12];
+    const ancho = norm360(end - start);
+    if (norm360(l - start) < ancho) return i + 1;
   }
   return 1;
 }
 
 // ─── Aspectos ────────────────────────────────────────────────────────────────
 
-/** Aspectos entre los planetas de una misma carta. */
-export function aspectos(planetas) {
+/** Aspectos entre los planets de una misma carta. */
+export function aspects(planets) {
   const out = [];
-  for (let i = 0; i < planetas.length; i++) {
-    for (let j = i + 1; j < planetas.length; j++) {
-      const sep = Math.abs(norm180(planetas[i].lon - planetas[j].lon));
-      for (const asp of ASPECTOS) {
-        const orbe = Math.abs(sep - asp.angulo);
-        if (orbe <= asp.orbe) {
+  for (let i = 0; i < planets.length; i++) {
+    for (let j = i + 1; j < planets.length; j++) {
+      const sep = Math.abs(norm180(planets[i].lon - planets[j].lon));
+      for (const asp of ASPECTS) {
+        const orb = Math.abs(sep - asp.angle);
+        if (orb <= asp.orb) {
           out.push({
-            a: planetas[i].id,
-            b: planetas[j].id,
-            aspecto: asp.id,
-            naturaleza: asp.naturaleza,
-            orbe: +orbe.toFixed(2),
-            exactitud: +(1 - orbe / asp.orbe).toFixed(2),
+            a: planets[i].id,
+            b: planets[j].id,
+            aspect: asp.id,
+            nature: asp.nature,
+            orb: +orb.toFixed(2),
+            exactness: +(1 - orb / asp.orb).toFixed(2),
           });
           break; // los orbes no se solapan; el primero que cuadra es el bueno
         }
       }
     }
   }
-  return out.sort((x, y) => y.exactitud - x.exactitud);
+  return out.sort((x, y) => y.exactness - x.exactness);
 }
 
-/** Aspectos de los planetas en tránsito a los planetas natales. */
-export function transitos(planetasNatal, planetasHoy) {
+/** Aspectos de los planets en tránsito a los planets natales. */
+export function transits(natalPlanets, todayPlanets) {
   const out = [];
-  for (const t of planetasHoy) {
-    for (const n of planetasNatal) {
+  for (const t of todayPlanets) {
+    for (const n of natalPlanets) {
       const sep = Math.abs(norm180(t.lon - n.lon));
-      for (const asp of ASPECTOS) {
-        const orbe = Math.abs(sep - asp.angulo);
-        if (orbe <= asp.orbe) {
+      for (const asp of ASPECTS) {
+        const orb = Math.abs(sep - asp.angle);
+        if (orb <= asp.orb) {
           out.push({
             transito: t.id,
-            aspecto: asp.id,
+            aspect: asp.id,
             natal: n.id,
-            naturaleza: asp.naturaleza,
-            orbe: +orbe.toFixed(2),
-            exactitud: +(1 - orbe / asp.orbe).toFixed(2),
+            nature: asp.nature,
+            orb: +orb.toFixed(2),
+            exactness: +(1 - orb / asp.orb).toFixed(2),
           });
           break;
         }
       }
     }
   }
-  return out.sort((x, y) => y.exactitud - x.exactitud);
+  return out.sort((x, y) => y.exactness - x.exactness);
 }
 
 // ─── Fase lunar ──────────────────────────────────────────────────────────────
 
-const NOMBRES_FASE = [
-  'Luna nueva', 'Luna creciente', 'Cuarto creciente', 'Gibosa creciente',
-  'Luna llena', 'Gibosa menguante', 'Cuarto menguante', 'Luna menguante',
+const PHASE_NAMES = [
+  'new_moon', 'waxing_crescent', 'first_quarter', 'waxing_gibbous',
+  'full_moon', 'waning_gibbous', 'last_quarter', 'waning_crescent',
 ];
 
-export function faseLunar(date) {
-  const angulo = A.MoonPhase(date); // 0=nueva, 90=cuarto creciente, 180=llena
+export function moonPhase(date) {
+  const angle = A.MoonPhase(date); // 0=nueva, 90=cuarto creciente, 180=llena
   return {
-    angulo,
-    fraccion: angulo / 360,
-    nombre: NOMBRES_FASE[Math.floor((norm360(angulo + 22.5) / 45)) % 8],
-    iluminacion: +((1 - Math.cos(angulo * RAD)) / 2).toFixed(3),
+    angle,
+    fraction: angle / 360,
+    name: PHASE_NAMES[Math.floor((norm360(angle + 22.5) / 45)) % 8],
+    illumination: +((1 - Math.cos(angle * RAD)) / 2).toFixed(3),
   };
 }
 
 // ─── Carta natal ─────────────────────────────────────────────────────────────
 
 /**
- * @param {object} nacimiento
- * @param {string} nacimiento.fecha      'YYYY-MM-DD'
- * @param {string} [nacimiento.hora]     'HH:MM' hora local. Sin ella no hay
+ * @param {object} birth
+ * @param {string} birth.date      'YYYY-MM-DD'
+ * @param {string} [birth.time]     'HH:MM' time local. Sin ella no hay
  *                                       Ascendente ni casas.
- * @param {number} [nacimiento.tzOffsetMin] Offset respecto a UTC en minutos
+ * @param {number} [birth.tzOffsetMin] Offset respecto a UTC en minutos
  *                                       (Madrid verano = 120).
- * @param {number} [nacimiento.lat]      Latitud en grados (norte positivo).
- * @param {number} [nacimiento.lon]      Longitud en grados (este positivo).
- * @param {'placidus'|'iguales'|'signos'} [sistemaCasas='placidus']
+ * @param {number} [birth.lat]      Latitud en grados (norte positivo).
+ * @param {number} [birth.lon]      Longitud en grados (este positivo).
+ * @param {'placidus'|'equal'|'whole_sign'} [houseSystem='placidus']
  */
-export function cartaNatal(nacimiento, sistemaCasas = 'placidus') {
-  const { fecha, hora, tzOffsetMin = 0, lat, lon } = nacimiento;
+export function natalChart(birth, houseSystem = 'placidus') {
+  const { date: birthDate, time, tzOffsetMin = 0, lat, lon } = birth;
 
-  const tieneHora = Boolean(hora);
-  const tieneLugar = lat != null && lon != null;
+  const hasTime = Boolean(time);
+  const hasLocation = lat != null && lon != null;
   // Sin hora usamos mediodía local: minimiza el error máximo de la Luna
   // (~±3,25° en lugar de ±6,5° si se asumiera medianoche).
-  const horaUsada = hora ?? '12:00';
+  const timeUsed = time ?? '12:00';
 
-  const date = new Date(
-    `${fecha}T${horaUsada}:00.000Z`,
-  );
+  const date = new Date(`${birthDate}T${timeUsed}:00.000Z`);
   date.setTime(date.getTime() - tzOffsetMin * 60 * 1000);
 
-  const eps = oblicuidad(date);
-  const planetas = posicionesPlanetarias(date);
+  const eps = obliquity(date);
+  const planets = planetPositions(date);
 
   let asc = null;
   let mc = null;
-  let cuspides = null;
-  let sistemaUsado = 'ninguno';
+  let cusps = null;
+  // `null` mientras no haya casas: sin hora o sin lugar no hay dónde ponerlas.
+  let systemUsed = null;
+  // Se pidió Placidus y la latitud lo hacía indefinido (BRD §14 R10). Es un
+  // estado, y va en su propio campo: metido dentro de `houseSystem` como una
+  // frase, ese campo dejaba de poder usarse en un `switch`.
+  let degraded = false;
 
-  if (tieneHora && tieneLugar) {
-    const ramc = tiempoSidereoLocal(date, lon);
-    mc = medioCielo(ramc, eps);
-    asc = ascendente(ramc, eps, lat);
+  if (hasTime && hasLocation) {
+    const ramc = localSiderealTime(date, lon);
+    mc = midheaven(ramc, eps);
+    asc = ascendant(ramc, eps, lat);
 
-    if (sistemaCasas === 'placidus') {
-      cuspides = cuspidesPlacidus(ramc, eps, lat);
-      sistemaUsado = 'placidus';
-      if (!cuspides) {
+    if (houseSystem === 'placidus') {
+      cusps = placidusCusps(ramc, eps, lat);
+      systemUsed = 'placidus';
+      if (!cusps) {
         // Latitud extrema: Placidus degenera. Fallback documentado (BRD §14 R10).
-        cuspides = cuspidesIguales(asc);
-        sistemaUsado = 'iguales (Placidus degenerado en esta latitud)';
+        cusps = equalCusps(asc);
+        systemUsed = 'equal';
+        degraded = true;
       }
-    } else if (sistemaCasas === 'signos') {
-      cuspides = cuspidesSignosEnteros(asc);
-      sistemaUsado = 'signos enteros';
+    } else if (houseSystem === 'whole_sign') {
+      cusps = wholeSignCusps(asc);
+      systemUsed = 'whole_sign';
     } else {
-      cuspides = cuspidesIguales(asc);
-      sistemaUsado = 'iguales';
+      cusps = equalCusps(asc);
+      systemUsed = 'equal';
     }
 
-    for (const p of planetas) p.casa = casaDe(p.lon, cuspides);
+    for (const p of planets) p.house = houseOf(p.lon, cusps);
   }
 
-  const confianza = !tieneHora
-    ? 'sin_hora'          // Sol fiable; Luna aproximada; sin Asc ni casas
-    : !tieneLugar
-      ? 'sin_lugar'       // planetas exactos; sin Asc ni casas
-      : 'completa';
+  const confidence = !hasTime
+    ? 'no_time'           // Sol fiable; Luna aproximada; sin Asc ni casas
+    : !hasLocation
+      ? 'no_location'     // planetas exactos; sin Asc ni casas
+      : 'full';
 
   return {
-    instanteUTC: date.toISOString(),
-    confianza,
-    sistemaCasas: sistemaUsado,
-    oblicuidad: +eps.toFixed(5),
-    planetas,
-    ascendente: asc,
-    medioCielo: mc,
-    cuspides,
-    aspectos: aspectos(planetas),
-    faseLunarNacimiento: faseLunar(date),
+    utcInstant: date.toISOString(),
+    confidence,
+    houseSystem: systemUsed,
+    houseSystemDegraded: degraded,
+    obliquity: +eps.toFixed(5),
+    planets,
+    ascendant: asc,
+    midheaven: mc,
+    cusps,
+    aspects: aspects(planets),
+    moonPhaseAtBirth: moonPhase(date),
     // Con solo la fecha, la Luna avanza ~13°/día: si está a menos de 6,5° de
-    // cambiar de signo, el signo lunar es incierto y hay que pedir la hora.
-    lunaIncierta: !tieneHora && (() => {
-      const g = planetas.find((p) => p.id === 'Luna').grado;
+    // cambiar de sign, el sign lunar es incierto y hay que pedir la time.
+    moonUncertain: !hasTime && (() => {
+      const g = planets.find((p) => p.id === 'moon').degree;
       return g < 6.5 || g > 23.5;
     })(),
   };
@@ -430,20 +435,20 @@ export function cartaNatal(nacimiento, sistemaCasas = 'placidus') {
 // ─── Auto-verificación ───────────────────────────────────────────────────────
 
 /**
- * El solucionador numérico de Placidus resuelve la casa 1 (AH = -SD), que por
+ * El solucionador numérico de Placidus resuelve la house 1 (AH = -SD), que por
  * definición es el Ascendente. Debe coincidir con la fórmula cerrada, que es
  * independiente. Si coinciden, ambas implementaciones son correctas.
  *
  * No sustituye a la validación contra una calculadora astrológica externa
- * (astro.com), que sigue siendo obligatoria antes de dar el motor por bueno.
+ * (astro.com), que sigue siendo obligatoria before de dar el motor por bueno.
  */
-export function autoVerificar(date, lat, lon) {
-  const eps = oblicuidad(date);
-  const ramc = tiempoSidereoLocal(date, lon);
-  const ascCerrado = ascendente(ramc, eps, lat);
-  const cuspides = cuspidesPlacidus(ramc, eps, lat);
-  if (!cuspides) return { ok: null, motivo: 'Placidus degenerado' };
-  const ascNumerico = cuspides[0];
+export function selfVerify(date, lat, lon) {
+  const eps = obliquity(date);
+  const ramc = localSiderealTime(date, lon);
+  const ascCerrado = ascendant(ramc, eps, lat);
+  const cusps = placidusCusps(ramc, eps, lat);
+  if (!cusps) return { ok: null, motivo: 'Placidus degenerado' };
+  const ascNumerico = cusps[0];
   const desviacionArcmin = Math.abs(norm180(ascCerrado - ascNumerico)) * 60;
   return {
     ok: desviacionArcmin < 0.1,

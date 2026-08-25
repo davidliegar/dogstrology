@@ -15,7 +15,7 @@ describe('Dogstrology — composition root', () => {
 
     await app.CreatePetUseCase.execute({
       name: 'Baloo',
-      species: 'perro',
+      species: 'dog',
       birth: { date: '2021-06-14', accuracy: 'exact' },
     });
 
@@ -33,12 +33,12 @@ describe('Dogstrology — composition root', () => {
     const app = domain();
     const pet = await app.CreatePetUseCase.execute({
       name: 'Baloo',
-      species: 'perro',
+      species: 'dog',
       birth: { date: '2021-06-14', time: '08:30', tzOffsetMinutes: 120, lat: 41.3874, lon: 2.1686, accuracy: 'exact' },
     });
 
     const chart = await app.CalculateNatalChartUseCase.execute({ pet });
-    expect(chart.sunSign()).toBe('Géminis');
+    expect(chart.sunSign()).toBe('gemini');
   });
 
   it('crear la fachada no toca la base de datos: nadie llama al proveedor hasta la primera consulta', () => {

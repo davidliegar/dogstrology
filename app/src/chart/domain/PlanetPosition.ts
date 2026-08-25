@@ -13,20 +13,20 @@ import { Model } from '@/_kernel/architecture';
  * vocabulario que la app enseña en su mercado (misma decisión que en el motor).
  */
 export const SIGNS = [
-  'Aries', 'Tauro', 'Géminis', 'Cáncer', 'Leo', 'Virgo',
-  'Libra', 'Escorpio', 'Sagitario', 'Capricornio', 'Acuario', 'Piscis',
+  'aries', 'taurus', 'gemini', 'cancer', 'leo', 'virgo',
+  'libra', 'scorpio', 'sagittarius', 'capricorn', 'aquarius', 'pisces',
 ] as const;
 export type Sign = (typeof SIGNS)[number];
 
-export const ELEMENTS = ['Fuego', 'Tierra', 'Aire', 'Agua'] as const;
+export const ELEMENTS = ['fire', 'earth', 'air', 'water'] as const;
 export type Element = (typeof ELEMENTS)[number];
 
-export const MODALITIES = ['Cardinal', 'Fijo', 'Mutable'] as const;
+export const MODALITIES = ['cardinal', 'fixed', 'mutable'] as const;
 export type Modality = (typeof MODALITIES)[number];
 
 export const PLANET_IDS = [
-  'Sol', 'Luna', 'Mercurio', 'Venus', 'Marte',
-  'Júpiter', 'Saturno', 'Urano', 'Neptuno', 'Plutón',
+  'sun', 'moon', 'mercury', 'venus', 'mars',
+  'jupiter', 'saturn', 'uranus', 'neptune', 'pluto',
 ] as const;
 export type PlanetId = (typeof PLANET_IDS)[number];
 

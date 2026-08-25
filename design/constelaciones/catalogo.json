@@ -24,7 +24,6 @@
   "constelaciones": [
     {
       "abrev": "Ari",
-      "nombre": "Aries",
       "estrellas": [
         {
           "hip": 13209,
@@ -71,11 +70,11 @@
           3
         ]
       ],
-      "dominante": 9884
+      "dominante": 9884,
+      "id": "aries"
     },
     {
       "abrev": "Tau",
-      "nombre": "Tauro",
       "estrellas": [
         {
           "hip": 26451,
@@ -208,11 +207,11 @@
           11
         ]
       ],
-      "dominante": 21421
+      "dominante": 21421,
+      "id": "taurus"
     },
     {
       "abrev": "Gem",
-      "nombre": "Géminis",
       "estrellas": [
         {
           "hip": 29655,
@@ -342,11 +341,11 @@
           11
         ]
       ],
-      "dominante": 37826
+      "dominante": 37826,
+      "id": "gemini"
     },
     {
       "abrev": "Cnc",
-      "nombre": "Cáncer",
       "estrellas": [
         {
           "hip": 44066,
@@ -406,11 +405,11 @@
           4
         ]
       ],
-      "dominante": 40526
+      "dominante": 40526,
+      "id": "cancer"
     },
     {
       "abrev": "Leo",
-      "nombre": "Leo",
       "estrellas": [
         {
           "hip": 49669,
@@ -511,11 +510,11 @@
           8
         ]
       ],
-      "dominante": 49669
+      "dominante": 49669,
+      "id": "leo"
     },
     {
       "abrev": "Vir",
-      "nombre": "Virgo",
       "estrellas": [
         {
           "hip": 57380,
@@ -658,11 +657,11 @@
           12
         ]
       ],
-      "dominante": 65474
+      "dominante": 65474,
+      "id": "virgo"
     },
     {
       "abrev": "Lib",
-      "nombre": "Libra",
       "estrellas": [
         {
           "hip": 73714,
@@ -733,11 +732,11 @@
           3
         ]
       ],
-      "dominante": 74785
+      "dominante": 74785,
+      "id": "libra"
     },
     {
       "abrev": "Sco",
-      "nombre": "Escorpio",
       "estrellas": [
         {
           "hip": 78265,
@@ -887,11 +886,11 @@
           13
         ]
       ],
-      "dominante": 80763
+      "dominante": 80763,
+      "id": "scorpio"
     },
     {
       "abrev": "Sgr",
-      "nombre": "Sagitario",
       "estrellas": [
         {
           "hip": 89642,
@@ -1162,11 +1161,11 @@
           15
         ]
       ],
-      "dominante": 90185
+      "dominante": 90185,
+      "id": "sagittarius"
     },
     {
       "abrev": "Cap",
-      "nombre": "Capricornio",
       "estrellas": [
         {
           "hip": 100027,
@@ -1274,11 +1273,11 @@
           0
         ]
       ],
-      "dominante": 107556
+      "dominante": 107556,
+      "id": "capricorn"
     },
     {
       "abrev": "Aqr",
-      "nombre": "Acuario",
       "estrellas": [
         {
           "hip": 102618,
@@ -1447,11 +1446,11 @@
           14
         ]
       ],
-      "dominante": 106278
+      "dominante": 106278,
+      "id": "aquarius"
     },
     {
       "abrev": "Psc",
-      "nombre": "Piscis",
       "estrellas": [
         {
           "hip": 5742,
@@ -1683,13 +1682,13 @@
           21
         ]
       ],
-      "dominante": 7097
+      "dominante": 7097,
+      "id": "pisces"
     }
   ],
   "marca": [
     {
       "abrev": "CMa",
-      "nombre": "Canis Major",
       "estrellas": [
         {
           "hip": 30324,
@@ -1813,7 +1812,8 @@
           8
         ]
       ],
-      "dominante": 32349
+      "dominante": 32349,
+      "id": "canis-major"
     }
   ]
 }

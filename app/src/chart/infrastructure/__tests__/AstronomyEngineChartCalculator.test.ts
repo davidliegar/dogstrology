@@ -40,11 +40,11 @@ describe('AstronomyEngineChartCalculator — traducción motor → dominio', () 
     expect(chart.midheaven()?.lon).toBe(engine.midheaven);
     // Valores contrastados con astro.com (proto/README.md):
     // Sol 23°26' Géminis · Luna 06°18' Leo · ASC 21°18' Cáncer · MC 02°40' Aries.
-    expect(chart.sunSign()).toBe('Géminis');
-    expect(chart.moonSign()).toBe('Leo');
-    expect(chart.ascendantSign()).toBe('Cáncer');
+    expect(chart.sunSign()).toBe('gemini');
+    expect(chart.moonSign()).toBe('leo');
+    expect(chart.ascendantSign()).toBe('cancer');
     expect(chart.ascendant()?.degree).toBeCloseTo(21.3, 1);
-    expect(chart.midheaven()?.sign).toBe('Aries');
+    expect(chart.midheaven()?.sign).toBe('aries');
   });
 
   it('sella la versión del motor en cada carta (BRD §12.1: invalida cachés)', async () => {

@@ -13,18 +13,18 @@ npm test    # 16 tests del guardarraíl de salud, sin dependencias
 | Fichero | Qué es |
 |---------|--------|
 | `src/prompt.mjs` | System prompt. **Primera** barrera del guardarraíl |
-| `src/prohibiciones.mjs` | Listas de términos vetados y de señales de preocupación |
-| `src/filtro.mjs` | **Segunda** barrera: corre sobre lo generado, antes de publicar |
-| `src/esquema.mjs` | Salida estructurada: campos, longitudes y enum de color |
-| `src/lote.mjs` | Plumbing de la Batch API: envía, espera y recoge un lote |
-| `src/fragmentos-diario.mjs` | Compone los 37 fragmentos del diario (función pura, sin red) |
-| `src/fragmentos-catalogo.mjs` | Compone el catálogo por categoría (función pura, sin red) |
-| `src/generar-diario.mjs` | CLI: `npm run generar:diario -- --fecha AAAA-MM-DD [--confirmar]` |
-| `src/generar-catalogo.mjs` | CLI: `npm run generar:catalogo -- --categorias id[,id] [--confirmar]` |
-| `src/depurar-lote.mjs` | Diagnóstico puntual: vuelca el JSON crudo de un batch ya terminado (`node src/depurar-lote.mjs <batchId>`) |
-| `test/filtro.test.mjs` | Lo que decide si el filtro sirve |
-| `test/fragmentos-diario.test.mjs` | Los 37 fragmentos del diario están bien compuestos |
-| `test/fragmentos-catalogo.test.mjs` | Las categorías del catálogo cuadran en cantidad y clave |
+| `src/bannedTerms.mjs` | Listas de términos vetados y de señales de preocupación |
+| `src/filter.mjs` | **Segunda** barrera: corre sobre lo generado, antes de publicar |
+| `src/schema.mjs` | Salida estructurada: campos, longitudes y enum de color |
+| `src/batch.mjs` | Plumbing de la Batch API: envía, espera y recoge un lote |
+| `src/dailyFragments.mjs` | Compone los 37 fragmentos del diario (función pura, sin red) |
+| `src/catalogFragments.mjs` | Compone el catálogo por categoría (función pura, sin red) |
+| `src/generateDaily.mjs` | CLI: `npm run generate:daily -- --date AAAA-MM-DD [--confirm]` |
+| `src/generateCatalog.mjs` | CLI: `npm run generate:catalog -- --categories id[,id] [--confirm]` |
+| `src/debugBatch.mjs` | Diagnóstico puntual: vuelca el JSON crudo de un batch ya terminado (`node src/debugBatch.mjs <batchId>`) |
+| `test/filter.test.mjs` | Lo que decide si el filtro sirve |
+| `test/dailyFragments.test.mjs` | Los 37 fragmentos del diario están bien compuestos |
+| `test/catalogFragments.test.mjs` | Las categorías del catálogo cuadran en cantidad y clave |
 
 ## El guardarraíl tiene dos niveles, y la diferencia es el diseño
 
@@ -74,8 +74,8 @@ tipo etiqueta.
 
 ## Los scripts de generación
 
-`generar-diario.mjs` y `generar-catalogo.mjs` llaman a la Batch API de verdad,
-pero nunca sin que se lo pidas: sin `--confirmar` solo simulan (imprimen lo
+`generateDaily.mjs` y `generateCatalog.mjs` llaman a la Batch API de verdad,
+pero nunca sin que se lo pidas: sin `--confirm` solo simulan (imprimen lo
 que enviarían, y en el catálogo una estimación de coste) y no tocan la red.
 El catálogo, además, genera categoría por categoría — un lote y un informe de
 PR por categoría, nunca un PR con 500 y 240 fragmentos mezclados.
@@ -91,11 +91,11 @@ están bloqueadas, no pendientes de tiempo:
   desglose aritmético; con especie=perro (gato queda fuera del MVP) no hay una
   combinación obvia que dé 68 exacto.
 
-Ver el comentario de `CATEGORIAS_PENDIENTES` en `src/fragmentos-catalogo.mjs`.
+Ver el comentario de `PENDING_CATEGORIES` en `src/catalogFragments.mjs`.
 
 ## La GitHub Action — montada, pero desactivada a propósito
 
-`.github/workflows/generar-diario.yml` implementa el ciclo completo (Batch
+`.github/workflows/generate-daily.yml` implementa el ciclo completo (Batch
 API → filtro → PR), pero el `schedule` del cron nocturno está comentado: solo
 se puede lanzar a mano (`workflow_dispatch`) hasta que se decida activarlo de
 verdad. Para activarlo: descomentar el bloque `schedule` del fichero y

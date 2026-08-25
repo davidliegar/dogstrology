@@ -6,6 +6,7 @@ import { Screen } from '@/_ui/components/Screen';
 import { Chip } from '@/_ui/components/Chip';
 import { Constellation } from '@/chart/ui/Constellation';
 import { formatDegree } from '@/chart/ui/format';
+import { ELEMENT_LABELS, MODALITY_LABELS, SIGN_LABELS } from '@/chart/ui/labels';
 import { useNatalChart } from '@/chart/ui/chartQueries';
 import { useOnboardingStore } from '@/pet/ui/onboardingStore';
 import { usePet } from '@/pet/ui/petQueries';
@@ -48,7 +49,7 @@ export default function OnboardingReveal() {
   }
 
   const sign = chart.sunSign();
-  const sun = chart.planet('Sol');
+  const sun = chart.planet('sun');
 
   return (
     <Screen
@@ -62,11 +63,11 @@ export default function OnboardingReveal() {
 
       <View style={styles.reveal}>
         <Text style={styles.overline}>Su Sol está en</Text>
-        <Text style={styles.sign}>{sign}</Text>
+        <Text style={styles.sign}>{SIGN_LABELS[sign]}</Text>
         {sun ? (
           <View style={styles.chips}>
-            <Chip label={sun.element()} dotColor={elementColor(sun.element())} />
-            <Chip label={sun.modality()} />
+            <Chip label={ELEMENT_LABELS[sun.element()]} dotColor={elementColor(sun.element())} />
+            <Chip label={MODALITY_LABELS[sun.modality()]} />
             <Chip label={formatDegree(sun.degree())} />
           </View>
         ) : null}

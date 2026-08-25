@@ -8,7 +8,7 @@ describe('CreatePetUseCase', () => {
 
     const pet = await useCase.execute({
       name: 'Baloo',
-      species: 'perro',
+      species: 'dog',
       birth: { date: '2025-12-14', time: '09:15', tzOffsetMinutes: 60, lat: 41.3874, lon: 2.1686, accuracy: 'exact' },
       photo: { kind: 'local', relativePath: 'pets/baloo.jpg' },
     });
@@ -23,7 +23,7 @@ describe('CreatePetUseCase', () => {
     const useCase = CreatePetUseCase.create({ repository });
 
     await expect(
-      useCase.execute({ name: 'X', species: 'perro', birth: { date: 'mal', accuracy: 'exact' } }),
+      useCase.execute({ name: 'X', species: 'dog', birth: { date: 'mal', accuracy: 'exact' } }),
     ).rejects.toThrow('[Birth] date debe ser YYYY-MM-DD');
 
     expect(await repository.list()).toHaveLength(0);

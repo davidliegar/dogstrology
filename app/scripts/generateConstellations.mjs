@@ -22,12 +22,15 @@ const here = dirname(fileURLToPath(import.meta.url));
 const SVG_DIR = join(here, '..', '..', 'design', 'constelaciones', 'svg');
 const OUT = join(here, '..', 'src', 'chart', 'ui', 'constellations.generated.ts');
 
-/** Nombre de fichero (sin tildes, como lo escribe `plot.mjs`) → `Sign` del dominio. */
-const SIGN_BY_FILE = {
-  aries: 'Aries', tauro: 'Tauro', geminis: 'Géminis', cancer: 'Cáncer',
-  leo: 'Leo', virgo: 'Virgo', libra: 'Libra', escorpio: 'Escorpio',
-  sagitario: 'Sagitario', capricornio: 'Capricornio', acuario: 'Acuario', piscis: 'Piscis',
-};
+/**
+ * Los 12 signos, en el orden del zodiaco. El nombre del fichero **es** el
+ * identificador (`aries.svg` → `'aries'`), así que aquí no hay tabla de
+ * traducción: solo la lista que dice cuáles tienen que estar y en qué orden.
+ */
+const SIGNS = [
+  'aries', 'taurus', 'gemini', 'cancer', 'leo', 'virgo',
+  'libra', 'scorpio', 'sagittarius', 'capricorn', 'aquarius', 'pisces',
+];
 
 const fail = (message) => {
   console.error(`✗ ${message}`);
@@ -90,20 +93,19 @@ const parsed = {};
 let sizes = new Set();
 
 for (const file of files) {
-  const key = file.replace('.svg', '');
-  const sign = SIGN_BY_FILE[key];
-  if (!sign) fail(`${file}: no hay signo para este fichero. ¿Se ha añadido una constelación?`);
+  const sign = file.replace('.svg', '');
+  if (!SIGNS.includes(sign)) fail(`${file}: "${sign}" no es un signo. ¿Se ha añadido una constelación?`);
   const data = parse(readFileSync(join(SVG_DIR, file), 'utf8'), file);
   sizes.add(data.size);
   parsed[sign] = data;
 }
 
-const missing = Object.values(SIGN_BY_FILE).filter((s) => !(s in parsed));
+const missing = SIGNS.filter((s) => !(s in parsed));
 if (missing.length) fail(`faltan constelaciones: ${missing.join(', ')}`);
 if (sizes.size !== 1) fail(`los lienzos no coinciden: ${[...sizes].join(', ')}`);
 
 // Se emite en el orden del zodiaco, no en el alfabético de `readdir`.
-const ordered = Object.values(SIGN_BY_FILE).map((sign) => [sign, parsed[sign]]);
+const ordered = SIGNS.map((sign) => [sign, parsed[sign]]);
 const canvas = [...sizes][0];
 
 const body = ordered.map(([sign, { paths, stars }]) => {

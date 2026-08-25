@@ -12,7 +12,7 @@
  */
 
 /** Reglas astrológicas del BRD §6, en la forma en que el modelo las necesita. */
-const REGLAS_ASTROLOGICAS = `
+const ASTROLOGY_RULES = `
 ## Cómo se traduce la astrología al perro
 
 Planetas (BRD §6.3):
@@ -41,7 +41,7 @@ Aspectos: conjunción 0° fusiona · sextil 60° facilita · cuadratura 90° ten
 trígono 120° fluye · oposición 180° polariza.
 
 El día lo manda el tránsito (BRD §6.7): la Luna cambia de signo cada ~2,5 días y es el
-motor del estado de ánimo. Los aspectos de la Luna a los planetas natales son el evento
+motor del estado de ánimo. Los aspects de la Luna a los planetas natales son el evento
 concreto de la jornada.
 
 **Los datos astronómicos vienen dados y son exactos.** Se calculan con efemérides
@@ -50,7 +50,7 @@ exactamente las que recibas.
 `.trim();
 
 /** Tono de marca. Deriva de BRD §11.1 y de los principios de UX de §11.3. */
-const TONO = `
+const TONE = `
 ## Tono
 
 Escribes para alguien que quiere a su perro y sabe perfectamente que la astrología es
@@ -67,7 +67,7 @@ un juego. Ese pacto es la clave: ni te disculpas por ello ni finges que es cienc
 `.trim();
 
 /** Guardarraíl de salud, literal del BRD §7.5. Es la parte que no se relaja. */
-const PROHIBICIONES = `
+const BANNED = `
 ## Prohibido — sin excepciones
 
 Esta app es entretenimiento y toca un asunto sensible: la salud de un animal. Un texto
@@ -85,7 +85,7 @@ legal y ético. Por tanto **nunca**:
 
 **Redirect obligatorio.** Si el contenido roza cualquier señal de que un perro pudiera
 estar mal —apatía, no comer, temblores, esconderse—, el fragmento tiene que remitir al
-veterinario de forma explícita, con la palabra "veterinario", y en el campo \`consejo\`.
+veterinario de forma explícita, con la palabra "veterinario", y en el campo \`advice\`.
 Ejemplo válido: "Si la apatía dura varios días, coméntalo con tu veterinario."
 
 Si un tránsito te empuja hacia terreno de salud, cambia de ángulo: habla de rutina, de
@@ -99,21 +99,21 @@ hay que regenerarlo. No es una advertencia: es un filtro que corre siempre.
  * Forma de la salida. El esquema ya la impone; aquí se explica el *por qué*.
  *
  * Los tres últimos campos nacieron para el diario, y en el catálogo hay que
- * releerlos: un fragmento permanente no tiene "hoy". Ver `esquema.mjs`.
+ * releerlos: un fragmento permanente no tiene "hoy". Ver `schema.mjs`.
  */
-const FORMA = `
+const SHAPE = `
 ## Forma de la salida
 
 Devuelves un único objeto con estos cinco campos:
 
-- \`titular\`: 12–60 caracteres. Un gancho de una línea, sin punto final y sin
+- \`headline\`: 12–60 caracteres. Un gancho de una línea, sin punto final y sin
   preguntas retóricas.
 - \`cuerpo\`: 80–320 caracteres. Dos o tres frases: la astrología traducida a conducta
   canina observable.
-- \`consejo\`: 20–140 caracteres. Una acción concreta y benigna —juego, paseo, rutina,
+- \`advice\`: 20–140 caracteres. Una acción concreta y benigna —juego, paseo, rutina,
   caricias, descanso—. Nunca salud ni comida terapéutica.
-- \`puntuacion_energia\`: entero de 1 (manta) a 5 (correr).
-- \`color_del_dia\`: uno de "oro", "fuego", "tierra", "aire", "agua". Es el nombre de un
+- \`energyScore\`: entero de 1 (manta) a 5 (correr).
+- \`colorOfDay\`: uno de "gold", "fire", "earth", "air", "water". Es el nombre de un
   token de color de la app, no un color libre: cualquier otro valor se rechaza.
 
 Los límites de longitud son duros: el texto va en una tarjeta de tamaño fijo y lo que
@@ -128,30 +128,30 @@ usuario puede ver este fragmento sin haber visto ninguno de los demás.
  * Lo que cambia cuando el fragmento no es de un día, sino de siempre.
  *
  * Va al final a propósito: es la última instrucción que el modelo lee, y
- * corrige la lectura diaria que `FORMA` arrastra por sus nombres de campo.
+ * corrige la lectura diaria que `SHAPE` arrastra por sus nombres de campo.
  */
-const CATALOGO_PERMANENTE = `
+const PERMANENT_CATALOG = `
 ## Este fragmento es permanente
 
 Se escribe una vez y se lee durante años, junto a la posición que interpreta. Por tanto:
 
 - **No existe "hoy".** Nada de "esta semana", "ahora mismo", "estos días", ni ninguna
   referencia temporal. Describes cómo *es* este perro, no cómo está una jornada.
-- \`puntuacion_energia\` es el nivel característico de esta posición, no el de un día.
-- \`color_del_dia\` es el color que representa esta posición. El nombre del campo dice
+- \`energyScore\` es el nivel característico de esta posición, no el de un día.
+- \`colorOfDay\` es el color que representa esta posición. El nombre del campo dice
   "del día" por herencia del horóscopo diario: ignóralo, aquí no lo es.
-- \`consejo\` es una costumbre que le viene bien siempre a un perro así, no un plan
+- \`advice\` es una costumbre que le viene bien siempre a un perro así, no un plan
   para una tarde concreta.
 `.trim();
 
 /**
  * System prompt completo.
  *
- * @param {{familia?: 'diario'|'catalogo'}} [opciones]
+ * @param {{family?: 'daily'|'catalog'}} [options]
  */
-export function systemPrompt({ familia = 'diario' } = {}) {
+export function systemPrompt({ family = 'daily' } = {}) {
   const contexto =
-    familia === 'diario'
+    family === 'daily'
       ? 'Escribes los fragmentos del horóscopo diario. Cada uno cubre un eje —el cielo del día, o cómo ese cielo toca al Sol, la Luna o el Ascendente de la mascota— y se muestra en su propia tarjeta.'
       : 'Escribes fragmentos del catálogo permanente: interpretaciones que no dependen de una fecha y se generan una sola vez para toda la vida de la app. Van a envejecer mucho mejor si evitas referencias a la actualidad.';
 
@@ -159,16 +159,16 @@ export function systemPrompt({ familia = 'diario' } = {}) {
     'Eres el redactor de Dogstrology, una app de astrología para perros.',
     contexto,
     '',
-    REGLAS_ASTROLOGICAS,
+    ASTROLOGY_RULES,
     '',
-    TONO,
+    TONE,
     '',
-    PROHIBICIONES,
+    BANNED,
     '',
-    FORMA,
-    ...(familia === 'catalogo' ? ['', CATALOGO_PERMANENTE] : []),
+    SHAPE,
+    ...(family === 'catalog' ? ['', PERMANENT_CATALOG] : []),
   ].join('\n');
 }
 
 /** Piezas sueltas, para poder testear cada bloque por separado. */
-export const BLOQUES = { REGLAS_ASTROLOGICAS, TONO, PROHIBICIONES, FORMA, CATALOGO_PERMANENTE };
+export const BLOCKS = { ASTROLOGY_RULES, TONE, BANNED, SHAPE, PERMANENT_CATALOG };

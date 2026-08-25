@@ -10,7 +10,7 @@ const BIRTH = { date: '2025-12-14', accuracy: 'exact' as const };
 describe('ListPetsUseCase', () => {
   it('devuelve las mascotas creadas', async () => {
     const repository = new InMemoryPetRepository();
-    await CreatePetUseCase.create({ repository }).execute({ name: 'Baloo', species: 'perro', birth: BIRTH });
+    await CreatePetUseCase.create({ repository }).execute({ name: 'Baloo', species: 'dog', birth: BIRTH });
 
     const pets = await ListPetsUseCase.create({ repository }).execute();
 
@@ -21,7 +21,7 @@ describe('ListPetsUseCase', () => {
 describe('GetPetUseCase', () => {
   it('devuelve la mascota si existe', async () => {
     const repository = new InMemoryPetRepository();
-    const created = await CreatePetUseCase.create({ repository }).execute({ name: 'Baloo', species: 'perro', birth: BIRTH });
+    const created = await CreatePetUseCase.create({ repository }).execute({ name: 'Baloo', species: 'dog', birth: BIRTH });
 
     const fetched = await GetPetUseCase.create({ repository }).execute({ id: created.id() });
 

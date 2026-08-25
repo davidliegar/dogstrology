@@ -1,10 +1,10 @@
 import { Model } from '@/_kernel/architecture';
 import type { PlanetId } from './PlanetPosition';
 
-export const ASPECT_TYPES = ['Conjunción', 'Sextil', 'Cuadratura', 'Trígono', 'Oposición'] as const;
+export const ASPECT_TYPES = ['conjunction', 'sextile', 'square', 'trine', 'opposition'] as const;
 export type AspectType = (typeof ASPECT_TYPES)[number];
 
-export const ASPECT_NATURES = ['fusión', 'facilidad', 'tensión', 'armonía', 'polaridad'] as const;
+export const ASPECT_NATURES = ['fusion', 'ease', 'tension', 'harmony', 'polarity'] as const;
 export type AspectNature = (typeof ASPECT_NATURES)[number];
 
 export interface ChartAspectData {

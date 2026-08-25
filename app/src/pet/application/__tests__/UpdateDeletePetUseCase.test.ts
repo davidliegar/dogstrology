@@ -9,7 +9,7 @@ const BIRTH = { date: '2025-12-14', accuracy: 'exact' as const };
 describe('UpdatePetUseCase', () => {
   it('aplica los cambios sobre la mascota existente vía Pet.withChanges()', async () => {
     const repository = new InMemoryPetRepository();
-    const created = await CreatePetUseCase.create({ repository }).execute({ name: 'Baloo', species: 'perro', birth: BIRTH });
+    const created = await CreatePetUseCase.create({ repository }).execute({ name: 'Baloo', species: 'dog', birth: BIRTH });
 
     const updated = await UpdatePetUseCase.create({ repository }).execute({
       id: created.id(),
@@ -31,7 +31,7 @@ describe('UpdatePetUseCase', () => {
 describe('DeletePetUseCase', () => {
   it('borra lógicamente: desaparece de list() pero Pet.deleted() no pierde datos', async () => {
     const repository = new InMemoryPetRepository();
-    const created = await CreatePetUseCase.create({ repository }).execute({ name: 'Baloo', species: 'perro', birth: BIRTH });
+    const created = await CreatePetUseCase.create({ repository }).execute({ name: 'Baloo', species: 'dog', birth: BIRTH });
 
     await DeletePetUseCase.create({ repository }).execute({ id: created.id() });
 

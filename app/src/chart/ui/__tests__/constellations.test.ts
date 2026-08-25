@@ -13,8 +13,8 @@ describe('constelaciones generadas', () => {
 
   /** La tabla de `design/constelaciones/README.md`, palabra por palabra. */
   const ESTRELLAS_ESPERADAS: Record<string, number> = {
-    Aries: 4, Tauro: 12, Géminis: 12, Cáncer: 5, Leo: 9, Virgo: 13,
-    Libra: 6, Escorpio: 14, Sagitario: 25, Capricornio: 10, Acuario: 15, Piscis: 22,
+    aries: 4, taurus: 12, gemini: 12, cancer: 5, leo: 9, virgo: 13,
+    libra: 6, scorpio: 14, sagittarius: 25, capricorn: 10, aquarius: 15, pisces: 22,
   };
 
   it.each(SIGNS)('%s conserva sus estrellas y su dominante', (sign) => {
