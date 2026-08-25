@@ -1,0 +1,5 @@
+node_modules/
+.DS_Store
+
+# Caché de catálogos estelares descargados (1,2 MB). `catalogo.json` sí se versiona.
+design/constelaciones/.cache/

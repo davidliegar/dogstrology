@@ -1,0 +1,50 @@
+<!--
+  Sagitario — generado por plot.mjs desde catalogo.json. NO editar a mano.
+
+  25 estrellas del asterismo convencional, en posición real
+  (J2000). El radio de cada punto sale de su magnitud aparente.
+  Estrella dominante: Kaus Australis (mag 1.79).
+
+  Color en dos ranuras: .lineas → colors.constellationLine · .nodos → constellationNode.
+  currentColor es solo el valor por defecto.
+-->
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"
+     fill="none" stroke="currentColor" stroke-width="2"
+     stroke-linecap="round" stroke-linejoin="round"
+     role="img" aria-label="Constelación de Sagitario">
+
+  <g class="lineas" opacity="0.32">
+    <path d="M387.4 344.3 L368.4 312.3 L377.6 250.9 L357.3 191.5 L398.6 132.8" />
+    <path d="M198.2 448 L194.5 396.2 L256.5 251.6 L305.8 212.7 L357.3 191.5" />
+    <path d="M103.2 413.1 L90.2 324.3 L101.5 203.4 L157.2 184.3 L190.5 179.2 L218.8 189.3 L277.8 203.3 L305.8 212.7 L377.6 250.9 L421.8 258.9 L368.4 312.3 L256.5 251.6 L243.9 221.8 L277.8 203.3 L250.4 142 L235.6 132.3 L212.7 104.4 L201 89.5 L200.8 64" />
+    <path d="M250.4 142 L270.7 133.4 L281 155.5 L277.8 203.3" />
+  </g>
+
+  <g class="nodos" fill="currentColor" stroke="none">
+    <circle cx="387.4" cy="344.3" r="5.7" /> <!-- Hamalwarid -->
+    <circle class="dominante" cx="368.4" cy="312.3" r="7.5" /> <!-- Kaus Australis -->
+    <circle cx="377.6" cy="250.9" r="6.2" /> <!-- Kaus Media -->
+    <circle cx="357.3" cy="191.5" r="6.1" /> <!-- Kaus Borealis -->
+    <circle cx="398.6" cy="132.8" r="4.6" /> <!-- Polis -->
+    <circle cx="198.2" cy="448" r="4.5" /> <!-- Arkab Prior -->
+    <circle cx="194.5" cy="396.2" r="4.5" /> <!-- Rukbat -->
+    <circle cx="256.5" cy="251.6" r="6.4" /> <!-- Ascella -->
+    <circle cx="305.8" cy="212.7" r="5.6" /> <!-- Namalsadirah -->
+    <circle cx="103.2" cy="413.1" r="4.2" />
+    <circle cx="90.2" cy="324.3" r="3.9" />
+    <circle cx="101.5" cy="203.4" r="3.4" /> <!-- Terebellum -->
+    <circle cx="157.2" cy="184.3" r="3.6" />
+    <circle cx="190.5" cy="179.2" r="3" />
+    <circle cx="218.8" cy="189.3" r="3.2" /> <!-- Al Kiladah -->
+    <circle cx="277.8" cy="203.3" r="7.1" /> <!-- Nunki -->
+    <circle cx="421.8" cy="258.9" r="5.8" /> <!-- Alnasl -->
+    <circle cx="243.9" cy="221.8" r="5.4" />
+    <circle cx="250.4" cy="142" r="4.7" /> <!-- Manubrij -->
+    <circle cx="235.6" cy="132.3" r="6" /> <!-- Albaldah -->
+    <circle cx="212.7" cy="104.4" r="3.2" />
+    <circle cx="201" cy="89.5" r="4.5" />
+    <circle cx="200.8" cy="64" r="3.7" />
+    <circle cx="270.7" cy="133.4" r="5.1" />
+    <circle cx="281" cy="155.5" r="3.2" /> <!-- Ainalrami -->
+  </g>
+</svg>

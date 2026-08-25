@@ -1,0 +1,10 @@
+{
+  "name": "dogstrology-pipeline",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "Pipeline de build del contenido: genera, filtra y publica. Nunca corre en runtime.",
+  "scripts": {
+    "test": "node --test \"test/*.test.mjs\""
+  }
+}

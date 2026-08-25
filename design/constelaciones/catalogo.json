@@ -1,0 +1,1819 @@
+{
+  "fuentes": [
+    {
+      "clave": "lineas",
+      "url": "https://raw.githubusercontent.com/ofrohn/d3-celestial/master/data/constellations.lines.json",
+      "cita": "d3-celestial (Olaf Frohn), data/constellations.lines.json — licencia BSD-3-Clause",
+      "da": "trazado convencional del asterismo, con las coordenadas de cada vértice"
+    },
+    {
+      "clave": "estrellas",
+      "url": "https://raw.githubusercontent.com/ofrohn/d3-celestial/master/data/stars.6.json",
+      "cita": "d3-celestial (Olaf Frohn), data/stars.6.json — derivado del catálogo Hipparcos",
+      "da": "estrellas hasta magnitud ~6, con HIP, RA/Dec (J2000) y magnitud aparente"
+    },
+    {
+      "clave": "nombres",
+      "url": "https://raw.githubusercontent.com/ofrohn/d3-celestial/master/data/starnames.json",
+      "cita": "d3-celestial (Olaf Frohn), data/starnames.json — nomenclatura IAU",
+      "da": "nombre propio y designación de Bayer por HIP"
+    }
+  ],
+  "nota": "Derivado, no editar a mano: se regenera con `node catalogo.mjs`. Los vértices del trazado convencional se emparejan con su estrella del catálogo por proximidad (tolerancia 0.05°) para recuperar HIP, nombre y magnitud.",
+  "generado": "2026-08-21",
+  "constelaciones": [
+    {
+      "abrev": "Ari",
+      "nombre": "Aries",
+      "estrellas": [
+        {
+          "hip": 13209,
+          "nombre": "Bharani",
+          "bayer": "c",
+          "ra": 42.496,
+          "dec": 27.2605,
+          "mag": 3.61,
+          "separacion": 0
+        },
+        {
+          "hip": 9884,
+          "nombre": "Hamal",
+          "bayer": "α",
+          "ra": 31.7934,
+          "dec": 23.4624,
+          "mag": 2.01,
+          "separacion": 0
+        },
+        {
+          "hip": 8903,
+          "nombre": "Sheratan",
+          "bayer": "β",
+          "ra": 28.66,
+          "dec": 20.808,
+          "mag": 2.64,
+          "separacion": 0
+        },
+        {
+          "hip": 8832,
+          "nombre": "Mesarthim",
+          "bayer": "γ1",
+          "ra": 28.3826,
+          "dec": 19.2939,
+          "mag": 3.88,
+          "separacion": 0
+        }
+      ],
+      "segmentos": [
+        [
+          0,
+          1,
+          2,
+          3
+        ]
+      ],
+      "dominante": 9884
+    },
+    {
+      "abrev": "Tau",
+      "nombre": "Tauro",
+      "estrellas": [
+        {
+          "hip": 26451,
+          "nombre": "Tianguan",
+          "bayer": "ζ",
+          "ra": 84.4112,
+          "dec": 21.1425,
+          "mag": 2.97,
+          "separacion": 0
+        },
+        {
+          "hip": 21421,
+          "nombre": "Aldebaran",
+          "bayer": "α",
+          "ra": 68.9802,
+          "dec": 16.5093,
+          "mag": 0.87,
+          "separacion": 0
+        },
+        {
+          "hip": 20894,
+          "nombre": "Chamukuy",
+          "bayer": "θ2",
+          "ra": 67.1656,
+          "dec": 15.8709,
+          "mag": 3.4,
+          "separacion": 0
+        },
+        {
+          "hip": 20205,
+          "nombre": "Prima Hyadum",
+          "bayer": "γ",
+          "ra": 64.9483,
+          "dec": 15.6276,
+          "mag": 3.65,
+          "separacion": 0
+        },
+        {
+          "hip": 20455,
+          "nombre": "Secunda Hyadum",
+          "bayer": "δ",
+          "ra": 65.7337,
+          "dec": 17.5425,
+          "mag": 3.77,
+          "separacion": 0
+        },
+        {
+          "hip": 20889,
+          "nombre": "Ain",
+          "bayer": "ε",
+          "ra": 67.1542,
+          "dec": 19.1804,
+          "mag": 3.53,
+          "separacion": 0
+        },
+        {
+          "hip": 25428,
+          "nombre": "Elnath",
+          "bayer": "β",
+          "ra": 81.573,
+          "dec": 28.6075,
+          "mag": 1.65,
+          "separacion": 0
+        },
+        {
+          "hip": 18724,
+          "nombre": null,
+          "bayer": "λ",
+          "ra": 60.1701,
+          "dec": 12.4903,
+          "mag": 3.41,
+          "separacion": 0
+        },
+        {
+          "hip": 16083,
+          "nombre": null,
+          "bayer": "ξ",
+          "ra": 51.7923,
+          "dec": 9.7327,
+          "mag": 3.73,
+          "separacion": 0
+        },
+        {
+          "hip": 18907,
+          "nombre": null,
+          "bayer": "ν",
+          "ra": 60.7891,
+          "dec": 5.9893,
+          "mag": 3.91,
+          "separacion": 0
+        },
+        {
+          "hip": 15900,
+          "nombre": null,
+          "bayer": "ο",
+          "ra": 51.2033,
+          "dec": 9.0289,
+          "mag": 3.61,
+          "separacion": 0
+        },
+        {
+          "hip": 16852,
+          "nombre": null,
+          "bayer": "10",
+          "ra": 54.2183,
+          "dec": 0.4017,
+          "mag": 4.29,
+          "separacion": 0
+        }
+      ],
+      "segmentos": [
+        [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6
+        ],
+        [
+          3,
+          7,
+          8,
+          9
+        ],
+        [
+          8,
+          10,
+          11
+        ]
+      ],
+      "dominante": 21421
+    },
+    {
+      "abrev": "Gem",
+      "nombre": "Géminis",
+      "estrellas": [
+        {
+          "hip": 29655,
+          "nombre": "Propus",
+          "bayer": "η",
+          "ra": 93.7194,
+          "dec": 22.5068,
+          "mag": 3.31,
+          "separacion": 0
+        },
+        {
+          "hip": 30343,
+          "nombre": "Tejat",
+          "bayer": "μ",
+          "ra": 95.7401,
+          "dec": 22.5136,
+          "mag": 2.87,
+          "separacion": 0
+        },
+        {
+          "hip": 32246,
+          "nombre": "Mebsuta",
+          "bayer": "ε",
+          "ra": 100.983,
+          "dec": 25.1311,
+          "mag": 3.06,
+          "separacion": 0
+        },
+        {
+          "hip": 34693,
+          "nombre": null,
+          "bayer": "τ",
+          "ra": 107.7849,
+          "dec": 30.2452,
+          "mag": 4.41,
+          "separacion": 0
+        },
+        {
+          "hip": 36850,
+          "nombre": "Castor",
+          "bayer": "α",
+          "ra": 113.6494,
+          "dec": 31.8883,
+          "mag": 1.58,
+          "separacion": 0
+        },
+        {
+          "hip": 37826,
+          "nombre": "Pollux",
+          "bayer": "β",
+          "ra": 116.329,
+          "dec": 28.0262,
+          "mag": 1.16,
+          "separacion": 0
+        },
+        {
+          "hip": 36962,
+          "nombre": null,
+          "bayer": "υ",
+          "ra": 113.9806,
+          "dec": 26.8957,
+          "mag": 4.06,
+          "separacion": 0
+        },
+        {
+          "hip": 35550,
+          "nombre": "Wasat",
+          "bayer": "δ",
+          "ra": 110.0307,
+          "dec": 21.9823,
+          "mag": 3.5,
+          "separacion": 0
+        },
+        {
+          "hip": 34088,
+          "nombre": "Mekbuda",
+          "bayer": "ζ",
+          "ra": 106.0272,
+          "dec": 20.5703,
+          "mag": 4.01,
+          "separacion": 0
+        },
+        {
+          "hip": 31681,
+          "nombre": "Alhena",
+          "bayer": "γ",
+          "ra": 99.4279,
+          "dec": 16.3993,
+          "mag": 1.93,
+          "separacion": 0
+        },
+        {
+          "hip": 32362,
+          "nombre": "Alzirr",
+          "bayer": "ξ",
+          "ra": 101.3224,
+          "dec": 12.8956,
+          "mag": 3.35,
+          "separacion": 0
+        },
+        {
+          "hip": 35350,
+          "nombre": null,
+          "bayer": "λ",
+          "ra": 109.5232,
+          "dec": 16.5404,
+          "mag": 3.58,
+          "separacion": 0
+        }
+      ],
+      "segmentos": [
+        [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10
+        ],
+        [
+          7,
+          11
+        ]
+      ],
+      "dominante": 37826
+    },
+    {
+      "abrev": "Cnc",
+      "nombre": "Cáncer",
+      "estrellas": [
+        {
+          "hip": 44066,
+          "nombre": "Acubens",
+          "bayer": "α",
+          "ra": 134.6218,
+          "dec": 11.8577,
+          "mag": 4.26,
+          "separacion": 0
+        },
+        {
+          "hip": 42911,
+          "nombre": "Asellus Australis",
+          "bayer": "δ",
+          "ra": 131.1712,
+          "dec": 18.1543,
+          "mag": 3.94,
+          "separacion": 0
+        },
+        {
+          "hip": 42806,
+          "nombre": "Asellus Borealis",
+          "bayer": "γ",
+          "ra": 130.8214,
+          "dec": 21.4685,
+          "mag": 4.66,
+          "separacion": 0
+        },
+        {
+          "hip": 43103,
+          "nombre": "Zubanah",
+          "bayer": "ι",
+          "ra": 131.6743,
+          "dec": 28.7599,
+          "mag": 4.03,
+          "separacion": 0.0085
+        },
+        {
+          "hip": 40526,
+          "nombre": "Tarf",
+          "bayer": "β",
+          "ra": 124.1288,
+          "dec": 9.1855,
+          "mag": 3.53,
+          "separacion": 0
+        }
+      ],
+      "segmentos": [
+        [
+          0,
+          1,
+          2,
+          3
+        ],
+        [
+          1,
+          4
+        ]
+      ],
+      "dominante": 40526
+    },
+    {
+      "abrev": "Leo",
+      "nombre": "Leo",
+      "estrellas": [
+        {
+          "hip": 49669,
+          "nombre": "Regulus",
+          "bayer": "α",
+          "ra": 152.093,
+          "dec": 11.9672,
+          "mag": 1.36,
+          "separacion": 0
+        },
+        {
+          "hip": 49583,
+          "nombre": "Al Jabhah",
+          "bayer": "η",
+          "ra": 151.8331,
+          "dec": 16.7627,
+          "mag": 3.48,
+          "separacion": 0
+        },
+        {
+          "hip": 50583,
+          "nombre": "Algieba",
+          "bayer": "γ1",
+          "ra": 154.9931,
+          "dec": 19.8415,
+          "mag": 2.01,
+          "separacion": 0
+        },
+        {
+          "hip": 54872,
+          "nombre": "Zosma",
+          "bayer": "δ",
+          "ra": 168.5271,
+          "dec": 20.5237,
+          "mag": 2.56,
+          "separacion": 0
+        },
+        {
+          "hip": 57632,
+          "nombre": "Denebola",
+          "bayer": "β",
+          "ra": 177.2649,
+          "dec": 14.5721,
+          "mag": 2.14,
+          "separacion": 0
+        },
+        {
+          "hip": 54879,
+          "nombre": "Chertan",
+          "bayer": "θ",
+          "ra": 168.56,
+          "dec": 15.4296,
+          "mag": 3.33,
+          "separacion": 0
+        },
+        {
+          "hip": 50335,
+          "nombre": "Adhafera",
+          "bayer": "ζ",
+          "ra": 154.1726,
+          "dec": 23.4173,
+          "mag": 3.43,
+          "separacion": 0
+        },
+        {
+          "hip": 48455,
+          "nombre": "Rasalas",
+          "bayer": "μ",
+          "ra": 148.1909,
+          "dec": 26.007,
+          "mag": 3.88,
+          "separacion": 0
+        },
+        {
+          "hip": 47908,
+          "nombre": "Algenubi",
+          "bayer": "ε",
+          "ra": 146.4628,
+          "dec": 23.7743,
+          "mag": 2.97,
+          "separacion": 0
+        }
+      ],
+      "segmentos": [
+        [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          0
+        ],
+        [
+          2,
+          6,
+          7,
+          8
+        ]
+      ],
+      "dominante": 49669
+    },
+    {
+      "abrev": "Vir",
+      "nombre": "Virgo",
+      "estrellas": [
+        {
+          "hip": 57380,
+          "nombre": null,
+          "bayer": "ν",
+          "ra": 176.4648,
+          "dec": 6.5294,
+          "mag": 4.04,
+          "separacion": 0
+        },
+        {
+          "hip": 57757,
+          "nombre": "Zavijava",
+          "bayer": "β",
+          "ra": 177.6738,
+          "dec": 1.7647,
+          "mag": 3.59,
+          "separacion": 0
+        },
+        {
+          "hip": 60129,
+          "nombre": "Zaniah",
+          "bayer": "η",
+          "ra": -175.0235,
+          "dec": -0.6668,
+          "mag": 3.89,
+          "separacion": 0
+        },
+        {
+          "hip": 61941,
+          "nombre": "Porrima",
+          "bayer": "γ",
+          "ra": -169.5848,
+          "dec": -1.4494,
+          "mag": 2.74,
+          "separacion": 0
+        },
+        {
+          "hip": 64238,
+          "nombre": "Apami-Atsa",
+          "bayer": "θ",
+          "ra": -162.5125,
+          "dec": -5.539,
+          "mag": 4.38,
+          "separacion": 0
+        },
+        {
+          "hip": 65474,
+          "nombre": "Spica",
+          "bayer": "α",
+          "ra": -158.7018,
+          "dec": -11.1613,
+          "mag": 0.98,
+          "separacion": 0
+        },
+        {
+          "hip": 69701,
+          "nombre": "Syrma",
+          "bayer": "ι",
+          "ra": -145.9964,
+          "dec": -6.0005,
+          "mag": 4.07,
+          "separacion": 0
+        },
+        {
+          "hip": 71957,
+          "nombre": "Rijl al Awwa",
+          "bayer": "μ",
+          "ra": -139.2349,
+          "dec": -5.6582,
+          "mag": 3.87,
+          "separacion": 0
+        },
+        {
+          "hip": 63608,
+          "nombre": "Vindemiatrix",
+          "bayer": "ε",
+          "ra": -164.4558,
+          "dec": 10.9592,
+          "mag": 2.85,
+          "separacion": 0
+        },
+        {
+          "hip": 63090,
+          "nombre": "Minelauva",
+          "bayer": "δ",
+          "ra": -166.0991,
+          "dec": 3.3975,
+          "mag": 3.39,
+          "separacion": 0
+        },
+        {
+          "hip": 66249,
+          "nombre": "Heze",
+          "bayer": "ζ",
+          "ra": -156.3267,
+          "dec": -0.5958,
+          "mag": 3.38,
+          "separacion": 0
+        },
+        {
+          "hip": 68520,
+          "nombre": null,
+          "bayer": "τ",
+          "ra": -149.5884,
+          "dec": 1.5445,
+          "mag": 4.23,
+          "separacion": 0
+        },
+        {
+          "hip": 72220,
+          "nombre": null,
+          "bayer": "109",
+          "ra": -138.4378,
+          "dec": 1.8929,
+          "mag": 3.73,
+          "separacion": 0
+        }
+      ],
+      "segmentos": [
+        [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7
+        ],
+        [
+          8,
+          9,
+          3
+        ],
+        [
+          4,
+          10,
+          11,
+          12
+        ]
+      ],
+      "dominante": 65474
+    },
+    {
+      "abrev": "Lib",
+      "nombre": "Libra",
+      "estrellas": [
+        {
+          "hip": 73714,
+          "nombre": "Brachium",
+          "bayer": "σ",
+          "ra": -133.9824,
+          "dec": -25.282,
+          "mag": 3.25,
+          "separacion": 0
+        },
+        {
+          "hip": 72622,
+          "nombre": "Zubenelgenubi",
+          "bayer": "α2",
+          "ra": -137.2804,
+          "dec": -16.0418,
+          "mag": 2.75,
+          "separacion": 0
+        },
+        {
+          "hip": 74785,
+          "nombre": "Zubeneschamali",
+          "bayer": "β",
+          "ra": -130.7483,
+          "dec": -9.3829,
+          "mag": 2.61,
+          "separacion": 0
+        },
+        {
+          "hip": 76333,
+          "nombre": "Zubenelhakrabi",
+          "bayer": "γ",
+          "ra": -126.1184,
+          "dec": -14.7895,
+          "mag": 3.91,
+          "separacion": 0
+        },
+        {
+          "hip": 76470,
+          "nombre": null,
+          "bayer": "υ",
+          "ra": -125.744,
+          "dec": -28.1351,
+          "mag": 3.6,
+          "separacion": 0
+        },
+        {
+          "hip": 76600,
+          "nombre": null,
+          "bayer": "τ",
+          "ra": -125.336,
+          "dec": -29.7778,
+          "mag": 3.66,
+          "separacion": 0
+        }
+      ],
+      "segmentos": [
+        [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5
+        ],
+        [
+          1,
+          3
+        ]
+      ],
+      "dominante": 74785
+    },
+    {
+      "abrev": "Sco",
+      "nombre": "Escorpio",
+      "estrellas": [
+        {
+          "hip": 78265,
+          "nombre": "Fang",
+          "bayer": "π",
+          "ra": -120.287,
+          "dec": -26.1141,
+          "mag": 2.89,
+          "separacion": 0
+        },
+        {
+          "hip": 78401,
+          "nombre": "Dschubba",
+          "bayer": "δ",
+          "ra": -119.9166,
+          "dec": -22.6217,
+          "mag": 2.29,
+          "separacion": 0
+        },
+        {
+          "hip": 78820,
+          "nombre": "Acrab",
+          "bayer": "β1",
+          "ra": -118.6407,
+          "dec": -19.8055,
+          "mag": 2.56,
+          "separacion": 0
+        },
+        {
+          "hip": 80112,
+          "nombre": "Alniyat",
+          "bayer": "σ",
+          "ra": -114.7028,
+          "dec": -25.5928,
+          "mag": 2.9,
+          "separacion": 0
+        },
+        {
+          "hip": 80763,
+          "nombre": "Antares",
+          "bayer": "α",
+          "ra": -112.6481,
+          "dec": -26.432,
+          "mag": 1.06,
+          "separacion": 0
+        },
+        {
+          "hip": 81266,
+          "nombre": "Paikauhale",
+          "bayer": "τ",
+          "ra": -111.0294,
+          "dec": -28.216,
+          "mag": 2.82,
+          "separacion": 0
+        },
+        {
+          "hip": 82396,
+          "nombre": "Larawag",
+          "bayer": "ε",
+          "ra": -107.4591,
+          "dec": -34.2932,
+          "mag": 2.29,
+          "separacion": 0
+        },
+        {
+          "hip": 82514,
+          "nombre": "Xamidimura",
+          "bayer": "μ1",
+          "ra": -107.0324,
+          "dec": -38.0474,
+          "mag": 3,
+          "separacion": 0
+        },
+        {
+          "hip": 82729,
+          "nombre": "Grafias",
+          "bayer": "ζ2",
+          "ra": -106.3541,
+          "dec": -42.3613,
+          "mag": 3.62,
+          "separacion": 0
+        },
+        {
+          "hip": 84143,
+          "nombre": null,
+          "bayer": "η",
+          "ra": -101.9617,
+          "dec": -43.2392,
+          "mag": 3.32,
+          "separacion": 0
+        },
+        {
+          "hip": 86228,
+          "nombre": "Sargas",
+          "bayer": "θ",
+          "ra": -95.6703,
+          "dec": -42.9978,
+          "mag": 1.86,
+          "separacion": 0
+        },
+        {
+          "hip": 87073,
+          "nombre": "Girtab",
+          "bayer": "ι1",
+          "ra": -93.1038,
+          "dec": -40.127,
+          "mag": 2.99,
+          "separacion": 0
+        },
+        {
+          "hip": 86670,
+          "nombre": "Mula",
+          "bayer": "κ",
+          "ra": -94.378,
+          "dec": -39.03,
+          "mag": 2.39,
+          "separacion": 0
+        },
+        {
+          "hip": 85927,
+          "nombre": "Shaula",
+          "bayer": "λ",
+          "ra": -96.5978,
+          "dec": -37.1038,
+          "mag": 1.62,
+          "separacion": 0
+        }
+      ],
+      "segmentos": [
+        [
+          0,
+          1,
+          2
+        ],
+        [
+          1,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13
+        ]
+      ],
+      "dominante": 80763
+    },
+    {
+      "abrev": "Sgr",
+      "nombre": "Sagitario",
+      "estrellas": [
+        {
+          "hip": 89642,
+          "nombre": "Hamalwarid",
+          "bayer": "η",
+          "ra": -85.5932,
+          "dec": -36.7617,
+          "mag": 3.1,
+          "separacion": 0
+        },
+        {
+          "hip": 90185,
+          "nombre": "Kaus Australis",
+          "bayer": "ε",
+          "ra": -83.957,
+          "dec": -34.3846,
+          "mag": 1.79,
+          "separacion": 0
+        },
+        {
+          "hip": 89931,
+          "nombre": "Kaus Media",
+          "bayer": "δ",
+          "ra": -84.7515,
+          "dec": -29.8281,
+          "mag": 2.72,
+          "separacion": 0
+        },
+        {
+          "hip": 90496,
+          "nombre": "Kaus Borealis",
+          "bayer": "λ",
+          "ra": -83.0073,
+          "dec": -25.4217,
+          "mag": 2.82,
+          "separacion": 0
+        },
+        {
+          "hip": 89341,
+          "nombre": "Polis",
+          "bayer": "μ",
+          "ra": -86.5591,
+          "dec": -21.0588,
+          "mag": 3.84,
+          "separacion": 0
+        },
+        {
+          "hip": 95241,
+          "nombre": "Arkab Prior",
+          "bayer": "β1",
+          "ra": -69.3404,
+          "dec": -44.459,
+          "mag": 3.96,
+          "separacion": 0
+        },
+        {
+          "hip": 95347,
+          "nombre": "Rukbat",
+          "bayer": "α",
+          "ra": -69.0284,
+          "dec": -40.6159,
+          "mag": 3.96,
+          "separacion": 0
+        },
+        {
+          "hip": 93506,
+          "nombre": "Ascella",
+          "bayer": "ζ",
+          "ra": -74.347,
+          "dec": -29.8801,
+          "mag": 2.6,
+          "separacion": 0
+        },
+        {
+          "hip": 92041,
+          "nombre": "Namalsadirah",
+          "bayer": "φ",
+          "ra": -78.5859,
+          "dec": -26.9908,
+          "mag": 3.17,
+          "separacion": 0
+        },
+        {
+          "hip": 98032,
+          "nombre": null,
+          "bayer": "ι",
+          "ra": -61.1846,
+          "dec": -41.8683,
+          "mag": 4.12,
+          "separacion": 0
+        },
+        {
+          "hip": 98412,
+          "nombre": null,
+          "bayer": "θ1",
+          "ra": -60.0659,
+          "dec": -35.2763,
+          "mag": 4.37,
+          "separacion": 0
+        },
+        {
+          "hip": 98066,
+          "nombre": "Terebellum",
+          "bayer": "ω",
+          "ra": -61.0402,
+          "dec": -26.2995,
+          "mag": 4.7,
+          "separacion": 0
+        },
+        {
+          "hip": 96465,
+          "nombre": null,
+          "bayer": "h2",
+          "ra": -65.8232,
+          "dec": -24.8836,
+          "mag": 4.59,
+          "separacion": 0
+        },
+        {
+          "hip": 95477,
+          "nombre": null,
+          "bayer": "χ1",
+          "ra": -68.6813,
+          "dec": -24.5086,
+          "mag": 5.02,
+          "separacion": 0
+        },
+        {
+          "hip": 94643,
+          "nombre": "Al Kiladah",
+          "bayer": "ψ",
+          "ra": -71.1149,
+          "dec": -25.2567,
+          "mag": 4.86,
+          "separacion": 0
+        },
+        {
+          "hip": 92855,
+          "nombre": "Nunki",
+          "bayer": "σ",
+          "ra": -76.1836,
+          "dec": -26.2967,
+          "mag": 2.05,
+          "separacion": 0
+        },
+        {
+          "hip": 88635,
+          "nombre": "Alnasl",
+          "bayer": "γ2",
+          "ra": -88.548,
+          "dec": -30.4241,
+          "mag": 2.98,
+          "separacion": 0
+        },
+        {
+          "hip": 93864,
+          "nombre": null,
+          "bayer": "τ",
+          "ra": -73.265,
+          "dec": -27.6704,
+          "mag": 3.32,
+          "separacion": 0
+        },
+        {
+          "hip": 93683,
+          "nombre": "Manubrij",
+          "bayer": "ο",
+          "ra": -73.8292,
+          "dec": -21.7415,
+          "mag": 3.76,
+          "separacion": 0
+        },
+        {
+          "hip": 94141,
+          "nombre": "Albaldah",
+          "bayer": "π",
+          "ra": -72.559,
+          "dec": -21.0236,
+          "mag": 2.88,
+          "separacion": 0
+        },
+        {
+          "hip": 94820,
+          "nombre": null,
+          "bayer": "d",
+          "ra": -70.5913,
+          "dec": -18.9529,
+          "mag": 4.88,
+          "separacion": 0
+        },
+        {
+          "hip": 95168,
+          "nombre": null,
+          "bayer": "ρ1",
+          "ra": -69.5818,
+          "dec": -17.8472,
+          "mag": 3.92,
+          "separacion": 0
+        },
+        {
+          "hip": 95176,
+          "nombre": null,
+          "bayer": "υ",
+          "ra": -69.5682,
+          "dec": -15.955,
+          "mag": 4.52,
+          "separacion": 0
+        },
+        {
+          "hip": 93085,
+          "nombre": null,
+          "bayer": "ξ2",
+          "ra": -75.5675,
+          "dec": -21.1067,
+          "mag": 3.52,
+          "separacion": 0
+        },
+        {
+          "hip": 92761,
+          "nombre": "Ainalrami",
+          "bayer": "ν1",
+          "ra": -76.4576,
+          "dec": -22.7448,
+          "mag": 4.86,
+          "separacion": 0
+        }
+      ],
+      "segmentos": [
+        [
+          0,
+          1,
+          2,
+          3,
+          4
+        ],
+        [
+          5,
+          6,
+          7,
+          8,
+          3
+        ],
+        [
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15,
+          8,
+          2,
+          16,
+          1,
+          7,
+          17,
+          15,
+          18,
+          19,
+          20,
+          21,
+          22
+        ],
+        [
+          18,
+          23,
+          24,
+          15
+        ]
+      ],
+      "dominante": 90185
+    },
+    {
+      "abrev": "Cap",
+      "nombre": "Capricornio",
+      "estrellas": [
+        {
+          "hip": 100027,
+          "nombre": "Prima Giedi",
+          "bayer": "α1",
+          "ra": -55.588,
+          "dec": -12.5082,
+          "mag": 4.3,
+          "separacion": 0
+        },
+        {
+          "hip": 100345,
+          "nombre": "Dabih",
+          "bayer": "β",
+          "ra": -54.7472,
+          "dec": -14.7814,
+          "mag": 3.05,
+          "separacion": 0
+        },
+        {
+          "hip": 101027,
+          "nombre": null,
+          "bayer": "ρ",
+          "ra": -52.7849,
+          "dec": -17.8137,
+          "mag": 4.77,
+          "separacion": 0
+        },
+        {
+          "hip": 102485,
+          "nombre": "Wei",
+          "bayer": "ψ",
+          "ra": -48.4761,
+          "dec": -25.2709,
+          "mag": 4.13,
+          "separacion": 0
+        },
+        {
+          "hip": 102978,
+          "nombre": null,
+          "bayer": "ω",
+          "ra": -47.0446,
+          "dec": -26.9191,
+          "mag": 4.12,
+          "separacion": 0
+        },
+        {
+          "hip": 105881,
+          "nombre": "Yen",
+          "bayer": "ζ",
+          "ra": -38.3332,
+          "dec": -22.4113,
+          "mag": 3.77,
+          "separacion": 0
+        },
+        {
+          "hip": 107556,
+          "nombre": "Deneb Algedi",
+          "bayer": "δ",
+          "ra": -33.2398,
+          "dec": -16.1273,
+          "mag": 2.85,
+          "separacion": 0
+        },
+        {
+          "hip": 106985,
+          "nombre": "Nashira",
+          "bayer": "γ",
+          "ra": -34.9773,
+          "dec": -16.6623,
+          "mag": 3.69,
+          "separacion": 0
+        },
+        {
+          "hip": 105515,
+          "nombre": null,
+          "bayer": "ι",
+          "ra": -39.4383,
+          "dec": -16.8345,
+          "mag": 4.28,
+          "separacion": 0
+        },
+        {
+          "hip": 104139,
+          "nombre": null,
+          "bayer": "θ",
+          "ra": -43.5132,
+          "dec": -17.2329,
+          "mag": 4.08,
+          "separacion": 0
+        }
+      ],
+      "segmentos": [
+        [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          0
+        ]
+      ],
+      "dominante": 107556
+    },
+    {
+      "abrev": "Aqr",
+      "nombre": "Acuario",
+      "estrellas": [
+        {
+          "hip": 102618,
+          "nombre": "Albali",
+          "bayer": "ε",
+          "ra": -48.081,
+          "dec": -9.4958,
+          "mag": 3.78,
+          "separacion": 0
+        },
+        {
+          "hip": 103045,
+          "nombre": "Albulan",
+          "bayer": "μ",
+          "ra": -46.8365,
+          "dec": -8.9833,
+          "mag": 4.73,
+          "separacion": 0
+        },
+        {
+          "hip": 106278,
+          "nombre": "Sadalsuud",
+          "bayer": "β",
+          "ra": -37.1103,
+          "dec": -5.5712,
+          "mag": 2.9,
+          "separacion": 0
+        },
+        {
+          "hip": 109074,
+          "nombre": "Sadalmelik",
+          "bayer": "α",
+          "ra": -28.554,
+          "dec": -0.3199,
+          "mag": 2.95,
+          "separacion": 0
+        },
+        {
+          "hip": 110395,
+          "nombre": "Sadachbia",
+          "bayer": "γ",
+          "ra": -24.5859,
+          "dec": -1.3873,
+          "mag": 3.86,
+          "separacion": 0
+        },
+        {
+          "hip": 110960,
+          "nombre": "Sadaltager",
+          "bayer": "ζ1",
+          "ra": -22.792,
+          "dec": -0.02,
+          "mag": 3.65,
+          "separacion": 0
+        },
+        {
+          "hip": 111497,
+          "nombre": null,
+          "bayer": "η",
+          "ra": -21.1609,
+          "dec": -0.1175,
+          "mag": 4.04,
+          "separacion": 0
+        },
+        {
+          "hip": 112961,
+          "nombre": "Hydor",
+          "bayer": "λ",
+          "ra": -16.8464,
+          "dec": -7.5796,
+          "mag": 3.73,
+          "separacion": 0
+        },
+        {
+          "hip": 115033,
+          "nombre": null,
+          "bayer": "ψ2",
+          "ra": -10.5241,
+          "dec": -9.1825,
+          "mag": 4.41,
+          "separacion": 0
+        },
+        {
+          "hip": 114341,
+          "nombre": null,
+          "bayer": "c2",
+          "ra": -12.6383,
+          "dec": -21.1724,
+          "mag": 3.68,
+          "separacion": 0
+        },
+        {
+          "hip": 109139,
+          "nombre": null,
+          "bayer": "ι",
+          "ra": -28.3907,
+          "dec": -13.8697,
+          "mag": 4.29,
+          "separacion": 0
+        },
+        {
+          "hip": 110003,
+          "nombre": "Ancha",
+          "bayer": "θ",
+          "ra": -25.7915,
+          "dec": -7.7833,
+          "mag": 4.17,
+          "separacion": 0
+        },
+        {
+          "hip": 110672,
+          "nombre": "Seat",
+          "bayer": "π",
+          "ra": -23.6807,
+          "dec": 1.3774,
+          "mag": 4.8,
+          "separacion": 0
+        },
+        {
+          "hip": 115438,
+          "nombre": null,
+          "bayer": "b1",
+          "ra": -9.2574,
+          "dec": -20.1006,
+          "mag": 3.96,
+          "separacion": 0
+        },
+        {
+          "hip": 116901,
+          "nombre": null,
+          "bayer": "A2",
+          "ra": -4.5591,
+          "dec": -17.8165,
+          "mag": 4.82,
+          "separacion": 0
+        }
+      ],
+      "segmentos": [
+        [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9
+        ],
+        [
+          2,
+          10
+        ],
+        [
+          3,
+          11
+        ],
+        [
+          5,
+          12
+        ],
+        [
+          13,
+          8,
+          14
+        ]
+      ],
+      "dominante": 106278
+    },
+    {
+      "abrev": "Psc",
+      "nombre": "Piscis",
+      "estrellas": [
+        {
+          "hip": 5742,
+          "nombre": null,
+          "bayer": "φ",
+          "ra": 18.4373,
+          "dec": 24.5837,
+          "mag": 4.67,
+          "separacion": 0
+        },
+        {
+          "hip": 5586,
+          "nombre": null,
+          "bayer": "τ",
+          "ra": 17.9152,
+          "dec": 30.0896,
+          "mag": 4.51,
+          "separacion": 0
+        },
+        {
+          "hip": 6193,
+          "nombre": null,
+          "bayer": "υ",
+          "ra": 19.8666,
+          "dec": 27.2641,
+          "mag": 4.74,
+          "separacion": 0
+        },
+        {
+          "hip": 5571,
+          "nombre": null,
+          "bayer": "χ",
+          "ra": 17.8634,
+          "dec": 21.0347,
+          "mag": 4.66,
+          "separacion": 0
+        },
+        {
+          "hip": 7097,
+          "nombre": "Alpherg",
+          "bayer": "η",
+          "ra": 22.8709,
+          "dec": 15.3458,
+          "mag": 3.62,
+          "separacion": 0
+        },
+        {
+          "hip": 8198,
+          "nombre": "Torcular",
+          "bayer": "ο",
+          "ra": 26.3485,
+          "dec": 9.1577,
+          "mag": 4.26,
+          "separacion": 0
+        },
+        {
+          "hip": 9487,
+          "nombre": "Alrescha",
+          "bayer": "α",
+          "ra": 30.5118,
+          "dec": 2.7638,
+          "mag": 3.82,
+          "separacion": 0
+        },
+        {
+          "hip": 8833,
+          "nombre": null,
+          "bayer": "ξ",
+          "ra": 28.389,
+          "dec": 3.1875,
+          "mag": 4.61,
+          "separacion": 0
+        },
+        {
+          "hip": 7884,
+          "nombre": null,
+          "bayer": "ν",
+          "ra": 25.3579,
+          "dec": 5.4876,
+          "mag": 4.45,
+          "separacion": 0
+        },
+        {
+          "hip": 7007,
+          "nombre": null,
+          "bayer": "μ",
+          "ra": 22.5463,
+          "dec": 6.1438,
+          "mag": 4.84,
+          "separacion": 0
+        },
+        {
+          "hip": 5737,
+          "nombre": "Revati",
+          "bayer": "ζ",
+          "ra": 18.4329,
+          "dec": 7.5754,
+          "mag": 5.21,
+          "separacion": 0
+        },
+        {
+          "hip": 4906,
+          "nombre": null,
+          "bayer": "ε",
+          "ra": 15.7359,
+          "dec": 7.8901,
+          "mag": 4.27,
+          "separacion": 0
+        },
+        {
+          "hip": 3786,
+          "nombre": "Kuton",
+          "bayer": "δ",
+          "ra": 12.1706,
+          "dec": 7.5851,
+          "mag": 4.44,
+          "separacion": 0
+        },
+        {
+          "hip": 118268,
+          "nombre": null,
+          "bayer": "ω",
+          "ra": -0.1721,
+          "dec": 6.8633,
+          "mag": 4.03,
+          "separacion": 0
+        },
+        {
+          "hip": 116771,
+          "nombre": null,
+          "bayer": "ι",
+          "ra": -5.0123,
+          "dec": 5.6263,
+          "mag": 4.13,
+          "separacion": 0
+        },
+        {
+          "hip": 115830,
+          "nombre": null,
+          "bayer": "θ",
+          "ra": -8.0079,
+          "dec": 6.379,
+          "mag": 4.27,
+          "separacion": 0
+        },
+        {
+          "hip": 115227,
+          "nombre": null,
+          "bayer": "b",
+          "ra": -9.9142,
+          "dec": 5.3813,
+          "mag": 5.05,
+          "separacion": 0
+        },
+        {
+          "hip": 114971,
+          "nombre": null,
+          "bayer": "γ",
+          "ra": -10.7086,
+          "dec": 3.2823,
+          "mag": 3.7,
+          "separacion": 0
+        },
+        {
+          "hip": 115738,
+          "nombre": null,
+          "bayer": "κ",
+          "ra": -8.2669,
+          "dec": 1.2556,
+          "mag": 4.95,
+          "separacion": 0
+        },
+        {
+          "hip": 116928,
+          "nombre": null,
+          "bayer": "λ",
+          "ra": -4.4883,
+          "dec": 1.78,
+          "mag": 4.49,
+          "separacion": 0
+        },
+        {
+          "hip": 117245,
+          "nombre": null,
+          "bayer": "19",
+          "ra": -3.402,
+          "dec": 3.4868,
+          "mag": 4.95,
+          "separacion": 0
+        },
+        {
+          "hip": 113889,
+          "nombre": "Fumalsamakah",
+          "bayer": "β",
+          "ra": -14.0308,
+          "dec": 3.82,
+          "mag": 4.48,
+          "separacion": 0
+        }
+      ],
+      "segmentos": [
+        [
+          0,
+          1,
+          2,
+          0,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15,
+          16,
+          17,
+          18,
+          19,
+          20,
+          14
+        ],
+        [
+          17,
+          21
+        ]
+      ],
+      "dominante": 7097
+    }
+  ],
+  "marca": [
+    {
+      "abrev": "CMa",
+      "nombre": "Canis Major",
+      "estrellas": [
+        {
+          "hip": 30324,
+          "nombre": "Mirzam",
+          "bayer": "β",
+          "ra": 95.6749,
+          "dec": -17.9559,
+          "mag": 1.98,
+          "separacion": 0
+        },
+        {
+          "hip": 32349,
+          "nombre": "Sirius",
+          "bayer": "α",
+          "ra": 101.2872,
+          "dec": -16.7161,
+          "mag": -1.44,
+          "separacion": 0
+        },
+        {
+          "hip": 33977,
+          "nombre": "Al Zara",
+          "bayer": "ο2",
+          "ra": 105.7561,
+          "dec": -23.8333,
+          "mag": 3.02,
+          "separacion": 0
+        },
+        {
+          "hip": 34444,
+          "nombre": "Wezen",
+          "bayer": "δ",
+          "ra": 107.0979,
+          "dec": -26.3932,
+          "mag": 1.83,
+          "separacion": 0
+        },
+        {
+          "hip": 33856,
+          "nombre": "Unurgunite",
+          "bayer": "σ",
+          "ra": 105.4298,
+          "dec": -27.9348,
+          "mag": 3.49,
+          "separacion": 0
+        },
+        {
+          "hip": 33579,
+          "nombre": "Adhara",
+          "bayer": "ε",
+          "ra": 104.6565,
+          "dec": -28.9721,
+          "mag": 1.5,
+          "separacion": 0
+        },
+        {
+          "hip": 30122,
+          "nombre": "Furud",
+          "bayer": "ζ",
+          "ra": 95.0783,
+          "dec": -30.0634,
+          "mag": 3.02,
+          "separacion": 0
+        },
+        {
+          "hip": 35904,
+          "nombre": "Aludra",
+          "bayer": "η",
+          "ra": 111.0238,
+          "dec": -29.3031,
+          "mag": 2.45,
+          "separacion": 0
+        },
+        {
+          "hip": 33347,
+          "nombre": null,
+          "bayer": "ι",
+          "ra": 104.0343,
+          "dec": -17.0542,
+          "mag": 4.36,
+          "separacion": 0
+        },
+        {
+          "hip": 34045,
+          "nombre": "Muliphein",
+          "bayer": "γ",
+          "ra": 105.9396,
+          "dec": -15.6333,
+          "mag": 4.11,
+          "separacion": 0
+        },
+        {
+          "hip": 33160,
+          "nombre": null,
+          "bayer": "θ",
+          "ra": 103.5475,
+          "dec": -12.0386,
+          "mag": 4.08,
+          "separacion": 0
+        }
+      ],
+      "segmentos": [
+        [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6
+        ],
+        [
+          7,
+          3
+        ],
+        [
+          1,
+          8,
+          9,
+          10,
+          8
+        ]
+      ],
+      "dominante": 32349
+    }
+  ]
+}

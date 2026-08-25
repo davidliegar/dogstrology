@@ -1,0 +1,37 @@
+<!--
+  Virgo — generado por plot.mjs desde catalogo.json. NO editar a mano.
+
+  13 estrellas del asterismo convencional, en posición real
+  (J2000). El radio de cada punto sale de su magnitud aparente.
+  Estrella dominante: Spica (mag 0.98).
+
+  Color en dos ranuras: .lineas → colors.constellationLine · .nodos → constellationNode.
+  currentColor es solo el valor por defecto.
+-->
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"
+     fill="none" stroke="currentColor" stroke-width="2"
+     stroke-linecap="round" stroke-linejoin="round"
+     role="img" aria-label="Constelación de Virgo">
+
+  <g class="lineas" opacity="0.32">
+    <path d="M448 199.5 L437.7 240.1 L375.5 260.8 L329.2 267.5 L269 302.3 L236.5 350.2 L128.4 306.2 L70.8 303.3" />
+    <path d="M285.5 161.8 L299.5 226.2 L329.2 267.5" />
+    <path d="M269 302.3 L216.3 260.2 L158.9 242 L64 239" />
+  </g>
+
+  <g class="nodos" fill="currentColor" stroke="none">
+    <circle cx="448" cy="199.5" r="4.3" />
+    <circle cx="437.7" cy="240.1" r="5" /> <!-- Zavijava -->
+    <circle cx="375.5" cy="260.8" r="4.6" /> <!-- Zaniah -->
+    <circle cx="329.2" cy="267.5" r="6.2" /> <!-- Porrima -->
+    <circle cx="269" cy="302.3" r="3.9" /> <!-- Apami-Atsa -->
+    <circle class="dominante" cx="236.5" cy="350.2" r="8.6" /> <!-- Spica -->
+    <circle cx="128.4" cy="306.2" r="4.3" /> <!-- Syrma -->
+    <circle cx="70.8" cy="303.3" r="4.6" /> <!-- Rijl al Awwa -->
+    <circle cx="285.5" cy="161.8" r="6" /> <!-- Vindemiatrix -->
+    <circle cx="299.5" cy="226.2" r="5.3" /> <!-- Minelauva -->
+    <circle cx="216.3" cy="260.2" r="5.3" /> <!-- Heze -->
+    <circle cx="158.9" cy="242" r="4.1" />
+    <circle cx="64" cy="239" r="4.8" />
+  </g>
+</svg>

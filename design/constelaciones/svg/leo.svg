@@ -1,0 +1,32 @@
+<!--
+  Leo — generado por plot.mjs desde catalogo.json. NO editar a mano.
+
+  9 estrellas del asterismo convencional, en posición real
+  (J2000). El radio de cada punto sale de su magnitud aparente.
+  Estrella dominante: Regulus (mag 1.36).
+
+  Color en dos ranuras: .lineas → colors.constellationLine · .nodos → constellationNode.
+  currentColor es solo el valor por defecto.
+-->
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"
+     fill="none" stroke="currentColor" stroke-width="2"
+     stroke-linecap="round" stroke-linejoin="round"
+     role="img" aria-label="Constelación de Leo">
+
+  <g class="lineas" opacity="0.32">
+    <path d="M377.8 348.6 L381.1 285.3 L341.7 244.7 L172.9 235.7 L64 314.2 L172.5 302.9 L377.8 348.6" />
+    <path d="M341.7 244.7 L351.9 197.6 L426.5 163.4 L448 192.9" />
+  </g>
+
+  <g class="nodos" fill="currentColor" stroke="none">
+    <circle class="dominante" cx="377.8" cy="348.6" r="8.1" /> <!-- Regulus -->
+    <circle cx="381.1" cy="285.3" r="5.1" /> <!-- Al Jabhah -->
+    <circle cx="341.7" cy="244.7" r="7.2" /> <!-- Algieba -->
+    <circle cx="172.9" cy="235.7" r="6.4" /> <!-- Zosma -->
+    <circle cx="64" cy="314.2" r="7" /> <!-- Denebola -->
+    <circle cx="172.5" cy="302.9" r="5.3" /> <!-- Chertan -->
+    <circle cx="351.9" cy="197.6" r="5.2" /> <!-- Adhafera -->
+    <circle cx="426.5" cy="163.4" r="4.6" /> <!-- Rasalas -->
+    <circle cx="448" cy="192.9" r="5.8" /> <!-- Algenubi -->
+  </g>
+</svg>

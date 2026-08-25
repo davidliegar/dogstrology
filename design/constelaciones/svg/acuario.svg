@@ -1,0 +1,41 @@
+<!--
+  Acuario — generado por plot.mjs desde catalogo.json. NO editar a mano.
+
+  15 estrellas del asterismo convencional, en posición real
+  (J2000). El radio de cada punto sale de su magnitud aparente.
+  Estrella dominante: Sadalsuud (mag 2.9).
+
+  Color en dos ranuras: .lineas → colors.constellationLine · .nodos → constellationNode.
+  currentColor es solo el valor por defecto.
+-->
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"
+     fill="none" stroke="currentColor" stroke-width="2"
+     stroke-linecap="round" stroke-linejoin="round"
+     role="img" aria-label="Constelación de Acuario">
+
+  <g class="lineas" opacity="0.32">
+    <path d="M448 252.4 L437 247.8 L351.2 217.3 L275.7 170.2 L240.7 179.8 L224.9 167.5 L210.5 168.4 L172.4 235.2 L116.6 249.6 L135.3 357" />
+    <path d="M351.2 217.3 L274.3 291.6" />
+    <path d="M275.7 170.2 L251.3 237.1" />
+    <path d="M224.9 167.5 L232.7 155" />
+    <path d="M105.5 347.4 L116.6 249.6 L64 326.9" />
+  </g>
+
+  <g class="nodos" fill="currentColor" stroke="none">
+    <circle cx="448" cy="252.4" r="4.7" /> <!-- Albali -->
+    <circle cx="437" cy="247.8" r="3.4" /> <!-- Albulan -->
+    <circle class="dominante" cx="351.2" cy="217.3" r="5.9" /> <!-- Sadalsuud -->
+    <circle cx="275.7" cy="170.2" r="5.9" /> <!-- Sadalmelik -->
+    <circle cx="240.7" cy="179.8" r="4.6" /> <!-- Sadachbia -->
+    <circle cx="224.9" cy="167.5" r="4.9" /> <!-- Sadaltager -->
+    <circle cx="210.5" cy="168.4" r="4.3" />
+    <circle cx="172.4" cy="235.2" r="4.8" /> <!-- Hydor -->
+    <circle cx="116.6" cy="249.6" r="3.8" />
+    <circle cx="135.3" cy="357" r="4.8" />
+    <circle cx="274.3" cy="291.6" r="4" />
+    <circle cx="251.3" cy="237.1" r="4.2" /> <!-- Ancha -->
+    <circle cx="232.7" cy="155" r="3.3" /> <!-- Seat -->
+    <circle cx="105.5" cy="347.4" r="4.5" />
+    <circle cx="64" cy="326.9" r="3.3" />
+  </g>
+</svg>

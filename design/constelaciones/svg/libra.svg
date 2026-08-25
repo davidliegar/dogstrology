@@ -1,0 +1,29 @@
+<!--
+  Libra — generado por plot.mjs desde catalogo.json. NO editar a mano.
+
+  6 estrellas del asterismo convencional, en posición real
+  (J2000). El radio de cada punto sale de su magnitud aparente.
+  Estrella dominante: Zubeneschamali (mag 2.61).
+
+  Color en dos ranuras: .lineas → colors.constellationLine · .nodos → constellationNode.
+  currentColor es solo el valor por defecto.
+-->
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"
+     fill="none" stroke="currentColor" stroke-width="2"
+     stroke-linecap="round" stroke-linejoin="round"
+     role="img" aria-label="Constelación de Libra">
+
+  <g class="lineas" opacity="0.32">
+    <path d="M303.4 363.4 L361.9 189.4 L246.1 64 L163.9 165.8 L157.3 417.1 L150.1 448" />
+    <path d="M361.9 189.4 L163.9 165.8" />
+  </g>
+
+  <g class="nodos" fill="currentColor" stroke="none">
+    <circle cx="303.4" cy="363.4" r="5.5" /> <!-- Brachium -->
+    <circle cx="361.9" cy="189.4" r="6.2" /> <!-- Zubenelgenubi -->
+    <circle class="dominante" cx="246.1" cy="64" r="6.3" /> <!-- Zubeneschamali -->
+    <circle cx="163.9" cy="165.8" r="4.5" /> <!-- Zubenelhakrabi -->
+    <circle cx="157.3" cy="417.1" r="5" />
+    <circle cx="150.1" cy="448" r="4.9" />
+  </g>
+</svg>

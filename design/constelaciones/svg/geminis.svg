@@ -1,0 +1,35 @@
+<!--
+  Géminis — generado por plot.mjs desde catalogo.json. NO editar a mano.
+
+  12 estrellas del asterismo convencional, en posición real
+  (J2000). El radio de cada punto sale de su magnitud aparente.
+  Estrella dominante: Pollux (mag 1.16).
+
+  Color en dos ranuras: .lineas → colors.constellationLine · .nodos → constellationNode.
+  currentColor es solo el valor por defecto.
+-->
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"
+     fill="none" stroke="currentColor" stroke-width="2"
+     stroke-linecap="round" stroke-linejoin="round"
+     role="img" aria-label="Constelación de Géminis">
+
+  <g class="lineas" opacity="0.32">
+    <path d="M448 253.9 L413.7 253.8 L324.6 205.7 L209.1 111.7 L109.5 81.6 L64 152.5 L103.9 173.3 L171 263.5 L239 289.5 L351 366.1 L318.9 430.4" />
+    <path d="M171 263.5 L179.6 363.5" />
+  </g>
+
+  <g class="nodos" fill="currentColor" stroke="none">
+    <circle cx="448" cy="253.9" r="5.4" /> <!-- Propus -->
+    <circle cx="413.7" cy="253.8" r="6" /> <!-- Tejat -->
+    <circle cx="324.6" cy="205.7" r="5.7" /> <!-- Mebsuta -->
+    <circle cx="209.1" cy="111.7" r="3.8" />
+    <circle cx="109.5" cy="81.6" r="7.8" /> <!-- Castor -->
+    <circle class="dominante" cx="64" cy="152.5" r="8.4" /> <!-- Pollux -->
+    <circle cx="103.9" cy="173.3" r="4.3" />
+    <circle cx="171" cy="263.5" r="5.1" /> <!-- Wasat -->
+    <circle cx="239" cy="289.5" r="4.4" /> <!-- Mekbuda -->
+    <circle cx="351" cy="366.1" r="7.3" /> <!-- Alhena -->
+    <circle cx="318.9" cy="430.4" r="5.3" /> <!-- Alzirr -->
+    <circle cx="179.6" cy="363.5" r="5" />
+  </g>
+</svg>
