@@ -6,6 +6,8 @@ Salida del **Bloque 1** del `PLAN.md`. Referencia: **BRD §11.1–11.2**.
 |---------|--------|
 | `theme.ts` | Tokens. Fuente única de verdad. Se copia tal cual al proyecto Expo en el Bloque 3 |
 | `constelaciones/` | Las 12 constelaciones **reales**, ploteadas desde coordenadas de estrellas. Ver su `README.md` |
+| `componentes.md` | Catálogo de los patrones de UI del proyecto de Claude Design, con sus tokens y notas de implementación en RN |
+| `pantallas-mvp.md` | Mapa de las 13 pantallas maquetadas en Claude Design a feature/bloque de `PLAN.md` |
 
 El sistema **se escribe a mano**; la IA solo produce assets (BRD §11.2.1).
 

@@ -5,6 +5,11 @@
   "type": "module",
   "description": "Pipeline de build del contenido: genera, filtra y publica. Nunca corre en runtime.",
   "scripts": {
-    "test": "node --test \"test/*.test.mjs\""
+    "test": "node --test \"test/*.test.mjs\"",
+    "generar:diario": "node src/generar-diario.mjs",
+    "generar:catalogo": "node src/generar-catalogo.mjs"
+  },
+  "dependencies": {
+    "@anthropic-ai/sdk": "^0.120.0"
   }
 }

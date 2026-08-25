@@ -128,6 +128,30 @@ export const borderWidth = {
 } as const;
 
 // ---------------------------------------------------------------------------
+// Iconografía. Trazo lineal fino, ninguna versión rellena. La esquina redondeada
+// mantiene la proporción del icono al margen del tamaño en que se pinte.
+// ---------------------------------------------------------------------------
+
+export const icon = {
+  stroke: 1.75,
+  size: { s: 16, m: 20, l: 24 },
+  radius: { s: 4, m: 5, l: 6 }, // ≈ 1/4 del lado — chevrons y casillas
+} as const;
+
+/** Símbolos Unicode de planeta y signo (☉ ☽ ♈…♓). No llevan fontFamily propia. */
+export const glyphSize = {
+  compact: 18, // en listas (ficha de planeta, efemérides)
+  standard: 22, // en el grid de los 12 signos
+} as const;
+
+/** Anillo de foco de campo de texto. Mismo dorado que `starGlow`: no es un color nuevo. */
+export const focusRing = {
+  width: 2,
+  gap: 2,
+  color: colors.starGlow,
+} as const;
+
+// ---------------------------------------------------------------------------
 // Tipografía. Fraunces display + Karla cuerpo, ambas con licencia abierta.
 // Los nombres son los que exporta @expo-google-fonts: la cadena de `fontFamily`
 // tiene que coincidir con la variante cargada en `useFonts`.
@@ -261,6 +285,9 @@ export const theme = {
   touchTarget,
   radii,
   borderWidth,
+  icon,
+  glyphSize,
+  focusRing,
   fonts,
   typography,
   glow,

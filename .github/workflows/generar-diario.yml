@@ -1,0 +1,75 @@
+# Genera el diario contra la Batch API y abre un PR con el resultado ya
+# filtrado (BRD §7.4, Capa 2: GitHub Action → Batch API → filtro → PR →
+# revisión humana → merge → Cloudflare Pages).
+#
+# DESACTIVADA A PROPÓSITO: el `schedule` del cron nocturno está comentado.
+# De momento solo se puede lanzar a mano (`workflow_dispatch`), mientras el
+# pipeline se sigue validando con contenido de prueba. Para activar el cron:
+# descomentar el bloque `schedule` de abajo y confirmar que el secreto
+# ANTHROPIC_API_KEY está configurado en Settings → Secrets and variables →
+# Actions del repo (nunca en el código ni en el repo, BRD §7.4).
+name: Generar contenido diario
+
+on:
+  workflow_dispatch:
+    inputs:
+      fecha:
+        description: 'Fecha a generar (AAAA-MM-DD). Vacío = hoy + 7 días (buffer de F12)'
+        required: false
+  # schedule:
+  #   - cron: '0 3 * * *' # 03:00 UTC cada noche
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  generar:
+    runs-on: ubuntu-latest
+    # El batch puede tardar hasta 1h (BRD §7.4); se deja margen de sobra.
+    timeout-minutes: 90
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Instalar dependencias del pipeline
+        working-directory: pipeline
+        run: npm ci
+
+      - name: Calcular fecha objetivo
+        id: fecha
+        run: |
+          if [ -n "${{ github.event.inputs.fecha }}" ]; then
+            echo "valor=${{ github.event.inputs.fecha }}" >> "$GITHUB_OUTPUT"
+          else
+            echo "valor=$(date -u -d '+7 days' +%F)" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Generar el diario contra la Batch API
+        working-directory: pipeline
+        env:
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+        run: node src/generar-diario.mjs --fecha "${{ steps.fecha.outputs.valor }}" --confirmar
+
+      - name: Leer el informe del filtro para el cuerpo del PR
+        id: informe
+        run: |
+          {
+            echo 'texto<<EOF_INFORME'
+            cat "contenido/diario/${{ steps.fecha.outputs.valor }}.informe.md"
+            echo EOF_INFORME
+          } >> "$GITHUB_OUTPUT"
+
+      - name: Abrir PR con el contenido generado
+        uses: peter-evans/create-pull-request@v6
+        with:
+          branch: contenido/diario-${{ steps.fecha.outputs.valor }}
+          commit-message: "contenido: diario ${{ steps.fecha.outputs.valor }}"
+          title: "Contenido diario — ${{ steps.fecha.outputs.valor }}"
+          body: ${{ steps.informe.outputs.texto }}
+          add-paths: |
+            contenido/diario/${{ steps.fecha.outputs.valor }}.json
+            contenido/diario/${{ steps.fecha.outputs.valor }}.informe.md

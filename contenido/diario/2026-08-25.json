@@ -1,0 +1,282 @@
+[
+  {
+    "clave": "fecha=2026-08-25;eje=sol;signo=Piscis",
+    "titular": "Un cielo distraído para un Sol sensible",
+    "cuerpo": "La Luna en Acuario va un paso por delante de tu Sol en Piscis: hoy el mundo de fuera interesa más de lo normal, pero el regazo sigue siendo el plan favorito. Paseo con paradas raras a oler novedades y, al volver, cuerpo pegado al tuyo en el sofá.",
+    "consejo": "Cambia media calle del recorrido de la tarde y reserva diez minutos de sofá compartido al llegar.",
+    "puntuacion_energia": 3,
+    "color_del_dia": "agua"
+  },
+  {
+    "clave": "fecha=2026-08-25;eje=sol;signo=Libra",
+    "titular": "Tu Sol de Libra recibe aire fresco",
+    "cuerpo": "La Luna en Acuario hace trígono con ese Sol en Libra: dos signos de aire que se entienden sin esfuerzo. Espera saludos a todo el que pase, un juguete distinto cada cinco minutos y ganas de seguirte de habitación en habitación sin motivo claro.",
+    "consejo": "Alarga el paseo de la tarde y deja que elija la ruta: hoy el olfateo social le sienta mejor que la pelota.",
+    "puntuacion_energia": 4,
+    "color_del_dia": "aire"
+  },
+  {
+    "clave": "fecha=2026-08-25;eje=ascendente;signo=Virgo",
+    "titular": "Tu Virgo metódico contra un cielo improvisado",
+    "cuerpo": "El Ascendente en Virgo pide orden: misma ruta, mismo horario, mismo rincón para el juguete. Con la Luna en Acuario, hoy se presenta más despistado de lo habitual y puede quedarse mirándote si cambias el plan a media tarde.",
+    "consejo": "Mantén la hora del paseo de siempre y deja los inventos para el final del recorrido.",
+    "puntuacion_energia": 3,
+    "color_del_dia": "aire"
+  },
+  {
+    "clave": "fecha=2026-08-25;eje=sol;signo=Sagitario",
+    "titular": "Trígono de fuego y aire: toca explorar",
+    "cuerpo": "La Luna en Acuario hace trígono a tu Sol de Sagitario y se nota en la calle: olfateo de portal en portal, ganas de saludar a cualquier perro que aparezca y ningún interés en volver por el camino de siempre.",
+    "consejo": "Cambia la ruta del paseo de la tarde y deja que elija el desvío en la primera esquina.",
+    "puntuacion_energia": 4,
+    "color_del_dia": "aire"
+  },
+  {
+    "clave": "fecha=2026-08-25;eje=ascendente;signo=Tauro",
+    "titular": "Tauro fijo contra un cielo con ganas de novedad",
+    "cuerpo": "Tu perro se presenta al mundo como siempre: paso firme, ruta conocida, cero interés en improvisar. La Luna en Acuario tensa ese hábito y hoy puede plantarse en una esquina o quedarse mirando un ruido nuevo tres segundos más de lo normal.",
+    "consejo": "Haz el paseo de siempre, pero deja que elija una calle al final. Novedad pequeña, marco conocido.",
+    "puntuacion_energia": 3,
+    "color_del_dia": "tierra"
+  },
+  {
+    "clave": "fecha=2026-08-25;eje=sol;signo=Aries",
+    "titular": "Tu Aries de siempre, con ideas nuevas",
+    "cuerpo": "La Luna en Acuario hace sextil a tu Sol en Aries: el arranque de toda la vida, pero con la cabeza en otra parte. Espera salidas decididas que cambian de rumbo tres veces y mucho interés por cualquier cosa que no estaba ahí ayer.",
+    "consejo": "Cambia el recorrido del paseo de esta tarde: una calle nueva le va a dar más que la de siempre.",
+    "puntuacion_energia": 4,
+    "color_del_dia": "aire"
+  },
+  {
+    "clave": "fecha=2026-08-25;eje=luna;signo=Tauro",
+    "titular": "Su rincón de siempre contra un cielo disperso",
+    "cuerpo": "La Luna en Acuario forma cuadratura con su Luna en Tauro: el consuelo que pide es el de siempre y hoy el ambiente va por otro lado. Espera que insista en su cama concreta, que te siga de habitación en habitación y que ignore las caricias cuando no las ha pedido.",
+    "consejo": "Respeta su sitio habitual y déjale iniciar el contacto: dos minutos de caricias cuando venga él.",
+    "puntuacion_energia": 2,
+    "color_del_dia": "tierra"
+  },
+  {
+    "clave": "fecha=2026-08-25;eje=ascendente;signo=Sagitario",
+    "titular": "El sextil que abre todas las puertas",
+    "cuerpo": "Tu Ascendente en Sagitario recibe un guiño de la Luna en Acuario: la presentación de hoy es sociable y algo dispersa. Espera tirones hacia cada perro nuevo del parque y un interés repentino por rutas que nunca hacéis.",
+    "consejo": "Alarga el paseo diez minutos y deja que elija la calle en un cruce. Hoy la curiosidad es buena consejera.",
+    "puntuacion_energia": 4,
+    "color_del_dia": "aire"
+  },
+  {
+    "clave": "fecha=2026-08-25;eje=ascendente;signo=Capricornio",
+    "titular": "El perro formal se permite una rareza",
+    "cuerpo": "La Luna en Acuario cruza la casa de sus cosas y Saturno, regente de su Ascendente, va marcha atrás: la fachada seria se afloja. Puede ignorar el juguete de siempre y encapricharse con un palo torcido o un calcetín.",
+    "consejo": "Saca dos juguetes distintos y deja que elija; hoy la novedad le entretiene más que la rutina.",
+    "puntuacion_energia": 3,
+    "color_del_dia": "aire"
+  },
+  {
+    "clave": "fecha=2026-08-25;eje=ascendente;signo=Piscis",
+    "titular": "Cerca de ti, pero a su manera",
+    "cuerpo": "Con Ascendente en Piscis suele leerte la cara antes de que hables, pero la Luna en Acuario le pone hoy una capa de distancia. Espera cordialidad con cierto aire ausente: te mira desde el otro extremo del sofá y decide desde allí si se acerca.",
+    "consejo": "Deja libre un rincón tranquilo y espera a que se acerque: hoy los mimos sientan mejor si los pide primero.",
+    "puntuacion_energia": 2,
+    "color_del_dia": "agua"
+  },
+  {
+    "clave": "fecha=2026-08-25;eje=sol;signo=Escorpio",
+    "titular": "Tu Escorpio intenso contra un cielo distraído",
+    "cuerpo": "La Luna en Acuario hace cuadratura a su Sol: dos signos fijos, ninguno dispuesto a ceder. Espera un perro que te sigue de habitación en habitación y, un minuto después, se queda mirando la ventana como si no existieras.",
+    "consejo": "Saca un juego de olfato con premios escondidos por el salón: canaliza esa fijación sin exigirle obediencia inmediata.",
+    "puntuacion_energia": 3,
+    "color_del_dia": "agua"
+  },
+  {
+    "clave": "fecha=2026-08-25;eje=luna;signo=Cáncer",
+    "titular": "Quiere mimos y espacio, en ese orden",
+    "cuerpo": "La Luna transita Acuario, aire con ganas de independencia, mientras su Luna natal en Cáncer pide contacto. Hoy puede seguirte de habitación en habitación y luego tumbarse a metro y medio de ti, sin más explicación. Los suspiros son puro teatro.",
+    "consejo": "Siéntate en el suelo un rato sin llamar y deja que elija la distancia; si se acerca, caricias largas.",
+    "puntuacion_energia": 2,
+    "color_del_dia": "agua"
+  },
+  {
+    "clave": "fecha=2026-08-25;eje=luna;signo=Capricornio",
+    "titular": "Perro de rutinas que coquetea con la novedad",
+    "cuerpo": "La Luna en Acuario roza tu Luna en Capricornio y el apego se afloja: hoy puede ignorarte un rato para investigar algo raro del suelo. Pero si el paseo se retrasa media hora, ese lado capricorniano protesta sin disimulo.",
+    "consejo": "Mantén los horarios de siempre y mete una sola novedad: una calle distinta en el paseo de la tarde.",
+    "puntuacion_energia": 3,
+    "color_del_dia": "aire"
+  },
+  {
+    "clave": "fecha=2026-08-25;eje=ascendente;signo=Cáncer",
+    "titular": "El casero de siempre, hoy con curiosidad",
+    "cuerpo": "Con Ascendente en Cáncer se presenta prudente: te mira antes de decidir. La Luna en Acuario le empuja hacia lo distinto, así que puede saludar al vecino de siempre desde lejos y luego investigar un portal nuevo con toda la calma del mundo.",
+    "consejo": "Meted una calle que no soléis pisar en el paseo y volved a casa por el camino de siempre.",
+    "puntuacion_energia": 3,
+    "color_del_dia": "agua"
+  },
+  {
+    "clave": "fecha=2026-08-25;eje=luna;signo=Géminis",
+    "titular": "Aire con aire: hoy le apetece el mundo",
+    "cuerpo": "La Luna en Acuario hace trígono a su Luna en Géminis y el apego se le vuelve elástico: te sigue, sí, pero con paradas cada dos metros a investigar. Espera menos sofá pegado a ti y más ganas de olfatear rincones nuevos.",
+    "consejo": "Cambiad la ruta del paseo de siempre y dejadle marcar el ritmo un buen rato.",
+    "puntuacion_energia": 4,
+    "color_del_dia": "aire"
+  },
+  {
+    "clave": "fecha=2026-08-25;eje=sol;signo=Tauro",
+    "titular": "Tauro se planta y el cielo improvisa",
+    "cuerpo": "La Luna en Acuario tensa ese Sol en Tauro: el día empuja hacia lo nuevo y la respuesta es el mismo sitio, el mismo juguete, la misma hora. Si cambias de ruta a mitad del paseo, no te extrañe encontrar cuatro patas plantadas en la acera.",
+    "consejo": "Respeta los horarios de siempre y cuela la novedad en un juego corto de cinco minutos.",
+    "puntuacion_energia": 3,
+    "color_del_dia": "tierra"
+  },
+  {
+    "clave": "fecha=2026-08-25;eje=ascendente;signo=Libra",
+    "titular": "El encanto de siempre, con público nuevo",
+    "cuerpo": "La Luna en Acuario forma trígono con ese Ascendente en Libra: aire con aire, todo fluye. Hoy saluda a desconocidos como si fueran de la familia y se interesa por perros que otros días ignoraba. Con Saturno retrógrado, eso sí, el \"aquí\" llegará con retraso.",
+    "consejo": "Alarga el paseo por una zona con gente y otros perros; hoy la presentación social le sale sola.",
+    "puntuacion_energia": 4,
+    "color_del_dia": "aire"
+  },
+  {
+    "clave": "fecha=2026-08-25;eje=sol;signo=Cáncer",
+    "titular": "Cerca de ti, pero a dos metros",
+    "cuerpo": "El Sol en Cáncer pide regazo y manta; la Luna en Acuario pide aire. Hoy te seguirá de habitación en habitación y luego se tumbará a dos metros, de espaldas, sin dejar de vigilarte por el rabillo del ojo.",
+    "consejo": "Deja que elija el sitio donde tumbarse y acércate tú un rato a hacerle caricias cortas.",
+    "puntuacion_energia": 3,
+    "color_del_dia": "agua"
+  },
+  {
+    "clave": "fecha=2026-08-25;eje=luna;signo=Acuario",
+    "titular": "Tu Luna vuelve a casa y trae espacio propio",
+    "cuerpo": "La Luna de hoy pasa justo por encima de tu Luna natal en Acuario: el apego se expresa a distancia cómoda. Espera compañía en la misma habitación pero no en el regazo, y ratos largos de mirar por la ventana como si pasara algo importante.",
+    "consejo": "Siéntate cerca y deja que elija el sitio; si se levanta y se va a su rincón, no insistas hoy.",
+    "puntuacion_energia": 3,
+    "color_del_dia": "aire"
+  },
+  {
+    "clave": "fecha=2026-08-25;eje=luna;signo=Aries",
+    "titular": "La prisa de siempre, hoy con buenos modales",
+    "cuerpo": "Su Luna en Aries pide todo ahora mismo, pero el sextil con la Luna en Acuario le rebaja la urgencia. Espera menos reclamo en la puerta y más interés por lo nuevo: un olor raro, un perro desconocido, una ruta que no habíais hecho.",
+    "consejo": "Cambia el recorrido del paseo largo y déjale decidir en un par de esquinas.",
+    "puntuacion_energia": 4,
+    "color_del_dia": "aire"
+  },
+  {
+    "clave": "fecha=2026-08-25;eje=luna;signo=Sagitario",
+    "titular": "Curiosidad con ganas de horizonte",
+    "cuerpo": "La Luna en Acuario hace trígono a su Luna natal en Sagitario: apego relajado y cabeza en modo explorador. Hoy tira más de la correa hacia calles nuevas que de tu sofá, y se queda tan tranquilo si sales cinco minutos sin él.",
+    "consejo": "Cambia la ruta del paseo largo y déjale olfatear a su ritmo en un tramo que no conozca.",
+    "puntuacion_energia": 4,
+    "color_del_dia": "aire"
+  },
+  {
+    "clave": "fecha=2026-08-25;eje=sol;signo=Géminis",
+    "titular": "Aire con aire, y todo le interesa",
+    "cuerpo": "La Luna en Acuario hace trígono a su Sol de Géminis y ahí no hay fricción: hoy se distrae con cada portal, cada bici y cada persona que pasa. Responde bien a lo nuevo, aunque tarde tres intentos en soltar el juguete.",
+    "consejo": "Cambia la ruta del paseo de hoy y deja que decida ella en dos o tres esquinas.",
+    "puntuacion_energia": 4,
+    "color_del_dia": "aire"
+  },
+  {
+    "clave": "fecha=2026-08-25;eje=luna;signo=Leo",
+    "titular": "Te reclama y luego se va al otro sofá",
+    "cuerpo": "La Luna en Acuario se opone a su Luna en Leo: hoy quiere aplausos y espacio a la vez. Puede apoyar la cabeza en tu rodilla, aceptar dos caricias y largarse a la alfombra del fondo sin dar explicaciones.",
+    "consejo": "Mimos cortos y frecuentes en lugar de una sesión larga, y déjale elegir dónde tumbarse cuando se aparte.",
+    "puntuacion_energia": 3,
+    "color_del_dia": "aire"
+  },
+  {
+    "clave": "fecha=2026-08-25;eje=luna;signo=Libra",
+    "titular": "Dos aires que se entienden sin discutir",
+    "cuerpo": "La Luna en Acuario roza en trígono a tu Luna en Libra: apego tranquilo, sin dramas de puerta. Hoy busca compañía de la que se conforma con estar en la misma habitación, y saluda a cualquiera que pase por delante.",
+    "consejo": "Salid a una calle con gente y dejad que elija a quién saluda; diez minutos de banco cunden mucho.",
+    "puntuacion_energia": 4,
+    "color_del_dia": "aire"
+  },
+  {
+    "clave": "fecha=2026-08-25;eje=sol;signo=Capricornio",
+    "titular": "Un perro de rutinas prueba calle nueva",
+    "cuerpo": "Tu Sol en Capricornio vive de horarios fijos y de esa manta que siempre está en el mismo sitio. La Luna en Acuario mete algo de novedad: hoy puede alargar los olfateos, pararse en portales que nunca le interesaron y tardar dos segundos más en venir cuando llames.",
+    "consejo": "En el paseo de la tarde, gira por una calle que no soléis pisar y deja que marque el ritmo.",
+    "puntuacion_energia": 3,
+    "color_del_dia": "tierra"
+  },
+  {
+    "clave": "fecha=2026-08-25;eje=ascendente;signo=Aries",
+    "titular": "Entra primero y pregunta después",
+    "cuerpo": "La Luna en Acuario hace sextil a tu Ascendente en Aries: se presenta lanzado, pero hoy con un giro curioso. Va a saludar a perros que normalmente ignora y a investigar cada portal nuevo del barrio. Con Saturno retrógrado, la rutina de siempre le parece negociable.",
+    "consejo": "Cambia la ruta del paseo largo y deja que decida las esquinas: hoy explorar le rinde más que obedecer.",
+    "puntuacion_energia": 4,
+    "color_del_dia": "aire"
+  },
+  {
+    "clave": "fecha=2026-08-25;eje=luna;signo=Virgo",
+    "titular": "Su rutina contra el viento de Acuario",
+    "cuerpo": "La Luna de hoy va en Acuario, dispersa y con ganas de improvisar, y su Luna en Virgo prefiere el horario de siempre. Espera que te siga de habitación en habitación, revise su cama dos veces y pida la cena veinte minutos antes.",
+    "consejo": "Cumple los horarios de hoy al minuto: paseo y cena a la hora de siempre, sin sorpresas.",
+    "puntuacion_energia": 3,
+    "color_del_dia": "tierra"
+  },
+  {
+    "clave": "fecha=2026-08-25;eje=luna;signo=Escorpio",
+    "titular": "Cerca de ti, pero a su manera",
+    "cuerpo": "La Luna en Acuario tensa a tu Luna de Escorpio: hoy el apego se vuelve raro. Te sigue de la cocina al sofá y, cuando te sientas, elige tumbarse a dos metros y mirarte desde allí. No es desapego, es indecisión.",
+    "consejo": "Déjale elegir la distancia: siéntate en el suelo, sin llamarle, y espera a que venga él.",
+    "puntuacion_energia": 2,
+    "color_del_dia": "agua"
+  },
+  {
+    "clave": "fecha=2026-08-25",
+    "titular": "El cielo pide novedad, no repetición",
+    "cuerpo": "La Luna en Acuario dispersa la atención: hoy muchos perros olfatean tres cosas a la vez y responden regular a la llamada. Con la gibosa creciente el cuerpo va sobrado de pila, y con tres planetas retrógrados vuelven manías viejas que creías archivadas.",
+    "consejo": "Cambia la ruta del paseo de siempre: una calle nueva, cinco minutos de olfateo libre y vuelta a casa.",
+    "puntuacion_energia": 4,
+    "color_del_dia": "aire"
+  },
+  {
+    "clave": "fecha=2026-08-25;eje=sol;signo=Virgo",
+    "titular": "Tu metódico de siempre, hoy con ideas raras",
+    "cuerpo": "El Sol en Virgo pide horarios exactos, pero la Luna en Acuario propone lo contrario: un desvío en el paseo, un juguete viejo que de pronto es fascinante. Espera cierta cara de desconcierto si cambias el orden de las cosas.",
+    "consejo": "Cambia solo un detalle: gira por otra calle en el paseo de siempre y deja que olfatee a su ritmo.",
+    "puntuacion_energia": 3,
+    "color_del_dia": "aire"
+  },
+  {
+    "clave": "fecha=2026-08-25;eje=luna;signo=Piscis",
+    "titular": "Cerca de ti, pero a su manera",
+    "cuerpo": "Tu Luna en Piscis pide contacto y el cielo de hoy tira hacia lo distante: te sigue a la cocina, se tumba a dos metros y desde ahí te vigila. Un día de cariño con distancia de seguridad, sin más misterio.",
+    "consejo": "Déjale elegir el sitio. Si se acerca, caricias largas y sin ceremonia; si no, con tenerte a la vista le basta.",
+    "puntuacion_energia": 2,
+    "color_del_dia": "agua"
+  },
+  {
+    "clave": "fecha=2026-08-25;eje=sol;signo=Leo",
+    "titular": "El divo de la casa negocia con la Luna",
+    "cuerpo": "La Luna en Acuario se planta justo enfrente de tu Sol en Leo: hoy pide público y a los dos minutos se va a olisquear una esquina. Espera exhibiciones con el juguete seguidas de retiradas muy dignas al otro sofá.",
+    "consejo": "Dale su rato de aplausos con un juego corto y luego déjale elegir sitio sin insistir.",
+    "puntuacion_energia": 3,
+    "color_del_dia": "aire"
+  },
+  {
+    "clave": "fecha=2026-08-25;eje=ascendente;signo=Leo",
+    "titular": "Presencia de estrella con antojo de independencia",
+    "cuerpo": "La Luna en Acuario se coloca justo enfrente de ese Ascendente en Leo: hoy entra en el salón como quien pisa un escenario, pero a los dos minutos se va a mirar por la ventana. Espera saludos teatrales a desconocidos y un oído selectivo cuando le llames.",
+    "consejo": "Dale público un rato y luego libertad: paseo por una calle nueva, sin prisa y con correa larga.",
+    "puntuacion_energia": 4,
+    "color_del_dia": "aire"
+  },
+  {
+    "clave": "fecha=2026-08-25;eje=ascendente;signo=Escorpio",
+    "titular": "La mirada intensa se cruza con un aire raro",
+    "cuerpo": "Tu Ascendente en Escorpio se presenta al mundo con esa fijeza de siempre, pero la Luna en Acuario le hace cuadratura y hoy tira hacia lo nuevo. Puede quedarse clavado mirando algo diez segundos y luego pasar de largo sin más, o saludar a un desconocido antes que a ti.",
+    "consejo": "Cambia la ruta del paseo por una calle que no conozca y deja que sea quien decida dónde olfatear.",
+    "puntuacion_energia": 3,
+    "color_del_dia": "agua"
+  },
+  {
+    "clave": "fecha=2026-08-25;eje=ascendente;signo=Acuario",
+    "titular": "Hoy va con su propia agenda",
+    "cuerpo": "La Luna pasa por su Ascendente en Acuario y le devuelve su versión más él: sociable con los desconocidos, selectivo con tus llamadas. Espera que se pare a investigar una bolsa de plástico y vuelva luego, encantado, como si nada.",
+    "consejo": "Cambia la ruta del paseo: una calle nueva le dará más hoy que veinte minutos de la de siempre.",
+    "puntuacion_energia": 4,
+    "color_del_dia": "aire"
+  }
+]

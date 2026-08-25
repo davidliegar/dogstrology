@@ -16,7 +16,15 @@ npm test    # 16 tests del guardarraíl de salud, sin dependencias
 | `src/prohibiciones.mjs` | Listas de términos vetados y de señales de preocupación |
 | `src/filtro.mjs` | **Segunda** barrera: corre sobre lo generado, antes de publicar |
 | `src/esquema.mjs` | Salida estructurada: campos, longitudes y enum de color |
+| `src/lote.mjs` | Plumbing de la Batch API: envía, espera y recoge un lote |
+| `src/fragmentos-diario.mjs` | Compone los 37 fragmentos del diario (función pura, sin red) |
+| `src/fragmentos-catalogo.mjs` | Compone el catálogo por categoría (función pura, sin red) |
+| `src/generar-diario.mjs` | CLI: `npm run generar:diario -- --fecha AAAA-MM-DD [--confirmar]` |
+| `src/generar-catalogo.mjs` | CLI: `npm run generar:catalogo -- --categorias id[,id] [--confirmar]` |
+| `src/depurar-lote.mjs` | Diagnóstico puntual: vuelca el JSON crudo de un batch ya terminado (`node src/depurar-lote.mjs <batchId>`) |
 | `test/filtro.test.mjs` | Lo que decide si el filtro sirve |
+| `test/fragmentos-diario.test.mjs` | Los 37 fragmentos del diario están bien compuestos |
+| `test/fragmentos-catalogo.test.mjs` | Las categorías del catálogo cuadran en cantidad y clave |
 
 ## El guardarraíl tiene dos niveles, y la diferencia es el diseño
 
@@ -64,11 +72,46 @@ tipo etiqueta.
    `design/theme.ts`. Con texto libre acabaríamos con degradados morados, que es justo lo
    que el BRD §11.2.2 prohíbe.
 
+## Los scripts de generación
+
+`generar-diario.mjs` y `generar-catalogo.mjs` llaman a la Batch API de verdad,
+pero nunca sin que se lo pidas: sin `--confirmar` solo simulan (imprimen lo
+que enviarían, y en el catálogo una estimación de coste) y no tocan la red.
+El catálogo, además, genera categoría por categoría — un lote y un informe de
+PR por categoría, nunca un PR con 500 y 240 fragmentos mezclados.
+
+De las 4 categorías del catálogo que son MVP (BRD §7.3), solo **aspectos**
+(500) y **planeta en signo/casa** (240) están implementadas. Las otras dos
+están bloqueadas, no pendientes de tiempo:
+
+- **raza × signo** (720): no existe en el repo ninguna lista de las "60 razas
+  principales" que cita el BRD — hace falta decidirla antes de poder generar
+  nada.
+- **personalidad especie×signo/fases/casas** (68): el BRD da el total sin
+  desglose aritmético; con especie=perro (gato queda fuera del MVP) no hay una
+  combinación obvia que dé 68 exacto.
+
+Ver el comentario de `CATEGORIAS_PENDIENTES` en `src/fragmentos-catalogo.mjs`.
+
+## La GitHub Action — montada, pero desactivada a propósito
+
+`.github/workflows/generar-diario.yml` implementa el ciclo completo (Batch
+API → filtro → PR), pero el `schedule` del cron nocturno está comentado: solo
+se puede lanzar a mano (`workflow_dispatch`) hasta que se decida activarlo de
+verdad. Para activarlo: descomentar el bloque `schedule` del fichero y
+configurar el secreto `ANTHROPIC_API_KEY` en Settings → Secrets and variables
+→ Actions del repo (nunca en el código).
+
+Mientras tanto, el desarrollo de la app (Bloque 3+) puede seguir usando el
+contenido de prueba que ya hay en `../contenido/diario/` — ver
+`../contenido/README.md` para el porqué y cuándo sustituirlo.
+
 ## Qué falta
 
-- [ ] Script de generación del diario (37 fragmentos/día, BRD §7.3)
-- [ ] Script de generación del catálogo inmutable (~2.074 fragmentos)
-- [ ] GitHub Action: cron nocturno → Batch API → filtro → PR (D12, D13)
+- [ ] Lista de razas y desglose de personalidad, para las dos categorías del
+      catálogo que faltan
+- [ ] Activar de verdad la GitHub Action (descomentar el cron, secreto
+      configurado) — decisión del usuario, no técnica
 - [ ] Alerta si pasan 2 días sin generar
 - [ ] Despliegue a Cloudflare Pages al mergear (D11)
 - [ ] Firma del JSON, para que la app rechace contenido manipulado (BRD §7.4)
