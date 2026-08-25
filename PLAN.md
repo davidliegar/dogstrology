@@ -47,6 +47,12 @@ Pendiente, sin bloquear el resto del Bloque 3:
 - Activar de verdad la GitHub Action del diario cuando se decida: descomentar
   el `schedule` de `.github/workflows/generar-diario.yml` y configurar el
   secreto `ANTHROPIC_API_KEY` en GitHub
+- **Lanzar `aspectos` + `planeta-signo-casa` — aprobado, pendiente de la clave.**
+  Son 740 fragmentos por **~$3,70**, no los $25 del catálogo completo (esa cifra
+  incluye `raza-signo`, que es el trozo caro y sigue bloqueado por la lista de
+  razas). Es justo lo que consume F3: las hojas de planeta son
+  `planeta=X;signo=Y` y `planeta=X;casa=N`. Falta solo `ANTHROPIC_API_KEY` en el
+  entorno; el prompt ya está corregido para el catálogo (ver registro).
 - Lanzar el catálogo completo de verdad (`--confirmar`, ~$25 una vez) **espera
   luz verde tuya**. Ahora tiene un consumidor concreto esperando: la pantalla
   de revelación de F1 tiene el hueco de la frase de personalidad del signo
@@ -980,3 +986,22 @@ cero. Si algún día se hace: límite duro de 5 mensajes/día aplicado en servid
   `expo export` empaqueta con los 5 `.ttf` dentro, y **el onboarding probado a
   mano en el simulador de iOS** sobre un build nativo nuevo (hizo falta rehacerlo:
   `react-native-svg` es un módulo nativo y el dev client anterior no lo tenía)
+
+### 2026-08-25 (6)
+- **Arreglado el prompt del catálogo antes de gastar nada.** El README avisaba
+  de que generar con un prompt a medio hacer significa tirar la tanda y pagarla
+  otra vez; al revisarlo, el defecto estaba: `esquema.mjs` y el bloque `FORMA`
+  de `prompt.mjs` eran **compartidos entre las dos familias** y estaban
+  escritos para el diario (`consejo`: "una acción para **hoy**";
+  `puntuacion_energia`: "energía **del día**"). Al catálogo —que es permanente—
+  se le pedía a la vez ser atemporal (en el contexto) y hablar de hoy (en la
+  forma). Son instrucciones contradictorias en 740 fragmentos
+- La corrección: `esquemaFragmento(familia)` reescribe la descripción de los
+  tres campos con nombre de diario, y `systemPrompt({familia:'catalogo'})`
+  añade un bloque final que desactiva la lectura diaria — **al final a
+  propósito**, porque puesto antes de `FORMA` lo volvería a instalar. Los
+  **nombres** de campo no se tocan: la app indexa por ellos y el filtro los
+  valida. El guardarraíl de salud (BRD §7.5) es idéntico en las dos familias, y
+  hay test que lo fija
+- 39 tests del pipeline en verde (6 nuevos)
+- **No lanzado todavía**: no hay `ANTHROPIC_API_KEY` en el entorno

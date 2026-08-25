@@ -110,6 +110,8 @@ contenido de prueba que ya hay en `../contenido/diario/` — ver
 
 - [ ] Lista de razas y desglose de personalidad, para las dos categorías del
       catálogo que faltan
+- [ ] **Lanzar `aspectos` + `planeta-signo-casa`** (740 fragmentos, ~$3,70):
+      aprobado, pendiente solo de que `ANTHROPIC_API_KEY` esté en el entorno
 - [ ] Activar de verdad la GitHub Action (descomentar el cron, secreto
       configurado) — decisión del usuario, no técnica
 - [ ] Alerta si pasan 2 días sin generar

@@ -11,7 +11,7 @@
  */
 
 import { systemPrompt } from './prompt.mjs';
-import { ESQUEMA_FRAGMENTO } from './esquema.mjs';
+import { esquemaFragmento, ESQUEMA_FRAGMENTO } from './esquema.mjs';
 
 const MODELO = 'claude-opus-5';
 const MAX_TOKENS = 1024; // ~400 tokens de salida típicos (BRD §7.2); margen de sobra
@@ -33,7 +33,12 @@ export function limpiarEsquema(schema) {
   return limpio;
 }
 
-const ESQUEMA_PARA_API = limpiarEsquema(ESQUEMA_FRAGMENTO);
+// Uno por familia: las descripciones que lee el modelo cambian entre el
+// diario y el catálogo (`esquema.mjs`), la forma no.
+const ESQUEMA_PARA_API = {
+  diario: limpiarEsquema(esquemaFragmento('diario')),
+  catalogo: limpiarEsquema(esquemaFragmento('catalogo')),
+};
 
 /**
  * @param {{customId: string, clave: string, mensajeUsuario: string, familia: 'diario'|'catalogo'}} item
@@ -54,7 +59,7 @@ function paramsDePeticion({ mensajeUsuario, familia }) {
       },
     ],
     messages: [{ role: 'user', content: mensajeUsuario }],
-    output_config: { format: { type: 'json_schema', schema: ESQUEMA_PARA_API } },
+    output_config: { format: { type: 'json_schema', schema: ESQUEMA_PARA_API[familia] } },
   };
 }
 

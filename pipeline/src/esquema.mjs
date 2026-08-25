@@ -23,7 +23,47 @@ export const LIMITES = {
   consejo: { min: 20, max: 140 },
 };
 
-/** JSON Schema para `output_config.format`. Un fragmento del diario. */
+/**
+ * Descripciones que **cambian según la familia**.
+ *
+ * Los tres últimos campos nacieron para el diario y sus nombres lo delatan
+ * (`color_del_dia`, `puntuacion_energia`). Los nombres no se tocan: la app
+ * indexa por ellos y `revisarLongitudes()` los valida. Lo que sí cambia es lo
+ * que el modelo lee, porque pedirle a la vez que un fragmento sea permanente
+ * (contexto de `prompt.mjs`) y que hable de "hoy" (esto) son instrucciones
+ * contradictorias — y en el catálogo son 740 fragmentos escritos como si
+ * fueran el horóscopo de una jornada concreta.
+ */
+const DESCRIPCIONES = {
+  diario: {
+    consejo: 'Una acción concreta y benigna para hoy: juego, paseo, rutina, caricias. Nunca salud ni comida terapéutica.',
+    puntuacion_energia: 'Energía del día, de 1 (día de manta) a 5 (día de correr). Alimenta el indicador visual.',
+    color_del_dia: 'Nombre de token de color. No un hex, no un nombre libre.',
+  },
+  catalogo: {
+    consejo:
+      'Una acción concreta y benigna que le venga bien **siempre** a un perro con esta posición: juego, paseo, rutina, caricias. Sin "hoy" ni referencias a una fecha. Nunca salud ni comida terapéutica.',
+    puntuacion_energia:
+      'Nivel de energía **característico** de esta posición, de 1 (perro de manta) a 5 (perro de correr). No es la energía de un día concreto.',
+    color_del_dia: 'Nombre de token de color que representa esta posición. No un hex, no un nombre libre.',
+  },
+};
+
+/**
+ * JSON Schema para `output_config.format`.
+ * @param {'diario'|'catalogo'} [familia]
+ */
+export function esquemaFragmento(familia = 'diario') {
+  const descripciones = DESCRIPCIONES[familia];
+  if (!descripciones) throw new Error(`Familia desconocida: "${familia}"`);
+  const esquema = structuredClone(ESQUEMA_FRAGMENTO);
+  for (const [campo, description] of Object.entries(descripciones)) {
+    esquema.properties[campo].description = description;
+  }
+  return esquema;
+}
+
+/** Forma base, con las descripciones del diario. `esquemaFragmento()` las ajusta. */
 export const ESQUEMA_FRAGMENTO = {
   type: 'object',
   additionalProperties: false,

@@ -95,7 +95,12 @@ Un fragmento que incumpla algo de esto se bloquea automáticamente antes de publ
 hay que regenerarlo. No es una advertencia: es un filtro que corre siempre.
 `.trim();
 
-/** Forma de la salida. El esquema ya la impone; aquí se explica el *por qué*. */
+/**
+ * Forma de la salida. El esquema ya la impone; aquí se explica el *por qué*.
+ *
+ * Los tres últimos campos nacieron para el diario, y en el catálogo hay que
+ * releerlos: un fragmento permanente no tiene "hoy". Ver `esquema.mjs`.
+ */
 const FORMA = `
 ## Forma de la salida
 
@@ -103,11 +108,11 @@ Devuelves un único objeto con estos cinco campos:
 
 - \`titular\`: 12–60 caracteres. Un gancho de una línea, sin punto final y sin
   preguntas retóricas.
-- \`cuerpo\`: 80–320 caracteres. Dos o tres frases: el tránsito traducido a conducta
-  observable hoy.
-- \`consejo\`: 20–140 caracteres. Una acción concreta y benigna para hoy —juego, paseo,
-  rutina, caricias, descanso—. Nunca salud ni comida terapéutica.
-- \`puntuacion_energia\`: entero de 1 (día de manta) a 5 (día de correr).
+- \`cuerpo\`: 80–320 caracteres. Dos o tres frases: la astrología traducida a conducta
+  canina observable.
+- \`consejo\`: 20–140 caracteres. Una acción concreta y benigna —juego, paseo, rutina,
+  caricias, descanso—. Nunca salud ni comida terapéutica.
+- \`puntuacion_energia\`: entero de 1 (manta) a 5 (correr).
 - \`color_del_dia\`: uno de "oro", "fuego", "tierra", "aire", "agua". Es el nombre de un
   token de color de la app, no un color libre: cualquier otro valor se rechaza.
 
@@ -117,6 +122,26 @@ se pasa rompe el diseño.
 Cada fragmento **se lee solo**, en su propia tarjeta. No hagas referencias a otros
 fragmentos, no escribas transiciones ("como decíamos"), no numeres ni encadenes. El
 usuario puede ver este fragmento sin haber visto ninguno de los demás.
+`.trim();
+
+/**
+ * Lo que cambia cuando el fragmento no es de un día, sino de siempre.
+ *
+ * Va al final a propósito: es la última instrucción que el modelo lee, y
+ * corrige la lectura diaria que `FORMA` arrastra por sus nombres de campo.
+ */
+const CATALOGO_PERMANENTE = `
+## Este fragmento es permanente
+
+Se escribe una vez y se lee durante años, junto a la posición que interpreta. Por tanto:
+
+- **No existe "hoy".** Nada de "esta semana", "ahora mismo", "estos días", ni ninguna
+  referencia temporal. Describes cómo *es* este perro, no cómo está una jornada.
+- \`puntuacion_energia\` es el nivel característico de esta posición, no el de un día.
+- \`color_del_dia\` es el color que representa esta posición. El nombre del campo dice
+  "del día" por herencia del horóscopo diario: ignóralo, aquí no lo es.
+- \`consejo\` es una costumbre que le viene bien siempre a un perro así, no un plan
+  para una tarde concreta.
 `.trim();
 
 /**
@@ -141,8 +166,9 @@ export function systemPrompt({ familia = 'diario' } = {}) {
     PROHIBICIONES,
     '',
     FORMA,
+    ...(familia === 'catalogo' ? ['', CATALOGO_PERMANENTE] : []),
   ].join('\n');
 }
 
 /** Piezas sueltas, para poder testear cada bloque por separado. */
-export const BLOQUES = { REGLAS_ASTROLOGICAS, TONO, PROHIBICIONES, FORMA };
+export const BLOQUES = { REGLAS_ASTROLOGICAS, TONO, PROHIBICIONES, FORMA, CATALOGO_PERMANENTE };
