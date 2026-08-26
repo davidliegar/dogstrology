@@ -316,6 +316,35 @@ El error que haría explotar el coste es generar el texto completo para el produ
 
 **Coste one-off del catálogo completo: ~$15–25** con Batch API, según modelo. Una vez. Para toda la vida de la app.
 
+**El 68 de personalidad es un total de previsión, no de alcance.** Descompone como
+`4 especies × 12 signos + 8 fases lunares + 12 casas` — es la única aritmética que
+da 68, y encaja con el `species: 'dog' | 'cat' | ...` de §12.1. **Para el MVP, que
+es perro solo, la categoría son 32 fragmentos**: `12 signos + 8 fases + 12 casas`.
+Ese número no depende de resolver el 68, así que no bloquea nada (añadido 2026-08-25).
+
+#### 7.3.1 Formato de clave
+
+Las claves de arriba se escriben en la tabla como tuplas por legibilidad; la forma
+real es una cadena de pares `campo=valor` separados por `;`, con los campos en
+orden fijo:
+
+```
+date=2026-08-25                              el cielo de hoy
+date=2026-08-25;axis=sun;sign=aries          cómo afecta a tu Sol
+planet=sun;sign=aries                        planeta en signo
+planet=sun;house=4                           planeta en casa
+transit=moon;aspect=trine;natal=mars         interpretación de aspectos
+```
+
+**Los valores son identificadores en inglés y minúscula** (`sun`, `aries`,
+`full_moon`), nunca lo que lee el usuario. Ver D15 (§15.1) para el porqué.
+
+Esto importa más de lo que parece: **el pipeline y la app construyen la misma
+clave por separado** —uno al pedírsela al modelo, la otra al buscarla en la carta
+que acaba de calcular— y **nunca se comparan entre sí en producción**. Si
+divergen no hay error: la app no encuentra el fragmento y la tarjeta sale vacía.
+Por eso hay tests a los dos lados que fijan el vocabulario.
+
 ### 7.4 Arquitectura de ejecución
 
 ```
@@ -855,6 +884,10 @@ Corolario: la migración mueve **cuatro tablas pequeñas de datos autorados por 
 
 `PRAGMA user_version` + scripts numerados y ordenados, con test que aplica todas las migraciones sobre una BD vacía y sobre una BD de la versión anterior. Montarlo con el esquema v1 en la mano cuesta una hora; montarlo cuando ya hay usuarios significa escribir la primera migración a ciegas.
 
+**Una migración no es solo un cambio de esquema: un cambio de *valores* también lo es.** Aprendido en carne propia el 2026-08-26 (§15.1 D15): renombrar los identificadores del dominio (`'perro'`→`'dog'`) no toca nada de la tabla —la columna sigue siendo `species TEXT`— pero las filas ya escritas dejan de validar contra el enum nuevo, el modelo no se construye al leerlas y **la app no abre**. El único aviso que da es ese. Cualquier cambio en el catálogo de valores de un campo necesita su migración, igual que añadir una columna.
+
+**Y "no se edita una migración publicada" significa publicada en un dispositivo que no es el tuyo.** Antes del primer build que salga de la máquina de desarrollo, el esquema se puede colapsar en una v1 limpia y reinstalar: arrastrar migraciones que corrigen errores del propio desarrollo ensucia el historial para siempre. A partir de ese primer build, solo se arregla añadiendo.
+
 #### 12.2.8 Las compras migran gratis vía RevenueCat
 
 RevenueCat asigna un **App User ID anónimo** a cada instalación. Cuando aparezcan las cuentas, `logIn(realUserId)` hace *alias* del ID anónimo al real y la suscripción viaja con el usuario sin que él note nada ni pierda el acceso. Es una de las razones por las que RevenueCat merece la pena (§15) — resolver esto a mano con recibos de dos stores es de las peores tareas que hay.
@@ -960,6 +993,7 @@ Si en algún momento se revierte D10 y hay identificadores, recuperar la métric
 | D7 | **Dos sistemas de casas**: signos enteros por defecto, Placidus en modo avanzado | §12.3 nueva. Coste de contenido: **cero** (ver el razonamiento allí) |
 | D8 | **Sin anuncios en el lanzamiento**. Rewarded cuando haya volumen | §10.3. Evita el flujo UMP, la superficie extra de revisión y el daño a la retención que se está midiendo |
 | D9 | **Adquisición: ASO puro**, con perfiles de Instagram como apoyo | El *cómo* de la captación queda fuera del alcance de este BRD. Lo que sí entra son sus consecuencias de producto: ver la nota bajo §8.1 |
+| D15 | **El dominio habla identificadores; lo que lee el usuario es una capa aparte** (2026-08-26). Signos, planetas, elementos, aspectos y fases son `aries`, `sun`, `fire`, `trine`, `full_moon` — inglés y minúscula. El "Sagitario" de la pantalla sale de una tabla de etiquetas | §7.3.1 nueva (formato de clave), §12.2.7 ampliada. Antes `'Aries'` era **a la vez** el tipo, el texto de pantalla y la clave del contenido: eso metía el idioma del mercado dentro de las claves de caché, y sacar la app en inglés habría obligado a **regenerar todo el catálogo** (~$25 y una revisión humana entera). Se hizo pre-lanzamiento porque era la última ventana barata. El mensaje que se le manda al modelo sigue en español, que es el idioma en que escribe |
 | D14 | **Regla de canon: las constelaciones son las reales** (2026-08-20). Se descarta la idea de dibujarlas con forma de perro. El vínculo canino se hace por texto | §11.2.0 nueva (la regla y por qué), §11.2.3 reescrita (el asset pasa de generado a ploteado desde coordenadas), §11.1 corregida, §11.2.4 amplía la lista de lo que no se genera. Aparece resumida en `CLAUDE.md` para que no se repita el error |
 
 ### 15.2 Cerradas al revisar: por qué siete asunciones eran demasiadas

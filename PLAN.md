@@ -36,16 +36,42 @@ el detalle fino solo está en el proyecto de Claude Design (`Pantallas MVP.dc.ht
 `ebb0a79e-9647-4378-913f-349475c3a6b5`), y en F1 tres detalles que no estaban en
 el resumen habrían salido mal. Antes de maquetar una pantalla de F2/F3, **importar
 su artboard**
-**Siguiente acción concreta, decidida para la próxima sesión**: **F2 — Perfil
-de mascota** (foto, raza, sexo, nacimiento, gotcha day), que es el primer `[ ]`
-sin marcar. Los raíles están puestos y ahora además probados por F1: pantallas
-contra `pet/ui/petQueries.ts` → casos de uso de la fachada `Dogstrology`, kit de
-UI en `src/_ui/components/`, y `app/AGENTS.md` con las capas y la regla de
-estado. F2 estrena dos cosas que F1 no tocó: `MediaReference` (la foto va por
-referencia relativa, **nunca** ruta absoluta ni BLOB) y `UpdatePetUseCase`.
-**Léete `app/AGENTS.md` antes de tocar código.** `npm test` (114 en verde),
-`npx tsc --noEmit` y `npm run lint` deben estar los tres limpios antes de
-cerrar sesión
+**Siguiente sesión: el catálogo, y desbloquear las 60 razas.** En este orden,
+porque el paso 1 no necesita ninguna decisión y el 2 sí:
+
+1. **Lanzar `aspects` + `planet-sign-house`** — 740 fragmentos, **~$3,70** (no
+   los $25 del catálogo completo: esa cifra incluye `breed-sign`, que es el
+   trozo caro). Aprobado ya; solo falta `ANTHROPIC_API_KEY` en el entorno.
+   ```
+   ANTHROPIC_API_KEY=... npm --prefix pipeline run generate:catalog -- \
+     --categories aspects,planet-sign-house --confirm
+   ```
+   El batch **tarda hasta 1 h**; al acabar escribe `content/catalog/*.json` y un
+   `.report.md` por categoría. Lanzarlo *primero* y decidir razas mientras corre.
+   **Nada se mergea sin leer el informe**: el filtro decide qué *puede*
+   publicarse, la persona decide qué se publica (D13)
+2. **Decidir la lista de 60 razas.** Es el único bloqueo real que queda, y
+   bloquea **dos cosas a la vez**: F2 (el selector de raza del perfil) y los 720
+   fragmentos de `breed-sign`. No se deduce de nada — es editorial. Propuesta:
+   yo redacto una lista razonada (prevalencia real en España + cobertura de
+   grupos FCI + los mestizos, que no pueden faltar) y tú corriges sobre ella,
+   que es más rápido que partir de cero
+3. **Con eso, `breed-sign`** (720 fragmentos, el grueso del gasto) y **la
+   categoría `personality`**, que para el MVP son **32** y no 68 — el 68 es un
+   total de previsión para 4 especies (BRD §7.3). Esos 32 llenan el hueco de la
+   frase de personalidad en la revelación de F1 y alimentan F6/F7/Explorar
+4. **Luego F2**, ya con la lista de razas en la mano
+
+Cuando toque F2: los raíles están puestos y probados por F1 — pantallas contra
+`pet/ui/petQueries.ts` → casos de uso de la fachada `Dogstrology`, kit de UI en
+`src/_ui/components/`. Estrena dos cosas que F1 no tocó: `MediaReference` (la
+foto va por referencia relativa, **nunca** ruta absoluta ni BLOB) y
+`UpdatePetUseCase`. **Léete `app/AGENTS.md` antes de tocar código**, e importa
+el artboard de la pantalla 9 del canvas antes de maquetar.
+
+**Antes de cerrar sesión**, los cuatro en limpio: `cd proto && npm run verify`,
+`npm --prefix pipeline test` (45), `npm --prefix app test` (119),
+`npm --prefix app run lint` y `npx tsc --noEmit`.
 
 Pendiente, sin bloquear el resto del Bloque 3:
 - Dos cabos sueltos del catálogo: lista de 60 razas y desglose de la
@@ -73,7 +99,7 @@ constelaciones pobres, que se decide con las tarjetas de F5 delante
 
 | | |
 |---|---|
-| Decisiones tomadas | 13 (BRD §15.1) — naming, stack, diseño, arquitectura, MVP, modelo IA, casas, ads, adquisición, analytics, CDN, pipeline, publicación |
+| Decisiones tomadas | 15 (BRD §15.1) — naming, stack, diseño, arquitectura, MVP, modelo IA, casas, ads, adquisición, analytics, CDN, pipeline, publicación, canon de constelaciones (D14), identificadores vs etiquetas (D15) |
 | Decisiones abiertas | 1 — idiomas de lanzamiento (no bloquea, BRD §15.4) |
 | Riesgo técnico | **Cerrado.** Motor astrológico validado contra astro.com |
 
@@ -1130,3 +1156,26 @@ cero. Si algún día se hace: límite duro de 5 mensajes/día aplicado en servid
   un cambio de esquema **o de valores** solo se arregla añadiendo. Y sigue en
   pie lo aprendido: un cambio de enum del dominio no alcanza a los datos ya
   escritos, y el único aviso que da es que la app no abre
+
+### 2026-08-26 (3)
+- **BRD actualizado** — llevaba toda la sesión sin tocarse y había tres huecos
+  reales, no cosmética:
+  - **§7.3.1 nueva — el formato de clave del contenido no estaba escrito en
+    ninguna parte.** La tabla del BRD las daba como tuplas (`(fecha, signo_solar)`),
+    que es legible pero no dice qué cadena hay que construir. Y es justo lo que
+    el pipeline y la app construyen **por separado y sin compararse nunca**: si
+    divergen no hay error, la tarjeta sale vacía
+  - **§7.3 — el 68 de `personality` aclarado**: es un total de previsión para 4
+    especies (`4×12 + 8 fases + 12 casas`), no de alcance. El MVP son 32
+  - **§12.2.7 ampliada** con lo aprendido hoy: una migración no es solo un
+    cambio de esquema, **un cambio de valores también lo es**; y "no se edita
+    una migración publicada" significa publicada en un dispositivo que no es el
+    tuyo
+  - **D15 nueva** en el registro de decisiones (§15.1): el dominio habla
+    identificadores, lo que lee el usuario es una capa aparte. Con el *por qué*
+    en números — el idioma dentro de las claves de caché habría costado
+    regenerar el catálogo entero
+- El modelo de datos del BRD (§12.1) ya usaba tipos neutros (`SignId`,
+  `PlanetId`, `AspectType`) sin escribir valores en español: la migración a
+  inglés **no lo contradecía, lo cumplía**. Solo faltaba decir en qué idioma
+  van esos identificadores
