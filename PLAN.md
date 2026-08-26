@@ -194,8 +194,10 @@ Referencia: **BRD §7.4, §7.5**.
       tabla de coste, no un requisito, y a ~$0,005 el fragmento las cinco de más
       cuestan 30 céntimos — más barato que dejar fuera al pitbull o al braco
       alemán por cuadrar un número
-- [ ] **Generar el catálogo inmutable completo** — lanzado el 2026-08-26:
-      `aspects` + `planet-sign-house` + `breed-sign` = 1.520 fragmentos, ~$7,60
+- [x] **Generar el catálogo inmutable** — 2026-08-26: `aspects` 500/500,
+      `planet-sign-house` 240/240, `breed-sign` 780/780 = **1.520 completos**,
+      $11,03. Falta `personality` (32), que es la única categoría MVP sin
+      implementar
 - [ ] Revisar a mano la primera tanda de cada tipo de contenido
 
 ---
