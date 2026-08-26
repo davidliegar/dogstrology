@@ -28,7 +28,7 @@ export interface ConstellationProps {
   /**
    * Traza el asterismo al entrar, una sola vez, a `motion.duration.trace`.
    * El bucle de 9000 ms del canvas es ambiental y **no se replica**
-   * (`design/componentes.md`): aquí es el revelado de F1, no un adorno vivo.
+   * (`design/components.md`): aquí es el revelado de F1, no un adorno vivo.
    */
   animate?: boolean;
   style?: StyleProp<ViewStyle>;
@@ -39,7 +39,7 @@ export interface ConstellationProps {
  * estrellas, no siluetas de perro. El vínculo canino se hace por texto.
  *
  * Dos ranuras de color, como manda el contrato del asset
- * (`design/constelaciones/README.md`): las líneas en `constellationLine`, los
+ * (`design/constellations/README.md`): las líneas en `constellationLine`, los
  * nodos en `constellationNode`. Teñir la pieza entera con el acento del
  * elemento al 32 % deja las líneas casi invisibles — se verificó en el Bloque
  * 1, y por eso el color de elemento vive en el chip de al lado, no aquí.

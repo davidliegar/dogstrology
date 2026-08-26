@@ -1,12 +1,12 @@
 {
   "name": "proto",
   "version": "1.0.0",
-  "description": "Prototipo del motor astrológico de Dogstrology",
+  "description": "Prototipo del motor astrol\u00f3gico de Dogstrology",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "demo": "node cli.mjs",
-    "verificar": "node cli.mjs --verificar"
+    "verify": "node cli.mjs --verify"
   },
   "keywords": [],
   "author": "",

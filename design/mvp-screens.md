@@ -4,7 +4,7 @@ Las 13 pantallas maquetadas en el proyecto de Claude Design
 (`Pantallas MVP.dc.html`, `ebb0a79e-9647-4378-913f-349475c3a6b5`), con datos de
 ejemplo de Baloo (perro de agua español, 14/12/2025). Sirve para no tener que
 volver al canvas cuando se abra cada bloque de `PLAN.md`: la pantalla ya está
-maquetada con los componentes de `componentes.md` y los tokens de `theme.ts`.
+maquetada con los componentes de `components.md` y los tokens de `theme.ts`.
 
 | # | Pantalla | Feature | Bloque de `PLAN.md` |
 |---|---|---|---|
@@ -25,4 +25,4 @@ maquetada con los componentes de `componentes.md` y los tokens de `theme.ts`.
 Cada pantalla presenta datos completos y, en algunos casos, una segunda versión
 con datos incompletos (p. ej. sin hora de nacimiento) para comprobar la
 degradación descrita en BRD §12.3 — ver la nota de la rueda atenuada en
-`componentes.md`.
+`components.md`.

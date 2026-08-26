@@ -13,7 +13,7 @@ name: Generar contenido diario
 on:
   workflow_dispatch:
     inputs:
-      fecha:
+      date:
         description: 'Fecha a generar (AAAA-MM-DD). Vacío = hoy + 7 días (buffer de F12)'
         required: false
   # schedule:
@@ -24,7 +24,7 @@ permissions:
   pull-requests: write
 
 jobs:
-  generar:
+  generate:
     runs-on: ubuntu-latest
     # El batch puede tardar hasta 1h (BRD §7.4); se deja margen de sobra.
     timeout-minutes: 90
@@ -40,36 +40,36 @@ jobs:
         run: npm ci
 
       - name: Calcular fecha objetivo
-        id: fecha
+        id: date
         run: |
-          if [ -n "${{ github.event.inputs.fecha }}" ]; then
-            echo "valor=${{ github.event.inputs.fecha }}" >> "$GITHUB_OUTPUT"
+          if [ -n "${{ github.event.inputs.date }}" ]; then
+            echo "value=${{ github.event.inputs.date }}" >> "$GITHUB_OUTPUT"
           else
-            echo "valor=$(date -u -d '+7 days' +%F)" >> "$GITHUB_OUTPUT"
+            echo "value=$(date -u -d '+7 days' +%F)" >> "$GITHUB_OUTPUT"
           fi
 
       - name: Generar el diario contra la Batch API
         working-directory: pipeline
         env:
           ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
-        run: node src/generateDaily.mjs --date "${{ steps.fecha.outputs.valor }}" --confirm
+        run: node src/generateDaily.mjs --date "${{ steps.date.outputs.value }}" --confirm
 
       - name: Leer el informe del filtro para el cuerpo del PR
-        id: informe
+        id: report
         run: |
           {
-            echo 'texto<<EOF_INFORME'
-            cat "contenido/diario/${{ steps.fecha.outputs.valor }}.informe.md"
-            echo EOF_INFORME
+            echo 'text<<EOF_REPORT'
+            cat "content/daily/${{ steps.date.outputs.value }}.report.md"
+            echo EOF_REPORT
           } >> "$GITHUB_OUTPUT"
 
       - name: Abrir PR con el contenido generado
         uses: peter-evans/create-pull-request@v6
         with:
-          branch: contenido/diario-${{ steps.fecha.outputs.valor }}
-          commit-message: "contenido: diario ${{ steps.fecha.outputs.valor }}"
-          title: "Contenido diario — ${{ steps.fecha.outputs.valor }}"
-          body: ${{ steps.informe.outputs.texto }}
+          branch: content/daily-${{ steps.date.outputs.value }}
+          commit-message: "contenido: diario ${{ steps.date.outputs.value }}"
+          title: "Contenido diario — ${{ steps.date.outputs.value }}"
+          body: ${{ steps.report.outputs.text }}
           add-paths: |
-            contenido/diario/${{ steps.fecha.outputs.valor }}.json
-            contenido/diario/${{ steps.fecha.outputs.valor }}.informe.md
+            content/daily/${{ steps.date.outputs.value }}.json
+            content/daily/${{ steps.date.outputs.value }}.report.md

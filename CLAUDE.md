@@ -75,6 +75,6 @@ Reanimated + Skia + Lottie · RevenueCat · PostHog EU · Sentry
   vacía, sin error. El mensaje que se le manda al modelo sí va en español,
   porque el texto que escribe es español.
 - Módulos ES (`.mjs` en el prototipo, TS en la app).
-- Antes de tocar el motor: `cd proto && npm run verificar`.
-- Cualquier cambio en `oblicuidad()`, fórmulas de ángulos o cúspides obliga a
+- Antes de tocar el motor: `cd proto && npm run verify`.
+- Cualquier cambio en `obliquity()`, fórmulas de ángulos o cúspides obliga a
   repetir la auto-verificación **y** el contraste externo con astro.com.

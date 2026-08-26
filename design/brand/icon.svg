@@ -2,7 +2,7 @@
   Icono de app — generado por plot.mjs. NO editar a mano.
 
   Canis Major en posición real, recortada a magnitud < 3.6
-  (8 de 11 estrellas) y con más contraste, porque
+  (8 de 11 stars) y con más contraste, porque
   a 48 px el asset de app no se lee. Halo sobre Sirius, mag -1.44.
 
   Contenido dentro del 63% central: zona segura del icono
@@ -15,7 +15,7 @@
 
   <g>
 
-  <g class="lineas" fill="none" stroke="#F2EFE6" stroke-width="3"
+  <g class="lines" fill="none" stroke="#F2EFE6" stroke-width="3"
      stroke-linecap="round" stroke-linejoin="round" opacity="0.55">
     <path d="M378.2 201.1 L285.2 179 L211.2 305.4 L188.9 350.8 L216.6 378.2 L229.4 396.6 L388.1 416" />
     <path d="M123.9 402.5 L188.9 350.8" />
@@ -26,7 +26,7 @@
     <circle cx="285.2" cy="179" r="24" fill="#E8C87A" opacity="0.20" />
   </g>
 
-  <g class="nodos" fill="#E8C87A">
+  <g class="nodes" fill="#E8C87A">
     <circle cx="378.2" cy="201.1" r="10.4" /> <!-- Mirzam -->
     <circle cx="285.2" cy="179" r="14.5" /> <!-- Sirius -->
     <circle cx="211.2" cy="305.4" r="8.4" /> <!-- Al Zara -->

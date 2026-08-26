@@ -1,11 +1,11 @@
 // GENERADO por scripts/generateConstellations.mjs desde
-// design/constelaciones/svg/*.svg. NO editar a mano: `npm run generate:constellations`.
+// design/constellations/svg/*.svg. NO editar a mano: `npm run generate:constellations`.
 //
 // Las 12 constelaciones **reales**, ploteadas desde coordenadas de estrellas
 // (BRD §11.2.0, regla de canon). No son siluetas de perro y no se rediseñan.
 import type { Sign } from '../domain/PlanetPosition';
 
-/** Lienzo cuadrado del contrato de `design/constelaciones/README.md`. */
+/** Lienzo cuadrado del contrato de `design/constellations/README.md`. */
 export const CONSTELLATION_CANVAS = 512;
 
 export interface ConstellationStar {

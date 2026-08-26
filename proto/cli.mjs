@@ -3,8 +3,8 @@
  *
  *   node cli.mjs
  *   node cli.mjs --date 2021-06-14 --time 08:30 --tz 120 --lat 41.3874 --lon 2.1686
- *   node cli.mjs --casas signos
- *   node cli.mjs --verificar
+ *   node cli.mjs --houses signos
+ *   node cli.mjs --verify
  */
 
 import {
@@ -31,13 +31,13 @@ const birth = {
   lon: Number(arg('lon', 2.1686)),
 };
 
-const houseSystem = arg('casas', 'placidus');
+const houseSystem = arg('houses', 'placidus');
 
 // ─── Modo verificación ───────────────────────────────────────────────────────
 
-if (flag('verificar')) {
+if (flag('verify')) {
   console.log('\n  AUTO-VERIFICACIÓN — Placidus numérico vs. fórmula cerrada del Ascendente\n');
-  const casos = [
+  const cases = [
     ['Barcelona', 41.3874, 2.1686],
     ['Madrid', 40.4168, -3.7038],
     ['Buenos Aires (sur)', -34.6037, -58.3816],
@@ -45,34 +45,34 @@ if (flag('verificar')) {
     ['Reikiavik (64°N)', 64.1466, -21.9426],
     ['Tromsø (69°N, extremo)', 69.6492, 18.9553],
   ];
-  let fallos = 0;
-  for (const [ciudad, lat, lon] of casos) {
+  let failures = 0;
+  for (const [city, lat, lon] of cases) {
     // Cuatro instantes del día para cubrir distintos RAMC
     for (const h of [0, 6, 12, 18]) {
       const d = new Date(Date.UTC(2021, 5, 14, h, 30));
       const r = selfVerify(d, lat, lon);
-      const etiqueta = `${ciudad.padEnd(24)} ${String(h).padStart(2, '0')}:30 UTC`;
+      const label = `${city.padEnd(24)} ${String(h).padStart(2, '0')}:30 UTC`;
       if (r.ok === null) {
-        console.log(`  ~  ${etiqueta}  ${r.motivo} → fallback a casas iguales`);
+        console.log(`  ~  ${label}  ${r.reason} → fallback a casas iguales`);
       } else if (r.ok) {
-        console.log(`  OK ${etiqueta}  ASC ${formatPosition(r.ascCerrado)}  Δ=${r.desviacionArcmin}'`);
+        console.log(`  OK ${label}  ASC ${formatPosition(r.closedFormAsc)}  Δ=${r.deviationArcmin}'`);
       } else {
-        console.log(`  XX ${etiqueta}  DESVIACIÓN ${r.desviacionArcmin}'`);
-        fallos++;
+        console.log(`  XX ${label}  DESVIACIÓN ${r.deviationArcmin}'`);
+        failures++;
       }
     }
   }
   console.log(
-    fallos === 0
+    failures === 0
       ? '\n  Las dos implementaciones coinciden. Contraste externo con astro.com: OK (2026-08-20).\n'
-      : `\n  ${fallos} FALLOS — revisar el solucionador.\n`,
+      : `\n  ${failures} FALLOS — revisar el solucionador.\n`,
   );
-  process.exit(fallos === 0 ? 0 : 1);
+  process.exit(failures === 0 ? 0 : 1);
 }
 
 // ─── Carta natal ─────────────────────────────────────────────────────────────
 
-const carta = natalChart(birth, houseSystem);
+const chart = natalChart(birth, houseSystem);
 
 const linea = (t = '') => console.log(t);
 const titulo = (t) => { linea(); linea(`  ${t}`); linea(`  ${'─'.repeat(t.length)}`); };
@@ -81,31 +81,31 @@ linea();
 linea(`  ${birth.name.toUpperCase()} — ${birth.raza}`);
 linea(`  Nacimiento: ${birth.date}${birth.time ? ` ${birth.time}` : ' (time desconocida)'}` +
       `  ·  ${birth.lat}°, ${birth.lon}°`);
-linea(`  Instante UTC: ${carta.utcInstant}`);
-linea(`  Confianza: ${carta.confidence}   Casas: ${carta.houseSystem}   ε=${carta.obliquity}°`);
+linea(`  Instante UTC: ${chart.utcInstant}`);
+linea(`  Confianza: ${chart.confidence}   Casas: ${chart.houseSystem}   ε=${chart.obliquity}°`);
 
 titulo('BIG THREE');
-const sol = carta.planets.find((p) => p.id === 'sun');
-const luna = carta.planets.find((p) => p.id === 'moon');
+const sol = chart.planets.find((p) => p.id === 'sun');
+const luna = chart.planets.find((p) => p.id === 'moon');
 linea(`  Sol .......... ${formatPosition(sol.lon)}  (${sol.element}, ${sol.modality})`);
-linea(`  Luna ......... ${formatPosition(luna.lon)}  (${luna.element})${carta.moonUncertain ? '   ⚠ INCIERTA sin time de birth' : ''}`);
-linea(carta.ascendant != null
-  ? `  Ascendente ... ${formatPosition(carta.ascendant)}`
+linea(`  Luna ......... ${formatPosition(luna.lon)}  (${luna.element})${chart.moonUncertain ? '   ⚠ INCIERTA sin time de birth' : ''}`);
+linea(chart.ascendant != null
+  ? `  Ascendente ... ${formatPosition(chart.ascendant)}`
   : '  Ascendente ... no calculable (falta time y/o lugar)');
-if (carta.midheaven != null) linea(`  Medio Cielo .. ${formatPosition(carta.midheaven)}`);
+if (chart.midheaven != null) linea(`  Medio Cielo .. ${formatPosition(chart.midheaven)}`);
 
 titulo('PLANETAS');
-for (const p of carta.planets) {
+for (const p of chart.planets) {
   linea(
     `  ${p.id.padEnd(10)} ${formatPosition(p.lon).padEnd(20)}` +
     `${p.house ? `house ${String(p.house).padStart(2)}  ` : '          '}` +
     `${p.retrograde ? 'Rx ' : '   '}` +
     `${p.dailySpeed >= 0 ? '+' : ''}${p.dailySpeed.toFixed(2)}°/día` +
-    `${p.signBorder ? '   ⚠ borde de sign' : ''}`,
+    `${p.signBorder ? '   ⚠ borde de signo' : ''}`,
   );
 }
 
-if (carta.cusps) {
+if (chart.cusps) {
   titulo('CÚSPIDES DE CASAS');
   for (let i = 0; i < 12; i++) {
     const areas = [
@@ -113,17 +113,17 @@ if (carta.cusps) {
       'juego', 'salud y rutina', 'vínculo con su humano', 'miedos',
       'viajes', 'rol en la familia', 'la manada', 'sueño y ansiedades',
     ];
-    linea(`  Casa ${String(i + 1).padStart(2)}  ${formatPosition(carta.cusps[i]).padEnd(20)} ${areas[i]}`);
+    linea(`  Casa ${String(i + 1).padStart(2)}  ${formatPosition(chart.cusps[i]).padEnd(20)} ${areas[i]}`);
   }
 }
 
 titulo('ASPECTS NATALES');
-if (carta.aspects.length === 0) linea('  (ninguno dentro de orb)');
-for (const a of carta.aspects.slice(0, 12)) {
+if (chart.aspects.length === 0) linea('  (ninguno dentro de orb)');
+for (const a of chart.aspects.slice(0, 12)) {
   linea(`  ${a.a.padEnd(10)} ${a.aspecto.padEnd(12)} ${a.b.padEnd(10)} orb ${String(a.orb).padStart(5)}°  (${a.nature})`);
 }
 
-const fn = carta.moonPhaseAtBirth;
+const fn = chart.moonPhaseAtBirth;
 linea();
 linea(`  Fase lunar al nacer: ${fn.name} (${(fn.illumination * 100).toFixed(0)}% iluminada)`);
 
@@ -140,7 +140,7 @@ const rx = hoy.filter((p) => p.retrograde).map((p) => p.id);
 linea(`  Retrógrados: ${rx.length ? rx.join(', ') : 'ninguno'}`);
 
 titulo('TRÁNSITOS SOBRE LA CARTA NATAL');
-const tr = transits(carta.planets, hoy);
+const tr = transits(chart.planets, hoy);
 if (tr.length === 0) linea('  (ninguno dentro de orb)');
 for (const t of tr.slice(0, 10)) {
   linea(

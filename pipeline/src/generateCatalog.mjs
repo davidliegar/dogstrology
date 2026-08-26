@@ -10,7 +10,7 @@
  *
  * El catálogo completo cuesta dinero real, una vez (~$15-25, BRD §7.3): por
  * eso nunca se lanza sin `--confirm`, y cada categoría se genera en su
- * propio lote y su propio informe, para no mezclar 500 fragments con 240 en
+ * propio lote y su propio informe, para no mezclar 500 fragmentos con 240 en
  * un solo PR.
  */
 
@@ -24,7 +24,7 @@ import { sendBatch, awaitBatch, collectFragments } from './batch.mjs';
 import { reviewRun, report } from './filter.mjs';
 
 const ROOT = path.dirname(path.dirname(fileURLToPath(import.meta.url))); // pipeline/
-const CATALOG_CONTENT_DIR = path.join(ROOT, '..', 'contenido', 'catalog');
+const CATALOG_CONTENT_DIR = path.join(ROOT, '..', 'content', 'catalog');
 
 // Precio Batch API de Opus 5 (50% del precio estándar, $5/$25 por millón de
 // tokens): ~$1,25/M tokens de salida. Estimación con ~400 tokens de salida
@@ -43,7 +43,7 @@ function parseArgs(argv) {
 
 function listCategories() {
   console.log('Categorías disponibles:');
-  for (const c of CATEGORIES) console.log(`  ${c.id} — ${c.count} fragments`);
+  for (const c of CATEGORIES) console.log(`  ${c.id} — ${c.count} fragmentos`);
   console.log('\nPendientes (ver comentario en catalogFragments.mjs):');
   for (const id of PENDING_CATEGORIES) console.log(`  ${id} — sin implementar`);
   console.log('\nUso: node src/generateCatalog.mjs --categories <id>[,<id>...] [--confirm]');
@@ -93,7 +93,7 @@ async function generateCategory(client, category, confirm) {
 
   console.log(`\n${report(run)}`);
   if (errors.length) console.log(`Errores de la API: ${errors.length}`);
-  console.log(`Escrito contenido/catalogo/${category.id}.json (${publishable.length} fragments publishable).\n`);
+  console.log(`Escrito content/catalog/${category.id}.json (${publishable.length} fragments publishable).\n`);
 }
 
 async function main() {

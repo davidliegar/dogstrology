@@ -12,29 +12,29 @@ pipeline de contenido (Bloque 2), no aquí.
 ## Cómo se regenera
 
 ```sh
-node catalogo.mjs              # fuentes → catalogo.json  (--refresh para redescargar)
-node plot.mjs --revisar        # catalogo.json → svg/*.svg + revision.svg
+node catalog.mjs              # fuentes → catalog.json  (--refresh para redescargar)
+node plot.mjs --revisar        # catalog.json → svg/*.svg + review.svg
 ```
 
 Sin dependencias: node a pelo. La caché de descargas (`.cache/`, 1,2 MB) está
-ignorada; `catalogo.json` sí se versiona, porque es la entrada del ploteo y lo que
+ignorada; `catalog.json` sí se versiona, porque es la entrada del ploteo y lo que
 hace reproducible el resultado.
 
 | Fichero | Qué es |
 |---------|--------|
-| `catalogo.mjs` | Descarga las fuentes y construye el catálogo. Aquí vive la procedencia |
-| `catalogo.json` | **Derivado, no editar.** 12 constelaciones con `id`, HIP, nombre de estrella, RA/Dec, magnitud y segmentos |
+| `catalog.mjs` | Descarga las fuentes y construye el catálogo. Aquí vive la procedencia |
+| `catalog.json` | **Derivado, no editar.** 12 constelaciones con `id`, HIP, nombre de estrella, RA/Dec, magnitud y segmentos |
 | `plot.mjs` | Proyecta y escribe los SVG. Aquí vive el encuadre |
 | `svg/*.svg` | **Derivados, no editar.** Los 12 assets. El nombre del fichero es el identificador del signo (`aries.svg`, `taurus.svg`), que es también la clave con la que la app lo busca |
-| `revision.svg` | Hoja de contacto para mirar las 12 juntas. Artefacto de revisión, no un asset de la app |
+| `review.svg` | Hoja de contacto para mirar las 12 juntas. Artefacto de revisión, no un asset de la app |
 
-`plot.mjs` escribe además la marca en `../marca/` — Canis Major y el icono de app,
-desde el mismo catálogo. Ver `design/marca/README.md`.
+`plot.mjs` escribe además la marca en `../brand/` — Canis Major y el icono de app,
+desde el mismo catálogo. Ver `design/brand/README.md`.
 
 ## Fuentes
 
 Todas de [d3-celestial](https://github.com/ofrohn/d3-celestial) (Olaf Frohn,
-BSD-3-Clause), citadas en `catalogo.mjs` y copiadas a `catalogo.json`:
+BSD-3-Clause), citadas en `catalog.mjs` y copiadas a `catalog.json`:
 
 | Fichero | Qué aporta |
 |---------|-----------|
@@ -58,7 +58,7 @@ Si una estrella no está en la fuente, no entra en la pieza. No se rellenan huec
 | Proyección | Plana, RA corregida por `cos(dec)` en el centro del campo. RA creciente a la izquierda, norte arriba |
 | Radio del punto | `clamp(10 − 1,4 · mag, 3, 10)`. Sale de la magnitud real, no del gusto |
 | Trazo | 2, `stroke-linecap="round"` |
-| Color | Dos ranuras: grupos `.lineas` y `.nodos`. `currentColor` es solo el valor por defecto |
+| Color | Dos ranuras: grupos `.lines` y `.nodes`. `currentColor` es solo el valor por defecto |
 | Dominante | El círculo de la estrella más brillante lleva `class="dominante"`, para que el componente le pueda poner halo |
 | Fondo | Transparente |
 

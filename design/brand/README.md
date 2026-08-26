@@ -3,7 +3,7 @@
 | Fichero | Qué es |
 |---------|--------|
 | `canis-major.svg` | La marca: el Can Mayor completo, 11 estrellas. Transparente, recolorable por token |
-| `icono.svg` | Icono de app. Fondo opaco, recortado a magnitud < 3,6 |
+| `icon.svg` | Icono de app. Fondo opaco, recortado a magnitud < 3,6 |
 
 Ambos **derivados, no editar a mano**. Se regeneran desde el mismo catálogo que las
 12 del zodiaco:
@@ -60,7 +60,7 @@ rompe la regla de canon, al contrario: los atlas históricos —Bayer 1603, Heve
 Major *es* un perro. Lo que no vale es inventarse otra figura.
 
 **Cómo entra**: se deja un `contorno.svg` en esta carpeta y `plot.mjs` lo inyecta
-en `icono.svg` como grupo `.contorno`, al 22% de opacidad, por debajo del
+en `icon.svg` como grupo `.contorno`, al 22% de opacidad, por debajo del
 asterismo. Requisitos del fichero: mismo lienzo **512×512**, solo `<path>`, sin
 `transform` y sin relleno. Si no existe, el icono sale sin contorno y no pasa nada.
 
@@ -87,7 +87,7 @@ lienzo del icono = 0,634 · coordenadas de la lámina − (211,3 · 218,2)
 
 Residuo máximo **~9 px sobre 512**, un 2%. La plancha de 1603 encaja sobre las
 efemérides modernas mejor de lo que cabría esperar. Está implementada en
-`calco-bayer.mjs`, con los parámetros del recorte usado.
+`bayerTrace.mjs`, con los parámetros del recorte usado.
 
 ### Anclajes, corregidos con la lámina delante
 
@@ -115,7 +115,7 @@ cuarto trasero bajo, a la izquierda.
 1. **Silueta abrazando las estrellas por fuera** → el casco convexo. Un bulto.
 2. **Figura con proporciones propias** → mejora, se adivinan oreja y grupa, pero
    el hocico parece un pico y el cuerpo es un bloque.
-3. **Calco de la lámina de Bayer** (`calco-bayer.mjs`) → registra perfectamente
+3. **Calco de la lámina de Bayer** (`bayerTrace.mjs`) → registra perfectamente
    sobre las estrellas, y aun así no lee: a 96 px es ruido alrededor de los puntos.
 
 La razón del tercer fracaso es la interesante, y sirve de aviso: **en el grabado de
@@ -140,7 +140,7 @@ Cualquiera de estas dos vías, con la lámina y la tabla de anclajes delante:
 Y para verlo en su sitio, con el calco actual o con el que venga:
 
 ```sh
-node calco-bayer.mjs --escribir && node ../constelaciones/plot.mjs
+node bayerTrace.mjs --escribir && node ../constellations/plot.mjs
 ```
 
 `plot.mjs` reencaja el conjunto figura+estrellas, porque la figura tradicional es

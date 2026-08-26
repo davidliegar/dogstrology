@@ -13,7 +13,7 @@ export interface CheckboxRowProps {
 /**
  * Fila con casilla a la derecha. La casilla se dibuja con `borderWidth` en vez
  * de con un SVG de librería, siguiendo el trazo y la esquina de `theme.icon`
- * (1,75 / radio 5) — es la referencia que dejó `design/componentes.md`.
+ * (1,75 / radio 5) — es la referencia que dejó `design/components.md`.
  *
  * Toda la fila es el objetivo táctil, no solo los 20 px de la casilla.
  */

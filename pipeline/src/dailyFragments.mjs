@@ -1,11 +1,11 @@
 /**
- * dailyFragments.mjs — los 37 fragments del diario (BRD §7.3, §7.4).
+ * dailyFragments.mjs — los 37 fragmentos del diario (BRD §7.3, §7.4).
  *
  * Función pura y determinista: no llama a la API ni conoce el SDK de
  * Anthropic. Es lo que permite testear la composición del lote sin gastar un
  * céntimo — `generateDaily.mjs` es la fina capa que la conecta con `batch.mjs`.
  *
- * Los 36 fragments por eje (Sol/Luna/Ascendente × 12 signos) son contenido
+ * Los 36 fragmentos por eje (Sol/Luna/Ascendente × 12 signos) son contenido
  * **cualitativo** sobre un signo placeholder, no un aspecto geométrico exacto:
  * el motor (`proto/astro.mjs`) no tiene ni necesita una función de "aspecto
  * por signo entero" — esa geometría exacta solo existe en el cliente, sobre

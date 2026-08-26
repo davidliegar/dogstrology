@@ -6,7 +6,7 @@ import { text } from '../typography';
 /**
  * Alto compacto: 36 en vez de `touchTarget`. Es el único sitio del MVP donde
  * se baja de 44, y se puede porque el chip es **informativo, no pulsable**
- * (`design/componentes.md`).
+ * (`design/components.md`).
  */
 const CHIP_HEIGHT = 36;
 const DOT = 8;

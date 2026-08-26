@@ -1,11 +1,11 @@
 <!--
-  Aries — generado por plot.mjs desde catalogo.json. NO editar a mano.
+  Aries — generado por plot.mjs desde catalog.json. NO editar a mano.
 
   4 estrellas del asterismo convencional, en posición real
   (J2000). El radio de cada punto sale de su magnitud aparente.
   Estrella dominante: Hamal (mag 2.01).
 
-  Color en dos ranuras: .lineas → colors.constellationLine · .nodos → constellationNode.
+  Color en dos ranuras: .lines → colors.constellationLine · .nodes → constellationNode.
   currentColor es solo el valor por defecto.
 -->
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"
@@ -13,13 +13,13 @@
      stroke-linecap="round" stroke-linejoin="round"
      role="img" aria-label="Constelación de Aries">
 
-  <g class="lineas" opacity="0.32">
+  <g class="lines" opacity="0.32">
     <path d="M64 138 L355.2 250.5 L440.5 329.1 L448 374" />
   </g>
 
-  <g class="nodos" fill="currentColor" stroke="none">
+  <g class="nodes" fill="currentColor" stroke="none">
     <circle cx="64" cy="138" r="4.9" /> <!-- Bharani -->
-    <circle class="dominante" cx="355.2" cy="250.5" r="7.2" /> <!-- Hamal -->
+    <circle class="dominant" cx="355.2" cy="250.5" r="7.2" /> <!-- Hamal -->
     <circle cx="440.5" cy="329.1" r="6.3" /> <!-- Sheratan -->
     <circle cx="448" cy="374" r="4.6" /> <!-- Mesarthim -->
   </g>

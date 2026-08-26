@@ -1,11 +1,11 @@
 <!--
-  Escorpio — generado por plot.mjs desde catalogo.json. NO editar a mano.
+  Escorpio — generado por plot.mjs desde catalog.json. NO editar a mano.
 
   14 estrellas del asterismo convencional, en posición real
   (J2000). El radio de cada punto sale de su magnitud aparente.
   Estrella dominante: Antares (mag 1.06).
 
-  Color en dos ranuras: .lineas → colors.constellationLine · .nodos → constellationNode.
+  Color en dos ranuras: .lines → colors.constellationLine · .nodes → constellationNode.
   currentColor es solo el valor por defecto.
 -->
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"
@@ -13,17 +13,17 @@
      stroke-linecap="round" stroke-linejoin="round"
      role="img" aria-label="Constelación de Escorpio">
 
-  <g class="lineas" opacity="0.32">
+  <g class="lines" opacity="0.32">
     <path d="M445.9 167.4 L440.7 110.1 L422.9 64" />
     <path d="M440.7 110.1 L367.9 158.8 L339.2 172.6 L316.5 201.8 L266.7 301.4 L260.7 362.9 L251.2 433.6 L189.9 448 L102 444 L66.1 397 L83.9 379 L115 347.5" />
   </g>
 
-  <g class="nodos" fill="currentColor" stroke="none">
+  <g class="nodes" fill="currentColor" stroke="none">
     <circle cx="445.9" cy="167.4" r="6" /> <!-- Fang -->
     <circle cx="440.7" cy="110.1" r="6.8" /> <!-- Dschubba -->
     <circle cx="422.9" cy="64" r="6.4" /> <!-- Acrab -->
     <circle cx="367.9" cy="158.8" r="5.9" /> <!-- Alniyat -->
-    <circle class="dominante" cx="339.2" cy="172.6" r="8.5" /> <!-- Antares -->
+    <circle class="dominant" cx="339.2" cy="172.6" r="8.5" /> <!-- Antares -->
     <circle cx="316.5" cy="201.8" r="6.1" /> <!-- Paikauhale -->
     <circle cx="266.7" cy="301.4" r="6.8" /> <!-- Larawag -->
     <circle cx="260.7" cy="362.9" r="5.8" /> <!-- Xamidimura -->

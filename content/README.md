@@ -1,7 +1,7 @@
 # Contenido generado
 
 Salida de `pipeline/` — nunca se escribe a mano. Cada fichero `.json` es una
-tanda ya filtrada (`filtro.mjs`); el `.informe.md` que lo acompaña es el
+tanda ya filtrada (`filter.mjs`); el `.report.md` que lo acompaña es el
 informe completo (incluye lo bloqueado) pensado para el cuerpo del PR.
 
 ## Estado actual: contenido de prueba, no real

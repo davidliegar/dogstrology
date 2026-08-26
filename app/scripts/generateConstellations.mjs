@@ -1,14 +1,14 @@
 /**
- * design/constelaciones/svg/*.svg  →  src/chart/ui/constellations.generated.ts
+ * design/constellations/svg/*.svg  →  src/chart/ui/constellations.generated.ts
  *
- * Los SVG ya son derivados (`plot.mjs` los escribe desde `catalogo.json`); esto
+ * Los SVG ya son derivados (`plot.mjs` los escribe desde `catalog.json`); esto
  * es un segundo derivado, no una copia editable. Se genera en lugar de
  * importarse porque:
  *
  *  - `react-native-svg` no lee ficheros .svg sin un transformer de Metro, y
  *    meter uno para 12 assets estáticos es más máquina de la que hace falta;
- *  - el contrato de `design/constelaciones/README.md` exige **dos ranuras de
- *    color** (`.lineas` y `.nodos`) y halo en la dominante. Con los datos
+ *  - el contrato de `design/constellations/README.md` exige **dos ranuras de
+ *    color** (`.lines` y `.nodes`) y halo en la dominante. Con los datos
  *    sueltos el componente las controla con tokens; con un `<SvgXml>` opaco
  *    habría que reteñir a base de reemplazos de cadena.
  *
@@ -19,7 +19,7 @@ import { dirname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
 
 const here = dirname(fileURLToPath(import.meta.url));
-const SVG_DIR = join(here, '..', '..', 'design', 'constelaciones', 'svg');
+const SVG_DIR = join(here, '..', '..', 'design', 'constellations', 'svg');
 const OUT = join(here, '..', 'src', 'chart', 'ui', 'constellations.generated.ts');
 
 /**
@@ -63,9 +63,9 @@ function parse(svg, file) {
   if (!viewBox) fail(`${file}: sin viewBox reconocible`);
   if (viewBox[1] !== viewBox[2]) fail(`${file}: el lienzo no es cuadrado (${viewBox[1]}×${viewBox[2]})`);
 
-  const lines = svg.match(/<g class="lineas"[^>]*>([\s\S]*?)<\/g>/);
-  const nodes = svg.match(/<g class="nodos"[^>]*>([\s\S]*?)<\/g>/);
-  if (!lines || !nodes) fail(`${file}: faltan los grupos .lineas / .nodos del contrato`);
+  const lines = svg.match(/<g class="lines"[^>]*>([\s\S]*?)<\/g>/);
+  const nodes = svg.match(/<g class="nodes"[^>]*>([\s\S]*?)<\/g>/);
+  if (!lines || !nodes) fail(`${file}: faltan los grupos .lines / .nodes del contrato`);
 
   const paths = [...lines[1].matchAll(/<path\s+d="([^"]+)"/g)].map((m) => ({
     d: m[1],
@@ -73,7 +73,7 @@ function parse(svg, file) {
   }));
 
   const stars = [...nodes[1].matchAll(
-    /<circle\s*(class="dominante")?\s*cx="([\d.]+)"\s*cy="([\d.]+)"\s*r="([\d.]+)"\s*\/>(?:\s*<!--\s*(.*?)\s*-->)?/g,
+    /<circle\s*(class="dominant")?\s*cx="([\d.]+)"\s*cy="([\d.]+)"\s*r="([\d.]+)"\s*\/>(?:\s*<!--\s*(.*?)\s*-->)?/g,
   )].map(([, dominant, cx, cy, r, name]) => ({
     cx: Number(cx), cy: Number(cy), r: Number(r),
     name: name ?? null,
@@ -123,13 +123,13 @@ ${starLines}
 }).join('\n');
 
 writeFileSync(OUT, `// GENERADO por scripts/generateConstellations.mjs desde
-// design/constelaciones/svg/*.svg. NO editar a mano: \`npm run generate:constellations\`.
+// design/constellations/svg/*.svg. NO editar a mano: \`npm run generate:constellations\`.
 //
 // Las 12 constelaciones **reales**, ploteadas desde coordenadas de estrellas
 // (BRD §11.2.0, regla de canon). No son siluetas de perro y no se rediseñan.
 import type { Sign } from '../domain/PlanetPosition';
 
-/** Lienzo cuadrado del contrato de \`design/constelaciones/README.md\`. */
+/** Lienzo cuadrado del contrato de \`design/constellations/README.md\`. */
 export const CONSTELLATION_CANVAS = ${canvas};
 
 export interface ConstellationStar {

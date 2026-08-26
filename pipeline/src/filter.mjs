@@ -115,7 +115,7 @@ export function reviewFragment(fragment) {
 
 /**
  * Revisa una tanda. Devuelve el informe que va al PR: la revisión humana (D13)
- * tiene que poder mirar una tabla, no leer 37 fragments a ciegas.
+ * tiene que poder mirar una tabla, no leer 37 fragmentos a ciegas.
  */
 export function reviewRun(fragments) {
   const results = fragments.map((fragment, i) => ({

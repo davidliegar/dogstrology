@@ -1,11 +1,11 @@
 <!--
-  Sagitario — generado por plot.mjs desde catalogo.json. NO editar a mano.
+  Sagitario — generado por plot.mjs desde catalog.json. NO editar a mano.
 
   25 estrellas del asterismo convencional, en posición real
   (J2000). El radio de cada punto sale de su magnitud aparente.
   Estrella dominante: Kaus Australis (mag 1.79).
 
-  Color en dos ranuras: .lineas → colors.constellationLine · .nodos → constellationNode.
+  Color en dos ranuras: .lines → colors.constellationLine · .nodes → constellationNode.
   currentColor es solo el valor por defecto.
 -->
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"
@@ -13,16 +13,16 @@
      stroke-linecap="round" stroke-linejoin="round"
      role="img" aria-label="Constelación de Sagitario">
 
-  <g class="lineas" opacity="0.32">
+  <g class="lines" opacity="0.32">
     <path d="M387.4 344.3 L368.4 312.3 L377.6 250.9 L357.3 191.5 L398.6 132.8" />
     <path d="M198.2 448 L194.5 396.2 L256.5 251.6 L305.8 212.7 L357.3 191.5" />
     <path d="M103.2 413.1 L90.2 324.3 L101.5 203.4 L157.2 184.3 L190.5 179.2 L218.8 189.3 L277.8 203.3 L305.8 212.7 L377.6 250.9 L421.8 258.9 L368.4 312.3 L256.5 251.6 L243.9 221.8 L277.8 203.3 L250.4 142 L235.6 132.3 L212.7 104.4 L201 89.5 L200.8 64" />
     <path d="M250.4 142 L270.7 133.4 L281 155.5 L277.8 203.3" />
   </g>
 
-  <g class="nodos" fill="currentColor" stroke="none">
+  <g class="nodes" fill="currentColor" stroke="none">
     <circle cx="387.4" cy="344.3" r="5.7" /> <!-- Hamalwarid -->
-    <circle class="dominante" cx="368.4" cy="312.3" r="7.5" /> <!-- Kaus Australis -->
+    <circle class="dominant" cx="368.4" cy="312.3" r="7.5" /> <!-- Kaus Australis -->
     <circle cx="377.6" cy="250.9" r="6.2" /> <!-- Kaus Media -->
     <circle cx="357.3" cy="191.5" r="6.1" /> <!-- Kaus Borealis -->
     <circle cx="398.6" cy="132.8" r="4.6" /> <!-- Polis -->

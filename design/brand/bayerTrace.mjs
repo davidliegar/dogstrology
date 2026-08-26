@@ -1,5 +1,5 @@
 /**
- * calco-bayer.mjs — andamio para el contorno de Canis Major.
+ * bayerTrace.mjs — andamio para el contorno de Canis Major.
  *
  * **No genera un asset válido.** El calco que hay aquí no lee como perro (ver
  * README.md, sección del contorno). Lo que sí vale, y es la parte difícil, es la
@@ -8,7 +8,7 @@
  * sobre las estrellas reales.
  *
  * Quien dibuje el contorno bueno: mueve los puntos de `SILUETA`, ejecuta
- * `node calco-bayer.mjs --escribir`, y `plot.mjs` lo recoge.
+ * `node bayerTrace.mjs --escribir`, y `plot.mjs` lo recoge.
  *
  * Fuente de la lámina:
  *   Johann Bayer, *Uranometria* (1603), plancha de Canis Major.
@@ -99,7 +99,7 @@ if (process.argv.includes('--escribir')) {
     new URL('contorno.svg', import.meta.url),
     `<!--
   Contorno de Canis Major, calcado de la Uranometria de Bayer (1603).
-  Generado por calco-bayer.mjs. Ver README.md antes de dar esto por bueno.
+  Generado por bayerTrace.mjs. Ver README.md antes de dar esto por bueno.
 -->
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" fill="none">
   <path d="${d}" />

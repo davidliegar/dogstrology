@@ -6,7 +6,7 @@ una carta natal completa y los tránsitos del día, sin red y sin IA.
 ```bash
 npm install
 npm run demo          # carta natal + tránsitos de hoy
-npm run verificar     # auto-verificación del solucionador de casas
+npm run verify     # auto-verificación del solucionador de casas
 ```
 
 Opciones:
@@ -53,7 +53,7 @@ resuelta numéricamente es, por definición, el Ascendente — y el Ascendente
 también se calcula por una fórmula cerrada totalmente independiente. Si las dos
 coinciden, ambas están bien.
 
-`npm run verificar` comprueba esa coincidencia en 6 latitudes (ecuador,
+`npm run verify` comprueba esa coincidencia en 6 latitudes (ecuador,
 hemisferio sur, 64°N) × 4 instantes del día. Resultado actual: **Δ < 0,0001'** en
 los 20 casos válidos, y degradación correcta a casas iguales en Tromsø (69°N),
 donde Placidus es matemáticamente indefinido por puntos circumpolares.
@@ -77,9 +77,9 @@ técnico del proyecto (BRD §17). Lo que se añada a partir de aquí (nodos,
 sinastría, Luna vacía de curso) se construye sobre una base contrastada, pero
 conviene re-verificar cada añadido contra la misma fuente.
 
-Si en algún momento se toca `oblicuidad()`, las fórmulas de ángulos o el
+Si en algún momento se toca `obliquity()`, las fórmulas de ángulos o el
 solucionador de cúspides, hay que repetir **las dos** comprobaciones: `npm run
-verificar` y el contraste externo.
+verify` y el contraste externo.
 
 ## Notas de precisión
 

@@ -19,7 +19,7 @@ export interface TextFieldProps extends Pick<TextInputProps, 'autoFocus' | 'maxL
  * React Native no acepta varias `box-shadow` como el mock del canvas
  * (`0 0 0 2px …, 0 0 0 4px …`): el anillo exterior es una `View` envolvente
  * con borde propio, separada por `focusRing.gap`. Es la técnica que
- * `design/componentes.md` ya dejaba anotada.
+ * `design/components.md` ya dejaba anotada.
  */
 export function TextField({ value, onChangeText, placeholder, accessibilityLabel, ...input }: TextFieldProps) {
   const [focused, setFocused] = useState(false);

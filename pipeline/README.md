@@ -103,8 +103,8 @@ configurar el secreto `ANTHROPIC_API_KEY` en Settings → Secrets and variables
 → Actions del repo (nunca en el código).
 
 Mientras tanto, el desarrollo de la app (Bloque 3+) puede seguir usando el
-contenido de prueba que ya hay en `../contenido/diario/` — ver
-`../contenido/README.md` para el porqué y cuándo sustituirlo.
+contenido de prueba que ya hay en `../content/daily/` — ver
+`../content/README.md` para el porqué y cuándo sustituirlo.
 
 ## Qué falta
 

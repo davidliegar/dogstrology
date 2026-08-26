@@ -5,7 +5,7 @@
  * Determinista, sin red, sin IA. Todo esto corre en el cliente.
  *
  * Precisión: astronomy-engine da ~1-3 minutos de arco. Un sign mide 1800',
- * así que sobra. Los casos borde (planeta a <3' de cambiar de sign) se marcan.
+ * así que sobra. Los casos borde (planeta a <3' de cambiar de signo) se marcan.
  */
 
 import * as A from 'astronomy-engine';
@@ -55,7 +55,7 @@ const norm180 = (x) => {
   return n > 180 ? n - 360 : n;
 };
 
-/** Índice de sign (0=Aries) y degree dentro del sign. */
+/** Índice de signo (0=Aries) y degree dentro del signo. */
 export function toSign(lonEclip) {
   const lon = norm360(lonEclip);
   const idx = Math.floor(lon / 30);
@@ -125,8 +125,8 @@ export function planetPositions(date) {
       ...s,
       retrograde: delta < 0,
       dailySpeed: delta,
-      // Caso borde: a menos de 3' de cambiar de sign → la precisión del motor
-      // (~1-3') deja de garantizar el sign. Se marca para mostrar el degree.
+      // Caso borde: a menos de 3' de cambiar de signo → la precisión del motor
+      // (~1-3') deja de garantizar el signo. Se marca para mostrar el degree.
       signBorder: s.degree < 0.05 || s.degree > 29.95,
     };
   });
@@ -225,7 +225,7 @@ function placidusCusps(ramc, eps, lat) {
     const gLo = g(lo);
     const gHi = g(hi);
     if (gLo === null || gHi === null) return null;
-    if (gLo * gHi > 0) return null; // sin cambio de sign: no hay raíz aquí
+    if (gLo * gHi > 0) return null; // sin cambio de signo: no hay raíz aquí
 
     for (let i = 0; i < 80; i++) {
       const mid = (lo + hi) / 2;
@@ -255,7 +255,7 @@ function placidusCusps(ramc, eps, lat) {
 const equalCusps = (asc) =>
   Array.from({ length: 12 }, (_, i) => norm360(asc + i * 30));
 
-/** Signos enteros: cada house ES un sign, empezando por el del Ascendente. */
+/** Signos enteros: cada house ES un signo, empezando por el del Ascendente. */
 const wholeSignCusps = (asc) => {
   const inicio = Math.floor(norm360(asc) / 30) * 30;
   return Array.from({ length: 12 }, (_, i) => norm360(inicio + i * 30));
@@ -424,7 +424,7 @@ export function natalChart(birth, houseSystem = 'placidus') {
     aspects: aspects(planets),
     moonPhaseAtBirth: moonPhase(date),
     // Con solo la fecha, la Luna avanza ~13°/día: si está a menos de 6,5° de
-    // cambiar de sign, el sign lunar es incierto y hay que pedir la time.
+    // cambiar de signo, el signo lunar es incierto y hay que pedir la time.
     moonUncertain: !hasTime && (() => {
       const g = planets.find((p) => p.id === 'moon').degree;
       return g < 6.5 || g > 23.5;
@@ -445,15 +445,15 @@ export function natalChart(birth, houseSystem = 'placidus') {
 export function selfVerify(date, lat, lon) {
   const eps = obliquity(date);
   const ramc = localSiderealTime(date, lon);
-  const ascCerrado = ascendant(ramc, eps, lat);
+  const closedFormAsc = ascendant(ramc, eps, lat);
   const cusps = placidusCusps(ramc, eps, lat);
-  if (!cusps) return { ok: null, motivo: 'Placidus degenerado' };
-  const ascNumerico = cusps[0];
-  const desviacionArcmin = Math.abs(norm180(ascCerrado - ascNumerico)) * 60;
+  if (!cusps) return { ok: null, reason: 'Placidus degenerado' };
+  const numericAsc = cusps[0];
+  const deviationArcmin = Math.abs(norm180(closedFormAsc - numericAsc)) * 60;
   return {
-    ok: desviacionArcmin < 0.1,
-    ascCerrado,
-    ascNumerico,
-    desviacionArcmin: +desviacionArcmin.toFixed(5),
+    ok: deviationArcmin < 0.1,
+    closedFormAsc,
+    numericAsc,
+    deviationArcmin: +deviationArcmin.toFixed(5),
   };
 }

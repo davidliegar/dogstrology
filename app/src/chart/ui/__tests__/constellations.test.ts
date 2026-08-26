@@ -4,14 +4,14 @@ import { CONSTELLATION_CANVAS, CONSTELLATIONS } from '../constellations.generate
 /**
  * El módulo lo escribe `scripts/generateConstellations.mjs`. Esto no prueba el
  * generador: prueba que lo generado sigue cumpliendo el contrato del asset
- * (`design/constelaciones/README.md`) y que nadie ha editado el fichero a mano.
+ * (`design/constellations/README.md`) y que nadie ha editado el fichero a mano.
  */
 describe('constelaciones generadas', () => {
   it('están las 12 del zodiaco, y solo esas', () => {
     expect(Object.keys(CONSTELLATIONS)).toEqual([...SIGNS]);
   });
 
-  /** La tabla de `design/constelaciones/README.md`, palabra por palabra. */
+  /** La tabla de `design/constellations/README.md`, palabra por palabra. */
   const ESTRELLAS_ESPERADAS: Record<string, number> = {
     aries: 4, taurus: 12, gemini: 12, cancer: 5, leo: 9, virgo: 13,
     libra: 6, scorpio: 14, sagittarius: 25, capricorn: 10, aquarius: 15, pisces: 22,

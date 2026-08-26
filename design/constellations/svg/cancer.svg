@@ -1,11 +1,11 @@
 <!--
-  Cáncer — generado por plot.mjs desde catalogo.json. NO editar a mano.
+  Cáncer — generado por plot.mjs desde catalog.json. NO editar a mano.
 
   5 estrellas del asterismo convencional, en posición real
   (J2000). El radio de cada punto sale de su magnitud aparente.
   Estrella dominante: Tarf (mag 3.53).
 
-  Color en dos ranuras: .lineas → colors.constellationLine · .nodos → constellationNode.
+  Color en dos ranuras: .lines → colors.constellationLine · .nodes → constellationNode.
   currentColor es solo el valor por defecto.
 -->
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"
@@ -13,16 +13,16 @@
      stroke-linecap="round" stroke-linejoin="round"
      role="img" aria-label="Constelación de Cáncer">
 
-  <g class="lineas" opacity="0.32">
+  <g class="lines" opacity="0.32">
     <path d="M158.7 395.6 L222.7 272.1 L229.2 207 L213.3 64" />
     <path d="M222.7 272.1 L353.3 448" />
   </g>
 
-  <g class="nodos" fill="currentColor" stroke="none">
+  <g class="nodes" fill="currentColor" stroke="none">
     <circle cx="158.7" cy="395.6" r="4" /> <!-- Acubens -->
     <circle cx="222.7" cy="272.1" r="4.5" /> <!-- Asellus Australis -->
     <circle cx="229.2" cy="207" r="3.5" /> <!-- Asellus Borealis -->
     <circle cx="213.3" cy="64" r="4.4" /> <!-- Zubanah -->
-    <circle class="dominante" cx="353.3" cy="448" r="5.1" /> <!-- Tarf -->
+    <circle class="dominant" cx="353.3" cy="448" r="5.1" /> <!-- Tarf -->
   </g>
 </svg>

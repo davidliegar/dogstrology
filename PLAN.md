@@ -31,7 +31,7 @@ del mercado dentro de las claves de caché del contenido — sacar la app en ing
 habría obligado a regenerar el catálogo entero. Se hizo ahora porque no hay nada
 publicado ni ningún dispositivo con datos: era la única ventana barata.
 **Decisión: el diseño se implementa contra el canvas, no contra el resumen.**
-`design/componentes.md` y `design/pantallas-mvp.md` sirven para orientarse, pero
+`design/components.md` y `design/mvp-screens.md` sirven para orientarse, pero
 el detalle fino solo está en el proyecto de Claude Design (`Pantallas MVP.dc.html`,
 `ebb0a79e-9647-4378-913f-349475c3a6b5`), y en F1 tres detalles que no estaban en
 el resumen habrían salido mal. Antes de maquetar una pantalla de F2/F3, **importar
@@ -114,18 +114,18 @@ Diseño con IA (D2), pero las constelaciones **se plotean desde datos**, no se g
 - [x] Elegir y licenciar tipografías — Fraunces display + Karla cuerpo (OFL 1.1)
       → `design/README.md`. *Pendiente al montar Expo*: confirmar los nombres de
       variante contra el paquete instalado y leer el `LICENSE.txt` real
-- [x] Contrato de salida de las 12 → `design/constelaciones/README.md`
+- [x] Contrato de salida de las 12 → `design/constellations/README.md`
 - [x] Decidido el recoloreado: dos ranuras de color, líneas fijas en
       `constellationLine` y el acento solo en los nodos. Verificado en render:
       teñir la pieza entera con un acento de elemento borra las líneas
-- [x] **Catálogo de estrellas** de las 12 → `catalogo.mjs` + `catalogo.json`.
+- [x] **Catálogo de estrellas** de las 12 → `catalog.mjs` + `catalog.json`.
       Fuente: d3-celestial (BSD-3), derivado de Hipparcos. Las 12 emparejadas sin
       avisos, error máximo 0,0085°
 - [x] `plot.mjs` → los 12 SVG en `svg/`, verificados en hoja de contacto
 - [ ] Revisar el **tratamiento** en las pobres (Aries 4 estrellas, Cáncer 5,
       Libra 6; Piscis con la dominante a mag 3,62) — es diseño de pantalla, no de
       asset. Se decide con las tarjetas de F5 delante
-- [x] Icono de app → `design/marca/icono.svg`. **Canis Major**: hay un perro real
+- [x] Icono de app → `design/brand/icono.svg`. **Canis Major**: hay un perro real
       en el cielo, y contiene a Sirio (mag −1,44). Verificado a 48/96/512 px.
       *Pendiente*: verlo en dispositivo, exportar tamaños de store y decidir el
       icono monocromo de Android 13+
@@ -136,9 +136,9 @@ Diseño con IA (D2), pero las constelaciones **se plotean desde datos**, no se g
       hocico**, no la cabeza— y `plot.mjs` inyecta el contorno y reencaja el
       conjunto. Falta **solo el dibujo**: tres intentos míos y ninguno lee. En el
       grabado la forma la lleva el sombreado interior, no el contorno, así que un
-      calco más fino no lo arregla. Ver `design/marca/README.md`
+      calco más fino no lo arregla. Ver `design/brand/README.md`
 - [ ] Marca de agua para compartir — **es el vector de adquisición** (BRD §8.1),
-      merece diseño real. Especificada en `design/marca/README.md`; **es un
+      merece diseño real. Especificada en `design/brand/README.md`; **es un
       componente, no un asset**, así que se implementa en F9 (Bloque 5)
 
 **Recordatorio**: las constelaciones son un gráfico de datos. Si una queda pobre,
@@ -352,7 +352,7 @@ Referencia: **BRD §7.4, §7.5**.
       (`app/onboarding/name|date|reveal.tsx`), implementadas contra el canvas
       de diseño real, no contra el resumen: se importó el proyecto de Claude
       Design (`Pantallas MVP.dc.html`) con la herramienta de design, y de ahí
-      salieron detalles que `design/componentes.md` no recogía — el halo de la
+      salieron detalles que `design/components.md` no recogía — el halo de la
       estrella dominante son **dos círculos concéntricos** (r 46/72, opacidad
       .35/.18), no un `drop-shadow`; los nodos van en oro y el acento de
       elemento aparece solo en el punto del chip; la tira de progreso
@@ -387,7 +387,7 @@ Referencia: **BRD §7.4, §7.5**.
       vez de degradar en silencio. Verificado en el bundle: `expo export`
       empaqueta 5 `.ttf`
 - [x] **Las 12 constelaciones, en la app** — `scripts/generateConstellations.mjs`
-      convierte `design/constelaciones/svg/*.svg` en
+      convierte `design/constellations/svg/*.svg` en
       `src/chart/ui/constellations.generated.ts`, y `chart/ui/Constellation.tsx`
       las pinta con `react-native-svg`. Se genera en vez de importar el SVG
       por dos razones: Metro no lee `.svg` sin un transformer (máquina de más
@@ -399,12 +399,12 @@ Referencia: **BRD §7.4, §7.5**.
       permite trazar el asterismo con `strokeDasharray` — `react-native-svg` no
       expone `getTotalLength()`. El trazado es el revelado único de entrada a
       `motion.duration.trace`, **no** el bucle ambiental de 9000 ms del canvas
-      (`design/componentes.md` ya avisaba)
+      (`design/components.md` ya avisaba)
 - [x] **Kit de UI compartido** en `src/_ui/components/`: `Screen` (fondo, zona
       segura, campo estelar y pie fijo — el margen lateral sale de
       `screenPadding` en un solo sitio), `PrimaryButton`, `TextField` con el
       doble anillo de `focusRing` (RN no acepta dos `box-shadow`: es una `View`
-      envolvente, como anotaba `componentes.md`), `Chip` compacto de 36 px,
+      envolvente, como anotaba `components.md`), `Chip` compacto de 36 px,
       `CheckboxRow`, `ProgressSteps`, `DateFields` y `StarField`
 - [x] **Dos fallos reales encontrados por el camino**
       - `Birth` validaba la fecha **solo con un regex**, así que `2025-02-31`
@@ -440,7 +440,7 @@ Referencia: **BRD §7.4, §7.5**.
 ## Bloque 5 — App: F8-F9, F12 + monetización
 
 - [ ] F8 — Push diario con hora configurable. **Pedir permiso después de demostrar valor**, nunca al arrancar (BRD §14 R8)
-- [ ] F9 — Compartir imagen con marca de agua (spec en `design/marca/README.md`)
+- [ ] F9 — Compartir imagen con marca de agua (spec en `design/brand/README.md`)
 - [ ] F12 — Caché offline de 7 días de contenido
 - [ ] RevenueCat + paywall
 - [ ] Puntos de conversión al paywall (BRD §10.6)
@@ -549,7 +549,7 @@ cero. Si algún día se hace: límite duro de 5 mensajes/día aplicado en servid
   y `design/pantallas-mvp.md` (mapa de las 13 pantallas a feature/bloque), como
   referencia para cuando arranque el Bloque 3 sin tener que releer el canvas
 - Detectado que el disco de fase lunar del mock usa `box-shadow: inset`, que no
-  existe en React Native — anotado en `componentes.md`: hace falta Skia
+  existe en React Native — anotado en `components.md`: hace falta Skia
 
 ### 2026-08-25 (2)
 - Escritos los dos scripts de generación del pipeline contra la Batch API de
@@ -601,7 +601,7 @@ cero. Si algún día se hace: límite duro de 5 mensajes/día aplicado en servid
   elemento (identifica trígono aire-aire/fuego-aire por Luna en Acuario sin
   que se le pidiera un aspecto exacto) — confirma que la decisión de no
   construir geometría de aspecto por signo era la correcta. Salida en
-  `contenido/diario/2026-08-25.json` (no comprometida a git: el flujo real
+  `content/daily/2026-08-25.json` (no comprometida a git: el flujo real
   sería PR + revisión humana antes de mergear, BRD §7.4)
 
 ### 2026-08-25 (3)
@@ -614,7 +614,7 @@ cero. Si algún día se hace: límite duro de 5 mensajes/día aplicado en servid
   hasta que se decida activarla de verdad. Motivo: seguir validando/avanzando
   sin comprometerse todavía a un gasto recurrente automático ni a publicar
   contenido sin más revisión que la de hoy
-- **Decisión: se sigue con el contenido de prueba ya generado** (`contenido/diario/2026-08-25.json`,
+- **Decisión: se sigue con el contenido de prueba ya generado** (`content/daily/2026-08-25.json`,
   35 fragmentos) para avanzar con el desarrollo (Bloque 3+) en vez de esperar
   a activar el cron o regenerar cada vez. Documentado en `contenido/README.md`:
   es fixture de desarrollo, no contenido publicado, y se sustituye sin más
@@ -1058,5 +1058,45 @@ cero. Si algún día se hace: límite duro de 5 mensajes/día aplicado en servid
 - **Verificado**: motor con Δ=0' en las 20 combinaciones de la auto-verificación
   (renombrar no movió un número), 45 tests del pipeline, 119 de la app, `tsc` y
   `eslint` limpios, y los dos CLI del pipeline probados en seco
-- **Regenerados**: `contenido/diario/2026-08-25.json` (claves y campos nuevos,
+- **Regenerados**: `content/daily/2026-08-25.json` (claves y campos nuevos,
   prosa en español intacta), los 12 SVG y `constellations.generated.ts`
+
+### 2026-08-26
+- **Segunda pasada del inglés: carpetas, ficheros y campos de datos.** La
+  anterior dejó los identificadores del código; esta cierra la estructura
+  - `contenido/` → `content/`, con `diario/` → `daily/` y el `.informe.md` de
+    cada tanda como `.report.md`
+  - `design/constelaciones/` → `design/constellations/` y `design/marca/` →
+    `design/brand/`, con `catalogo.*` → `catalog.*`, `revision.svg` →
+    `review.svg`, `icono.svg` → `icon.svg`, `calco-bayer.mjs` →
+    `bayerTrace.mjs`
+  - `design/componentes.md` → `components.md`, `pantallas-mvp.md` →
+    `mvp-screens.md`
+  - `plot.mjs` y `catalog.mjs` traducidos enteros (eran los dos generadores que
+    seguían en español), y los campos de `catalog.json` con ellos: `abrev`→`iau`,
+    `estrellas`→`stars`, `segmentos`→`segments`, `dominante`→`dominant`,
+    `nombre`→`name`, `fuentes`→`sources`
+  - `proto/cli.mjs` y los campos de `selfVerify()`
+    (`desviacionArcmin`→`deviationArcmin`, `ascCerrado`→`closedFormAsc`).
+    **El script pasa a `npm run verify`** — `CLAUDE.md` y `proto/README.md`
+    actualizados, porque la regla de "antes de tocar el motor" lo nombra
+- **Las clases CSS del contrato del asset también cambian**: `.lineas`/`.nodos`/
+  `.dominante` → `.lines`/`.nodes`/`.dominant`. No es cosmético — el generador
+  de la app las parsea, así que se actualizó a la vez que `plot.mjs` y el
+  contrato de `design/constellations/README.md`
+- **Dos fallos reales introducidos y cazados por el camino**, los dos del mismo
+  tipo: cambiar el nombre en un lado y no en el otro
+  - La GitHub Action escribía la salida del informe con la clave `texto` y la
+    leía como `outputs.text`. El cuerpo del PR habría salido vacío
+  - Y peor: actualicé el README y la Action a `--date` antes que el script, que
+    seguía esperando `--fecha`. Un flag que no se reconoce **no falla**: se
+    ignora, y el diario se habría generado para hoy en vez de para la fecha
+    pedida — gastando el batch en el día equivocado. Es el mismo patrón que el
+    `match(undefined)` del guardarraíl: renombrar rompe en silencio
+- **Verificado**: motor con las dos implementaciones coincidiendo, 45 tests del
+  pipeline, 119 de la app, `tsc` y `eslint` limpios, `catalog.mjs` y `plot.mjs`
+  regenerando los 12 SVG idénticos, y los dos CLI del pipeline probados en seco
+  (incluida la rama de fecha inválida)
+- **No queda ni un fichero ni una carpeta con nombre en español.** La prosa
+  —comentarios, tests, documentos, y el texto que se le manda al modelo— sigue
+  en español, que es la convención

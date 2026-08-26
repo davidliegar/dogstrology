@@ -1,11 +1,11 @@
 <!--
-  Capricornio — generado por plot.mjs desde catalogo.json. NO editar a mano.
+  Capricornio — generado por plot.mjs desde catalog.json. NO editar a mano.
 
   10 estrellas del asterismo convencional, en posición real
   (J2000). El radio de cada punto sale de su magnitud aparente.
   Estrella dominante: Deneb Algedi (mag 2.85).
 
-  Color en dos ranuras: .lineas → colors.constellationLine · .nodos → constellationNode.
+  Color en dos ranuras: .lines → colors.constellationLine · .nodes → constellationNode.
   currentColor es solo el valor por defecto.
 -->
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"
@@ -13,18 +13,18 @@
      stroke-linecap="round" stroke-linejoin="round"
      role="img" aria-label="Constelación de Capricornio">
 
-  <g class="lineas" opacity="0.32">
+  <g class="lines" opacity="0.32">
     <path d="M448 124.5 L433.6 166 L399.8 221.3 L325.8 357.4 L301.2 387.5 L151.5 305.2 L64 190.5 L93.9 200.3 L170.5 203.4 L240.5 210.7 L448 124.5" />
   </g>
 
-  <g class="nodos" fill="currentColor" stroke="none">
+  <g class="nodes" fill="currentColor" stroke="none">
     <circle cx="448" cy="124.5" r="4" /> <!-- Prima Giedi -->
     <circle cx="433.6" cy="166" r="5.7" /> <!-- Dabih -->
     <circle cx="399.8" cy="221.3" r="3.3" />
     <circle cx="325.8" cy="357.4" r="4.2" /> <!-- Wei -->
     <circle cx="301.2" cy="387.5" r="4.2" />
     <circle cx="151.5" cy="305.2" r="4.7" /> <!-- Yen -->
-    <circle class="dominante" cx="64" cy="190.5" r="6" /> <!-- Deneb Algedi -->
+    <circle class="dominant" cx="64" cy="190.5" r="6" /> <!-- Deneb Algedi -->
     <circle cx="93.9" cy="200.3" r="4.8" /> <!-- Nashira -->
     <circle cx="170.5" cy="203.4" r="4" />
     <circle cx="240.5" cy="210.7" r="4.3" />
