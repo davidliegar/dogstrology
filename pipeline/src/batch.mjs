@@ -14,9 +14,26 @@ import { systemPrompt } from './prompt.mjs';
 import { fragmentSchema, FRAGMENT_SCHEMA } from './schema.mjs';
 
 const MODEL = 'claude-opus-5';
-const MAX_TOKENS = 1024; // ~400 tokens de salida típicos (BRD §7.2); margen de sobra
 
-// `output_config.shapet.schema` no soporta minLength/maxLength/minimum/maximum
+// Opus 5 **razona por defecto**, y el pensamiento sale del mismo presupuesto que
+// la respuesta. Medido sobre la tanda real de `aspects` (500 fragmentos,
+// 2026-08-26): 498 tokens de salida de media, **291 de ellos pensando** — el
+// 58%. Siete respuestas agotaron los 1024 pensando y se quedaron sin sitio para
+// escribir el JSON (`stop_reason: max_tokens`, texto cortado a media llave).
+//
+// **`effort` se queda en el valor por defecto (alto), a decisión expresa del
+// usuario (2026-08-26).** Se probó `effort: 'low'` para recortar ese 58% y se
+// descartó antes de medirlo: el texto *es* el producto (BRD §7.2 — "es el único
+// punto del proyecto donde gastar de más es obviamente correcto"), y ahorrar en
+// el razonamiento que lo escribe es exactamente el ahorro que no interesa.
+// El coste real es ~2,2x la estimación vieja y se asume a sabiendas.
+//
+// Lo que sí se corrige es el techo: 1024 dejaba siete respuestas cortadas a
+// media llave (`stop_reason: max_tokens`), y eso es perder contenido, no
+// ahorrarlo. Solo se paga lo que se usa, así que la holgura no cuesta nada.
+const MAX_TOKENS = 2048;
+
+// `output_config.format.schema` no soporta minLength/maxLength/minimum/maximum
 // (la API los rechaza con 400, "properties maximum, minimum are not supported").
 // Los SDK los quitan solos cuando se pasa por el helper `.parse()`/Zod, pero
 // aquí se construye la petición a mano para la Batch API, así que hay que
@@ -36,14 +53,20 @@ export function stripSchema(schema) {
 // Uno por familia: las descripciones que lee el modelo cambian entre el
 // diario y el catálogo (`schema.mjs`), la forma no.
 const SCHEMA_FOR_API = {
-  diario: stripSchema(fragmentSchema('daily')),
-  catalogo: stripSchema(fragmentSchema('catalog')),
+  daily: stripSchema(fragmentSchema('daily')),
+  catalog: stripSchema(fragmentSchema('catalog')),
 };
 
 /**
  * @param {{customId: string, key: string, userMessage: string, family: 'daily'|'catalog'}} item
  */
 function requestParams({ userMessage, family }) {
+  // Sin este guardia, una familia desconocida deja `schema: undefined`: la API
+  // responde 400 "output_config.format.schema: Field required" y el fallo solo
+  // se ve tras haber mandado el lote entero. Mismo criterio que `schema.mjs`.
+  const schema = SCHEMA_FOR_API[family];
+  if (!schema) throw new Error(`Familia desconocida: "${family}"`);
+
   return {
     model: MODEL,
     max_tokens: MAX_TOKENS,
@@ -59,7 +82,7 @@ function requestParams({ userMessage, family }) {
       },
     ],
     messages: [{ role: 'user', content: userMessage }],
-    output_config: { format: { type: 'json_schema', schema: SCHEMA_FOR_API[family] } },
+    output_config: { format: { type: 'json_schema', schema } },
   };
 }
 
