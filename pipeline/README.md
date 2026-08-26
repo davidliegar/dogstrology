@@ -20,7 +20,7 @@ npm test    # 16 tests del guardarraíl de salud, sin dependencias
 | `src/dailyFragments.mjs` | Compone los 37 fragmentos del diario (función pura, sin red) |
 | `src/catalogFragments.mjs` | Compone el catálogo por categoría (función pura, sin red) |
 | `src/generateDaily.mjs` | CLI: `npm run generate:daily -- --date AAAA-MM-DD [--confirm]` |
-| `src/generateCatalog.mjs` | CLI: `npm run generate:catalog -- --categories id[,id] [--confirm]` |
+| `src/generateCatalog.mjs` | CLI: `npm run generate:catalog -- --categories id[,id] [--missing] [--confirm]` |
 | `src/debugBatch.mjs` | Diagnóstico puntual: vuelca el JSON crudo de un batch ya terminado (`node src/debugBatch.mjs <batchId>`) |
 | `test/filter.test.mjs` | Lo que decide si el filtro sirve |
 | `test/dailyFragments.test.mjs` | Los 37 fragmentos del diario están bien compuestos |
@@ -75,23 +75,51 @@ tipo etiqueta.
 ## Los scripts de generación
 
 `generateDaily.mjs` y `generateCatalog.mjs` llaman a la Batch API de verdad,
+### `--missing`: completar una categoría sin repagarla
+
+Una tanda **nunca sale completa**. Siempre caen algunos por longitud, por el
+guardarraíl o por un error de la API — en la del 2026-08-26 fueron 44 de 1.520.
+`--missing` pide solo las claves que aún no están en el JSON de la categoría y
+fusiona el resultado con lo que ya había, en el orden canónico de `build()`:
+
+```
+npm run generate:catalog -- --categories breed-sign --missing --confirm
+```
+
+Regenerar los 780 para recuperar 26 cuesta $8,59 en vez de $0,29. La fusión
+**nunca sustituye** un fragmento ya publicado, y `test/generateCatalog.test.mjs`
+lo fija — un fallo ahí no daría error, se llevaría por delante contenido ya
+revisado y solo se vería al abrir el PR.
+
+Dos cosas que conviene no olvidar al arreglar el filtro:
+
+- **Los resultados crudos de un batch viven 29 días.** Si el fallo era del
+  filtro y no del modelo, se re-filtra en local contra el batch original y no se
+  gasta nada. Arreglar el filtro nunca obliga a regenerar.
+- El proceso carga las reglas al arrancar, así que editar `bannedTerms.mjs`
+  mientras corre un lote **no afecta** a ese lote.
+
 pero nunca sin que se lo pidas: sin `--confirm` solo simulan (imprimen lo
 que enviarían, y en el catálogo una estimación de coste) y no tocan la red.
 El catálogo, además, genera categoría por categoría — un lote y un informe de
 PR por categoría, nunca un PR con 500 y 240 fragmentos mezclados.
 
-De las 4 categorías del catálogo que son MVP (BRD §7.3), solo **aspectos**
-(500) y **planeta en signo/casa** (240) están implementadas. Las otras dos
-están bloqueadas, no pendientes de tiempo:
+De las 4 categorías del catálogo que son MVP (BRD §7.3), tres están
+implementadas: **aspectos** (500), **planeta en signo/casa** (240) y
+**raza × signo** (780, sobre las 65 razas de `src/breeds.mjs`).
 
-- **raza × signo** (720): no existe en el repo ninguna lista de las "60 razas
-  principales" que cita el BRD — hace falta decidirla antes de poder generar
-  nada.
-- **personalidad especie×signo/fases/casas** (68): el BRD da el total sin
-  desglose aritmético; con especie=perro (gato queda fuera del MVP) no hay una
-  combinación obvia que dé 68 exacto.
+Queda una bloqueada, y no por tiempo:
+
+- **personalidad especie×signo/fases/casas**: el BRD §7.3 da el 68 como
+  previsión para 4 especies; con especie=perro el MVP son **32** (`12 signos +
+  8 fases + 12 casas`). Falta decidir la forma exacta del mensaje por eje.
 
 Ver el comentario de `PENDING_CATEGORIES` en `src/catalogFragments.mjs`.
+
+**`src/breeds.mjs` tiene espejo en `app/src/pet/ui/breeds.ts`** y los dos no se
+importan entre sí. `test/breeds.test.mjs` los ata id a id: si divergen, el
+pipeline genera el fragmento con una clave y la app busca otra, y eso no falla
+—la ficha de raza sale vacía y nadie se entera (BRD §7.3.1).
 
 ## La GitHub Action — montada, pero desactivada a propósito
 
@@ -108,10 +136,9 @@ contenido de prueba que ya hay en `../content/daily/` — ver
 
 ## Qué falta
 
-- [ ] Lista de razas y desglose de personalidad, para las dos categorías del
-      catálogo que faltan
-- [ ] **Lanzar `aspectos` + `planeta-signo-casa`** (740 fragmentos, ~$3,70):
-      aprobado, pendiente solo de que `ANTHROPIC_API_KEY` esté en el entorno
+- [ ] Desglose de `personality`, la única categoría del catálogo que falta
+- [ ] Leer los tres `.report.md` de `content/catalog/` y decidir qué se mergea
+      (D13), y regenerar lo que caiga
 - [ ] Activar de verdad la GitHub Action (descomentar el cron, secreto
       configurado) — decisión del usuario, no técnica
 - [ ] Alerta si pasan 2 días sin generar

@@ -305,16 +305,25 @@ El error que haría explotar el coste es generar el texto completo para el produ
 | Fragmento | Cantidad |
 |-----------|----------|
 | Interpretación de aspectos (planeta en tránsito × aspecto × planeta natal) | 500 |
-| Raza × signo (60 razas principales al lanzar) | 720 |
+| Raza × signo (65 razas al lanzar — ver nota) | 780 |
 | Compatibilidad perro↔perro (pares no ordenados) | 78 |
 | Compatibilidad perro↔humano (ordenado) | 144 |
 | Compatibilidad perro↔gato | 144 |
 | Planeta en signo / planeta en casa | 240 |
 | Momentos (evento × signo lunar) — §9 fase 3 | 180 |
 | Personalidad especie × signo, fases lunares, casas | 68 |
-| | **~2.074 total** |
+| | **~2.134 total** |
 
 **Coste one-off del catálogo completo: ~$15–25** con Batch API, según modelo. Una vez. Para toda la vida de la app.
+
+**Las razas son 65, no 60** (fijado 2026-08-26 → `pipeline/src/breeds.mjs`). El
+60 de esta tabla era una estimación de coste, no un requisito: a ~$0,005 el
+fragmento, cinco razas de más cuestan 30 céntimos, que es menos de lo que cuesta
+dejar fuera al pitbull o al braco alemán por cuadrar un número redondo. El
+criterio de la lista es la **prevalencia real en España**; la cobertura de los
+10 grupos FCI es restricción, no cuota. Y dos entradas que la FCI no reconoce
+entran igual —"Pitbull" y los mestizos, partidos por tamaño— porque el selector
+de F2 tiene que hablar como habla el dueño, no como habla el estándar.
 
 **El 68 de personalidad es un total de previsión, no de alcance.** Descompone como
 `4 especies × 12 signos + 8 fases lunares + 12 casas` — es la única aritmética que

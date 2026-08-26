@@ -8,15 +8,15 @@
 
 ## Estado actual
 
-**Fase**: Bloque 2 cerrado salvo dos cabos editoriales (ver abajo). **Bloque 3
-con F1 terminado**: la app arranca, reparte según haya mascota o no, y el
+**Fase**: Bloque 2 con el catálogo inmutable **generándose**, y sin cabos
+editoriales pendientes. **Bloque 3 con F1 terminado**: la app arranca, reparte según haya mascota o no, y el
 onboarding express lleva de cero a signo solar en tres pantallas — con las
 fuentes de verdad cargadas y las 12 constelaciones reales pintadas desde
 coordenadas. Debajo, la arquitectura de la sesión anterior intacta: motor
 astrológico, SQLite con migraciones, repositorios, UUIDv7/borrado lógico, todo
 hexagonal (puertos y adaptadores, composition root, capas impuestas por ESLint)
 y en inglés. Quedan F2 y F3
-**Última sesión**: 2026-08-25
+**Última sesión**: 2026-08-26
 **Decisión: los builds de EAS se posponen.** Consumen cuota limitada (15+15
 builds/mes); un build local (`npx expo run:ios` / `run:android`) es
 ilimitado y sirve igual para desarrollar contra módulos nativos (RevenueCat,
@@ -36,31 +36,19 @@ el detalle fino solo está en el proyecto de Claude Design (`Pantallas MVP.dc.ht
 `ebb0a79e-9647-4378-913f-349475c3a6b5`), y en F1 tres detalles que no estaban en
 el resumen habrían salido mal. Antes de maquetar una pantalla de F2/F3, **importar
 su artboard**
-**Siguiente sesión: el catálogo, y desbloquear las 60 razas.** En este orden,
-porque el paso 1 no necesita ninguna decisión y el 2 sí:
+**Siguiente sesión: leer los informes y entrar en F2.** El bloqueo editorial que
+mandaba en el plan anterior —la lista de razas— está cerrado, así que el orden
+cambia:
 
-1. **Lanzar `aspects` + `planet-sign-house`** — 740 fragmentos, **~$3,70** (no
-   los $25 del catálogo completo: esa cifra incluye `breed-sign`, que es el
-   trozo caro). Aprobado ya; solo falta `ANTHROPIC_API_KEY` en el entorno.
-   ```
-   ANTHROPIC_API_KEY=... npm --prefix pipeline run generate:catalog -- \
-     --categories aspects,planet-sign-house --confirm
-   ```
-   El batch **tarda hasta 1 h**; al acabar escribe `content/catalog/*.json` y un
-   `.report.md` por categoría. Lanzarlo *primero* y decidir razas mientras corre.
-   **Nada se mergea sin leer el informe**: el filtro decide qué *puede*
-   publicarse, la persona decide qué se publica (D13)
-2. **Decidir la lista de 60 razas.** Es el único bloqueo real que queda, y
-   bloquea **dos cosas a la vez**: F2 (el selector de raza del perfil) y los 720
-   fragmentos de `breed-sign`. No se deduce de nada — es editorial. Propuesta:
-   yo redacto una lista razonada (prevalencia real en España + cobertura de
-   grupos FCI + los mestizos, que no pueden faltar) y tú corriges sobre ella,
-   que es más rápido que partir de cero
-3. **Con eso, `breed-sign`** (720 fragmentos, el grueso del gasto) y **la
-   categoría `personality`**, que para el MVP son **32** y no 68 — el 68 es un
-   total de previsión para 4 especies (BRD §7.3). Esos 32 llenan el hueco de la
-   frase de personalidad en la revelación de F1 y alimentan F6/F7/Explorar
-4. **Luego F2**, ya con la lista de razas en la mano
+1. **Leer los tres `.report.md`** de `content/catalog/` y decidir qué se mergea.
+   El filtro decide qué *puede* publicarse; la persona decide qué se publica
+   (D13). Cuenta con que **~6% se caiga por longitud** aunque el prompt ya pide
+   apuntar por debajo del tope — se regeneran, no se pierden
+2. **Regenerar los caídos** y volver a pasar el informe
+3. **`personality` (32 fragmentos)** — la única categoría MVP que queda por
+   implementar. Llena el hueco de la frase de personalidad en la revelación de
+   F1 y alimenta F6/F7/Explorar. Falta decidir la forma del mensaje por eje
+4. **F2**, ya con las 65 razas en la mano
 
 Cuando toque F2: los raíles están puestos y probados por F1 — pantallas contra
 `pet/ui/petQueries.ts` → casos de uso de la fachada `Dogstrology`, kit de UI en
@@ -70,25 +58,21 @@ foto va por referencia relativa, **nunca** ruta absoluta ni BLOB) y
 el artboard de la pantalla 9 del canvas antes de maquetar.
 
 **Antes de cerrar sesión**, los cuatro en limpio: `cd proto && npm run verify`,
-`npm --prefix pipeline test` (45), `npm --prefix app test` (119),
-`npm --prefix app run lint` y `npx tsc --noEmit`.
+`npm --prefix pipeline test` (58), `npm --prefix app test` (119),
+`npm --prefix app run lint` y `npx tsc --noEmit` (desde `app/`).
 
 Pendiente, sin bloquear el resto del Bloque 3:
-- **Un solo cabo editorial: la lista de 60 razas.** El otro (el desglose de
-  `personality`) se cerró y está en BRD §7.3: el 68 es un total de previsión
-  para 4 especies, y el MVP son **32** (`12 signos + 8 fases + 12 casas`). Ese
-  número nunca dependió de resolver el 68, así que nunca bloqueó nada
+- **No queda ningún cabo editorial.** La lista de razas se cerró (65, ver Bloque
+  2) y el desglose de `personality` estaba cerrado desde antes en BRD §7.3: el
+  68 es previsión para 4 especies y el MVP son **32**
 - Activar de verdad la GitHub Action del diario cuando se decida: descomentar
   el `schedule` de `.github/workflows/generate-daily.yml` y configurar el
   secreto `ANTHROPIC_API_KEY` en GitHub
-- **`aspects` + `planet-sign-house`: aprobado, pendiente solo de la clave.** Ver
-  el plan de la próxima sesión, arriba. Es justo lo que consume F3: las hojas de
-  planeta se indexan con `planet=X;sign=Y` y `planet=X;house=N`
-- **`breed-sign` (720) y `personality` (32) esperan la lista de razas.** La
-  primera es el grueso del gasto; la segunda llena el hueco de la frase de
-  personalidad en la revelación de F1 (`app/onboarding/reveal.tsx`), que se dejó
-  vacío a propósito: el contenido es un pipeline de build con revisión humana
-  por PR, no texto suelto escrito a mano en el bundle
+- **`personality` (32) sigue sin implementar** en `catalogFragments.mjs`. Llena
+  el hueco de la frase de personalidad en la revelación de F1
+  (`app/onboarding/reveal.tsx`), que se dejó vacío a propósito: el contenido es
+  un pipeline de build con revisión humana por PR, no texto suelto escrito a
+  mano en el bundle
 
 Del Bloque 1 quedan 3 cabos que no se cierran desde aquí: el contorno del perro
 (necesita mano de dibujo), el icono en dispositivo real, y el tratamiento de las
@@ -194,7 +178,24 @@ Referencia: **BRD §7.4, §7.5**.
       activarla de verdad — ver `pipeline/README.md`
 - [ ] Alerta si pasan 2 días sin generar
 - [ ] Cloudflare Pages: despliegue al mergear (D11)
-- [ ] **Generar el catálogo inmutable completo** (~$25 one-off, Opus 5)
+- [x] **Las 65 razas del MVP decididas** → `pipeline/src/breeds.mjs`, con
+      espejo `app/src/pet/ui/breeds.ts` y test que los ata id a id. Era el
+      último bloqueo editorial, y bloqueaba dos cosas: F2 y `breed-sign`.
+      Criterio: **manda la prevalencia real en España**, la cobertura de los 10
+      grupos FCI es restricción y no cuota — por eso G2 y G9 se llevan un
+      tercio de la lista y G4 una sola entrada. Dos entradas que la FCI no
+      reconoce entran igual, porque **el selector tiene que hablar como el
+      dueño**: `american-pit-bull-terrier` ("Pitbull") y los mestizos, que van
+      partidos por tamaño (son ~la mitad de los perros de España y con una sola
+      entrada el contenido solo podría ser vaguedad). Cinco razas españolas
+      dentro; galgo y podenco pesan más que su registro en la RSCE porque son
+      el grueso de la adopción.
+      **Son 65 y no las 60 del BRD**: la aritmética de 720 era una línea de una
+      tabla de coste, no un requisito, y a ~$0,005 el fragmento las cinco de más
+      cuestan 30 céntimos — más barato que dejar fuera al pitbull o al braco
+      alemán por cuadrar un número
+- [ ] **Generar el catálogo inmutable completo** — lanzado el 2026-08-26:
+      `aspects` + `planet-sign-house` + `breed-sign` = 1.520 fragmentos, ~$7,60
 - [ ] Revisar a mano la primera tanda de cada tipo de contenido
 
 ---
@@ -1176,3 +1177,122 @@ cero. Si algún día se hace: límite duro de 5 mensajes/día aplicado en servid
   `PlanetId`, `AspectType`) sin escribir valores en español: la migración a
   inglés **no lo contradecía, lo cumplía**. Solo faltaba decir en qué idioma
   van esos identificadores
+
+### 2026-08-26 (4)
+- **El catálogo inmutable, lanzado de verdad.** Primer intento: las 740
+  peticiones fallaron con `output_config.format.schema: Field required`. No era
+  la API — `SCHEMA_FOR_API` en `batch.mjs` había quedado indexado por
+  `diario`/`catalogo` tras la traducción al inglés, mientras el resto del
+  pipeline ya pasaba `daily`/`catalog`. El lookup devolvía `undefined` y el
+  `schema` desaparecía del JSON de cada petición
+  - **Es el tercer caso del mismo patrón** que este fichero ya registra dos
+    veces (el `match(undefined)` del guardarraíl, el `--fecha`/`--date` de la
+    Action): renombrar en un lado y no en el otro. Aquí falló ruidosamente,
+    pero solo *después* de mandar el lote entero
+  - Arreglado con las claves correctas **y un guardia que revienta antes de
+    enviar** si la familia no existe, igual que ya hacía `schema.mjs`. 3 tests
+    nuevos que lo prueban por comportamiento a través de `sendBatch` con un
+    cliente falso — `requestParams` es interno y era justo el único tramo que
+    ningún test miraba
+  - **Rompía también el diario**, no solo el catálogo: la misma tabla sirve a
+    las dos familias
+- **Prueba de humo de 2 peticiones antes de volver a gastar** los $3,70. Barata
+  y ahora obligatoria por costumbre: el camino de producción entero por dos
+  fragmentos cuesta un céntimo y habría cazado el fallo anterior en 40 segundos
+- **Las 65 razas decididas** (ver el bullet del Bloque 2, no se repite aquí).
+  `breed-sign` deja de estar en `PENDING_CATEGORIES`
+- **Prueba del guardarraíl sobre el peor caso de `breed-sign`**: 36 fragmentos
+  de bulldog francés, carlino y shar pei, que son donde el modelo más tienta a
+  escribir patología. **33 publicables, y cero bloqueos por patología de raza**
+  — ni respiración, ni pliegues, ni displasia. La preocupación era infundada y
+  el prompt aguanta; la prueba sirvió sobre todo para descartar la hipótesis
+- **Lo que sí salió, que no era lo que se buscaba:**
+  - **Un falso positivo: «el cariño lo da en dosis medidas»** → bloqueado como
+    posología. Se probó a exigir contexto médico a la regla y **se revirtió**:
+    dejaba pasar «dale la dosis de siempre», que es justo el consejo que §7.5
+    prohíbe, y un test anterior lo cazó. Ninguna regex separa las dos
+    limpiamente. **La asimetría decide**: un bloqueo falso cuesta un fragmento
+    que se regenera, un pase falso es el riesgo por el que existe el filtro.
+    El uso figurado se ataca en el prompt, que es donde no cuesta seguridad.
+    Dos tests fijan la decisión para que nadie la deshaga al ver el falso
+    positivo
+  - **~6% se pasaba de largo por poco** (328 > 320, 143 > 140). No es el
+    guardarraíl: la API no acepta `maxLength` en el esquema, así que el único
+    freno es el prompt, y el modelo trataba el máximo como objetivo. Ahora se
+    le da **franja objetivo por debajo del tope** en los tres campos de texto.
+    Sin esto, ~45 de los 780 de `breed-sign` se caerían por tres caracteres
+- **El prompt le pedía al modelo un campo `cuerpo`** que el esquema no tiene
+  (es `body` desde el renombrado). No rompía nada —la salida estructurada
+  manda— pero era una instrucción que nombraba un campo inexistente
+- **Verificado**: 58 tests del pipeline (45 + 13 nuevos), 119 de la app, `lint`
+  y `tsc` limpios
+- **Siete respuestas de `aspects` llegaron sin JSON válido**, y el diagnóstico
+  abrió algo más grande: `stop_reason: max_tokens` con **1.016–1.024 de los
+  1.024 tokens gastados en pensar**. Opus 5 razona por defecto y el pensamiento
+  sale del mismo presupuesto que la respuesta, así que se quedaron sin sitio
+  para escribir. `MAX_TOKENS` sube a 2048 — solo se paga lo que se usa, y perder
+  la petición entera por tres tokens es perder contenido, no ahorrarlo
+- **Medido el coste real, que es la primera vez que se puede**: 498 tokens de
+  salida de media, **291 de ellos pensamiento (58%)**. `aspects` costó $5,55
+  contra los $2,50 que decía la simulación
+  - **El BRD no estaba equivocado; el estimador del script sí.** $0,0111 por
+    fragmento × 2.134 del catálogo completo = ~$23,70, que es justo el "~$25
+    one-off" de BRD §7.2. El `TOKENS_SALIDA_ESTIMADOS = 400` contaba solo el
+    texto —ni el pensamiento ni el system prompt de 3,4k— y de ahí salió el
+    "~$3,70" que este mismo fichero daba por bueno en la sesión anterior
+  - Arreglado con las cifras medidas, no estimadas, y añadido el coste de
+    entrada con caché. La simulación de `aspects` ahora da $5,50 contra $5,55
+    reales
+  - De paso, un dato que contradice lo que `prompt.mjs` documentaba: **la caché
+    del system prompt sí funcionó dentro del mismo lote** (680k escritos contra
+    1.003k leídos). El ahorro no era solo entre noches
+- **Decisión de David: `effort` se queda alto y se asume la subida.** Se propuso
+  `effort: 'low'` para recortar ese 58% y se descartó sin llegar a probarlo:
+  *"no queremos perder en contenido"*. Es coherente con BRD §7.2 — el texto es
+  el producto y es el único punto donde gastar de más es obviamente correcto.
+  Queda escrito en `batch.mjs` para que nadie lo "optimice" más adelante
+- **Catálogo inmutable COMPLETO: 1.520 de 1.520** (`aspects` 500/500,
+  `planet-sign-house` 240/240, `breed-sign` 780/780). **$11,03 en total**,
+  incluidas las pruebas — por debajo del "~$25 one-off" que estima BRD §7.2 para
+  el catálogo entero, y eso que este es el 71% de él. **Nada mergeado todavía**:
+  esa es decisión humana (D13)
+- La primera pasada dejó 1.476 y los 44 que faltaban se completaron con
+  `--missing` por $0,49. Por causa: 28 de longitud (~3,6%, la mitad que antes de
+  dar franja objetivo en el prompt), 10 errores de API y 6 del guardarraíl
+  trabajando de verdad. **42 de los 44 pasaron a la primera regeneración**, lo
+  que confirma que la longitud era variación del modelo y no un fallo
+  sistemático del prompt; los 2 reincidentes entraron a la segunda
+- **Flag `--missing` nuevo en el CLI**: pide solo las claves que faltan y
+  fusiona con lo publicado en el orden canónico de `build()`. Recuperar 26 de
+  `breed-sign` cuesta $0,29 en vez de los $8,59 de regenerar los 780. La fusión
+  se extrajo a función pura (`mergeFragments`) con 5 tests **antes** de
+  lanzarla: si se equivoca no da error, se lleva por delante los fragmentos ya
+  revisados y solo se vería al abrir el PR
+- **Verificado el resultado**: los tres JSON sin claves duplicadas, sin
+  fragmentos incompletos y sin ninguno fuera de los límites de longitud
+- **Cuatro correcciones del filtro, todas encontradas por la tanda real**, y
+  merece la pena distinguirlas porque no son la misma cosa:
+  - **Un falso *pase*, que es el que importa**: `morir\w*|muere\w*` no cubría
+    subjuntivo ni pretérito — «cuando se muera», «murió», «muriendo» pasaban
+    todos. Es el agujero que §7.5 no puede permitirse, y llevaba ahí desde el
+    principio sin que nadie lo viera
+  - Al cerrarlo se abrió otro por el lado contrario: **`morder` cambia de raíz
+    en presente y se escribe igual que la muerte** («muerde», «muerden»), así
+    que el filtro empezó a tirar fragmentos sobre mordidas — que en una app de
+    perros salen a cada paso. Resuelto con `(?!d)`, porque ninguna palabra de
+    muerte empieza por "muerd"
+  - **«más allá»** sin artículo no es el eufemismo: «el petardo de tres calles
+    más allá» se bloqueaba. El eufemismo siempre lleva artículo
+  - **«peso muerto» y «punto muerto»** son locuciones: «el peso muerto más
+    cariñoso del sofá», titular de un Rottweiler de Tauro
+  - Los tres últimos son el mismo patrón que el «Cáncer es un signo» de la
+    primera sesión: **una palabra médica con un uso corriente en español**. La
+    lección, ya con cuatro casos: cuando el discriminante es gramatical y fijo
+    (artículo, mayúscula, locución, raíz) se aprieta la regla; cuando depende
+    del contexto —`dosis`— no se toca y se ataca en el prompt
+  - Los tests pasan de 45 a 63, y barren **la conjugación entera** de morir y de
+    morder, que es la única forma de no volver a fallar por un tiempo verbal
+- **Re-filtrado sin coste**: los resultados crudos de un batch viven 29 días, así
+  que las tres tandas se volvieron a filtrar en local con las reglas corregidas
+  sin gastar nada. Conviene recordarlo: **arreglar el filtro nunca obliga a
+  regenerar**
