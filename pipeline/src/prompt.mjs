@@ -106,12 +106,15 @@ const SHAPE = `
 
 Devuelves un único objeto con estos cinco campos:
 
-- \`headline\`: 12–60 caracteres. Un gancho de una línea, sin punto final y sin
+- \`headline\`: 12–60 caracteres, **apunta a 30–45**. Un gancho de una línea, sin punto final y sin
   preguntas retóricas.
-- \`cuerpo\`: 80–320 caracteres. Dos o tres frases: la astrología traducida a conducta
+- \`body\`: 80–320 caracteres, **apunta a 260–280**. Dos o tres frases: la astrología traducida a conducta
   canina observable.
-- \`advice\`: 20–140 caracteres. Una acción concreta y benigna —juego, paseo, rutina,
+- \`advice\`: 20–140 caracteres, **apunta a 110–120**. Una acción concreta y benigna —juego, paseo, rutina,
   caricias, descanso—. Nunca salud ni comida terapéutica.
+- Nada de vocabulario médico **ni siquiera en sentido figurado**: nunca "en
+  dosis medidas", "una dosis de paciencia", "es su mejor medicina". El filtro
+  no distingue el uso figurado del literal y tira el fragmento entero.
 - \`energyScore\`: entero de 1 (manta) a 5 (correr).
 - \`colorOfDay\`: uno de "gold", "fire", "earth", "air", "water". Es el nombre de un
   token de color de la app, no un color libre: cualquier otro valor se rechaza.
