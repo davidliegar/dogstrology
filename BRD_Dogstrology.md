@@ -442,7 +442,7 @@ Regla general que debe quedar escrita: **ninguna feature que invoque el modelo e
 | # | Feature | Detalle |
 |---|---------|---------|
 | F1 | **Onboarding express** | Nombre → especie (perro) → fecha nacimiento → resultado. ≤60s. Hora y lugar **opcionales**, pedidos después como mejora progresiva. |
-| F2 | **Perfil de mascota** | Foto, nombre, raza (autocompletado, ~200 razas FCI/AKC), sexo, esterilizado, fecha/hora/lugar, "gotcha day" opcional |
+| F2 | **Perfil de mascota** | Foto, nombre, raza (autocompletado sobre **las 65 con contenido**, ver nota), sexo, esterilizado, fecha/hora/lugar, "gotcha day" opcional |
 | F3 | **Cálculo de carta natal** | Sol siempre; Luna con aviso de confianza si falta hora; Ascendente, casas y aspectos si hay datos completos |
 | F4 | **Rueda de carta astral** | Visual, dibujada con Skia, interactiva (tap en planeta → explicación) |
 | F5 | **Carta del día** | Contenido diario por tránsitos. Formato tarjeta, animado, compartible como imagen |
@@ -452,6 +452,18 @@ Regla general que debe quedar escrita: **ninguna feature que invoque el modelo e
 | F9 | **Compartir** | Generación de imagen con la tarjeta del día / carta. Bucle viral. Marca de agua discreta |
 | F12 | **Offline** | Todo lo calculado funciona sin red; el contenido diario se cachea 7 días por adelantado |
 | — | **Paywall de suscripción** | Se mantiene en el MVP: sin ads, la suscripción es la única monetización. Vía RevenueCat |
+
+**El selector de raza ofrece exactamente las 65 que tienen contenido** (decidido
+2026-08-26; la lista vive en `pipeline/src/breeds.mjs` con espejo en la app). La
+versión anterior de esta tabla decía "~200 razas FCI/AKC", y ofrecer más razas de
+las que tienen fragmento es justo el fallo silencioso que §7.3.1 describe: el
+usuario elige su raza, la app construye `breed=<id>;sign=<sign>`, no encuentra
+nada y **la ficha de F6 sale vacía sin ningún error**. Quien no se encuentre
+elige uno de los tres mestizos por tamaño, que existen precisamente para eso.
+
+Es la opción que no introduce un estado degradado que haya que diseñar, y ampliar
+la lista después cuesta ~$0,06 por raza (12 fragmentos). El coste de equivocarse
+es simétrico y barato en ambas direcciones, así que manda la simplicidad.
 
 **Cortado del primer release por D5 y D8:**
 
@@ -471,6 +483,17 @@ La captación en sí queda fuera de este documento, pero tres cosas dejan de ser
 ### 8.2 Fuera del MVP (fase 2+)
 
 Compatibilidad entre mascotas · compatibilidad con el humano · multi-especie (gato) · calendario cósmico de "momentos" · test de rectificación conductual · chat con la "voz cósmica" de la mascota · widgets de home screen · social/comunidad · tienda de pósters de carta astral impresa
+
+**"Otra raza" con aviso de raza que falta.** Una entrada más en el selector que
+guarda lo que el usuario escribe, usa el mestizo del tamaño correspondiente para
+el contenido —así la ficha nunca sale vacía— y **emite un evento agregado con la
+raza pedida**. Con eso la lista deja de crecer por intuición: se amplía por lo
+que la gente busca de verdad y no se encuentra, y cada raza nueva cuesta ~$0,06.
+
+Encaja con D10 sin fricción: es un contador por nombre de raza, no necesita
+identificador de dispositivo ni consentimiento. Va fuera del MVP porque exige
+diseñar el estado degradado ("no tenemos todavía el perfil de esta raza") y
+porque hasta que haya usuarios no hay nada que contar.
 
 ### 8.3 Explícitamente NO se hará
 

@@ -8,8 +8,9 @@
 
 ## Estado actual
 
-**Fase**: Bloque 2 con el catálogo inmutable **generándose**, y sin cabos
-editoriales pendientes. **Bloque 3 con F1 terminado**: la app arranca, reparte según haya mascota o no, y el
+**Fase**: **Bloque 2 cerrado hasta donde puede estarlo** — las 4 categorías del
+catálogo MVP generadas (1.552 fragmentos) y lo que queda depende de decisiones de
+lanzamiento, no de trabajo. **Bloque 3 con F1 terminado**: la app arranca, reparte según haya mascota o no, y el
 onboarding express lleva de cero a signo solar en tres pantallas — con las
 fuentes de verdad cargadas y las 12 constelaciones reales pintadas desde
 coordenadas. Debajo, la arquitectura de la sesión anterior intacta: motor
@@ -36,19 +37,21 @@ el detalle fino solo está en el proyecto de Claude Design (`Pantallas MVP.dc.ht
 `ebb0a79e-9647-4378-913f-349475c3a6b5`), y en F1 tres detalles que no estaban en
 el resumen habrían salido mal. Antes de maquetar una pantalla de F2/F3, **importar
 su artboard**
-**Siguiente sesión: leer los informes y entrar en F2.** El bloqueo editorial que
-mandaba en el plan anterior —la lista de razas— está cerrado, así que el orden
-cambia:
+**Siguiente sesión: F2, y antes el contexto de contenido si toca F3.**
 
-1. **Leer los tres `.report.md`** de `content/catalog/` y decidir qué se mergea.
-   El filtro decide qué *puede* publicarse; la persona decide qué se publica
-   (D13). Cuenta con que **~6% se caiga por longitud** aunque el prompt ya pide
-   apuntar por debajo del tope — se regeneran, no se pierden
-2. **Regenerar los caídos** y volver a pasar el informe
-3. **`personality` (32 fragmentos)** — la única categoría MVP que queda por
-   implementar. Llena el hueco de la frase de personalidad en la revelación de
-   F1 y alimenta F6/F7/Explorar. Falta decidir la forma del mensaje por eje
-4. **F2**, ya con las 65 razas en la mano
+1. **F2 — Perfil de mascota.** Sin bloqueos: las 65 razas están en el repo y el
+   selector ofrece **esas 65 y solo esas** (decidido 2026-08-26, BRD §8.1).
+   Quien no se encuentre elige uno de los tres mestizos por tamaño. El "Otra
+   raza" con aviso de raza que falta es **post-MVP** (BRD §8.2)
+2. **El bounded context de contenido**, que es el hueco real y no estaba escrito
+   en ningún sitio: hay 1.552 fragmentos en `content/catalog/` y **nada en la
+   app que sepa abrirlos**. Existe `ChartAspect.contentKey()`, que fabrica la
+   clave, y no hay a quién preguntársela. Necesita las mismas decisiones que
+   tuvo `pet`: puerto, adaptador, dónde vive el JSON y cómo se empaqueta en el
+   bundle (BRD §7.4 capa 1: va **dentro del binario**, funciona sin red desde el
+   primer arranque). **F3 no se puede terminar sin esto**; F2 no lo necesita
+3. **F3 — Carta natal integrada**, ya con contenido que enseñar:
+   `planet=X;sign=Y` y `planet=X;house=N` son exactamente lo que consume
 
 Cuando toque F2: los raíles están puestos y probados por F1 — pantallas contra
 `pet/ui/petQueries.ts` → casos de uso de la fachada `Dogstrology`, kit de UI en
@@ -450,7 +453,14 @@ Referencia: **BRD §7.4, §7.5**.
       `ViewStyle | TextStyle | ImageStyle` — el error de tipos aparece en una
       `<View>` cualquiera del mismo fichero, lejos de la causa. `text('token')`
       lo normaliza una vez; el tema no se toca
-- [ ] F2 — Perfil de mascota (foto, raza, sexo, nacimiento, gotcha day)
+- [ ] F2 — Perfil de mascota (foto, raza, sexo, nacimiento, gotcha day).
+      Selector con **las 65 razas que tienen contenido y solo esas** (BRD §8.1):
+      ofrecer más es el fallo silencioso de §7.3.1 — la ficha saldría vacía sin
+      error. Estrena `MediaReference` y `UpdatePetUseCase`. Importar el artboard
+      de la pantalla 9 del canvas antes de maquetar
+- [ ] **Contexto de contenido** — puerto + adaptador que lea `content/catalog/`
+      y resuelva una clave a su fragmento. No existe nada: la app tiene `pet` y
+      `chart`, y ni una línea que abra el catálogo. **Bloquea F3, no F2**
 - [ ] F3 — Carta natal integrada, con degradación por datos faltantes
 
 ---
@@ -1326,3 +1336,23 @@ cero. Si algún día se hace: límite duro de 5 mensajes/día aplicado en servid
   día, con la misma configuración. La cola de la Batch API no da previsión; el
   compromiso formal son 24 h y el script hace poll hasta que cae. Conviene no
   prometer tiempos
+
+### 2026-08-26 (6)
+- **Decidido el alcance del selector de raza de F2: las 65 y solo esas.** El BRD
+  decía "~200 razas FCI/AKC" desde la v0.1, y ofrecer más razas de las que
+  tienen fragmento es exactamente el fallo silencioso de §7.3.1 — el usuario
+  elige la suya, la app construye la clave, no encuentra nada y la ficha de F6
+  sale vacía **sin ningún error**. Quien no se encuentre elige uno de los tres
+  mestizos por tamaño, que existen para eso
+- **Y "Otra raza" con aviso, fuera del MVP** (BRD §8.2): guarda lo que el
+  usuario escribe, usa el mestizo del tamaño correspondiente para que la ficha
+  nunca salga vacía, y **emite un evento agregado con la raza pedida**. Con eso
+  la lista deja de crecer por intuición y crece por lo que la gente busca de
+  verdad, a ~$0,06 la raza. Encaja con D10 sin fricción: es un contador por
+  nombre, no necesita identificador de dispositivo ni consentimiento. Queda
+  fuera porque exige diseñar el estado degradado y porque hasta que haya
+  usuarios no hay nada que contar
+- **Anotado el hueco que no estaba en ningún sitio**: no existe contexto de
+  contenido en la app. Hay 1.552 fragmentos publicados y ni una línea que sepa
+  abrirlos; lo único construido es `ChartAspect.contentKey()`, que fabrica la
+  clave y no tiene a quién preguntársela. **Bloquea F3, no F2**
