@@ -1100,3 +1100,26 @@ cero. Si algún día se hace: límite duro de 5 mensajes/día aplicado en servid
 - **No queda ni un fichero ni una carpeta con nombre en español.** La prosa
   —comentarios, tests, documentos, y el texto que se le manda al modelo— sigue
   en español, que es la convención
+
+### 2026-08-26 (2)
+- **La app arrancaba en su pantalla de error tras el cambio de idioma.** La
+  mascota creada en el onboarding de la sesión anterior estaba guardada con
+  `species = 'perro'`, y el enum del dominio ya solo acepta `'dog'`: `Pet.create()`
+  valida con Zod **al leer**, así que la fila deja de construirse, `ListPetsUseCase`
+  falla y `app/index.tsx` cae a "No se pudo abrir la app"
+- **Lo que falló de verdad es el razonamiento, no el código.** Se cambió el
+  vocabulario "porque no hay consumidores", y es cierto para el contenido
+  publicado — pero **no para una base de datos que ya existe en un
+  dispositivo**, aunque sea el de desarrollo. Un cambio de tipos no alcanza a
+  los valores ya escritos
+- **Arreglado con una migración v2** (`_db/migrations/002_english_enums.ts`), no
+  reinstalando: es exactamente para lo que existe el framework (BRD §12.2.7), y
+  es lo que habría que hacer igualmente el día que hubiera usuarios de verdad.
+  Traduce `species` y `sex`; `birth_accuracy` y `photo_kind` ya estaban en
+  inglés desde la v1
+- 6 tests, incluido uno que **reproduce el fallo sin la migración** para que no
+  se pueda volver a romper en silencio, y la cobertura de las filas borradas
+  lógicamente (siguen ahí y hay que poder leerlas, BRD §12.2.2)
+- **Regla que se lleva de aquí**: cualquier cambio de valor de enum del dominio
+  necesita migración, aunque "no haya usuarios". El único aviso que da es que
+  la app no abre
