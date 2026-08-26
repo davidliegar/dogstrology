@@ -12,6 +12,7 @@ import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import { reviewText, reviewFragment, reviewRun } from '../src/filter.mjs';
 import { BANNED, CONCERN } from '../src/bannedTerms.mjs';
+import { systemPrompt } from '../src/prompt.mjs';
 
 /** Fragmento válido de base, para mutar campo a campo en cada caso. */
 const base = {
@@ -200,5 +201,94 @@ test('una regla sin patrón revienta en vez de casar con todo', () => {
 test('todas las reglas del guardarraíl tienen patrón', () => {
   for (const rule of [...BANNED, ...CONCERN]) {
     assert.ok(rule.pattern instanceof RegExp, `la regla "${rule.id}" no tiene patrón`);
+  }
+});
+
+/**
+ * De la tanda de prueba de `breed-sign` (2026-08-26): «El cariño lo da en
+ * dosis medidas» se bloqueó como posología. Se estudió exigir contexto médico
+ * a la regla y se descartó — dejaba pasar «dale la dosis de siempre».
+ *
+ * Estos tests fijan la decisión para que nadie la deshaga por comodidad al ver
+ * el falso positivo: `dosis` bloquea siempre, y el uso figurado se evita en el
+ * prompt. Cuesta algún fragmento a regenerar; ese es el precio elegido.
+ */
+test('«dosis» bloquea también en sentido figurado: es deliberado, no un bug', () => {
+  const review = reviewText('El cariño lo da en dosis medidas, apoyando el cuerpo contra tu pierna.');
+  assert.ok(
+    review.banned.some((v) => v.id === 'posologia'),
+    'si esto deja de bloquear, «dale la dosis de siempre» también pasa',
+  );
+});
+
+test('el prompt avisa de que el vocabulario médico figurado también cae', () => {
+  assert.match(systemPrompt({ family: 'catalog' }), /dosis medidas/);
+});
+
+/**
+ * De la tanda de `planet-sign-house` (2026-08-26): «el petardo de tres calles
+ * más allá» y «la obsesión por lo que hay más allá» se bloquearon como
+ * eufemismo de muerte. El eufemismo lleva artículo y el adverbio no; se aprieta
+ * la regla a eso y la categoría conserva las tres que cubren el riesgo real.
+ */
+test('«más allá» adverbial pasa: no es el eufemismo', () => {
+  for (const text of [
+    'el petardo de tres calles mas alla',
+    'la obsesion por lo que hay mas alla',
+    'sigue el rastro mas alla de lo razonable',
+  ]) {
+    assert.equal(reviewText(text).banned.length, 0, `no debería bloquear: ${text}`);
+  }
+});
+
+test('pero «el/al más allá» sigue bloqueando, que ahí sí es el eufemismo', () => {
+  for (const text of ['se fue al mas alla', 'ahora esta en el mas alla']) {
+    const { banned } = reviewText(text);
+    assert.ok(banned.some((v) => v.category === 'muerte'), `no bloqueó: ${text}`);
+  }
+});
+
+/**
+ * De la tanda de `breed-sign` (2026-08-26): «El peso muerto más cariñoso del
+ * sofá» —titular de un Rottweiler de Tauro— se bloqueó como muerte. Locución
+ * fija, igual que «punto muerto»: no depende del contexto, existe o no existe.
+ */
+test('«peso muerto» y «punto muerto» pasan: son locuciones, no muerte', () => {
+  for (const text of ['el peso muerto mas carinoso del sofa', 'la conversacion en punto muerto']) {
+    assert.equal(reviewText(text).banned.length, 0, `no debería bloquear: ${text}`);
+  }
+});
+
+/**
+ * Y el hallazgo que de verdad importaba de esa tanda, en la dirección
+ * peligrosa: `morir\\w*|muere\\w*` no cubría el subjuntivo ni el pretérito, así
+ * que «cuando se muera», «murió» y «muriendo» **pasaban**. Un falso pase en la
+ * categoría muerte es justo lo que §7.5 no puede permitirse.
+ */
+test('toda la conjugación de morir bloquea, no solo el infinitivo', () => {
+  for (const text of [
+    'muerte', 'muerto', 'muerta', 'muertos', 'muere', 'mueren', 'muera', 'mueran',
+    'murio', 'murieron', 'muriendo', 'muriera', 'morir', 'morirse', 'moribundo',
+    'fallecio', 'difunto', 'agonia',
+  ]) {
+    const { banned } = reviewText(text);
+    assert.ok(banned.some((v) => v.category === 'muerte'), `no bloqueó: ${text}`);
+  }
+});
+
+/**
+ * El vecino peligroso de `morir` es `morder`, y no por el infinitivo: el
+ * presente **cambia de raíz** y se escribe igual que la muerte ("muerde",
+ * "muerden"). Al cerrar el agujero de arriba se bloquearon tres fragmentos que
+ * hablaban de mordidas, que en una app de perros salen a cada paso. Se barre la
+ * conjugación entera de las dos, que es la única forma de no volver a
+ * equivocarse por un tiempo verbal.
+ */
+test('toda la conjugación de morder pasa, incluida la que cambia de raíz', () => {
+  for (const text of [
+    'morder', 'muerde', 'muerden', 'muerdo', 'muerdes',
+    'mordida', 'mordisco', 'mordedor', 'mordisquea', 'mordaz',
+  ]) {
+    assert.equal(reviewText(text).banned.length, 0, `no debería bloquear: ${text}`);
   }
 });

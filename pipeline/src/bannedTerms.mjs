@@ -90,6 +90,14 @@ export const BANNED = [
 
   // — Medicación, dieta terapéutica, suplementos —
   { id: 'medicacion', category: 'medicacion', pattern: /\b(medicament\w*|medicacion|medicinal\w*|farmac\w*)\b/ },
+  // `dosis` se queda bloqueado a pelo, a propósito. La tanda de prueba de
+  // `breed-sign` (2026-08-26) lo tiró un fragmento bueno ("el cariño lo da en
+  // dosis medidas") y se probó a exigir contexto médico — pero eso dejaba
+  // pasar "dale la dosis de siempre", que es justo el consejo que §7.5
+  // prohíbe, y ninguna regex separa las dos limpiamente. La asimetría decide:
+  // un bloqueo falso cuesta un fragmento que se regenera; un pase falso es el
+  // riesgo por el que existe el guardarraíl. El uso figurado se ataca en el
+  // prompt (`prompt.mjs`), que es donde no cuesta seguridad.
   { id: 'posologia', category: 'medicacion', pattern: /\b(dosis|pastilla\w*|pildora\w*|jarabe\w*)\b/ },
   { id: 'principios-activos', category: 'medicacion', pattern: /\b(antibiotic\w*|antiinflamatori\w*|analgesic\w*|sedant\w*|desparasit\w*)\b/ },
   { id: 'suplementos', category: 'medicacion', pattern: /\bsuplement\w*/ },
@@ -101,10 +109,43 @@ export const BANNED = [
   { id: 'curar-en-casa', category: 'sustituye-veterinario', pattern: /\b(cura\w*|remedi\w*)\s+(en casa|casero\w*|natural\w*)\b/ },
 
   // — Muerte, eutanasia, enfermedad terminal —
-  { id: 'muerte', category: 'muerte', pattern: /\b(muerte|muert[oa]s?|morir\w*|muere\w*|fallec\w*|difunt\w*|agoniz\w*|agonia)\b/ },
+  // Dos correcciones de la tanda de `breed-sign` (2026-08-26), en direcciones
+  // opuestas:
+  //
+  // 1. **Un agujero real, que es el que importa.** `morir\w*|muere\w*` no cubría
+  //    ni el subjuntivo ni el pretérito: "cuando se muera", "murió", "muriera",
+  //    "muriendo" pasaban todos. Un falso *pase* en la categoría muerte es
+  //    justo lo que §7.5 no puede permitirse. Se cubre por raíces (`muer`,
+  //    `muri`).
+  //
+  //    **`morder` es el vecino peligroso y tiene dos formas.** El infinitivo
+  //    (`mordida`, `mordedor`) no se parece, pero el presente **cambia de raíz**
+  //    y se escribe igual que la muerte: "muerde", "muerden". De ahí el
+  //    `(?!d)` — sin él el filtro tiraba fragmentos sobre mordidas, que en una
+  //    app de perros salen a cada paso. Ninguna palabra de muerte empieza por
+  //    "muerd".
+  // 2. `peso muerto` y `punto muerto` son locuciones fijas y no hablan de
+  //    morirse: "el peso muerto más cariñoso del sofá" es un titular perfecto
+  //    para un perro de Tauro, y se bloquearon tres. Se excluyen por
+  //    lookbehind, mismo tipo de discriminante fijo que el artículo de "el más
+  //    allá" — la locución existe o no, no depende del contexto.
+  {
+    id: 'muerte',
+    category: 'muerte',
+    pattern: /\b(?:(?<!peso\s)(?<!punto\s)muer(?!d)\w*|muri\w*|morir\w*|moribund\w*|fallec\w*|difunt\w*|agoniz\w*|agonia)\b/,
+  },
   { id: 'eutanasia', category: 'muerte', pattern: /\b(eutanasia\w*|sacrificar\w*)\b/ },
   { id: 'terminal', category: 'muerte', pattern: /\b(terminal|desahuciad\w*|ultimos dias)\b/ },
-  { id: 'luto', category: 'muerte', pattern: /\b(luto|arcoiris|mas alla)\b/ }, // "puente del arcoíris" es el eufemismo habitual
+  { id: 'luto', category: 'muerte', pattern: /\b(luto|arcoiris)\b/ }, // "puente del arcoíris" es el eufemismo habitual
+  // El eufemismo es "el más allá" y **siempre lleva artículo** ("se fue al más
+  // allá"); el uso adverbial nunca lo lleva ("tres calles más allá", "lo que
+  // hay más allá"). Sin el artículo, la regla tiraba fragmentos inocentes — dos
+  // en la tanda de `planet-sign-house` del 2026-08-26. Mismo tipo de
+  // discriminante gramatical que la mayúscula de "Cáncer", y por eso se aprieta
+  // esta y no `dosis`, donde no lo hay: la categoría `muerte` mantiene intactas
+  // las tres reglas que cubren el riesgo de frente (`muerte`, `eutanasia`,
+  // `terminal`), esta solo cubre eufemismos.
+  { id: 'mas-alla', category: 'muerte', pattern: /\b[ae]l\s+mas\s+alla\b/ },
 
   // — Afirmaciones factuales sobre patologías de raza —
   { id: 'predisposicion', category: 'patologia-de-raza', pattern: /\b(propens\w*|predispuest\w*|predisposicion\w*)\b/ },

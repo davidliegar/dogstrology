@@ -12,6 +12,7 @@
 
 import { planetPositions, SIGNS } from '../../proto/astro.mjs';
 import { ASPECT_LABELS, label, PLANET_LABELS, SIGN_LABELS } from './labels.mjs';
+import { BREEDS } from './breeds.mjs';
 
 // IDs de cuerpo derivados en runtime del propio motor (fecha fija, arbitraria:
 // los IDs no dependen de la fecha) — así nunca se desalinean si `astro.mjs`
@@ -67,28 +68,49 @@ export function planetSignHouseFragments() {
   return fragments;
 }
 
+/**
+ * Raza × signo: 65 × 12 = 780. La lista vive en `breeds.mjs` porque la comparte
+ * con el selector de F2 (BRD §8.1) — ver allí el criterio.
+ *
+ * Es la categoría donde más aprieta el guardarraíl de salud (BRD §7.5): con una
+ * braquicéfala o un shar pei delante, el modelo tiende a escribir sobre
+ * respiración, pliegues o displasia, y "afirmaciones factuales sobre patologías
+ * de razas" está explícitamente prohibido. El prompt lo dice; el filtro es la
+ * segunda barrera.
+ */
+export function breedSignFragments() {
+  const fragments = [];
+  for (const breed of BREEDS) {
+    for (const sign of SIGNS) {
+      fragments.push({
+        key: `breed=${breed.id};sign=${sign}`,
+        userMessage: `Escribe la interpretación permanente del catálogo para: un perro de raza ${breed.label} con signo solar ${label(SIGN_LABELS, sign)}.`,
+      });
+    }
+  }
+  return fragments;
+}
+
 /** Registro de categorías listas para generar hoy. */
 export const CATEGORIES = [
   { id: 'aspects', count: 500, build: aspectFragments },
   { id: 'planet-sign-house', count: 240, build: planetSignHouseFragments },
+  { id: 'breed-sign', count: BREEDS.length * 12, build: breedSignFragments },
 ];
 
 /**
- * Raza × sign (720) y personalidad especie×sign/fases/casas (68) son MVP
- * según el BRD §7.3, pero no se generan todavía:
+ * Queda una categoría MVP sin implementar:
  *
- * - `breed-sign`: no existe en ningún fichero del repo una lista de las "60
- *   razas principales" que cita el BRD (línea 308) — es una decisión
- *   editorial (qué razas, en qué orden de prioridad), no algo que se pueda
- *   derivar del motor ni inventar sin revisión.
- * - `personality-species-sign`: el BRD (línea 314) da el total (68) sin
- *   desglose aritmético, y con especie=perro (gato queda fuera del MVP) no
- *   hay una combinación obvia de signos/fases/casas que dé 68 exacto.
+ * - `personality-species-sign`: el BRD §7.3 da el total (68) como previsión
+ *   para 4 especies; con especie=perro el MVP son 32 (`12 signos + 8 fases +
+ *   12 casas`). Falta decidir la forma exacta del mensaje de cada eje.
  *
- * Añadir aquí un objeto `{id, count, build}` en cuanto haya lista de
- * razas y desglose confirmado — el resto del pipeline (lote, filtro,
- * report) no necesita cambios para soportarlas.
+ * `breed-sign` salió de aquí el 2026-08-26, al fijarse la lista de razas.
+ * Fueron 65 y no las 60 que estimaba el BRD: la aritmética de 720 era una
+ * línea de una tabla de coste, no un requisito, y a ~$0,005 el fragmento las
+ * cinco razas de más cuestan 30 céntimos — más barato que dejar fuera al
+ * pitbull o al braco alemán por cuadrar un número.
  */
-export const PENDING_CATEGORIES = ['breed-sign', 'personality-species-sign'];
+export const PENDING_CATEGORIES = ['personality-species-sign'];
 
 export { MAJOR_ASPECTS, BODIES };
