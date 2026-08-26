@@ -1120,6 +1120,13 @@ cero. Si algún día se hace: límite duro de 5 mensajes/día aplicado en servid
 - 6 tests, incluido uno que **reproduce el fallo sin la migración** para que no
   se pueda volver a romper en silencio, y la cobertura de las filas borradas
   lógicamente (siguen ahí y hay que poder leerlas, BRD §12.2.2)
-- **Regla que se lleva de aquí**: cualquier cambio de valor de enum del dominio
-  necesita migración, aunque "no haya usuarios". El único aviso que da es que
-  la app no abre
+- **Revertido a decisión tuya: una sola migración y reinstalar.** La v2 se
+  borra y el esquema se queda en la v1 limpia. Pre-lanzamiento es lo correcto —
+  arrastrar migraciones de correcciones del propio desarrollo ensucia el
+  historial de esquema para siempre, y reinstalar cuesta un minuto
+- **La regla, precisada en `_db/migrations/index.ts`**: "nunca se edita una
+  migración publicada" significa *publicada en un dispositivo que no es el
+  tuyo*. Hasta ese primer build, el esquema se puede colapsar; a partir de ahí,
+  un cambio de esquema **o de valores** solo se arregla añadiendo. Y sigue en
+  pie lo aprendido: un cambio de enum del dominio no alcanza a los datos ya
+  escritos, y el único aviso que da es que la app no abre
