@@ -74,24 +74,21 @@ el artboard de la pantalla 9 del canvas antes de maquetar.
 `npm --prefix app run lint` y `npx tsc --noEmit`.
 
 Pendiente, sin bloquear el resto del Bloque 3:
-- Dos cabos sueltos del catálogo: lista de 60 razas y desglose de la
-  categoría de personalidad (68) — decisiones editoriales, no técnicas, ver
-  `pipeline/README.md`
+- **Un solo cabo editorial: la lista de 60 razas.** El otro (el desglose de
+  `personality`) se cerró y está en BRD §7.3: el 68 es un total de previsión
+  para 4 especies, y el MVP son **32** (`12 signos + 8 fases + 12 casas`). Ese
+  número nunca dependió de resolver el 68, así que nunca bloqueó nada
 - Activar de verdad la GitHub Action del diario cuando se decida: descomentar
   el `schedule` de `.github/workflows/generate-daily.yml` y configurar el
   secreto `ANTHROPIC_API_KEY` en GitHub
-- **Lanzar `aspectos` + `planeta-signo-casa` — aprobado, pendiente de la clave.**
-  Son 740 fragmentos por **~$3,70**, no los $25 del catálogo completo (esa cifra
-  incluye `raza-signo`, que es el trozo caro y sigue bloqueado por la lista de
-  razas). Es justo lo que consume F3: las hojas de planeta son
-  `planeta=X;signo=Y` y `planeta=X;casa=N`. Falta solo `ANTHROPIC_API_KEY` en el
-  entorno; el prompt ya está corregido para el catálogo (ver registro).
-- Lanzar el catálogo completo de verdad (`--confirm`, ~$25 una vez) **espera
-  luz verde tuya**. Ahora tiene un consumidor concreto esperando: la pantalla
-  de revelación de F1 tiene el hueco de la frase de personalidad del signo
-  (`app/onboarding/reveal.tsx`), que sale de la categoría `personalidad` del
-  catálogo. No se ha escrito a mano a propósito — el contenido es un pipeline
-  de build con revisión humana por PR, no texto suelto en el bundle
+- **`aspects` + `planet-sign-house`: aprobado, pendiente solo de la clave.** Ver
+  el plan de la próxima sesión, arriba. Es justo lo que consume F3: las hojas de
+  planeta se indexan con `planet=X;sign=Y` y `planet=X;house=N`
+- **`breed-sign` (720) y `personality` (32) esperan la lista de razas.** La
+  primera es el grueso del gasto; la segunda llena el hueco de la frase de
+  personalidad en la revelación de F1 (`app/onboarding/reveal.tsx`), que se dejó
+  vacío a propósito: el contenido es un pipeline de build con revisión humana
+  por PR, no texto suelto escrito a mano en el bundle
 
 Del Bloque 1 quedan 3 cabos que no se cierran desde aquí: el contorno del perro
 (necesita mano de dibujo), el icono en dispositivo real, y el tratamiento de las
