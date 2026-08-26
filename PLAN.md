@@ -194,10 +194,12 @@ Referencia: **BRD §7.4, §7.5**.
       tabla de coste, no un requisito, y a ~$0,005 el fragmento las cinco de más
       cuestan 30 céntimos — más barato que dejar fuera al pitbull o al braco
       alemán por cuadrar un número
-- [x] **Generar el catálogo inmutable** — 2026-08-26: `aspects` 500/500,
-      `planet-sign-house` 240/240, `breed-sign` 780/780 = **1.520 completos**,
-      $11,03. Falta `personality` (32), que es la única categoría MVP sin
-      implementar
+- [x] **Generar el catálogo inmutable — COMPLETO** (2026-08-26): `aspects`
+      500/500, `planet-sign-house` 240/240, `breed-sign` 780/780 y
+      `personality` 32/32 = **1.552 fragmentos**, ~$11,40. Las 4 categorías MVP
+      del BRD §7.3 generadas y verificadas: sin claves duplicadas dentro ni
+      entre categorías, sin fragmentos incompletos, ninguno fuera de longitud.
+      `PENDING_CATEGORIES` se queda vacío por primera vez
 - [ ] Revisar a mano la primera tanda de cada tipo de contenido
 
 ---
@@ -1298,3 +1300,29 @@ cero. Si algún día se hace: límite duro de 5 mensajes/día aplicado en servid
   que las tres tandas se volvieron a filtrar en local con las reglas corregidas
   sin gastar nada. Conviene recordarlo: **arreglar el filtro nunca obliga a
   regenerar**
+
+### 2026-08-26 (5)
+- **`personality` implementada y generada: 32/32.** Con ella, **las 4 categorías
+  MVP del catálogo están hechas** — `PENDING_CATEGORIES` vacío por primera vez.
+  1.552 fragmentos en total, ~$11,40, sin una sola colisión de clave entre
+  categorías
+- **Es el retrato, no la lectura técnica de una posición.** Convive con
+  `planet=sun;sign=aries` porque las claves tienen campos distintos: aquella
+  interpreta una posición, esta define el carácter. Es el contenido "hero" de
+  F6, la frase que remata la revelación de F1 y el glosario de Explorar
+- **Decisión de clave: `species=dog` en los tres ejes**, fases y casas
+  incluidas. La aritmética del 68 del BRD daba por hecho que fases y casas se
+  comparten entre especies; al escribir el mensaje se ve que no, y al leer el
+  resultado más todavía — "Casa IV: la cama es el centro del mundo", "la
+  esquina del sofá que reclama sin discutirlo" no es prosa que valga para un
+  gato. Una clave que promete neutralidad que no tiene es de las caras de
+  arreglar. Previsión a 4 especies: 4×32 = 128. **BRD §7.3 corregido**
+- **Segundo número del BRD que corrige la construcción**, después de las razas,
+  y por el mismo motivo: eran aritmética de una tabla de coste, no requisitos.
+  Queda dicho así en §7.3 porque volverá a pasar con las compatibilidades
+- Una preocupación que resultó infundada: el eje de casas describe un *área*, no
+  un perro, y temía que el campo `advice` quedara forzado. No lo está
+- **El lote tardó 1h20** contra los 15-25 min de las siete tandas anteriores del
+  día, con la misma configuración. La cola de la Batch API no da previsión; el
+  compromiso formal son 24 h y el script hace poll hasta que cae. Conviene no
+  prometer tiempos

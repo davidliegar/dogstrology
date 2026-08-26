@@ -104,17 +104,16 @@ que enviarían, y en el catálogo una estimación de coste) y no tocan la red.
 El catálogo, además, genera categoría por categoría — un lote y un informe de
 PR por categoría, nunca un PR con 500 y 240 fragmentos mezclados.
 
-De las 4 categorías del catálogo que son MVP (BRD §7.3), tres están
-implementadas: **aspectos** (500), **planeta en signo/casa** (240) y
-**raza × signo** (780, sobre las 65 razas de `src/breeds.mjs`).
+**Las 4 categorías del catálogo que son MVP (BRD §7.3) están implementadas y
+generadas**: **aspectos** (500), **planeta en signo/casa** (240), **raza × signo**
+(780, sobre las 65 razas de `src/breeds.mjs`) y **personalidad** (32).
 
-Queda una bloqueada, y no por tiempo:
+`personality` es el retrato, no la lectura técnica de una posición: convive con
+`planet=sun;sign=aries` porque las claves tienen campos distintos. Es lo que
+alimenta F6, la frase que remata la revelación de F1 y el glosario de Explorar.
 
-- **personalidad especie×signo/fases/casas**: el BRD §7.3 da el 68 como
-  previsión para 4 especies; con especie=perro el MVP son **32** (`12 signos +
-  8 fases + 12 casas`). Falta decidir la forma exacta del mensaje por eje.
-
-Ver el comentario de `PENDING_CATEGORIES` en `src/catalogFragments.mjs`.
+Las que faltan del BRD —las tres de compatibilidad y la de momentos— son de fase
+2 y 3 (§9), no del MVP: se añaden cuando entre su feature.
 
 **`src/breeds.mjs` tiene espejo en `app/src/pet/ui/breeds.ts`** y los dos no se
 importan entre sí. `test/breeds.test.mjs` los ata id a id: si divergen, el

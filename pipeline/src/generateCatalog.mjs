@@ -74,8 +74,10 @@ async function readPublished(categoryId) {
 function listCategories() {
   console.log('Categorías disponibles:');
   for (const c of CATEGORIES) console.log(`  ${c.id} — ${c.count} fragmentos`);
-  console.log('\nPendientes (ver comentario en catalogFragments.mjs):');
-  for (const id of PENDING_CATEGORIES) console.log(`  ${id} — sin implementar`);
+  if (PENDING_CATEGORIES.length) {
+    console.log('\nPendientes (ver comentario en catalogFragments.mjs):');
+    for (const id of PENDING_CATEGORIES) console.log(`  ${id} — sin implementar`);
+  }
   console.log('\nUso: node src/generateCatalog.mjs --categories <id>[,<id>...] [--missing] [--confirm]');
 }
 

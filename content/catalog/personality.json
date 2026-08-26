@@ -1,0 +1,258 @@
+[
+  {
+    "key": "species=dog;sign=aries",
+    "headline": "El primero en la puerta, siempre",
+    "body": "Aries decide antes de pensar: oye las llaves y ya está esperando con la correa en la boca. Empuja el juego, empuja el paseo, empuja al perro del parque que le pareció interesante. El aburrimiento le dura tres segundos y luego se inventa algo, normalmente ruidoso.",
+    "advice": "Reserva un rato diario de juego intenso con final claro, y trabaja el \"espera\" en la puerta para que salir no sea una carrera.",
+    "energyScore": 5,
+    "colorOfDay": "fire"
+  },
+  {
+    "key": "species=dog;sign=taurus",
+    "headline": "El perro que decide dónde se pone",
+    "body": "Tauro fijo y de tierra: cuerpo pesado en el mejor sentido. Elige un sitio de la casa y lo convierte en suyo, y cuando decide que no se mueve, no se mueve. Venus le da un cariño físico y constante: se apoya en tus piernas, se queda, y sigue con la mirada cualquier bolsa de premios.",
+    "advice": "Respeta sus horarios y presenta los cambios con calma: un paseo lento por la ruta de siempre le gusta más que la novedad.",
+    "energyScore": 2,
+    "colorOfDay": "earth"
+  },
+  {
+    "key": "species=dog;sign=gemini",
+    "headline": "Dos perros en un solo cuerpo",
+    "body": "Géminis vive con el interruptor de la curiosidad siempre encendido: empieza a mordisquear un juguete, oye un ruido en la calle y lo abandona a medio camino. Aprende trucos a velocidad absurda y se aburre de ellos igual de rápido. Ladra para comentar, no solo para avisar.",
+    "advice": "Cambia el juguete cada pocos días y varía la ruta del paseo: la novedad le entretiene más que la distancia.",
+    "energyScore": 4,
+    "colorOfDay": "air"
+  },
+  {
+    "key": "species=dog;sign=cancer",
+    "headline": "Guardián sentimental de la puerta del baño",
+    "body": "Cáncer va con la casa puesta: te sigue de habitación en habitación y se tumba justo donde puede vigilar la salida. Es cardinal, así que inicia el cariño él mismo, con el morro bajo tu mano. Los cambios de mueble, de horario o de humor los registra todos y los recuerda.",
+    "advice": "Manténle una cama fija en el sitio desde el que te vea pasar, y avisa con la misma frase de siempre antes de salir de casa.",
+    "energyScore": 2,
+    "colorOfDay": "water"
+  },
+  {
+    "key": "species=dog;sign=leo",
+    "headline": "Nació para el centro del salón",
+    "body": "El perro Leo no pide atención: la organiza. Entra en una habitación y se coloca donde mejor se le vea, saluda a los invitados como si fueran suyos y sostiene la mirada un segundo más de lo normal. Los aplausos le funcionan mejor que cualquier premio, y lo sabe.",
+    "advice": "Dale un momento de público al día: un truco que ya domine, celebrado en voz alta y con caricias largas.",
+    "energyScore": 4,
+    "colorOfDay": "gold"
+  },
+  {
+    "key": "species=dog;sign=virgo",
+    "headline": "El perro que sabe a qué hora toca todo",
+    "body": "Virgo lleva el reloj de la casa en la cabeza: si el paseo se retrasa diez minutos, aparece a tu lado y te mira fijamente hasta que te levantes. Observa antes de actuar, aprende los comandos con una precisión casi ofensiva y coloca sus juguetes en el mismo rincón. Los cambios de rutina le sientan regular.",
+    "advice": "Mantén horarios estables de paseo y juego, y avísale con un ritual sencillo cuando algo vaya a cambiar en casa.",
+    "energyScore": 3,
+    "colorOfDay": "earth"
+  },
+  {
+    "key": "species=dog;sign=libra",
+    "headline": "Diplomacia canina y modales de invitado",
+    "body": "Libra es aire cardinal con Venus de fondo: cae bien a todo el mundo y lo sabe. En el parque hace de mediador, se acerca al perro tenso con la cola baja y suaviza el ambiente antes de que pase nada. Le cuesta decidirse: se queda entre dos juguetes mirándote a ti para que elijas.",
+    "advice": "Dale compañía y elige tú el juguete cuando dude: agradece un paseo acompañado y una rutina social estable.",
+    "energyScore": 3,
+    "colorOfDay": "air"
+  },
+  {
+    "key": "species=dog;sign=scorpio",
+    "headline": "Intensidad con forma de perro",
+    "body": "El Escorpio no reparte su confianza: la concede. Elige a una persona, la vigila desde la puerta del baño y sabe cuándo has cogido las llaves antes de que suenen. En el juego no suelta el juguete por educación, lo suelta cuando decide, y guarda memoria fina de quién le cayó mal en el parque.",
+    "advice": "Dale un ritual fijo con su persona elegida, un juego de olfato o de tira y afloja que se repita siempre igual.",
+    "energyScore": 3,
+    "colorOfDay": "water"
+  },
+  {
+    "key": "species=dog;sign=sagittarius",
+    "headline": "Nariz al viento y ganas de horizonte",
+    "body": "El horizonte le interesa más que el salón: en cuanto ves la correa ya está en la puerta, y en el paseo tira hacia la calle que no conocéis. Se hace amigo de cualquiera en tres segundos y se olvida de tu nombre si aparece un olor nuevo. Vuelve, eso sí, siempre vuelve.",
+    "advice": "Cambia de ruta a menudo y déjale elegir la esquina: un paseo con territorio nuevo le llena más que media hora de juego.",
+    "energyScore": 5,
+    "colorOfDay": "fire"
+  },
+  {
+    "key": "species=dog;sign=capricorn",
+    "headline": "El perro que fichó a las siete en punto",
+    "body": "Capricornio funciona por horarios y lo sabe: te espera junto a la puerta cinco minutos antes del paseo y te mira si te retrasas. Aprende despacio pero no olvida nada, y cuando decide que algo se hace de una manera, se hace de esa manera. Cariño sobrio, de apoyar la barbilla en tu pie y quedarse ahí.",
+    "advice": "Mantén las horas de paseo y comida estables, y premia la constancia con caricias tranquilas antes de dormir.",
+    "energyScore": 3,
+    "colorOfDay": "earth"
+  },
+  {
+    "key": "species=dog;sign=aquarius",
+    "headline": "El perro que hace las cosas a su manera",
+    "body": "Aire fijo: sociable con todo el mundo y de nadie en particular. Te saluda, se marcha a investigar un contenedor y vuelve cuando le apetece. Tiene manías propias que no negocia: su lado del sofá, sus vueltas antes de tumbarse, su ruta preferida del paseo.",
+    "advice": "Dale margen para elegir camino en el paseo y aprovecha los ratos en que se acerca solo: ese cariño vale doble.",
+    "energyScore": 3,
+    "colorOfDay": "air"
+  },
+  {
+    "key": "species=dog;sign=pisces",
+    "headline": "El perro que te lee antes de mirarte",
+    "body": "Agua mutable: absorbe el ambiente de casa como una esponja. Si levantas la voz al teléfono, se va a su cama; si te ríes, aparece con un juguete blando. Duerme profundo y mucho, con las patas en marcha. El contacto físico lento le vale más que veinte minutos de pelota.",
+    "advice": "Reserva un rato fijo de caricias tranquilas y horarios estables: la previsibilidad le sujeta más que cualquier juego.",
+    "energyScore": 2,
+    "colorOfDay": "water"
+  },
+  {
+    "key": "species=dog;moon_phase=new_moon",
+    "headline": "La Luna invisible y todo por empezar",
+    "body": "La Luna nueva no se ve, y algo de eso tiene: cuesta leerle la cara. Es de arrancar cosas sin avisar —un juego, una carrera por el pasillo, una manía nueva— y de dejarlas a medias. Su apego no se exhibe: te sigue a dos habitaciones de distancia y eso ya es una declaración.",
+    "advice": "Las rutinas fijas le sientan bien: misma hora de paseo, misma cama, mismo ritual al volver a casa. Le ordena el día.",
+    "energyScore": 3,
+    "colorOfDay": "water"
+  },
+  {
+    "key": "species=dog;moon_phase=waxing_crescent",
+    "headline": "Nace con ganas de empezar cosas",
+    "body": "La Luna creciente reparte impulso en bruto: es un perro que arranca. Se apunta a cualquier plan antes de saber en qué consiste, pilla rápido los primeros pasos de todo y pierde el interés justo cuando toca repetir. Espera entusiasmo constante y bastantes juegos dejados a medias.",
+    "advice": "Trabaja trucos nuevos en sesiones cortas y cierra siempre con uno que ya domine: le encanta empezar, pero conviene que termine.",
+    "energyScore": 4,
+    "colorOfDay": "air"
+  },
+  {
+    "key": "species=dog;moon_phase=first_quarter",
+    "headline": "Nacido con el pie en el acelerador",
+    "body": "El cuarto creciente es tensión que empuja: la Luna a media luz forcejeando con el Sol. Se traduce en un perro que no espera. Se adelanta en la correa, insiste con el juguete cuando ya lo has guardado y aprende rápido lo que le interesa, ignorando el resto con una calma casi insultante.",
+    "advice": "Dale salidas largas donde pueda decidir el ritmo y termina con dos minutos de quieto a tu lado antes de entrar en casa.",
+    "energyScore": 4,
+    "colorOfDay": "fire"
+  },
+  {
+    "key": "species=dog;moon_phase=waxing_gibbous",
+    "headline": "Casi lleno, casi todo, casi ya",
+    "body": "Nació con la luna a punto de llenarse y se le nota: lo que empieza lo quiere acabar. Te trae el juguete y no lo suelta hasta que el juego tiene un final, se planta junto a la puerta antes de que cojas la correa y vigila la cocina con paciencia de opositor.",
+    "advice": "Cierra los juegos con un final claro: un último lanzamiento y el juguete guardado. Le encaja mejor que dejarlo a medias.",
+    "energyScore": 4,
+    "colorOfDay": "gold"
+  },
+  {
+    "key": "species=dog;moon_phase=full_moon",
+    "headline": "Nacido con la luna entera encima",
+    "body": "Con luna llena natal, todo lo que siente se le nota: la alegría le sale por la cola entera y el malestar por una mirada que te busca desde el otro lado del salón. No sabe disimular ni le interesa. Vive el apego en volumen alto y espera lo mismo de ti.",
+    "advice": "Mantén horarios claros de paseo y de sofá: la rutina previsible le da el suelo firme que su intensidad emocional necesita.",
+    "energyScore": 3,
+    "colorOfDay": "water"
+  },
+  {
+    "key": "species=dog;moon_phase=waning_gibbous",
+    "headline": "El perro que ya se sabe el truco",
+    "body": "Nació con la luna de vuelta, cuando ya se ha visto todo. Es de los que observan dos segundos antes de actuar y que en el parque enseñan el juego a los cachorros en vez de robarles la pelota. Aprende rápido, y luego le encanta demostrar delante de público que se lo sabe.",
+    "advice": "Dale ratos de repaso con público: repetir lo que ya domina delante de gente le gusta más que aprender algo nuevo.",
+    "energyScore": 3,
+    "colorOfDay": "air"
+  },
+  {
+    "key": "species=dog;moon_phase=last_quarter",
+    "headline": "Nacido en la fase que suelta lastre",
+    "body": "El cuarto menguante fabrica perros de tempo lento y criterio propio: no corre a la puerta con cada ruido, observa primero y decide después. Se le da bien el final del día, el sofá conocido, el paseo de siempre. Cuando algo le sobra —un juguete, un invitado ruidoso— simplemente se retira sin drama.",
+    "advice": "Reserva un rincón fijo y tranquilo donde nadie le moleste, y cierra la jornada con un paseo corto por la ruta que ya conoce.",
+    "energyScore": 2,
+    "colorOfDay": "water"
+  },
+  {
+    "key": "species=dog;moon_phase=waning_crescent",
+    "headline": "Sabe cuándo soltar el palo",
+    "body": "Nacer con la luz de la Luna en retirada le da un temperamento de persiana bajada: observa antes de meterse, elige a dos o tres humanos y con eso le sobra. Suelta el juguete sin drama, se retira a su cama cuando el salón se llena y duerme como un profesional.",
+    "advice": "Respétale el rincón donde se retira y cierra la jornada con un paseo largo y tranquilo: la calma pautada es su terreno.",
+    "energyScore": 2,
+    "colorOfDay": "water"
+  },
+  {
+    "key": "species=dog;house=1",
+    "headline": "Casa 1: la primera impresión que reparte",
+    "body": "Es la carta de presentación. Aquí se lee cómo entra en una habitación, cómo saluda a un desconocido en el portal y qué hace en los tres primeros segundos: lanzarse, olfatear con calma o mirarte a ti antes de decidir. Su estilo, no su fondo.",
+    "advice": "Deja que sea quien inicie el saludo con gente nueva y espera a que se acerque: refuerza la seguridad con la que se presenta.",
+    "energyScore": 4,
+    "colorOfDay": "fire"
+  },
+  {
+    "key": "species=dog;house=2",
+    "headline": "La casa 2: lo que considera suyo",
+    "body": "La casa 2 gobierna el patrimonio: el hueso, el juguete chillón, el cuenco y el sofá que reclama por derecho. Aquí se ve si comparte sin drama o si se lleva el peluche a un rincón para vigilarlo. También manda en el valor que le da a un premio y en cuánto trabajaría por él.",
+    "advice": "Reserva un juguete que sea solo suyo y no entre en la rotación: tener algo propio y estable le da tranquilidad.",
+    "energyScore": 2,
+    "colorOfDay": "earth"
+  },
+  {
+    "key": "species=dog;house=3",
+    "headline": "La casa 3 es el paseo y el barrio",
+    "body": "Aquí vive todo lo que pasa entre la puerta y la esquina: el recorrido de cada día, las farolas de siempre, los vecinos que ya conoce y los perros que se cruzan sin drama. Explica si tira de la correa hacia lo nuevo o prefiere repetir la misma ruta con las mismas paradas.",
+    "advice": "Alterna la ruta de siempre con un desvío corto de vez en cuando, y déjale olfatear a su ritmo en las paradas.",
+    "energyScore": 4,
+    "colorOfDay": "air"
+  },
+  {
+    "key": "species=dog;house=4",
+    "headline": "Casa IV: la cama es el centro del mundo",
+    "body": "La casa IV es el territorio doméstico: su rincón, su manta, la esquina del sofá que reclama sin discutirlo. Aquí se ve si un perro se relaja al cruzar la puerta o vigila cada ruido del portal, si duerme desparramado o siempre con una oreja de guardia. También manda en las mudanzas y en los cambios de muebles.",
+    "advice": "Ten un sitio fijo y tranquilo que sea suyo, lejos del paso, y respétalo cuando se retire ahí a descansar.",
+    "energyScore": 2,
+    "colorOfDay": "water"
+  },
+  {
+    "key": "species=dog;house=5",
+    "headline": "La casa 5: el reino del juego",
+    "body": "La casa 5 es donde vive su capacidad de divertirse: el juguete favorito, la invitación al juego con las patas delanteras abajo y el culo en pilo, la carrera absurda por el pasillo sin motivo aparente. Aquí se ve qué le hace disfrutar y cuánto teatro monta para conseguir que juegues con él.",
+    "advice": "Reserva un rato fijo de juego activo con juguete o pelota, aparte del paseo. El juego no es un extra, es su idioma.",
+    "energyScore": 4,
+    "colorOfDay": "fire"
+  },
+  {
+    "key": "species=dog;house=6",
+    "headline": "La casa 6 y la fe en el horario",
+    "body": "La casa 6 es el territorio de la rutina: la hora del paseo, el orden en que pasan las cosas, el ritual de siempre antes de salir. Un perro con esta zona marcada lleva reloj interno y te lo recuerda plantándose junto a la puerta o mirándote fijamente cinco minutos antes de la hora.",
+    "advice": "Mantén los horarios de paseo y descanso parecidos cada día: la previsibilidad le da más calma que cualquier juguete nuevo.",
+    "energyScore": 3,
+    "colorOfDay": "earth"
+  },
+  {
+    "key": "species=dog;house=7",
+    "headline": "La casa del vínculo uno a uno",
+    "body": "La séptima casa habla de con quién elige estar tu perro: el humano de referencia, el compañero de sofá, ese amigo del parque al que saluda antes que a nadie. Aquí se ve si busca hacer las cosas contigo o por su cuenta, cómo negocia la correa y cuánto le importa tu opinión cuando duda.",
+    "advice": "Reservad un rato al día sin móvil ni pantallas: solo caricias o un juego a dos, del que participéis los dos por igual.",
+    "energyScore": 3,
+    "colorOfDay": "air"
+  },
+  {
+    "key": "species=dog;house=8",
+    "headline": "La casa del trueno y del petardo",
+    "body": "La casa 8 es el territorio de lo que asusta: la tormenta, el petardo, la aspiradora, la maleta que aparece sin avisar. Habla de cómo reacciona ante aquello que no controla y, sobre todo, de cuánto tarda en volver a ser el de siempre. Aquí se lee su manera de recuperarse, no su valentía.",
+    "advice": "Reserva un rincón en penumbra donde pueda esconderse a su gusto, y déjalo entrar y salir sin insistir en sacarlo.",
+    "energyScore": 2,
+    "colorOfDay": "water"
+  },
+  {
+    "key": "species=dog;house=9",
+    "headline": "El mapa que empieza tras el barrio",
+    "body": "La novena casa es el mundo que arranca donde acaba el barrio: el maletero, la carretera, el sendero que no huele a nada conocido. Cuenta si se sube al coche de un salto o hay que convencerlo, y si lo desconocido le abre las ganas de explorar o le hace buscarte con la mirada.",
+    "advice": "Que el coche lleve a sitios buenos: rutas cortas hasta un parque nuevo, sin prisa y con la vuelta a casa asegurada.",
+    "energyScore": 4,
+    "colorOfDay": "fire"
+  },
+  {
+    "key": "species=dog;house=10",
+    "headline": "La casa 10: su cargo en la familia",
+    "body": "La décima casa es el puesto que ocupa en casa: el que vigila la puerta, el que hace de sombra tuya, el que recibe a los invitados como si fueran suyos. Aquí se ve qué reputación tiene entre los tuyos y cómo se comporta cuando siente que le miran.",
+    "advice": "Dale un pequeño trabajo reconocible —esperar en la puerta, avisar cuando llegáis— y celébralo cuando lo cumple.",
+    "energyScore": 3,
+    "colorOfDay": "earth"
+  },
+  {
+    "key": "species=dog;house=11",
+    "headline": "La casa 11: el parque y los colegas",
+    "body": "La casa once habla de su vida social más allá de casa: la manada del parque, los perros con los que se entiende de lejos y los que evita sin darte explicaciones. Aquí se ve si entra al grupo corriendo, si observa desde la valla, o si va a saludar a los humanos antes que a los perros.",
+    "advice": "Frecuenta el mismo parque a la misma hora: los grupos estables le dan más soltura social que un sitio nuevo cada vez.",
+    "energyScore": 4,
+    "colorOfDay": "air"
+  },
+  {
+    "key": "species=dog;house=12",
+    "headline": "El territorio invisible del descanso",
+    "body": "La casa doce es todo lo que ocurre cuando nadie mira: el sueño profundo, las patas que corren dormidas y las inquietudes que nunca llegan a convertirse en ladrido. Aquí viven las manías discretas, el suspiro al tumbarse y ese rato en que se retira al pasillo sin motivo aparente.",
+    "advice": "Reserva un rincón tranquilo donde pueda retirarse solo; si se esconde más de lo normal varios días, coméntalo con tu veterinario.",
+    "energyScore": 2,
+    "colorOfDay": "water"
+  }
+]

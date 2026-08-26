@@ -311,8 +311,8 @@ El error que haría explotar el coste es generar el texto completo para el produ
 | Compatibilidad perro↔gato | 144 |
 | Planeta en signo / planeta en casa | 240 |
 | Momentos (evento × signo lunar) — §9 fase 3 | 180 |
-| Personalidad especie × signo, fases lunares, casas | 68 |
-| | **~2.134 total** |
+| Personalidad especie × signo, fases lunares, casas (ver nota) | 128 |
+| | **~2.194 total** |
 
 **Coste one-off del catálogo completo: ~$15–25** con Batch API, según modelo. Una vez. Para toda la vida de la app.
 
@@ -325,11 +325,22 @@ criterio de la lista es la **prevalencia real en España**; la cobertura de los
 entran igual —"Pitbull" y los mestizos, partidos por tamaño— porque el selector
 de F2 tiene que hablar como habla el dueño, no como habla el estándar.
 
-**El 68 de personalidad es un total de previsión, no de alcance.** Descompone como
-`4 especies × 12 signos + 8 fases lunares + 12 casas` — es la única aritmética que
-da 68, y encaja con el `species: 'dog' | 'cat' | ...` de §12.1. **Para el MVP, que
-es perro solo, la categoría son 32 fragmentos**: `12 signos + 8 fases + 12 casas`.
-Ese número no depende de resolver el 68, así que no bloquea nada (añadido 2026-08-25).
+**Personalidad: 32 en el MVP, 128 en la previsión a 4 especies** (corregido
+2026-08-26, al construir la categoría). El 68 que figuraba aquí salía de
+`4 especies × 12 signos + 8 fases + 12 casas`, es decir, de dar por hecho que las
+fases y las casas se comparten entre especies. **No se comparten.** Al escribir
+el mensaje que se le manda al modelo se ve enseguida: "un perro nacido en luna
+llena" y "la casa IV es su cama y su territorio" son prosa de perro — de hecho
+§6.4 de este mismo documento ya traduce las doce casas al mundo canino, así que
+la versión neutra nunca existió. Los tres ejes llevan `species=dog` en la clave,
+y la previsión pasa a `4 × 32`.
+
+Para el MVP la cifra no cambia: **32** (`12 signos + 8 fases + 12 casas`).
+
+Y merece la pena señalar el patrón, porque es el segundo caso en esta misma
+tabla después de las razas: **estos números eran aritmética de una estimación de
+coste, no requisitos.** Cuando la construcción real contradice a la tabla, manda
+la construcción.
 
 #### 7.3.1 Formato de clave
 

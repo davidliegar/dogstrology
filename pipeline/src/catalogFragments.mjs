@@ -11,7 +11,7 @@
  */
 
 import { planetPositions, SIGNS } from '../../proto/astro.mjs';
-import { ASPECT_LABELS, label, PLANET_LABELS, SIGN_LABELS } from './labels.mjs';
+import { ASPECT_LABELS, label, MOON_PHASE_LABELS, PLANET_LABELS, SIGN_LABELS } from './labels.mjs';
 import { BREEDS } from './breeds.mjs';
 
 // IDs de cuerpo derivados en runtime del propio motor (fecha fija, arbitraria:
@@ -27,6 +27,12 @@ const BODIES = planetPositions(new Date('2000-01-01T00:00:00Z')).map((p) => p.id
 const MAJOR_ASPECTS = ['conjunction', 'sextile', 'square', 'trine', 'opposition'];
 
 const HOUSES = Array.from({ length: 12 }, (_, i) => i + 1);
+
+// Las 8 fases, en el orden del ciclo. `PHASE_NAMES` no se exporta de
+// `astro.mjs` —igual que `ASPECTOS`— así que se toman de la tabla de etiquetas,
+// y `test/fragments-catalogo.test.mjs` comprueba **por comportamiento** que
+// `moonPhase()` no devuelve nunca un nombre que no esté aquí.
+const MOON_PHASES = Object.keys(MOON_PHASE_LABELS);
 
 /**
  * Interpretación de aspects: 10 × 10 × 5 = 500. La key usa los mismos
@@ -91,26 +97,70 @@ export function breedSignFragments() {
   return fragments;
 }
 
+/**
+ * Personalidad: 12 signos + 8 fases + 12 casas = **32** para el MVP (BRD §7.3;
+ * el 68 de la tabla es una previsión para 4 especies).
+ *
+ * Es otra cosa que `planet=sun;sign=aries`, aunque se parezcan. Aquella es la
+ * lectura técnica de una posición; esta es el retrato — el contenido "hero" de
+ * F6, la frase que remata la revelación de F1 y el glosario de Explorar
+ * (BRD §11.4).
+ *
+ * **Los tres ejes llevan `species=dog`**, incluidos fases y casas. La aritmética
+ * del 68 (`4×12 + 8 + 12`) daba por hecho que fases y casas se comparten entre
+ * especies, y al escribir el mensaje se ve que no: "un perro nacido en luna
+ * llena" y "la casa IV es su cama y su territorio" (BRD §6.4 ya traduce las
+ * casas al mundo canino) son prosa de perro, no prosa neutra. Una clave que
+ * promete neutralidad que no tiene es de las caras de arreglar, así que la
+ * previsión a 4 especies pasa a ser 4×32 = 128. El MVP sigue siendo 32.
+ */
+export function personalityFragments() {
+  const fragments = [];
+
+  for (const sign of SIGNS) {
+    fragments.push({
+      key: `species=dog;sign=${sign}`,
+      userMessage: `Escribe el retrato de personalidad permanente del catálogo para: un perro de signo ${label(SIGN_LABELS, sign)}. Es el texto que define su carácter, no la lectura de una posición concreta.`,
+    });
+  }
+
+  for (const phase of MOON_PHASES) {
+    fragments.push({
+      key: `species=dog;moon_phase=${phase}`,
+      userMessage: `Escribe el retrato de personalidad permanente del catálogo para: un perro nacido en ${label(MOON_PHASE_LABELS, phase)}.`,
+    });
+  }
+
+  for (const house of HOUSES) {
+    fragments.push({
+      key: `species=dog;house=${house}`,
+      userMessage: `Escribe la entrada de glosario permanente del catálogo para: qué área de la vida de un perro representa la casa ${house}. Explica el área, no un planeta dentro de ella.`,
+    });
+  }
+
+  return fragments;
+}
+
 /** Registro de categorías listas para generar hoy. */
 export const CATEGORIES = [
   { id: 'aspects', count: 500, build: aspectFragments },
   { id: 'planet-sign-house', count: 240, build: planetSignHouseFragments },
   { id: 'breed-sign', count: BREEDS.length * 12, build: breedSignFragments },
+  { id: 'personality', count: 32, build: personalityFragments },
 ];
 
 /**
- * Queda una categoría MVP sin implementar:
+ * **No queda ninguna categoría MVP pendiente.** Las cuatro del BRD §7.3 están
+ * implementadas y generadas (2026-08-26).
  *
- * - `personality-species-sign`: el BRD §7.3 da el total (68) como previsión
- *   para 4 especies; con especie=perro el MVP son 32 (`12 signos + 8 fases +
- *   12 casas`). Falta decidir la forma exacta del mensaje de cada eje.
+ * Las que quedan en el BRD —compatibilidad perro↔perro, perro↔humano,
+ * perro↔gato y momentos— son de fase 2 y 3 (BRD §9), no del MVP: se añaden aquí
+ * cuando su feature entre, no antes.
  *
- * `breed-sign` salió de aquí el 2026-08-26, al fijarse la lista de razas.
- * Fueron 65 y no las 60 que estimaba el BRD: la aritmética de 720 era una
- * línea de una tabla de coste, no un requisito, y a ~$0,005 el fragmento las
- * cinco razas de más cuestan 30 céntimos — más barato que dejar fuera al
- * pitbull o al braco alemán por cuadrar un número.
+ * Dos números del BRD se corrigieron al construirlas, y los dos por lo mismo —
+ * eran aritmética de una tabla de coste, no requisitos: las razas son 65 y no
+ * 60, y la previsión de personalidad a 4 especies es 4×32 y no 68.
  */
-export const PENDING_CATEGORIES = ['personality-species-sign'];
+export const PENDING_CATEGORIES = [];
 
 export { MAJOR_ASPECTS, BODIES };
