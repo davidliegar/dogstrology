@@ -100,6 +100,42 @@ export const missingHousesNote = ({
 };
 
 /**
+ * El planeta que rige cada signo (artboard 18, tercer chip).
+ *
+ * **Regencias modernas**: Escorpio con Plutón, Acuario con Urano y Piscis con
+ * Neptuno, no con Marte, Saturno y Júpiter. Se elige así porque el motor
+ * calcula los diez cuerpos —los tres transaneptunianos incluidos— y usar las
+ * tradicionales dejaría a Plutón, Urano y Neptuno dibujados en la rueda sin
+ * regir nada. Es convención heredada, no invención: se representa como es
+ * (BRD §11.2.0).
+ */
+export const SIGN_RULERS: Record<Sign, PlanetId> = {
+  aries: 'mars',
+  taurus: 'venus',
+  gemini: 'mercury',
+  cancer: 'moon',
+  leo: 'sun',
+  virgo: 'mercury',
+  libra: 'venus',
+  scorpio: 'pluto',
+  sagittarius: 'jupiter',
+  capricorn: 'saturn',
+  aquarius: 'uranus',
+  pisces: 'neptune',
+};
+
+/**
+ * Cómo se nombra "su X" en el pie del detalle de signo. Solo estos tres: son
+ * los que el usuario reconoce, y con los demás la frase sale rara ("El Marte
+ * de Baloo está en este signo" no lo dice nadie).
+ */
+export const POSSESSIVE_LABELS: Partial<Record<PlanetId | 'ascendant', string>> = {
+  sun: 'El Sol',
+  moon: 'La Luna',
+  ascendant: 'El Ascendente',
+};
+
+/**
  * Los tres planetas que retratan el carácter, con el papel que juegan
  * (artboard 6). El papel es lo que hace legible el planeta: "Marte en
  * Escorpio" no le dice nada a nadie, "Energía · Marte en Escorpio" sí.

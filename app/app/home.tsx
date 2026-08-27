@@ -35,6 +35,9 @@ export default function Home() {
             <Link href={{ pathname: '/pet/[id]/personality', params: { id: pet.id() } }} style={styles.link}>
               Quién es
             </Link>
+            <Link href="/explore" style={styles.link}>
+              Los doce signos
+            </Link>
             <Link href={{ pathname: '/pet/[id]', params: { id: pet.id() } }} style={styles.link}>
               Ver su perfil
             </Link>

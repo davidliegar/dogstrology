@@ -86,16 +86,17 @@ De los 13 artboards, 01·02·03 son F1 y 09 es F2 (ambos hechos), 05 y 13 son
 esta sesión. De los siete que quedan:
 
 - **06 Personalidad raza×signo**: hecho (sesión 19)
-- **08 Explorar los 12 signos**: dos de los tres bloqueos se cayeron en la
-  revisión del canvas de la sesión 20 — el filtro "Planetas" salió de la lámina
-  (quedan Signos, Casas y Fases lunares, que son exactamente las tres cosas que
-  `personality.json` indexa: 12 + 12 + 8) y el destino de las tarjetas ya existe
-  (artboard 18). **Sigue faltando la barra de pestañas**, que es el armazón de
-  la app entera y no de esta pantalla
-- ⚠️ **El artboard 18 tiene una decisión pendiente**: el párrafo "La
-  constelación" (cuántas estrellas, cuál es la más brillante, qué magnitud
-  tiene, si se ve desde una ciudad). Es dato, no prosa de catálogo, y hay dos
-  salidas — anotadas abajo
+- **08 y 18**: hechos en la sesión 21, con el filtro **Signos** solamente
+- ⚠️ **"Casas" y "Fases lunares" se quedaron fuera de la rejilla.** Tienen
+  contenido (12 y 8 entradas en `personality.json`) y su tarjeta sería
+  derivable —el numeral romano ya es el glifo de una casa, y el artboard 7
+  dibuja el disco lunar con su terminador—, pero **no tienen pantalla de
+  destino**: el artboard 18 resolvió ese destino solo para los signos. Pintar
+  la rejilla sin destino son doce tarjetas que no llevan a ningún sitio. Es un
+  encargo de diseño, no dos: la tarjeta y su detalle
+- ⚠️ **Sigue faltando la barra de pestañas** del artboard 8, que es el armazón
+  de la app entera y no de esta pantalla. Hoy se entra a Explorar desde el
+  enlace provisional de `home.tsx`, como a todo lo demás
 - **04 Hoy** y **07 Fase lunar** necesitan contenido que el pipeline todavía no
   genera para hoy: `aspects.json` es de tránsito y hay que calcular el día
 - **10 Ajustes** depende del selector de sistema de casas (Bloque 4),
@@ -1956,3 +1957,39 @@ cero. Si algún día se hace: límite duro de 5 mensajes/día aplicado en servid
 - La ventana del cruce es el **día local**, no el día UTC. Con un huso de +2 son
   dos horas distintas, y el usuario piensa en su día
 - **245 tests** (eran 242), lint y `tsc` limpios
+
+### 2026-08-27 (21)
+- **Artboards 18 (detalle de signo) y 08 (rejilla de los doce), implementados.**
+  Con ellos, la app tiene por primera vez contenido que se lee **sin haber
+  creado una mascota**: es lo que la ficha de store puede indexar
+- **El párrafo de la constelación sale del dato, no del catálogo** (opción
+  acordada): cuántas estrellas, cuál es la más brillante, qué magnitud alcanza
+  y si se ve desde una ciudad salen de `constellations.generated.ts`. Lo escrito
+  a mano son las junturas. Es la regla de canon aplicada al texto — fingir que
+  todas lucen igual sería rediseñar el cielo con palabras
+- **La magnitud se recupera invirtiendo el radio**, y la inversión vive en el
+  **generador**, que es donde está la fórmula (`r = clamp(10 − 1,4·mag, 3, 10)`),
+  no en la app. En los topes del clamp el dato se perdió y se emite `null`: con
+  `r=3` lo único que se sabe es "magnitud 5 o peor". Pasa en las estrellas más
+  débiles de Piscis y Sagitario, **nunca en una dominante** — y el generador
+  falla si alguna vez lo fuera, porque la ficha de un signo la cita por su
+  magnitud
+- Comprobado: `Tarf, magnitude 3.5` es exactamente el número del artboard 18.
+  El viaje de ida y vuelta radio→magnitud queda validado contra el diseño, y
+  las doce dominantes cuadran con la astronomía real (Aldebarán 0,9;
+  Espiga 1,0; Antares 1,1; Régulo 1,4)
+- ⚠️ **Hallazgo: el artboard 18 afirma que Cáncer es "la constelación más
+  discreta del zodiaco" y el dato dice que no.** Alpherg, la principal de
+  Piscis, es magnitud 3,6; Tarf, la de Cáncer, 3,5. Por brillo de la principal
+  gana Piscis. Por número de estrellas gana Cáncer (cinco contra veintidós).
+  **No hay una única lectura de "más discreta"**, así que el texto no elige
+  una: enuncia el superlativo sobre lo que el dato sí sabe — "ninguna otra del
+  zodiaco tiene una principal más débil". Elegir la medida por el resultado que
+  da es lo que había que evitar
+- `elementOfSign` y `modalityOfSign` van al **dominio**: son la misma regla que
+  aplica el motor al clasificar una posición (cada cuatro, cada tres), y la
+  ficha de un signo no tiene ninguna carta de la que sacarlo
+- Regencias **modernas** (Escorpio-Plutón, Acuario-Urano, Piscis-Neptuno):
+  el motor calcula los diez cuerpos, y con las tradicionales los tres
+  transaneptunianos quedarían dibujados en la rueda sin regir nada
+- **253 tests** (eran 245), lint y `tsc` limpios

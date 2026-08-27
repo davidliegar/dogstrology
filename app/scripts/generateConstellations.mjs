@@ -72,10 +72,21 @@ function parse(svg, file) {
     length: polylineLength(m[1], file),
   }));
 
+  // El contrato del asset codifica la magnitud aparente en el radio:
+  // r = clamp(10 − 1,4·mag, 3, 10). Se invierte aquí, que es donde vive la
+  // fórmula, para que la app lea un dato y no deshaga un valor de dibujo.
+  //
+  // En los topes la magnitud **se ha perdido** y se emite `null`: con r=3 lo
+  // único que se sabe es "de magnitud 5 o peor". Pasa en las estrellas más
+  // débiles de Piscis y Sagitario, nunca en una dominante — de ahí que la
+  // ficha de un signo, que solo cita la más brillante, siempre tenga número.
+  const magnitudeOf = (r) => (r <= 3 || r >= 10 ? null : Math.round(((10 - r) / 1.4) * 10) / 10);
+
   const stars = [...nodes[1].matchAll(
     /<circle\s*(class="dominant")?\s*cx="([\d.]+)"\s*cy="([\d.]+)"\s*r="([\d.]+)"\s*\/>(?:\s*<!--\s*(.*?)\s*-->)?/g,
   )].map(([, dominant, cx, cy, r, name]) => ({
     cx: Number(cx), cy: Number(cy), r: Number(r),
+    magnitude: magnitudeOf(Number(r)),
     name: name ?? null,
     dominant: Boolean(dominant),
   }));
@@ -84,6 +95,13 @@ function parse(svg, file) {
   if (stars.length === 0) fail(`${file}: sin estrellas`);
   // El halo de la dominante es un elemento de diseño, no un adorno opcional.
   if (stars.filter((s) => s.dominant).length !== 1) fail(`${file}: se esperaba exactamente una estrella dominante`);
+
+  // La ficha del signo (artboard 18) cita a la dominante por su nombre y su
+  // magnitud. Si le faltara cualquiera de las dos, la frase saldría a medias
+  // en la app y nadie se enteraría hasta verla: mejor que reviente el build.
+  const brightest = stars.find((s) => s.dominant);
+  if (!brightest.name) fail(`${file}: la estrella dominante no tiene nombre en el comentario`);
+  if (brightest.magnitude === null) fail(`${file}: la dominante está en el tope del clamp (r=${brightest.r}) y su magnitud no se puede recuperar`);
 
   return { size: Number(viewBox[1]), paths, stars };
 }
@@ -109,8 +127,8 @@ const ordered = SIGNS.map((sign) => [sign, parsed[sign]]);
 const canvas = [...sizes][0];
 
 const body = ordered.map(([sign, { paths, stars }]) => {
-  const starLines = stars.map(({ cx, cy, r, name, dominant }) =>
-    `      { cx: ${cx}, cy: ${cy}, r: ${r}, name: ${name ? JSON.stringify(name) : 'null'}, dominant: ${dominant} },`,
+  const starLines = stars.map(({ cx, cy, r, magnitude, name, dominant }) =>
+    `      { cx: ${cx}, cy: ${cy}, r: ${r}, magnitude: ${magnitude}, name: ${name ? JSON.stringify(name) : 'null'}, dominant: ${dominant} },`,
   ).join('\n');
   return `  '${sign}': {
     paths: [
@@ -137,6 +155,12 @@ export interface ConstellationStar {
   cy: number;
   /** Sale de la magnitud aparente real, no del gusto: clamp(10 − 1,4·mag, 3, 10). */
   r: number;
+  /**
+   * Magnitud aparente, deshaciendo el radio. Es **null** en los topes del
+   * clamp, donde el dato se perdió: con r=3 solo se sabe "magnitud 5 o peor".
+   * Una estrella dominante nunca lo es — el generador falla si lo fuera.
+   */
+  magnitude: number | null;
   name: string | null;
   /** La **más brillante**, no la α: en 7 de las 12 no coinciden. Lleva halo. */
   dominant: boolean;

@@ -1,4 +1,5 @@
 import { NatalChartMother } from '../../testing/NatalChartMother';
+import { SIGNS, elementOfSign, modalityOfSign } from '../PlanetPosition';
 
 describe('NatalChart (BRD §12.1, §12.3)', () => {
   it('isComplete()/hasAscendant() son true con hora y lugar', () => {
@@ -83,5 +84,23 @@ describe('elementBalance', () => {
     expect(NatalChartMother.withoutTime().elementBalance()).toEqual(
       NatalChartMother.complete().elementBalance(),
     );
+  });
+});
+
+describe('elementOfSign y modalityOfSign', () => {
+  it('clasifican un signo suelto igual que el motor clasifica una posición', () => {
+    // Los cuatro puntos de control: principio, un signo de agua cardinal,
+    // uno fijo y el último del zodiaco.
+    expect([elementOfSign('aries'), modalityOfSign('aries')]).toEqual(['fire', 'cardinal']);
+    expect([elementOfSign('cancer'), modalityOfSign('cancer')]).toEqual(['water', 'cardinal']);
+    expect([elementOfSign('leo'), modalityOfSign('leo')]).toEqual(['fire', 'fixed']);
+    expect([elementOfSign('pisces'), modalityOfSign('pisces')]).toEqual(['water', 'mutable']);
+  });
+
+  it('reparten los doce signos en cuatro elementos de tres y tres modalidades de cuatro', () => {
+    const count = (values: string[]) =>
+      values.reduce<Record<string, number>>((acc, value) => ({ ...acc, [value]: (acc[value] ?? 0) + 1 }), {});
+    expect(count(SIGNS.map(elementOfSign))).toEqual({ fire: 3, earth: 3, air: 3, water: 3 });
+    expect(count(SIGNS.map(modalityOfSign))).toEqual({ cardinal: 4, fixed: 4, mutable: 4 });
   });
 });

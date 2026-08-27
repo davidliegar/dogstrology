@@ -25,6 +25,16 @@ export type Element = (typeof ELEMENTS)[number];
 export const MODALITIES = ['cardinal', 'fixed', 'mutable'] as const;
 export type Modality = (typeof MODALITIES)[number];
 
+/**
+ * Elemento y modalidad de un signo, por su posición en el zodiaco: los
+ * elementos se repiten cada cuatro y las modalidades cada tres. Es la misma
+ * regla que aplica el motor al clasificar una posición (`_engine/astro.ts`),
+ * escrita aquí para poder preguntarlo de un signo suelto — la ficha de un
+ * signo (artboard 18) no tiene ninguna carta de la que sacarlo.
+ */
+export const elementOfSign = (sign: Sign): Element => ELEMENTS[SIGNS.indexOf(sign) % 4];
+export const modalityOfSign = (sign: Sign): Modality => MODALITIES[SIGNS.indexOf(sign) % 3];
+
 export const PLANET_IDS = [
   'sun', 'moon', 'mercury', 'venus', 'mars',
   'jupiter', 'saturn', 'uranus', 'neptune', 'pluto',
