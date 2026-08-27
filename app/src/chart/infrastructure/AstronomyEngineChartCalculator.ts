@@ -4,6 +4,8 @@ import {
   calculateNatalChart,
   moonPhase,
   moonSignChange,
+  nextMoonSignChange,
+  nextNewMoon,
   toSign,
   type Aspect as EngineAspect,
   type MoonPhase as EngineMoonPhase,
@@ -14,8 +16,9 @@ import type {
   calculateInput,
   ChartCalculator,
   MoonSignChangeData,
-  moonPhaseInput,
+  MoonSkyData,
   moonSignChangeInput,
+  moonSkyInput,
 } from '../domain/ChartCalculator';
 import type { ChartAspectData } from '../domain/ChartAspect';
 import {
@@ -135,16 +138,21 @@ export class AstronomyEngineChartCalculator implements ChartCalculator {
     }
   }
 
-  async moonPhaseAt({ at }: moonPhaseInput): Promise<MoonPhaseData> {
+  async moonSky({ at }: moonSkyInput): Promise<MoonSkyData> {
     const instant = new Date(at);
-    // Una fecha invisible que no es fecha sale del motor como `NaN` en los
-    // cuatro campos, y de ahí a una tarjeta con "NaN% iluminada" sin un solo
-    // error por el camino. Se corta aquí, que es donde el dato entra.
+    // Una fecha que no es fecha sale del motor como `NaN` en los cuatro
+    // campos, y de ahí a una tarjeta con "NaN% iluminada" sin un solo error
+    // por el camino. Se corta aquí, que es donde el dato entra.
     if (Number.isNaN(instant.getTime())) {
       throw DomainError.withCodes(ErrorCode.CHART_CALCULATION_FAILED);
     }
     try {
-      return toMoonPhase(moonPhase(instant));
+      const ingress = nextMoonSignChange(instant);
+      return {
+        phase: toMoonPhase(moonPhase(instant)),
+        ingress: ingress && { at: ingress.at.toISOString(), from: ingress.from, to: ingress.to },
+        nextNewMoon: nextNewMoon(instant).toISOString(),
+      };
     } catch (error) {
       throw DomainError.withCodes(ErrorCode.CHART_CALCULATION_FAILED).withCauses(error as Error);
     }

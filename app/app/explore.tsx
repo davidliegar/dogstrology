@@ -6,7 +6,7 @@ import { Chip } from '@/_ui/components/Chip';
 import { Screen } from '@/_ui/components/Screen';
 import { ScreenHeader } from '@/_ui/components/ScreenHeader';
 import { MoonDisc } from '@/chart/ui/MoonDisc';
-import { useMoonPhaseToday, useNatalChart } from '@/chart/ui/chartQueries';
+import { useMoonSky, useNatalChart } from '@/chart/ui/chartQueries';
 import { HOUSE_NUMERALS, SIGN_GLYPHS } from '@/chart/ui/glyphs';
 import { HOUSE_LABELS, MOON_PHASE_LABELS, SIGN_LABELS } from '@/chart/ui/labels';
 import { archetypalIllumination, isWaningPhase } from '@/chart/ui/moonPhase';
@@ -69,7 +69,7 @@ export default function Explore() {
   const { data: pets } = usePets();
   const pet = pets?.[0];
   const { data: chart } = useNatalChart(pet);
-  const { data: today } = useMoonPhaseToday();
+  const { data: sky } = useMoonSky();
   const { width } = useWindowDimensions();
 
   // Se calcula el lado en vez de repartir con porcentajes: con `gap` de por
@@ -92,7 +92,7 @@ export default function Explore() {
 
       {filter === 'signs' ? <SignGrid side={side} own={chart?.sunSign()} /> : null}
       {filter === 'houses' ? <HouseGrid side={side} own={chart?.planet('sun')?.house()} /> : null}
-      {filter === 'phases' ? <PhaseGrid side={side} today={today?.name} /> : null}
+      {filter === 'phases' ? <PhaseGrid side={side} today={sky?.phase.name} /> : null}
 
       <Text style={styles.caption}>{caption({ filter, name: pet?.name(), hasChart: Boolean(chart) })}</Text>
     </Screen>

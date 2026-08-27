@@ -49,28 +49,21 @@ el resumen habrían salido mal. Antes de maquetar **cualquier** pantalla,
 importar su artboard. En F3 volvió a pasar: los dos artboards de la carta natal
 están marcados F4, y eso no estaba en ningún resumen.
 
-## Siguiente sesión: **F7 — La Luna hoy (artboard 07)**
+## Siguiente sesión: **F4 — la rueda con Skia**
 
-Ya no queda nada delante. Los 8 fragmentos de cielo están generados y
-publicados, que era el único bloqueo, y **el resto de la pantalla es motor que
-ya existe**:
+Con F7 cerrado, del Bloque 4 quedan F4 y F5, y **son de naturaleza distinta**:
+F4 es tratamiento —la rueda ya se lee y se toca, falta el movimiento— y F5 es
+infraestructura, no una pantalla.
 
-| Lo que pide el 07 | De dónde sale |
-|---|---|
-| La fase, la iluminación, el día del ciclo | `moonPhaseAt` + `moonPhaseFacts` (sesión 23) |
-| El disco con su terminador | `MoonDisc` (sesión 23) |
-| "Entra en Escorpio · hoy 17:12" | `moonSignChange(from, to)`, ya genérico en el motor — hay que **generalizar el caso de uso**, hoy atado a una mascota |
-| "Su Luna natal · 8°40′ Cáncer" | la carta |
-| El párrafo en perro | `species=dog;moon_phase=…;when=today` |
-| "Luna nueva · 2 sep 03:44" | **lo único que falta**: `SearchMoonPhase` de `astronomy-engine`, que el puerto no expone todavía |
+**F5 pide bloque propio** y conviene verlo entero antes de empezarlo: CDN
+(Cloudflare Pages, D11), un adaptador de contenido **remoto** —hoy `content/`
+solo sabe leer del binario—, la caché offline de 7 días (F12, Bloque 5) y el
+diario generándose de verdad (cron descomentado + secreto). Arrastra detrás la
+barra de pestañas y los artboards **15** y **17**, que son estados suyos.
 
-Detrás:
-
-1. **F4 — Skia**, cuando toque el tratamiento (abajo)
-2. **F5 / artboard 04** es el peñasco y no es una pantalla: es infraestructura
-   —CDN, adaptador de contenido remoto, el diario generándose de verdad— y
-   pide bloque propio. Arrastra detrás la barra de pestañas y los artboards
-   **15** y **17**, que son estados suyos
+Lo que queda suelto y barato, para rellenar: el selector de sistema de casas
+(Bloque 4) y la pantalla de Ajustes, que además es donde cuelga Créditos —hoy
+se entra por el enlace provisional de `home.tsx`.
 
 ### Cuando toque F4 — lo que ya está resuelto
 
@@ -147,8 +140,10 @@ F6. Todos hechos. De los que quedan:
     perder**: el catálogo va en el binario y el motor calcula en el móvil. El
     aviso solo tiene sentido cuando el diario se descargue (F5/F12). Pintarlo
     ahora sería un control que no puede aparecer nunca
-- **04 Hoy** y **07 Fase lunar** necesitan contenido que el pipeline todavía no
-  genera para hoy: `aspects.json` es de tránsito y hay que calcular el día
+- **07 Fase lunar — hecho (sesión 23)**, en cuanto se generaron los 8
+  fragmentos de cielo que lo bloqueaban
+- **04 Hoy** necesita el diario, que el pipeline todavía no publica:
+  `aspects.json` es de tránsito y hay que calcular el día
 - **10 Ajustes** depende del selector de sistema de casas (Bloque 4) y
   **11 Paywall** de RevenueCat. **12 Compartir** no depende de nada que falte:
   la spec de marca de agua **sí está escrita** (`design/brand/README.md`,
@@ -699,15 +694,10 @@ Referencia: **BRD §7.4, §7.5**.
       — los tres filtros, las tres rejillas (12 signos, 12 casas, 8 fases) y las
       tres fichas de detalle. Es la parte de la app que se lee **sin haber creado
       ninguna mascota**, y por eso es la que la ficha de store puede indexar
-- [ ] F7 — Fase lunar de hoy (artboard 07)
-      ← **AQUÍ EMPIEZA LA PRÓXIMA SESIÓN**, detrás de los 8 fragmentos que la
-      desbloquean (Bloque 2). Todo lo demás que pide la pantalla ya lo calcula
-      el motor salvo uno: la fase, la iluminación y el día del ciclo salen de
-      `moonPhaseAt` (sesión 23), la entrada de la Luna en el siguiente signo de
-      `moonSignChange` —que ya es genérico, `(from, to)`; lo que hay que
-      generalizar es el caso de uso, hoy atado a una mascota— y su Luna natal,
-      de la carta. **Falta la próxima luna nueva** ("2 sep · 03:44"): es
-      `SearchMoonPhase` de `astronomy-engine`, que el puerto todavía no expone
+- [x] **F7 — La Luna hoy (artboard 07)**, hecho (sesión 23): `app/moon.tsx`.
+      La fase, la iluminación y el día del ciclo, el disco con su terminador
+      real, el próximo cambio de signo, la próxima luna nueva y su Luna natal.
+      Se sostiene **sin mascota**: lo único suyo es la última fila
 - [ ] Ajuste avanzado: sistema de casas, con aviso al cambiar (BRD §12.3)
 
 ---
@@ -2266,3 +2256,38 @@ cero. Si algún día se hace: límite duro de 5 mensajes/día aplicado en servid
 - La ficha de fase enseña ya sus dos secciones: "En un perro" (el cielo) y
   "Nacido en esta fase" (el carácter)
 - **308 tests**, lint y `tsc` limpios
+
+### 2026-08-27 (23f) — F7, La Luna hoy
+- **Artboard 07 completo**: `app/moon.tsx`. Se sostiene sin mascota, que es lo
+  que lo hace hermano de Explorar: la fase, la iluminación, el día del ciclo,
+  el cambio de signo y la próxima luna nueva son el mismo cielo para todos los
+  perros. Lo único suyo es la última fila
+- **El puerto se colapsa en un concepto**: `moonPhaseAt` desaparece y entra
+  `moonSky`, que devuelve fase + próximo cruce de signo + próxima luna nueva.
+  Dos métodos que contestan "qué hace la Luna en el instante X" iban a
+  divergir, y el cálculo de más son 0,2 ms — medido, no supuesto. La pantalla
+  además necesita las tres cosas **del mismo instante**, y en tres cachés
+  separadas podían acabar de instantes distintos
+- **`nextMoonSignChange` avanza en ventanas de un día**, y no es manía:
+  `moonSignChange` solo es correcto dentro de un día porque su garantía —que
+  el cruce es único— sale de que la Luna anda ~13°/día contra signos de 30°.
+  Bisecar tres días de golpe encontraría *un* cruce, no el primero, que es lo
+  que aquí se pide. Hay un test que lo fija comparándolo con un cruce posterior
+- `nextNewMoon` sale de `SearchMoonPhase` del motor sobre el ángulo 0. La app
+  no la calcula: solo fija la ventana de búsqueda
+- **`MoonDisc` gana halo**, otra vez con geometría y por la razón de siempre: el
+  lienzo del SVG es transparente por las esquinas y una sombra de React Native
+  se colaría por ellas en vez de rodear la Luna. Con halo el disco encoge para
+  que el resplandor quepa dentro, en vez de salirse del lienzo
+- ⚠️ **Sexta corrección del canvas**: el artboard 07 escribe "62% iluminada ·
+  día 19 del ciclo" y los dos números no cuadran — con 62 % menguante la Luna
+  va por el día **21,0**, que es justo lo que dice el artboard 23 del mismo
+  cielo. Se calcula de la fracción, así que los dos números concuerdan siempre
+- ⚠️ **Séptima**: el 07 dibuja la fase con `box-shadow: inset -78px 0 0` — un
+  terminador de **borde recto**, que solo sería correcto en un cuarto. Con 62 %
+  la sombra es media elipse. Se usa `MoonDisc`, que es lo que el propio
+  artboard 23 razona
+- `formatSkyMoment` dice "hoy · 17:12", "mañana · 03:44" o "2 sep · 03:44", y
+  decide por el **día del calendario local**, no restando horas: a las 23:50
+  faltan diez minutos para mañana, no un día
+- **318 tests** (eran 308), lint y `tsc` limpios

@@ -650,3 +650,41 @@ export function moonSignChange(from: Date, to: Date): SignChange | null {
 
   return { at: new Date(high), from: start.sign, to: end.sign };
 }
+
+const DAY_MS = 24 * 60 * 60 * 1000;
+
+/**
+ * El **próximo** cambio de signo de la Luna a partir de un instante.
+ *
+ * Avanza en ventanas de un día en vez de bisecar una ventana de tres, y no es
+ * un capricho: `moonSignChange` solo es correcto dentro de un día, porque su
+ * garantía —que el cruce es único— viene de que la Luna avanza ~13°/día y un
+ * signo mide 30°. Con una ventana larga la bisección encontraría *un* cruce,
+ * no el primero, y aquí el primero es justamente lo que se pide.
+ *
+ * Tres días bastan siempre: la Luna cambia de signo cada ~2,46 días.
+ */
+export function nextMoonSignChange(from: Date, withinDays: number = 3): SignChange | null {
+  for (let day = 0; day < withinDays; day += 1) {
+    const start = new Date(from.getTime() + day * DAY_MS);
+    const change = moonSignChange(start, new Date(start.getTime() + DAY_MS));
+    if (change) return change;
+  }
+  return null;
+}
+
+/** Un mes sinódico y pico: cualquier ventana mayor encuentra la siguiente nueva. */
+const NEW_MOON_SEARCH_DAYS = 40;
+
+/**
+ * La próxima luna nueva a partir de un instante — el momento en que el ciclo
+ * vuelve a empezar.
+ *
+ * Lo resuelve el propio motor (`SearchMoonPhase` sobre el ángulo 0), que es
+ * quien sabe afinar el instante; aquí solo se fija la ventana de búsqueda.
+ */
+export function nextNewMoon(from: Date): Date {
+  const found = A.SearchMoonPhase(0, from, NEW_MOON_SEARCH_DAYS);
+  if (!found) throw new Error('[astro] no se encontró luna nueva en 40 días, que es imposible');
+  return found.date;
+}

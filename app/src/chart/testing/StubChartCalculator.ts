@@ -2,10 +2,11 @@ import type {
   calculateInput,
   ChartCalculator,
   MoonSignChangeData,
-  moonPhaseInput,
+  MoonSkyData,
   moonSignChangeInput,
+  moonSkyInput,
 } from '../domain/ChartCalculator';
-import { NatalChart, type MoonPhaseData, type NatalChartData } from '../domain/NatalChart';
+import { NatalChart, type NatalChartData } from '../domain/NatalChart';
 
 /**
  * Doble del puerto `ChartCalculator`: devuelve la carta que se le dé y
@@ -17,7 +18,7 @@ export class StubChartCalculator implements ChartCalculator {
 
   readonly moonSignChangeCalls: moonSignChangeInput[] = [];
 
-  readonly moonPhaseCalls: moonPhaseInput[] = [];
+  readonly moonSkyCalls: moonSkyInput[] = [];
 
   constructor(
     private readonly chart: NatalChart,
@@ -43,10 +44,14 @@ export class StubChartCalculator implements ChartCalculator {
     return this.moonSignChange;
   }
 
-  /** La fase que devuelve no depende del instante: lo que se prueba de un
-   * caso de uso es qué le pide al puerto, no qué efemérides salen. */
-  async moonPhaseAt(input: moonPhaseInput): Promise<MoonPhaseData> {
-    this.moonPhaseCalls.push(input);
-    return this.chart.moonPhaseAtBirth();
+  /** Lo que devuelve no depende del instante: lo que se prueba de un caso de
+   * uso es qué le pide al puerto, no qué efemérides salen. */
+  async moonSky(input: moonSkyInput): Promise<MoonSkyData> {
+    this.moonSkyCalls.push(input);
+    return {
+      phase: this.chart.moonPhaseAtBirth(),
+      ingress: null,
+      nextNewMoon: '2026-09-11T03:27:28.000Z',
+    };
   }
 }

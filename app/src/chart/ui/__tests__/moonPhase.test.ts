@@ -5,6 +5,7 @@ import {
   isWaningPhase,
   litDiscPath,
   moonPhaseFacts,
+  moonTodayMeta,
   phaseBand,
   risingNote,
 } from '../moonPhase';
@@ -139,5 +140,14 @@ describe('risingNote', () => {
 
   it('las ocho salen a horas distintas: una hora más tarde por cada 15°', () => {
     expect(new Set(MOON_PHASE_NAMES.map(risingNote)).size).toBe(8);
+  });
+});
+
+describe('moonTodayMeta', () => {
+  it('escribe la línea de datos del artboard 07 con el día que sale del dato', () => {
+    // El canvas pone "62% iluminada · día 19 del ciclo" y los dos números no
+    // cuadran: con 62 % menguante la Luna va por el día 21,0 — que es lo que
+    // el propio artboard 23 dice del mismo cielo. Se calcula, no se copia.
+    expect(moonTodayMeta(TODAY)).toBe('62% iluminada · día 21 del ciclo');
   });
 });

@@ -205,3 +205,15 @@ export function risingNote(phase: MoonPhaseName): string {
   const sets = (rises + 12) % 24;
   return `Sale ${TIMES_OF_DAY[rises]} y se pone ${TIMES_OF_DAY[sets]}`;
 }
+
+/**
+ * La línea de datos bajo el nombre de la fase, en La Luna hoy (artboard 07):
+ * `62% iluminada · día 21 del ciclo`.
+ *
+ * El día sale de la fracción del ciclo, no de una cuenta aparte, así que los
+ * dos números siempre concuerdan. **El artboard escribe "día 19" junto al
+ * 62 %, y no cuadran**: con 62 % menguante la Luna va por el día 21,0 — que es
+ * justo lo que dice el artboard 23 del mismo cielo. Se calcula.
+ */
+export const moonTodayMeta = (now: MoonPhaseData): string =>
+  `${percent(now.illumination)}% iluminada · día ${day(now.fraction)} del ciclo`;

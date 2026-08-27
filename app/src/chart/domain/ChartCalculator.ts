@@ -35,10 +35,34 @@ export interface MoonSignChangeData {
   to: Sign;
 }
 
-export interface moonPhaseInput {
-  /** Instante ISO 8601 en UTC. El cielo de un momento, no el de un lugar: la
-   * fase es la misma desde cualquier punto de la Tierra. */
+export interface moonSkyInput {
+  /** Instante ISO 8601 en UTC. El cielo de un momento, no el de un lugar: lo
+   * que hace la Luna es lo mismo desde cualquier punto de la Tierra. */
   at: string;
+}
+
+/** La Luna entrando en un signo, con el instante exacto del cruce. */
+export interface MoonIngressData {
+  /** Instante ISO 8601 en UTC. */
+  at: string;
+  from: Sign;
+  to: Sign;
+}
+
+/**
+ * Lo que hace la Luna en un instante dado, entero: en qué fase está, cuándo
+ * cambia de signo y cuándo vuelve a empezar el ciclo.
+ *
+ * Va junto y no en tres métodos porque es **una sola lectura del cielo** — la
+ * pantalla de La Luna hoy (artboard 07) las enseña las tres a la vez, y
+ * partirlo dejaría tres cachés que pueden quedar de instantes distintos.
+ */
+export interface MoonSkyData {
+  phase: MoonPhaseData;
+  /** `null` solo si la Luna no cruzara de signo en tres días, que no pasa. */
+  ingress: MoonIngressData | null;
+  /** Instante ISO 8601 de la próxima luna nueva. */
+  nextNewMoon: string;
 }
 
 export interface calculateInput {
@@ -67,11 +91,11 @@ export interface ChartCalculator {
   findMoonSignChange(input: moonSignChangeInput): Promise<MoonSignChangeData | null>;
 
   /**
-   * La fase lunar de un instante cualquiera, sin carta de por medio.
+   * Lo que hace la Luna en un instante cualquiera, sin carta de por medio.
    *
-   * Existe aparte de `calculate` porque la fase de **hoy** no es de ninguna
-   * mascota (artboards 22 y 23): es el mismo cielo para todos los perros, y
-   * pedirla a través de una carta natal obligaría a inventarse un nacimiento.
+   * Existe aparte de `calculate` porque el cielo de **hoy** no es de ninguna
+   * mascota (artboards 07, 22 y 23): es el mismo para todos los perros, y
+   * pedirlo a través de una carta natal obligaría a inventarse un nacimiento.
    */
-  moonPhaseAt(input: moonPhaseInput): Promise<MoonPhaseData>;
+  moonSky(input: moonSkyInput): Promise<MoonSkyData>;
 }

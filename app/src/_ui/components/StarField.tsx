@@ -40,6 +40,20 @@ export const STAR_FIELDS = {
     { left: '59%', top: '93%', size: 2, twinkleMs: 3300 },
   ],
   /**
+   * Artboard 07. Siete, y una a media altura: es la pantalla más vacía de
+   * texto y el cielo puede ocuparla entera, que es lo que la nota del canvas
+   * pide — aquí la imagen manda sobre el texto.
+   */
+  moonToday: [
+    { left: '10%', top: '12%', size: 2, twinkleMs: 3000 },
+    { left: '29%', top: '6%', size: 1 },
+    { left: '74%', top: '9%', size: 2, twinkleMs: 2600 },
+    { left: '88%', top: '34%', size: 1 },
+    { left: '16%', top: '47%', size: 2, twinkleMs: 3500 },
+    { left: '63%', top: '88%', size: 1 },
+    { left: '34%', top: '92%', size: 2, twinkleMs: 2900 },
+  ],
+  /**
    * Artboard 16. Seis, repartidas por los cuatro bordes: aquí el cielo es el
    * fondo de una pantalla casi vacía y puede ocuparla entera sin estorbar a
    * nada — es lo contrario del caso de `moonChange`.

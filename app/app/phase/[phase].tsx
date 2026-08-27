@@ -7,7 +7,7 @@ import { Screen } from '@/_ui/components/Screen';
 import { ScreenHeader } from '@/_ui/components/ScreenHeader';
 import { StarField } from '@/_ui/components/StarField';
 import { MoonDisc } from '@/chart/ui/MoonDisc';
-import { useMoonPhaseToday, useNatalChart } from '@/chart/ui/chartQueries';
+import { useMoonSky, useNatalChart } from '@/chart/ui/chartQueries';
 import { formatWeekdayDate } from '@/chart/ui/format';
 import { MOON_PHASE_LABELS } from '@/chart/ui/labels';
 import { moonPhaseFacts, risingNote } from '@/chart/ui/moonPhase';
@@ -60,7 +60,7 @@ export default function PhaseDetail() {
   const { data: pets } = usePets();
   const pet = pets?.[0];
   const { data: chart } = useNatalChart(pet);
-  const { data: today } = useMoonPhaseToday();
+  const { data: moon } = useMoonSky();
   const { data: natal } = useMoonPhasePersonality(valid ? phase : undefined);
   const { data: sky } = useMoonPhaseSky(valid ? phase : undefined);
   const { width } = useWindowDimensions();
@@ -73,8 +73,8 @@ export default function PhaseDetail() {
     );
   }
 
-  const facts = moonPhaseFacts({ phase, now: today });
-  const isToday = today?.name === phase;
+  const facts = moonPhaseFacts({ phase, now: moon?.phase });
+  const isToday = moon?.phase.name === phase;
   const bornInIt = Boolean(pet && chart?.moonPhaseAtBirth().name === phase);
   const disc = Math.round((width - screenPadding * 2 - ART_PADDING * 2) * DISC_RATIO);
 

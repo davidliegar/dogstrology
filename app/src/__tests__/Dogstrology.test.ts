@@ -42,25 +42,32 @@ describe('Dogstrology — composition root', () => {
     expect(chart.sunSign()).toBe('gemini');
   });
 
-  it('la fase lunar de un instante no necesita mascota: es el cielo, no un perro', async () => {
+  it('el cielo lunar de un instante no necesita mascota: es el cielo, no un perro', async () => {
     // Sin `chartCalculator` inyectado entra el motor de verdad. La luna llena
     // del 3 de enero de 2026 a las 10:03 UTC es un hecho comprobable fuera de
     // esta app, y es lo que hace que este test valga: no compara la app
     // consigo misma.
     const app = Dogstrology.create({ petRepository: new InMemoryPetRepository() });
 
-    const phase = await app.GetMoonPhaseUseCase.execute({ at: '2026-01-03T10:03:00.000Z' });
+    const sky = await app.GetMoonSkyUseCase.execute({ at: '2026-01-03T10:03:00.000Z' });
 
-    expect(phase.name).toBe('full_moon');
-    expect(phase.illumination).toBeCloseTo(1, 3);
-    expect(phase.angle).toBeCloseTo(180, 1);
+    expect(sky.phase.name).toBe('full_moon');
+    expect(sky.phase.illumination).toBeCloseTo(1, 3);
+    expect(sky.phase.angle).toBeCloseTo(180, 1);
+
+    // Y la luna nueva que cierra ese ciclo: 18 de enero de 2026. La Luna tarda
+    // ~14,8 días en ir de llena a nueva, así que cae donde tiene que caer.
+    expect(sky.nextNewMoon.slice(0, 10)).toBe('2026-01-18');
+
+    // Con luna llena en Cáncer, el siguiente signo es Leo.
+    expect(sky.ingress?.to).toBe('leo');
   });
 
   it('un instante que no es un instante no llega al motor', async () => {
     const app = Dogstrology.create({ petRepository: new InMemoryPetRepository() });
     // Sin este corte, el motor devuelve `NaN` en los cuatro campos y la ficha
     // sale con "NaN% iluminada" sin un solo error por el camino.
-    await expect(app.GetMoonPhaseUseCase.execute({ at: 'mañana' })).rejects.toThrow();
+    await expect(app.GetMoonSkyUseCase.execute({ at: 'mañana' })).rejects.toThrow();
   });
 
   it('el ciclo se cierra en el contenido: carta calculada → fragmento del catálogo', async () => {

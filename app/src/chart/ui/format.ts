@@ -86,3 +86,26 @@ export function formatWeekdayDate(iso: string): string {
   const weekday = WEEKDAYS[new Date(Date.UTC(year, month - 1, day)).getUTCDay()];
   return `${weekday[0].toUpperCase()}${weekday.slice(1)} ${day} de ${MONTHS[month - 1]}`;
 }
+
+/** `2026-09-02T03:44:00Z` → `2 sep`. Tres letras bastan y son inequívocas en español. */
+const shortDate = (date: Date): string => `${date.getDate()} ${MONTHS[date.getMonth()].slice(0, 3)}`;
+
+/**
+ * Cuándo pasa algo del cielo: `hoy · 17:12`, `mañana · 03:44`, `2 sep · 03:44`.
+ *
+ * **Todo en hora local**, que es la que el usuario mira en su reloj: el
+ * instante viaja en UTC porque el cielo no tiene huso, y aquí se aterriza. Por
+ * eso "hoy" se decide comparando el **día del calendario local** y no restando
+ * horas — a las 23:50 faltan diez minutos para mañana, no un día.
+ */
+export function formatSkyMoment(iso: string, now: Date = new Date()): string {
+  const at = new Date(iso);
+  const time = `${String(at.getHours()).padStart(2, '0')}:${String(at.getMinutes()).padStart(2, '0')}`;
+
+  const startOfDay = (date: Date) => new Date(date.getFullYear(), date.getMonth(), date.getDate()).getTime();
+  const days = Math.round((startOfDay(at) - startOfDay(now)) / (24 * 60 * 60 * 1000));
+
+  if (days === 0) return `hoy · ${time}`;
+  if (days === 1) return `mañana · ${time}`;
+  return `${shortDate(at)} · ${time}`;
+}

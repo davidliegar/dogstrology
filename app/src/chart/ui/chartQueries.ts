@@ -149,7 +149,8 @@ export function useMoonSignChange(pet: Pet | undefined) {
 }
 
 /**
- * La fase lunar de este momento (artboards 22 y 23).
+ * Lo que hace la Luna hoy: su fase, su próximo cambio de signo y la próxima
+ * luna nueva (artboards 07, 22 y 23).
  *
  * La clave es el **día natural**, no el instante: dentro de un mismo día la
  * fase con nombre no cambia y la iluminación se mueve un puñado de puntos, y
@@ -160,15 +161,15 @@ export function useMoonSignChange(pet: Pet | undefined) {
  * Es lo único de la app que caduca solo: mañana la tarjeta resaltada de la
  * rejilla es otra sin que nadie edite nada.
  */
-export const moonPhaseKeys = {
-  all: ['moonPhase'] as const,
-  onDay: (day: string) => [...moonPhaseKeys.all, day] as const,
+export const moonSkyKeys = {
+  all: ['moonSky'] as const,
+  onDay: (day: string) => [...moonSkyKeys.all, day] as const,
 };
 
-export function useMoonPhaseToday() {
+export function useMoonSky() {
   const domain = useDomain();
   return useQuery({
-    queryKey: moonPhaseKeys.onDay(new Date().toISOString().slice(0, 10)),
-    queryFn: () => domain.GetMoonPhaseUseCase.execute({ at: new Date().toISOString() }),
+    queryKey: moonSkyKeys.onDay(new Date().toISOString().slice(0, 10)),
+    queryFn: () => domain.GetMoonSkyUseCase.execute({ at: new Date().toISOString() }),
   });
 }

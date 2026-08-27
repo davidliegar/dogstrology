@@ -41,6 +41,9 @@ export default function Home() {
             <Link href={{ pathname: '/pet/[id]/personality', params: { id: pet.id() } }} style={styles.link}>
               Quién es
             </Link>
+            <Link href="/moon" style={styles.link}>
+              La Luna hoy
+            </Link>
             <Link href="/explore" style={styles.link}>
               Explorar
             </Link>

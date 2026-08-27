@@ -3,6 +3,7 @@ import {
   formatDailySpeed,
   formatDegree,
   formatPosition,
+  formatSkyMoment,
   formatWeekdayDate,
 } from '../format';
 
@@ -76,5 +77,32 @@ describe('formatWeekdayDate', () => {
     // Con los métodos locales, medianoche UTC es el día anterior en cuanto el
     // huso va por detrás de Greenwich — y el domingo saldría sábado.
     expect(formatWeekdayDate('2026-08-23')).toBe('Domingo 23 de agosto');
+  });
+});
+
+describe('formatSkyMoment', () => {
+  // Las fechas se construyen en hora **local** y se mandan en ISO: así el test
+  // vale en cualquier huso, que es lo que hace la app de verdad.
+  const local = (y: number, m: number, d: number, h: number, min: number) =>
+    new Date(y, m - 1, d, h, min).toISOString();
+
+  const NOW = new Date(2026, 7, 27, 8, 30);
+
+  it('lo de hoy se dice "hoy", con la hora local', () => {
+    expect(formatSkyMoment(local(2026, 8, 27, 17, 12), NOW)).toBe('hoy · 17:12');
+  });
+
+  it('lo de mañana se dice "mañana"', () => {
+    expect(formatSkyMoment(local(2026, 8, 28, 3, 44), NOW)).toBe('mañana · 03:44');
+  });
+
+  it('más allá lleva fecha corta, con el mes en tres letras', () => {
+    expect(formatSkyMoment(local(2026, 9, 2, 3, 44), NOW)).toBe('2 sep · 03:44');
+  });
+
+  it('"hoy" se decide por el día del calendario, no por las horas que faltan', () => {
+    // A las 23:50 faltan diez minutos para mañana: es mañana, no hoy.
+    const lateNow = new Date(2026, 7, 27, 23, 50);
+    expect(formatSkyMoment(local(2026, 8, 28, 0, 5), lateNow)).toBe('mañana · 00:05');
   });
 });

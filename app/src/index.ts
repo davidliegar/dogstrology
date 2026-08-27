@@ -4,7 +4,7 @@ import type { ChartCalculator } from './chart/domain/ChartCalculator';
 import { AstronomyEngineChartCalculator } from './chart/infrastructure/AstronomyEngineChartCalculator';
 import CalculateNatalChartUseCase from './chart/application/CalculateNatalChartUseCase';
 import FindMoonSignChangeUseCase from './chart/application/FindMoonSignChangeUseCase';
-import GetMoonPhaseUseCase from './chart/application/GetMoonPhaseUseCase';
+import GetMoonSkyUseCase from './chart/application/GetMoonSkyUseCase';
 import type { ContentRepository } from './content/domain/ContentRepository';
 import { BundledCatalogContentRepository } from './content/infrastructure/BundledCatalogContentRepository';
 import GetFragmentUseCase from './content/application/GetFragmentUseCase';
@@ -117,9 +117,9 @@ export class Dogstrology {
     );
   }
 
-  get GetMoonPhaseUseCase(): GetMoonPhaseUseCase {
-    return this.useCase('GetMoonPhaseUseCase', () =>
-      GetMoonPhaseUseCase.create({ calculator: this.chartCalculator }),
+  get GetMoonSkyUseCase(): GetMoonSkyUseCase {
+    return this.useCase('GetMoonSkyUseCase', () =>
+      GetMoonSkyUseCase.create({ calculator: this.chartCalculator }),
     );
   }
 
