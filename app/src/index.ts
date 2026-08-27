@@ -4,11 +4,15 @@ import type { ChartCalculator } from './chart/domain/ChartCalculator';
 import { AstronomyEngineChartCalculator } from './chart/infrastructure/AstronomyEngineChartCalculator';
 import CalculateNatalChartUseCase from './chart/application/CalculateNatalChartUseCase';
 import type { PetRepository } from './pet/domain/PetRepository';
+import type { PhotoStore } from './pet/domain/PhotoStore';
+import { FileSystemPhotoStore } from './pet/infrastructure/FileSystemPhotoStore';
 import { SqlitePetRepository } from './pet/infrastructure/SqlitePetRepository';
 import CreatePetUseCase from './pet/application/CreatePetUseCase';
 import DeletePetUseCase from './pet/application/DeletePetUseCase';
 import GetPetUseCase from './pet/application/GetPetUseCase';
 import ListPetsUseCase from './pet/application/ListPetsUseCase';
+import ResolvePetPhotoUseCase from './pet/application/ResolvePetPhotoUseCase';
+import SetPetPhotoUseCase from './pet/application/SetPetPhotoUseCase';
 import UpdatePetUseCase from './pet/application/UpdatePetUseCase';
 
 /**
@@ -18,6 +22,7 @@ import UpdatePetUseCase from './pet/application/UpdatePetUseCase';
 export interface DogstrologyDependencies {
   db?: DatabaseProvider;
   petRepository?: PetRepository;
+  photoStore?: PhotoStore;
   chartCalculator?: ChartCalculator;
 }
 
@@ -35,6 +40,7 @@ export interface DogstrologyDependencies {
  */
 export class Dogstrology {
   private readonly petRepository: PetRepository;
+  private readonly photoStore: PhotoStore;
   private readonly chartCalculator: ChartCalculator;
   private readonly useCases = new Map<string, unknown>();
 
@@ -42,8 +48,9 @@ export class Dogstrology {
     return new Dogstrology(dependencies);
   }
 
-  constructor({ db = openDatabase, petRepository, chartCalculator }: DogstrologyDependencies = {}) {
+  constructor({ db = openDatabase, petRepository, photoStore, chartCalculator }: DogstrologyDependencies = {}) {
     this.petRepository = petRepository ?? SqlitePetRepository.create({ db });
+    this.photoStore = photoStore ?? FileSystemPhotoStore.create();
     this.chartCalculator = chartCalculator ?? AstronomyEngineChartCalculator.create();
   }
 
@@ -70,6 +77,18 @@ export class Dogstrology {
 
   get UpdatePetUseCase(): UpdatePetUseCase {
     return this.useCase('UpdatePetUseCase', () => UpdatePetUseCase.create({ repository: this.petRepository }));
+  }
+
+  get SetPetPhotoUseCase(): SetPetPhotoUseCase {
+    return this.useCase('SetPetPhotoUseCase', () =>
+      SetPetPhotoUseCase.create({ repository: this.petRepository, photos: this.photoStore }),
+    );
+  }
+
+  get ResolvePetPhotoUseCase(): ResolvePetPhotoUseCase {
+    return this.useCase('ResolvePetPhotoUseCase', () =>
+      ResolvePetPhotoUseCase.create({ photos: this.photoStore }),
+    );
   }
 
   get DeletePetUseCase(): DeletePetUseCase {

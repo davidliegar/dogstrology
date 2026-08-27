@@ -1,6 +1,6 @@
 import { StyleSheet, View } from 'react-native';
 
-import { colors, radii, screenPadding, spacing } from '@/design/theme';
+import { colors, controlGap, radii, screenPadding } from '@/design/theme';
 
 /** Grosor de la tira. Sale del canvas: es una regla, no un componente táctil. */
 const TRACK_HEIGHT = 3;
@@ -32,7 +32,7 @@ export function ProgressSteps({ total, current }: ProgressStepsProps) {
 const styles = StyleSheet.create({
   row: {
     flexDirection: 'row',
-    gap: spacing[2] - 2,
+    gap: controlGap,
     paddingHorizontal: screenPadding,
   },
   track: {

@@ -456,7 +456,9 @@ export interface BirthInput {
   date: string;
   /** 'HH:MM' hora local. Sin ella no hay Ascendente ni casas. */
   time?: string;
-  /** Offset respecto a UTC en minutos (Madrid verano = 120). */
+  /** Offset respecto a UTC en minutos (Madrid verano = 120). Si falta, se
+   * estima por longitud (4 min/grado): nunca se asume cero mientras haya
+   * lugar. */
   tzOffsetMin?: number;
   /** Latitud en grados (norte positivo). */
   lat?: number;
@@ -486,7 +488,7 @@ export interface NatalChartResult {
 }
 
 export function calculateNatalChart(birth: BirthInput, houseSystem: HouseSystem = 'placidus'): NatalChartResult {
-  const { date: birthDate, time, tzOffsetMin = 0, lat, lon } = birth;
+  const { date: birthDate, time, tzOffsetMin, lat, lon } = birth;
 
   const hasTime = Boolean(time);
   const hasLocation = lat != null && lon != null;
@@ -494,8 +496,20 @@ export function calculateNatalChart(birth: BirthInput, houseSystem: HouseSystem 
   // (~±3,25° en lugar de ±6,5° si se asumiera medianoche).
   const timeUsed = time ?? '12:00';
 
+  // El huso **no se asume cero**. Antes había un `tzOffsetMin = 0` por defecto
+  // y "mediodía local" era en realidad mediodía de Greenwich: a 12 husos de
+  // distancia eso no es el mediodía de nadie, se pierde la garantía de ±3,25°
+  // de la Luna y el Sol puede cambiar de signo en un cumpleaños de cúspide.
+  //
+  // Cuando no viene, se estima por longitud —hora solar media, 4 minutos por
+  // grado—, que es la convención astrológica clásica y no necesita una base de
+  // datos de husos ni saber nada del dispositivo. Sin longitud tampoco no hay
+  // de dónde sacarlo, y ahí sí se cae a UTC: es el único caso en que no hay
+  // ninguna información, y sin lugar tampoco hay Ascendente ni casas.
+  const offsetMin = tzOffsetMin ?? (hasLocation ? Math.round(lon * 4) : 0);
+
   const date = new Date(`${birthDate}T${timeUsed}:00.000Z`);
-  date.setTime(date.getTime() - tzOffsetMin * 60 * 1000);
+  date.setTime(date.getTime() - offsetMin * 60 * 1000);
 
   const eps = obliquity(date);
   const planets = planetaryPositions(date);

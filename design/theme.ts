@@ -113,6 +113,19 @@ export const spacing = [0, 4, 8, 12, 16, 24, 32, 48, 64] as const;
 /** Margen lateral de pantalla. Un solo valor para todo el MVP. */
 export const screenPadding = spacing[5]; // 24
 
+/**
+ * Aire **dentro** de un control, no entre bloques. Es el único valor fuera de
+ * la escala de 4, y existe porque en un control pequeño el paso de 4 es
+ * demasiado apretado y el de 8 lo desarma: la tira de progreso, el icono con
+ * su rótulo en la barra de navegación, los segmentos de la barra de confianza
+ * y el punto que precede a una etiqueta. Cuatro sitios, ninguno más — entre
+ * bloques manda `spacing`.
+ *
+ * Antes se escribía `spacing[2] - 2` en `ProgressSteps`, que es este mismo
+ * número disimulado con aritmética.
+ */
+export const controlGap = 6;
+
 /** Mínimo táctil. Nada pulsable por debajo de esto. */
 export const touchTarget = 44;
 
@@ -284,6 +297,7 @@ export const theme = {
   feedback,
   spacing,
   screenPadding,
+  controlGap,
   touchTarget,
   radii,
   borderWidth,

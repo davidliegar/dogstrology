@@ -21,6 +21,7 @@ interface PetRow {
   birth_tz_offset_minutes: number | null;
   birth_lat: number | null;
   birth_lon: number | null;
+  birth_place_name: string | null;
   birth_accuracy: string;
   adoption_date: string | null;
   created_at: string;
@@ -50,6 +51,7 @@ function rowToPet(row: PetRow): Pet {
       tzOffsetMinutes: row.birth_tz_offset_minutes ?? undefined,
       lat: row.birth_lat ?? undefined,
       lon: row.birth_lon ?? undefined,
+      placeName: row.birth_place_name ?? undefined,
       accuracy: row.birth_accuracy as BirthAccuracy,
     }),
     adoptionDate: row.adoption_date ?? undefined,
@@ -79,6 +81,7 @@ function petToColumns(pet: Pet): unknown[] {
     birth.tzOffsetMinutes() ?? null,
     birth.lat() ?? null,
     birth.lon() ?? null,
+    birth.placeName() ?? null,
     birth.accuracy(),
     pet.adoptionDate() ?? null,
     pet.createdAt(),
@@ -140,9 +143,9 @@ export class SqlitePetRepository implements PetRepository {
     await this.run((db) => db.runAsync(
       `INSERT INTO pets (
         id, name, species, photo_kind, photo_rel_path, photo_url, breed_id, sex, neutered,
-        birth_date, birth_time, birth_tz_offset_minutes, birth_lat, birth_lon, birth_accuracy,
+        birth_date, birth_time, birth_tz_offset_minutes, birth_lat, birth_lon, birth_place_name, birth_accuracy,
         adoption_date, created_at, updated_at, deleted_at, synced_at
-      ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+      ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
       ON CONFLICT(id) DO UPDATE SET
         name = excluded.name,
         species = excluded.species,
@@ -157,6 +160,7 @@ export class SqlitePetRepository implements PetRepository {
         birth_tz_offset_minutes = excluded.birth_tz_offset_minutes,
         birth_lat = excluded.birth_lat,
         birth_lon = excluded.birth_lon,
+        birth_place_name = excluded.birth_place_name,
         birth_accuracy = excluded.birth_accuracy,
         adoption_date = excluded.adoption_date,
         updated_at = excluded.updated_at,

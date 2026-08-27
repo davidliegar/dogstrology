@@ -25,6 +25,7 @@ export default function OnboardingName() {
 
   return (
     <Screen
+      scroll
       stars="name"
       header={<ProgressSteps total={3} current={1} />}
       footer={

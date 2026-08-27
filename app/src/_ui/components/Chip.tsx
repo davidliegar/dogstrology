@@ -1,6 +1,6 @@
 import { StyleSheet, Text, View } from 'react-native';
 
-import { colors, radii, spacing } from '@/design/theme';
+import { colors, controlGap, radii, spacing } from '@/design/theme';
 import { text } from '../typography';
 
 /**
@@ -37,7 +37,7 @@ const styles = StyleSheet.create({
     borderColor: colors.divider,
     flexDirection: 'row',
     alignItems: 'center',
-    gap: spacing[2],
+    gap: controlGap,
   },
   dot: {
     width: DOT,

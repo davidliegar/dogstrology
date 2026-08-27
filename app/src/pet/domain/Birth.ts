@@ -35,10 +35,45 @@ const BirthValidation = z.object({
   tzOffsetMinutes: z.number().optional(),
   lat: z.number().min(-90, '[Birth] lat fuera de rango').max(90, '[Birth] lat fuera de rango').optional(),
   lon: z.number().min(-180, '[Birth] lon fuera de rango').max(180, '[Birth] lon fuera de rango').optional(),
+  /**
+   * Cómo se llama el sitio: "Barcelona, España". No entra en ningún cálculo —
+   * el motor solo usa lat/lon— y existe para que la coordenada sea
+   * **verificable**: `41,39 · 2,17` no lo comprueba nadie, y hay cuatro
+   * Barcelonas. Lo escribe quien elige el lugar, nunca se teclea a mano: un
+   * nombre que no concuerde con sus coordenadas parece una confirmación y no
+   * lo es. Nunca la dirección — solo el pueblo o la ciudad.
+   */
+  placeName: z.string().min(1, '[Birth] placeName no puede estar vacío').optional(),
   accuracy: z.enum(BIRTH_ACCURACIES, {
     error: (iss) => (iss.input === undefined ? '[Birth] accuracy es obligatoria' : '[Birth] accuracy inválida'),
   }),
-});
+})
+  /**
+   * Con hora **y** lugar, el huso es obligatorio.
+   *
+   * Es la combinación que produce Ascendente y casas, y ahí un huso equivocado
+   * cuesta **15° por cada hora**: media hora de signo en España, un signo
+   * entero en México. Y sin fallar — la carta sale entera, plausible y
+   * equivocada. El huso se resuelve desde el lugar y la fecha (el 14 de
+   * diciembre Barcelona estaba en horario de invierno), nunca desde el reloj
+   * del móvil, que puede estar en otro país.
+   *
+   * Con hora y **sin** lugar sí se admite sin huso, y es un estado diseñado
+   * (artboard E): no hay Ascendente que estropear, la confianza se queda en
+   * `no_location` y la app dice qué falta en vez de asumir una zona horaria.
+   * Guardar solo la hora mejora la Luna y no miente sobre nada.
+   */
+  .refine(
+    (birth) =>
+      birth.time === undefined ||
+      birth.lat === undefined ||
+      birth.lon === undefined ||
+      birth.tzOffsetMinutes !== undefined,
+    {
+      error: '[Birth] una hora con lugar necesita su tzOffsetMinutes',
+      path: ['tzOffsetMinutes'],
+    },
+  );
 
 export type BirthInput = z.infer<typeof BirthValidation>;
 
@@ -57,6 +92,7 @@ export class Birth extends Model {
     private readonly _tzOffsetMinutes: number | undefined,
     private readonly _lat: number | undefined,
     private readonly _lon: number | undefined,
+    private readonly _placeName: string | undefined,
     private readonly _accuracy: BirthAccuracy,
   ) {
     super();
@@ -64,7 +100,15 @@ export class Birth extends Model {
 
   static create(input: BirthInput): Birth {
     BirthValidation.parse(input);
-    return new Birth(input.date, input.time, input.tzOffsetMinutes, input.lat, input.lon, input.accuracy);
+    return new Birth(
+      input.date,
+      input.time,
+      input.tzOffsetMinutes,
+      input.lat,
+      input.lon,
+      input.placeName,
+      input.accuracy,
+    );
   }
 
   static createOrNull(input: BirthInput): Birth | null {
@@ -87,6 +131,8 @@ export class Birth extends Model {
     return this._time;
   }
 
+  /** Minutos respecto a UTC. Garantizado presente siempre que haya hora. */
+
   tzOffsetMinutes(): number | undefined {
     return this._tzOffsetMinutes;
   }
@@ -97,6 +143,11 @@ export class Birth extends Model {
 
   lon(): number | undefined {
     return this._lon;
+  }
+
+  /** El nombre del sitio, si quien lo eligió lo trajo. Nunca la dirección. */
+  placeName(): string | undefined {
+    return this._placeName;
   }
 
   accuracy(): BirthAccuracy {
@@ -118,6 +169,7 @@ export class Birth extends Model {
       tzOffsetMinutes: this._tzOffsetMinutes,
       lat: this._lat,
       lon: this._lon,
+      placeName: this._placeName,
       accuracy: this._accuracy,
     };
   }

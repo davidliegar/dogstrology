@@ -44,6 +44,7 @@ export default function OnboardingDate() {
 
   return (
     <Screen
+      scroll
       stars="date"
       header={<ProgressSteps total={3} current={2} />}
       footer={

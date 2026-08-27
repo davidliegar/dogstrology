@@ -1,4 +1,4 @@
-import type { MoonPhaseName } from '../domain/NatalChart';
+import type { ChartConfidence, MoonPhaseName } from '../domain/NatalChart';
 import type { AspectType } from '../domain/ChartAspect';
 import type { Element, Modality, PlanetId, Sign } from '../domain/PlanetPosition';
 
@@ -75,4 +75,43 @@ export const MOON_PHASE_LABELS: Record<MoonPhaseName, string> = {
   waning_gibbous: 'Gibosa menguante',
   last_quarter: 'Cuarto menguante',
   waning_crescent: 'Luna menguante',
+};
+
+/**
+ * Los tres grados de degradación del motor (BRD §12.3). Se enseñan tal cual
+ * en la barra de confianza del perfil: la etiqueta nombra **lo que falta**,
+ * no lo que hay, porque es lo accionable.
+ */
+export const CONFIDENCE_LABELS: Record<ChartConfidence, string> = {
+  full: 'Completa',
+  no_location: 'Sin lugar',
+  no_time: 'Sin hora',
+};
+
+/**
+ * El texto de cada grado de confianza, en el perfil (canvas: "los tres estados
+ * de ChartConfidence"). Nombra **lo que se gana** completando el dato, no lo
+ * que falta: es lo que hace que el usuario quiera darlo.
+ *
+ * El de carta completa no pide nada y por eso no lleva acción — el tono
+ * `settled` de `NoticeCard` le quita el oro.
+ */
+export const CONFIDENCE_NOTICES: Record<
+  ChartConfidence,
+  { text: (context: { name: string; time?: string }) => string; action?: string }
+> = {
+  no_time: {
+    text: () => 'Su carta está a medias: con la hora se calculan el Ascendente y las doce casas.',
+    action: 'Añadir la hora',
+  },
+  no_location: {
+    text: ({ time }) =>
+      `Tienes su hora, pero las ${time ?? 'suyas'} son una hora distinta en cada país. ` +
+      'Sin el lugar, su Ascendente puede caer medio signo más allá.',
+    action: 'Elegir el lugar',
+  },
+  full: {
+    text: ({ name }) =>
+      `Su carta está completa. Fecha, hora y lugar: nada de lo que la app cuenta sobre ${name} se está estimando.`,
+  },
 };

@@ -1,3 +1,4 @@
+import { Link } from 'expo-router';
 import { StyleSheet, Text, View } from 'react-native';
 
 import { Screen } from '@/_ui/components/Screen';
@@ -22,6 +23,15 @@ export default function Home() {
       <View style={styles.block}>
         <Text style={styles.title}>{pet ? `Hoy, con ${pet.name()}` : 'Hoy'}</Text>
         <Text style={styles.body}>La carta del día llega en F5 (Bloque 4).</Text>
+        {/* Entrada provisional al perfil de F2. El canvas sí maqueta la barra
+            de navegación con la pestaña de la mascota (artboard 4), pero esa
+            barra es el armazón de toda la app y no es de esta tarea: cuando
+            exista, este enlace se cae. */}
+        {pet ? (
+          <Link href={{ pathname: '/pet/[id]', params: { id: pet.id() } }} style={styles.link}>
+            Ver su perfil
+          </Link>
+        ) : null}
       </View>
     </Screen>
   );
@@ -40,6 +50,11 @@ const styles = StyleSheet.create({
   body: {
     ...typography.body,
     color: colors.textMuted,
+    textAlign: 'center',
+  },
+  link: {
+    ...typography.bodyEmphasis,
+    color: colors.accent,
     textAlign: 'center',
   },
 });

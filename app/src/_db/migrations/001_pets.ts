@@ -29,6 +29,7 @@ export const migration001Pets: Migration = {
         birth_tz_offset_minutes INTEGER,
         birth_lat REAL,
         birth_lon REAL,
+        birth_place_name TEXT,
         birth_accuracy TEXT NOT NULL,
         adoption_date TEXT,
         created_at TEXT NOT NULL,

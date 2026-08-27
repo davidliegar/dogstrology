@@ -1,4 +1,4 @@
-import { formatDegree } from '../format';
+import { confidenceSegments, formatDegree } from '../format';
 
 describe('formatDegree', () => {
   it('parte el decimal en grados y minutos de arco', () => {
@@ -15,5 +15,20 @@ describe('formatDegree', () => {
     // Redondeando, esto sería 30°00′ — un grado que no existe dentro de un
     // signo, y que leído deprisa parece el signo siguiente.
     expect(formatDegree(29.999)).toBe('29°59′');
+  });
+});
+
+describe('confidenceSegments', () => {
+  it('enciende los tres solo con la carta completa', () => {
+    expect(confidenceSegments('full')).toBe(3);
+  });
+
+  it('enciende dos cuando falta la hora — el estado del artboard 9', () => {
+    // Fecha y lugar presentes, hora no: dos de tres.
+    expect(confidenceSegments('no_time')).toBe(2);
+  });
+
+  it('enciende dos cuando falta el lugar', () => {
+    expect(confidenceSegments('no_location')).toBe(2);
   });
 });

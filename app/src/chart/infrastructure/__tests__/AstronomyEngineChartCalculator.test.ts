@@ -88,3 +88,43 @@ describe('AstronomyEngineChartCalculator — traducción motor → dominio', () 
     expect((error as DomainError).hasCode(ErrorCode.CHART_CALCULATION_FAILED)).toBe(true);
   });
 });
+
+describe('el huso ya no se asume cero', () => {
+  const calculator = AstronomyEngineChartCalculator.create();
+
+  it('estima el huso por longitud cuando no viene, en vez de leer la hora como UTC', async () => {
+    // Auckland (+12 de longitud real: 174,76° → 699 min). Leída como UTC, esta
+    // hora caía en la madrugada del día anterior allí.
+    const estimado = await calculator.calculate({
+      moment: { date: '2021-06-14', time: '08:30', lat: -36.8485, lon: 174.7633 },
+      houseSystem: 'whole_sign',
+    });
+    const comoUtc = await calculator.calculate({
+      moment: { date: '2021-06-14', time: '08:30', tzOffsetMinutes: 0, lat: -36.8485, lon: 174.7633 },
+      houseSystem: 'whole_sign',
+    });
+    expect(estimado.utcInstant()).not.toBe(comoUtc.utcInstant());
+    // 174,7633° × 4 min/grado = 699 min = 11 h 39 min antes que el mediodía UTC.
+    expect(new Date(comoUtc.utcInstant()).getTime() - new Date(estimado.utcInstant()).getTime()).toBe(
+      699 * 60 * 1000,
+    );
+  });
+
+  it('respeta el huso explícito y no lo reestima', async () => {
+    const chart = await calculator.calculate({
+      moment: { date: '2021-06-14', time: '08:30', tzOffsetMinutes: 120, lat: 41.3874, lon: 2.1686 },
+      houseSystem: 'whole_sign',
+    });
+    expect(chart.utcInstant()).toBe('2021-06-14T06:30:00.000Z');
+  });
+
+  it('sin lugar no hay de dónde estimarlo y cae a UTC', async () => {
+    // Único caso en que no hay ninguna información. Sin lugar tampoco hay
+    // Ascendente ni casas, así que lo que se pierde es precisión de Luna.
+    const chart = await calculator.calculate({
+      moment: { date: '2021-06-14' },
+      houseSystem: 'whole_sign',
+    });
+    expect(chart.utcInstant()).toBe('2021-06-14T12:00:00.000Z');
+  });
+});

@@ -50,7 +50,7 @@ describe('Birth', () => {
   });
 
   it('hasLocation() exige las dos coordenadas, no una', () => {
-    const soloLat = Birth.create({ date: '2025-12-14', time: '09:15', lat: 41.38, accuracy: 'exact' });
+    const soloLat = Birth.create({ date: '2025-12-14', time: '09:15', tzOffsetMinutes: 60, lat: 41.38, accuracy: 'exact' });
     expect(soloLat.hasLocation()).toBe(false);
   });
 
@@ -58,5 +58,51 @@ describe('Birth', () => {
     const original = Birth.create(valid);
     const rebuilt = Birth.fromJSON(original.toJSON());
     expect(rebuilt.toJSON()).toEqual(original.toJSON());
+  });
+});
+
+describe('el huso, cuando hay hora y lugar', () => {
+  const conLugar = { date: '2025-12-14', time: '09:15', lat: 41.3874, lon: 2.1686 } as const;
+
+  it('rechaza hora con lugar y sin tzOffsetMinutes', () => {
+    // Es la combinación que produce Ascendente y casas. Sin huso, el motor
+    // tendría que adivinarlo y la carta saldría entera, plausible y
+    // equivocada: 15° de Ascendente por cada hora de error.
+    expect(() => Birth.create({ ...conLugar, accuracy: 'exact' })).toThrow();
+    expect(Birth.createOrNull({ ...conLugar, accuracy: 'exact' })).toBeNull();
+  });
+
+  it('admite hora sin lugar y sin huso — es un estado diseñado (artboard E)', () => {
+    // "El dato entra, pero tzOffsetMinutes se queda vacío y la confianza no
+    // sube a completa." No hay Ascendente que estropear: solo mejora la Luna.
+    const soloHora = Birth.create({ date: '2025-12-14', time: '09:15', accuracy: 'exact' });
+    expect(soloHora.hasTime()).toBe(true);
+    expect(soloHora.hasLocation()).toBe(false);
+    expect(soloHora.tzOffsetMinutes()).toBeUndefined();
+  });
+
+  it('acepta el huso cero, que es un huso como otro', () => {
+    // `?? ` habría tragado el 0 de Londres en invierno. La regla mira si el
+    // campo está, no si vale algo.
+    expect(Birth.create({ ...conLugar, tzOffsetMinutes: 0, accuracy: 'exact' }).tzOffsetMinutes()).toBe(0);
+  });
+
+  it('deja pasar una fecha sin hora, que es el caso de F1', () => {
+    expect(Birth.create({ date: '2025-12-14', accuracy: 'exact' }).hasTime()).toBe(false);
+  });
+});
+
+describe('placeName', () => {
+  it('viaja con el resto y sobrevive a la ida y vuelta', () => {
+    const birth = Birth.create({ ...valid, placeName: 'Barcelona, España' });
+    expect(Birth.fromJSON(birth.toJSON()).placeName()).toBe('Barcelona, España');
+  });
+
+  it('es opcional: la mascota de F1 no tiene lugar ninguno', () => {
+    expect(Birth.create({ date: '2025-12-14', accuracy: 'exact' }).placeName()).toBeUndefined();
+  });
+
+  it('no admite cadena vacía, que sería un nombre que no dice nada', () => {
+    expect(Birth.createOrNull({ ...valid, placeName: '' })).toBeNull();
   });
 });
