@@ -15,14 +15,20 @@ export interface ChipProps {
   label: string;
   /** Punto de color a la izquierda: el acento del elemento del signo. */
   dotColor?: string;
+  /**
+   * `accent` es el chip relleno de oro del pie de la carta natal (artboard 5):
+   * el mismo control, pero diciendo un ajuste activo en vez de un dato.
+   */
+  tone?: 'neutral' | 'accent';
 }
 
 /** Chip informativo: elemento, modalidad, grado. */
-export function Chip({ label, dotColor }: ChipProps) {
+export function Chip({ label, dotColor, tone = 'neutral' }: ChipProps) {
+  const accented = tone === 'accent';
   return (
-    <View style={styles.chip}>
+    <View style={[styles.chip, accented && styles.chipAccent]}>
       {dotColor ? <View style={[styles.dot, { backgroundColor: dotColor }]} /> : null}
-      <Text style={styles.label}>{label}</Text>
+      <Text style={[styles.label, accented && styles.labelAccent]}>{label}</Text>
     </View>
   );
 }
@@ -39,6 +45,10 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     gap: controlGap,
   },
+  chipAccent: {
+    backgroundColor: colors.accentSoft,
+    borderColor: colors.border,
+  },
   dot: {
     width: DOT,
     height: DOT,
@@ -48,5 +58,8 @@ const styles = StyleSheet.create({
     // `ephemeris` ya lleva cifras tabulares: `22°14′` no baila entre signos.
     ...text('ephemeris'),
     color: colors.textMuted,
+  },
+  labelAccent: {
+    color: colors.accent,
   },
 });

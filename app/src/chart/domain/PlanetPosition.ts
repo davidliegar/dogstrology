@@ -9,8 +9,9 @@ import { Model } from '@/_kernel/architecture';
  * de tipos en tiempo de compilación revienta el build si el motor y el dominio
  * dejan de hablar el mismo idioma.
  *
- * Los **valores** están en español a propósito: no son identificadores, son el
- * vocabulario que la app enseña en su mercado (misma decisión que en el motor).
+ * Los **valores** son identificadores en inglés y en minúscula, no lo que lee
+ * el usuario: viajan dentro de las claves del catálogo (`planet=sun;sign=aries`).
+ * Lo que se enseña vive en `chart/ui/labels.ts`.
  */
 export const SIGNS = [
   'aries', 'taurus', 'gemini', 'cancer', 'leo', 'virgo',

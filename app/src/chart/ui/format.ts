@@ -1,4 +1,5 @@
 import type { ChartConfidence } from '../domain/NatalChart';
+import { HOUSE_NUMERALS } from './glyphs';
 
 /**
  * Grado dentro del signo como `22°14′`, la convención de efemérides.
@@ -28,4 +29,35 @@ export function formatDegree(degree: number): string {
  */
 export function confidenceSegments(confidence: ChartConfidence): number {
   return confidence === 'full' ? 3 : 2;
+}
+
+/**
+ * Velocidad diaria como la pinta la hoja de planeta: `directo · 0,52°/día`.
+ *
+ * El signo del número ya dice si es retrógrado, así que en el texto va el
+ * valor absoluto: `-0,31` sería decir dos veces lo mismo y la segunda peor.
+ * Coma decimal porque el texto es español; el separador no es del dato.
+ */
+export function formatDailySpeed(dailySpeed: number): string {
+  const motion = dailySpeed < 0 ? 'retrógrado' : 'directo';
+  return `${motion} · ${Math.abs(dailySpeed).toFixed(2).replace('.', ',')}°/día`;
+}
+
+/**
+ * El grado con su signo, y la casa detrás cuando la hay: `22°14′ Sagitario · XII`.
+ *
+ * Sin hora no hay casas y la coletilla desaparece entera — no se enseña un
+ * hueco ni un guion donde no hay dato (BRD §17: el campo vacío no se disfraza).
+ */
+export function formatPosition({
+  degree,
+  sign,
+  house,
+}: {
+  degree: number;
+  sign: string;
+  house?: number;
+}): string {
+  const position = `${formatDegree(degree)} ${sign}`;
+  return house ? `${position} · ${HOUSE_NUMERALS[house - 1]}` : position;
 }

@@ -10,6 +10,8 @@ const BACK_CHEVRON = 11;
 
 export interface ScreenHeaderProps {
   title: string;
+  /** Rótulo pequeño encima del título: de quién es la pantalla (artboard 5). */
+  overline?: string;
   onBack?: () => void;
   /** Acción de texto a la derecha, en oro. Apagada mientras no haya qué hacer. */
   action?: {
@@ -30,7 +32,7 @@ export interface ScreenHeaderProps {
  * con el texto de debajo — que es lo que hace el canvas. El área que se toca es
  * la de siempre; lo que se ve es más pequeño.
  */
-export function ScreenHeader({ title, onBack, action, divided = false }: ScreenHeaderProps) {
+export function ScreenHeader({ title, overline, onBack, action, divided = false }: ScreenHeaderProps) {
   return (
     <View style={[styles.header, divided && styles.divided]}>
       {onBack ? (
@@ -38,9 +40,16 @@ export function ScreenHeader({ title, onBack, action, divided = false }: ScreenH
           <Chevron direction="left" size={BACK_CHEVRON} color={colors.textMuted} />
         </Pressable>
       ) : null}
-      <Text style={styles.title} numberOfLines={1}>
-        {title}
-      </Text>
+      <View style={styles.titles}>
+        {overline ? (
+          <Text style={styles.overline} numberOfLines={1}>
+            {overline}
+          </Text>
+        ) : null}
+        <Text style={styles.title} numberOfLines={1}>
+          {title}
+        </Text>
+      </View>
       {action ? (
         <Pressable
           onPress={action.onPress}
@@ -76,10 +85,17 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     flexShrink: 0,
   },
+  titles: {
+    flex: 1,
+    gap: spacing[1],
+  },
+  overline: {
+    ...typography.overline,
+    color: colors.textFaint,
+  },
   title: {
     ...typography.section,
     color: colors.text,
-    flex: 1,
   },
   action: {
     ...typography.bodyEmphasis,

@@ -28,9 +28,14 @@ export default function Home() {
             barra es el armazón de toda la app y no es de esta tarea: cuando
             exista, este enlace se cae. */}
         {pet ? (
-          <Link href={{ pathname: '/pet/[id]', params: { id: pet.id() } }} style={styles.link}>
-            Ver su perfil
-          </Link>
+          <>
+            <Link href={{ pathname: '/pet/[id]/chart', params: { id: pet.id() } }} style={styles.link}>
+              Ver su carta natal
+            </Link>
+            <Link href={{ pathname: '/pet/[id]', params: { id: pet.id() } }} style={styles.link}>
+              Ver su perfil
+            </Link>
+          </>
         ) : null}
       </View>
     </Screen>

@@ -1,0 +1,240 @@
+import { useState } from 'react';
+import { router, useLocalSearchParams } from 'expo-router';
+import {
+  ActivityIndicator,
+  StyleSheet,
+  Text,
+  View,
+  useWindowDimensions,
+  type StyleProp,
+  type TextStyle,
+} from 'react-native';
+
+import { Chip } from '@/_ui/components/Chip';
+import { Screen } from '@/_ui/components/Screen';
+import { ScreenHeader } from '@/_ui/components/ScreenHeader';
+import { text } from '@/_ui/typography';
+import { NatalWheel } from '@/chart/ui/NatalWheel';
+import { PlanetSheet } from '@/chart/ui/PlanetSheet';
+import { useNatalChart } from '@/chart/ui/chartQueries';
+import { formatPosition } from '@/chart/ui/format';
+import { PLANET_GLYPHS } from '@/chart/ui/glyphs';
+import { HOUSE_SYSTEM_LABELS, PLANET_LABELS, SIGN_LABELS } from '@/chart/ui/labels';
+import type { PlanetId, PlanetPosition } from '@/chart/domain/PlanetPosition';
+import { usePet } from '@/pet/ui/petQueries';
+
+import { colors, glyphSize, screenPadding, spacing, typography } from '@/design/theme';
+
+/** Alto de una fila de posición, del artboard 5. */
+const ROW_HEIGHT = 56;
+/** Ancho de la columna del glifo: el mismo para el símbolo y para "ASC". */
+const GLYPH_COLUMN = 28;
+
+/**
+ * F3 — Carta natal, artboard 5 de `Pantallas MVP.dc.html`.
+ *
+ * La rueda es SVG y está quieta. La versión con Skia, animada y con el
+ * revelado, es F4: lo que aquí hace falta es que la carta se pueda leer y que
+ * cada planeta tenga desde dónde abrir su hoja (artboard 13).
+ *
+ * **La degradación no se decide, se hereda.** Sin hora no hay casas ni
+ * Ascendente, y entonces no hay cúspides que dibujar, ni fila de Ascendente,
+ * ni sistema de casas que nombrar en el pie: cada trozo desaparece porque su
+ * dato es `null`, no porque haya un `if (confidence === 'no_time')`.
+ */
+export default function PetChart() {
+  const { id } = useLocalSearchParams<{ id: string }>();
+  const { data: pet, isPending, isError } = usePet(id);
+  const { data: chart } = useNatalChart(pet);
+  const { width } = useWindowDimensions();
+  const [selected, setSelected] = useState<PlanetId | undefined>();
+
+  if (isPending) {
+    return (
+      <View style={styles.centered}>
+        <ActivityIndicator color={colors.accent} />
+      </View>
+    );
+  }
+
+  if (isError || !pet) {
+    return (
+      <View style={styles.centered}>
+        <Text style={styles.errorTitle}>No se pudo abrir su carta</Text>
+        <Text style={styles.errorBody}>Sus datos siguen en el móvil. Vuelve a Hoy y entra otra vez.</Text>
+      </View>
+    );
+  }
+
+  const ascendant = chart?.ascendant();
+  const houseSystem = chart?.houseSystem();
+  const sun = chart?.planet('sun');
+  const moon = chart?.planet('moon');
+  const selectedPlanet = selected ? chart?.planet(selected) : undefined;
+
+  return (
+    <>
+      <Screen
+        scroll
+        align="flex-start"
+        gap={spacing[5]}
+        footerDivider={Boolean(houseSystem)}
+        header={<ScreenHeader divided overline={pet.name()} title="Su carta natal" onBack={() => router.back()} />}
+        footer={
+          houseSystem ? (
+            <View style={styles.houseSystem}>
+              <Chip tone="accent" label={HOUSE_SYSTEM_LABELS[houseSystem]} />
+              <Text style={styles.footnote}>Sistema de casas · se cambia en Ajustes</Text>
+            </View>
+          ) : null
+        }
+      >
+        {chart ? (
+          <>
+            <NatalWheel
+              chart={chart}
+              size={width - screenPadding * 2}
+              selected={selected}
+              onSelectPlanet={setSelected}
+            />
+            {/*
+              Tres posiciones y no diez: las demás viven en la rueda, y se leen
+              tocándolas. Es lo que pinta el artboard, y es lo que evita tener
+              que inventarse un orden para una lista que el diseño no tiene.
+            */}
+            <View style={styles.positions}>
+              {sun ? <PositionRow planet={sun} /> : null}
+              {moon ? <Divider /> : null}
+              {moon ? <PositionRow planet={moon} /> : null}
+              {ascendant ? <Divider /> : null}
+              {ascendant ? (
+                <Row
+                  glyph="ASC"
+                  glyphStyle={styles.angleGlyph}
+                  label="Ascendente"
+                  value={formatPosition({ degree: ascendant.degree, sign: SIGN_LABELS[ascendant.sign] })}
+                />
+              ) : null}
+            </View>
+          </>
+        ) : (
+          <View style={styles.centered}>
+            <ActivityIndicator color={colors.accent} />
+          </View>
+        )}
+      </Screen>
+
+      {chart && selectedPlanet ? (
+        <PlanetSheet chart={chart} planet={selectedPlanet} onClose={() => setSelected(undefined)} />
+      ) : null}
+    </>
+  );
+}
+
+function PositionRow({ planet }: { planet: PlanetPosition }) {
+  return (
+    <Row
+      glyph={PLANET_GLYPHS[planet.id()]}
+      label={PLANET_LABELS[planet.id()]}
+      value={formatPosition({
+        degree: planet.degree(),
+        sign: SIGN_LABELS[planet.sign()],
+        house: planet.house(),
+      })}
+    />
+  );
+}
+
+function Row({
+  glyph,
+  glyphStyle,
+  label,
+  value,
+}: {
+  glyph: string;
+  glyphStyle?: StyleProp<TextStyle>;
+  label: string;
+  value: string;
+}) {
+  return (
+    <View style={styles.row}>
+      <View style={styles.identity}>
+        <Text style={[styles.glyph, glyphStyle]}>{glyph}</Text>
+        <Text style={styles.label}>{label}</Text>
+      </View>
+      <Text style={styles.value}>{value}</Text>
+    </View>
+  );
+}
+
+const Divider = () => <View style={styles.divider} />;
+
+const styles = StyleSheet.create({
+  centered: {
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
+    gap: spacing[3],
+    padding: screenPadding,
+    backgroundColor: colors.background,
+  },
+  errorTitle: {
+    ...typography.section,
+    color: colors.text,
+    textAlign: 'center',
+  },
+  errorBody: {
+    ...typography.body,
+    color: colors.textMuted,
+    textAlign: 'center',
+  },
+  positions: {
+    gap: spacing[1],
+  },
+  row: {
+    height: ROW_HEIGHT,
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    gap: spacing[3],
+  },
+  identity: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: spacing[3],
+    flexShrink: 1,
+  },
+  glyph: {
+    width: GLYPH_COLUMN,
+    textAlign: 'center',
+    fontSize: glyphSize.compact,
+    color: colors.accent,
+  },
+  angleGlyph: {
+    ...typography.overline,
+    color: colors.accent,
+  },
+  label: {
+    ...typography.body,
+    color: colors.text,
+    flexShrink: 1,
+  },
+  value: {
+    ...text('ephemeris'),
+    color: colors.textMuted,
+  },
+  divider: {
+    height: 1,
+    backgroundColor: colors.divider,
+  },
+  houseSystem: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: spacing[3],
+  },
+  footnote: {
+    ...typography.caption,
+    color: colors.textFaint,
+    flex: 1,
+  },
+});

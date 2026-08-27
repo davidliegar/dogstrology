@@ -1,4 +1,4 @@
-import { confidenceSegments, formatDegree } from '../format';
+import { confidenceSegments, formatDailySpeed, formatDegree, formatPosition } from '../format';
 
 describe('formatDegree', () => {
   it('parte el decimal en grados y minutos de arco', () => {
@@ -30,5 +30,29 @@ describe('confidenceSegments', () => {
 
   it('enciende dos cuando falta el lugar', () => {
     expect(confidenceSegments('no_location')).toBe(2);
+  });
+});
+
+describe('formatDailySpeed', () => {
+  it('nombra el movimiento y da la velocidad con coma decimal', () => {
+    expect(formatDailySpeed(0.5234)).toBe('directo · 0,52°/día');
+  });
+
+  it('un valor negativo es retrógrado, y el signo no se repite en el número', () => {
+    expect(formatDailySpeed(-0.3128)).toBe('retrógrado · 0,31°/día');
+  });
+
+  it('un planeta parado no es retrógrado', () => {
+    expect(formatDailySpeed(0)).toBe('directo · 0,00°/día');
+  });
+});
+
+describe('formatPosition', () => {
+  it('escribe grado, signo y casa como la lámina', () => {
+    expect(formatPosition({ degree: 22.24, sign: 'Sagitario', house: 12 })).toBe('22°14′ Sagitario · XII');
+  });
+
+  it('sin casa no deja ni la coletilla ni el separador', () => {
+    expect(formatPosition({ degree: 2, sign: 'Capricornio' })).toBe('2°00′ Capricornio');
   });
 });

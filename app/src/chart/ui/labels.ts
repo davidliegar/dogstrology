@@ -1,4 +1,4 @@
-import type { ChartConfidence, MoonPhaseName } from '../domain/NatalChart';
+import type { ChartConfidence, HouseSystem, MoonPhaseName } from '../domain/NatalChart';
 import type { AspectType } from '../domain/ChartAspect';
 import type { Element, Modality, PlanetId, Sign } from '../domain/PlanetPosition';
 
@@ -75,6 +75,17 @@ export const MOON_PHASE_LABELS: Record<MoonPhaseName, string> = {
   waning_gibbous: 'Gibosa menguante',
   last_quarter: 'Cuarto menguante',
   waning_crescent: 'Luna menguante',
+};
+
+/**
+ * Los tres sistemas de casas (BRD §12.3, D7). El nombre propio se deja como
+ * es —Placidus es un apellido, no una palabra traducible—; los otros dos sí
+ * se dicen en español porque describen lo que hacen.
+ */
+export const HOUSE_SYSTEM_LABELS: Record<HouseSystem, string> = {
+  whole_sign: 'Signos enteros',
+  placidus: 'Placidus',
+  equal: 'Casas iguales',
 };
 
 /**
