@@ -2,6 +2,7 @@ import { DomainError } from '@/_kernel/DomainError';
 import { ErrorCode } from '@/_kernel/ErrorCodes';
 import {
   calculateNatalChart,
+  moonPhase,
   moonSignChange,
   toSign,
   type Aspect as EngineAspect,
@@ -13,6 +14,7 @@ import type {
   calculateInput,
   ChartCalculator,
   MoonSignChangeData,
+  moonPhaseInput,
   moonSignChangeInput,
 } from '../domain/ChartCalculator';
 import type { ChartAspectData } from '../domain/ChartAspect';
@@ -128,6 +130,21 @@ export class AstronomyEngineChartCalculator implements ChartCalculator {
         from: change.from,
         to: change.to,
       };
+    } catch (error) {
+      throw DomainError.withCodes(ErrorCode.CHART_CALCULATION_FAILED).withCauses(error as Error);
+    }
+  }
+
+  async moonPhaseAt({ at }: moonPhaseInput): Promise<MoonPhaseData> {
+    const instant = new Date(at);
+    // Una fecha invisible que no es fecha sale del motor como `NaN` en los
+    // cuatro campos, y de ahí a una tarjeta con "NaN% iluminada" sin un solo
+    // error por el camino. Se corta aquí, que es donde el dato entra.
+    if (Number.isNaN(instant.getTime())) {
+      throw DomainError.withCodes(ErrorCode.CHART_CALCULATION_FAILED);
+    }
+    try {
+      return toMoonPhase(moonPhase(instant));
     } catch (error) {
       throw DomainError.withCodes(ErrorCode.CHART_CALCULATION_FAILED).withCauses(error as Error);
     }

@@ -149,6 +149,19 @@ export class ContentKey extends Model {
     return ContentKey.of(`species=${SPECIES};moon_phase=${token('moonPhase', moonPhase)}`);
   }
 
+  /**
+   * La misma fase leída como **cielo** y no como nacimiento: qué se nota en
+   * todos los perros mientras dura.
+   *
+   * Es la clave de arriba más un calificador, y no una clave paralela, porque
+   * la dimensión es la misma —la fase— y lo que cambia es la lectura. La
+   * natal es la que va sin calificar por una razón boba pero irreversible:
+   * llegó antes y está publicada.
+   */
+  static moonPhaseToday({ moonPhase }: { moonPhase: string }): ContentKey {
+    return ContentKey.of(`species=${SPECIES};moon_phase=${token('moonPhase', moonPhase)};when=today`);
+  }
+
   /** Entrada de glosario: qué área de la vida del perro es esa casa. */
   static houseGlossary({ house: value }: { house: number }): ContentKey {
     return ContentKey.of(`species=${SPECIES};house=${house(value)}`);

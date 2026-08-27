@@ -77,6 +77,27 @@ describe('ContentKey', () => {
     expect(() => ContentKey.personalityOfMoonPhase({ moonPhase: 'full-moon' })).toThrow(/moonPhase/);
   });
 
+  it('las dos lecturas de una fase son claves distintas', () => {
+    // La natal y la de cielo hablan de la misma fase y dicen cosas distintas.
+    // Si colisionaran, una taparía a la otra sin ningún error por el camino.
+    const natal = ContentKey.personalityOfMoonPhase({ moonPhase: 'full_moon' });
+    const sky = ContentKey.moonPhaseToday({ moonPhase: 'full_moon' });
+
+    expect(natal.value()).toBe('species=dog;moon_phase=full_moon');
+    expect(sky.value()).toBe('species=dog;moon_phase=full_moon;when=today');
+    expect(natal.is(sky)).toBe(false);
+  });
+
+  it('la lectura de cielo vive en el mismo fichero que el resto de personalidad', () => {
+    // La familia sale del primer campo, y sigue siendo `species`: el
+    // calificador va al final justamente para no mover el fragmento de sitio.
+    expect(ContentKey.moonPhaseToday({ moonPhase: 'full_moon' }).family()).toBe('personality');
+  });
+
+  it('el guardia también protege la clave de cielo', () => {
+    expect(() => ContentKey.moonPhaseToday({ moonPhase: 'luna llena' })).toThrow(/moonPhase/);
+  });
+
   it('dos claves iguales se reconocen', () => {
     const one = ContentKey.personalityOfSign({ sign: 'aries' });
     const other = ContentKey.personalityOfSign({ sign: 'aries' });

@@ -40,6 +40,19 @@ export const STAR_FIELDS = {
     { left: '59%', top: '93%', size: 2, twinkleMs: 3300 },
   ],
   /**
+   * Artboard 16. Seis, repartidas por los cuatro bordes: aquí el cielo es el
+   * fondo de una pantalla casi vacía y puede ocuparla entera sin estorbar a
+   * nada — es lo contrario del caso de `moonChange`.
+   */
+  empty: [
+    { left: '11%', top: '13%', size: 2, twinkleMs: 3000 },
+    { left: '33%', top: '8%', size: 1 },
+    { left: '71%', top: '11%', size: 2, twinkleMs: 2500 },
+    { left: '87%', top: '31%', size: 1 },
+    { left: '19%', top: '84%', size: 2, twinkleMs: 3400 },
+    { left: '64%', top: '91%', size: 1 },
+  ],
+  /**
    * Artboard 19. Son tres y solo en la mitad de arriba: la pantalla ya tiene
    * mucho que leer y el campo aquí es atmósfera, no protagonista.
    */

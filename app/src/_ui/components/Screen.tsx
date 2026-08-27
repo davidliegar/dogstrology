@@ -26,6 +26,12 @@ export interface ScreenProps {
   /** Filo de pelo sobre el pie. El de la cabecera lo pone `ScreenHeader`, que
    * lo lleva en unas pantallas y no en otras (el selector de raza no lo tiene). */
   footerDivider?: boolean;
+  /**
+   * El azul más profundo en vez del fondo canónico. Lo llevan las tres
+   * pantallas donde **la imagen manda sobre el texto** (artboards 7, 11 y 16):
+   * el cielo se hunde un tono y lo que hay encima flota.
+   */
+  deep?: boolean;
 }
 
 /**
@@ -44,6 +50,7 @@ export function Screen({
   gap = spacing[6],
   scroll = false,
   footerDivider = false,
+  deep = false,
 }: ScreenProps) {
   const insets = useSafeAreaInsets();
 
@@ -68,7 +75,7 @@ export function Screen({
   );
 
   return (
-    <View style={styles.root}>
+    <View style={[styles.root, deep && styles.deep]}>
       {stars ? <StarField field={stars} /> : null}
       {/*
         El teclado no puede tapar el campo que se está rellenando. Se resuelve
@@ -106,6 +113,9 @@ const styles = StyleSheet.create({
   root: {
     flex: 1,
     backgroundColor: colors.background,
+  },
+  deep: {
+    backgroundColor: colors.backgroundDeep,
   },
   content: {
     flex: 1,

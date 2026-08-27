@@ -1,8 +1,8 @@
 import { router, useLocalSearchParams } from 'expo-router';
 import { StyleSheet, Text, View, useWindowDimensions } from 'react-native';
 
-import { Chevron } from '@/_ui/components/Chevron';
 import { Chip } from '@/_ui/components/Chip';
+import { ConnectionFooter } from '@/_ui/components/ConnectionFooter';
 import { Screen } from '@/_ui/components/Screen';
 import { ScreenHeader } from '@/_ui/components/ScreenHeader';
 import { StarField } from '@/_ui/components/StarField';
@@ -84,15 +84,18 @@ export default function SignDetail() {
       header={<ScreenHeader overline="Los doce signos" title={SIGN_LABELS[sign]} onBack={() => router.back()} />}
       footer={
         own && pet ? (
-          <View style={styles.connection}>
-            <View style={styles.connectionText}>
-              <Text style={styles.connectionTitle}>
-                {POSSESSIVE_LABELS[own]} de {pet.name()}
-              </Text>
-              <Text style={styles.caption}>está en este signo</Text>
-            </View>
-            <Chevron direction="right" size={8} color={colors.textFaint} />
-          </View>
+          <ConnectionFooter
+            title={`${POSSESSIVE_LABELS[own]} de ${pet.name()}`}
+            detail="está en este signo"
+            // El Ascendente no es un planeta y no tiene hoja: se abre la rueda
+            // sin enfocar nada, que es de donde el usuario lo lee.
+            onPress={() =>
+              router.push({
+                pathname: '/pet/[id]/chart',
+                params: own === 'ascendant' ? { id: pet.id() } : { id: pet.id(), planet: own },
+              })
+            }
+          />
         ) : null
       }
       footerDivider={Boolean(own && pet)}
@@ -180,22 +183,5 @@ const styles = StyleSheet.create({
   star: {
     fontFamily: fonts.displayItalic,
     color: colors.text,
-  },
-  connection: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'space-between',
-    gap: spacing[4],
-  },
-  connectionText: {
-    gap: spacing[1],
-  },
-  connectionTitle: {
-    ...typography.body,
-    color: colors.text,
-  },
-  caption: {
-    ...typography.caption,
-    color: colors.textFaint,
   },
 });

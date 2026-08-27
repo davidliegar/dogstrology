@@ -28,7 +28,7 @@ import {
   SIGN_LABELS,
   missingHousesNote,
 } from '@/chart/ui/labels';
-import type { PlanetId, PlanetPosition } from '@/chart/domain/PlanetPosition';
+import { PLANET_IDS, type PlanetId, type PlanetPosition } from '@/chart/domain/PlanetPosition';
 import { usePet } from '@/pet/ui/petQueries';
 
 import { colors, glyphSize, screenPadding, spacing, typography } from '@/design/theme';
@@ -62,11 +62,21 @@ const MISSING_DATA_ROUTES = {
  * dato es `null`, no porque haya un `if (confidence === 'no_time')`.
  */
 export default function PetChart() {
-  const { id } = useLocalSearchParams<{ id: string }>();
+  const { id, planet } = useLocalSearchParams<{ id: string; planet?: string }>();
   const { data: pet, isPending, isError } = usePet(id);
   const { data: chart } = useNatalChart(pet);
   const { width } = useWindowDimensions();
-  const [selected, setSelected] = useState<PlanetId | undefined>();
+  // Llegar con un planeta abre su hoja de una vez: es el destino del pie del
+  // detalle de un signo o de una casa, que promete "el Sol de Baloo" y tiene
+  // que aterrizar en el Sol de Baloo y no en la rueda entera.
+  //
+  // Se siembra **una sola vez**, con el inicializador perezoso: al cerrar la
+  // hoja el parámetro sigue en la ruta, y leerlo en cada render la reabriría
+  // sola. Y se valida contra el vocabulario porque una ruta la escribe
+  // cualquiera — un enlace profundo, un typo.
+  const [selected, setSelected] = useState<PlanetId | undefined>(() =>
+    PLANET_IDS.includes(planet as PlanetId) ? (planet as PlanetId) : undefined,
+  );
 
   if (isPending) {
     return (

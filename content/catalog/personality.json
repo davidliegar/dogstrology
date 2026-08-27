@@ -160,6 +160,70 @@
     "colorOfDay": "water"
   },
   {
+    "key": "species=dog;moon_phase=new_moon;when=today",
+    "headline": "Luna nueva: el cielo baja el volumen",
+    "body": "En los días sin luna visible los perros parecen puestos en modo ahorro: siestas más largas, menos ganas de iniciar juego, más pegados a su cama. Cuesta arrancar el paseo, pero una vez fuera olfatean con calma y bastante interés por rincones que llevan semanas ignorando.",
+    "advice": "Mantén los horarios de siempre y deja que el paseo vaya a su ritmo de olfato, sin prisa por cubrir distancia.",
+    "energyScore": 2,
+    "colorOfDay": "water"
+  },
+  {
+    "key": "species=dog;moon_phase=waxing_crescent;when=today",
+    "headline": "La luz sube y el perro se enciende",
+    "body": "Con la Luna en aumento se nota un empuje que no distingue cartas: se despiertan antes, tardan más en soltarse en la cama y rescatan juguetes que llevaban semanas olvidados. Los paseos se estiran, el olfateo se vuelve minucioso y el entrenamiento cuaja mejor si hay movimiento de por medio.",
+    "advice": "Acompaña el empuje con un paseo algo más largo y juegos de buscar y traer, y cierra la tarde con un rato de calma.",
+    "energyScore": 4,
+    "colorOfDay": "fire"
+  },
+  {
+    "key": "species=dog;moon_phase=first_quarter;when=today",
+    "headline": "Media luna arriba, perro con prisa",
+    "body": "El cuarto creciente es el tramo del empuje: la luna va por la mitad y los perros insisten. Se nota en carreras cortas por el pasillo, en juguetes que aparecen a tus pies sin que los pidas y en noches en las que tarda unos minutos más en soltarse del todo.",
+    "advice": "Un juego con final claro ordena la tarde: tres lanzamientos y después caricias largas hasta que se estire en su cama.",
+    "energyScore": 4,
+    "colorOfDay": "fire"
+  },
+  {
+    "key": "species=dog;moon_phase=waxing_gibbous;when=today",
+    "headline": "El cielo se llena y ellos se anticipan",
+    "body": "La luna va camino de llena y en casa se traduce en impaciencia bien educada: siestas más cortas, oreja levantada antes de que suene el ascensor, juguete traído sin que nadie lo pida. No es nervio, es acumulación. El perro está listo para algo que todavía no ha pasado.",
+    "advice": "Alarga un poco el paseo de la tarde y ciérralo con unos minutos de olfateo tranquilo antes de subir a casa.",
+    "energyScore": 4,
+    "colorOfDay": "gold"
+  },
+  {
+    "key": "species=dog;moon_phase=full_moon;when=today",
+    "headline": "Luna llena: la noche se pone alerta",
+    "body": "Con la Luna llena arriba, hasta el perro más plano duerme con una oreja levantada. Se nota en los sobresaltos de madrugada, en algún ladrido sin destinatario claro y en paseos con mucho olfateo y poca línea recta. No es cosa suya en particular: es todo el barrio a la vez.",
+    "advice": "Mantén el paseo nocturno a su hora de siempre y déjale olfatear sin prisa: llegar cansado a la cama lo arregla casi todo.",
+    "energyScore": 4,
+    "colorOfDay": "water"
+  },
+  {
+    "key": "species=dog;moon_phase=waning_gibbous;when=today",
+    "headline": "El cielo aún brilla, el perro ya baja",
+    "body": "La luna va perdiendo luz tras el lleno y los perros acompañan la cuesta abajo: aún se despiertan a ratos raros de la noche, pero se dejan caer en la cama antes de lo habitual. Menos iniciativa y más calma: paseos en los que huelen mucho y tiran poco, y siestas largas de las buenas.",
+    "advice": "Mantén los horarios de siempre, deja que las siestas se alarguen sin interrupciones y cambia carreras por paseos de olfatear.",
+    "energyScore": 2,
+    "colorOfDay": "water"
+  },
+  {
+    "key": "species=dog;moon_phase=last_quarter;when=today",
+    "headline": "La luna se retira y el sofá gana",
+    "body": "El cielo va soltando luz y los perros bajan el volumen: siestas más largas, menos iniciativa para empezar el juego, paseos donde pesa más el olfato que la carrera. Siguen respondiendo a la llamada, pero con medio segundo de retraso, como quien está muy a gusto donde está.",
+    "advice": "Cambia velocidad por olfato en los paseos, deja tiempo para husmear y ten su cama en un rincón tranquilo para las siestas.",
+    "energyScore": 2,
+    "colorOfDay": "water"
+  },
+  {
+    "key": "species=dog;moon_phase=waning_crescent;when=today",
+    "headline": "Luna menguante, perro de bajar el volumen",
+    "body": "El tramo menguante del ciclo baja las revoluciones de casi cualquier perro: siestas más largas, menos interés por vigilar la ventana y paseos con más olfateo que carrera. Suele responder mejor a lo conocido que a lo nuevo, y los juegos largos le cansan antes de lo habitual.",
+    "advice": "Mantén los horarios de siempre y cambia una parte del juego intenso por un paseo tranquilo donde pueda olisquear a su ritmo.",
+    "energyScore": 2,
+    "colorOfDay": "water"
+  },
+  {
     "key": "species=dog;house=1",
     "headline": "Casa 1: la primera impresión que reparte",
     "body": "Es la carta de presentación. Aquí se lee cómo entra en una habitación, cómo saluda a un desconocido en el portal y qué hace en los tres primeros segundos: lanzarse, olfatear con calma o mirarte a ti antes de decidir. Su estilo, no su fondo.",

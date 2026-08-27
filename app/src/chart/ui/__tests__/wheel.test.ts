@@ -1,4 +1,5 @@
 import {
+  CENTER,
   MIN_PLANET_GAP,
   MOON_UNCERTAINTY,
   RADII,
@@ -7,6 +8,7 @@ import {
   normalizeAngle,
   polar,
   screenAngle,
+  sectorPath,
   spreadAngles,
 } from '../wheel';
 
@@ -125,5 +127,82 @@ describe('arcPath', () => {
   it('marca el arco largo solo cuando pasa de media vuelta', () => {
     expect(arcPath(0, 90, 112)).toContain(' 0 0 ');
     expect(arcPath(0, 200, 112)).toContain(' 1 0 ');
+  });
+});
+
+describe('sectorPath', () => {
+  /**
+   * El centro de la circunferencia que el trazador elige para un arco, con la
+   * conversión de extremos a centro del propio spec de SVG (F.6.5, sin
+   * rotación). Es la comprobación que importa: de las dos circunferencias que
+   * pasan por dos puntos con un radio dado, **solo una** tiene el centro en el
+   * de la rueda, y cuál elige el trazador depende de la bandera de barrido.
+   */
+  const arcCenter = (
+    [x1, y1]: [number, number],
+    [x2, y2]: [number, number],
+    r: number,
+    largeArc: number,
+    sweep: number,
+  ) => {
+    const dx = (x1 - x2) / 2;
+    const dy = (y1 - y2) / 2;
+    const factor = Math.sqrt(Math.max((r * r - dy * dy - dx * dx) / (dy * dy + dx * dx), 0));
+    const signed = largeArc === sweep ? -factor : factor;
+    return [round(signed * dy + (x1 + x2) / 2), round(-signed * dx + (y1 + y2) / 2)];
+  };
+
+  const polarRounded = (angle: number, radius: number) => {
+    const { x, y } = polar(angle, radius);
+    return [round(x), round(y)];
+  };
+
+  /**
+   * `M x y A r r 0 arcoLargo barrido x y L x y A r r 0 arcoLargo barrido x y Z`
+   *
+   * El arco interior se recorre **de vuelta**: su `from` es el extremo final
+   * del sector y su `to`, el inicial.
+   */
+  const parse = (path: string) => {
+    const t = path.split(' ').map(Number);
+    return {
+      outer: { from: [t[1], t[2]], to: [t[9], t[10]], r: t[4], largeArc: t[7], sweep: t[8] },
+      inner: { from: [t[12], t[13]], to: [t[20], t[21]], r: t[15], largeArc: t[18], sweep: t[19] },
+    } as const;
+  };
+
+  // La casa V del artboard 21: de 300° a 330° de ángulo de pantalla.
+  const HOUSE_V = { from: 300, to: 330, inner: 78, outer: 156 };
+
+  it('empieza donde el artboard 21 arranca el sector de la casa V', () => {
+    // El artboard lo dibuja en un lienzo de 240; aquí el de la rueda es 360,
+    // así que sus (172, 210,1) son estos (258, 315,1) — la misma figura.
+    const { outer } = parse(sectorPath(HOUSE_V.from, HOUSE_V.to, HOUSE_V.inner, HOUSE_V.outer));
+    expect(outer.from.map(round)).toEqual([258, 315.1]);
+    expect(outer.to.map(round)).toEqual([315.1, 258]);
+  });
+
+  it('centra los dos arcos en el centro de la rueda', () => {
+    // Es el fallo que trae el `d` del artboard: las dos banderas de barrido
+    // vienen invertidas, y con ellas el trazador elige la otra circunferencia
+    // posible. Los dos bordes se comban al revés y la casa sale con forma de
+    // pajarita en vez de sector.
+    const { outer, inner } = parse(sectorPath(HOUSE_V.from, HOUSE_V.to, HOUSE_V.inner, HOUSE_V.outer));
+    const center = [CENTER, CENTER];
+    expect(arcCenter(outer.from as [number, number], outer.to as [number, number], outer.r, outer.largeArc, outer.sweep)).toEqual(center);
+    expect(arcCenter(inner.from as [number, number], inner.to as [number, number], inner.r, inner.largeArc, inner.sweep)).toEqual(center);
+  });
+
+  it('los doce sectores cubren la rueda entera sin solaparse', () => {
+    const HOUSE_ARC = 30;
+    for (let house = 1; house <= 12; house += 1) {
+      const from = normalizeAngle(180 + (house - 1) * HOUSE_ARC);
+      const { outer, inner } = parse(sectorPath(from, from + HOUSE_ARC, HOUSE_V.inner, HOUSE_V.outer));
+      // El final del arco exterior de una casa es el principio de la siguiente.
+      const next = parse(sectorPath(from + HOUSE_ARC, from + 2 * HOUSE_ARC, HOUSE_V.inner, HOUSE_V.outer));
+      expect(outer.to.map(round)).toEqual(next.outer.from.map(round));
+      // Y el arco interior cierra el sector volviendo a su cúspide de inicio.
+      expect(inner.to.map(round)).toEqual(polarRounded(from, HOUSE_V.inner));
+    }
   });
 });

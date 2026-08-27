@@ -98,8 +98,26 @@ export function breedSignFragments() {
 }
 
 /**
- * Personalidad: 12 signos + 8 fases + 12 casas = **32** para el MVP (BRD §7.3;
- * el 68 de la tabla es una previsión para 4 especies).
+ * Personalidad: 12 signos + 8 fases natales + 8 fases de cielo + 12 casas =
+ * **40** para el MVP (BRD §7.3; el 68 de la tabla es una previsión para 4
+ * especies).
+ *
+ * **Las fases van dos veces, y no es un descuido.** Una fase lunar se lee de
+ * dos maneras que no se sustituyen:
+ *
+ * - `species=dog;moon_phase=full_moon` — el perro **nacido** en luna llena.
+ *   Es carácter, no cambia nunca, y es lo que pide la ficha de una fase
+ *   cuando la mascota nació en ella
+ * - `species=dog;moon_phase=full_moon;when=today` — qué se nota en **todos**
+ *   los perros durante los días de luna llena. Es el cielo de este tramo de
+ *   mes, igual para cualquier carta, y es lo que piden el artboard 07 (La
+ *   Luna hoy) y la ficha de la fase de hoy (artboard 23)
+ *
+ * La sesión 23 de `PLAN.md` descubrió el hueco al implementar el 23: el
+ * artboard rotulaba "En un perro" un texto de cielo, y lo único publicado era
+ * el retrato natal. Las 8 de cielo se generaron el 2026-08-27. Sigue siendo catálogo inmutable y no diario: lo que se
+ * nota en una menguante es verdad en **todas** las menguantes, así que se
+ * escribe una vez y se paga una vez.
  *
  * Es otra cosa que `planet=sun;sign=aries`, aunque se parezcan. Aquella es la
  * lectura técnica de una posición; esta es el retrato — el contenido "hero" de
@@ -112,7 +130,7 @@ export function breedSignFragments() {
  * llena" y "la casa IV es su cama y su territorio" (BRD §6.4 ya traduce las
  * casas al mundo canino) son prosa de perro, no prosa neutra. Una clave que
  * promete neutralidad que no tiene es de las caras de arreglar, así que la
- * previsión a 4 especies pasa a ser 4×32 = 128. El MVP sigue siendo 32.
+ * previsión a 4 especies pasa a ser 4×40 = 160. El MVP son 40.
  */
 export function personalityFragments() {
   const fragments = [];
@@ -131,6 +149,18 @@ export function personalityFragments() {
     });
   }
 
+  // La misma fase leída como cielo y no como nacimiento. Ver el porqué en el
+  // bloque de arriba: son dos textos distintos sobre la misma fase.
+  for (const phase of MOON_PHASES) {
+    fragments.push({
+      key: `species=dog;moon_phase=${phase};when=today`,
+      userMessage:
+        `Escribe la entrada permanente del catálogo para: qué se nota en los perros durante los días de ${label(MOON_PHASE_LABELS, phase)}. ` +
+        'Habla del tramo del ciclo lunar que hay en el cielo y de cómo se nota en el descanso y la conducta de **cualquier** perro, sea cual sea su carta. ' +
+        'No es el perro nacido en esa fase: eso es otra entrada.',
+    });
+  }
+
   for (const house of HOUSES) {
     fragments.push({
       key: `species=dog;house=${house}`,
@@ -146,7 +176,7 @@ export const CATEGORIES = [
   { id: 'aspects', count: 500, build: aspectFragments },
   { id: 'planet-sign-house', count: 240, build: planetSignHouseFragments },
   { id: 'breed-sign', count: BREEDS.length * 12, build: breedSignFragments },
-  { id: 'personality', count: 32, build: personalityFragments },
+  { id: 'personality', count: 40, build: personalityFragments },
 ];
 
 /**

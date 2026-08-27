@@ -1,4 +1,10 @@
-import { confidenceSegments, formatDailySpeed, formatDegree, formatPosition } from '../format';
+import {
+  confidenceSegments,
+  formatDailySpeed,
+  formatDegree,
+  formatPosition,
+  formatWeekdayDate,
+} from '../format';
 
 describe('formatDegree', () => {
   it('parte el decimal en grados y minutos de arco', () => {
@@ -54,5 +60,21 @@ describe('formatPosition', () => {
 
   it('sin casa no deja ni la coletilla ni el separador', () => {
     expect(formatPosition({ degree: 2, sign: 'Capricornio' })).toBe('2°00′ Capricornio');
+  });
+});
+
+describe('formatWeekdayDate', () => {
+  it('escribe la fecha del pie del artboard 23', () => {
+    expect(formatWeekdayDate('2025-08-25')).toBe('Lunes 25 de agosto');
+  });
+
+  it('no lleva año: donde se usa, la fecha es la de hoy', () => {
+    expect(formatWeekdayDate('2026-01-01')).toBe('Jueves 1 de enero');
+  });
+
+  it('el día de la semana sale en UTC, así que no se adelanta ni se atrasa', () => {
+    // Con los métodos locales, medianoche UTC es el día anterior en cuanto el
+    // huso va por detrás de Greenwich — y el domingo saldría sábado.
+    expect(formatWeekdayDate('2026-08-23')).toBe('Domingo 23 de agosto');
   });
 });

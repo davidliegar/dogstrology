@@ -1,4 +1,4 @@
-import type { HouseSystem, NatalChart } from './NatalChart';
+import type { HouseSystem, MoonPhaseData, NatalChart } from './NatalChart';
 import type { Sign } from './PlanetPosition';
 
 /**
@@ -35,6 +35,12 @@ export interface MoonSignChangeData {
   to: Sign;
 }
 
+export interface moonPhaseInput {
+  /** Instante ISO 8601 en UTC. El cielo de un momento, no el de un lugar: la
+   * fase es la misma desde cualquier punto de la Tierra. */
+  at: string;
+}
+
 export interface calculateInput {
   moment: BirthMoment;
   houseSystem: HouseSystem;
@@ -59,4 +65,13 @@ export interface ChartCalculator {
    * caso corriente: cambia cada dos días y medio.
    */
   findMoonSignChange(input: moonSignChangeInput): Promise<MoonSignChangeData | null>;
+
+  /**
+   * La fase lunar de un instante cualquiera, sin carta de por medio.
+   *
+   * Existe aparte de `calculate` porque la fase de **hoy** no es de ninguna
+   * mascota (artboards 22 y 23): es el mismo cielo para todos los perros, y
+   * pedirla a través de una carta natal obligaría a inventarse un nacimiento.
+   */
+  moonPhaseAt(input: moonPhaseInput): Promise<MoonPhaseData>;
 }

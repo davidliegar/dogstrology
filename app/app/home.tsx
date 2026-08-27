@@ -1,7 +1,8 @@
-import { Link } from 'expo-router';
+import { Link, router } from 'expo-router';
 import { StyleSheet, Text, View } from 'react-native';
 
 import { Screen } from '@/_ui/components/Screen';
+import { NoPetPrompt } from '@/pet/ui/NoPetPrompt';
 import { usePets } from '@/pet/ui/petQueries';
 
 import { colors, spacing, typography } from '@/design/theme';
@@ -17,6 +18,11 @@ import { colors, spacing, typography } from '@/design/theme';
 export default function Home() {
   const { data: pets } = usePets();
   const pet = pets?.[0];
+
+  // Sin mascota, Hoy no tiene nada que contar: entra el artboard 16 entero.
+  // Se llega borrando la única mascota — el reparto de `index.tsx` manda al
+  // onboarding en el primer arranque, así que esto es la vuelta, no la ida.
+  if (pets && !pet) return <NoPetPrompt onAdd={() => router.push('/onboarding/name')} />;
 
   return (
     <Screen align="center">
@@ -36,7 +42,10 @@ export default function Home() {
               Quién es
             </Link>
             <Link href="/explore" style={styles.link}>
-              Los doce signos
+              Explorar
+            </Link>
+            <Link href="/credits" style={styles.link}>
+              Créditos
             </Link>
             <Link href={{ pathname: '/pet/[id]', params: { id: pet.id() } }} style={styles.link}>
               Ver su perfil

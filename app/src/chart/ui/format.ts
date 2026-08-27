@@ -1,3 +1,4 @@
+import { MONTHS } from '@/_ui/components/DateFields';
 import type { ChartConfidence } from '../domain/NatalChart';
 import { HOUSE_NUMERALS } from './glyphs';
 
@@ -60,4 +61,28 @@ export function formatPosition({
 }): string {
   const position = `${formatDegree(degree)} ${sign}`;
   return house ? `${position} · ${HOUSE_NUMERALS[house - 1]}` : position;
+}
+
+/**
+ * Los días de la semana. Viven aquí y no en `labels.ts` por la misma razón
+ * que `MONTHS` vive en el selector de fecha: es una tabla de calendario, no
+ * vocabulario de la carta, y la usa una sola pantalla.
+ */
+const WEEKDAYS = ['domingo', 'lunes', 'martes', 'miércoles', 'jueves', 'viernes', 'sábado'] as const;
+
+/**
+ * `2026-08-25` → `Lunes 25 de agosto`.
+ *
+ * Sin año a propósito: donde se usa —el pie de la ficha de una fase— la fecha
+ * es la de hoy, y decir el año de hoy es ruido.
+ *
+ * La fecha se parte a mano y el día de la semana se saca en UTC, igual que
+ * `formatLongDate`: `new Date('2026-08-25')` es medianoche **UTC**, y
+ * preguntarle el día con los métodos locales devuelve el anterior en cuanto el
+ * huso va por detrás de Greenwich.
+ */
+export function formatWeekdayDate(iso: string): string {
+  const [year, month, day] = iso.split('-').map(Number);
+  const weekday = WEEKDAYS[new Date(Date.UTC(year, month - 1, day)).getUTCDay()];
+  return `${weekday[0].toUpperCase()}${weekday.slice(1)} ${day} de ${MONTHS[month - 1]}`;
 }

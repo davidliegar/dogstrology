@@ -7,9 +7,12 @@ import { BREEDS } from '../pet/ui/breeds';
 
 const HOUSES = Array.from({ length: 12 }, (_, i) => i + 1);
 
+/** Todo lo que la app sabe pedir. Desde 2026-08-27, todo está publicado. */
+const EVERY_KEY = 1560;
+
 /**
  * **Todas** las claves que la app puede llegar a construir con el vocabulario
- * que tiene hoy. No es una muestra: son las 1.552, generadas desde las mismas
+ * que tiene hoy. No es una muestra: son las 1.560, generadas desde las mismas
  * constantes que usan las pantallas.
  */
 function everyKeyTheAppCanAsk(): ContentKey[] {
@@ -32,6 +35,7 @@ function everyKeyTheAppCanAsk(): ContentKey[] {
 
   for (const sign of SIGNS) keys.push(ContentKey.personalityOfSign({ sign }));
   for (const moonPhase of MOON_PHASE_NAMES) keys.push(ContentKey.personalityOfMoonPhase({ moonPhase }));
+  for (const moonPhase of MOON_PHASE_NAMES) keys.push(ContentKey.moonPhaseToday({ moonPhase }));
   for (const house of HOUSES) keys.push(ContentKey.houseGlossary({ house }));
 
   return keys;
@@ -66,8 +70,8 @@ describe('cobertura del catálogo publicado', () => {
     global.__DEV__ = wasDev;
   });
 
-  it('la app puede construir exactamente las 1.552 claves del catálogo', () => {
-    expect(everyKeyTheAppCanAsk()).toHaveLength(1552);
+  it('la app puede construir exactamente las claves del catálogo', () => {
+    expect(everyKeyTheAppCanAsk()).toHaveLength(EVERY_KEY);
   });
 
   it('no falta ni un fragmento de los que la app sabe pedir', async () => {
@@ -90,7 +94,7 @@ describe('cobertura del catálogo publicado', () => {
       ...Object.keys(require('../content/infrastructure/catalog/personality.generated.json')),
     ];
 
-    expect(published).toHaveLength(1552);
+    expect(published).toHaveLength(EVERY_KEY);
     expect(published.filter((key) => !asked.has(key))).toEqual([]);
   });
 
@@ -101,6 +105,6 @@ describe('cobertura del catálogo publicado', () => {
     const repository = BundledCatalogContentRepository.create();
     const fragments = await repository.getMany({ keys: everyKeyTheAppCanAsk() });
 
-    expect(fragments).toHaveLength(1552);
+    expect(fragments).toHaveLength(EVERY_KEY);
   });
 });

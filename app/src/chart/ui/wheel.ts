@@ -184,3 +184,29 @@ export function arcPath(from: number, to: number, radius: number): string {
   const largeArc = normalizeAngle(to - from) > 180 ? 1 : 0;
   return `M ${start.x} ${start.y} A ${radius} ${radius} 0 ${largeArc} 0 ${end.x} ${end.y}`;
 }
+
+/**
+ * El sector de anillo que ocupa una casa (artboard 21): el trozo de corona
+ * entre dos cúspides, cerrado por sus dos arcos.
+ *
+ * El arco de vuelta va con la bandera contraria a la de ida por la misma
+ * razón que `arcPath` la lleva a 0: de las dos circunferencias que pasan por
+ * dos puntos con ese radio, solo una tiene el centro en el de la rueda, y
+ * cuál de ellas elige el trazador depende del sentido en que se recorra. Con
+ * las dos banderas a lo que dice el artboard, los dos bordes del sector se
+ * comban hacia fuera y la casa sale con forma de pajarita.
+ */
+export function sectorPath(from: number, to: number, inner: number, outer: number): string {
+  const start = polar(from, outer);
+  const end = polar(to, outer);
+  const back = polar(to, inner);
+  const close = polar(from, inner);
+  const largeArc = normalizeAngle(to - from) > 180 ? 1 : 0;
+  return [
+    `M ${start.x} ${start.y}`,
+    `A ${outer} ${outer} 0 ${largeArc} 0 ${end.x} ${end.y}`,
+    `L ${back.x} ${back.y}`,
+    `A ${inner} ${inner} 0 ${largeArc} 1 ${close.x} ${close.y}`,
+    'Z',
+  ].join(' ');
+}

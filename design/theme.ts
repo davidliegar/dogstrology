@@ -242,6 +242,18 @@ export type TypographyToken = keyof typeof typography;
 // tono de superficie y un halo de oro. Nada de sombras difusas de plantilla.
 // ---------------------------------------------------------------------------
 
+/**
+ * **Solo sobre superficie opaca.** En CSS un `box-shadow` se pinta *fuera* de
+ * la caja; en React Native la sombra se pinta bajo **toda** la capa, así que
+ * con un relleno translúcido —`accentSoft` es oro al 12 %— se transparenta por
+ * el centro y la pieza sale con un manchón en medio, en iOS y en Android. En
+ * Android encima la `elevation` dibuja sombra **negra** haga lo que haga
+ * `shadowColor`.
+ *
+ * Por eso el resaltado de una tarjeta o un chip de oro **no lleva halo**: es
+ * relleno y filo, que es lo que el artboard tiene debajo del `box-shadow` y lo
+ * único que las dos plataformas pintan igual.
+ */
 export const glow = {
   card: {
     shadowColor: palette.night900,

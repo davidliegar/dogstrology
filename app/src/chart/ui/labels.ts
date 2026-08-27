@@ -1,5 +1,6 @@
 import type { ChartConfidence, HouseSystem, MoonPhaseName } from '../domain/NatalChart';
 import type { AspectType } from '../domain/ChartAspect';
+import type { House, HouseKind } from '../domain/House';
 import type { Element, Modality, PlanetId, Sign } from '../domain/PlanetPosition';
 
 /**
@@ -133,6 +134,45 @@ export const POSSESSIVE_LABELS: Partial<Record<PlanetId | 'ascendant', string>> 
   sun: 'El Sol',
   moon: 'La Luna',
   ascendant: 'El Ascendente',
+};
+
+/**
+ * El mismo "su X" en el pie del detalle de **casa** (artboard 21), donde sí
+ * puede caer cualquiera de los diez cuerpos y no solo los tres reconocibles.
+ *
+ * Funciona porque en español el Sol y la Luna llevan artículo y los demás son
+ * nombres propios que no lo llevan: "El Sol de Baloo cae en esta casa" y
+ * "Marte de Baloo cae en esta casa" son las dos correctas. Por eso la tabla
+ * de arriba se reutiliza en vez de duplicarse — solo aporta las excepciones.
+ */
+export const possessiveOfPlanet = (planet: PlanetId): string =>
+  POSSESSIVE_LABELS[planet] ?? PLANET_LABELS[planet];
+
+/**
+ * El nombre de cada casa (artboard 20): el área de la vida que gobierna,
+ * dicha en perro y en tres palabras. Una casa no tiene símbolo heredado —su
+ * glifo es el numeral romano de `HOUSE_NUMERALS`—, así que el nombre es lo
+ * único que la identifica en la rejilla.
+ */
+export const HOUSE_LABELS: Record<House, string> = {
+  1: 'La identidad',
+  2: 'Lo que posee',
+  3: 'El vecindario',
+  4: 'La casa',
+  5: 'El juego',
+  6: 'La rutina',
+  7: 'El vínculo',
+  8: 'Lo que teme',
+  9: 'Lo desconocido',
+  10: 'Su fama',
+  11: 'La manada',
+  12: 'El descanso',
+};
+
+export const HOUSE_KIND_LABELS: Record<HouseKind, string> = {
+  angular: 'Angular',
+  succedent: 'Sucedente',
+  cadent: 'Cadente',
 };
 
 /**

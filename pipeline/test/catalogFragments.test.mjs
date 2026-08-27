@@ -75,13 +75,40 @@ test('planetSignHouseFragments cubre los 12 signs para cada uno de los 10 cuerpo
  * exporta del motor.
  */
 describe('personality', () => {
-  test('son 32: 12 signos + 8 fases + 12 casas', () => {
+  test('son 40: 12 signos + 8 fases natales + 8 de cielo + 12 casas', () => {
     const fragments = personalityFragments();
-    assert.equal(fragments.length, 32);
+    assert.equal(fragments.length, 40);
     const porEje = (campo) => fragments.filter((f) => f.key.includes(`;${campo}=`)).length;
     assert.equal(porEje('sign'), 12);
-    assert.equal(porEje('moon_phase'), 8);
     assert.equal(porEje('house'), 12);
+    // Las fases van dos veces: el perro nacido en ella y lo que se nota en
+    // todos los perros mientras dura. `when=today` es lo que las separa.
+    assert.equal(porEje('moon_phase'), 16);
+    assert.equal(porEje('when'), 8);
+  });
+
+  test('cada fase tiene sus dos lecturas, y no se pisan', () => {
+    const keys = personalityFragments().map((f) => f.key);
+    const natales = keys.filter((k) => k.includes(';moon_phase=') && !k.includes(';when='));
+    const cielo = keys.filter((k) => k.endsWith(';when=today'));
+    assert.equal(natales.length, 8);
+    assert.equal(cielo.length, 8);
+    // La de cielo es la natal más el calificador: misma fase, otra lectura.
+    for (const natal of natales) assert.ok(cielo.includes(`${natal};when=today`), `falta el cielo de ${natal}`);
+  });
+
+  test('el mensaje de cielo no se confunde con el natal', () => {
+    const fragments = personalityFragments();
+    const cielo = fragments.find((f) => f.key === 'species=dog;moon_phase=waning_gibbous;when=today');
+    assert.match(cielo.userMessage, /durante los días de/);
+    assert.match(cielo.userMessage, /Gibosa menguante/);
+    // Lo que evita que el modelo escriba otra vez el retrato natal.
+    assert.match(cielo.userMessage, /cualquier\*\* perro/);
+    assert.match(cielo.userMessage, /No es el perro nacido en esa fase/);
+
+    const natal = fragments.find((f) => f.key === 'species=dog;moon_phase=waning_gibbous');
+    assert.match(natal.userMessage, /nacido en/);
+    assert.doesNotMatch(natal.userMessage, /durante los días de/);
   });
 
   test('los tres ejes llevan species=dog y las claves no se repiten', () => {
@@ -104,7 +131,8 @@ describe('personality', () => {
     const declaradas = new Set(
       personalityFragments()
         .filter((f) => f.key.includes(';moon_phase='))
-        .map((f) => f.key.split(';moon_phase=')[1]),
+        // La lectura de cielo lleva `;when=today` detrás del nombre de la fase.
+        .map((f) => f.key.split(';moon_phase=')[1].split(';')[0]),
     );
     const vistas = new Set();
     const inicio = Date.UTC(2026, 0, 1);

@@ -106,11 +106,28 @@ PR por categoría, nunca un PR con 500 y 240 fragmentos mezclados.
 
 **Las 4 categorías del catálogo que son MVP (BRD §7.3) están implementadas y
 generadas**: **aspectos** (500), **planeta en signo/casa** (240), **raza × signo**
-(780, sobre las 65 razas de `src/breeds.mjs`) y **personalidad** (32).
+(780, sobre las 65 razas de `src/breeds.mjs`) y **personalidad** (40).
+**1.560 fragmentos** en total.
 
 `personality` es el retrato, no la lectura técnica de una posición: convive con
 `planet=sun;sign=aries` porque las claves tienen campos distintos. Es lo que
 alimenta F6, la frase que remata la revelación de F1 y el glosario de Explorar.
+
+**Una fase lunar va dos veces en `personality`, y no es un descuido.** Son dos
+lecturas de la misma fase que no se sustituyen:
+
+| Clave | Qué es | Quién la pide |
+|---|---|---|
+| `species=dog;moon_phase=full_moon` | el perro **nacido** en luna llena | la ficha de una fase, cuando la mascota nació en ella |
+| `species=dog;moon_phase=full_moon;when=today` | qué se nota en **todos** los perros durante los días de luna llena | el artboard 07 (La Luna hoy) y la ficha de la fase de hoy |
+
+Las 8 de cielo se añadieron en la sesión 23, al descubrir que el artboard 23
+pedía un texto que no existía, y se generaron con `--missing` — que no toca
+los 32 ya publicados y pagados:
+
+```sh
+node src/generateCatalog.mjs --categories personality --missing --confirm
+```
 
 Las que faltan del BRD —las tres de compatibilidad y la de momentos— son de fase
 2 y 3 (§9), no del MVP: se añaden cuando entre su feature.
@@ -135,7 +152,8 @@ contenido de prueba que ya hay en `../content/daily/` — ver
 
 ## Qué falta
 
-- [ ] Desglose de `personality`, la única categoría del catálogo que falta
+- [x] Generar las 8 entradas de cielo de `personality` (`;when=today`) —
+      hecho, 8/8 publicables y 0 bloqueados por el filtro
 - [ ] Leer los tres `.report.md` de `content/catalog/` y decidir qué se mergea
       (D13), y regenerar lo que caiga
 - [ ] Activar de verdad la GitHub Action (descomentar el cron, secreto

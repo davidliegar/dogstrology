@@ -9,8 +9,8 @@
 ## Estado actual
 
 **Fase**: **Bloque 2 cerrado hasta donde puede estarlo** — las 4 categorías del
-catálogo MVP generadas (1.552 fragmentos) y lo que queda depende de decisiones de
-lanzamiento, no de trabajo. **Bloque 3 con F1 terminado**: la app arranca, reparte según haya mascota o no, y el
+catálogo MVP generadas (**1.560 fragmentos**) y lo que queda depende de
+decisiones de lanzamiento, no de trabajo. **Bloque 3 con F1 terminado**: la app arranca, reparte según haya mascota o no, y el
 onboarding express lleva de cero a signo solar en tres pantallas — con las
 fuentes de verdad cargadas y las 12 constelaciones reales pintadas desde
 coordenadas. Debajo, la arquitectura de la sesión anterior intacta: motor
@@ -19,10 +19,13 @@ hexagonal (puertos y adaptadores, composition root, capas impuestas por ESLint)
 y en inglés. **F2 completo**: el perfil edita y guarda foto, raza, sexo,
 esterilizado, fecha con su exactitud, hora, lugar y día de adopción — nueve
 editores, guardado atómico, y la carta puede llegar a `full` por primera vez.
-**El contexto de contenido, hecho**: los 1.552 fragmentos del catálogo entran en
+**El contexto de contenido, hecho**: los 1.560 fragmentos del catálogo entran en
 el binario y hay puerto, adaptador y gramática de claves para abrirlos.
 **F3 completo**: la carta natal se pinta, se toca y enseña el texto del
-catálogo — la primera pantalla de la app con contenido de verdad. **Queda F4**:
+catálogo — la primera pantalla de la app con contenido de verdad.
+**Explorar completo** (sesión 23): los tres filtros, las tres rejillas —doce
+signos, doce casas, ocho fases— y las tres fichas de detalle. Es la parte de
+la app que se lee sin haber creado ninguna mascota. **Queda F4**:
 la misma rueda con Skia y movimiento
 **Última sesión**: 2026-08-27
 **Decisión: los builds de EAS se posponen.** Consumen cuota limitada (15+15
@@ -46,12 +49,35 @@ el resumen habrían salido mal. Antes de maquetar **cualquier** pantalla,
 importar su artboard. En F3 volvió a pasar: los dos artboards de la carta natal
 están marcados F4, y eso no estaba en ningún resumen.
 
-## Siguiente sesión: **F4 — la rueda con Skia**
+## Siguiente sesión: **F7 — La Luna hoy (artboard 07)**
+
+Ya no queda nada delante. Los 8 fragmentos de cielo están generados y
+publicados, que era el único bloqueo, y **el resto de la pantalla es motor que
+ya existe**:
+
+| Lo que pide el 07 | De dónde sale |
+|---|---|
+| La fase, la iluminación, el día del ciclo | `moonPhaseAt` + `moonPhaseFacts` (sesión 23) |
+| El disco con su terminador | `MoonDisc` (sesión 23) |
+| "Entra en Escorpio · hoy 17:12" | `moonSignChange(from, to)`, ya genérico en el motor — hay que **generalizar el caso de uso**, hoy atado a una mascota |
+| "Su Luna natal · 8°40′ Cáncer" | la carta |
+| El párrafo en perro | `species=dog;moon_phase=…;when=today` |
+| "Luna nueva · 2 sep 03:44" | **lo único que falta**: `SearchMoonPhase` de `astronomy-engine`, que el puerto no expone todavía |
+
+Detrás:
+
+1. **F4 — Skia**, cuando toque el tratamiento (abajo)
+2. **F5 / artboard 04** es el peñasco y no es una pantalla: es infraestructura
+   —CDN, adaptador de contenido remoto, el diario generándose de verdad— y
+   pide bloque propio. Arrastra detrás la barra de pestañas y los artboards
+   **15** y **17**, que son estados suyos
+
+### Cuando toque F4 — lo que ya está resuelto
 
 La carta natal ya se lee y se toca. Lo que queda es el tratamiento: Skia en vez
 de `react-native-svg`, el revelado de 1200 ms al abrirla, y el movimiento.
 
-**Lo que ya está resuelto y no hay que volver a pensar**, con nombre y apellidos:
+**Lo que no hay que volver a pensar**, con nombre y apellidos:
 
 - `chart/ui/wheel.ts` — toda la geometría, sin React y con 14 tests: radios,
   `screenAngle`, `polar`, `arcMidpoint` y `spreadAngles`. Está **validada contra
@@ -79,28 +105,71 @@ falta hora" del BRD §8.1.
 - Siguen pendientes las **cuatro correcciones del canvas** listadas en el
   Bloque 3, y la tanda de estados de carga/vacío/sin red que el propio canvas
   señala como lo siguiente
+- **Quinta corrección del canvas (sesión 23)**: el sector de casa del artboard
+  21 lleva **las dos banderas de barrido invertidas** en su `d`. De las dos
+  circunferencias que pasan por dos puntos con un radio dado solo una tiene el
+  centro en el de la rueda, y con esas banderas el trazador elige la otra: los
+  dos bordes del sector se comban al revés y la casa sale con forma de
+  pajarita en vez de sector. `wheel.ts` ya documentaba la trampa para
+  `arcPath`; ahora `sectorPath` la resuelve y hay un test que comprueba el
+  centro de los dos arcos
 
 ### Las otras pantallas de `Pantallas MVP.dc.html`
 
-De los 13 artboards, 01·02·03 son F1 y 09 es F2 (ambos hechos), 05 y 13 son
-esta sesión. De los siete que quedan:
+Son ya **23 artboards**. 01·02·03 son F1 y 09 es F2; 05·13·14·19 son F3; 06 es
+F6. Todos hechos. De los que quedan:
 
-- **06 Personalidad raza×signo**: hecho (sesión 19)
-- **08 y 18**: hechos en la sesión 21, con el filtro **Signos** solamente
-- ⚠️ **"Casas" y "Fases lunares" se quedaron fuera de la rejilla.** Tienen
-  contenido (12 y 8 entradas en `personality.json`) y su tarjeta sería
-  derivable —el numeral romano ya es el glifo de una casa, y el artboard 7
-  dibuja el disco lunar con su terminador—, pero **no tienen pantalla de
-  destino**: el artboard 18 resolvió ese destino solo para los signos. Pintar
-  la rejilla sin destino son doce tarjetas que no llevan a ningún sitio. Es un
-  encargo de diseño, no dos: la tarjeta y su detalle
-- ⚠️ **Sigue faltando la barra de pestañas** del artboard 8, que es el armazón
-  de la app entera y no de esta pantalla. Hoy se entra a Explorar desde el
-  enlace provisional de `home.tsx`, como a todo lo demás
+- **08·18·20·21·22·23 — Explorar entero, hecho (sesión 23)**. El encargo de
+  diseño que la sesión 21 dejó pedido llegó dibujado (20 a 23) y se implementó:
+  los tres filtros, las tres rejillas y las tres fichas. Cierra el ⚠️ de
+  "Casas y Fases lunares se quedaron fuera"
+- ⚠️ **Sigue faltando la barra de pestañas**, que los artboards 20 y 22 vuelven
+  a dibujar. Es el armazón de la app entera —Hoy, la mascota, Explorar,
+  Ajustes— y dos de esas cuatro pestañas no tienen todavía pantalla de
+  destino. Hoy se entra a Explorar desde el enlace provisional de `home.tsx`
+- **24 Créditos — hecho (sesión 23)**. Llegó dibujado y se implementó:
+  `app/credits.tsx`. Cierra el bloqueo de la atribución de GeoNames, que es
+  **obligación de licencia** y no cortesía. Vive dentro de Ajustes, que no
+  existe: hoy se entra por el enlace provisional de `home.tsx`
+- **16 Vacío sin mascota — hecho (sesión 23)**: `pet/ui/NoPetPrompt.tsx`, en
+  la rama vacía de Hoy. Se llega borrando la única mascota; el reparto de
+  `index.tsx` manda al onboarding en el primer arranque, así que es la vuelta
+  y no la ida
+- ⚠️ **15 y 17 esperan a Hoy, no a que alguien los maquete.** Los dos son
+  estados **de la pantalla Hoy** (F5), y por eso no se pueden implementar
+  todavía:
+  - **15 Hoy cargando** es la silueta de las tarjetas del día. Su forma *es*
+    la forma de Hoy: sin Hoy, el esqueleto habría que inventárselo. Lo que sí
+    deja escrito es una regla general que vale para F5 — "solo se ausenta lo
+    que se está calculando": cabecera y barra completas, y hueco únicamente
+    donde va el dato que falta
+  - **17 Sin red** es Hoy con un aviso de sin conexión, y **hoy no hay red que
+    perder**: el catálogo va en el binario y el motor calcula en el móvil. El
+    aviso solo tiene sentido cuando el diario se descargue (F5/F12). Pintarlo
+    ahora sería un control que no puede aparecer nunca
 - **04 Hoy** y **07 Fase lunar** necesitan contenido que el pipeline todavía no
   genera para hoy: `aspects.json` es de tránsito y hay que calcular el día
-- **10 Ajustes** depende del selector de sistema de casas (Bloque 4),
-  **11 Paywall** de RevenueCat y **12 Compartir** de la spec de marca de agua
+- **10 Ajustes** depende del selector de sistema de casas (Bloque 4) y
+  **11 Paywall** de RevenueCat. **12 Compartir** no depende de nada que falte:
+  la spec de marca de agua **sí está escrita** (`design/brand/README.md`,
+  composición, posición, tamaño, color, los dos lienzos y las prohibiciones).
+  Es solo que F9 vive en el Bloque 5 — corregido en la sesión 23, la sesión 21
+  lo dejó anotado como si la spec no existiera
+
+#### ⚠️ Un hueco de contenido que el artboard 23 destapa
+
+El artboard rotula "En un perro" un texto sobre **lo que la fase de esta
+semana le hace a un perro**, y ese contenido **no existe**. Los ocho
+fragmentos `species=dog;moon_phase=…` del catálogo retratan al perro *nacido*
+en esa fase ("Nacido con la luna entera encima"), que es otra cosa.
+
+La ficha se implementó rotulando por lo que hay — **"Nacido en esta fase"**—
+porque poner "En un perro" encima, en una pantalla cuyo pie dice "Es la fase
+de hoy", hace leer un retrato natal como una previsión del día. **Es una
+decisión de contenido pendiente**: o el pipeline genera una novena categoría
+(la fase de hoy × su efecto, 8 fragmentos) y entonces la ficha tiene las dos
+secciones, o el artboard 23 se rotula como está. Afecta también al **07 Fase
+lunar**, que se apoya en el mismo contenido inexistente.
 
 ### Lo que hay que leer antes de tocar código
 
@@ -124,11 +193,12 @@ matarlo.
 - **Cuatro correcciones en el canvas**, listadas en el Bloque 3 (el "Guardar"
   del artboard A, los datos internacionales del H, los "cuatro mestizos" del B
   y el orden del enum del F)
-- ⚠️ **La atribución de GeoNames** (CC BY 4.0, `data/README.md`) tiene que
-  aparecer en la pantalla de créditos el día que exista
+- ~~La atribución de GeoNames~~ — **hecha** (sesión 23): artboard 24 en
+  `app/credits.tsx`, con las cuatro fuentes y sus licencias. La única en oro es
+  CC BY 4.0, que es la que obliga
 
 **Antes de cerrar sesión**, los cuatro en limpio: `cd proto && npm run verify`,
-`npm --prefix pipeline test` (73), `npm --prefix app test` (219),
+`npm --prefix pipeline test` (75), `npm --prefix app test` (308),
 `npm --prefix app run lint` y `npx tsc --noEmit` (desde `app/`).
 
 **Dos cosas de Android que ya han mordido una vez**, por si vuelven:
@@ -293,7 +363,21 @@ Referencia: **BRD §7.4, §7.5**.
       del BRD §7.3 generadas y verificadas: sin claves duplicadas dentro ni
       entre categorías, sin fragmentos incompletos, ninguno fuera de longitud.
       `PENDING_CATEGORIES` se queda vacío por primera vez
-- [ ] Revisar a mano la primera tanda de cada tipo de contenido
+- [x] **La fase lunar como cielo — 8 fragmentos, generados** (2026-08-27).
+      Era el hueco que destapó la sesión 23: el catálogo tenía el retrato del
+      perro *nacido* en cada fase y los artboards **07** y **23** piden otra
+      cosa — qué se nota en cualquier perro mientras dura la fase.
+      Clave `species=dog;moon_phase=…;when=today`, 8/8 publicables y **0
+      bloqueados** por el filtro. Ninguno se desvió al retrato natal: el
+      mensaje lleva la separación escrita y se nota en el resultado ("no
+      distingue cartas", "no es cosa suya en particular").
+      El catálogo pasa de 1.552 a **1.560 fragmentos**
+- [ ] ⚠️ **Revisar a mano la primera tanda de cada tipo de contenido.** Son
+      **1.560 fragmentos generados y 8 revisados** (los de cielo, en la
+      sesión 23), y BRD §7.5 + §14 R1 dicen
+      que nada se publica sin revisión humana por PR. Es el único pendiente que
+      **no se puede comprimir al final**: lo limita una persona leyendo. Conviene
+      empezar por tandas ya, no cuando esté todo lo demás hecho
 
 ---
 
@@ -574,7 +658,7 @@ Referencia: **BRD §7.4, §7.5**.
 - [x] **Contexto de contenido** — bounded context `content/` completo: puerto
       `ContentRepository` (`get` / `getMany`), `ContentKey` con la gramática de
       las cuatro familias, `Fragment` validado con Zod, y un adaptador que lee
-      los 1.552 fragmentos del propio binario. **Las cuatro decisiones**:
+      los 1.560 fragmentos del propio binario. **Las cuatro decisiones**:
       1. **El puerto** devuelve `Fragment | null`; `getMany` existe porque una
          carta pide quince fragmentos y quince `await` en serie son un spinner
       2. **El adaptador** carga **por familia y en perezoso** (`require()` dentro
@@ -587,7 +671,7 @@ Referencia: **BRD §7.4, §7.5**.
          fallo de §7.3.1 no tiene síntoma, así que la única forma de que se note
          es que reviente en el emulador
       Y **dos** guardarraíles, que cubren cosas distintas:
-      - `catalogCoverage.test.ts` genera **las 1.552 claves** que la app sabe
+      - `catalogCoverage.test.ts` genera **las 1.560 claves** que la app sabe
         pedir y comprueba que están todas publicadas, y que no sobra ninguna
       - los **guardias de valor** de `ContentKey`, que lanzan siempre (también
         en producción) si una pieza no es del vocabulario. Son lo único que
@@ -603,16 +687,27 @@ Referencia: **BRD §7.4, §7.5**.
 
 ## Bloque 4 — App: F4-F7 (contenido visual)
 
-- [ ] F4 — Rueda de carta astral con Skia, interactiva
-      ← **AQUÍ EMPIEZA LA PRÓXIMA SESIÓN**. La geometría ya está resuelta y con
-      tests en `chart/ui/wheel.ts`: lo que falta es el motor de pintado y la
-      animación, no el dónde va cada cosa
+- [ ] F4 — Rueda de carta astral con Skia, interactiva. La geometría ya está
+      resuelta y con tests en `chart/ui/wheel.ts`: lo que falta es el motor de
+      pintado y la animación, no el dónde va cada cosa
 - [ ] F5 — Carta del día (tarjetas separadas por fragmento, BRD §7.4)
 - [x] F6 — Perfil de personalidad raza×signo. **Completo, adelantado**:
       `app/pet/[id]/personality.tsx` (artboard 6). Se hizo fuera de orden
-      porque es donde vive la mitad del catálogo escrito — 780 de los 1.552
+      porque es donde vive la mitad del catálogo escrito — 780 de los 1.560
       fragmentos son el cruce raza × signo
-- [ ] F7 — Fase lunar de hoy
+- [x] **Explorar completo** (sesión 23, adelantado): artboards 08·18·20·21·22·23
+      — los tres filtros, las tres rejillas (12 signos, 12 casas, 8 fases) y las
+      tres fichas de detalle. Es la parte de la app que se lee **sin haber creado
+      ninguna mascota**, y por eso es la que la ficha de store puede indexar
+- [ ] F7 — Fase lunar de hoy (artboard 07)
+      ← **AQUÍ EMPIEZA LA PRÓXIMA SESIÓN**, detrás de los 8 fragmentos que la
+      desbloquean (Bloque 2). Todo lo demás que pide la pantalla ya lo calcula
+      el motor salvo uno: la fase, la iluminación y el día del ciclo salen de
+      `moonPhaseAt` (sesión 23), la entrada de la Luna en el siguiente signo de
+      `moonSignChange` —que ya es genérico, `(from, to)`; lo que hay que
+      generalizar es el caso de uso, hoy atado a una mascota— y su Luna natal,
+      de la carta. **Falta la próxima luna nueva** ("2 sep · 03:44"): es
+      `SearchMoonPhase` de `astronomy-engine`, que el puerto todavía no expone
 - [ ] Ajuste avanzado: sistema de casas, con aviso al cambiar (BRD §12.3)
 
 ---
@@ -1993,3 +2088,181 @@ cero. Si algún día se hace: límite duro de 5 mensajes/día aplicado en servid
   el motor calcula los diez cuerpos, y con las tradicionales los tres
   transaneptunianos quedarían dibujados en la rueda sin regir nada
 - **253 tests** (eran 245), lint y `tsc` limpios
+
+### 2026-08-27 (22)
+- **Pulido de UX en la entrada de datos de nacimiento**, tres cosas que salían
+  al usarlo y ninguna al leerlo
+- `DateFields` encadena el foco solo: día completo → lista de meses, mes elegido
+  → año, año de cuatro cifras → teclado abajo para no tapar el botón. El día se
+  da por cerrado también con **una sola cifra mayor que 3** (`isDayComplete`):
+  no hay días 40, así que el 70% de los días del mes se escriben con un toque
+  menos. El salto solo apunta a campos vacíos — corregir un dato no te empuja
+  fuera de él. Retroceso con el año vacío vuelve a la lista de meses
+- El foco se **ve**: los tres campos llevan ya el anillo doble de `TextField`,
+  que era el único control de formulario de la app que no lo tenía
+- **La hora de nacimiento sabe qué mitad se está editando.** El teclado propio
+  llenaba hora y minuto sin decir en cuál estaba: ahora la mitad activa lleva
+  anillo, acento y fondo, se puede **tocar para corregir solo los minutos**, y
+  las teclas que no llevan a ninguna hora existente se apagan en vez de
+  ignorarse en silencio (con un 2 escrito, el 4 se apaga). Un "3" inicial cierra
+  la hora como 03 y salta al minuto: cuatro toques para "03:45"
+- La lógica del tecleo sale del componente a `pet/ui/timeEntry.ts`, pura y con
+  12 tests. Las reglas de "qué pasa al pulsar" son de producto, no de React
+- **Arreglado: la hora tecleada se perdía al ir a elegir el lugar.** El aviso
+  navegaba con `router.replace`, que destruía el editor — y volver del selector
+  ni siquiera traía de vuelta aquí, salías al perfil con la hora perdida. Con
+  `push` la pantalla se queda montada debajo y la hora sigue escrita al volver
+- Arreglado de paso el mismo fallo latente en los dos editores: sembrar el
+  `useState` con `pet?.birth()` dejaba el campo vacío para siempre si la
+  mascota llegaba después del primer render (caché fría, enlace directo). Ahora
+  el borrador es `null` hasta que se toca algo, y lo guardado se lee en cada render
+- **268 tests** (eran 253), lint y `tsc` limpios
+
+### 2026-08-27 (23)
+- **Explorar completo: artboards 20, 21, 22 y 23.** El encargo de diseño que la
+  sesión 21 dejó pedido —la tarjeta y su detalle, para casas y para fases—
+  llegó dibujado y se implementó entero. Los tres filtros del artboard 8 ya
+  llevan a algún sitio
+- **`chart/domain/House.ts`**: el vocabulario de la casa como concepto, sin
+  carta delante. Triplicidad (cada cuatro), papel angular/sucedente/cadente
+  (cada tres, la misma partición que las modalidades con otros nombres) y
+  regente natural. Es lo que la ficha de una casa necesita saber cuando no hay
+  mascota, que es casi siempre
+- **`HouseWheel`** dibuja el sector con la geometría de la rueda natal, no con
+  un gráfico aparte: mismo anclaje —la I en el Ascendente, a la izquierda— y
+  mismo sentido. Cambiar la convención se hace en `wheel.ts` y las dos
+  pantallas se mueven juntas
+- **El `d` del sector del artboard 21 venía mal** (quinta corrección del
+  canvas, arriba). `sectorPath` lo resuelve y el test comprueba que los dos
+  arcos tienen el centro en el de la rueda, que es lo que de verdad importa
+- **`MoonDisc` dibuja el terminador de verdad**: media elipse de semieje
+  `r·|1−2k|`, que es la proyección del semicírculo iluminado. El 62 % y la
+  forma del disco son el mismo número — el porcentaje no es un rótulo pegado a
+  un dibujo. Menguante se refleja invirtiendo las dos banderas de barrido
+  dentro del `d`, no con un `transform`, para que sobreviva a estar dentro de
+  otro grupo ya escalado
+- **La rejilla usa siluetas arquetípicas y la ficha de hoy el dato real**, que
+  es lo que el propio artboard 22 razona. La ficha de **otra** fase vuelve a la
+  arquetípica: una fase no es un día sino una franja de tres días y pico, y
+  decir "día 21 de 29,5" de ella sería inventarse un instante. Sus chips pasan
+  a la franja ("69–96% iluminada") en vez de a la cifra
+- Dos frases que parecían prosa y eran **geometría**: el pie del diagrama de
+  casa sale del cuadrante, y el "Sale a media noche y se pone a media mañana"
+  del artboard 23 sale de que la Luna se retrasa una hora por cada 15° que se
+  separa del Sol. Los dos tests comparan con la frase literal del canvas
+- **`GetMoonPhaseUseCase`**: la fase de un instante sin mascota de por medio.
+  Es el único dato de la app que caduca solo — mañana la tarjeta resaltada es
+  otra— y el único que no es de ningún perro
+- El `Chip` pasa a poder ser filtro. Baja de los 44 táctiles porque el canvas
+  lo dibuja a 36, y el mínimo se recupera con `hitSlop`: lo que se toca vuelve
+  a medir 44 y lo que se ve sigue midiendo 36
+- ⚠️ **Destapado un hueco de contenido en el 23** (arriba, sección de
+  pantallas): el catálogo tiene el retrato del perro *nacido* en cada fase, no
+  el efecto de la fase de esta semana. Se rotula por lo que hay
+- **305 tests** (eran 268), lint y `tsc` limpios
+
+### 2026-08-27 (23b) — los 8 fragmentos de la fase como cielo
+- **Compuestos, no generados**: falta una orden de `--confirm` que cuesta
+  ~$0,09. Todo lo demás está puesto en las dos orillas
+- **La clave es la natal con un calificador, no una clave paralela**:
+  `species=dog;moon_phase=full_moon;when=today`. La dimensión es la misma —la
+  fase— y lo que cambia es la lectura. El calificador va **al final** a
+  propósito: la familia sale del primer campo (`species`), así que el fragmento
+  no cambia de fichero y `CONTENT_FAMILIES` no se toca. Y la natal es la que va
+  sin calificar por una razón boba pero irreversible: llegó antes y está
+  publicada
+- El mensaje al modelo lleva la separación escrita ("de **cualquier** perro,
+  sea cual sea su carta… No es el perro nacido en esa fase: eso es otra
+  entrada"), que es lo único que impide que el modelo escriba el retrato natal
+  dos veces con otras palabras. Hay un test que lo fija
+- **`catalogCoverage.test.ts` aprende a distinguir dos fallos que se parecían.**
+  Antes, una clave que la app pide y el catálogo no tiene era siempre el mismo
+  rojo: la gramática divergió (BRD §7.3.1). Pero componer y generar están
+  separados por dinero, y "aún no se ha pagado el lote" no es un bug.
+  `PENDING_PUBLICATION` lo dice explícito, y **el test se pone rojo también
+  cuando las claves aparecen** — pidiendo que se borre la lista. Los cuatro
+  tests del fichero salen de dos constantes: al borrarla se ajustan solos
+- La ficha de fase enseña **las dos secciones**, cada una rotulada por lo que
+  es: "En un perro" (el cielo) y "Nacido en esta fase" (el carácter). Una
+  sección sin texto **no se pinta** en vez de dejar el rótulo colgando — hasta
+  que se genere el lote, la pantalla se queda con la natal y no se nota
+- **308 tests en la app** (eran 305) y **75 en el pipeline** (eran 73), lint y
+  `tsc` limpios
+
+### 2026-08-27 (23c) — lo que salió al probarlo, y el artboard 24
+- **La tarjeta seleccionada de Explorar salía con un manchón en el centro.** El
+  diseño estaba bien; la implementación le sobraba una capa. En CSS un
+  `box-shadow` se pinta **fuera** de la caja; en React Native la sombra se
+  pinta bajo **toda** la capa, así que con un relleno translúcido —oro al
+  12 %— se transparenta por el centro. En Android encima la `elevation` dibuja
+  sombra **negra** haga lo que haga `shadowColor`.
+  El resaltado vuelve a ser exactamente el del artboard —relleno al 12 %, filo
+  al 18 %— y **sin halo**, que es lo único que las dos plataformas pintan
+  igual. La advertencia está escrita junto al token `glow` en `theme.ts`, que
+  es donde alguien la va a leer antes de repetirlo
+- El mismo halo se quitó del chip de filtro elegido, que lo tenía por lo mismo
+  y con el mismo relleno translúcido debajo
+- **La flecha de los pies no llevaba a ningún sitio, en las tres fichas.** Es
+  el mismo error que el proyecto lleva evitando desde el principio —no pintar
+  un control que no lleva a nada— colado por la puerta de atrás. Ahora:
+  - signo y casa **sí** llevan: abren la carta con **la hoja de ese planeta
+    ya abierta**. `pet/[id]/chart.tsx` acepta un `?planet=`, validado contra
+    `PLANET_IDS` y sembrado una sola vez con inicializador perezoso — leerlo
+    en cada render reabría la hoja al cerrarla
+  - la fase **no**, y pierde la flecha: "la fase de hoy" llevaría al artboard
+    07 y "nació en esta fase" a un dato que la carta no enseña. Ninguno existe
+- El pie sale a `_ui/components/ConnectionFooter`. Eran tres copias de los
+  mismos estilos, y la flecha muerta estaba en las tres a la vez; ahora **la
+  flecha solo se pinta si hay `onPress`**, así que el fallo no puede volver
+- **Artboard 24, Créditos**: cuatro fuentes con su licencia y qué aporta cada
+  una, la nota de la FCI y el pie de versión. La única licencia en oro es
+  CC BY 4.0 porque es la única que **obliga**; así el resto se lee como lista.
+  Sin enlaces salientes, a propósito: una app que promete que todo se queda en
+  el móvil no abre el navegador en sus créditos
+- Dos cosas del 24 que el artboard no dibuja y había que decidir: la versión
+  sale de `expo-constants` y **se queda en `1.0.0` sin coletilla** mientras no
+  haya build configurado (en vez de inventarse un `· 1`), y la pantalla lleva
+  `scroll` aunque esté compuesta para caber entera — cabe y no desplaza, pero
+  en 667 px recortar una atribución que la licencia obliga a enseñar es peor
+- **308 tests**, lint y `tsc` limpios
+
+### 2026-08-27 (23d) — el estado vacío, y por qué 15 y 17 no van todavía
+- **Artboard 16 implementado**: `pet/ui/NoPetPrompt.tsx`. El vacío no es un
+  hueco — lo ocupa la marca a 180 px y el titular habla del cielo en vez de
+  disculparse por lo que falta. Canis Major es legítimo aquí y no relleno
+  corporativo: **es un perro de verdad del cielo** (D14)
+- `_ui/components/CanisMajor.tsx` copia el recorte de **magnitud < 3,6** del
+  asset de marca —las ocho a simple vista, sin la rama del cuello—, que es el
+  mismo que usan el icono y la marca de agua. Los radios son los del asset
+  (magnitud real) por un factor con nombre, no números a ojo: si el asset se
+  regenera, la proporción se mantiene
+- El halo de Sirio, otra vez con geometría: `drop-shadow` no existe en
+  `react-native-svg` y se resuelve con los dos anillos concéntricos que ya
+  usaba `Constellation` — mismos radios, mismo lienzo de 512
+- `Screen` gana `deep`: el azul más profundo de las tres pantallas donde la
+  imagen manda sobre el texto (artboards 7, 11 y 16). Antes solo se podía
+  conseguir saltándose el armazón
+- **15 y 17 se quedan fuera y no por pereza**: los dos son estados *de Hoy*.
+  El esqueleto del 15 tiene la forma de las tarjetas de Hoy, así que sin Hoy
+  habría que inventárselo; y el aviso del 17 avisa de una red que la app
+  todavía no usa —catálogo en el binario, motor en el móvil— así que sería un
+  control incapaz de aparecer. Es el mismo criterio que dejó fuera la barra de
+  pestañas y el botón de Compartir
+- **308 tests**, lint y `tsc` limpios
+
+### 2026-08-27 (23e) — los 8 fragmentos, generados
+- **8/8 publicables, 0 bloqueados** por el filtro de salud. El catálogo pasa de
+  1.552 a **1.560 fragmentos**
+- **Ninguno se desvió al retrato natal**, que era el riesgo de meter las dos
+  lecturas en la misma categoría. La separación escrita en el mensaje
+  —"de **cualquier** perro, sea cual sea su carta… No es el perro nacido en esa
+  fase"— se nota en el resultado: "no distingue cartas", "no es cosa suya en
+  particular", "es todo el barrio a la vez"
+- El color y la energía salen coherentes sin pedirlo: creciente en `fire`/`gold`
+  con energía 4, menguante en `water` con energía 2. La curva del ciclo, sola
+- `PENDING_PUBLICATION` borrado de `catalogCoverage.test.ts`. Las **1.560**
+  claves cuadran en las dos direcciones: ni falta ninguna que la app pida ni
+  sobra ninguna que no sepa pedir
+- La ficha de fase enseña ya sus dos secciones: "En un perro" (el cielo) y
+  "Nacido en esta fase" (el carácter)
+- **308 tests**, lint y `tsc` limpios
