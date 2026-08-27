@@ -64,7 +64,7 @@ export default function OnboardingDate() {
         <Text style={styles.body}>Con la fecha ya se puede calcular su Sol y, casi siempre, su Luna.</Text>
       </View>
 
-      <DateFields value={parts} onChange={setParts} />
+      <DateFields value={parts} onChange={setParts} autoFocus />
 
       <View style={styles.hint}>
         <CheckboxRow label="No sé la fecha exacta" checked={dateIsApproximate} onChange={setDateIsApproximate} />

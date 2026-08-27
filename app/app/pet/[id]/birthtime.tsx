@@ -11,8 +11,18 @@ import { isEuropeanSummerTime, spanishZoneFromLongitude, spanishZoneLabel } from
 import { withBirthTime } from '@/pet/ui/birthEdits';
 import { formatLongDate } from '@/pet/ui/format';
 import { usePet, useUpdatePet } from '@/pet/ui/petQueries';
+import {
+  displayOf,
+  focusField,
+  isDigitAllowed,
+  pressBackspace,
+  pressDigit,
+  timeEntryFrom,
+  timeOf,
+  type TimeEntry,
+} from '@/pet/ui/timeEntry';
 
-import { colors, controlGap, radii, spacing, touchTarget, typography } from '@/design/theme';
+import { colors, controlGap, focusRing, radii, spacing, touchTarget, typography } from '@/design/theme';
 import { text } from '@/_ui/typography';
 
 /**
@@ -21,6 +31,12 @@ import { text } from '@/_ui/typography';
  * Teclado numérico y no rueda: dos campos de dos cifras se teclean en cuatro
  * toques. Guardar está apagado hasta que hay cuatro cifras — no hay hora a
  * medias.
+ *
+ * **La mitad que se está editando se ve.** Anillo de foco y color de acento en
+ * una sola de las dos, como en cualquier campo de texto de la app; tocar la
+ * otra la pone en edición y el próximo dígito la rehace. Las teclas que no
+ * llevan a ninguna hora existente se apagan (`timeEntry.isDigitAllowed`) en
+ * vez de ignorarse en silencio.
  *
  * **La fila de zona horaria no es decorativa, es el contrato.** La hora se
  * guarda con su `tzOffsetMinutes` resuelto desde el lugar y la fecha, nunca
@@ -38,13 +54,17 @@ export default function BirthTimeEditor() {
   const updatePet = useUpdatePet();
   const birth = pet?.birth();
 
-  const [hour, setHour] = useState(birth?.time()?.slice(0, 2) ?? '');
-  const [minute, setMinute] = useState(birth?.time()?.slice(3, 5) ?? '');
+  // Mientras nadie haya tocado el teclado no hay borrador: lo que se enseña es
+  // la hora guardada. Así la mascota puede llegar después del primer render
+  // —caché fría, enlace directo— sin que el campo se quede vacío para siempre,
+  // que es lo que pasaba al sembrar el `useState` con un dato aún sin cargar.
+  const [draft, setDraft] = useState<TimeEntry | null>(null);
+  const entry = draft ?? timeEntryFrom(birth?.time());
 
   const hasPlace = birth?.hasLocation() ?? false;
   const town = birth?.placeName()?.split(',')[0];
-  const complete = hour.length === 2 && minute.length === 2;
-  const valid = complete && Number(hour) <= 23 && Number(minute) <= 59;
+  const time = timeOf(entry);
+  const valid = time !== undefined;
 
   // Qué Luna se le había enseñado hasta ahora, y solo si se le enseñó como
   // aproximada: si el signo ya era firme, no hay nada que rectificar.
@@ -73,18 +93,8 @@ export default function BirthTimeEditor() {
   };
 
   const save = () => {
-    if (!valid) return;
-    commit(`${hour}:${minute}`);
-  };
-
-  const digit = (value: string) => {
-    if (hour.length < 2) setHour(hour + value);
-    else if (minute.length < 2) setMinute(minute + value);
-  };
-
-  const backspace = () => {
-    if (minute.length > 0) setMinute(minute.slice(0, -1));
-    else setHour(hour.slice(0, -1));
+    if (!time) return;
+    commit(time);
   };
 
   return (
@@ -114,15 +124,19 @@ export default function BirthTimeEditor() {
       ) : null}
 
       <View style={styles.clock}>
-        <View style={styles.slot}>
-          <Text style={styles.slotValue}>{hour.padEnd(2, '-')}</Text>
-          <Text style={styles.slotLabel}>hora</Text>
-        </View>
+        <Slot
+          label="hora"
+          value={entry.hour}
+          active={entry.field === 'hour'}
+          onPress={() => setDraft(focusField(entry, 'hour'))}
+        />
         <Text style={styles.colon}>:</Text>
-        <View style={styles.slot}>
-          <Text style={styles.slotValue}>{minute.padEnd(2, '-')}</Text>
-          <Text style={styles.slotLabel}>minutos</Text>
-        </View>
+        <Slot
+          label="minutos"
+          value={entry.minute}
+          active={entry.field === 'minute'}
+          onPress={() => setDraft(focusField(entry, 'minute'))}
+        />
       </View>
 
       {hasPlace && birth && birth.lon() !== undefined ? (
@@ -144,30 +158,77 @@ export default function BirthTimeEditor() {
         <NoticeCard
           action={{
             label: 'Elegir el lugar',
-            onPress: () => router.replace({ pathname: '/pet/[id]/birthplace', params: { id } }),
+            // `push` y no `replace`: esta pantalla se queda montada debajo, así
+            // que al volver del selector la hora tecleada sigue ahí. Con
+            // `replace` el editor se destruía y volver ni siquiera traía de
+            // vuelta aquí — se salía al perfil con la hora perdida.
+            onPress: () => router.push({ pathname: '/pet/[id]/birthplace', params: { id } }),
           }}
         >
-          {`Falta saber dónde nació. Las ${hour.padStart(2, '0')}:${minute.padEnd(2, '0')} son una hora ` +
-            'distinta en cada país. Sin el lugar no se sabe a qué hora del cielo corresponden, y el ' +
-            'Ascendente puede caer medio signo más allá.'}
+          {time
+            ? `Falta saber dónde nació. Las ${time} son una hora distinta en cada país: sin el lugar no se ` +
+              'sabe a qué hora del cielo corresponden, y el Ascendente puede caer medio signo más allá.'
+            : 'Falta saber dónde nació. La misma hora del reloj es una hora distinta en cada país: sin el ' +
+              'lugar no se sabe a qué hora del cielo corresponde, y el Ascendente puede caer medio signo más allá.'}
         </NoticeCard>
       )}
 
       <View style={styles.keypad}>
-        {['1', '2', '3', '4', '5', '6', '7', '8', '9', '', '0', '⌫'].map((key, index) => (
-          <Pressable
-            key={index}
-            onPress={() => (key === '⌫' ? backspace() : key !== '' && digit(key))}
-            disabled={key === ''}
-            accessibilityRole="button"
-            accessibilityLabel={key === '⌫' ? 'Borrar' : key}
-            style={styles.key}
-          >
-            <Text style={styles.keyLabel}>{key}</Text>
-          </Pressable>
-        ))}
+        {['1', '2', '3', '4', '5', '6', '7', '8', '9', '', '0', '⌫'].map((key, index) => {
+          const isDigit = key !== '' && key !== '⌫';
+          const off = isDigit && !isDigitAllowed(entry, key);
+          return (
+            <Pressable
+              key={index}
+              onPress={() => setDraft(key === '⌫' ? pressBackspace(entry) : pressDigit(entry, key))}
+              disabled={key === '' || off}
+              accessibilityRole="button"
+              accessibilityState={{ disabled: off }}
+              accessibilityLabel={key === '⌫' ? 'Borrar' : key}
+              style={styles.key}
+            >
+              <Text style={[styles.keyLabel, off && styles.keyLabelOff]}>{key}</Text>
+            </Pressable>
+          );
+        })}
       </View>
     </Screen>
+  );
+}
+
+/**
+ * Una de las dos mitades del reloj. La activa lleva el mismo anillo doble de
+ * `TextField`: el foco de esta pantalla se pinta igual que el de un campo de
+ * texto, aunque el teclado sea de la app y no del sistema.
+ *
+ * Es pulsable a propósito. Corregir solo los minutos de una hora ya escrita es
+ * la mitad de las visitas a esta pantalla, y sin poder tocarlos había que
+ * borrar cuatro cifras para arreglar una.
+ */
+function Slot({
+  label,
+  value,
+  active,
+  onPress,
+}: {
+  label: string;
+  value: string;
+  active: boolean;
+  onPress: () => void;
+}) {
+  return (
+    <Pressable
+      onPress={onPress}
+      accessibilityRole="button"
+      accessibilityState={{ selected: active }}
+      accessibilityLabel={`${label}: ${value === '' ? 'sin escribir' : value}`}
+      style={[styles.ring, active && styles.ringVisible]}
+    >
+      <View style={[styles.slot, active && styles.slotActive]}>
+        <Text style={[styles.slotValue, active && styles.slotValueActive]}>{displayOf(value)}</Text>
+        <Text style={[styles.slotLabel, active && styles.slotLabelActive]}>{label}</Text>
+      </View>
+    </Pressable>
   );
 }
 
@@ -182,6 +243,16 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     gap: spacing[3],
   },
+  ring: {
+    borderRadius: radii.m + focusRing.gap + focusRing.width,
+    borderWidth: focusRing.width,
+    padding: focusRing.gap,
+    // Ocupa sitio siempre: si apareciera al activarse, el reloj daría un salto.
+    borderColor: colors.transparent,
+  },
+  ringVisible: {
+    borderColor: focusRing.color,
+  },
   slot: {
     minWidth: 96,
     height: 96,
@@ -193,13 +264,23 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     gap: controlGap,
   },
+  slotActive: {
+    borderColor: colors.accent,
+    backgroundColor: colors.accentSoft,
+  },
   slotValue: {
     ...typography.hero,
+    color: colors.textMuted,
+  },
+  slotValueActive: {
     color: colors.text,
   },
   slotLabel: {
     ...typography.caption,
     color: colors.textFaint,
+  },
+  slotLabelActive: {
+    color: colors.accent,
   },
   colon: {
     ...typography.hero,
@@ -242,6 +323,12 @@ const styles = StyleSheet.create({
   keyLabel: {
     ...typography.title,
     color: colors.text,
+  },
+  // Apagada, no invisible: la tecla sigue ahí y se entiende que ahora no lleva
+  // a ninguna hora que exista.
+  keyLabelOff: {
+    color: colors.textFaint,
+    opacity: 0.4,
   },
   secondary: {
     ...typography.bodyEmphasis,

@@ -1,4 +1,4 @@
-import { EMPTY_DATE, toIsoDate } from '../DateFields';
+import { EMPTY_DATE, isDayComplete, toIsoDate } from '../DateFields';
 
 describe('toIsoDate', () => {
   it('compone la fecha ISO con las tres partes', () => {
@@ -32,5 +32,25 @@ describe('toIsoDate', () => {
     expect(toIsoDate({ day: '0', monthIndex: 0, year: '2025' })).toBeNull();
     expect(toIsoDate({ day: '32', monthIndex: 0, year: '2025' })).toBeNull();
     expect(toIsoDate({ day: '14', monthIndex: 0, year: '1800' })).toBeNull();
+  });
+});
+
+describe('isDayComplete', () => {
+  it('cierra el día con dos cifras', () => {
+    expect(isDayComplete('14')).toBe(true);
+    expect(isDayComplete('31')).toBe(true);
+  });
+
+  it('cierra el día con una sola cifra que no puede empezar ninguna de dos', () => {
+    // No hay días 40: un 4 solo puede ser el día 4.
+    expect(isDayComplete('4')).toBe(true);
+    expect(isDayComplete('9')).toBe(true);
+  });
+
+  it('espera con las cifras que todavía pueden crecer', () => {
+    expect(isDayComplete('')).toBe(false);
+    expect(isDayComplete('1')).toBe(false); // puede ser 1, 15 o 19
+    expect(isDayComplete('3')).toBe(false); // puede ser 3 o 31
+    expect(isDayComplete('0')).toBe(false); // "05" se escribe con el cero delante
   });
 });

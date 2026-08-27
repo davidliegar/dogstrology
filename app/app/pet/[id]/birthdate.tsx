@@ -47,8 +47,14 @@ export default function BirthDateEditor() {
   const updatePet = useUpdatePet();
 
   const birth = pet?.birth();
-  const [parts, setParts] = useState<DateParts>(partsFrom(birth?.date()));
-  const [accuracy, setAccuracy] = useState<BirthAccuracy>(birth?.accuracy() ?? 'exact');
+  // Sin borrador se enseña lo guardado. La mascota puede llegar después del
+  // primer render —caché fría, enlace directo—, y sembrar el `useState` con
+  // ella dejaba el formulario vacío para siempre en ese caso.
+  const [draft, setDraft] = useState<{ parts: DateParts; accuracy: BirthAccuracy } | null>(null);
+  const parts = draft?.parts ?? partsFrom(birth?.date());
+  const accuracy = draft?.accuracy ?? birth?.accuracy() ?? 'exact';
+  const setParts = (next: DateParts) => setDraft({ parts: next, accuracy });
+  const setAccuracy = (next: BirthAccuracy) => setDraft({ parts, accuracy: next });
 
   const isoDate = toIsoDate(parts);
   const isFuture = isoDate !== null && isoDate > new Date().toISOString().slice(0, 10);
