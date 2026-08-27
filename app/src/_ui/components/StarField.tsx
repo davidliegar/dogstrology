@@ -15,7 +15,7 @@ interface Star {
   twinkleMs?: number;
 }
 
-/** Los tres repartos del canvas de diseño, uno por pantalla de onboarding. */
+/** Los repartos del canvas de diseño: uno por pantalla que lleva campo estelar. */
 export const STAR_FIELDS = {
   name: [
     { left: '12%', top: '9%', size: 2, twinkleMs: 3000 },
@@ -38,6 +38,15 @@ export const STAR_FIELDS = {
     { left: '88%', top: '16%', size: 2, twinkleMs: 2500 },
     { left: '17%', top: '88%', size: 1 },
     { left: '59%', top: '93%', size: 2, twinkleMs: 3300 },
+  ],
+  /**
+   * Artboard 19. Son tres y solo en la mitad de arriba: la pantalla ya tiene
+   * mucho que leer y el campo aquí es atmósfera, no protagonista.
+   */
+  moonChange: [
+    { left: '12%', top: '9%', size: 2, twinkleMs: 3000 },
+    { left: '62%', top: '14%', size: 2, twinkleMs: 2600 },
+    { left: '84%', top: '27%', size: 1 },
   ],
 } satisfies Record<string, Star[]>;
 

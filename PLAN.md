@@ -67,20 +67,12 @@ tocar un planeta, y el parallax del campo estelar (`motion.parallaxAmplitude`).
 `react-native-svg` no anima `strokeDashoffset` por el hilo nativo —se vio en
 `Constellation`— y una rueda entera trazándose es justo donde eso se nota.
 
-### Los huecos de diseño que F3 deja abiertos
+### Los huecos de F3, cerrados (sesión 20)
 
-Van a Claude Design antes de que alguien los invente en código:
-
-- ⚠️ **El estado sin hora de la carta natal no está dibujado.** F3 lo resuelve
-  por herencia —sin cúspides no hay casas, sin Ascendente no hay fila ni eje—,
-  y funciona, pero la pantalla resultante nadie la ha diseñado: queda una rueda
-  con doce signos, diez planetas y el centro vacío
-- ⚠️ **`chart.isMoonUncertain()` no se enseña, y eso deja F3 incompleto contra
-  el BRD.** §8.1 pide literalmente "Luna con aviso de confianza si falta hora",
-  y hoy la carta da su signo tan seguro como el resto. El método existe y el
-  aviso existe en el perfil (`CONFIDENCE_NOTICES`), pero en la carta no hay nada
-  dibujado y **no se inventó una insignia**. Es el único requisito de F3 que
-  queda sin cumplir, y está bloqueado por diseño, no por código
+Los dos que quedaban abiertos se dibujaron y se implementaron: **artboard 14**
+(carta sin hora) y **artboard 19** (la Luna cambió de signo), más la insignia
+**C.2b** del sistema de diseño. F3 ya cumple el "Luna con aviso de confianza si
+falta hora" del BRD §8.1.
 - **El botón "Compartir" de la hoja de planeta no se implementó**: es F9
   (Bloque 5) y no hay spec de marca de agua. Se dejó fuera en vez de pintar un
   botón muerto
@@ -94,14 +86,16 @@ De los 13 artboards, 01·02·03 son F1 y 09 es F2 (ambos hechos), 05 y 13 son
 esta sesión. De los siete que quedan:
 
 - **06 Personalidad raza×signo**: hecho (sesión 19)
-- ⚠️ **08 Explorar los 12 signos está más bloqueado de lo que parecía.** La
-  rejilla de doce se puede pintar, pero le faltan tres cosas: la **barra de
-  pestañas** —el artboard lleva chip de "destino raíz" y la barra es el armazón
-  de la app entera, no de esta pantalla—, la **pantalla de detalle de un signo**
-  a la que lleva cada tarjeta (no está dibujada en ningún artboard), y el
-  contenido del filtro **"Planetas"**: el catálogo indexa planeta × signo y
-  planeta × casa, pero no el planeta a secas. "Signos" y "Casas" sí tienen sus
-  12 entradas en `personality.json`
+- **08 Explorar los 12 signos**: dos de los tres bloqueos se cayeron en la
+  revisión del canvas de la sesión 20 — el filtro "Planetas" salió de la lámina
+  (quedan Signos, Casas y Fases lunares, que son exactamente las tres cosas que
+  `personality.json` indexa: 12 + 12 + 8) y el destino de las tarjetas ya existe
+  (artboard 18). **Sigue faltando la barra de pestañas**, que es el armazón de
+  la app entera y no de esta pantalla
+- ⚠️ **El artboard 18 tiene una decisión pendiente**: el párrafo "La
+  constelación" (cuántas estrellas, cuál es la más brillante, qué magnitud
+  tiene, si se ve desde una ciudad). Es dato, no prosa de catálogo, y hay dos
+  salidas — anotadas abajo
 - **04 Hoy** y **07 Fase lunar** necesitan contenido que el pipeline todavía no
   genera para hoy: `aspects.json` es de tránsito y hay que calcular el día
 - **10 Ajustes** depende del selector de sistema de casas (Bloque 4),
@@ -1929,3 +1923,36 @@ cero. Si algún día se hace: límite duro de 5 mensajes/día aplicado en servid
   —que no está dibujada— y el contenido del filtro "Planetas", que el catálogo
   no indexa. Está anotado arriba
 - **240 tests** (eran 238), lint y `tsc` limpios
+
+### 2026-08-27 (20)
+- **El canvas pasó de 13 a 19 artboards.** Seis nuevos: 14 (carta sin hora),
+  15 (Hoy cargando), 16 (vacío sin mascota), 17 (sin red), 18 (detalle de
+  signo) y 19 (la Luna cambió). Los dos huecos que F3 dejaba abiertos estaban
+  entre ellos
+- **Artboard 14 — la carta degradada, implementado.** Tres cosas cambian
+  respecto a la completa y ninguna es un mensaje de error: el ojo central pasa
+  a r=70 a trazos y dice `SIN HORA / NO HAY CASAS`, la Luna se dibuja como
+  **arco de ±6,5°** con el disco a trazos en vez de un punto, y **la fila del
+  Ascendente no se oculta**: enseña qué se gana y lleva al editor de la hora.
+  Eso último era un error mío — la ocultaba, y ocultarla deja la carta pobre
+  sin decir que se puede mejorar
+- **C.2b "Dato aproximado"** (`_ui/components/ApproximateBadge`): una sola
+  insignia en tres medidas. El punto es siempre `attention` y **nunca**
+  `critical` —un dato aproximado no es un error— y no lleva icono de aviso ni
+  interrogación: la incertidumbre es del cielo, no del usuario. La enciende un
+  único booleano, `isMoonUncertain()`, que el propio sistema de diseño nombra
+- **Artboard 19 — "Su Luna cambió", implementado**, y con él una capacidad
+  nueva del motor: `moonSignChange(from, to)` encuentra por bisección el
+  instante exacto en que la Luna cruza a otro signo. Sin eso el aviso solo
+  puede decir *que* algo cambió; con eso dice **por qué**, que es la diferencia
+  entre explicar un hecho del cielo y admitir un error
+- Basta bisecar porque **dentro de una ventana de un día el cruce es único**:
+  la Luna avanza ~13°/día y un signo mide 30°, así que no puede entrar y salir
+  del mismo signo en 24 horas. Con ventanas más largas esa garantía se cae, y
+  está escrito donde se puede leer
+- El aviso salta **solo cuando cambia el signo**, no cuando se afina el grado:
+  pasar de 22°08′ a 25°36′ de Libra no cambia nada de lo que el usuario leyó, y
+  avisar por eso enseña a ignorar los avisos
+- La ventana del cruce es el **día local**, no el día UTC. Con un huso de +2 son
+  dos horas distintas, y el usuario piensa en su día
+- **245 tests** (eran 242), lint y `tsc` limpios

@@ -1,14 +1,17 @@
 import { memo } from 'react';
-import Svg, { Circle, G, Line, Text as SvgText } from 'react-native-svg';
+import Svg, { Circle, G, Line, Path, Text as SvgText } from 'react-native-svg';
 
 import type { NatalChart } from '../domain/NatalChart';
 import { SIGNS, type PlanetId } from '../domain/PlanetPosition';
 import { HOUSE_NUMERALS, PLANET_GLYPHS, SIGN_GLYPHS } from './glyphs';
-import { PLANET_LABELS, SIGN_LABELS } from './labels';
+import { CONFIDENCE_LABELS, PLANET_LABELS, SIGN_LABELS } from './labels';
 import {
   ANGULAR_HOUSES,
   CANVAS,
+  HUB_DEGRADED,
   LEADER,
+  MOON_UNCERTAINTY,
+  arcPath,
   PLANET_DISC,
   RADII,
   arcMidpoint,
@@ -40,7 +43,14 @@ const TEXT = {
   planetGlyph: 13,
   houseNumeral: 9,
   angleLabel: 10,
+  hubLabel: 10,
 } as const;
+
+/** Trazos del ojo central sin casas y del disco de un planeta aproximado. */
+const DASH = { hub: '3 5', planet: '3 3' } as const;
+
+/** Las dos líneas del rótulo central, repartidas alrededor del centro. */
+const HUB_LINES = { first: 174, second: 192 } as const;
 
 /** Anillo que marca el planeta abierto en la hoja (artboard 13). */
 const SELECTED_RING = 19;
@@ -113,12 +123,23 @@ export const NatalWheel = memo(function NatalWheel({
       <Circle
         cx={CANVAS / 2}
         cy={CANVAS / 2}
-        r={RADII.hub}
+        r={cusps ? RADII.hub : HUB_DEGRADED}
         fill="none"
         stroke={colors.accent}
         strokeWidth={1}
         opacity={INK.structure}
+        strokeDasharray={cusps ? undefined : DASH.hub}
       />
+
+      {/* Sin casas, el hueco del centro deja de ser el eje de una rueda y pasa
+          a ser el sitio donde cabe decir qué falta. El rótulo nombra el dato
+          que se echa en falta, no el defecto: es lo que lo vuelve accionable. */}
+      {cusps ? null : (
+        <>
+          <HubLabel y={HUB_LINES.first}>{CONFIDENCE_LABELS[chart.confidence()].toUpperCase()}</HubLabel>
+          <HubLabel y={HUB_LINES.second}>NO HAY CASAS</HubLabel>
+        </>
+      )}
 
       {/* Anillo de signos: una marca en cada frontera y el glifo en medio. */}
       {Array.from({ length: SIGN_COUNT }, (_, index) => {
@@ -200,10 +221,24 @@ export const NatalWheel = memo(function NatalWheel({
         const leaderFrom = polar(trueAngles[index], LEADER.from);
         const leaderBend = polar(trueAngles[index], LEADER.bend);
         const isSelected = selected === id;
-        const label = `${PLANET_LABELS[id]}, ${SIGN_LABELS[planet.sign()]}`;
+        const approximate = id === 'moon' && chart.isMoonUncertain();
+        const label = `${PLANET_LABELS[id]}, ${SIGN_LABELS[planet.sign()]}${approximate ? ', aproximado' : ''}`;
 
         return (
           <G key={id}>
+            {/* La franja donde puede estar de verdad. Se pinta debajo de todo
+                lo demás y con el ancho del disco: no es un adorno, es el
+                mismo objeto ocupando el sitio que su duda le da. */}
+            {approximate ? (
+              <Path
+                d={arcPath(shown - MOON_UNCERTAINTY, shown + MOON_UNCERTAINTY, RADII.planet)}
+                fill="none"
+                stroke={colors.accent}
+                strokeWidth={PLANET_DISC * 2}
+                strokeLinecap="round"
+                opacity={INK.structure}
+              />
+            ) : null}
             {/* Guía de dos tramos hasta el grado real. Cuando el disco no ha
                 tenido que apartarse sale recta y no se nota, que es lo suyo. */}
             <Line
@@ -242,6 +277,7 @@ export const NatalWheel = memo(function NatalWheel({
               fill={colors.surface}
               stroke={colors.accent}
               strokeWidth={isSelected ? 2 : 1}
+              strokeDasharray={approximate ? DASH.planet : undefined}
             />
             <SvgText
               x={disc.x}
@@ -270,6 +306,22 @@ export const NatalWheel = memo(function NatalWheel({
     </Svg>
   );
 });
+
+function HubLabel({ y, children }: { y: number; children: string }) {
+  return (
+    <SvgText
+      x={CANVAS / 2}
+      y={y}
+      textAnchor="middle"
+      fontFamily={fonts.body}
+      fontSize={TEXT.hubLabel}
+      letterSpacing={1.2}
+      fill={colors.textFaint}
+    >
+      {children}
+    </SvgText>
+  );
+}
 
 function AngleLabel({ label, angle }: { label: string; angle: number }) {
   const point = polar(angle, RADII.angleLabel);

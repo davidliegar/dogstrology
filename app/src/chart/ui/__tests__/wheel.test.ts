@@ -1,6 +1,8 @@
 import {
   MIN_PLANET_GAP,
+  MOON_UNCERTAINTY,
   RADII,
+  arcPath,
   arcMidpoint,
   normalizeAngle,
   polar,
@@ -107,5 +109,21 @@ describe('spreadAngles', () => {
     for (let i = 1; i < sorted.length; i += 1) {
       expect(sorted[i] - sorted[i - 1]).toBeGreaterThanOrEqual(MIN_PLANET_GAP - 0.001);
     }
+  });
+});
+
+describe('arcPath', () => {
+  it('arranca y termina donde el artboard 14 pinta el arco de la Luna', () => {
+    // La franja de ±6,5° alrededor de 278,65°, en el radio de los planetas.
+    const path = arcPath(278.65 - MOON_UNCERTAINTY, 278.65 + MOON_UNCERTAINTY, RADII.planet);
+    // M x1 y1 A r r 0 arcoLargo barrido x2 y2
+    const [, x1, y1, , , , , , , x2, y2] = path.split(' ');
+    expect([x1, y1].map(Number).map(round)).toEqual([184.2, 291.9]);
+    expect([x2, y2].map(Number).map(round)).toEqual([209.3, 288.1]);
+  });
+
+  it('marca el arco largo solo cuando pasa de media vuelta', () => {
+    expect(arcPath(0, 90, 112)).toContain(' 0 0 ');
+    expect(arcPath(0, 200, 112)).toContain(' 1 0 ');
   });
 });

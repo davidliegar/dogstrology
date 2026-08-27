@@ -1,4 +1,9 @@
-import type { calculateInput, ChartCalculator } from '../domain/ChartCalculator';
+import type {
+  calculateInput,
+  ChartCalculator,
+  MoonSignChangeData,
+  moonSignChangeInput,
+} from '../domain/ChartCalculator';
 import { NatalChart, type NatalChartData } from '../domain/NatalChart';
 
 /**
@@ -9,14 +14,29 @@ import { NatalChart, type NatalChartData } from '../domain/NatalChart';
 export class StubChartCalculator implements ChartCalculator {
   readonly calls: calculateInput[] = [];
 
-  constructor(private readonly chart: NatalChart) {}
+  readonly moonSignChangeCalls: moonSignChangeInput[] = [];
+
+  constructor(
+    private readonly chart: NatalChart,
+    private readonly moonSignChange: MoonSignChangeData | null = null,
+  ) {}
 
   static withChart(data: NatalChartData): StubChartCalculator {
     return new StubChartCalculator(NatalChart.fromData(data));
   }
 
+  /** Para el aviso de Luna cambiada: la carta da igual, el cruce no. */
+  static withMoonSignChange(data: NatalChartData, change: MoonSignChangeData): StubChartCalculator {
+    return new StubChartCalculator(NatalChart.fromData(data), change);
+  }
+
   async calculate(input: calculateInput): Promise<NatalChart> {
     this.calls.push(input);
     return this.chart;
+  }
+
+  async findMoonSignChange(input: moonSignChangeInput): Promise<MoonSignChangeData | null> {
+    this.moonSignChangeCalls.push(input);
+    return this.moonSignChange;
   }
 }

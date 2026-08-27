@@ -150,3 +150,37 @@ export function spreadAngles(angles: number[], minGap: number = MIN_PLANET_GAP):
   });
   return result;
 }
+
+/**
+ * Radio del ojo central cuando no hay casas. Es mayor que el normal y va a
+ * trazos: el hueco deja de ser el centro de una rueda de casas para pasar a
+ * ser un sitio donde cabe un rótulo (artboard 14).
+ */
+export const HUB_DEGRADED = 70;
+
+/**
+ * Media anchura del arco de incertidumbre de la Luna, en grados.
+ *
+ * Sin hora, el nacimiento puede caer en cualquier momento del día y la Luna
+ * avanza ~13°/día: tomando el mediodía como estimación, el error real es de
+ * medio día en cada dirección. El arco de ±6,5° es esa franja dibujada, y es
+ * el mismo número que hay detrás de `isMoonUncertain()`.
+ */
+export const MOON_UNCERTAINTY = 6.5;
+
+/**
+ * Un arco de circunferencia como `d` de un `<Path>`, del ángulo `from` al
+ * ángulo `to` contando en el sentido en que crece la longitud.
+ *
+ * La bandera de barrido va a 0 y no a 1 porque el centro del arco tiene que
+ * ser el de la rueda: con `sweep=1` el navegador elige el otro de los dos
+ * centros posibles y el arco se comba al revés. Con ±6,5° la diferencia es de
+ * un píxel y medio bajo un trazo de 26 —invisible—, pero el arco correcto es
+ * el que comparte centro con todo lo demás.
+ */
+export function arcPath(from: number, to: number, radius: number): string {
+  const start = polar(from, radius);
+  const end = polar(to, radius);
+  const largeArc = normalizeAngle(to - from) > 180 ? 1 : 0;
+  return `M ${start.x} ${start.y} A ${radius} ${radius} 0 ${largeArc} 0 ${end.x} ${end.y}`;
+}

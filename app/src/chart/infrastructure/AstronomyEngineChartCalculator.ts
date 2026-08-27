@@ -2,13 +2,19 @@ import { DomainError } from '@/_kernel/DomainError';
 import { ErrorCode } from '@/_kernel/ErrorCodes';
 import {
   calculateNatalChart,
+  moonSignChange,
   toSign,
   type Aspect as EngineAspect,
   type MoonPhase as EngineMoonPhase,
   type NatalChartResult,
   type Planet as EnginePlanet,
 } from '@/_engine/astro';
-import type { calculateInput, ChartCalculator } from '../domain/ChartCalculator';
+import type {
+  calculateInput,
+  ChartCalculator,
+  MoonSignChangeData,
+  moonSignChangeInput,
+} from '../domain/ChartCalculator';
 import type { ChartAspectData } from '../domain/ChartAspect';
 import {
   NatalChart,
@@ -17,6 +23,9 @@ import {
   type NatalChartData,
 } from '../domain/NatalChart';
 import type { PlanetPositionData } from '../domain/PlanetPosition';
+
+const MINUTE = 60 * 1000;
+const DAY = 24 * 60 * MINUTE;
 
 /**
  * Adaptador del puerto `ChartCalculator` sobre `_engine/astro.ts`
@@ -101,6 +110,25 @@ export class AstronomyEngineChartCalculator implements ChartCalculator {
       return NatalChart.fromData(toChartData(result));
     } catch (error) {
       // Que un fallo de efemérides no llegue a la UI como un error de librería.
+      throw DomainError.withCodes(ErrorCode.CHART_CALCULATION_FAILED).withCauses(error as Error);
+    }
+  }
+
+  async findMoonSignChange({ moment }: moonSignChangeInput): Promise<MoonSignChangeData | null> {
+    try {
+      const offset = moment.tzOffsetMinutes ?? 0;
+      // La ventana es el **día local** del nacimiento, no el día UTC. Con un
+      // huso de +2 son dos horas distintas, y el usuario piensa en su día.
+      const startsAt = Date.parse(`${moment.date}T00:00:00.000Z`) - offset * MINUTE;
+      const change = moonSignChange(new Date(startsAt), new Date(startsAt + DAY));
+      if (!change) return null;
+
+      return {
+        localTime: new Date(change.at.getTime() + offset * MINUTE).toISOString().slice(11, 16),
+        from: change.from,
+        to: change.to,
+      };
+    } catch (error) {
       throw DomainError.withCodes(ErrorCode.CHART_CALCULATION_FAILED).withCauses(error as Error);
     }
   }

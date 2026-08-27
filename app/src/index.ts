@@ -3,6 +3,7 @@ import type { DatabaseProvider } from './_db/types';
 import type { ChartCalculator } from './chart/domain/ChartCalculator';
 import { AstronomyEngineChartCalculator } from './chart/infrastructure/AstronomyEngineChartCalculator';
 import CalculateNatalChartUseCase from './chart/application/CalculateNatalChartUseCase';
+import FindMoonSignChangeUseCase from './chart/application/FindMoonSignChangeUseCase';
 import type { ContentRepository } from './content/domain/ContentRepository';
 import { BundledCatalogContentRepository } from './content/infrastructure/BundledCatalogContentRepository';
 import GetFragmentUseCase from './content/application/GetFragmentUseCase';
@@ -109,6 +110,12 @@ export class Dogstrology {
   }
 
   /* Chart */
+  get FindMoonSignChangeUseCase(): FindMoonSignChangeUseCase {
+    return this.useCase('FindMoonSignChangeUseCase', () =>
+      FindMoonSignChangeUseCase.create({ calculator: this.chartCalculator }),
+    );
+  }
+
   get CalculateNatalChartUseCase(): CalculateNatalChartUseCase {
     return this.useCase('CalculateNatalChartUseCase', () =>
       CalculateNatalChartUseCase.create({ calculator: this.chartCalculator }),

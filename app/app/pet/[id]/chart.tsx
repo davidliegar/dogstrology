@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { router, useLocalSearchParams } from 'expo-router';
 import {
   ActivityIndicator,
+  Pressable,
   StyleSheet,
   Text,
   View,
@@ -10,6 +11,7 @@ import {
   type TextStyle,
 } from 'react-native';
 
+import { ApproximateBadge } from '@/_ui/components/ApproximateBadge';
 import { Chip } from '@/_ui/components/Chip';
 import { Screen } from '@/_ui/components/Screen';
 import { ScreenHeader } from '@/_ui/components/ScreenHeader';
@@ -19,7 +21,13 @@ import { PlanetSheet } from '@/chart/ui/PlanetSheet';
 import { useNatalChart } from '@/chart/ui/chartQueries';
 import { formatPosition } from '@/chart/ui/format';
 import { PLANET_GLYPHS } from '@/chart/ui/glyphs';
-import { HOUSE_SYSTEM_LABELS, PLANET_LABELS, SIGN_LABELS } from '@/chart/ui/labels';
+import {
+  CONFIDENCE_NOTICES,
+  HOUSE_SYSTEM_LABELS,
+  PLANET_LABELS,
+  SIGN_LABELS,
+  missingHousesNote,
+} from '@/chart/ui/labels';
 import type { PlanetId, PlanetPosition } from '@/chart/domain/PlanetPosition';
 import { usePet } from '@/pet/ui/petQueries';
 
@@ -29,6 +37,17 @@ import { colors, glyphSize, screenPadding, spacing, typography } from '@/design/
 const ROW_HEIGHT = 56;
 /** Ancho de la columna del glifo: el mismo para el símbolo y para "ASC". */
 const GLYPH_COLUMN = 28;
+
+/**
+ * A dónde lleva la fila del Ascendente cuando todavía no hay Ascendente. Es
+ * el editor del dato que falta, no una pantalla de explicación: la fila existe
+ * para enseñar qué se gana, y lo que se gana está a un toque.
+ */
+const MISSING_DATA_ROUTES = {
+  no_time: '/pet/[id]/birthtime',
+  no_location: '/pet/[id]/birthplace',
+  full: undefined,
+} as const;
 
 /**
  * F3 — Carta natal, artboard 5 de `Pantallas MVP.dc.html`.
@@ -68,6 +87,7 @@ export default function PetChart() {
 
   const ascendant = chart?.ascendant();
   const houseSystem = chart?.houseSystem();
+  const confidence = chart?.confidence() ?? 'no_time';
   const sun = chart?.planet('sun');
   const moon = chart?.planet('moon');
   const selectedPlanet = selected ? chart?.planet(selected) : undefined;
@@ -77,8 +97,8 @@ export default function PetChart() {
       <Screen
         scroll
         align="flex-start"
-        gap={spacing[5]}
-        footerDivider={Boolean(houseSystem)}
+        gap={houseSystem ? spacing[5] : spacing[4]}
+        footerDivider
         header={<ScreenHeader divided overline={pet.name()} title="Su carta natal" onBack={() => router.back()} />}
         footer={
           houseSystem ? (
@@ -86,6 +106,13 @@ export default function PetChart() {
               <Chip tone="accent" label={HOUSE_SYSTEM_LABELS[houseSystem]} />
               <Text style={styles.footnote}>Sistema de casas · se cambia en Ajustes</Text>
             </View>
+          ) : chart ? (
+            <ApproximateBadge size="note">
+              {missingHousesNote({
+                confidence: chart.confidence(),
+                moonSign: chart.isMoonUncertain() ? SIGN_LABELS[chart.moonSign()] : undefined,
+              })}
+            </ApproximateBadge>
           ) : null
         }
       >
@@ -105,8 +132,14 @@ export default function PetChart() {
             <View style={styles.positions}>
               {sun ? <PositionRow planet={sun} /> : null}
               {moon ? <Divider /> : null}
-              {moon ? <PositionRow planet={moon} /> : null}
-              {ascendant ? <Divider /> : null}
+              {moon ? <PositionRow planet={moon} approximate={chart.isMoonUncertain()} /> : null}
+              <Divider />
+              {/*
+                La fila del Ascendente **no se oculta cuando no hay hora**. Es
+                lo que convierte la degradación en camino: enseña qué se gana
+                al dar el dato, y el dato está a un toque. Ocultarla dejaría la
+                carta pobre sin decir que se puede mejorar.
+              */}
               {ascendant ? (
                 <Row
                   glyph="ASC"
@@ -114,7 +147,22 @@ export default function PetChart() {
                   label="Ascendente"
                   value={formatPosition({ degree: ascendant.degree, sign: SIGN_LABELS[ascendant.sign] })}
                 />
-              ) : null}
+              ) : (
+                <Row
+                  glyph="ASC"
+                  glyphStyle={[styles.angleGlyph, styles.missingGlyph]}
+                  label="Ascendente"
+                  labelStyle={styles.missingLabel}
+                  action={{
+                    label: CONFIDENCE_NOTICES[confidence].action ?? '',
+                    onPress: () =>
+                      router.push({
+                        pathname: MISSING_DATA_ROUTES[confidence] as '/pet/[id]/birthtime',
+                        params: { id: pet.id() },
+                      }),
+                  }}
+                />
+              )}
             </View>
           </>
         ) : (
@@ -131,11 +179,14 @@ export default function PetChart() {
   );
 }
 
-function PositionRow({ planet }: { planet: PlanetPosition }) {
+function PositionRow({ planet, approximate = false }: { planet: PlanetPosition; approximate?: boolean }) {
   return (
     <Row
       glyph={PLANET_GLYPHS[planet.id()]}
       label={PLANET_LABELS[planet.id()]}
+      // Medida corta de la insignia: sustituye al grado, porque no se puede
+      // dar 8°40′ de algo que no se sabe.
+      badge={approximate ? `${SIGN_LABELS[planet.sign()]} aprox.` : undefined}
       value={formatPosition({
         degree: planet.degree(),
         sign: SIGN_LABELS[planet.sign()],
@@ -149,20 +200,32 @@ function Row({
   glyph,
   glyphStyle,
   label,
+  labelStyle,
   value,
+  badge,
+  action,
 }: {
   glyph: string;
   glyphStyle?: StyleProp<TextStyle>;
   label: string;
-  value: string;
+  labelStyle?: StyleProp<TextStyle>;
+  value?: string;
+  badge?: string;
+  action?: { label: string; onPress: () => void };
 }) {
   return (
     <View style={styles.row}>
       <View style={styles.identity}>
         <Text style={[styles.glyph, glyphStyle]}>{glyph}</Text>
-        <Text style={styles.label}>{label}</Text>
+        <Text style={[styles.label, labelStyle]}>{label}</Text>
       </View>
-      <Text style={styles.value}>{value}</Text>
+      {badge ? <ApproximateBadge>{badge}</ApproximateBadge> : null}
+      {!badge && action ? (
+        <Pressable onPress={action.onPress} accessibilityRole="button" accessibilityLabel={action.label}>
+          <Text style={styles.action}>{action.label}</Text>
+        </Pressable>
+      ) : null}
+      {!badge && !action && value ? <Text style={styles.value}>{value}</Text> : null}
     </View>
   );
 }
@@ -212,6 +275,16 @@ const styles = StyleSheet.create({
   },
   angleGlyph: {
     ...typography.overline,
+    color: colors.accent,
+  },
+  missingGlyph: {
+    color: colors.textFaint,
+  },
+  missingLabel: {
+    color: colors.textFaint,
+  },
+  action: {
+    ...text('ephemeris'),
     color: colors.accent,
   },
   label: {

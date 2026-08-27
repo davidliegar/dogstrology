@@ -127,3 +127,23 @@ export function usePersonality(pet: Pet | undefined, chart: NatalChart | undefin
     enabled: Boolean(pet && chart),
   });
 }
+
+/**
+ * A qué hora cambió de signo la Luna el día que nació. Se consulta una sola
+ * vez por mascota y versión: es un hecho del cielo, no cambia solo.
+ */
+export const moonSignChangeKeys = {
+  all: ['moonSignChange'] as const,
+  of: (petId: string, updatedAt: number) => [...moonSignChangeKeys.all, petId, updatedAt] as const,
+};
+
+export function useMoonSignChange(pet: Pet | undefined) {
+  const domain = useDomain();
+  return useQuery({
+    queryKey: moonSignChangeKeys.of(pet?.id() ?? '', pet?.updatedAt() ?? 0),
+    // `?? null`: "ese día la Luna no cambió de signo" es un resultado legítimo,
+    // y un `queryFn` que devuelve `undefined` revienta en TanStack Query.
+    queryFn: async () => (await domain.FindMoonSignChangeUseCase.execute({ pet: pet as Pet })) ?? null,
+    enabled: Boolean(pet),
+  });
+}

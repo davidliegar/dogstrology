@@ -78,6 +78,28 @@ export const MOON_PHASE_LABELS: Record<MoonPhaseName, string> = {
 };
 
 /**
+ * El pie de la carta degradada (artboard 14) — la medida **larga** de la
+ * insignia C.2b, la que explica el mecanismo y aparece una sola vez por
+ * pantalla.
+ *
+ * La segunda frase solo existe si la Luna está en duda: cuando falta el lugar
+ * pero no la hora, no hay casas pero la Luna sí es firme, y prometer una duda
+ * que no hay es tan malo como callar la que sí.
+ */
+export const missingHousesNote = ({
+  confidence,
+  moonSign,
+}: {
+  confidence: ChartConfidence;
+  moonSign?: string;
+}): string => {
+  const missing = confidence === 'no_time' ? 'la hora' : 'el lugar';
+  const first = `Sin ${missing} se calcula en qué signo está cada planeta, pero no en qué casa.`;
+  if (!moonSign) return first;
+  return `${first} La Luna se mueve medio grado por hora: la suya cae en ${moonSign} salvo que naciera de madrugada.`;
+};
+
+/**
  * Los tres planetas que retratan el carácter, con el papel que juegan
  * (artboard 6). El papel es lo que hace legible el planeta: "Marte en
  * Escorpio" no le dice nada a nadie, "Energía · Marte en Escorpio" sí.

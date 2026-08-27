@@ -1,4 +1,5 @@
 import type { HouseSystem, NatalChart } from './NatalChart';
+import type { Sign } from './PlanetPosition';
 
 /**
  * Instante y lugar de nacimiento, en el vocabulario del contexto `chart`. No
@@ -16,6 +17,22 @@ export interface BirthMoment {
   lat?: number;
   /** Grados, este positivo. */
   lon?: number;
+}
+
+export interface moonSignChangeInput {
+  moment: BirthMoment;
+}
+
+/**
+ * El cambio de signo de la Luna en el día de nacimiento, ya en hora local: es
+ * la razón concreta de por qué la Luna cambió al dar la hora, y sin ella el
+ * aviso solo puede decir que algo cambió.
+ */
+export interface MoonSignChangeData {
+  /** 'HH:mm' en la hora local del nacimiento, que es la que el usuario piensa. */
+  localTime: string;
+  from: Sign;
+  to: Sign;
 }
 
 export interface calculateInput {
@@ -36,4 +53,10 @@ export interface calculateInput {
  */
 export interface ChartCalculator {
   calculate(input: calculateInput): Promise<NatalChart>;
+
+  /**
+   * `null` cuando la Luna pasa el día entero en el mismo signo — que es el
+   * caso corriente: cambia cada dos días y medio.
+   */
+  findMoonSignChange(input: moonSignChangeInput): Promise<MoonSignChangeData | null>;
 }

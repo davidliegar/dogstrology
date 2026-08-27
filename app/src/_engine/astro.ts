@@ -606,3 +606,47 @@ export function selfVerify(date: Date, lat: number, lon: number): SelfVerificati
     deviationArcmin: +deviationArcmin.toFixed(5),
   };
 }
+
+// ─── Cambio de signo de la Luna ──────────────────────────────────────────────
+
+export interface SignChange {
+  /** Instante exacto del cruce. */
+  at: Date;
+  from: Sign;
+  to: Sign;
+}
+
+/**
+ * El instante en que la Luna cambia de signo dentro de una ventana, o `null`
+ * si no cambia.
+ *
+ * Existe para poder decirle al usuario **por qué** su Luna cambió al dar la
+ * hora: "ese día la Luna pasó a Cáncer a las 14:12" es un hecho comprobable,
+ * y sin él el aviso solo puede decir que algo cambió.
+ *
+ * Bisección y no búsqueda analítica, por lo mismo que las cúspides de Placidus
+ * (`proto/astro.mjs`): la posición de la Luna la da el motor y no hay inversa
+ * que despejar. Y basta con bisecar porque **dentro de una ventana de un día
+ * el cruce es único**: la Luna avanza ~13°/día y un signo mide 30°, así que no
+ * puede entrar y salir del mismo signo en 24 horas. Con ventanas más largas
+ * esa garantía se cae y esto encontraría un cruce cualquiera, no el primero.
+ */
+export function moonSignChange(from: Date, to: Date): SignChange | null {
+  const moon = BODIES.find((body) => body.id === 'moon') as BodyDefinition;
+  const signAt = (date: Date) => toSign(eclipticLongitude(moon, date));
+  const start = signAt(from);
+  const end = signAt(to);
+  if (start.signIndex === end.signIndex) return null;
+
+  let low = from.getTime();
+  let high = to.getTime();
+  // Un segundo de tolerancia: la hora se enseña en minutos, y afinar más es
+  // precisión que el motor no garantiza (~1-3' de arco) ni nadie va a leer.
+  while (high - low > 1000) {
+    const middle = (low + high) / 2;
+    if (signAt(new Date(middle)).signIndex === start.signIndex) low = middle;
+    else high = middle;
+  }
+
+  return { at: new Date(high), from: start.sign, to: end.sign };
+}

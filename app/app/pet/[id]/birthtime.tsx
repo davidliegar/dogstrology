@@ -6,6 +6,7 @@ import { NoticeCard } from '@/_ui/components/NoticeCard';
 import { PrimaryButton } from '@/_ui/components/PrimaryButton';
 import { Screen } from '@/_ui/components/Screen';
 import { ScreenHeader } from '@/_ui/components/ScreenHeader';
+import { useNatalChart } from '@/chart/ui/chartQueries';
 import { isEuropeanSummerTime, spanishZoneFromLongitude, spanishZoneLabel } from '@/pet/domain/spanishTimeZone';
 import { withBirthTime } from '@/pet/ui/birthEdits';
 import { formatLongDate } from '@/pet/ui/format';
@@ -33,6 +34,7 @@ import { text } from '@/_ui/typography';
 export default function BirthTimeEditor() {
   const { id } = useLocalSearchParams<{ id: string }>();
   const { data: pet } = usePet(id);
+  const { data: chart } = useNatalChart(pet);
   const updatePet = useUpdatePet();
   const birth = pet?.birth();
 
@@ -44,11 +46,29 @@ export default function BirthTimeEditor() {
   const complete = hour.length === 2 && minute.length === 2;
   const valid = complete && Number(hour) <= 23 && Number(minute) <= 59;
 
+  // Qué Luna se le había enseñado hasta ahora, y solo si se le enseñó como
+  // aproximada: si el signo ya era firme, no hay nada que rectificar.
+  const approximateMoon = chart?.isMoonUncertain() ? chart.moonSign() : undefined;
+
   const commit = (time: string | undefined) => {
     if (!birth) return;
     updatePet.mutate(
       { id, changes: { birth: withBirthTime(birth, time) } },
-      { onSuccess: () => router.back() },
+      {
+        onSuccess: () => {
+          // Dar la hora puede mover la Luna de signo, y callarlo dejaría en
+          // duda todo lo que la app dijo antes. La pantalla de aviso decide si
+          // cambió de verdad; aquí solo se le pasa lo que se afirmaba.
+          if (time && approximateMoon) {
+            router.replace({
+              pathname: '/pet/[id]/moon-changed',
+              params: { id, previous: approximateMoon },
+            });
+            return;
+          }
+          router.back();
+        },
+      },
     );
   };
 
