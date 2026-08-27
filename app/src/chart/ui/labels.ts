@@ -78,6 +78,20 @@ export const MOON_PHASE_LABELS: Record<MoonPhaseName, string> = {
 };
 
 /**
+ * Los tres planetas que retratan el carácter, con el papel que juegan
+ * (artboard 6). El papel es lo que hace legible el planeta: "Marte en
+ * Escorpio" no le dice nada a nadie, "Energía · Marte en Escorpio" sí.
+ *
+ * Son tres y en este orden porque es lo que pinta la lámina, no una selección
+ * astrológica nuestra: energía, voz y cariño es lo que un dueño reconoce.
+ */
+export const PERSONALITY_FACETS: { planet: PlanetId; role: string }[] = [
+  { planet: 'mars', role: 'Energía' },
+  { planet: 'mercury', role: 'Voz' },
+  { planet: 'venus', role: 'Cariño' },
+];
+
+/**
  * Los tres sistemas de casas (BRD §12.3, D7). El nombre propio se deja como
  * es —Placidus es un apellido, no una palabra traducible—; los otros dos sí
  * se dicen en español porque describen lo que hacen.

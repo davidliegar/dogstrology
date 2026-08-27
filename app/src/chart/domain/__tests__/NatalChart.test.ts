@@ -70,3 +70,18 @@ describe('NatalChart (BRD §12.1, §12.3)', () => {
     expect(chart.toJSON()).toEqual(NatalChartMother.complete().toJSON());
   });
 });
+
+describe('elementBalance', () => {
+  it('cuenta los planetas de cada elemento', () => {
+    // La carta de prueba: Sol y Mercurio en aire, Luna en fuego, Plutón en tierra.
+    expect(NatalChartMother.complete().elementBalance()).toEqual({ fire: 1, earth: 1, air: 2, water: 0 });
+  });
+
+  it('no cuenta el Ascendente, para que el total no dependa de si hay hora', () => {
+    // El Ascendente de la carta completa está en Leo, que es fuego: si contara,
+    // el fuego subiría a 2 aquí y bajaría a 1 en la carta sin hora.
+    expect(NatalChartMother.withoutTime().elementBalance()).toEqual(
+      NatalChartMother.complete().elementBalance(),
+    );
+  });
+});

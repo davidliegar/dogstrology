@@ -93,9 +93,15 @@ Van a Claude Design antes de que alguien los invente en código:
 De los 13 artboards, 01·02·03 son F1 y 09 es F2 (ambos hechos), 05 y 13 son
 esta sesión. De los siete que quedan:
 
-- **06 Personalidad raza×signo** y **08 Explorar los 12 signos** se pueden
-  construir ya: `breed-sign` (780 fragmentos) y las constelaciones generadas
-  están en el binario. Son F6 y F7
+- **06 Personalidad raza×signo**: hecho (sesión 19)
+- ⚠️ **08 Explorar los 12 signos está más bloqueado de lo que parecía.** La
+  rejilla de doce se puede pintar, pero le faltan tres cosas: la **barra de
+  pestañas** —el artboard lleva chip de "destino raíz" y la barra es el armazón
+  de la app entera, no de esta pantalla—, la **pantalla de detalle de un signo**
+  a la que lleva cada tarjeta (no está dibujada en ningún artboard), y el
+  contenido del filtro **"Planetas"**: el catálogo indexa planeta × signo y
+  planeta × casa, pero no el planeta a secas. "Signos" y "Casas" sí tienen sus
+  12 entradas en `personality.json`
 - **04 Hoy** y **07 Fase lunar** necesitan contenido que el pipeline todavía no
   genera para hoy: `aspects.json` es de tránsito y hay que calcular el día
 - **10 Ajustes** depende del selector de sistema de casas (Bloque 4),
@@ -607,7 +613,10 @@ Referencia: **BRD §7.4, §7.5**.
       tests en `chart/ui/wheel.ts`: lo que falta es el motor de pintado y la
       animación, no el dónde va cada cosa
 - [ ] F5 — Carta del día (tarjetas separadas por fragmento, BRD §7.4)
-- [ ] F6 — Perfil de personalidad raza×signo
+- [x] F6 — Perfil de personalidad raza×signo. **Completo, adelantado**:
+      `app/pet/[id]/personality.tsx` (artboard 6). Se hizo fuera de orden
+      porque es donde vive la mitad del catálogo escrito — 780 de los 1.552
+      fragmentos son el cruce raza × signo
 - [ ] F7 — Fase lunar de hoy
 - [ ] Ajuste avanzado: sistema de casas, con aviso al cambiar (BRD §12.3)
 
@@ -1890,3 +1899,33 @@ cero. Si algún día se hace: límite duro de 5 mensajes/día aplicado en servid
 - Comentario corregido en `PlanetPosition`: decía que los valores están en
   español, y desde la sesión 16 es justo al revés
 - **238 tests** (eran 219), lint y `tsc` limpios
+
+### 2026-08-27 (19)
+- **F3 verificado en dispositivo Android.** La degradación funciona en las dos
+  direcciones: sin hora salen los doce signos y nada más —ni cúspides, ni
+  numerales, ni fila de Ascendente, ni pie de sistema de casas—, y con hora
+  aparece todo. La separación de discos se ve haciendo su trabajo en el racimo
+  de Marte, Sol, Venus y Mercurio
+- **Las dos capturas son la prueba de por qué falta el aviso de Luna incierta.**
+  Mismo perro, mismo día: el Sol se mueve 0,3° entre la carta sin hora y la
+  completa (22°44′ → 23°02′ Sagitario) y la Luna **3,5°** (22°08′ → 25°36′
+  Libra). Diez veces más, y la pantalla la afirma con la misma seguridad. Cerca
+  de una frontera de signo eso es enseñar un signo equivocado
+- **F6 — Personalidad, artboard 6.** Adelantado fuera de orden a propósito: son
+  780 de los 1.552 fragmentos, la mitad del catálogo escrito, y hasta ahora no
+  se leían en ninguna parte
+- `NatalChart.elementBalance()` va al **dominio y no a la UI**: contar planetas
+  por elemento es una lectura de la carta, no una forma de pintarla. No cuenta
+  el Ascendente — si lo contara, el total cambiaría según haya hora o no, que es
+  justo lo que un balance no puede hacer. Hay test de las dos cosas
+- `usePersonality` devuelve **la forma que pinta la pantalla**, no una lista de
+  fragmentos: si devolviera fragmentos sueltos, emparejarlos con su clave sería
+  trabajo del componente y las claves volverían al render. Mismo criterio que
+  `usePlanetFragments`
+- Sin raza el cruce no existe y se pide `species=dog;sign=X`, que el catálogo
+  tiene para exactamente eso. La pantalla no cambia de forma, cambia de fuente
+- **Corrección a la sesión 18**: dije que el artboard 08 se podía construir ya y
+  no es cierto. Le faltan la barra de pestañas, la pantalla de detalle de signo
+  —que no está dibujada— y el contenido del filtro "Planetas", que el catálogo
+  no indexa. Está anotado arriba
+- **240 tests** (eran 238), lint y `tsc` limpios

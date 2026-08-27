@@ -32,6 +32,9 @@ export default function Home() {
             <Link href={{ pathname: '/pet/[id]/chart', params: { id: pet.id() } }} style={styles.link}>
               Ver su carta natal
             </Link>
+            <Link href={{ pathname: '/pet/[id]/personality', params: { id: pet.id() } }} style={styles.link}>
+              Quién es
+            </Link>
             <Link href={{ pathname: '/pet/[id]', params: { id: pet.id() } }} style={styles.link}>
               Ver su perfil
             </Link>

@@ -1,6 +1,12 @@
 import { Model } from '@/_kernel/architecture';
 import { ChartAspect, type ChartAspectData } from './ChartAspect';
-import { PlanetPosition, type PlanetId, type PlanetPositionData, type Sign } from './PlanetPosition';
+import {
+  PlanetPosition,
+  type Element,
+  type PlanetId,
+  type PlanetPositionData,
+  type Sign,
+} from './PlanetPosition';
 
 /** BRD §12.3 (D7): signos enteros por defecto, Placidus en modo avanzado. */
 export const HOUSE_SYSTEMS = ['whole_sign', 'placidus', 'equal'] as const;
@@ -169,6 +175,21 @@ export class NatalChart extends Model {
 
   aspectsOf(planet: PlanetId): ChartAspect[] {
     return this.aspects().filter((a) => a.involves(planet));
+  }
+
+  /**
+   * Cuántos planetas caen en cada elemento. Es el único gráfico de la pantalla
+   * de personalidad (artboard 6) y por eso vive aquí y no en la UI: es una
+   * lectura de la carta, no una forma de pintarla.
+   *
+   * Los diez cuerpos y nada más — sin Ascendente. El Ascendente no es un
+   * planeta y contarlo cambiaría el total según haya hora o no, que es
+   * exactamente lo que un balance no puede hacer.
+   */
+  elementBalance(): Record<Element, number> {
+    const balance: Record<Element, number> = { fire: 0, earth: 0, air: 0, water: 0 };
+    for (const planet of this.planets()) balance[planet.element()] += 1;
+    return balance;
   }
 
   moonPhaseAtBirth(): MoonPhaseData {

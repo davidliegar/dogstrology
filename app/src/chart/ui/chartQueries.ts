@@ -3,8 +3,10 @@ import { useQuery } from '@tanstack/react-query';
 import { useDomain } from '@/_ui/DomainProvider';
 import { ContentKey } from '@/content/domain/ContentKey';
 import type { Pet } from '@/pet/domain/Pet';
-import type { HouseSystem } from '../domain/NatalChart';
-import type { PlanetPosition } from '../domain/PlanetPosition';
+import type { Fragment } from '@/content/domain/Fragment';
+import type { HouseSystem, NatalChart } from '../domain/NatalChart';
+import type { PlanetId, PlanetPosition, Sign } from '../domain/PlanetPosition';
+import { PERSONALITY_FACETS } from './labels';
 
 /**
  * La carta es un derivado: su clave lleva **de qué mascota**, **en qué
@@ -67,5 +69,61 @@ export function usePlanetFragments(planet: PlanetPosition | undefined) {
       return domain.GetFragmentsUseCase.execute({ keys });
     },
     enabled: Boolean(planet),
+  });
+}
+
+/**
+ * El retrato de personalidad (artboard 6): el cruce raza × signo solar arriba,
+ * y debajo los tres planetas que lo matizan.
+ *
+ * Devuelve la forma que pinta la pantalla, no una lista de fragmentos sueltos,
+ * y por la misma razón que arriba: si devolviera fragmentos, emparejarlos con
+ * su clave sería trabajo del componente y las claves volverían al render.
+ * Aquí entran valores y sale contenido colocado.
+ */
+export const personalityKeys = {
+  all: ['fragments', 'personality'] as const,
+  of: (petId: string, updatedAt: number) => [...personalityKeys.all, petId, updatedAt] as const,
+};
+
+export interface PersonalityContent {
+  hero: Fragment | null;
+  facets: { planet: PlanetId; role: string; sign: Sign; fragment: Fragment | null }[];
+}
+
+export function usePersonality(pet: Pet | undefined, chart: NatalChart | undefined) {
+  const domain = useDomain();
+
+  return useQuery({
+    queryKey: personalityKeys.of(pet?.id() ?? '', pet?.updatedAt() ?? 0),
+    queryFn: async (): Promise<PersonalityContent> => {
+      const natal = chart as NatalChart;
+      const sunSign = natal.sunSign();
+      const breedId = (pet as Pet).breedId();
+
+      // Sin raza no hay cruce que pedir, y el catálogo tiene el retrato del
+      // signo a secas para exactamente este caso.
+      const heroKey = breedId
+        ? ContentKey.breedInSign({ breed: breedId, sign: sunSign })
+        : ContentKey.personalityOfSign({ sign: sunSign });
+
+      const facets = PERSONALITY_FACETS.flatMap(({ planet, role }) => {
+        const position = natal.planet(planet);
+        return position ? [{ planet, role, sign: position.sign() }] : [];
+      });
+
+      const keys = [heroKey, ...facets.map((facet) => ContentKey.planetInSign({ planet: facet.planet, sign: facet.sign }))];
+      const fragments = await domain.GetFragmentsUseCase.execute({ keys });
+      const byKey = new Map(fragments.map((fragment) => [fragment.key(), fragment]));
+
+      return {
+        hero: byKey.get(heroKey.value()) ?? null,
+        facets: facets.map((facet) => ({
+          ...facet,
+          fragment: byKey.get(ContentKey.planetInSign({ planet: facet.planet, sign: facet.sign }).value()) ?? null,
+        })),
+      };
+    },
+    enabled: Boolean(pet && chart),
   });
 }
