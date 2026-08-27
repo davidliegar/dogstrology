@@ -16,8 +16,13 @@ fuentes de verdad cargadas y las 12 constelaciones reales pintadas desde
 coordenadas. Debajo, la arquitectura de la sesión anterior intacta: motor
 astrológico, SQLite con migraciones, repositorios, UUIDv7/borrado lógico, todo
 hexagonal (puertos y adaptadores, composition root, capas impuestas por ESLint)
-y en inglés. Quedan F2 y F3
-**Última sesión**: 2026-08-26
+y en inglés. **F2 completo**: el perfil edita y guarda foto, raza, sexo,
+esterilizado, fecha con su exactitud, hora, lugar y día de adopción — nueve
+editores, guardado atómico, y la carta puede llegar a `full` por primera vez.
+**El contexto de contenido, hecho**: los 1.552 fragmentos del catálogo entran en
+el binario y hay puerto, adaptador y gramática de claves para abrirlos.
+**Queda F3**: la pantalla, que ya tiene qué enseñar
+**Última sesión**: 2026-08-27
 **Decisión: los builds de EAS se posponen.** Consumen cuota limitada (15+15
 builds/mes); un build local (`npx expo run:ios` / `run:android`) es
 ilimitado y sirve igual para desarrollar contra módulos nativos (RevenueCat,
@@ -37,45 +42,107 @@ el detalle fino solo está en el proyecto de Claude Design (`Pantallas MVP.dc.ht
 `ebb0a79e-9647-4378-913f-349475c3a6b5`), y en F1 tres detalles que no estaban en
 el resumen habrían salido mal. Antes de maquetar una pantalla de F2/F3, **importar
 su artboard**
-**Siguiente sesión: F2, y antes el contexto de contenido si toca F3.**
+## Siguiente sesión: **F3 — la carta natal integrada**
 
-1. **F2 — Perfil de mascota.** Sin bloqueos: las 65 razas están en el repo y el
-   selector ofrece **esas 65 y solo esas** (decidido 2026-08-26, BRD §8.1).
-   Quien no se encuentre elige uno de los tres mestizos por tamaño. El "Otra
-   raza" con aviso de raza que falta es **post-MVP** (BRD §8.2)
-2. **El bounded context de contenido**, que es el hueco real y no estaba escrito
-   en ningún sitio: hay 1.552 fragmentos en `content/catalog/` y **nada en la
-   app que sepa abrirlos**. Existe `ChartAspect.contentKey()`, que fabrica la
-   clave, y no hay a quién preguntársela. Necesita las mismas decisiones que
-   tuvo `pet`: puerto, adaptador, dónde vive el JSON y cómo se empaqueta en el
-   bundle (BRD §7.4 capa 1: va **dentro del binario**, funciona sin red desde el
-   primer arranque). **F3 no se puede terminar sin esto**; F2 no lo necesita
-3. **F3 — Carta natal integrada**, ya con contenido que enseñar:
-   `planet=X;sign=Y` y `planet=X;house=N` son exactamente lo que consume
+Ya no falta nada debajo. El motor calcula, el perfil guarda hora y lugar, y
+desde esta sesión hay contenido que enseñar: la pantalla es lo único que queda.
 
-Cuando toque F2: los raíles están puestos y probados por F1 — pantallas contra
-`pet/ui/petQueries.ts` → casos de uso de la fachada `Dogstrology`, kit de UI en
-`src/_ui/components/`. Estrena dos cosas que F1 no tocó: `MediaReference` (la
-foto va por referencia relativa, **nunca** ruta absoluta ni BLOB) y
-`UpdatePetUseCase`. **Léete `app/AGENTS.md` antes de tocar código**, e importa
-el artboard de la pantalla 9 del canvas antes de maquetar.
+**Lo que hay listo para consumir**, con nombre y apellidos:
+
+- `useNatalChart(pet)` (`chart/ui/chartQueries.ts`) — la carta, ya cacheada por
+  mascota + `updatedAt` + sistema de casas
+- `useFragments(keys)` (`content/ui/contentQueries.ts`) — el lote de textos de
+  una pantalla entera, en una consulta
+- `ContentKey.planetInSign({ planet, sign })` y `.planetInHouse({ planet, house })`
+  — **la única forma de escribir una clave**. Interpolarla a mano en la pantalla
+  es cómo se llega a la tarjeta vacía de §7.3.1
+- `ConfidenceMeter` (`chart/ui/`) ya pinta la degradación por datos faltantes
+
+**Las decisiones que le quedan a F3 son de pantalla, no de arquitectura**: qué
+se enseña con `confidence: 'no_time'` (no hay casas, y la Luna puede no ser
+fiable — `chart.isMoonUncertain()`), en qué orden van los planetas, y si el
+`advice` de cada fragmento se pinta o se guarda para F5.
+
+**Construye las claves dentro del `queryFn`, no en el cuerpo del componente.**
+`ContentKey` lanza si le llega un valor que no es del vocabulario —un planeta sin
+casa, un `undefined` propagado— y dónde se construya decide qué se ve: dentro del
+`queryFn` es un `query.error` con su estado de error y su reporte; en el render
+es una pantalla en blanco por el error boundary. Es la misma clase de detalle que
+el `?? null` de la sesión 15: TypeScript no lo ve y los tests tampoco, porque no
+montan React.
+
+**Ojo con otra cosa**: los aspectos **dentro** de la carta natal **no tienen
+contenido**. Las 500 entradas de `aspects.json` son de tránsito
+(`transit=X;aspect=Y;natal=Z`) y su prosa habla de hoy: son de F4/F5, no de F3.
+Por eso `ChartAspect.contentKey()` **ya no existe** — devolvía `sun-sextile-moon`,
+una clave que no está en ningún sitio, y su hueco lleva ahora el comentario que
+lo explica. Si F3 quiere texto de aspectos, hay que generar la categoría en el
+pipeline primero.
+
+### Lo que hay que leer antes de tocar código
+
+`CLAUDE.md` (se carga solo), esta sección, y **`app/AGENTS.md`** — obligatorio
+antes de tocar `app/`.
+
+Los artboards se importan con **DesignSync**: `list_files` / `get_file` contra
+el id del proyecto (`ebb0a79e-9647-4378-913f-349475c3a6b5`). Ojo: `list_projects`
+devuelve **vacío** porque filtra a proyectos de *sistema de diseño*; el id se
+pasa a mano. Los ficheros son `Pantallas MVP.dc.html`, `Editores F2.dc.html` y
+`Sistema de diseño.dc.html`.
+
+Regenerar los tipos de ruta de Expo Router **no tiene comando propio**: los
+escribe el servidor de desarrollo. `npx expo start --offline` unos segundos y
+matarlo.
+
+### Lo que está esperando a alguien que no soy yo
+
+- ⚠️ **Un build local nuevo** (`npx expo run:ios` / `run:android`): la pantalla
+  de foto usa `expo-image-picker`, que es módulo nativo y con recarga no entra
+- **Cuatro correcciones en el canvas**, listadas en el Bloque 3 (el "Guardar"
+  del artboard A, los datos internacionales del H, los "cuatro mestizos" del B
+  y el orden del enum del F)
+- ⚠️ **La atribución de GeoNames** (CC BY 4.0, `data/README.md`) tiene que
+  aparecer en la pantalla de créditos el día que exista
 
 **Antes de cerrar sesión**, los cuatro en limpio: `cd proto && npm run verify`,
-`npm --prefix pipeline test` (58), `npm --prefix app test` (119),
+`npm --prefix pipeline test` (73), `npm --prefix app test` (219),
 `npm --prefix app run lint` y `npx tsc --noEmit` (desde `app/`).
 
+**Dos cosas de Android que ya han mordido una vez**, por si vuelven:
+- **Edge-to-edge es el modo por defecto desde SDK 54**, así que el
+  `adjustResize` del manifiesto **no redimensiona nada**: la app dibuja detrás
+  del teclado. Lo que funciona es `KeyboardAvoidingView` con
+  `behavior="padding"` en las **dos** plataformas, ya puesto en `Screen`
+- **Los fallos de frontera solo salen en dispositivo.** El `?? null` sobre una
+  promesa (sesión 15) es TypeScript válido y los tests son de lógica pura: no
+  montan React. Cuando se toque un `queryFn`, probarlo en el emulador
+
 Pendiente, sin bloquear el resto del Bloque 3:
+- ⚠️ **`breedId` sobrevive al catálogo, y eso el test de cobertura no lo ve.**
+  Es `z.string().optional()` en `Pet` y vive en SQLite. Hoy solo entra desde el
+  selector, así que siempre es un id publicado; pero un id que se renombre
+  dentro de un año deja mascotas apuntando a un fragmento que ya no existe, y
+  `catalogCoverage.test.ts` no puede detectarlo porque enumera el catálogo de
+  hoy, no la base de datos de nadie (`breedLabel()` ya degrada en silencio por
+  lo mismo). Los guardias de `ContentKey` no llegan: el id sería válido, solo
+  que huérfano. **La salida barata** es que los ids de raza estén congelados por
+  decisión —lo están, `breeds.ts` lo dice— y que renombrar uno obligue a una
+  migración. **La cara** es sacar `breeds.ts` de `pet/ui/` (es vocabulario de
+  contenido, no de pantalla) y validar contra él al leer de SQLite. Se decide
+  cuando haya un motivo real para renombrar una raza, no antes
 - **No queda ningún cabo editorial.** La lista de razas se cerró (65, ver Bloque
   2) y el desglose de `personality` estaba cerrado desde antes en BRD §7.3: el
   68 es previsión para 4 especies y el MVP son **32**
 - Activar de verdad la GitHub Action del diario cuando se decida: descomentar
   el `schedule` de `.github/workflows/generate-daily.yml` y configurar el
   secreto `ANTHROPIC_API_KEY` en GitHub
-- **`personality` (32) sigue sin implementar** en `catalogFragments.mjs`. Llena
-  el hueco de la frase de personalidad en la revelación de F1
-  (`app/onboarding/reveal.tsx`), que se dejó vacío a propósito: el contenido es
-  un pipeline de build con revisión humana por PR, no texto suelto escrito a
-  mano en el bundle
+- **El hueco de la revelación de F1 ya se puede llenar.** `app/onboarding/reveal.tsx`
+  se dejó sin frase de personalidad a propósito —el contenido es un pipeline de
+  build con revisión por PR, no texto escrito a mano en el bundle— y desde esta
+  sesión hay las dos mitades: los 32 fragmentos de `personality` publicados y
+  `ContentKey.personalityOfSign({ sign })` para pedirlos. Son tres líneas, y no
+  se hicieron aquí porque tocar la pantalla de la revelación pide el artboard
+  delante
 
 Del Bloque 1 quedan 3 cabos que no se cierran desde aquí: el contorno del perro
 (necesita mano de dibujo), el icono en dispositivo real, y el tratamiento de las
@@ -83,7 +150,7 @@ constelaciones pobres, que se decide con las tarjetas de F5 delante
 
 | | |
 |---|---|
-| Decisiones tomadas | 15 (BRD §15.1) — naming, stack, diseño, arquitectura, MVP, modelo IA, casas, ads, adquisición, analytics, CDN, pipeline, publicación, canon de constelaciones (D14), identificadores vs etiquetas (D15) |
+| Decisiones tomadas | 17 (BRD §15.1) — naming, stack, diseño, arquitectura, MVP, modelo IA, casas, ads, adquisición, analytics, CDN, pipeline, publicación, canon de constelaciones (D14), identificadores vs etiquetas (D15), **lugar de nacimiento = España (D16)**, **guardado atómico (D17)** |
 | Decisiones abiertas | 1 — idiomas de lanzamiento (no bloquea, BRD §15.4) |
 | Riesgo técnico | **Cerrado.** Motor astrológico validado contra astro.com |
 
@@ -453,15 +520,58 @@ Referencia: **BRD §7.4, §7.5**.
       `ViewStyle | TextStyle | ImageStyle` — el error de tipos aparece en una
       `<View>` cualquiera del mismo fichero, lejos de la causa. `text('token')`
       lo normaliza una vez; el tema no se toca
-- [ ] F2 — Perfil de mascota (foto, raza, sexo, nacimiento, gotcha day).
-      Selector con **las 65 razas que tienen contenido y solo esas** (BRD §8.1):
-      ofrecer más es el fallo silencioso de §7.3.1 — la ficha saldría vacía sin
-      error. Estrena `MediaReference` y `UpdatePetUseCase`. Importar el artboard
-      de la pantalla 9 del canvas antes de maquetar
-- [ ] **Contexto de contenido** — puerto + adaptador que lea `content/catalog/`
-      y resuelva una clave a su fragmento. No existe nada: la app tiene `pet` y
-      `chart`, y ni una línea que abra el catálogo. **Bloquea F3, no F2**
+- [x] F2 — Perfil de mascota. **Completo**: `app/pet/[id]/`
+      con el artboard A (que sustituye a la pantalla 9) y el B, el selector de
+      las 65 razas. Raza, sexo y esterilizado se editan y se guardan de verdad
+      — `UpdatePetUseCase` por fin estrenado. Fecha, hora, lugar y foto siguen
+      pintadas e inertes: **sus editores no están maquetados**. `MediaReference`
+      sigue sin estrenar
+
+  **Los nueve artboards ya están** (`Editores F2.dc.html`). Construidos A
+  (perfil), B (raza) y los tres estados del aviso. Quedan seis, en dos grupos:
+
+  **Los nueve, hechos.** A (perfil), B (raza), D+E (hora), F (fecha), G
+  (adopción), H (lugar), I (foto) y J (raza buscando).
+
+  **Lo que el canvas tiene que recoger de vuelta:**
+  - **El artboard A ya no lleva "Guardar"** — ver sesión 14: cada acción guarda
+    sola. La cabecera solo tiene volver y título
+  - **El artboard H enseña Venezuela, Ecuador y Puerto Rico**: se dibujó antes
+    de D16 (España). La estructura de la fila es la suya; los datos son
+    españoles
+  - **El artboard B dice "los cuatro mestizos" y son tres** (el cuarto
+    `fci: null` es el pitbull)
+  - **El artboard F dice "en el orden del enum"** y no coinciden:
+    `BIRTH_ACCURACIES` declara `gotcha_day` antes que `inferred`, la pantalla
+    los pone al revés (sube de certeza a estimación). Manda la pantalla
+
+  **E · hora sin lugar** no es un artboard aparte que falte: es el estado que
+  sale de 5 cuando no hay lugar, y su regla ya está en el modelo.
+
+- [x] **Contexto de contenido** — bounded context `content/` completo: puerto
+      `ContentRepository` (`get` / `getMany`), `ContentKey` con la gramática de
+      las cuatro familias, `Fragment` validado con Zod, y un adaptador que lee
+      los 1.552 fragmentos del propio binario. **Las cuatro decisiones**:
+      1. **El puerto** devuelve `Fragment | null`; `getMany` existe porque una
+         carta pide quince fragmentos y quince `await` en serie son un spinner
+      2. **El adaptador** carga **por familia y en perezoso** (`require()` dentro
+         de la función): abrir la carta cuesta 110 KB, no los 740 del catálogo
+      3. **El JSON va en el bundle** (BRD §7.4 capa 1) vía
+         `npm run generate:catalog`, que además **cambia de forma**: array de
+         objetos → objeto indexado por clave con valores posicionales. 895 KB →
+         740 KB, y la búsqueda es un acceso directo sin construir índice
+      4. **Clave ausente**: `null` en producción, **excepción en desarrollo**. El
+         fallo de §7.3.1 no tiene síntoma, así que la única forma de que se note
+         es que reviente en el emulador
+      Y **dos** guardarraíles, que cubren cosas distintas:
+      - `catalogCoverage.test.ts` genera **las 1.552 claves** que la app sabe
+        pedir y comprueba que están todas publicadas, y que no sobra ninguna
+      - los **guardias de valor** de `ContentKey`, que lanzan siempre (también
+        en producción) si una pieza no es del vocabulario. Son lo único que
+        cubre lo que el test **no puede ver**: los valores que salen de la base
+        de datos del usuario, no del catálogo de hoy
 - [ ] F3 — Carta natal integrada, con degradación por datos faltantes
+      ← **AQUÍ EMPIEZA LA PRÓXIMA SESIÓN**
 
 ---
 
@@ -1356,3 +1466,354 @@ cero. Si algún día se hace: límite duro de 5 mensajes/día aplicado en servid
   contenido en la app. Hay 1.552 fragmentos publicados y ni una línea que sepa
   abrirlos; lo único construido es `ChartAspect.contentKey()`, que fabrica la
   clave y no tiene a quién preguntársela. **Bloquea F3, no F2**
+
+### 2026-08-26 (7)
+- **F2, la mitad que estaba diseñada.** El artboard 9 se importó de verdad
+  —vía el MCP de Claude Design, `list_files`/`get_file` contra el id del
+  proyecto; `list_projects` no lo lista porque filtra a proyectos de *sistema
+  de diseño*, y eso despistó al principio— y confirmó lo que el resumen de
+  `design/mvp-screens.md` no podía decir: **la pantalla 9 se titula "Datos de
+  nacimiento" y no maqueta ni un editor**. Raza, sexo y esterilizado salen solo
+  como subtítulo de lectura. Construido lo que sí estaba: la vista completa,
+  con datos reales del repositorio y la confianza saliendo del motor
+- **Decisión de método: lo que no está diseñado no se inventa.** Las nueve
+  piezas que faltan están listadas en el Bloque 3, para pasarlas a Claude
+  Design. Es la misma decisión de la sesión (5) —el diseño se implementa contra
+  el canvas— aplicada en la dirección incómoda: dejar la pantalla a medias en
+  vez de rellenar los huecos a ojo
+- **El canvas y `theme.ts` no usan la misma escala de espaciado.** El canvas va
+  en pasos de 2 (2, 6, 10, 20) y `theme.spacing` es una escala de 4 indexada
+  por posición. `gap:6` aparece **49 veces en las trece pantallas** — es el
+  espaciado más usado del canvas entero, y no existe en el tema. Aquí se ha
+  redondeado (6→8, 20→24) para no escribir un número fuera de `theme.ts`, pero
+  esto vuelve en cada pantalla que quede: o el tema crece, o el canvas se
+  reajusta. **Decisión pendiente**, y barata solo mientras haya pocas pantallas
+- **La barra de confianza cuenta datos, no niveles.** El artboard enciende dos
+  de tres para "Sin hora", que solo cuadra si los segmentos son fecha + hora +
+  lugar empaquetados a la izquierda. `confidenceSegments()` lo lee de
+  `NatalChart.confidence()` y no de `Birth`, para no tener la regla de
+  degradación escrita dos veces
+- `Screen` estrena `scroll` y `dividers`; F1 no los pasa y queda intacta.
+  Nuevos: `FieldRow`, `NoticeCard`, `ConfidenceMeter`, `PetIdentity`,
+  `pet/ui/format.ts`. **132 tests** (eran 119), lint y `tsc` limpios
+
+### 2026-08-26 (8)
+- **`controlGap = 6` aplicado.** El tema crece en un solo token y el canvas se
+  reajusta a la escala de 4 en todo lo demás: `gap:6px` baja de 49 usos a 17, y
+  2, 10 y 20 desaparecen. Los cuatro sitios donde el 6 vale son la tira de
+  progreso, el icono con su rótulo en la barra de navegación, los segmentos de
+  la barra de confianza y el punto que precede a una etiqueta. `ProgressSteps`
+  ya lo escribía como `spacing[2] - 2`, que era este número disimulado
+- **Los redondeos de la sesión anterior eran los correctos menos uno**: el
+  canvas reajustado dice 24 donde puse 24 y 8 donde puse 8, pero **4** en el
+  nombre y subtítulo del bloque de identidad, donde había puesto 8. Corregido
+- **`Editores F2.dc.html`, dos artboards de nueve.** El A sustituye a la
+  pantalla 9: misma barra de confianza, pero con botón de volver, título "Datos
+  de {nombre}", el retrato con su llamada a añadir foto, y **raza, sexo y
+  esterilizado editables**. Las filas de nacimiento pasan el rótulo **dentro**
+  de la caja, para que el campo lleno no crezca de alto. El día de adopción sale
+  del perfil: no es un dato de nacimiento. El B es el selector de las 65 en once
+  secciones, con el grupo de la raza actual arriba y en oro
+- **`UpdatePetUseCase` estrenado por fin**, y con él el primer formulario de la
+  app. El estado a medio tocar vive en `petEditStore` (Zustand) y no en un
+  `useState` de la pantalla, porque **el selector de raza es otra ruta**: al
+  navegar, el estado local se desmontaría y la elección se perdería justo al
+  volver con ella. Misma categoría que el wizard de F1
+- **"Guardar" se apaga comparando contra el repositorio**, no contra una copia
+  del estado inicial: así también se apaga cuando el usuario deshace su propio
+  cambio a mano
+- Nuevos: `ScreenHeader`, `SegmentedField`, `Chevron`, `breedGroups.ts`,
+  `petEditStore.ts`; `FieldRow` gana la variante de rótulo interior y `Screen`
+  cambia `dividers` por `footerDivider` (el selector de raza no lleva filo bajo
+  la cabecera). **141 tests** (eran 132), lint y `tsc` limpios
+
+### 2026-08-26 (9)
+- **Cerrado el `tzOffsetMin = 0` silencioso, que era un fallo y no un hueco.**
+  Nadie pasaba el huso nunca —F1 no pide hora ni lugar— y el motor lo daba por
+  cero. Dos consecuencias, y la segunda es la grave:
+  - El comentario decía "mediodía local" y era **mediodía de Greenwich**. A 12
+    husos de distancia eso no es el mediodía de nadie: se pierde la garantía de
+    ±3,25° de la Luna que justificaba elegir las 12:00, y el Sol puede cambiar
+    de signo en un cumpleaños de cúspide — justo la promesa de F1
+  - En cuanto exista el editor de hora, una hora local guardada suelta se leería
+    como UTC: **15° de Ascendente por cada hora de error**, media hora de signo
+    en España y un signo entero en México. Sin fallar, que es lo peor
+- **Arreglado en los dos sitios que tocaba, no en uno.** En el motor, el huso
+  ya no se asume: si falta, se estima **por longitud** (hora solar media, 4
+  min/grado), que es la convención astrológica clásica, no necesita base de
+  datos de husos ni saber nada del dispositivo, y funciona offline. Solo cae a
+  UTC cuando tampoco hay lugar — el único caso sin ninguna información, y ahí
+  no hay Ascendente ni casas de todos modos
+- **Y en el modelo, el guardarraíl de verdad**: `Birth` rechaza una hora sin
+  `tzOffsetMinutes`. Está en el modelo y no en la pantalla porque **la pantalla
+  que pide la hora todavía no existe**: cuando se construya, no va a poder
+  olvidarse. Misma familia que la validación de calendario que encontró F1
+  (`2025-02-31` pasaba el regex). La regla mira si el campo está, no si vale
+  algo: el 0 de Londres en invierno es un huso como otro, y hay test
+- `npm run verify` sigue en verde y el contraste con astro.com no hay que
+  repetirlo: la ruta verificada pasa `tz` explícito por CLI, así que el default
+  ausente nunca entró en ella. **147 tests** (eran 141), lint y `tsc` limpios,
+  pipeline en verde
+
+### 2026-08-26 (10)
+- **Decidido dónde vive el día de adopción**: en el perfil, **debajo** de la
+  fecha de nacimiento y con menos peso. Si es lo único que hay, sube a
+  principal. Construido (`dateRows()` en `pet/ui/format.ts`, con tests), y con
+  ello el artboard A queda desfasado — lo había sacado de la pantalla
+- **Y un matiz del modelo que no se ve desde la pantalla.** "Solo tenemos el
+  día de adopción" **no puede** ser `adoptionDate` sin fecha de nacimiento:
+  `Birth.date` es obligatorio y esa mascota no se puede construir. Ese caso es
+  `accuracy: 'gotcha_day'`, que es justo lo que `Birth` ya modelaba — la fecha
+  de nacimiento *es* el día en que llegó a casa, haciendo de sustituta. Por eso
+  ahí se pinta **una** fila y no dos con la misma fecha repetida
+- **`gotcha_day` no lo produce nadie todavía.** `accuracyFor()` solo devuelve
+  `exact` y `approx`, así que el estado existe en el modelo y ninguna pantalla
+  lo crea. Lo desbloquea el artboard de fecha (hueco 3), y arrastra una
+  decisión de contenido que el BRD ya tomó en §246: con gotcha day la carta se
+  presenta **explícitamente como simbólica, no natal**. Eso no es una fila de
+  formulario, es cómo se encuadra la carta entera — afecta a F3, no a F2
+- **151 tests** (eran 147), lint y `tsc` limpios
+
+### 2026-08-26 (11)
+- **Los nueve artboards llegaron.** Construido el bloque que no dependía de
+  nada: el perfil corregido contra el A (retrato de **64** y no 88 — aquí se
+  edita y el sitio lo pide la lista de campos), el día de adopción en su sitio
+  definitivo (**debajo del bloque de nacimiento y sin caja**, con la línea que
+  explica que no entra en la carta) y **los tres estados del aviso** con su
+  texto. El de carta completa es el único sin oro, sin acción y sobre
+  `surface`: no pide nada, así que no llama
+- **Corregido un guardarraíl que era más estricto que el diseño.** En la sesión
+  (9) hice que `Birth` rechazara cualquier hora sin `tzOffsetMinutes`. El
+  artboard E diseña justo el estado que eso prohibía: *"el dato entra, pero
+  `tzOffsetMinutes` se queda vacío y la confianza no sube a completa"*. La
+  regla buena es **hora + lugar ⇒ huso obligatorio**: es la combinación que
+  produce Ascendente, y es donde un huso equivocado cuesta 15° por hora. Con
+  hora y sin lugar no hay Ascendente que estropear — solo mejora la Luna, y la
+  app dice qué falta en vez de asumir una zona horaria
+- **`Birth.placeName` añadido**, y la columna va **en la 001, no en una 002**:
+  no hay consumidores ni dispositivos con datos, así que el esquema se edita en
+  sitio y se arranca de cero. El nombre no entra en ningún cálculo —el motor
+  solo usa lat/lon— y existe para que la coordenada sea **verificable**:
+  `41,39 · 2,17` no lo comprueba nadie y hay cuatro Barcelonas. Lo escribe
+  quien elige el lugar, nunca se teclea a mano
+- **El bloqueo real de lo que queda es la zona horaria histórica.** El canvas
+  pide que el huso salga **del lugar y de la fecha**, no del reloj del móvil, y
+  que cada resultado de búsqueda enseñe su desplazamiento UTC. Eso es un
+  dataset de ciudades con reglas de DST históricas, y no existe en el repo.
+  Bloquea H y, con él, D. **Decisión pendiente**
+- **155 tests** (eran 151), lint y `tsc` limpios
+
+### 2026-08-26 (12)
+- **D16: el lugar de nacimiento es España en el MVP** (BRD §15.1). Con eso, el
+  único bloqueo real que le quedaba a F2 desaparece: la zona horaria **se
+  calcula, no se consulta**. Península y Baleares en CET/CEST, Canarias en
+  WET/WEST, y el cambio de hora por la regla de la UE — último domingo de marzo
+  a último domingo de octubre. Nada de dataset mundial de husos históricos
+- **Y no hace falta tabla histórica**: la regla actual de la UE está vigente
+  desde 1996 y **ningún perro vivo nació antes**. El rango entero queda cubierto
+  con una función pura. `pet/domain/spanishTimeZone.ts`, con test del caso del
+  canvas (el 14 de diciembre Barcelona estaba en horario de invierno) y de que
+  el cambio es "el último domingo" y no un día fijo — codificarlo como "31 de
+  marzo" habría funcionado en 2024 y fallado en la mitad de los años siguientes
+- **F · editor de fecha construido**, con los cuatro valores de
+  `BirthAccuracy`. No es una casilla de "no estoy seguro": cada opción dice **de
+  dónde salió el dato**, que es lo que el dueño sabe contestar. Con esto
+  `gotcha_day` por fin lo produce alguien — llevaba desde el principio en el
+  modelo sin que ninguna pantalla lo creara
+- **Ojo con el orden**: la nota del canvas dice "en el orden del enum" y no
+  coinciden. `BIRTH_ACCURACIES` declara `gotcha_day` antes que `inferred`; la
+  pantalla los pone al revés porque la lista sube de certeza a estimación. Manda
+  la pantalla: **el orden de un enum no es un orden de presentación**
+- **G · día de adopción construido**, con su "Quitar esta fecha": es opcional de
+  verdad. Y el aviso que redirige a quien no sabe la fecha de nacimiento hacia
+  `gotcha_day`, que es donde se resuelve ese caso
+- **Los editores guardan en el store, no en el repositorio.** Cada uno confirma
+  su campo y vuelve; el "Guardar" del perfil es el único que escribe. Es lo que
+  ya hacía el selector de raza, y lo que permite descartar una edición entera
+  volviendo atrás
+- Regenerar los tipos de ruta de Expo Router **no tiene comando propio**: los
+  escribe el servidor de desarrollo. `npx expo start --offline` unos segundos y
+  matarlo basta — tenerlo anotado ahorra el rato de buscarlo
+- **161 tests** (eran 155), lint y `tsc` limpios
+
+### 2026-08-26 (13)
+- **H · elegir lugar, construido, y con él el dataset.** `data/geonames-ES.txt.gz`
+  (volcado de España de **GeoNames**, CC BY 4.0) →
+  `npm run generate:municipalities` → `municipalities.generated.json`: **8.087
+  municipios** con comunidad, coordenadas y huso. La fuente se guarda en el
+  repo comprimida a propósito, para que regenerar no dependa de que una URL
+  siga viva dentro de dos años
+- ⚠️ **La atribución de GeoNames es obligatoria por licencia** y está escrita en
+  `data/README.md`. Cuando haya pantalla de créditos o "acerca de", **tiene que
+  aparecer ahí**, igual que la de las fuentes y la de `astronomy-engine`
+- **262 KB en el bundle, y por eso va en arrays y no en objetos**, con las
+  coordenadas a dos decimales (~1 km): la longitud entra en el cálculo como
+  tiempo, y 0,01° son 2,4 segundos. Ordenado por población en el generador, así
+  que quien escribe "barcel" ve Barcelona antes que Barcelonilla **sin puntuar
+  nada en el dispositivo**
+- **El artboard H enseña Venezuela, Ecuador y Puerto Rico**: se dibujó antes de
+  D16. La estructura de la fila es la suya; los datos son españoles. Dentro de
+  España el argumento de las cuatro Barcelonas se encoge pero no desaparece —
+  hay nombres repetidos entre provincias, y **Canarias va una hora por detrás**
+- **Y por eso `placeName` guarda "Barcelona, Cataluña" y no "Barcelona,
+  España"**, que es lo que escribe el canvas: con el país fijo, lo que
+  desambigua es la comunidad
+- **D+E · editor de hora, construido.** Teclado numérico y no rueda; guardar
+  apagado hasta las cuatro cifras. La fila de zona horaria enseña el huso real
+  resuelto desde el lugar **y la fecha**, con la frase del canvas rellena con
+  los datos de la mascota. Sin lugar, el aviso del artboard E y "Guardar solo
+  la hora" en peso secundario — el dato entra y el huso se queda vacío
+- **La heurística de Canarias vive en un solo sitio**
+  (`spanishZoneFromLongitude`): `Birth` guarda el offset resuelto y no la zona,
+  así que al releer una mascota hay que deducirla. El corte en -11° deja cuatro
+  grados de margen a cada lado — Galicia llega a -9,3 y Canarias empieza en
+  -13,3. **Solo vale mientras el MVP sea España**: con otro país, la zona pasa
+  a ser un dato que el lugar trae consigo
+- Cambiar la fecha **recalcula el huso** aunque no se toque el lugar: del 14 de
+  diciembre al 14 de julio, Barcelona pasa de UTC+1 a UTC+2. Sin eso quedarían
+  hora y huso describiendo instantes distintos
+- **168 tests** (eran 161), lint y `tsc` limpios
+
+### 2026-08-26 (14)
+- **Guardado atómico: fuera el botón "Guardar" del perfil.** Venía de un fallo
+  real que él encontró probando — al volver de un editor **no se veía nada**
+  hasta pulsar Guardar. La causa: el perfil leía las fechas de `pet` (el
+  repositorio) y solo raza/sexo salían del store, así que todo lo del
+  nacimiento era invisible hasta el commit. En vez de sincronizar el borrador
+  con la pantalla, **se mató el borrador**: cada acción guarda sola
+- **Y con él se fue `petEditStore` entero.** Ya no hay estado a medio tocar que
+  mantener, ni `pendingChanges`, ni el concepto de "sucio". La verdad vuelve a
+  ser siempre el repositorio, que es lo que ya decía `app/AGENTS.md`: *si un
+  dato se puede volver a leer del repositorio, no va en un store*
+- **Lo que sí se quedó** son las transiciones del nacimiento, ahora en
+  `pet/ui/birthEdits.ts` como funciones puras y con test. Viven fuera de `Birth`
+  porque llevan dentro una regla **española** (el huso sale del lugar y de la
+  fecha, D16) y el value object no tiene por qué saber en qué país estamos
+- **J · raza buscando.** Buscando desaparecen las secciones y el grupo pasa a
+  la derecha de cada fila. La coincidencia va en oro **dentro** del nombre: de
+  las ocho razas con "terrier", siete lo llevan al final, así que buscar por
+  prefijo dejaría la lista casi vacía. El índice se calcula sobre el texto
+  normalizado y se aplica sobre el original — vale porque quitar acentos **no
+  cambia la longitud** (`NFD` separa la tilde y el filtro la borra), y hay test
+- **I · foto.** `MediaReference` por fin estrenado, que era lo último del
+  modelo sin usar. Puerto `PhotoStore` + adaptador `FileSystemPhotoStore` sobre
+  la API nueva de `expo-file-system` (SDK 57: `Paths`/`File`/`Directory`, no la
+  legacy). Dos casos de uso: `SetPetPhotoUseCase` y `ResolvePetPhotoUseCase`
+- **El orden del caso de uso es lo único que hay que acertar**: fichero nuevo →
+  fila → borrar el viejo. Al revés quedaría una fila apuntando a un fichero que
+  no existe, que es un hueco en el perfil que nadie sabe arreglar. Así, si algo
+  falla, queda un huérfano invisible y recuperable. Hay test del fallo
+- **El nombre del fichero lleva sello de tiempo** además del id de la mascota.
+  Sin él, cambiar la foto reescribiría la misma ruta y el `<Image>` seguiría
+  enseñando la vieja: React Native cachea por URI. Por lo mismo, `updatedAt`
+  entra en la clave de caché de `usePetPhotoUri`
+- **`ResolvePetPhotoUseCase` parece de más para una concatenación y no lo es**:
+  la ruta absoluta se construye en **un solo sitio** (BRD §12.2.5). El día que
+  las fotos vivan en object storage, `kind: 'remote'` devuelve una URL y ni una
+  pantalla se entera
+- ⚠️ **`expo-image-picker` es módulo nativo**: hace falta **un build local
+  nuevo** (`npx expo run:ios` / `run:android`) para que la pantalla de foto
+  funcione. Con recarga no basta
+- **El permiso de cámara y galería se pide en la pantalla de foto**, cuando el
+  usuario ya ha dicho que quiere una — nunca al arrancar. Es la misma regla que
+  BRD §14 R8 aplica al push
+- **El teclado ya no tapa los campos.** `KeyboardAvoidingView` en `Screen`, que
+  es el armazón por el que pasan todas: cualquiera con un `TextInput` lo hereda
+  y el día que haya una nueva no hay que acordarse. `padding` solo en iOS — en
+  Android el `adjustResize` de la ventana ya redimensiona, y aplicar los dos
+  deja un hueco del alto del teclado
+- **186 tests** (eran 168), lint y `tsc` limpios
+
+### 2026-08-27 (15)
+- **Primer arranque en dispositivo real (Android), y el primer fallo que solo
+  se ve ahí**: `Query data cannot be undefined` en la clave de la foto. Era
+  mío y de precedencia — `execute({...}) ?? null` aplica el `??` a la
+  **promesa**, que nunca es nullish, así que no hacía nada y la query recibía
+  el `undefined` de una mascota sin foto, que es justo lo único que TanStack
+  Query no acepta. Arreglado con el `await` dentro del paréntesis
+- **No lo cazaban ni los tipos ni los tests**: `Promise<string | undefined> ??
+  null` es TypeScript válido, y los 186 tests no montan React. Queda un test de
+  `ResolvePetPhotoUseCase` que **fija el contrato** —sin foto, `undefined`— para
+  que se vea que la traducción a `null` es una restricción de TanStack Query y
+  vive en el `queryFn`, no en el dominio
+- **189 tests** (eran 186), lint y `tsc` limpios
+
+### 2026-08-27 (16)
+- **El teclado seguía sin empujar en Android, y mi primer arreglo era la mitad
+  del problema.** Le pasaba `behavior={undefined}` en Android fiándome del
+  `adjustResize` del manifiesto — que está puesto. Pero **desde SDK 54 Android
+  va edge-to-edge por defecto, y con edge-to-edge la ventana ya no se
+  redimensiona**: la app dibuja *detrás* del teclado. Ahora `behavior="padding"`
+  en las dos plataformas; como no redimensiona, no hay doble ajuste que temer
+- **Y faltaba la otra mitad: el onboarding no scrolleaba.** `date.tsx` lleva
+  titular, texto, tres campos, una casilla, un pie de ayuda y el botón — con el
+  teclado abierto no cabe, y empujar hacia arriba solo cambia qué se pierde por
+  el borde de arriba. Ahora `name.tsx` y `date.tsx` scrollean
+- **El modo `scroll` de `Screen` conserva el reparto vertical** (`flexGrow: 1`
+  + `justifyContent`): con sitio de sobra se centra como si no scrolleara, y en
+  cuanto el teclado se come el alto el contenido se puede alcanzar. Sin eso,
+  activar el scroll habría descolocado el onboarding cuando el teclado está
+  cerrado, que es la mayor parte del tiempo
+- Las seis pantallas que ya scrolleaban pasan a decir `align="flex-start"`
+  explícito: antes el reparto se ignoraba en modo scroll y ahora no
+- **Verificado en dispositivo**: el teclado empuja bien, onboarding incluido.
+  No hizo falta `react-native-keyboard-controller`, que era el plan B y habría
+  metido otro módulo nativo
+- **189 tests**, lint y `tsc` limpios
+
+### 2026-08-27 (17)
+- **Contexto de contenido completo.** Bounded context `content/` con las tres
+  capas: `ContentKey` + `Fragment` + `ContentRepository` en dominio, dos casos
+  de uso, el adaptador del bundle y el hook de TanStack. 1.552 fragmentos
+  publicados que llevaban desde el Bloque 2 sin nadie que supiera abrirlos
+- **`ContentKey` es la pieza que no estaba en el plan y resultó ser la
+  importante.** El hueco no era leer un JSON: era que la gramática de las
+  claves (`planet=sun;sign=aries`) se escribía interpolando en el sitio donde
+  hiciera falta, y cada sitio era una oportunidad de escribir `signo=` y no
+  enterarse. Ahora hay un constructor por forma de clave y ninguna pantalla
+  interpola
+- **El adaptador carga por familia, en perezoso.** `require()` dentro de la
+  función y no `import` arriba: ver la carta natal cuesta 110 KB, no los 740
+  del catálogo entero. Los 371 KB de razas esperan a que alguien abra su ficha.
+  Hay un test en su propio fichero —Jest da registro de módulos limpio por
+  fichero— que comprueba que pedir un fragmento no carga las otras tres familias
+- **El JSON cambia de forma al entrar en el bundle** (`npm run generate:catalog`):
+  el pipeline escribe un array de objetos, que es lo legible en un diff, y la
+  app recibe un objeto indexado por clave con los valores en arrays
+  posicionales. 895 KB → 740 KB —los nombres de campo repetidos 1.552 veces son
+  155 KB que no dicen nada— y buscar deja de necesitar construir un índice al
+  arrancar. Mismo criterio que `municipalities.generated.json`
+- **Clave ausente: `null` en producción, excepción en desarrollo.** Asimétrico a
+  propósito. Ese fallo no tiene síntoma (BRD §7.3.1): la tarjeta sale vacía y la
+  sesión sigue. En el emulador tiene que doler; en el móvil de un usuario,
+  tirarle la pantalla por un párrafo que falta es peor que enseñar la carta sin él
+- **El guardarraíl de verdad es `catalogCoverage.test.ts`**: genera **las 1.552
+  claves** que la app sabe construir —desde `PLANET_IDS`, `SIGNS`,
+  `ASPECT_TYPES`, `MOON_PHASE_NAMES` y `BREEDS`, las mismas constantes que usan
+  las pantallas— y comprueba las dos direcciones. Que no falte ninguna, y que no
+  sobre ninguna: un fragmento huérfano son 3.500 tokens pagados que nadie va a leer
+- **Borrado `ChartAspect.contentKey()`.** Devolvía `sun-sextile-moon`, una clave
+  que no existe en ningún catálogo, y el plan la daba por buena. Las 500 entradas
+  de `aspects.json` son de tránsito (`transit=X;aspect=Y;natal=Z`) y su prosa
+  habla de hoy: son de F4/F5. Los aspectos **dentro** de la carta natal no tienen
+  contenido, y ahora lo dice un comentario donde estaba el método
+- **Guardias de valor en `ContentKey`, a raíz de mirar dónde quedaba la
+  fragilidad de verdad.** La interpolación ya no es el problema: una deriva de
+  gramática no rompe un fragmento, rompe los 1.552 a la vez y el test lo dice.
+  Lo que el test **no puede ver** son los valores que salen del dispositivo, y
+  ahí sí había hueco — `planet=undefined;sign=aries` es una clave perfectamente
+  formada que no existe. Ahora cada pieza se valida contra el alfabeto del
+  catálogo y **lanza siempre, también en producción**: es lo contrario de lo que
+  hace el adaptador con una clave ausente, y a propósito. Una clave que falta es
+  un hueco de contenido; un `undefined` es un bug de quien llama, y tragárselo
+  lo convierte en una tarjeta vacía permanente que nadie reporta
+- **Descartado generar un tipo unión con las 1.552 claves literales.** Suena a
+  la solución definitiva y no protege de nada: todas las claves se construyen
+  desde valores de runtime (`chart.sunSign()`, `pet.breedId()`), así que el
+  compilador nunca tiene un literal que comparar. Tipar los builders con
+  `PlanetId`/`Sign` tampoco — renombrar un signo propaga el cambio por los tipos
+  sin una queja. Coste de compilación a cambio de una sensación de seguridad
+- **Hallazgo que queda abierto**: `breedId` es `z.string().optional()` y vive en
+  SQLite, así que sobrevive al catálogo. Está anotado arriba, en Pendiente
+- **219 tests** (eran 189), lint y `tsc` limpios
+
