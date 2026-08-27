@@ -52,10 +52,20 @@ export class ChartAspect extends Model {
     return this._data.a === planet || this._data.b === planet;
   }
 
-  /** Clave con la que el pipeline de contenido indexa los fragmentos (BRD §7). */
-  contentKey(): string {
-    return `${this._data.a}-${this._data.type}-${this._data.b}`;
-  }
+  /**
+   * **No hay clave de contenido para un aspecto natal.** Aquí vivía un
+   * `contentKey()` que devolvía `sun-sextile-moon`, y esa clave no existe en
+   * ningún sitio: el catálogo indexa aspectos como
+   * `transit=sun;aspect=sextile;natal=moon` y su prosa está escrita en
+   * tránsito ("el Sol pasa por encima de su Sol natal"), que es el contenido
+   * del diario, no el de la carta. Reutilizarla habría dado un texto que habla
+   * de hoy en una pantalla que habla de siempre.
+   *
+   * Los aspectos **dentro** de la carta natal no son ninguna de las cuatro
+   * categorías MVP de BRD §7.3: cuando tengan contenido propio, se añade la
+   * categoría al pipeline y el constructor a `content/domain/ContentKey`, que
+   * es donde vive ya la gramática de todas las demás.
+   */
 
   toJSON(): ChartAspectData {
     return { ...this._data };

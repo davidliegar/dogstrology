@@ -3,6 +3,10 @@ import type { DatabaseProvider } from './_db/types';
 import type { ChartCalculator } from './chart/domain/ChartCalculator';
 import { AstronomyEngineChartCalculator } from './chart/infrastructure/AstronomyEngineChartCalculator';
 import CalculateNatalChartUseCase from './chart/application/CalculateNatalChartUseCase';
+import type { ContentRepository } from './content/domain/ContentRepository';
+import { BundledCatalogContentRepository } from './content/infrastructure/BundledCatalogContentRepository';
+import GetFragmentUseCase from './content/application/GetFragmentUseCase';
+import GetFragmentsUseCase from './content/application/GetFragmentsUseCase';
 import type { PetRepository } from './pet/domain/PetRepository';
 import type { PhotoStore } from './pet/domain/PhotoStore';
 import { FileSystemPhotoStore } from './pet/infrastructure/FileSystemPhotoStore';
@@ -24,6 +28,7 @@ export interface DogstrologyDependencies {
   petRepository?: PetRepository;
   photoStore?: PhotoStore;
   chartCalculator?: ChartCalculator;
+  contentRepository?: ContentRepository;
 }
 
 /**
@@ -42,16 +47,24 @@ export class Dogstrology {
   private readonly petRepository: PetRepository;
   private readonly photoStore: PhotoStore;
   private readonly chartCalculator: ChartCalculator;
+  private readonly contentRepository: ContentRepository;
   private readonly useCases = new Map<string, unknown>();
 
   static create(dependencies: DogstrologyDependencies = {}): Dogstrology {
     return new Dogstrology(dependencies);
   }
 
-  constructor({ db = openDatabase, petRepository, photoStore, chartCalculator }: DogstrologyDependencies = {}) {
+  constructor({
+    db = openDatabase,
+    petRepository,
+    photoStore,
+    chartCalculator,
+    contentRepository,
+  }: DogstrologyDependencies = {}) {
     this.petRepository = petRepository ?? SqlitePetRepository.create({ db });
     this.photoStore = photoStore ?? FileSystemPhotoStore.create();
     this.chartCalculator = chartCalculator ?? AstronomyEngineChartCalculator.create();
+    this.contentRepository = contentRepository ?? BundledCatalogContentRepository.create();
   }
 
   private useCase<T>(name: string, build: () => T): T {
@@ -99,6 +112,19 @@ export class Dogstrology {
   get CalculateNatalChartUseCase(): CalculateNatalChartUseCase {
     return this.useCase('CalculateNatalChartUseCase', () =>
       CalculateNatalChartUseCase.create({ calculator: this.chartCalculator }),
+    );
+  }
+
+  /* Content */
+  get GetFragmentUseCase(): GetFragmentUseCase {
+    return this.useCase('GetFragmentUseCase', () =>
+      GetFragmentUseCase.create({ repository: this.contentRepository }),
+    );
+  }
+
+  get GetFragmentsUseCase(): GetFragmentsUseCase {
+    return this.useCase('GetFragmentsUseCase', () =>
+      GetFragmentsUseCase.create({ repository: this.contentRepository }),
     );
   }
 }

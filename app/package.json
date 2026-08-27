@@ -46,7 +46,8 @@
     "test": "jest",
     "lint": "eslint .",
     "generate:constellations": "node scripts/generateConstellations.mjs",
-    "generate:municipalities": "node scripts/generateMunicipalities.mjs""
+    "generate:municipalities": "node scripts/generateMunicipalities.mjs",
+    "generate:catalog": "node scripts/generateCatalog.mjs"
   },
   "private": true,
   "overrides": {

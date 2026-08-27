@@ -27,13 +27,20 @@ src/
 │   ├── infrastructure/       Adaptadores (SqlitePetRepository)
 │   ├── ui/                   Hooks de React sobre los casos de uso
 │   └── testing/              Dobles y object mothers
-└── chart/                    Bounded context (misma estructura)
+├── chart/                    Bounded context (misma estructura)
+└── content/                  Bounded context: el catálogo inmutable (BRD §7.3)
+    ├── domain/               ContentKey (la gramática), Fragment, ContentRepository
+    └── infrastructure/       Adaptador + catalog/*.generated.json en el bundle
 ```
 
-Fuera de `src/`: `scripts/` guarda los generadores de assets. Hoy solo hay uno,
-`generateConstellations.mjs` (`npm run generate:constellations`), que convierte
-`design/constelaciones/svg/*.svg` en `src/chart/ui/constellations.generated.ts`.
-Los ficheros `.generated.ts` **no se editan a mano**: se regeneran.
+Fuera de `src/`: `scripts/` guarda los generadores de assets, y los ficheros
+`.generated.*` que producen **no se editan a mano**.
+
+| Comando | De dónde | A dónde |
+|---------|----------|---------|
+| `npm run generate:constellations` | `design/constelaciones/svg/*.svg` | `src/chart/ui/constellations.generated.ts` |
+| `npm run generate:municipalities` | `data/geonames-ES.txt.gz` | `src/pet/ui/municipalities.generated.json` |
+| `npm run generate:catalog` | `content/catalog/*.json` | `src/content/infrastructure/catalog/*.generated.json` |
 
 ## Reglas de dependencia
 
@@ -62,7 +69,8 @@ Dos consecuencias que conviene tener claras:
 
 - **TanStack Query** es dueño de todo lo que sale del dominio. Un `queryFn`
   **solo** llama a un caso de uso: ni SQL, ni lógica, ni transformaciones. Las
-  claves viven juntas por contexto (`petKeys`, `chartKeys`), para que invalidar
+  claves viven juntas por contexto (`petKeys`, `chartKeys`, `fragmentKeys`),
+  para que invalidar
   sea una decisión y no una cadena repetida.
 - **Zustand** solo para estado efímero de pantalla (el wizard de onboarding de
   F1). Si un dato se puede volver a leer del repositorio, no va en un store.
@@ -95,6 +103,11 @@ Dos consecuencias que conviene tener claras:
   caché: sacar la app en inglés habría obligado a regenerar todo el catálogo.
   El espejo del pipeline está en `pipeline/src/labels.mjs`, y hay un test a
   cada lado que los ata (`src/__tests__/contentKeys.test.ts`).
+- **Ninguna clave de contenido se escribe interpolando fuera de
+  `content/domain/ContentKey`.** Es la gramática que el pipeline construye por
+  su lado, y una errata no da error: da una tarjeta vacía (BRD §7.3.1).
+  `src/__tests__/catalogCoverage.test.ts` genera las 1.552 claves que la app
+  sabe pedir y comprueba que están todas publicadas — y que no sobra ninguna.
 - Casos de uso: `{Acción}{Entidad}UseCase`, `export default`, con
   `static create({ deps })`.
 - Los tipos de entrada de un puerto van en minúscula (`getInput`, `saveInput`,

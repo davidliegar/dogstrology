@@ -48,7 +48,6 @@ describe('NatalChart (BRD §12.1, §12.3)', () => {
     const main = NatalChartMother.complete().mainAspect();
     expect(main?.type()).toBe('sextile');
     expect(main?.planets()).toEqual(['sun', 'moon']);
-    expect(main?.contentKey()).toBe('sun-sextile-moon');
   });
 
   it('aspectsOf() encuentra los aspectos de un planeta esté a la izquierda o a la derecha', () => {
