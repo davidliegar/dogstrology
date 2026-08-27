@@ -21,7 +21,9 @@ esterilizado, fecha con su exactitud, hora, lugar y día de adopción — nueve
 editores, guardado atómico, y la carta puede llegar a `full` por primera vez.
 **El contexto de contenido, hecho**: los 1.552 fragmentos del catálogo entran en
 el binario y hay puerto, adaptador y gramática de claves para abrirlos.
-**Queda F3**: la pantalla, que ya tiene qué enseñar
+**F3 completo**: la carta natal se pinta, se toca y enseña el texto del
+catálogo — la primera pantalla de la app con contenido de verdad. **Queda F4**:
+la misma rueda con Skia y movimiento
 **Última sesión**: 2026-08-27
 **Decisión: los builds de EAS se posponen.** Consumen cuota limitada (15+15
 builds/mes); un build local (`npx expo run:ios` / `run:android`) es
@@ -40,44 +42,64 @@ publicado ni ningún dispositivo con datos: era la única ventana barata.
 `design/components.md` y `design/mvp-screens.md` sirven para orientarse, pero
 el detalle fino solo está en el proyecto de Claude Design (`Pantallas MVP.dc.html`,
 `ebb0a79e-9647-4378-913f-349475c3a6b5`), y en F1 tres detalles que no estaban en
-el resumen habrían salido mal. Antes de maquetar una pantalla de F2/F3, **importar
-su artboard**
-## Siguiente sesión: **F3 — la carta natal integrada**
+el resumen habrían salido mal. Antes de maquetar **cualquier** pantalla,
+importar su artboard. En F3 volvió a pasar: los dos artboards de la carta natal
+están marcados F4, y eso no estaba en ningún resumen.
 
-Ya no falta nada debajo. El motor calcula, el perfil guarda hora y lugar, y
-desde esta sesión hay contenido que enseñar: la pantalla es lo único que queda.
+## Siguiente sesión: **F4 — la rueda con Skia**
 
-**Lo que hay listo para consumir**, con nombre y apellidos:
+La carta natal ya se lee y se toca. Lo que queda es el tratamiento: Skia en vez
+de `react-native-svg`, el revelado de 1200 ms al abrirla, y el movimiento.
 
-- `useNatalChart(pet)` (`chart/ui/chartQueries.ts`) — la carta, ya cacheada por
-  mascota + `updatedAt` + sistema de casas
-- `useFragments(keys)` (`content/ui/contentQueries.ts`) — el lote de textos de
-  una pantalla entera, en una consulta
-- `ContentKey.planetInSign({ planet, sign })` y `.planetInHouse({ planet, house })`
-  — **la única forma de escribir una clave**. Interpolarla a mano en la pantalla
-  es cómo se llega a la tarjeta vacía de §7.3.1
-- `ConfidenceMeter` (`chart/ui/`) ya pinta la degradación por datos faltantes
+**Lo que ya está resuelto y no hay que volver a pensar**, con nombre y apellidos:
 
-**Las decisiones que le quedan a F3 son de pantalla, no de arquitectura**: qué
-se enseña con `confidence: 'no_time'` (no hay casas, y la Luna puede no ser
-fiable — `chart.isMoonUncertain()`), en qué orden van los planetas, y si el
-`advice` de cada fragmento se pinta o se guarda para F5.
+- `chart/ui/wheel.ts` — toda la geometría, sin React y con 14 tests: radios,
+  `screenAngle`, `polar`, `arcMidpoint` y `spreadAngles`. Está **validada contra
+  las coordenadas del artboard**, no deducida
+- `chart/ui/NatalWheel.tsx` — la rueda en SVG. Es la referencia de qué se
+  dibuja y en qué orden; Skia cambia el cómo, no el qué
+- `chart/ui/PlanetSheet.tsx` — la hoja del artboard 13, ya con su texto
+- `usePlanetFragments(planet)` — los fragmentos de un planeta, con las claves
+  construidas dentro del `queryFn`
 
-**Construye las claves dentro del `queryFn`, no en el cuerpo del componente.**
-`ContentKey` lanza si le llega un valor que no es del vocabulario —un planeta sin
-casa, un `undefined` propagado— y dónde se construya decide qué se ve: dentro del
-`queryFn` es un `query.error` con su estado de error y su reporte; en el render
-es una pantalla en blanco por el error boundary. Es la misma clase de detalle que
-el `?? null` de la sesión 15: TypeScript no lo ve y los tests tampoco, porque no
-montan React.
+**Lo que F4 tiene que añadir de verdad**: el revelado, el resaltado animado al
+tocar un planeta, y el parallax del campo estelar (`motion.parallaxAmplitude`).
+`react-native-svg` no anima `strokeDashoffset` por el hilo nativo —se vio en
+`Constellation`— y una rueda entera trazándose es justo donde eso se nota.
 
-**Ojo con otra cosa**: los aspectos **dentro** de la carta natal **no tienen
-contenido**. Las 500 entradas de `aspects.json` son de tránsito
-(`transit=X;aspect=Y;natal=Z`) y su prosa habla de hoy: son de F4/F5, no de F3.
-Por eso `ChartAspect.contentKey()` **ya no existe** — devolvía `sun-sextile-moon`,
-una clave que no está en ningún sitio, y su hueco lleva ahora el comentario que
-lo explica. Si F3 quiere texto de aspectos, hay que generar la categoría en el
-pipeline primero.
+### Los huecos de diseño que F3 deja abiertos
+
+Van a Claude Design antes de que alguien los invente en código:
+
+- ⚠️ **El estado sin hora de la carta natal no está dibujado.** F3 lo resuelve
+  por herencia —sin cúspides no hay casas, sin Ascendente no hay fila ni eje—,
+  y funciona, pero la pantalla resultante nadie la ha diseñado: queda una rueda
+  con doce signos, diez planetas y el centro vacío
+- ⚠️ **`chart.isMoonUncertain()` no se enseña, y eso deja F3 incompleto contra
+  el BRD.** §8.1 pide literalmente "Luna con aviso de confianza si falta hora",
+  y hoy la carta da su signo tan seguro como el resto. El método existe y el
+  aviso existe en el perfil (`CONFIDENCE_NOTICES`), pero en la carta no hay nada
+  dibujado y **no se inventó una insignia**. Es el único requisito de F3 que
+  queda sin cumplir, y está bloqueado por diseño, no por código
+- **El botón "Compartir" de la hoja de planeta no se implementó**: es F9
+  (Bloque 5) y no hay spec de marca de agua. Se dejó fuera en vez de pintar un
+  botón muerto
+- Siguen pendientes las **cuatro correcciones del canvas** listadas en el
+  Bloque 3, y la tanda de estados de carga/vacío/sin red que el propio canvas
+  señala como lo siguiente
+
+### Las otras pantallas de `Pantallas MVP.dc.html`
+
+De los 13 artboards, 01·02·03 son F1 y 09 es F2 (ambos hechos), 05 y 13 son
+esta sesión. De los siete que quedan:
+
+- **06 Personalidad raza×signo** y **08 Explorar los 12 signos** se pueden
+  construir ya: `breed-sign` (780 fragmentos) y las constelaciones generadas
+  están en el binario. Son F6 y F7
+- **04 Hoy** y **07 Fase lunar** necesitan contenido que el pipeline todavía no
+  genera para hoy: `aspects.json` es de tránsito y hay que calcular el día
+- **10 Ajustes** depende del selector de sistema de casas (Bloque 4),
+  **11 Paywall** de RevenueCat y **12 Compartir** de la spec de marca de agua
 
 ### Lo que hay que leer antes de tocar código
 
@@ -570,14 +592,20 @@ Referencia: **BRD §7.4, §7.5**.
         en producción) si una pieza no es del vocabulario. Son lo único que
         cubre lo que el test **no puede ver**: los valores que salen de la base
         de datos del usuario, no del catálogo de hoy
-- [ ] F3 — Carta natal integrada, con degradación por datos faltantes
-      ← **AQUÍ EMPIEZA LA PRÓXIMA SESIÓN**
+- [x] F3 — Carta natal integrada, con degradación por datos faltantes.
+      **Completo**: `app/pet/[id]/chart.tsx` (artboard 5) y
+      `chart/ui/PlanetSheet.tsx` (artboard 13). La rueda es SVG y está quieta —
+      los dos artboards estaban marcados F4 en el canvas, así que lo que le
+      queda a F4 es Skia y el movimiento, no dibujar la rueda
 
 ---
 
 ## Bloque 4 — App: F4-F7 (contenido visual)
 
 - [ ] F4 — Rueda de carta astral con Skia, interactiva
+      ← **AQUÍ EMPIEZA LA PRÓXIMA SESIÓN**. La geometría ya está resuelta y con
+      tests en `chart/ui/wheel.ts`: lo que falta es el motor de pintado y la
+      animación, no el dónde va cada cosa
 - [ ] F5 — Carta del día (tarjetas separadas por fragmento, BRD §7.4)
 - [ ] F6 — Perfil de personalidad raza×signo
 - [ ] F7 — Fase lunar de hoy
@@ -1817,3 +1845,48 @@ cero. Si algún día se hace: límite duro de 5 mensajes/día aplicado en servid
   SQLite, así que sobrevive al catálogo. Está anotado arriba, en Pendiente
 - **219 tests** (eran 189), lint y `tsc` limpios
 
+
+### 2026-08-27 (18)
+- **F3 — Carta natal, artboards 5 y 13.** La rueda en `react-native-svg`, la
+  lista de posiciones, y la hoja de planeta con su texto: es la primera pantalla
+  de la app que enseña contenido del catálogo
+- **Los dos artboards de carta natal están marcados F4 en el canvas**, no F3
+  ("F4 · datos completos" y "F4 · toque en la rueda"), y F4 en este plan es la
+  rueda con Skia. O sea: **F3 no tenía diseño propio**. Se implementa el diseño
+  que existe con SVG en vez de Skia, y F4 pasa a ser lo que de verdad le queda —
+  Skia, animación y el revelado—, no dibujar la rueda por primera vez
+- **La geometría de la rueda se validó contra las coordenadas del artboard.**
+  `screenAngle` + `polar` reproducen el Sol de Baloo en (69,6 · 161) y el glifo
+  de Aries en (214,9 · 331), que es lo que tiene el SVG del canvas. La
+  convención sale confirmada, no supuesta: Ascendente a la izquierda, longitud
+  creciendo en antihorario, y el ángulo de pantalla es `180 + (λ − λ_asc)`
+- **Los planetas del artboard no son consistentes entre láminas**: Marte está a
+  5°18′ Escorpio en la rueda y a 11°08′ en la hoja. Son posiciones de ejemplo y
+  la nota lo dice, así que solo el Sol y los glifos de signo sirven de fixture
+- **La degradación no se decide, se hereda.** Sin `cusps` no hay cúspides ni
+  numerales, sin `ascendant` no hay fila de Ascendente ni eje ASC, y la rueda se
+  orienta por 0° Aries — que es la salida convencional de una carta sin hora, no
+  una decisión de diseño nuestra. No hay ni un `if (confidence === 'no_time')`
+- **`spreadAngles` reparte por racimos, no planeta contra planeta.** Empujar
+  cada uno contra el anterior arrastra el racimo entero hacia adelante y ninguno
+  queda donde estaba; repartiendo alrededor de la media del racimo el error se
+  divide y queda simétrico. Cruza el 0 sin partirse porque empieza a recorrer
+  por el hueco más grande
+- **Las claves se construyen dentro del `queryFn`** (`usePlanetFragments`), y
+  por eso el hook recibe la posición y no claves ya hechas: si las recibiera
+  construidas, construirlas seguiría siendo trabajo del componente y no se
+  habría movido nada. Un valor malo es un `query.error` con su texto, no la
+  pantalla en blanco del error boundary
+- **Dos preguntas que tenía abiertas las contesta el canvas**: el `advice` no se
+  pinta en la hoja (se queda para F5), y los aspectos natales **no necesitan
+  prosa** — la hoja los enseña como `Trígono a su Luna · orbe 2°28′`, con el
+  color distinguiendo armónico de tenso. No hay que generar categoría en el
+  pipeline para F3, al contrario de lo que decía la nota de la sesión 17
+- La lista son **tres posiciones** (Sol, Luna, ASC) y no diez, como el artboard:
+  las demás se leen tocando la rueda. Así no hay que inventarse un orden para
+  una lista que el diseño no tiene
+- Glifos a `chart/ui/glyphs.ts` y **no a `labels.ts`**: una etiqueta cambia al
+  sacar la app en inglés y un glifo no. Llevan U+FE0E o iOS los pinta como emoji
+- Comentario corregido en `PlanetPosition`: decía que los valores están en
+  español, y desde la sesión 16 es justo al revés
+- **238 tests** (eran 219), lint y `tsc` limpios
