@@ -28,10 +28,16 @@ src/
 │   ├── ui/                   Hooks de React sobre los casos de uso
 │   └── testing/              Dobles y object mothers
 ├── chart/                    Bounded context (misma estructura)
+├── settings/                 Bounded context: los ajustes del usuario
+│   └── domain/               Preferences (hoy, el sistema de casas)
 └── content/                  Bounded context: el catálogo inmutable (BRD §7.3)
     ├── domain/               ContentKey (la gramática), Fragment, ContentRepository
     └── infrastructure/       Adaptador + catalog/*.generated.json en el bundle
 ```
+
+Las rutas van en `app/`, y el grupo `app/(tabs)/` son **los cuatro destinos
+raíz** de la barra de pestañas. Todo lo demás se apila encima y por eso tapa la
+barra: es lo que dicen los artboards, donde solo 04, 08, 10, 15 y 17 la llevan.
 
 Fuera de `src/`: `scripts/` guarda los generadores de assets, y los ficheros
 `.generated.*` que producen **no se editan a mano**.

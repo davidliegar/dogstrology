@@ -4,6 +4,8 @@ import { Pressable, StyleSheet, Text, View } from 'react-native';
 import { Chevron } from '@/_ui/components/Chevron';
 import { Screen } from '@/_ui/components/Screen';
 import { ScreenHeader } from '@/_ui/components/ScreenHeader';
+import { HOUSE_SYSTEM_LABELS } from '@/chart/ui/labels';
+import { usePreferences } from '@/settings/ui/settingsQueries';
 
 import { colors, spacing, typography } from '@/design/theme';
 
@@ -39,6 +41,9 @@ const DISCLAIMER =
  * artboard la coloca sin scroll, y por eso entra desde el primer día.
  */
 export default function Settings() {
+  const { data: preferences } = usePreferences();
+  const houseSystem = preferences?.houseSystem();
+
   return (
     <Screen
       insideTabs
@@ -50,6 +55,12 @@ export default function Settings() {
     >
       <View style={styles.group}>
         <Text style={styles.groupLabel}>Carta</Text>
+        <Row
+          label="Sistema de casas"
+          value={houseSystem ? HOUSE_SYSTEM_LABELS[houseSystem] : undefined}
+          onPress={() => router.push('/settings/house-system')}
+        />
+        <View style={styles.divider} />
         <Row label="Créditos" onPress={() => router.push('/credits')} />
       </View>
     </Screen>
@@ -96,6 +107,10 @@ const styles = StyleSheet.create({
   value: {
     ...typography.bodyEmphasis,
     color: colors.textMuted,
+  },
+  divider: {
+    height: 1,
+    backgroundColor: colors.divider,
   },
   disclaimer: {
     ...typography.caption,

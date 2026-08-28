@@ -3,6 +3,7 @@ import { useState } from 'react';
 import { Pressable, StyleSheet, Text, TextInput, View } from 'react-native';
 
 import { Screen } from '@/_ui/components/Screen';
+import { SelectedMark } from '@/_ui/components/SelectedMark';
 import { ScreenHeader } from '@/_ui/components/ScreenHeader';
 import { groupBreeds, MIXED_BREEDS, searchBreedMatches } from '@/pet/ui/breedGroups';
 import { usePet, useUpdatePet } from '@/pet/ui/petQueries';
@@ -13,13 +14,7 @@ import { text } from '@/_ui/typography';
 
 const FIELD_HEIGHT = 56;
 const ROW_HEIGHT = 56;
-const MARK = 20;
 const SEARCH_ICON = icon.size.m;
-
-/** Palo corto y palo largo de la marca de verificación, antes de girarla.
- * El desplazamiento vertical la centra ópticamente dentro del disco: girada
- * 45°, su centro geométrico queda por debajo del que se ve. */
-const TICK = { width: 9, height: 5, offset: -2 };
 
 /**
  * F2 · selector de raza — artboard B.
@@ -163,11 +158,7 @@ export default function BreedPicker() {
                   <Text style={[styles.rowLabel, breed.id === breedId && styles.rowLabelSelected]}>
                     {breed.label}
                   </Text>
-                  {breed.id === breedId ? (
-                    <View style={styles.mark}>
-                      <View style={styles.tick} />
-                    </View>
-                  ) : null}
+                  {breed.id === breedId ? <SelectedMark /> : null}
                 </Pressable>
               </View>
             ))}
@@ -248,24 +239,6 @@ const styles = StyleSheet.create({
   },
   rowLabelSelected: {
     color: colors.text,
-  },
-  mark: {
-    width: MARK,
-    height: MARK,
-    borderRadius: radii.pill,
-    backgroundColor: colors.accent,
-    alignItems: 'center',
-    justifyContent: 'center',
-    flexShrink: 0,
-  },
-  tick: {
-    width: TICK.width,
-    height: TICK.height,
-    borderLeftWidth: icon.stroke,
-    borderBottomWidth: icon.stroke,
-    borderColor: colors.onAccent,
-    transform: [{ rotate: '-45deg' }],
-    marginTop: TICK.offset,
   },
   divider: {
     height: 1,

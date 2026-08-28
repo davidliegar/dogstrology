@@ -9,6 +9,10 @@ import type { ContentRepository } from './content/domain/ContentRepository';
 import { BundledCatalogContentRepository } from './content/infrastructure/BundledCatalogContentRepository';
 import GetFragmentUseCase from './content/application/GetFragmentUseCase';
 import GetFragmentsUseCase from './content/application/GetFragmentsUseCase';
+import type { PreferencesRepository } from './settings/domain/PreferencesRepository';
+import { SqlitePreferencesRepository } from './settings/infrastructure/SqlitePreferencesRepository';
+import GetPreferencesUseCase from './settings/application/GetPreferencesUseCase';
+import SetHouseSystemUseCase from './settings/application/SetHouseSystemUseCase';
 import type { PetRepository } from './pet/domain/PetRepository';
 import type { PhotoStore } from './pet/domain/PhotoStore';
 import { FileSystemPhotoStore } from './pet/infrastructure/FileSystemPhotoStore';
@@ -31,6 +35,7 @@ export interface DogstrologyDependencies {
   photoStore?: PhotoStore;
   chartCalculator?: ChartCalculator;
   contentRepository?: ContentRepository;
+  preferencesRepository?: PreferencesRepository;
 }
 
 /**
@@ -50,6 +55,7 @@ export class Dogstrology {
   private readonly photoStore: PhotoStore;
   private readonly chartCalculator: ChartCalculator;
   private readonly contentRepository: ContentRepository;
+  private readonly preferencesRepository: PreferencesRepository;
   private readonly useCases = new Map<string, unknown>();
 
   static create(dependencies: DogstrologyDependencies = {}): Dogstrology {
@@ -62,11 +68,13 @@ export class Dogstrology {
     photoStore,
     chartCalculator,
     contentRepository,
+    preferencesRepository,
   }: DogstrologyDependencies = {}) {
     this.petRepository = petRepository ?? SqlitePetRepository.create({ db });
     this.photoStore = photoStore ?? FileSystemPhotoStore.create();
     this.chartCalculator = chartCalculator ?? AstronomyEngineChartCalculator.create();
     this.contentRepository = contentRepository ?? BundledCatalogContentRepository.create();
+    this.preferencesRepository = preferencesRepository ?? SqlitePreferencesRepository.create({ db });
   }
 
   private useCase<T>(name: string, build: () => T): T {
@@ -126,6 +134,19 @@ export class Dogstrology {
   get CalculateNatalChartUseCase(): CalculateNatalChartUseCase {
     return this.useCase('CalculateNatalChartUseCase', () =>
       CalculateNatalChartUseCase.create({ calculator: this.chartCalculator }),
+    );
+  }
+
+  /* Settings */
+  get GetPreferencesUseCase(): GetPreferencesUseCase {
+    return this.useCase('GetPreferencesUseCase', () =>
+      GetPreferencesUseCase.create({ repository: this.preferencesRepository }),
+    );
+  }
+
+  get SetHouseSystemUseCase(): SetHouseSystemUseCase {
+    return this.useCase('SetHouseSystemUseCase', () =>
+      SetHouseSystemUseCase.create({ repository: this.preferencesRepository }),
     );
   }
 

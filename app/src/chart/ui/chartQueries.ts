@@ -1,6 +1,8 @@
 import { useQuery } from '@tanstack/react-query';
 
 import { useDomain } from '@/_ui/DomainProvider';
+import { DEFAULT_HOUSE_SYSTEM } from '@/settings/domain/Preferences';
+import { usePreferences } from '@/settings/ui/settingsQueries';
 import { ContentKey } from '@/content/domain/ContentKey';
 import type { Pet } from '@/pet/domain/Pet';
 import type { Fragment } from '@/content/domain/Fragment';
@@ -25,12 +27,25 @@ export const chartKeys = {
     [...chartKeys.all, petId, updatedAt, houseSystem] as const,
 };
 
-export function useNatalChart(pet: Pet | undefined, houseSystem: HouseSystem = 'whole_sign') {
+/**
+ * El sistema de casas sale de los ajustes y no de quien llama: la carta de una
+ * mascota es la misma en toda la app, y dejar que cada pantalla eligiera sería
+ * pedir que las once se acordaran de lo mismo.
+ *
+ * Mientras los ajustes se leen, la carta espera. Calcular con el sistema por
+ * defecto y recalcular medio segundo después haría bailar los números de casa
+ * delante del usuario, que es exactamente lo que el BRD manda evitar (§12.3).
+ */
+export function useNatalChart(pet: Pet | undefined) {
   const domain = useDomain();
+  const { data: preferences } = usePreferences();
+  const houseSystem = preferences?.houseSystem();
+
   return useQuery({
-    queryKey: chartKeys.of(pet?.id() ?? '', pet?.updatedAt() ?? 0, houseSystem),
-    queryFn: () => domain.CalculateNatalChartUseCase.execute({ pet: pet as Pet, houseSystem }),
-    enabled: Boolean(pet),
+    queryKey: chartKeys.of(pet?.id() ?? '', pet?.updatedAt() ?? 0, houseSystem ?? DEFAULT_HOUSE_SYSTEM),
+    queryFn: () =>
+      domain.CalculateNatalChartUseCase.execute({ pet: pet as Pet, houseSystem: houseSystem as HouseSystem }),
+    enabled: Boolean(pet) && Boolean(houseSystem),
   });
 }
 
