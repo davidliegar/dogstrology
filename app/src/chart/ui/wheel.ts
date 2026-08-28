@@ -1,10 +1,11 @@
 /**
  * Geometría de la rueda natal (artboard 5). Todo son números: aquí no entra
- * React ni `react-native-svg`, para que la parte que se puede equivocar de
- * verdad —dónde cae cada planeta— tenga tests sin montar nada.
+ * React ni el motor de pintado, para que la parte que se puede equivocar de
+ * verdad —dónde cae cada planeta— tenga tests sin montar nada. Por eso pasar
+ * de `react-native-svg` a Skia en F4 no tocó este fichero.
  *
  * El lienzo es el del canvas, 360 × 360, y los radios salen medidos de él.
- * Se conservan en unidades de `viewBox`: la pantalla escala el SVG entero.
+ * Se conservan en esas unidades: la pantalla escala la rueda entera.
  */
 
 export const CANVAS = 360;
@@ -51,6 +52,13 @@ export const ANGULAR_HOUSES = [1, 4, 7, 10];
 
 const RAD = Math.PI / 180;
 
+/**
+ * El ángulo de pantalla en el que va el Ascendente: 180°, las 9 en punto.
+ * Es el ancla de la convención heredada y el sitio por el que empieza a
+ * trazarse la rueda (`reveal.ts`).
+ */
+export const ASCENDANT_ANGLE = 180;
+
 /** 0 ≤ ángulo < 360. */
 export const normalizeAngle = (angle: number): number => ((angle % 360) + 360) % 360;
 
@@ -68,7 +76,7 @@ export const normalizeAngle = (angle: number): number => ((angle % 360) + 360) %
  * nuestra, es la salida convencional.
  */
 export const screenAngle = (longitude: number, reference: number): number =>
-  normalizeAngle(180 + (longitude - reference));
+  normalizeAngle(ASCENDANT_ANGLE + (longitude - reference));
 
 /** Punto del lienzo para un ángulo de pantalla y un radio. */
 export const polar = (angle: number, radius: number): { x: number; y: number } => ({
@@ -173,7 +181,7 @@ export const MOON_UNCERTAINTY = 6.5;
  * ángulo `to` contando en el sentido en que crece la longitud.
  *
  * La bandera de barrido va a 0 y no a 1 porque el centro del arco tiene que
- * ser el de la rueda: con `sweep=1` el navegador elige el otro de los dos
+ * ser el de la rueda: con `sweep=1` el trazador elige el otro de los dos
  * centros posibles y el arco se comba al revés. Con ±6,5° la diferencia es de
  * un píxel y medio bajo un trazo de 26 —invisible—, pero el arco correcto es
  * el que comparte centro con todo lo demás.

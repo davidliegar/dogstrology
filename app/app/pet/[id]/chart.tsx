@@ -50,11 +50,11 @@ const MISSING_DATA_ROUTES = {
 } as const;
 
 /**
- * F3 — Carta natal, artboard 5 de `Pantallas MVP.dc.html`.
+ * Carta natal, artboard 5 de `Pantallas MVP.dc.html`.
  *
- * La rueda es SVG y está quieta. La versión con Skia, animada y con el
- * revelado, es F4: lo que aquí hace falta es que la carta se pueda leer y que
- * cada planeta tenga desde dónde abrir su hoja (artboard 13).
+ * La rueda se lee y se toca (F3) y se revela y se resalta con Skia (F4); la
+ * pantalla no sabe nada de eso — le pasa el ancho y el planeta abierto, y
+ * `NatalWheel` se encarga del resto.
  *
  * **La degradación no se decide, se hereda.** Sin hora no hay casas ni
  * Ascendente, y entonces no hay cúspides que dibujar, ni fila de Ascendente,

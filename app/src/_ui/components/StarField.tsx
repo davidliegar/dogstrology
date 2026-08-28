@@ -1,7 +1,16 @@
 import { useEffect, useState } from 'react';
-import { Animated, Easing, StyleSheet, View } from 'react-native';
+import { Animated, Easing, StyleSheet } from 'react-native';
+import Reanimated, {
+  SensorType,
+  useAnimatedReaction,
+  useAnimatedSensor,
+  useAnimatedStyle,
+  useReducedMotion,
+  useSharedValue,
+  withSpring,
+} from 'react-native-reanimated';
 
-import { colors, opacity, radii } from '@/design/theme';
+import { colors, motion, opacity, radii } from '@/design/theme';
 
 /**
  * Una estrella del campo: posición en % del contenedor, para que el fondo
@@ -125,21 +134,94 @@ function TwinklingStar({ star }: { star: Star }) {
 }
 
 /**
+ * Cuánto hay que inclinar el móvil para llevar el campo a su tope: medio
+ * radián, unos 28°. Es el recorrido cómodo de una muñeca apoyada; a partir de
+ * ahí el campo ya no se mueve más, que es lo que evita que un gesto brusco lo
+ * mande de un lado a otro.
+ */
+const TILT_RANGE = 0.5;
+
+/** La inclinación, convertida en píxeles y recortada a la amplitud del token. */
+function shift(delta: number): number {
+  'worklet';
+  const clamped = Math.max(-1, Math.min(1, delta / TILT_RANGE));
+  return clamped * motion.parallaxAmplitude;
+}
+
+/** Muelle blando: el cielo deriva, no persigue. */
+const DRIFT = { damping: 30, stiffness: 40, mass: 1 } as const;
+
+/**
  * Campo estelar de fondo (BRD §11.2). Decorativo: `pointerEvents="none"` y
  * fuera del árbol de accesibilidad — un lector de pantalla no tiene nada que
  * decir de seis puntos de dos píxeles.
+ *
+ * **Parallax con el giroscopio** (BRD §11.1): el campo se desplaza al
+ * contrario que la inclinación, como si la pantalla fuera una ventana y el
+ * cielo estuviera detrás. Va por `useAnimatedSensor`, así que la lectura del
+ * sensor y el movimiento ocurren enteros en el hilo de UI: nada cruza a
+ * JavaScript sesenta veces por segundo.
+ *
+ * Se apaga solo en los dos casos en los que no debe estar: cuando el
+ * dispositivo no tiene el sensor —un simulador, sin ir más lejos— y cuando el
+ * sistema pide menos movimiento.
  */
 export function StarField({ field }: { field: StarFieldName }) {
+  const { sensor, isAvailable } = useAnimatedSensor(SensorType.ROTATION, {
+    interval: 'auto',
+    adjustToInterfaceOrientation: true,
+  });
+  const reduceMotion = useReducedMotion();
+  const enabled = isAvailable && !reduceMotion;
+
+  // Un móvil en la mano no está plano: se sujeta inclinado hacia el pecho, y
+  // medido contra el cero absoluto el campo nacería ya en su tope. La
+  // referencia es la primera lectura — la postura en la que se abrió la
+  // pantalla—, así que el cielo empieza siempre centrado.
+  const rest = useSharedValue<{ roll: number; pitch: number } | null>(null);
+
+  useAnimatedReaction(
+    () => ({ roll: sensor.value.roll, pitch: sensor.value.pitch }),
+    (current) => {
+      if (rest.value === null) rest.value = current;
+    },
+  );
+
+  const drift = useAnimatedStyle(() => {
+    const origin = rest.value;
+    if (!enabled || origin === null) return {};
+    return {
+      transform: [
+        { translateX: withSpring(shift(origin.roll - sensor.value.roll), DRIFT) },
+        { translateY: withSpring(shift(origin.pitch - sensor.value.pitch), DRIFT) },
+      ],
+    };
+  });
+
   return (
-    <View style={StyleSheet.absoluteFill} pointerEvents="none" accessibilityElementsHidden importantForAccessibility="no-hide-descendants">
+    <Reanimated.View
+      // El campo se dibuja un pelo más grande que la pantalla: así el
+      // desplazamiento nunca llega a enseñar un borde vacío.
+      style={[styles.field, drift]}
+      pointerEvents="none"
+      accessibilityElementsHidden
+      importantForAccessibility="no-hide-descendants"
+    >
       {STAR_FIELDS[field].map((star) => (
         <TwinklingStar key={`${star.left}-${star.top}`} star={star} />
       ))}
-    </View>
+    </Reanimated.View>
   );
 }
 
 const styles = StyleSheet.create({
+  field: {
+    position: 'absolute',
+    top: -motion.parallaxAmplitude,
+    left: -motion.parallaxAmplitude,
+    right: -motion.parallaxAmplitude,
+    bottom: -motion.parallaxAmplitude,
+  },
   star: {
     position: 'absolute',
     borderRadius: radii.pill,

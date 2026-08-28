@@ -25,9 +25,12 @@ el binario y hay puerto, adaptador y gramática de claves para abrirlos.
 catálogo — la primera pantalla de la app con contenido de verdad.
 **Explorar completo** (sesión 23): los tres filtros, las tres rejillas —doce
 signos, doce casas, ocho fases— y las tres fichas de detalle. Es la parte de
-la app que se lee sin haber creado ninguna mascota. **Queda F4**:
-la misma rueda con Skia y movimiento
-**Última sesión**: 2026-08-27
+la app que se lee sin haber creado ninguna mascota. **F4 hecho** (sesión 24):
+la rueda se dibuja con Skia, se revela al abrirse en 1200 ms y el planeta
+abierto se enciende con su halo; el campo estelar tiene parallax de
+giroscopio. **Del Bloque 4 solo queda F5**, que es infraestructura y pide
+bloque propio
+**Última sesión**: 2026-08-28
 **Decisión: los builds de EAS se posponen.** Consumen cuota limitada (15+15
 builds/mes); un build local (`npx expo run:ios` / `run:android`) es
 ilimitado y sirve igual para desarrollar contra módulos nativos (RevenueCat,
@@ -49,42 +52,24 @@ el resumen habrían salido mal. Antes de maquetar **cualquier** pantalla,
 importar su artboard. En F3 volvió a pasar: los dos artboards de la carta natal
 están marcados F4, y eso no estaba en ningún resumen.
 
-## Siguiente sesión: **F4 — la rueda con Skia**
+## Siguiente sesión: **F5 — la carta del día**
 
-Con F7 cerrado, del Bloque 4 quedan F4 y F5, y **son de naturaleza distinta**:
-F4 es tratamiento —la rueda ya se lee y se toca, falta el movimiento— y F5 es
-infraestructura, no una pantalla.
-
-**F5 pide bloque propio** y conviene verlo entero antes de empezarlo: CDN
-(Cloudflare Pages, D11), un adaptador de contenido **remoto** —hoy `content/`
-solo sabe leer del binario—, la caché offline de 7 días (F12, Bloque 5) y el
-diario generándose de verdad (cron descomentado + secreto). Arrastra detrás la
-barra de pestañas y los artboards **15** y **17**, que son estados suyos.
+Con F4 cerrado, del Bloque 4 **solo queda F5**, y no es una pantalla: es
+infraestructura. Conviene verlo entero antes de empezarlo: CDN (Cloudflare
+Pages, D11), un adaptador de contenido **remoto** —hoy `content/` solo sabe
+leer del binario—, la caché offline de 7 días (F12, Bloque 5) y el diario
+generándose de verdad (cron descomentado + secreto). Arrastra detrás la barra
+de pestañas y los artboards **15** y **17**, que son estados suyos.
 
 Lo que queda suelto y barato, para rellenar: el selector de sistema de casas
 (Bloque 4) y la pantalla de Ajustes, que además es donde cuelga Créditos —hoy
 se entra por el enlace provisional de `home.tsx`.
 
-### Cuando toque F4 — lo que ya está resuelto
-
-La carta natal ya se lee y se toca. Lo que queda es el tratamiento: Skia en vez
-de `react-native-svg`, el revelado de 1200 ms al abrirla, y el movimiento.
-
-**Lo que no hay que volver a pensar**, con nombre y apellidos:
-
-- `chart/ui/wheel.ts` — toda la geometría, sin React y con 14 tests: radios,
-  `screenAngle`, `polar`, `arcMidpoint` y `spreadAngles`. Está **validada contra
-  las coordenadas del artboard**, no deducida
-- `chart/ui/NatalWheel.tsx` — la rueda en SVG. Es la referencia de qué se
-  dibuja y en qué orden; Skia cambia el cómo, no el qué
-- `chart/ui/PlanetSheet.tsx` — la hoja del artboard 13, ya con su texto
-- `usePlanetFragments(planet)` — los fragmentos de un planeta, con las claves
-  construidas dentro del `queryFn`
-
-**Lo que F4 tiene que añadir de verdad**: el revelado, el resaltado animado al
-tocar un planeta, y el parallax del campo estelar (`motion.parallaxAmplitude`).
-`react-native-svg` no anima `strokeDashoffset` por el hilo nativo —se vio en
-`Constellation`— y una rueda entera trazándose es justo donde eso se nota.
+Y un cabo suelto de F4, pequeño: **`Constellation` sigue trazándose con
+`Animated` y `useNativeDriver: false`**, que es exactamente el defecto por el
+que F4 trajo Skia. Ahora que Skia está instalado, mover ese trazado cuesta
+poco — y de paso desaparece el `length` precalculado de cada trazo, porque
+Skia recorta un camino por fracción y no por longitud de guion.
 
 ### Los huecos de F3, cerrados (sesión 20)
 
@@ -682,9 +667,12 @@ Referencia: **BRD §7.4, §7.5**.
 
 ## Bloque 4 — App: F4-F7 (contenido visual)
 
-- [ ] F4 — Rueda de carta astral con Skia, interactiva. La geometría ya está
-      resuelta y con tests en `chart/ui/wheel.ts`: lo que falta es el motor de
-      pintado y la animación, no el dónde va cada cosa
+- [x] **F4 — Rueda de carta astral con Skia, interactiva**, hecho (sesión 24):
+      `chart/ui/NatalWheel.tsx` reescrito sobre Skia, `chart/ui/reveal.ts` con
+      el guion del revelado y `_ui/components/StarField.tsx` con el parallax.
+      La geometría no se tocó: `chart/ui/wheel.ts` describe dónde va cada cosa
+      y era independiente del motor de pintado, que es justo lo que D18 dejó
+      preparado
 - [ ] F5 — Carta del día (tarjetas separadas por fragmento, BRD §7.4)
 - [x] F6 — Perfil de personalidad raza×signo. **Completo, adelantado**:
       `app/pet/[id]/personality.tsx` (artboard 6). Se hizo fuera de orden
@@ -2291,3 +2279,94 @@ cero. Si algún día se hace: límite duro de 5 mensajes/día aplicado en servid
   decide por el **día del calendario local**, no restando horas: a las 23:50
   faltan diez minutos para mañana, no un día
 - **318 tests** (eran 308), lint y `tsc` limpios
+
+### 2026-08-28 (24) — F4, la rueda con Skia
+- **La rueda pasa a Skia**: `chart/ui/NatalWheel.tsx` reescrito entero.
+  `chart/ui/wheel.ts` **no se tocó** —solo se le puso nombre al 180 de
+  `screenAngle`—: la geometría era independiente del motor de pintado, que es
+  justo lo que D18 dejó preparado al adelantar la rueda a F3 en SVG
+- **Dos capas, y la frontera es una decisión**: Skia dibuja la geometría
+  (anillos, radios, discos, halos) y React Native pone el texto encima. Los
+  glifos de signo y de planeta son Unicode (♈ U+2648, ☉ U+2609) y Skia dibuja
+  texto con la tipografía que se le dé: **comprobado leyendo el `cmap` de los
+  `.ttf`, ni Fraunces ni Karla traen esos caracteres**, así que en Skia habría
+  que cargar una fuente de símbolos o montar el motor de párrafos solo para
+  que el sistema haga el respaldo que un `<Text>` hace gratis. Y el texto de
+  RN es además lo que un lector de pantalla lee y un dedo toca. Las dos capas
+  comparten `buildLayout`, así que hablan de los mismos puntos
+- **El guion del revelado vive en `chart/ui/reveal.ts`, con 12 tests**: de un
+  revelado se puede equivocar el **orden** y que a una capa se le acabe el
+  tiempo, y las dos cosas son aritmética. Todo son fracciones de
+  `motion.duration.trace` y el último planeta acaba **exactamente** en él:
+  tocar el token cambia el revelado entero sin abrir el componente
+- **La cascada de planetas se ordena desde el Ascendente y en el sentido en el
+  que crece la longitud**, no por la lista (Sol, Luna, Mercurio…): lo que se
+  revela es un cielo, y así la cascada se ve girar. Se ordena por el ángulo al
+  que se **dibuja** el disco y no por el grado real — si no, un planeta
+  apartado por `spreadAngles` entraría fuera de turno y se notaría
+- **El escalonado no es un número a mano**: sale de cuántos planetas haya, para
+  que el último cierre en 1200 ms. Con los diez del MVP da ~51 ms, cerca de los
+  70 ms con los que el canvas escalona las tarjetas del artboard 15. Con un
+  solo planeta, la división por `count - 1` sería un `NaN` que no da error:
+  solo un planeta que no aparece nunca. Hay test
+- **Cada capa lleva su propia animación en vez de repartir un reloj común.** Un
+  reloj único obliga a meter la aritmética del guion dentro de un worklet; así
+  el guion se prueba con `jest` y en el componente solo quedan `withDelay` y
+  `withTiming` corriendo enteros en el hilo de UI
+- **Los anillos se trazan de verdad**, con `start`/`end` de Skia, empezando por
+  el Ascendente y barriendo en negativo: en la convención de arco del lienzo
+  —grados, eje Y hacia abajo— el sentido antihorario, que es el de la longitud
+  creciente, es el de los grados decrecientes. Las marcas de signo y los radios
+  de casa se trazan hacia fuera. El ojo central no: a 62 de radio el trazado
+  dura un parpadeo y solo se lee como un tirón, así que se enciende con ellos
+- **El halo del planeta abierto sale del artboard 13**, que lo escribe como
+  `drop-shadow(0 0 12px rgba(232,200,122,0.55))`. Las dos cifras se traducen: el
+  radio de desenfoque de CSS son **dos sigmas** de la gaussiana que Skia pide,
+  así que 12 px de radio son 6 de `blur`. Y es un disco desenfocado debajo del
+  real, no una sombra, porque una sombra no se puede encender — y lo que F4
+  pedía era el resaltado **animado**
+- **Parallax del campo estelar** (BRD §11.1) con `useAnimatedSensor` de
+  Reanimated, **no** con `expo-sensors`: la lectura del giroscopio y el
+  movimiento ocurren enteros en el hilo de UI, sin que nada cruce a JavaScript
+  sesenta veces por segundo. `expo-sensors` se instaló y se desinstaló al
+  encontrarlo — un módulo nativo menos que mantener
+- **La referencia del parallax es la primera lectura, no el cero absoluto**: un
+  móvil en la mano se sujeta inclinado hacia el pecho, y medido contra el cero
+  el campo nacería ya en su tope. El campo se dibuja 12 px más grande que la
+  pantalla por los cuatro lados para que el desplazamiento no enseñe un borde
+- **Movimiento reducido, respetado**: con `useReducedMotion` la rueda está
+  entera en el primer fotograma —la misma rueda, sin el trayecto— y el parallax
+  se apaga. También se apaga si el dispositivo no tiene sensor (un simulador)
+- **Las versiones nativas, otra vez el nudo del 25/08**: `expo install` propuso
+  `reanimated 4.5.1` y `worklets 0.10.1`, y los dos caen dentro del rango que
+  `expo-modules-core` sabe compilar (`^0.7.4 || ^0.8.0 || ^0.9.0 || ^0.10.0`).
+  Los `overrides` **siguen haciendo falta** —`expo-router` pide reanimated por
+  su cuenta— y se han subido a esas mismas versiones: `npm ls` resuelve una
+  sola copia de cada uno. `ios/` regenerado desde cero, que es el procedimiento
+  que esa sesión dejó escrito para cuando cambian estas versiones
+- ⚠️ **Cabo suelto**: `Constellation` sigue trazándose con `Animated` y
+  `useNativeDriver: false`, que es exactamente el defecto por el que F4 trajo
+  Skia. Moverlo ahora cuesta poco, y de paso desaparece el `length`
+  precalculado de cada trazo: Skia recorta un camino por fracción
+- ⚠️ **`npx expo install --check` señala ocho paquetes con parche pendiente**
+  (expo-router, `react-native` 0.86.3, jest-expo…). No se han tocado: nada de
+  eso es de F4, y subir React Native obliga a rehacer el build nativo
+- **Probado en el simulador, y ahí saltó lo que ningún test veía**: al abrir la
+  app, `[Worklets] Mismatch between JavaScript code version and Worklets Babel
+  plugin version (0.10.1 vs. 0.10.4)`. No era una dependencia mal resuelta
+  —`npm ls` daba 0.10.1 en todas partes— sino el **caché de transformación de
+  Metro**, lleno de módulos compilados por el plugin de la sesión anterior.
+  `npx expo start --clear` y listo. Queda escrito porque va a volver a pasar:
+  **cada vez que cambie la versión de `react-native-worklets` hay que limpiar
+  el caché de Metro, además de regenerar `ios/`**
+- **Verificado de punta a punta en iOS**: `Build Succeeded` con Skia enlazado,
+  bundle servido (2.329 módulos) y la app arrancando sin errores. Lo que no se
+  ha podido mirar desde aquí son los píxeles de la rueda: abrir la carta por
+  enlace profundo saca el diálogo "¿Abrir en Dogstrology?" del sistema y este
+  entorno no puede tocar la pantalla del simulador
+- **Para probarlo**: `npm start` y abrir la app en el simulador (ya construido).
+  La carta natal es donde se ve todo: revelado al entrar, cascada de planetas y
+  halo al tocar uno. A Baloo se le puso hora y lugar (08:30, Madrid)
+  directamente en la base del simulador para que la rueda salga completa y no
+  degradada — se cambia desde su perfil cuando estorbe
+- **330 tests** (eran 318), lint y `tsc` limpios
