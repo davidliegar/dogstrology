@@ -8,38 +8,32 @@
 
 ## Estado actual
 
-**Fase**: **Bloque 2 cerrado hasta donde puede estarlo** — las 4 categorías del
-catálogo MVP generadas (**1.560 fragmentos**) y lo que queda depende de
-decisiones de lanzamiento, no de trabajo. **Bloque 3 con F1 terminado**: la app arranca, reparte según haya mascota o no, y el
-onboarding express lleva de cero a signo solar en tres pantallas — con las
-fuentes de verdad cargadas y las 12 constelaciones reales pintadas desde
-coordenadas. Debajo, la arquitectura de la sesión anterior intacta: motor
-astrológico, SQLite con migraciones, repositorios, UUIDv7/borrado lógico, todo
-hexagonal (puertos y adaptadores, composition root, capas impuestas por ESLint)
-y en inglés. **F2 completo**: el perfil edita y guarda foto, raza, sexo,
-esterilizado, fecha con su exactitud, hora, lugar y día de adopción — nueve
-editores, guardado atómico, y la carta puede llegar a `full` por primera vez.
-**El contexto de contenido, hecho**: los 1.560 fragmentos del catálogo entran en
-el binario y hay puerto, adaptador y gramática de claves para abrirlos.
-**F3 completo**: la carta natal se pinta, se toca y enseña el texto del
-catálogo — la primera pantalla de la app con contenido de verdad.
-**Explorar completo** (sesión 23): los tres filtros, las tres rejillas —doce
-signos, doce casas, ocho fases— y las tres fichas de detalle. Es la parte de
-la app que se lee sin haber creado ninguna mascota. **Armazón y Ajustes,
-hechos** (sesión 26): la barra de pestañas con sus cuatro destinos raíz, la
-pantalla de Ajustes y el selector de sistema de casas con su contexto
-`settings/` — se acabaron los enlaces provisionales de Hoy salvo los tres que
-son destinos de F5. **F5 casi entero** (sesiones 29 y 30): el diario tiene
-puerto, adaptador de red con caché de siete días y tabla propia, y **Hoy está
-pintada** — una tarjeta por fragmento, con su silueta de carga y su pie de sin
-red. Solo falta publicar el contenido en alguna parte.
-**El hub de la mascota, hecho** (sesión 27): llegó dibujado
-el artboard **25** y la segunda pestaña deja de abrir un formulario para abrir
-las tres preguntas que se le hacen a un perro. **F4 hecho** (sesión 24):
-la rueda se dibuja con Skia, se revela al abrirse en 1200 ms y el planeta
-abierto se enciende con su halo; el campo estelar tiene parallax de
-giroscopio. **Del Bloque 4 solo queda F5**, que es infraestructura y pide
-bloque propio
+**Fase**: **el MVP hace el ciclo completo de punta a punta.** Se crea una
+mascota, se le calcula la carta con efemérides reales, se lee su carta y su
+personalidad, se explora el catálogo sin tener mascota, y **Hoy enseña el
+diario del día descargado de un CDN de verdad**. Bloques 0 a 4, cerrados; el 4b
+(publicación) funciona pero es provisional.
+
+Lo que sostiene eso, por si hay que tocarlo:
+
+- **El motor**, validado contra astro.com y con auto-verificación de Placidus.
+- **La arquitectura**: hexagonal por contexto —`pet`, `chart`, `settings`,
+  `content`—, con las capas impuestas por ESLint, UUIDv7, borrado lógico y
+  composition root. Nadie fuera de la infraestructura ve SQL ni el motor.
+- **El contenido en dos capas** (BRD §7.4): los **1.560** fragmentos del
+  catálogo inmutable dentro del binario, y el **diario** descargado del CDN con
+  caché de siete días. Los produce el mismo `schema.mjs` y los separa su ciclo
+  de vida.
+- **El pipeline**: genera por lotes contra la Batch API, filtra por el
+  guardarraíl de salud y abre un PR para revisión humana. Ya ha bloqueado
+  contenido de verdad.
+- **25 artboards implementados** de `Pantallas MVP.dc.html`, contra el canvas y
+  no contra el resumen.
+
+**Lo que falta para poder publicar**, en orden de lo que bloquea: el hueco de
+Hoy con el tiempo (abajo), la revisión humana de los 1.560 fragmentos, el
+paywall (F11, RevenueCat), y salir de GitHub Pages con un dominio propio.
+
 **Última sesión**: 2026-08-28
 **Decisión: los builds de EAS se posponen.** Consumen cuota limitada (15+15
 builds/mes); un build local (`npx expo run:ios` / `run:android`) es
@@ -62,34 +56,42 @@ el resumen habrían salido mal. Antes de maquetar **cualquier** pantalla,
 importar su artboard. En F3 volvió a pasar: los dos artboards de la carta natal
 están marcados F4, y eso no estaba en ningún resumen.
 
-## Siguiente sesión: **encender la publicación**
+## Siguiente sesión: **cerrar F5 por dentro**
 
-El Bloque 4 está cerrado. El camino del dato del diario (sesión 29), la
-pantalla de Hoy (sesión 30) y el workflow que publica (sesión 31) están
-hechos; lo que falta **no se hace desde aquí**, son tres pasos en la web de
-GitHub y una generación de contenido:
+El Bloque 4 está cerrado y el diario se publica de verdad: ocho ediciones en el
+CDN, verificadas, y Hoy pintándose con contenido real. **Lo único que le queda
+a F5 por dentro** es que la pantalla se entere de que pasa el tiempo.
 
-1. ~~Pages y el secreto~~ — **hechos, y la tubería verificada** (ver Bloque
-   4b): el sitio sirve la edición del 25 y devuelve 404 en la de hoy, que es
-   el camino bueno.
-2. ~~Llenar el colchón~~ — **hecho**: 8 ediciones publicadas y verificadas en
-   el CDN, 292 de 296 fragmentos publicables.
-3. **Arreglar el hueco de Hoy** — la app no se entera de que ha pasado el
-   tiempo: ver el ⚠️ de "lo que está esperando". Es lo único que le queda a F5
-   por dentro.
-4. Luego, descomentar el `schedule`, que a partir de ahí solo genera **un** día
-   (hoy + 7) y mantiene el colchón rodando.
+### 1. El hueco del tiempo en Hoy *(lo siguiente, y es pequeño)*
 
-Hasta entonces Hoy se ve entera con su pie de "el texto de hoy todavía no
-está" — que es correcto, y es el primer estado que conviene mirar.
+Dos cosas, con causas distintas:
 
-**Y el Bloque 4b tiene un requisito de salida que no es opcional**: salir de
-GitHub Pages y con un dominio propio delante **antes del primer build de
-tienda**. Después, la URL está horneada en cada instalación.
+- **La fecha se calcula una vez por render** (`isoDateOf(new Date())`) y nada
+  fuerza un render a medianoche: una app abierta a las 00:05 sigue enseñando el
+  día de ayer, en la cabecera y en las tarjetas.
+- **`staleTime: Infinity` es correcto para una edición publicada** —inmutable,
+  con la fecha en el nombre— y **equivocado para un `null`**: quien abrió la
+  app antes de que se publicara el día se queda con "el texto de hoy todavía no
+  está" hasta reiniciar, aunque ya esté.
 
-El cabo suelto de F4 ya no lo es: **`Constellation` se dibuja con Skia**
-(sesión 27) y con él se fue el `length` precalculado de cada trazo. Del Bloque
-4 no queda nada más que F5.
+La forma: escuchar `AppState → active` enganchado al `focusManager` de
+TanStack (es su patrón documentado en React Native), un `staleTime` que dependa
+del resultado —`Infinity` con datos, 0 sin ellos— para que el refetch por foco
+dispare **solo** en el caso vacío y no vaya a la red cada vez que se vuelve a
+la app, y un tic que re-renderice al cambiar el día natural. `useMoonSky` tiene
+la misma raíz.
+
+### 2. Encender el cron
+
+Descomentar el `schedule` de `generate-daily.yml`. A partir de ahí genera **un**
+día (hoy + 7) por noche y mantiene el colchón rodando. El colchón ya está lleno
+hasta el 2026-09-04.
+
+### 3. Y lo que no se puede comprimir al final
+
+**La revisión humana de los 1.560 fragmentos del catálogo.** Van 8 revisados.
+Lo limita una persona leyendo, y BRD §7.5 + §14 R1 dicen que nada se publica
+sin ella. Conviene ir por tandas ya, en paralelo con todo lo demás.
 
 ### Los huecos de F3, cerrados (sesión 20)
 
@@ -100,9 +102,9 @@ falta hora" del BRD §8.1.
 - **El botón "Compartir" de la hoja de planeta no se implementó**: es F9
   (Bloque 5) y no hay spec de marca de agua. Se dejó fuera en vez de pintar un
   botón muerto
-- Siguen pendientes las **cuatro correcciones del canvas** listadas en el
-  Bloque 3, y la tanda de estados de carga/vacío/sin red que el propio canvas
-  señala como lo siguiente
+- Las **cuatro correcciones del canvas** y la tanda de estados de
+  carga/vacío/sin red que el artboard señalaba como "lo siguiente" están
+  **hechas** (sesiones 27 y 30)
 - **Quinta corrección del canvas (sesión 23)**: el sector de casa del artboard
   21 lleva **las dos banderas de barrido invertidas** en su `d`. De las dos
   circunferencias que pasan por dos puntos con un radio dado solo una tiene el
