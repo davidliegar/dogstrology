@@ -171,8 +171,11 @@ matarlo.
 
 ### Lo que está esperando a alguien que no soy yo
 
-- ⚠️ **Un build local nuevo** (`npx expo run:ios` / `run:android`): la pantalla
-  de foto usa `expo-image-picker`, que es módulo nativo y con recarga no entra
+- ~~Un build local nuevo~~ — **hecho** (sesión 24/25): iOS y Android
+  reconstruidos con Skia dentro, los dos verdes. Sigue valiendo la regla: cada
+  módulo nativo que entre obliga a rehacerlo, y si el que cambia es
+  `react-native-worklets` hay **tres** cachés que caducan (ver el registro de
+  la sesión 25)
 - **Cuatro correcciones en el canvas**, listadas en el Bloque 3 (el "Guardar"
   del artboard A, los datos internacionales del H, los "cuatro mestizos" del B
   y el orden del enum del F)
@@ -712,7 +715,8 @@ Referencia: **BRD §7.4, §7.5**.
 - [ ] Integrar PostHog EU, sin identificadores de dispositivo (D10)
 - [ ] Capturas de store **renderizadas desde la app real**, nunca generadas (BRD §11.2.4)
 - [ ] Ficha de Play optimizada para ASO (D9)
-- [ ] Disclaimer de entretenimiento visible en app y ficha (BRD §14)
+- [ ] Disclaimer de entretenimiento visible en app y ficha (BRD §14). **En la
+      app ya está** (sesión 26, pie fijo de Ajustes); queda la ficha de store
 - [ ] Registrar `Dogstrology` en EUIPO
 - [ ] Revisar y probar todo lo que toque producción antes de publicar
 
