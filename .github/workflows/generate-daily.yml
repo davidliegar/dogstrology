@@ -14,8 +14,12 @@ on:
   workflow_dispatch:
     inputs:
       date:
-        description: 'Fecha a generar (AAAA-MM-DD). Vacío = hoy + 7 días (buffer de F12)'
+        description: 'Primer día a generar (AAAA-MM-DD). Vacío = hoy + 7 días (buffer de F12)'
         required: false
+      days:
+        description: 'Cuántos días consecutivos, en UN solo lote. 1 para el cron; 8 para llenar el colchón la primera vez'
+        required: false
+        default: '1'
   # schedule:
   #   - cron: '0 3 * * *' # 03:00 UTC cada noche
 
@@ -50,20 +54,35 @@ jobs:
         working-directory: proto
         run: npm ci
 
-      - name: Calcular fecha objetivo
+      - name: Calcular el tramo a generar
         id: date
         run: |
           if [ -n "${{ github.event.inputs.date }}" ]; then
-            echo "value=${{ github.event.inputs.date }}" >> "$GITHUB_OUTPUT"
+            start="${{ github.event.inputs.date }}"
           else
-            echo "value=$(date -u -d '+7 days' +%F)" >> "$GITHUB_OUTPUT"
+            start="$(date -u -d '+7 days' +%F)"
+          fi
+          days="${{ github.event.inputs.days || 1 }}"
+          echo "value=$start" >> "$GITHUB_OUTPUT"
+          echo "days=$days" >> "$GITHUB_OUTPUT"
+          echo "last=$(date -u -d "$start +$((days - 1)) days" +%F)" >> "$GITHUB_OUTPUT"
+          if [ "$days" -eq 1 ]; then
+            echo "label=$start" >> "$GITHUB_OUTPUT"
+          else
+            echo "label=$start … $(date -u -d "$start +$((days - 1)) days" +%F)" >> "$GITHUB_OUTPUT"
           fi
 
+      # Un solo lote para todos los días: un batch tarda lo que tarda —hasta una
+      # hora— así que ocho días en uno cuestan una espera y no ocho.
       - name: Generar el diario contra la Batch API
         working-directory: pipeline
         env:
           ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
-        run: node src/generateDaily.mjs --date "${{ steps.date.outputs.value }}" --confirm
+        run: |
+          node src/generateDaily.mjs \
+            --date "${{ steps.date.outputs.value }}" \
+            --days "${{ steps.date.outputs.days }}" \
+            --confirm
 
       # Red de seguridad, y no es paranoia: el paso de arriba **cuesta dinero y
       # no es repetible barato** (un lote de 37 contra la Batch API, hasta una
@@ -75,16 +94,24 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: diario-${{ steps.date.outputs.value }}
-          path: content/daily/${{ steps.date.outputs.value }}.*
+          path: content/daily/
           if-no-files-found: warn
           retention-days: 30
 
-      - name: Leer el informe del filtro para el cuerpo del PR
+      # Los informes se sacan de **lo que git ve cambiado**, no recalculando las
+      # fechas: es exactamente lo que este run ha producido, y no depende de que
+      # la aritmética de fechas coincida con la del script. Si un día no llegó a
+      # escribirse, aquí no aparece y el PR lo enseña por omisión.
+      - name: Leer los informes del filtro para el cuerpo del PR
         id: report
         run: |
           {
             echo 'text<<EOF_REPORT'
-            cat "content/daily/${{ steps.date.outputs.value }}.report.md"
+            git status --porcelain content/daily | awk '{print $NF}' | grep '\.report\.md$' | sort | while read -r f; do
+              echo "## $(basename "$f" .report.md)"
+              cat "$f"
+              echo
+            done
             echo EOF_REPORT
           } >> "$GITHUB_OUTPUT"
 
@@ -92,9 +119,11 @@ jobs:
         uses: peter-evans/create-pull-request@v6
         with:
           branch: content/daily-${{ steps.date.outputs.value }}
-          commit-message: "contenido: diario ${{ steps.date.outputs.value }}"
-          title: "Contenido diario — ${{ steps.date.outputs.value }}"
+          commit-message: "contenido: diario ${{ steps.date.outputs.label }}"
+          title: "Contenido diario — ${{ steps.date.outputs.label }}"
           body: ${{ steps.report.outputs.text }}
+          # Glob y no la lista de fechas: `add-paths` solo indexa lo que ha
+          # cambiado, así que las ediciones ya commiteadas no se tocan.
           add-paths: |
-            content/daily/${{ steps.date.outputs.value }}.json
-            content/daily/${{ steps.date.outputs.value }}.report.md
+            content/daily/*.json
+            content/daily/*.report.md

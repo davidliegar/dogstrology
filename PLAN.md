@@ -72,13 +72,12 @@ GitHub y una generación de contenido:
 1. ~~Pages y el secreto~~ — **hechos, y la tubería verificada** (ver Bloque
    4b): el sitio sirve la edición del 25 y devuelve 404 en la de hoy, que es
    el camino bueno.
-2. **Generar la edición de hoy** — Actions → *Generar contenido diario* → Run
-   workflow, **escribiendo la fecha**: el valor por defecto es hoy + 7 días.
-   Gasta (~0,40 €) y puede tardar una hora; sale un PR con el contenido y el
-   informe del filtro, se revisa (BRD §7.5), se mergea, y la publicación se
-   dispara sola.
-3. Luego, descomentar el `schedule`. El workflow genera **hoy + 7 días**, así
-   que la primera semana hay que llenarla a mano.
+2. **Llenar el colchón** — Actions → *Generar contenido diario* → Run workflow
+   con **`date` = hoy** y **`days` = 8**. Un solo lote de 296 peticiones,
+   ~3,20 €, hasta una hora; sale un PR con los 8 ficheros y sus 8 informes, se
+   revisa (BRD §7.5), se mergea, y la publicación se dispara sola.
+3. Luego, descomentar el `schedule`, que a partir de ahí solo genera **un** día
+   (hoy + 7) y mantiene el colchón rodando.
 
 Hasta entonces Hoy se ve entera con su pie de "el texto de hoy todavía no
 está" — que es correcto, y es el primer estado que conviene mirar.
@@ -244,9 +243,12 @@ matarlo.
   `react-native-worklets` hay **tres** cachés que caducan (ver el registro de
   la sesión 25)
 - ~~Encender GitHub Pages y poner el secreto~~ — **hechos** (2026-08-28), y la
-  publicación verificada de punta a punta. Queda **lanzar la generación del
-  día**, que es lo único que gasta dinero y por eso no se lanza solo: Actions →
-  *Generar contenido diario* → Run workflow, **con la fecha escrita a mano**.
+  publicación verificada de punta a punta. Queda **lanzar la generación**, que
+  es lo único que gasta dinero y por eso no se lanza solo: Actions → *Generar
+  contenido diario* → Run workflow con **`date` = hoy** y **`days` = 8**.
+  También hay que marcar *Allow GitHub Actions to create and approve pull
+  requests* en Settings → Actions → General; el radio de permisos puede
+  quedarse en el restrictivo, porque los dos workflows declaran los suyos.
 
   **Los workflows hay que lanzarlos desde la web**, con la sesión de
   `davidliegar`: el `gh` instalado en este equipo está autenticado como otra
@@ -853,10 +855,18 @@ tienda**: es una parada, no un destino.
       dinero y tarda hasta una hora**, y todo lo que viene detrás es fontanería
       de git — si fallara un permiso o la rama, lo ya pagado se iría con la
       máquina
-- [ ] **Generar una edición para el día de hoy** y verla en la app. ⚠️ **Hay
-      que escribir la fecha a mano** en el `workflow_dispatch`: el valor por
-      defecto es **hoy + 7 días** (el buffer de F12). El primer intento se
-      lanzó en vacío y apuntaba al 4 de septiembre
+- [x] **`--days N` en `generateDaily.mjs`** (2026-08-28), y su entrada `days`
+      en el workflow. Genera N días consecutivos **en un solo lote**: un batch
+      tarda lo que tarda —hasta una hora— así que ocho días en uno cuestan una
+      espera y no ocho, y 296 peticiones no son nada al lado de las 780 que ya
+      mandó de golpe la tanda de `breed-sign`. Cada día se escribe en su
+      fichero y con su informe, porque el día es la unidad que publica el CDN y
+      la que revisa una persona. Con tope de 31 días, que es cortafuegos contra
+      la errata y no límite técnico
+- [ ] **Llenar el colchón: `date = hoy`, `days = 8`.** Ocho y no siete: el cron
+      nocturno genera `hoy + 7`, así que arrancando con hoy..hoy+6 la primera
+      pasada del cron generaría hoy+8 y **quedaría un agujero justo en hoy+7**.
+      Con ocho, el relevo es exacto. ~3,20 € y un PR con 8 ficheros
 - [ ] Si el paso del PR falla con *"GitHub Actions is not permitted to create
       or approve pull requests"*, es un interruptor de **Settings → Actions →
       General → Workflow permissions**. El contenido no se pierde: está en el
