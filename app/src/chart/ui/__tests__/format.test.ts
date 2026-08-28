@@ -2,6 +2,7 @@ import {
   confidenceSegments,
   formatDailySpeed,
   formatDegree,
+  formatIngress,
   formatPosition,
   formatSkyMoment,
   formatWeekdayDate,
@@ -104,5 +105,30 @@ describe('formatSkyMoment', () => {
     // A las 23:50 faltan diez minutos para mañana: es mañana, no hoy.
     const lateNow = new Date(2026, 7, 27, 23, 50);
     expect(formatSkyMoment(local(2026, 8, 28, 0, 5), lateNow)).toBe('mañana · 00:05');
+  });
+});
+
+describe('formatIngress', () => {
+  const local = (y: number, m: number, d: number, h: number, min: number) =>
+    new Date(y, m - 1, d, h, min).toISOString();
+
+  const NOW = new Date(2026, 7, 27, 8, 30);
+
+  it('hoy se calla, porque en Hoy todo es hoy', () => {
+    expect(formatIngress({ sign: 'Escorpio', at: local(2026, 8, 27, 17, 12), now: NOW })).toBe(
+      'en Escorpio a las 17:12',
+    );
+  });
+
+  it('mañana sí se dice: es lo que distingue el aviso de la constatación', () => {
+    expect(formatIngress({ sign: 'Sagitario', at: local(2026, 8, 28, 3, 44), now: NOW })).toBe(
+      'en Sagitario mañana a las 03:44',
+    );
+  });
+
+  it('más allá, la fecha corta', () => {
+    expect(formatIngress({ sign: 'Capricornio', at: local(2026, 9, 2, 3, 44), now: NOW })).toBe(
+      'en Capricornio 2 sep a las 03:44',
+    );
   });
 });

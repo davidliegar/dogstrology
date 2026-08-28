@@ -19,6 +19,12 @@ export interface ScreenHeaderProps {
     onPress: () => void;
     disabled?: boolean;
   };
+  /**
+   * Pieza a la derecha, en vez de una acción de texto: hoy, el retrato de la
+   * mascota en la cabecera de Hoy (artboard 04). Es `action` o esto, nunca
+   * los dos — la derecha de una cabecera solo tiene sitio para una cosa.
+   */
+  accessory?: React.ReactNode;
   /** Filo de pelo debajo. El perfil lo lleva; el selector de raza, no. */
   divided?: boolean;
 }
@@ -32,7 +38,7 @@ export interface ScreenHeaderProps {
  * con el texto de debajo — que es lo que hace el canvas. El área que se toca es
  * la de siempre; lo que se ve es más pequeño.
  */
-export function ScreenHeader({ title, overline, onBack, action, divided = false }: ScreenHeaderProps) {
+export function ScreenHeader({ title, overline, onBack, action, accessory, divided = false }: ScreenHeaderProps) {
   return (
     <View style={[styles.header, divided && styles.divided]}>
       {onBack ? (
@@ -61,6 +67,7 @@ export function ScreenHeader({ title, overline, onBack, action, divided = false 
           <Text style={[styles.action, action.disabled && styles.actionDisabled]}>{action.label}</Text>
         </Pressable>
       ) : null}
+      {!action && accessory ? accessory : null}
     </View>
   );
 }

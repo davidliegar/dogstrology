@@ -1,0 +1,70 @@
+import { elementOfSign, type Sign } from '@/chart/domain/PlanetPosition';
+import type { NatalChart } from '@/chart/domain/NatalChart';
+import type { DailyEdition } from '../domain/DailyEdition';
+import type { DailyAxis } from '../domain/DailyKey';
+
+export interface DailyAxisCard {
+  axis: DailyAxis;
+  sign: Sign;
+  /** El elemento del signo, que es lo que tiñe la tarjeta. */
+  element: ReturnType<typeof elementOfSign>;
+  /** El grado de la posición, o `undefined` si no se puede afirmar. */
+  degree?: number;
+  /** La Luna sin hora: en vez del grado, la insignia de C.2b. */
+  approximate: boolean;
+  headline: string;
+  body: string;
+}
+
+/**
+ * Las tarjetas de eje que hoy se pueden pintar (artboard 04).
+ *
+ * **Cada una desaparece por su cuenta y por su propio motivo**, y eso es lo
+ * que hace que Hoy no tenga estados: sin hora no hay Ascendente y esa tarjeta
+ * no existe; si el filtro de salud bloqueó el fragmento de ese signo, tampoco.
+ * No hay ninguna rama que decida "hoy la pantalla va en corto" — hay ejes que
+ * están y ejes que no, igual que en la carta natal.
+ *
+ * **El grado se calla cuando la Luna es dudosa.** Dar 8°40′ de algo que puede
+ * caer en otro signo es justo lo que la insignia de C.2b existe para evitar, y
+ * su sitio lo ocupa la insignia. El Ascendente sí lleva grado: cuando existe,
+ * es porque hay hora y lugar, y entonces es firme.
+ */
+export function dailyAxisCards(
+  edition: DailyEdition | null | undefined,
+  chart: NatalChart | undefined,
+): DailyAxisCard[] {
+  if (!edition || !chart) return [];
+
+  const uncertainMoon = chart.isMoonUncertain();
+  const ascendant = chart.ascendant();
+
+  const positions: { axis: DailyAxis; sign: Sign; degree?: number; approximate: boolean }[] = [
+    { axis: 'sun', sign: chart.sunSign(), degree: chart.planet('sun')?.degree(), approximate: false },
+    {
+      axis: 'moon',
+      sign: chart.moonSign(),
+      degree: uncertainMoon ? undefined : chart.planet('moon')?.degree(),
+      approximate: uncertainMoon,
+    },
+    ...(ascendant
+      ? [{ axis: 'ascendant' as const, sign: ascendant.sign, degree: ascendant.degree, approximate: false }]
+      : []),
+  ];
+
+  return positions.flatMap(({ axis, sign, degree, approximate }) => {
+    const fragment = edition.forAxis(axis, sign);
+    if (!fragment) return [];
+    return [
+      {
+        axis,
+        sign,
+        element: elementOfSign(sign),
+        degree,
+        approximate,
+        headline: fragment.headline(),
+        body: fragment.body(),
+      },
+    ];
+  });
+}

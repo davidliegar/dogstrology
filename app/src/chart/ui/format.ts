@@ -98,14 +98,42 @@ const shortDate = (date: Date): string => `${date.getDate()} ${MONTHS[date.getMo
  * eso "hoy" se decide comparando el **día del calendario local** y no restando
  * horas — a las 23:50 faltan diez minutos para mañana, no un día.
  */
-export function formatSkyMoment(iso: string, now: Date = new Date()): string {
+function skyMoment(iso: string, now: Date): { day: string; time: string } {
   const at = new Date(iso);
   const time = `${String(at.getHours()).padStart(2, '0')}:${String(at.getMinutes()).padStart(2, '0')}`;
 
   const startOfDay = (date: Date) => new Date(date.getFullYear(), date.getMonth(), date.getDate()).getTime();
   const days = Math.round((startOfDay(at) - startOfDay(now)) / (24 * 60 * 60 * 1000));
 
-  if (days === 0) return `hoy · ${time}`;
-  if (days === 1) return `mañana · ${time}`;
-  return `${shortDate(at)} · ${time}`;
+  if (days === 0) return { day: 'hoy', time };
+  if (days === 1) return { day: 'mañana', time };
+  return { day: shortDate(at), time };
+}
+
+export function formatSkyMoment(iso: string, now: Date = new Date()): string {
+  const { day, time } = skyMoment(iso, now);
+  return `${day} · ${time}`;
+}
+
+/**
+ * El cambio de signo de la Luna, dicho en prosa: `en Escorpio a las 17:12`,
+ * `en Escorpio mañana a las 03:44` (artboard 04).
+ *
+ * Es la misma información que `formatSkyMoment` con otra puntuación, y no la
+ * misma función con un parámetro: aquí va dentro de una frase —la tira de la
+ * Luna en Hoy— y `hoy · 17:12` con un punto medio en mitad de una oración se
+ * lee como un dato pegado, no como algo que va a pasar. Hoy se calla porque en
+ * esa pantalla todo es hoy.
+ */
+export function formatIngress({
+  sign,
+  at,
+  now = new Date(),
+}: {
+  sign: string;
+  at: string;
+  now?: Date;
+}): string {
+  const { day, time } = skyMoment(at, now);
+  return day === 'hoy' ? `en ${sign} a las ${time}` : `en ${sign} ${day} a las ${time}`;
 }

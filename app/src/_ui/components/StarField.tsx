@@ -76,6 +76,18 @@ export const STAR_FIELDS = {
     { left: '64%', top: '91%', size: 1 },
   ],
   /**
+   * Artboards 04, 15 y 17. Tres, muy arriba y muy pequeñas: Hoy es una pila de
+   * tarjetas con sombra, y una estrella detrás de una tarjeta no se ve — solo
+   * queda cielo en la franja de la cabecera. Es también lo que hace que la
+   * espera del artboard 15 no parezca una pantalla congelada: lo único que se
+   * mueve mientras no hay contenido.
+   */
+  today: [
+    { left: '14%', top: '7%', size: 2, twinkleMs: 3000 },
+    { left: '52%', top: '4%', size: 1 },
+    { left: '81%', top: '10%', size: 2, twinkleMs: 2700 },
+  ],
+  /**
    * Artboard 19. Son tres y solo en la mitad de arriba: la pantalla ya tiene
    * mucho que leer y el campo aquí es atmósfera, no protagonista.
    */
