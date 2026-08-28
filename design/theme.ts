@@ -239,6 +239,11 @@ export const typography = {
    * nombre —«Explorar», o el de la mascota— y no un encabezado de grupo. El
    * destino activo cambia a `fonts.bodyMedium`; el tamaño no se toca, para que
    * la fila no dé un salto al cambiar de pestaña.
+   *
+   * Lo usa también el pie de las tarjetas del trío del hub («Sol», «Luna»,
+   * «Ascendente»), que es la misma forma: la palabra pequeña que nombra lo que
+   * hay encima. Si aparece un tercer sitio, el nombre del token se queda corto
+   * y habrá que rebautizarlo.
    */
   tabLabel: {
     fontFamily: fonts.body,

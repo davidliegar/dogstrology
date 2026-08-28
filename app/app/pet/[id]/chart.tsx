@@ -12,6 +12,7 @@ import {
 } from 'react-native';
 
 import { ApproximateBadge } from '@/_ui/components/ApproximateBadge';
+import { Chevron } from '@/_ui/components/Chevron';
 import { Chip } from '@/_ui/components/Chip';
 import { Screen } from '@/_ui/components/Screen';
 import { ScreenHeader } from '@/_ui/components/ScreenHeader';
@@ -20,6 +21,7 @@ import { NatalWheel } from '@/chart/ui/NatalWheel';
 import { PlanetSheet } from '@/chart/ui/PlanetSheet';
 import { useNatalChart } from '@/chart/ui/chartQueries';
 import { formatPosition } from '@/chart/ui/format';
+import { editMissingDatum } from '@/chart/ui/missingDatum';
 import { PLANET_GLYPHS } from '@/chart/ui/glyphs';
 import {
   CONFIDENCE_NOTICES,
@@ -37,17 +39,6 @@ import { colors, glyphSize, screenPadding, spacing, typography } from '@/design/
 const ROW_HEIGHT = 56;
 /** Ancho de la columna del glifo: el mismo para el símbolo y para "ASC". */
 const GLYPH_COLUMN = 28;
-
-/**
- * A dónde lleva la fila del Ascendente cuando todavía no hay Ascendente. Es
- * el editor del dato que falta, no una pantalla de explicación: la fila existe
- * para enseñar qué se gana, y lo que se gana está a un toque.
- */
-const MISSING_DATA_ROUTES = {
-  no_time: '/pet/[id]/birthtime',
-  no_location: '/pet/[id]/birthplace',
-  full: undefined,
-} as const;
 
 /**
  * Carta natal, artboard 5 de `Pantallas MVP.dc.html`.
@@ -112,10 +103,20 @@ export default function PetChart() {
         header={<ScreenHeader divided overline={pet.name()} title="Su carta natal" onBack={() => router.back()} />}
         footer={
           houseSystem ? (
-            <View style={styles.houseSystem}>
+            // El pie decía "se cambia en Ajustes" y obligaba a salir de la
+            // carta, buscar la pestaña y bajar hasta la fila. Ahora **es** el
+            // enlace: el chip sigue diciendo cuál rige y la línea lleva al
+            // selector, que es el mismo de Ajustes y no una copia suya.
+            <Pressable
+              style={styles.houseSystem}
+              onPress={() => router.push('/settings/house-system')}
+              accessibilityRole="button"
+              accessibilityLabel={`Cambiar el sistema de casas. Ahora: ${HOUSE_SYSTEM_LABELS[houseSystem]}`}
+            >
               <Chip tone="accent" label={HOUSE_SYSTEM_LABELS[houseSystem]} />
-              <Text style={styles.footnote}>Sistema de casas · se cambia en Ajustes</Text>
-            </View>
+              <Text style={styles.houseSystemLink}>Cambiar sistema de casas</Text>
+              <Chevron direction="right" color={colors.accent} />
+            </Pressable>
           ) : chart ? (
             <ApproximateBadge size="note">
               {missingHousesNote({
@@ -165,11 +166,7 @@ export default function PetChart() {
                   labelStyle={styles.missingLabel}
                   action={{
                     label: CONFIDENCE_NOTICES[confidence].action ?? '',
-                    onPress: () =>
-                      router.push({
-                        pathname: MISSING_DATA_ROUTES[confidence] as '/pet/[id]/birthtime',
-                        params: { id: pet.id() },
-                      }),
+                    onPress: () => editMissingDatum(confidence, pet.id()),
                   }}
                 />
               )}
@@ -315,9 +312,13 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     gap: spacing[3],
   },
-  footnote: {
+  houseSystemLink: {
     ...typography.caption,
-    color: colors.textFaint,
+    color: colors.accent,
+    // Se come el hueco que sobra y se pega a la derecha: el chip queda
+    // anclado a un margen y el enlace con su punta al otro, que es como se
+    // lee que son dos cosas —lo que rige y cómo cambiarlo— y no una frase.
     flex: 1,
+    textAlign: 'right',
   },
 });

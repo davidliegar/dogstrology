@@ -212,6 +212,21 @@ export const CONFIDENCE_LABELS: Record<ChartConfidence, string> = {
 };
 
 /**
+ * El aviso de C.2b en la fila de datos del hub (artboard 25) — la medida
+ * **corta** de la insignia.
+ *
+ * Nombra el dato que falta y no lo que se gana, al revés que
+ * `CONFIDENCE_NOTICES`: la fila a la que acompaña *es* el sitio donde se da
+ * ese dato, así que la promesa la hace el destino y aquí solo hace falta el
+ * motivo para entrar.
+ */
+export const MISSING_DATUM_NOTES: Record<ChartConfidence, string | undefined> = {
+  no_time: 'Falta su hora de nacimiento',
+  no_location: 'Falta su lugar de nacimiento',
+  full: undefined,
+};
+
+/**
  * El texto de cada grado de confianza, en el perfil (canvas: "los tres estados
  * de ChartConfidence"). Nombra **lo que se gana** completando el dato, no lo
  * que falta: es lo que hace que el usuario quiera darlo.

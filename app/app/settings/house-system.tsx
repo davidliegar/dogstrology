@@ -11,7 +11,12 @@ import { usePreferences, useSetHouseSystem } from '@/settings/ui/settingsQueries
 
 import { colors, spacing, typography } from '@/design/theme';
 
-/** Fila con subtítulo, del artboard 10. */
+/**
+ * Fila con subtítulo, del artboard 10. **Mínimo, no alto fijo**: las 56 del
+ * artboard son de una fila de una línea, y aquí hay dos —nombre y nota— que
+ * juntas miden 48. Con alto fijo el texto quedaba a 4 px del filo de arriba y
+ * del de abajo, y las dos opciones se leían como un bloque en vez de como dos.
+ */
 const ROW_HEIGHT = 56;
 
 /**
@@ -68,7 +73,8 @@ export default function HouseSystemPicker() {
 
 const styles = StyleSheet.create({
   row: {
-    height: ROW_HEIGHT,
+    minHeight: ROW_HEIGHT,
+    paddingVertical: spacing[3],
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
