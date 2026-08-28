@@ -71,7 +71,7 @@ export function Screen({
       {children}
     </ScrollView>
   ) : (
-    <View style={[styles.body, { justifyContent: align, gap }]}>{children}</View>
+    <View style={[styles.body, styles.staticBody, { justifyContent: align, gap }]}>{children}</View>
   );
 
   return (
@@ -126,6 +126,19 @@ const styles = StyleSheet.create({
   },
   scrolled: {
     flexGrow: 1,
+    paddingVertical: screenPadding,
+  },
+  /**
+   * El mismo aire que ya tenía el cuerpo scrolleable, que le faltaba al fijo
+   * sin ninguna razón.
+   *
+   * Los artboards no lo llevan porque en un artboard siempre sobra sitio: el
+   * cuerpo va centrado con `flex:1` y el hueco lo pone el reparto. Con el
+   * texto de verdad —un fragmento del catálogo es más largo que el de la
+   * lámina— el bloque llena su caja, el reparto deja de repartir nada y se
+   * pega al pie. Esto es el mínimo que no se puede comer.
+   */
+  staticBody: {
     paddingVertical: screenPadding,
   },
   dividedTop: {

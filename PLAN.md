@@ -2406,3 +2406,33 @@ cero. Si algún día se hace: límite duro de 5 mensajes/día aplicado en servid
   directamente en la base del simulador para que la rueda salga completa y no
   degradada — se cambia desde su perfil cuando estorbe
 - **330 tests** (eran 318), lint y `tsc` limpios
+
+### 2026-08-28 (25) — el margen de la Luna, y el Sol del 14 resuelto
+- **Aire entre el cuerpo fijo y el pie** (`_ui/components/Screen.tsx`): el
+  cuerpo scrolleable ya tenía `paddingVertical: screenPadding` y el fijo no,
+  sin ninguna razón. Se veía en la Luna de hoy, con la descripción pegada a
+  "Entra en …". **El artboard no puede enseñar ese caso**: su texto es más
+  corto que un fragmento del catálogo, así que ahí sobra sitio, el cuerpo va
+  centrado y el hueco lo pone el reparto; con el texto de verdad el bloque
+  llena su caja, el reparto deja de repartir y los dos se tocan. Afecta a las
+  tres pantallas con pie y sin scroll: 07, la revelación del onboarding y el
+  aviso de que la Luna cambió
+- **⚠️ Octava del canvas, cerrada por diseño y a favor de lo que ya hacíamos.**
+  El Sol del artboard 14 ya no lleva trazo de 2 ni halo: es el mismo trazo de 1
+  que los demás. La nota nueva del artboard explica por qué, y el razonamiento
+  vale más que la corrección — la intención de fondo era legítima (sin hora, el
+  Sol es lo único que sigue siendo cierto) y **aun así no se pinta**: encender
+  un disco que nadie ha tocado dice "seleccionado", y en una rueda que se toca
+  eso no admite segunda lectura; y la certeza no necesita marca propia, porque
+  la pantalla ya señala lo dudoso —la Luna a trazos, el centro sin ASC— así que
+  lo que va sin marcar se lee como firme. Realzar el Sol volvería dudoso al
+  resto por contraste, incluidos los cinco lentos, que sin hora son igual de
+  exactos que él
+- El artboard 07 también recoge la sexta corrección: ya dice "día 21 del ciclo"
+- **La barra de pestañas está especificada** en `Sistema de diseño.dc.html`,
+  sección *Tab bar*: cuatro destinos con iconos de Lucide —`sun`, `paw-print`,
+  `compass`, `settings`— a `icon.size.m` y `icon.stroke`, el activo en relleno
+  oro con `glow.accent` y etiqueta Karla 500, el resto en `textFaint`; borde
+  superior de `divider`, `padding: 8px 0 24px`, filas de 56. Y una regla que no
+  se deduce del dibujo: **la segunda pestaña lleva el nombre de la mascota**,
+  no "Perfil"
