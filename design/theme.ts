@@ -233,6 +233,19 @@ export const typography = {
     letterSpacing: 1.2,
     textTransform: 'uppercase' as const,
   },
+  /**
+   * Rótulo de pestaña. Comparte cuerpo con `overline` y no es lo mismo: ni va
+   * en mayúsculas ni lleva su espaciado de 1,2, porque aquí el texto es un
+   * nombre —«Explorar», o el de la mascota— y no un encabezado de grupo. El
+   * destino activo cambia a `fonts.bodyMedium`; el tamaño no se toca, para que
+   * la fila no dé un salto al cambiar de pestaña.
+   */
+  tabLabel: {
+    fontFamily: fonts.body,
+    fontSize: 11,
+    lineHeight: 14,
+    letterSpacing: 0.4,
+  },
 } as const;
 
 export type TypographyToken = keyof typeof typography;

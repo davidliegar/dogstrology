@@ -32,6 +32,14 @@ export interface ScreenProps {
    * el cielo se hunde un tono y lo que hay encima flota.
    */
   deep?: boolean;
+  /**
+   * La pantalla es un destino raíz y tiene la barra de pestañas debajo.
+   *
+   * Cambia una sola cosa: el pie deja de reservar la zona segura de abajo,
+   * porque quien la ocupa ya es la barra. Sin esto el aire se contaría dos
+   * veces y el pie flotaría a un dedo del suelo.
+   */
+  insideTabs?: boolean;
 }
 
 /**
@@ -51,6 +59,7 @@ export function Screen({
   scroll = false,
   footerDivider = false,
   deep = false,
+  insideTabs = false,
 }: ScreenProps) {
   const insets = useSafeAreaInsets();
 
@@ -98,7 +107,7 @@ export function Screen({
             style={[
               styles.footer,
               footerDivider && styles.dividedTop,
-              { paddingBottom: Math.max(insets.bottom, FOOTER_BOTTOM) },
+              { paddingBottom: insideTabs ? spacing[4] : Math.max(insets.bottom, FOOTER_BOTTOM) },
             ]}
           >
             {footer}

@@ -1,4 +1,4 @@
-import { router, useLocalSearchParams } from 'expo-router';
+import { router } from 'expo-router';
 import { ActivityIndicator, StyleSheet, Text, View } from 'react-native';
 
 import { FieldRow } from '@/_ui/components/FieldRow';
@@ -12,7 +12,7 @@ import { useNatalChart } from '@/chart/ui/chartQueries';
 import type { Sex } from '@/pet/domain/Pet';
 import { breedLabel, formatCoordinates, profileDates } from '@/pet/ui/format';
 import { PetIdentity } from '@/pet/ui/PetIdentity';
-import { usePet, usePetPhotoUri, useUpdatePet } from '@/pet/ui/petQueries';
+import { usePets, usePetPhotoUri, useUpdatePet } from '@/pet/ui/petQueries';
 import { SEX_LABELS } from '@/pet/ui/labels';
 
 import { colors, feedback, screenPadding, spacing, typography } from '@/design/theme';
@@ -40,8 +40,11 @@ const NEUTERED_OPTIONS = [
  * de aquí porque no es un dato de nacimiento.
  */
 export default function PetProfile() {
-  const { id } = useLocalSearchParams<{ id: string }>();
-  const { data: pet, isPending, isError } = usePet(id);
+  // La pestaña no lleva id en la ruta: el MVP es de una mascota, y la barra
+  // rotula esa misma con su nombre. Los editores de debajo sí van por id,
+  // porque son pantallas apiladas y el id es lo que las ancla.
+  const { data: pets, isPending, isError } = usePets();
+  const pet = pets?.[0];
   const { data: chart } = useNatalChart(pet);
   const { data: photoUri } = usePetPhotoUri(pet);
   const updatePet = useUpdatePet();
@@ -77,13 +80,13 @@ export default function PetProfile() {
 
   return (
     <Screen
+      insideTabs
       scroll
       align="flex-start"
       footerDivider
       gap={spacing[5]}
-      header={
-        <ScreenHeader divided title={`Datos de ${pet.name()}`} onBack={() => router.back()} />
-      }
+      // Sin flecha de volver: esto es un destino raíz, no una pantalla apilada.
+      header={<ScreenHeader divided title={`Datos de ${pet.name()}`} />}
       footer={chart ? <ConfidenceMeter confidence={chart.confidence()} /> : null}
     >
       <PetIdentity

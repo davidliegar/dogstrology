@@ -36,7 +36,7 @@ export default function Index() {
     );
   }
 
-  return <Redirect href={pets.length === 0 ? '/onboarding/name' : '/home'} />;
+  return <Redirect href={pets.length === 0 ? '/onboarding/name' : '/today'} />;
 }
 
 const styles = StyleSheet.create({

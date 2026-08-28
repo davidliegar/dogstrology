@@ -24,7 +24,7 @@ export default function OnboardingReveal() {
   const done = () => {
     // El wizard ha cumplido: a partir de aquí la verdad es el repositorio.
     reset();
-    router.replace('/home');
+    router.replace('/today');
   };
 
   // `usePet` lanza PET_NOT_FOUND si el `petId` de la ruta no existe; sin este

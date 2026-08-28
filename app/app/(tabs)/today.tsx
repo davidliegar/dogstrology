@@ -25,14 +25,15 @@ export default function Home() {
   if (pets && !pet) return <NoPetPrompt onAdd={() => router.push('/onboarding/name')} />;
 
   return (
-    <Screen align="center">
+    <Screen insideTabs align="center">
       <View style={styles.block}>
         <Text style={styles.title}>{pet ? `Hoy, con ${pet.name()}` : 'Hoy'}</Text>
         <Text style={styles.body}>La carta del día llega en F5 (Bloque 4).</Text>
-        {/* Entrada provisional al perfil de F2. El canvas sí maqueta la barra
-            de navegación con la pestaña de la mascota (artboard 4), pero esa
-            barra es el armazón de toda la app y no es de esta tarea: cuando
-            exista, este enlace se cae. */}
+        {/* Lo que queda de provisional. Explorar, el perfil y Créditos ya
+            tienen su sitio en la barra de pestañas y se han caído de aquí;
+            estos tres siguen porque **son destinos de Hoy** y Hoy todavía no
+            existe: cuando F5 pinte las tarjetas del día, la carta y la
+            personalidad se abrirán desde ellas y la Luna desde su tarjeta. */}
         {pet ? (
           <>
             <Link href={{ pathname: '/pet/[id]/chart', params: { id: pet.id() } }} style={styles.link}>
@@ -43,15 +44,6 @@ export default function Home() {
             </Link>
             <Link href="/moon" style={styles.link}>
               La Luna hoy
-            </Link>
-            <Link href="/explore" style={styles.link}>
-              Explorar
-            </Link>
-            <Link href="/credits" style={styles.link}>
-              Créditos
-            </Link>
-            <Link href={{ pathname: '/pet/[id]', params: { id: pet.id() } }} style={styles.link}>
-              Ver su perfil
             </Link>
           </>
         ) : null}
