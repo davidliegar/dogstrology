@@ -2364,6 +2364,25 @@ cero. Si algún día se hace: límite duro de 5 mensajes/día aplicado en servid
   ha podido mirar desde aquí son los píxeles de la rueda: abrir la carta por
   enlace profundo saca el diálogo "¿Abrir en Dogstrology?" del sistema y este
   entorno no puede tocar la pantalla del simulador
+- **F4 no tenía diseño que copiar, y conviene que quede dicho.** Un canvas
+  estático no dibuja tiempo: de la lámina salieron los tokens
+  (`duration.trace`, las curvas, `parallaxAmplitude`) y dos fotogramas —el
+  artboard 05 quieto y el 13 con el planeta encendido—, y **todo lo de en
+  medio lo decidí yo**: qué capa entra antes que cuál, cuánto se solapan, que
+  los anillos se tracen y el ojo se encienda, que la cascada salga del
+  Ascendente y el pop sea de 0,88. No contradice la regla de no inventar
+  diseño que no existe —no hay artboard posible para esto—, pero **es
+  decisión propia, no diseño heredado**, y es el candidato natural a un
+  encargo: una tira de fotogramas o una nota de movimiento del artboard 05
+- ⚠️ **Octava del canvas, y esta es una pregunta, no una errata**: en el
+  artboard **14** el disco del **Sol** lleva `stroke-width:2` y
+  `drop-shadow(0 0 12px …)` — exactamente el tratamiento que el artboard 13
+  reserva para "el planeta tocado". El 05 no tiene ni un solo `drop-shadow`, y
+  la nota del 14 no lo menciona. O es una fuga del mock (se copió el disco del
+  13) o es intencional —sin hora, el Sol es lo único que sigue siendo cierto—.
+  **No se ha implementado**: encender el Sol sin que nadie lo haya tocado le
+  dice al usuario que está seleccionado, y eso sí sería un error seguro.
+  Decisión de diseño pendiente
 - **Para probarlo**: `npm start` y abrir la app en el simulador (ya construido).
   La carta natal es donde se ve todo: revelado al entrar, cascada de planetas y
   halo al tocar uno. A Baloo se le puso hora y lugar (08:30, Madrid)
