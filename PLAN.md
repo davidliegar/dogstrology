@@ -69,11 +69,14 @@ pantalla de Hoy (sesión 30) y el workflow que publica (sesión 31) están
 hechos; lo que falta **no se hace desde aquí**, son tres pasos en la web de
 GitHub y una generación de contenido:
 
-1. **Settings → Pages → Source: GitHub Actions**, y el secreto
-   **`ANTHROPIC_API_KEY`** en Settings → Secrets and variables → Actions. (El
-   repo ya es público, que era la otra condición.)
-2. **Generar la edición de hoy** (`workflow_dispatch` del workflow del diario,
-   con la fecha de hoy) y verla en la app.
+1. ~~Pages y el secreto~~ — **hechos, y la tubería verificada** (ver Bloque
+   4b): el sitio sirve la edición del 25 y devuelve 404 en la de hoy, que es
+   el camino bueno.
+2. **Generar la edición de hoy** — Actions → *Generar contenido diario* → Run
+   workflow, **escribiendo la fecha**: el valor por defecto es hoy + 7 días.
+   Gasta (~0,40 €) y puede tardar una hora; sale un PR con el contenido y el
+   informe del filtro, se revisa (BRD §7.5), se mergea, y la publicación se
+   dispara sola.
 3. Luego, descomentar el `schedule`. El workflow genera **hoy + 7 días**, así
    que la primera semana hay que llenarla a mano.
 
@@ -222,22 +225,15 @@ matarlo.
   módulo nativo que entre obliga a rehacerlo, y si el que cambia es
   `react-native-worklets` hay **tres** cachés que caducan (ver el registro de
   la sesión 25)
-- **Dos cosas a mano en GitHub**, y sin ellas el diario no llega al móvil (ver
-  Bloque 4b). ~~El repositorio tiene que ser público~~ — **ya lo es**
-  (comprobado, `visibility: PUBLIC`), así que Pages no pide plan de pago:
-  1. **Settings → Pages → Source: GitHub Actions**
-     (`.../settings/pages`);
-  2. el secreto **`ANTHROPIC_API_KEY`** en **Settings → Secrets and variables →
-     Actions → New repository secret** (`.../settings/secrets/actions`), con
-     ese nombre exacto — es el que lee `generate-daily.yml`. El valor sale de
-     `console.anthropic.com` → API keys, y lo que gaste el diario se factura
-     ahí (~12,50 €/mes si corre cada noche, BRD §7.4)
+- ~~Encender GitHub Pages y poner el secreto~~ — **hechos** (2026-08-28), y la
+  publicación verificada de punta a punta. Queda **lanzar la generación del
+  día**, que es lo único que gasta dinero y por eso no se lanza solo: Actions →
+  *Generar contenido diario* → Run workflow, **con la fecha escrita a mano**.
 
-  **Desde este equipo hay que hacerlo por la web**, con la sesión de
-  `davidliegar`: el `gh` que está instalado está autenticado como otra cuenta
-  y solo tiene permiso de **lectura** sobre el repositorio, así que
-  `gh secret set` fallaría. `git push` sigue funcionando porque va por SSH,
-  con otras credenciales
+  **Los workflows hay que lanzarlos desde la web**, con la sesión de
+  `davidliegar`: el `gh` instalado en este equipo está autenticado como otra
+  cuenta y solo tiene permiso de **lectura**. `git push` sí funciona, porque va
+  por SSH con otras credenciales
 - ⚠️ **Dos cosas del canvas que la pantalla de Hoy destapa** (sesión 30):
   - **el texto del artboard 17 dice algo que ya no es verdad**: "su carta y su
     día se calculan en el móvil". La carta sí; el día no — el diario se
@@ -820,12 +816,17 @@ tienda**: es una parada, no un destino.
 - [x] `expo.extra.contentBaseUrl` apuntando a
       `https://davidliegar.github.io/dogstrology/daily/`
 - [x] El repositorio es **público**, así que Pages no pide plan de pago
-- [ ] **Encenderlo** — los dos pasos a mano de "lo que está esperando a alguien
-      que no soy yo": Pages con origen *GitHub Actions*, y el secreto
-      `ANTHROPIC_API_KEY`
-- [ ] **Generar una edición para el día de hoy** y verla en la app. Hasta
-      entonces Hoy enseña su pie de "el texto de hoy todavía no está", que es
-      correcto y es el estado que hay que ver primero
+- [x] **Encendido y verificado** (2026-08-28): Pages con origen *GitHub
+      Actions*, el secreto `ANTHROPIC_API_KEY` puesto, y el primer despliegue
+      en verde. `daily/2026-08-25.json` responde **200 · application/json ·
+      18.538 B · 35 fragmentos**, y la fecha de hoy da **404**, que es
+      exactamente el camino de "ese día no está publicado". La tubería entera
+      está probada; lo único que falta es contenido
+- [ ] **Generar una edición para el día de hoy** y verla en la app. ⚠️ **Hay
+      que escribir la fecha a mano** en el `workflow_dispatch`: el valor por
+      defecto es **hoy + 7 días** (el buffer de F12), así que dejarlo vacío
+      genera el 4 de septiembre y hoy se seguiría viendo el pie de "todavía no
+      está". Al mergear el PR, la publicación se dispara sola
 
 ### ⚠️ Requisito de salida: migrar antes de publicar en la tienda
 
