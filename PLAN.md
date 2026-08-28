@@ -72,11 +72,12 @@ GitHub y una generación de contenido:
 1. ~~Pages y el secreto~~ — **hechos, y la tubería verificada** (ver Bloque
    4b): el sitio sirve la edición del 25 y devuelve 404 en la de hoy, que es
    el camino bueno.
-2. **Llenar el colchón** — Actions → *Generar contenido diario* → Run workflow
-   con **`date` = hoy** y **`days` = 8**. Un solo lote de 296 peticiones,
-   ~3,20 €, hasta una hora; sale un PR con los 8 ficheros y sus 8 informes, se
-   revisa (BRD §7.5), se mergea, y la publicación se dispara sola.
-3. Luego, descomentar el `schedule`, que a partir de ahí solo genera **un** día
+2. ~~Llenar el colchón~~ — **hecho**: 8 ediciones publicadas y verificadas en
+   el CDN, 292 de 296 fragmentos publicables.
+3. **Arreglar el hueco de Hoy** — la app no se entera de que ha pasado el
+   tiempo: ver el ⚠️ de "lo que está esperando". Es lo único que le queda a F5
+   por dentro.
+4. Luego, descomentar el `schedule`, que a partir de ahí solo genera **un** día
    (hoy + 7) y mantiene el colchón rodando.
 
 Hasta entonces Hoy se ve entera con su pie de "el texto de hoy todavía no
@@ -867,6 +868,27 @@ tienda**: es una parada, no un destino.
       nocturno genera `hoy + 7`, así que arrancando con hoy..hoy+6 la primera
       pasada del cron generaría hoy+8 y **quedaría un agujero justo en hoy+7**.
       Con ocho, el relevo es exacto. ~3,20 € y un PR con 8 ficheros
+- [x] **Colchón lleno y publicado** (2026-08-28): 8 ediciones, 2026-08-28 →
+      2026-09-04, **292 de 296 publicables**. Las 8 responden 200 en el CDN y
+      la de hoy trae sus 37 fragmentos, así que Hoy se pinta entera. El batch
+      tardó **4 min 27 s**, no la hora del peor caso
+- [ ] ⚠️ **Hoy no se entera de que ha pasado el tiempo.** Es el hueco que deja
+      F5 y se ve en cuanto la app se queda abierta o vuelve de segundo plano:
+      1. **la fecha se calcula una vez por render** (`isoDateOf(new Date())`) y
+         nada fuerza un render a medianoche, así que una app abierta a las
+         00:05 sigue enseñando el día de ayer — el suyo y el de la cabecera;
+      2. **`staleTime: Infinity` es correcto para una edición publicada**
+         —inmutable, con la fecha en el nombre— y **equivocado para un `null`**:
+         quien abrió la app antes de que se publicara el día se queda con "el
+         texto de hoy todavía no está" hasta reiniciar, aunque ya esté.
+
+      La forma de arreglarlo, que es pequeña: escuchar `AppState` → `active`
+      (el patrón documentado de TanStack en React Native es engancharlo a
+      `focusManager`), hacer que el `staleTime` dependa del resultado
+      —`Infinity` con datos, 0 sin ellos— para que el refetch por foco solo
+      dispare en el caso vacío, y un tic que vuelva a renderizar al cambiar el
+      día natural. `useMoonSky` tiene la misma raíz: su clave es el día, pero
+      nada la reevalúa a medianoche
 - [ ] Si el paso del PR falla con *"GitHub Actions is not permitted to create
       or approve pull requests"*, es un interruptor de **Settings → Actions →
       General → Workflow permissions**. El contenido no se pierde: está en el
@@ -2944,3 +2966,32 @@ cero. Si algún día se hace: límite duro de 5 mensajes/día aplicado en servid
 - **Encargo de diseño escrito**, siete puntos, con el selector de mascota del
   hub arriba del todo: es lo único que bloquea un flujo entero (segunda
   mascota → paywall)
+
+### 2026-08-28 (32) — el diario, generado y publicado de verdad
+- **Ocho ediciones en un lote** (2026-08-28 → 2026-09-04), 296 peticiones,
+  4 min 27 s. Las ocho responden 200 en el CDN y la de hoy trae sus 37
+  fragmentos: Hoy se pinta entera por primera vez con contenido real
+- **El filtro bloqueó 4 de 296**, y uno por `medicacion` — la primera vez que
+  el guardarraíl de BRD §7.5 para algo camino de publicarse. Funciona
+- ⚠️ **Y al mirar ese informe salió un defecto en la propia herramienta de
+  revisión**: `checkLengths` emite `problem` y el informe leía `problema`, así
+  que un bloqueo de forma se imprimía como `undefined`. El resumen por
+  categoría, además, solo contaba los bloqueos de **contenido**, así que decía
+  "bloqueados: 2 · medicacion: 1" y el que revisaba se quedaba buscando el
+  segundo. **Es peor que no informar**: el fragmento desaparece del publicado
+  sin explicación, y el informe es lo único que ve la persona de la que depende
+  §7.5. Arreglado, con dos tests de regresión (77, eran 75)
+- **El workflow del diario no instalaba `proto`** y murió en 19 s con
+  `ERR_MODULE_NOT_FOUND`. Node resuelve las dependencias de `proto/astro.mjs`
+  desde su propia carpeta, nunca desde `pipeline/node_modules`; en local no se
+  nota porque `proto/node_modules` está desde el prototipo
+- **`--days N`**: N días consecutivos en **un** batch. Un lote tarda lo que
+  tarda, así que ocho días en uno cuestan una espera y no ocho. Ocho y no
+  siete, porque el cron genera `hoy + 7` y con siete quedaría un agujero justo
+  ahí
+- **Red de seguridad antes del PR**: el contenido se sube como artefacto con
+  `if: always()`, porque el paso que lo genera cuesta dinero y todo lo que
+  viene detrás es fontanería de git
+- ⚠️ **Anotado el hueco que queda en Hoy**: la pantalla no se entera de que ha
+  pasado el tiempo — ni de medianoche, ni de volver de segundo plano cuando la
+  edición ya se publicó. Ver "lo que está esperando a alguien que no soy yo"

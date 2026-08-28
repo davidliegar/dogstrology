@@ -128,6 +128,10 @@ export function reviewRun(fragments) {
   const byCategory = {};
   for (const r of bloqueados) {
     for (const b of r.blocked) byCategory[b.category] = (byCategory[b.category] ?? 0) + 1;
+    // Los fallos de forma también bloquean, así que también cuentan. Sin esto
+    // el resumen decía "bloqueados: 2 · medicacion: 1" y el que revisa se
+    // quedaba buscando el segundo.
+    if (r.shape.length > 0) byCategory[SHAPE_CATEGORY] = (byCategory[SHAPE_CATEGORY] ?? 0) + 1;
   }
 
   return {
@@ -139,7 +143,22 @@ export function reviewRun(fragments) {
   };
 }
 
-/** Informe legible para el cuerpo del PR y para el log del cron. */
+/**
+ * Los fallos de forma no vienen de una regla de contenido, así que no traen
+ * `category` propia y se cuentan bajo esta. Es una sola por fragmento: si un
+ * mismo fragmento llega corto **y** con un color inventado, sigue siendo un
+ * fragmento que no se publica.
+ */
+const SHAPE_CATEGORY = 'forma';
+
+/**
+ * Informe legible para el cuerpo del PR y para el log del cron.
+ *
+ * Es la única cosa que ve quien revisa (BRD §7.5), así que **cada bloqueo tiene
+ * que decir por qué**. Durante un tiempo los de forma imprimían `undefined`
+ * —`checkLengths` emite `problem` y aquí se leía `problema`— y eso es peor que
+ * no informar: el fragmento desaparecía del publicado sin explicación.
+ */
 export function report(run) {
   const lineas = [
     `Fragmentos: ${run.total} · publishable: ${run.publishable} · bloqueados: ${run.bloqueados}`,
@@ -156,7 +175,7 @@ export function report(run) {
         lineas.push(`  #${etiqueta} · ${b.field}: «${b.term}» — ${b.reason}`);
       }
       for (const f of r.shape) {
-        lineas.push(`  #${etiqueta} · ${f.field}: ${f.problema}`);
+        lineas.push(`  #${etiqueta} · ${f.field}: ${f.problem}`);
       }
     }
   }

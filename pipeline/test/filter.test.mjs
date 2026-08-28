@@ -10,7 +10,7 @@
 
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
-import { reviewText, reviewFragment, reviewRun } from '../src/filter.mjs';
+import { reviewText, reviewFragment, reviewRun, report } from '../src/filter.mjs';
 import { BANNED, CONCERN } from '../src/bannedTerms.mjs';
 import { systemPrompt } from '../src/prompt.mjs';
 
@@ -291,4 +291,41 @@ test('toda la conjugación de morder pasa, incluida la que cambia de raíz', () 
   ]) {
     assert.equal(reviewText(text).banned.length, 0, `no debería bloquear: ${text}`);
   }
+});
+
+/**
+ * El informe es **lo único que ve quien revisa** (BRD §7.5), así que un bloqueo
+ * sin motivo legible es peor que no informar: el fragmento desaparece del
+ * publicado y nadie sabe por qué.
+ *
+ * Pasó de verdad, en la tanda del 2 de septiembre de 2026: `checkLengths` emite
+ * `problem` y el informe leía `problema`, así que el detalle decía `undefined`.
+ * Y el resumen por categoría solo contaba los bloqueos de contenido, de modo
+ * que ponía "bloqueados: 2 · medicacion: 1" y el que revisaba se quedaba
+ * buscando el segundo.
+ */
+test('un fallo de forma se cuenta y se explica en el informe', () => {
+  const corto = { ...base, key: 'date=2026-09-02;axis=sun;sign=aries', body: 'muy corto' };
+  const colorInventado = { ...base, key: 'date=2026-09-02;axis=sun;sign=leo', colorOfDay: 'morado' };
+
+  const run = reviewRun([base, corto, colorInventado]);
+  const texto = report(run);
+
+  assert.equal(run.bloqueados, 2);
+  assert.equal(run.byCategory.forma, 2, 'los fallos de forma tienen que contarse');
+  assert.ok(texto.includes('corto: 9 < 80'), `sin el motivo del corto:\n${texto}`);
+  assert.ok(texto.includes('fuera del enum: morado'), `sin el motivo del color:\n${texto}`);
+  assert.ok(!texto.includes('undefined'), `el informe no puede decir undefined:\n${texto}`);
+});
+
+/** Un bloqueo de contenido y uno de forma en la misma tanda: los dos se cuentan. */
+test('el resumen por categoría cuadra con el total de bloqueados', () => {
+  const conPastilla = { ...base, key: 'a', advice: 'Dale su pastilla con la comida.' };
+  const sinColor = { ...base, key: 'b', colorOfDay: 'morado' };
+
+  const run = reviewRun([base, conPastilla, sinColor]);
+  const sumaPorCategoria = Object.values(run.byCategory).reduce((n, x) => n + x, 0);
+
+  assert.equal(run.bloqueados, 2);
+  assert.equal(sumaPorCategoria, 2);
 });
