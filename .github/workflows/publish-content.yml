@@ -1,0 +1,77 @@
+# Publica el diario en GitHub Pages (BRD §7.4, capa 2).
+#
+# PROVISIONAL, Y A PROPÓSITO. La decisión de record es D11 — Cloudflare Pages —
+# y sigue en pie: GitHub Pages entra ahora porque no hace falta abrir una
+# cuenta más para probar el ciclo entero, y sale antes de publicar en la
+# tienda. Los dos motivos están en PLAN.md, "Bloque 4b":
+#
+#   - los términos de uso de Pages desaconsejan servir un producto de pago;
+#   - 100 GB/mes de ancho de banda blando, frente a ilimitado en Cloudflare.
+#
+# Lo que hace que la migración sea barata es que la app lee la URL de
+# `app.json` (`expo.extra.contentBaseUrl`): mover el CDN es una línea **si no
+# hay nada instalado apuntando a la anterior**. Por eso el requisito de salida
+# no es "migrar", es "salir con un dominio propio delante".
+#
+# Solo se publica `content/daily/*.json`. El catálogo inmutable viaja en el
+# binario y no tiene por qué estar en la web, y los `*.report.md` son notas de
+# revisión internas.
+#
+# ANTES DE QUE ESTO FUNCIONE, a mano y una sola vez:
+#   1. el repositorio tiene que ser público (Pages en privado exige plan de
+#      pago);
+#   2. Settings → Pages → Source: **GitHub Actions**.
+name: Publicar contenido
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'content/daily/*.json'
+      - '.github/workflows/publish-content.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+# Un despliegue a la vez, y sin cancelar el que está en curso: el que corre ya
+# está publicando ficheros y cortarlo por la mitad dejaría el sitio a medias.
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deploy.outputs.page_url }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Montar el sitio
+        run: |
+          mkdir -p _site/daily
+          cp content/daily/*.json _site/daily/
+          # Sin esto, Jekyll se come cualquier fichero que empiece por `_`.
+          touch _site/.nojekyll
+          # Una portada mínima: sin ella, entrar a la raíz da el 404 de GitHub
+          # y no hay forma de saber de un vistazo si el despliegue funcionó.
+          cat > _site/index.html <<'HTML'
+          <!doctype html>
+          <meta charset="utf-8">
+          <title>Dogstrology — contenido</title>
+          <p>Origen del contenido diario de Dogstrology. Los ficheros viven en
+          <code>/daily/AAAA-MM-DD.json</code>.</p>
+          HTML
+          echo "Publicando $(ls _site/daily | wc -l) ediciones:"
+          ls _site/daily
+
+      - uses: actions/configure-pages@v5
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: _site
+      - id: deploy
+        uses: actions/deploy-pages@v4

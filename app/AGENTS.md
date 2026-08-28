@@ -30,14 +30,25 @@ src/
 ├── chart/                    Bounded context (misma estructura)
 ├── settings/                 Bounded context: los ajustes del usuario
 │   └── domain/               Preferences (hoy, el sistema de casas)
-└── content/                  Bounded context: el catálogo inmutable (BRD §7.3)
-    ├── domain/               ContentKey (la gramática), Fragment, ContentRepository
-    └── infrastructure/       Adaptador + catalog/*.generated.json en el bundle
+└── content/                  Bounded context: lo que el usuario lee (BRD §7.3, §7.4)
+    ├── domain/               Capa 1: ContentKey, Fragment, ContentRepository
+    │                         Capa 2: DailyKey, DailyEdition, DailyRepository, DailyCache
+    └── infrastructure/       Bundle (catalog/*.generated.json) y CDN + caché SQLite
 ```
+
+**El diario no es un contexto aparte**, es la **capa 2** del mismo (BRD §7.4).
+Comparte `Fragment` con el catálogo —los produce el mismo `schema.mjs`— y no
+comparte nada más: el catálogo viaja en el binario y no caduca, el diario se
+descarga cada día y se guarda siete (F12). Por eso son dos puertos y no uno.
+
+`_kernel/config.ts` es lo único que la app lee de fuera del código
+(`app.json` → `expo.extra`). Hoy, la URL del CDN del diario.
 
 Las rutas van en `app/`, y el grupo `app/(tabs)/` son **los cuatro destinos
 raíz** de la barra de pestañas. Todo lo demás se apila encima y por eso tapa la
-barra: es lo que dicen los artboards, donde solo 04, 08, 10, 15 y 17 la llevan.
+barra: es lo que dicen los artboards, donde solo 04, 08, 10, 15, 17 y 25 la
+llevan. La pestaña de la mascota es el **hub** (artboard 25); el perfil
+editable cuelga de ella, en `app/pet/[id]/index.tsx`.
 
 Fuera de `src/`: `scripts/` guarda los generadores de assets, y los ficheros
 `.generated.*` que producen **no se editan a mano**.

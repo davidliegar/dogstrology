@@ -29,7 +29,13 @@ la app que se lee sin haber creado ninguna mascota. **Armazón y Ajustes,
 hechos** (sesión 26): la barra de pestañas con sus cuatro destinos raíz, la
 pantalla de Ajustes y el selector de sistema de casas con su contexto
 `settings/` — se acabaron los enlaces provisionales de Hoy salvo los tres que
-son destinos de F5. **F4 hecho** (sesión 24):
+son destinos de F5. **F5 casi entero** (sesiones 29 y 30): el diario tiene
+puerto, adaptador de red con caché de siete días y tabla propia, y **Hoy está
+pintada** — una tarjeta por fragmento, con su silueta de carga y su pie de sin
+red. Solo falta publicar el contenido en alguna parte.
+**El hub de la mascota, hecho** (sesión 27): llegó dibujado
+el artboard **25** y la segunda pestaña deja de abrir un formulario para abrir
+las tres preguntas que se le hacen a un perro. **F4 hecho** (sesión 24):
 la rueda se dibuja con Skia, se revela al abrirse en 1200 ms y el planeta
 abierto se enciende con su halo; el campo estelar tiene parallax de
 giroscopio. **Del Bloque 4 solo queda F5**, que es infraestructura y pide
@@ -56,20 +62,31 @@ el resumen habrían salido mal. Antes de maquetar **cualquier** pantalla,
 importar su artboard. En F3 volvió a pasar: los dos artboards de la carta natal
 están marcados F4, y eso no estaba en ningún resumen.
 
-## Siguiente sesión: **F5 — la carta del día**
+## Siguiente sesión: **encender la publicación**
 
-Con F4, la barra de pestañas y Ajustes cerrados, del Bloque 4 **solo queda
-F5**, y no es una pantalla: es infraestructura. Conviene verlo entero antes de empezarlo: CDN (Cloudflare
-Pages, D11), un adaptador de contenido **remoto** —hoy `content/` solo sabe
-leer del binario—, la caché offline de 7 días (F12, Bloque 5) y el diario
-generándose de verdad (cron descomentado + secreto). Arrastra detrás la barra
-de pestañas y los artboards **15** y **17**, que son estados suyos.
+El Bloque 4 está cerrado. El camino del dato del diario (sesión 29), la
+pantalla de Hoy (sesión 30) y el workflow que publica (sesión 31) están
+hechos; lo que falta **no se hace desde aquí**, son tres pasos en la web de
+GitHub y una generación de contenido:
 
-Y un cabo suelto de F4, pequeño: **`Constellation` sigue trazándose con
-`Animated` y `useNativeDriver: false`**, que es exactamente el defecto por el
-que F4 trajo Skia. Ahora que Skia está instalado, mover ese trazado cuesta
-poco — y de paso desaparece el `length` precalculado de cada trazo, porque
-Skia recorta un camino por fracción y no por longitud de guion.
+1. **Settings → Pages → Source: GitHub Actions**, y el secreto
+   **`ANTHROPIC_API_KEY`** en Settings → Secrets and variables → Actions. (El
+   repo ya es público, que era la otra condición.)
+2. **Generar la edición de hoy** (`workflow_dispatch` del workflow del diario,
+   con la fecha de hoy) y verla en la app.
+3. Luego, descomentar el `schedule`. El workflow genera **hoy + 7 días**, así
+   que la primera semana hay que llenarla a mano.
+
+Hasta entonces Hoy se ve entera con su pie de "el texto de hoy todavía no
+está" — que es correcto, y es el primer estado que conviene mirar.
+
+**Y el Bloque 4b tiene un requisito de salida que no es opcional**: salir de
+GitHub Pages y con un dominio propio delante **antes del primer build de
+tienda**. Después, la URL está horneada en cada instalación.
+
+El cabo suelto de F4 ya no lo es: **`Constellation` se dibuja con Skia**
+(sesión 27) y con él se fue el `length` precalculado de cada trazo. Del Bloque
+4 no queda nada más que F5.
 
 ### Los huecos de F3, cerrados (sesión 20)
 
@@ -94,8 +111,8 @@ falta hora" del BRD §8.1.
 
 ### Las otras pantallas de `Pantallas MVP.dc.html`
 
-Son ya **23 artboards**. 01·02·03 son F1 y 09 es F2; 05·13·14·19 son F3; 06 es
-F6. Todos hechos. De los que quedan:
+Son ya **25 artboards**. 01·02·03 son F1 y 09 es F2; 05·13·14·19 son F3; 06 es
+F6; 25 es el hub de la mascota. Todos hechos. De los que quedan:
 
 - **08·18·20·21·22·23 — Explorar entero, hecho (sesión 23)**. El encargo de
   diseño que la sesión 21 dejó pedido llegó dibujado (20 a 23) y se implementó:
@@ -104,10 +121,13 @@ F6. Todos hechos. De los que quedan:
 - **La barra de pestañas, hecha (sesión 26)**: `_ui/components/TabBar.tsx` y el
   grupo `app/(tabs)/`. Está especificada en el canvas del **sistema de
   diseño**, sección *Tab bar*, no en el de pantallas — por eso costó tanto
-  encontrarla. ⚠️ **El destino raíz de la pestaña de la mascota no está
-  dibujado**: 09 es un editor con "Guardar" y sin barra, y los tres artboards
-  marcados "destino raíz" son 04, 08 y 10. Se apunta al perfil, que es la
-  pantalla de la mascota que existe
+  encontrarla
+- **25 Hub de la mascota — hecho (sesión 27)**. Cierra el ⚠️ que la sesión 26
+  dejó abierto: el destino raíz de la segunda pestaña no estaba dibujado y se
+  apuntaba al formulario del perfil. Ya lo está, y es un **hub**: retrato y
+  nombre como título, el trío Sol · Luna · Ascendente y tres filas —su carta
+  (05), quién es (06) y sus datos (09)—. El perfil editable baja un piso, a
+  `/pet/[id]`
 - **24 Créditos — hecho (sesión 23)**. Llegó dibujado y se implementó:
   `app/credits.tsx`. Cierra el bloqueo de la atribución de GeoNames, que es
   **obligación de licencia** y no cortesía. Vive dentro de Ajustes, que no
@@ -116,9 +136,9 @@ F6. Todos hechos. De los que quedan:
   la rama vacía de Hoy. Se llega borrando la única mascota; el reparto de
   `index.tsx` manda al onboarding en el primer arranque, así que es la vuelta
   y no la ida
-- ⚠️ **15 y 17 esperan a Hoy, no a que alguien los maquete.** Los dos son
-  estados **de la pantalla Hoy** (F5), y por eso no se pueden implementar
-  todavía:
+- **15 y 17 — hechos (sesión 30)**, en cuanto Hoy existió. Los dos eran
+  estados **de la pantalla Hoy** (F5) y por eso esperaban a ella y no a que
+  alguien los maquetara. Lo que dejaron escrito:
   - **15 Hoy cargando** es la silueta de las tarjetas del día. Su forma *es*
     la forma de Hoy: sin Hoy, el esqueleto habría que inventárselo. Lo que sí
     deja escrito es una regla general que vale para F5 — "solo se ausenta lo
@@ -139,20 +159,46 @@ F6. Todos hechos. De los que quedan:
   Es solo que F9 vive en el Bloque 5 — corregido en la sesión 23, la sesión 21
   lo dejó anotado como si la spec no existiera
 
-#### ⚠️ Un hueco de contenido que el artboard 23 destapa
+#### El hueco de contenido del artboard 23, cerrado
 
-El artboard rotula "En un perro" un texto sobre **lo que la fase de esta
-semana le hace a un perro**, y ese contenido **no existe**. Los ocho
-fragmentos `species=dog;moon_phase=…` del catálogo retratan al perro *nacido*
-en esa fase ("Nacido con la luna entera encima"), que es otra cosa.
+El artboard rotula "En un perro" un texto sobre **lo que la fase de esta semana
+le hace a un perro**, y ese contenido no existía: los ocho fragmentos
+`species=dog;moon_phase=…` retrataban al perro *nacido* en esa fase, que es
+otra cosa. Se generó la novena categoría (8 fragmentos, clave
+`species=dog;moon_phase=…;when=today`, sesión 23b) y **la ficha tiene ahora las
+dos secciones**: "En un perro" y "Nacido en esta fase". Afectaba también al
+artboard 07, que se apoyaba en el mismo contenido.
 
-La ficha se implementó rotulando por lo que hay — **"Nacido en esta fase"**—
-porque poner "En un perro" encima, en una pantalla cuyo pie dice "Es la fase
-de hoy", hace leer un retrato natal como una previsión del día. **Es una
-decisión de contenido pendiente**: o el pipeline genera una novena categoría
-(la fase de hoy × su efecto, 8 fragmentos) y entonces la ficha tiene las dos
-secciones, o el artboard 23 se rotula como está. Afecta también al **07 Fase
-lunar**, que se apoya en el mismo contenido inexistente.
+### Encargo de diseño pendiente
+
+Lo que está esperando al canvas, ordenado por lo que bloquea:
+
+1. ⚠️ **El selector de mascota del hub no está dibujado** (artboard 25). Su
+   nota dice que una segunda mascota entraría "por el nombre de arriba", y ese
+   control —el nombre con su punta, y la hoja de selección— no existe.
+   **Bloquea el flujo de segunda mascota**, que es donde se toca el paywall de
+   verdad, y es lo que el propio canvas anuncia como "lo siguiente"
+2. ⚠️ **El pie del artboard 17 explica mal el fallo que enseña**: "su carta y
+   su día se calculan en el móvil". La carta sí; el día se **descarga** (BRD
+   §7.4, capa 2). Corregido en la app (`content/ui/labels.ts`, `OFFLINE_NOTE`);
+   falta en el canvas
+3. ⚠️ **Falta el estado "el día todavía no está publicado"**, que no es lo
+   mismo que sin red: uno se arregla con cobertura y el otro no se arregla
+   desde el móvil. Existe ya en la app con texto escrito aquí
+   (`UNPUBLISHED_NOTE`) y merece su rótulo en el canvas — hoy es, además, el
+   estado en el que se ve la app hasta que el CDN publique
+4. **La tarjeta de "Su Luna" del artboard 04 va sin cuerpo**, solo titular,
+   mientras las otras dos lo llevan, y el 17 hace lo mismo con la del Sol. No
+   hay nota que lo explique, así que se implementó **con cuerpo en las tres**:
+   esconder texto que existe pide una razón escrita. Si la razón es que una
+   Luna dudosa no debe afirmar tanto, se dice y se cambia
+5. **El tratamiento de las constelaciones pobres** (Aries 4 estrellas, Cáncer
+   5, Libra 6; Piscis con la dominante a magnitud 3,62). Se dejó "para
+   decidirlo con las tarjetas de F5 delante" — **ya están delante**
+6. **El artboard 18 afirma que Cáncer es "la constelación más tenue"**: es un
+   dato, y hay que verificarlo antes de publicarlo
+7. **El contorno del perro sobre el asterismo del icono** — necesita mano de
+   dibujo. Todo el andamio está hecho (Bloque 1); faltan las líneas
 
 ### Lo que hay que leer antes de tocar código
 
@@ -176,9 +222,38 @@ matarlo.
   módulo nativo que entre obliga a rehacerlo, y si el que cambia es
   `react-native-worklets` hay **tres** cachés que caducan (ver el registro de
   la sesión 25)
-- **Cuatro correcciones en el canvas**, listadas en el Bloque 3 (el "Guardar"
-  del artboard A, los datos internacionales del H, los "cuatro mestizos" del B
-  y el orden del enum del F)
+- **Dos cosas a mano en GitHub**, y sin ellas el diario no llega al móvil (ver
+  Bloque 4b). ~~El repositorio tiene que ser público~~ — **ya lo es**
+  (comprobado, `visibility: PUBLIC`), así que Pages no pide plan de pago:
+  1. **Settings → Pages → Source: GitHub Actions**
+     (`.../settings/pages`);
+  2. el secreto **`ANTHROPIC_API_KEY`** en **Settings → Secrets and variables →
+     Actions → New repository secret** (`.../settings/secrets/actions`), con
+     ese nombre exacto — es el que lee `generate-daily.yml`. El valor sale de
+     `console.anthropic.com` → API keys, y lo que gaste el diario se factura
+     ahí (~12,50 €/mes si corre cada noche, BRD §7.4)
+
+  **Desde este equipo hay que hacerlo por la web**, con la sesión de
+  `davidliegar`: el `gh` que está instalado está autenticado como otra cuenta
+  y solo tiene permiso de **lectura** sobre el repositorio, así que
+  `gh secret set` fallaría. `git push` sigue funcionando porque va por SSH,
+  con otras credenciales
+- ⚠️ **Dos cosas del canvas que la pantalla de Hoy destapa** (sesión 30):
+  - **el texto del artboard 17 dice algo que ya no es verdad**: "su carta y su
+    día se calculan en el móvil". La carta sí; el día no — el diario se
+    descarga (BRD §7.4, capa 2). Está corregido en
+    `content/ui/labels.ts` (`OFFLINE_NOTE`) para no explicar mal justo el fallo
+    que se está enseñando, y conviene arreglarlo también en el canvas
+  - **la tarjeta de "Su Luna" del artboard 04 va sin cuerpo**, solo titular,
+    mientras que las otras dos lo llevan. No hay nota que lo explique y el 17
+    hace lo mismo con la del Sol, así que se ha implementado **con cuerpo en
+    las tres**: esconder texto que existe pide una razón, y no la hay escrita.
+    Si la razón es que una Luna dudosa no debe afirmar tanto, se dice y se
+    cambia
+- ~~Cuatro correcciones en el canvas~~ — **hechas** (respuesta de diseño de la
+  sesión 27): `Editores F2.dc.html` ya dice "los tres mestizos y al pitbull"
+  en el B, ordena por el enum en el F, tiene las cuatro Barcelonas reales con
+  su huso en el H y el A perdió el "Guardar"
 - ~~La atribución de GeoNames~~ — **hecha** (sesión 23): artboard 24 en
   `app/credits.tsx`, con las cuatro fuentes y sus licencias. La única en oro es
   CC BY 4.0, que es la que obliga
@@ -673,13 +748,41 @@ Referencia: **BRD §7.4, §7.5**.
 
 ## Bloque 4 — App: F4-F7 (contenido visual)
 
+- [x] **`Constellation` con Skia**, hecho (sesión 27): era el último trazo que
+      seguía yendo por el hilo de JS (`Animated` + `useNativeDriver: false`),
+      que es el defecto por el que F4 trajo Skia. Con `end` se recorta el
+      camino por fracción, así que desaparece el `length` precalculado del
+      generador, del módulo generado y de su test
 - [x] **F4 — Rueda de carta astral con Skia, interactiva**, hecho (sesión 24):
       `chart/ui/NatalWheel.tsx` reescrito sobre Skia, `chart/ui/reveal.ts` con
       el guion del revelado y `_ui/components/StarField.tsx` con el parallax.
       La geometría no se tocó: `chart/ui/wheel.ts` describe dónde va cada cosa
       y era independiente del motor de pintado, que es justo lo que D18 dejó
       preparado
-- [ ] F5 — Carta del día (tarjetas separadas por fragmento, BRD §7.4)
+- [ ] **F5 — Carta del día** (tarjetas separadas por fragmento, BRD §7.4)
+      - [x] **El camino del dato, hecho** (sesión 28): el diario entra como
+            **capa 2 del contexto `content`** —no como contexto nuevo—, con
+            `DailyKey`, `DailyEdition`, los puertos `DailyRepository` y
+            `DailyCache`, `CdnDailyRepository` (HTTP + caché, con tiempo de
+            espera), `SqliteDailyCache` (migración 003) y sus dobles. 27 tests
+      - [x] **La pantalla Hoy, hecha** (sesión 30): artboard 04 con sus dos
+            estados, **15** (la silueta) y **17** (sin red). Con ella,
+            `DailyCard`, `EnergyDots`, `DailySkeleton`, `MoonStrip`,
+            `dailyCards.ts` y `dailyQueries.ts`
+      - [x] **El CDN, resuelto de forma provisional** (sesión 31): GitHub
+            Pages, con `publish-content.yml` y `app.json` ya apuntando ahí.
+            Sigue pendiente **encenderlo** (tres pasos a mano, arriba) y
+            **migrarlo antes de salir** — Bloque 4b
+      - [ ] **El cron de verdad**: descomentar el `schedule` de
+            `.github/workflows/generate-daily.yml` y poner el secreto
+            `ANTHROPIC_API_KEY`. El workflow **ya genera hoy + 7 días** por
+            defecto, así que el aviso que la sesión 29 dejó anotado —la app
+            pide la fecha **local**, y una edición generada "por la mañana del
+            propio día" dejaría sin diario a quien abre la app de madrugada—
+            **está cubierto mientras el buffer se mantenga**. Lo que sí hay que
+            hacer es **llenarlo la primera vez**: el día que se encienda el
+            cron no hay ninguna edición futura publicada, y la primera semana
+            hay que generarla a mano
 - [x] F6 — Perfil de personalidad raza×signo. **Completo, adelantado**:
       `app/pet/[id]/personality.tsx` (artboard 6). Se hizo fuera de orden
       porque es donde vive la mitad del catálogo escrito — 780 de los 1.560
@@ -692,10 +795,63 @@ Referencia: **BRD §7.4, §7.5**.
       La fase, la iluminación y el día del ciclo, el disco con su terminador
       real, el próximo cambio de signo, la próxima luna nueva y su Luna natal.
       Se sostiene **sin mascota**: lo único suyo es la última fila
+- [x] **Hub de la mascota (artboard 25)**, hecho (sesión 27): `app/(tabs)/pet.tsx`
+      pasa a ser el destino raíz que faltaba y el perfil editable baja a
+      `app/pet/[id]/index.tsx`. Con él, `chart/ui/ChartTrio.tsx` y
+      `_ui/components/NavRow.tsx`
 - [x] **Ajuste avanzado: sistema de casas, con aviso al cambiar** (BRD §12.3),
       hecho (sesión 26): contexto `settings/` entero y
       `app/settings/house-system.tsx`. **Dos opciones y no tres** — las casas
       iguales son el fallback del motor en latitud alta, no una elección
+
+---
+
+## Bloque 4b — Publicación del contenido *(provisional en GitHub)*
+
+El diario tiene que llegar al móvil desde algún sitio. Se prueba en **GitHub
+Pages** porque no exige abrir ninguna cuenta más, y **sale de ahí antes de la
+tienda**: es una parada, no un destino.
+
+- [x] **Workflow de publicación** → `.github/workflows/publish-content.yml`.
+      Publica **solo** `content/daily/*.json`: el catálogo inmutable viaja en
+      el binario y no tiene por qué estar en la web, y los `*.report.md` son
+      notas de revisión internas. Se dispara al mergear contenido en `main` y
+      a mano
+- [x] `expo.extra.contentBaseUrl` apuntando a
+      `https://davidliegar.github.io/dogstrology/daily/`
+- [x] El repositorio es **público**, así que Pages no pide plan de pago
+- [ ] **Encenderlo** — los dos pasos a mano de "lo que está esperando a alguien
+      que no soy yo": Pages con origen *GitHub Actions*, y el secreto
+      `ANTHROPIC_API_KEY`
+- [ ] **Generar una edición para el día de hoy** y verla en la app. Hasta
+      entonces Hoy enseña su pie de "el texto de hoy todavía no está", que es
+      correcto y es el estado que hay que ver primero
+
+### ⚠️ Requisito de salida: migrar antes de publicar en la tienda
+
+**No es una mejora, es un bloqueo de lanzamiento.** Dos motivos, y el segundo
+es el que muerde:
+
+1. **Los términos de uso de GitHub Pages** desaconsejan servir un producto de
+   pago ("not intended to be used as a free web hosting service to run your
+   online business"). Dogstrology cobra suscripción (F11), así que es zona
+   gris — y el ancho de banda es de 100 GB/mes blandos frente a ilimitado en
+   Cloudflare, que da para unos 170.000 usuarios activos a ~18 KB/día.
+2. **La URL se hornea en cada build instalado.** Mientras no haya nada en la
+   tienda, cambiar de CDN es una línea de `app.json`; después, es una
+   actualización de la app que deja colgadas las instalaciones viejas.
+
+Por eso el requisito no es "migrar algún día" sino **salir con un dominio
+propio delante** (`contenido.dogstrology.app` o el que sea). Con el dominio, el
+host de debajo se cambia cuando se quiera y la app ni se entera; sin él, la
+primera versión publicada congela la decisión para siempre.
+
+- [ ] Dominio propio, apuntando al CDN
+- [ ] Proyecto de Cloudflare Pages (D11) sirviendo `content/daily/`
+- [ ] `contentBaseUrl` con el dominio propio, **antes del primer build de
+      tienda**
+- [ ] Retirar `publish-content.yml`, o dejarlo publicando en paralelo mientras
+      dure la transición
 
 ---
 
@@ -2516,3 +2672,230 @@ cero. Si algún día se hace: límite duro de 5 mensajes/día aplicado en servid
   De paso, la marca de acento sale a `_ui/components/SelectedMark.tsx` y ahora
   la comparten los dos
 - **341 tests** (eran 330), lint y `tsc` limpios
+
+### 2026-08-28 (27) — el hub de la mascota, y la hoja que se arrastra
+- **El artboard 25 llegó dibujado y confirma el hueco**: la segunda pestaña se
+  llama "Baloo" y llevaba a un formulario con campos. Ahora abre un **hub** —
+  ni "Guardar" ni un solo campo—, y sus tres destinos son las tres preguntas
+  que se le hacen a un perro: cómo es su cielo (05), qué dice de él (06) y con
+  qué datos se calculó (09)
+- **Sin cabecera propia**: el retrato y el nombre son el título. Es lo que un
+  destino raíz puede permitirse y una pantalla apilada no, y por eso
+  `PetIdentity` gana una segunda medida (`hero`, 88 px) en vez de que el hub
+  se dibuje su propio bloque de identidad
+- **El retrato del hub no se toca, y por eso no pinta el aspa.** `PetIdentity`
+  solo dibuja la invitación de "añadir foto" cuando hay `onPressPhoto`: en el
+  hub el retrato es el título, y una invitación que no responde es la mentira
+  que este proyecto no pinta. La foto se cambia desde "Sus datos", que está a
+  una fila
+- **El perfil editable baja un piso**: de `app/(tabs)/pet.tsx` a
+  `app/pet/[id]/index.tsx`. Deja de ser destino raíz, así que gana flecha de
+  volver, va por id como los editores que cuelgan de él y su título pasa de
+  "Datos de Baloo" al par cintillo + título ("Baloo" / "Sus datos") que ya usa
+  la carta
+- **La degradación la hereda el hub, no la resuelve.** Sin Ascendente la
+  tercera tarjeta del trío va a **trazo discontinuo** con "Sin hora" (o "Sin
+  lugar"), que es la misma gramática que el disco a trazos de la rueda del 14;
+  y la insignia de **C.2b** va en la **fila de datos** y no en la tarjeta,
+  porque esa fila es la que lleva al sitio donde se arregla. Una sola vez por
+  elemento, que es lo que manda el sistema
+- **Se cae la fila de "Compartir su carta"** que el artboard pinta al pie: es
+  F9 (Bloque 5) y no hay a dónde llevarla. Misma decisión que dejó fuera el
+  botón de compartir de la hoja de planeta
+- **`MISSING_DATUM_ROUTES` sale a `chart/ui/missingDatum.ts`**: la promesa de
+  "Añadir la hora" la hacían la carta y el perfil por separado, y en el perfil
+  el `onPress` estaba **vacío** desde F2 — no había pila donde apilar el
+  editor porque la pantalla era destino raíz. Ahora la tiene, y la tabla es una
+- **El sistema de casas se cambia desde la carta.** El pie decía "se cambia en
+  Ajustes" y obligaba a salir, buscar la pestaña y bajar hasta la fila; ahora
+  el pie **es** el enlace y abre el mismo selector, no una copia suya
+- **La hoja de planeta entra desde abajo y se cierra arrastrándola.** Sube al
+  montarse, y para cerrarse baja y **solo entonces** llama a `onClose`: si
+  avisara antes, el padre la desmontaría a media animación y desaparecería de
+  golpe. El velo se apaga con el recorrido de la hoja y no con un tiempo
+  propio, así que arrastrarla aclara el fondo bajo el dedo y soltarla a medias
+  devuelve las dos cosas a su sitio a la vez
+- **El arrastre vive en el asa, no en la hoja entera**: el cuerpo scrollea, y
+  un gesto vertical en el mismo sitio tendría que negociar con el scroll cada
+  vez. El asa deja de ser decorativa y pasa a ser lo que dice ser
+- **`react-native-gesture-handler` pasa a dependencia declarada** (3.2.1). Ya
+  estaba en `node_modules` y **ya estaba compilada** en los dos builds nativos
+  —es transitiva de `expo-router`—, así que declararla no obliga a reconstruir
+  nada. Lo que sí hacía falta era `GestureHandlerRootView` en la raíz: sin ella
+  el gesto no falla, simplemente no ocurre
+- **En esta hoja los valores compartidos se leen con `get()`/`set()`** y no con
+  `.value`, que es lo que usa el resto de la app. Aquí se escriben desde un
+  gesto y desde un `onLayout`, y a `.value` fuera de un hook de Reanimated el
+  compilador de React le ve una mutación de algo inmutable
+  (`react-hooks/immutability`, error de lint). Los accesores son la misma API
+  dicha de la forma que sí entiende
+- **Tres ajustes de margen y de alineación, tras probarlo**:
+  - el selector de sistema de casas tenía **alto fijo de 56** heredado de una
+    fila de una línea, y las suyas son de dos (48 px de texto): el nombre
+    quedaba a 4 px de los dos filos y las dos opciones se leían como un bloque.
+    Pasa a mínimo con `paddingVertical`
+  - el enlace del sistema de casas de la carta **se pega a la derecha**, contra
+    su punta: el chip a un margen y el enlace al otro se leen como dos cosas
+    —lo que rige y cómo cambiarlo— y no como una frase corrida
+  - **el retrato del hub sí se toca, y lleva a "Sus datos"**. La sesión lo
+    había dejado inerte por fidelidad al artboard, y probándolo se ve que **la
+    gente toca ahí**: sin foto, el hueco con su aspa es la invitación más clara
+    de la pantalla. No lleva al selector de foto directo —desde el título se va
+    a la ficha, no a un editor suelto—, y `PetIdentity` gana `pressLabel` para
+    no prometerle a un lector de pantalla una pantalla que está un toque más
+    allá. `onPressPhoto` pasa a llamarse `onPressAvatar`, que es lo que es
+- **341 tests**, lint y `tsc` limpios
+
+### 2026-08-28 (28) — `Constellation` con Skia, el último trazo por el hilo de JS
+- **Era el cabo de F4**: el asterismo se trazaba con `Animated` y
+  `useNativeDriver: false` —`strokeDashoffset` no es una prop que el hilo
+  nativo sepa animar— así que el revelado de la revelación de F1 y el de la
+  ficha de signo competían con cualquier consulta que resolviera a la vez.
+  Ahora es un `<Canvas>` de Skia y el trazado corre entero en el hilo de UI
+- **Se va el `length` precalculado**, y con él un número derivado que podía
+  desincronizarse del `d` que describía. Skia recorta un camino **por
+  fracción** (`end`), no por longitud de guion, así que la medida sobra: se
+  cae del generador, del módulo generado y de su interfaz
+- **El invariante no se pierde, cambia de sitio.** El generador seguía
+  comprobando que los trazados son polilíneas puras solo para poder medirlos;
+  ahora lo comprueba porque es lo que hace que `Skia.Path.MakeFromSVGString`
+  no devuelva `null`, y el test de la app pasa de verificar la longitud a
+  verificar la forma. Importa porque un `d` que no parsea **no da error**: da
+  una constelación con estrellas y sin líneas
+- **Los trazos siguen empezando y acabando a la vez** aunque midan distinto,
+  que es lo que hacía el dasharray por path: cada uno se recorta con su propia
+  fracción
+- **Respeta "reducir movimiento"**, como la rueda: quien lo pide ve el
+  asterismo entero desde el primer fotograma. No lo hacía antes
+- `HouseWheel`, `MoonDisc` y `CanisMajor` **se quedan en `react-native-svg`**:
+  son dibujos estáticos y no tienen el defecto que se estaba arreglando
+- **341 tests**, lint y `tsc` limpios
+
+### 2026-08-28 (29) — F5: el camino del dato del diario
+- **El diario no es un contexto nuevo: es la capa 2 de `content`.** El BRD ya
+  lo dice así (§7.4) y el adaptador del catálogo ya se rotulaba "capa 1". Lo
+  decisivo es que comparten `Fragment` —los produce el mismo `schema.mjs`— y
+  un contexto aparte habría obligado a duplicar el modelo o a que un dominio
+  importara el de otro. Lo que **no** comparten es el puerto: el catálogo viaja
+  en el binario y no caduca, el diario se descarga y se guarda siete días
+- **Tres desenlaces, y no se mezclan**: una edición, `null` (ese día no está
+  publicado — o el pipeline no ha llegado, o la fecha es futura) y
+  `NETWORK_ERROR`. El tercero es el único que se arregla con cobertura, y por
+  eso tiene código propio: es lo que deja a la pantalla ofrecer un reintento en
+  vez de un "algo ha ido mal" (artboard 17)
+- ⚠️ **La fecha es la local, y eso es un requisito para el pipeline.**
+  `toISOString().slice(0,10)` es la forma corta y la equivocada: a las 00:30 en
+  España devuelve la de ayer, y quien abre la app después de medianoche vería
+  el día anterior con el móvil marcando el siguiente. Consecuencia: **la
+  edición de D tiene que estar publicada antes de que D empiece en España**
+  (antes de las 22:00 UTC de D−1). Generarla "por la mañana del propio día"
+  deja sin diario a quien madruga
+- **La caché va primero y no se revalida.** La edición de un día no cambia una
+  vez publicada —es un fichero inmutable con la fecha en el nombre—, así que
+  tenerla es tenerla. Es lo que hace instantánea la segunda apertura del día,
+  con cobertura o sin ella
+- **La poda cuenta desde el día que se pide**, no desde hoy: así abrir el
+  diario de anteayer no borra la mitad de la reserva
+- **La edición se guarda como un JSON en una columna** y no en 37 filas. Se lee
+  siempre entera y no se consulta por campo; partirla añadiría un índice, un
+  `JOIN` y otra forma de que el esquema y `schema.mjs` dejen de coincidir. La
+  regla de BRD §12.2 contra los BLOB es sobre **ficheros de medios**
+- **La caché borra con `DELETE` físico**, y es la primera excepción explícita
+  al borrado lógico: este protege lo que el usuario ha escrito y no se puede
+  recuperar; una edición caducada se vuelve a descargar. Guardar lápidas haría
+  crecer la tabla para siempre a cambio de nada
+- **Un fragmento roto se cae él solo, no la edición.** Hoy es una tarjeta por
+  fragmento, así que una tarjeta de menos es la degradación que el diseño ya
+  contempla; tirar el día entero convertiría una errata en pantalla vacía. Lo
+  mismo con una fila de caché que ya no parsea: se lee como si no estuviera
+- **`fetch` no lleva tiempo de espera propio**, así que lo lleva el adaptador
+  (8 s). Sin él, una conexión que acepta y no responde —el wifi del hotel, el
+  metro— deja la pantalla girando para siempre en vez de enseñar el aviso. Y
+  un cuerpo que no es JSON con un 200 es un portal cautivo: de cara al usuario,
+  eso es no tener red
+- **Primera llamada de red del proyecto**, y se nota en dos comentarios del
+  `_kernel` que decían "aquí no hay `fetch`": `DomainError` sigue sin detectar
+  cancelación, que es lo único que aún no hace falta
+- **`_kernel/config.ts`**, lo único que la app lee de fuera del código
+  (`app.json` → `expo.extra.contentBaseUrl`). Sin valor por defecto y lanzando:
+  un CDN de mentira convertiría un build mal configurado en un "hoy no hay
+  diario" que nadie investiga. Y lanza **donde se usa**, no en el arranque, así
+  que un despliegue sin CDN deja Hoy rota y no la app entera — por eso el del
+  diario es el único adaptador que el composition root construye tarde
+- **368 tests** (eran 341), lint y `tsc` limpios
+
+### 2026-08-28 (30) — F5: la pantalla de Hoy
+- **Artboard 04, con sus dos estados.** Una tarjeta por fragmento y en cascada
+  de 70 ms, que no es adorno: son cuatro bloques de texto parecidos y llegando
+  a la vez el ojo no sabe por dónde empezar
+- **Lo que se calcula en el móvil va antes que lo que se descarga.** La tira de
+  la Luna sale del motor, así que se pinta primero y sigue en su sitio cuando
+  el diario no llega. Es lo que hace que la pantalla sin conexión no esté
+  vacía, que es justo lo que el artboard 17 enseña
+- **El color del día tiñe solo la tarjeta del cielo**; las de eje llevan el
+  elemento de su signo. Es la nota del canvas, y de paso hace que se distingan
+  de un vistazo sin repetir el nombre del signo dentro del texto
+- **Ninguna tarjeta tiene estado propio: desaparece o no está.** Sin hora no
+  hay Ascendente y esa tarjeta no existe; si el filtro de salud bloqueó el
+  fragmento de ese signo, tampoco (pasó con 2 de los 37 del 25 de agosto). No
+  hay una sola rama que decida "hoy la pantalla va en corto" — `dailyCards.ts`
+  es una función pura con tests, no un `if` dentro del render
+- **La Luna dudosa pierde el grado y gana la insignia.** Dar 8°40′ de algo que
+  puede caer en otro signo es lo que C.2b existe para evitar, y el sitio del
+  grado lo ocupa la insignia
+- **El artboard 15 se implementa sin rueda giratoria**, como pide: la silueta
+  dice cuántas tarjetas vienen y de qué tamaño, así que al llegar el contenido
+  la pantalla no da un salto. Las tres opacidades (1 · 0,55 · 0,25) son la
+  cascada congelada. El campo estelar sigue parpadeando — es lo único que se
+  mueve mientras no hay nada, y lo que distingue una espera de una pantalla
+  colgada
+- ⚠️ **El pie del artboard 17 decía algo que ya no es verdad** y se ha
+  corregido al implementarlo: "su carta y su día se calculan en el móvil" — la
+  carta sí, el día no, el diario se descarga. Explicar mal el propio fallo que
+  se está enseñando es peor que no explicarlo
+- **El pie aparece también cuando el día no está publicado**, que no es lo
+  mismo que no tener red y no se dice igual. Son los dos únicos motivos que
+  puede haber, y son los dos que la app sabe **sin** preguntarle al sistema por
+  la cobertura: no entra ninguna dependencia nativa nueva para esto
+- **Los tres enlaces provisionales de Hoy han muerto**, que era lo que quedaba:
+  la carta y la personalidad se abren desde el hub, y la Luna desde su tira
+- **`ScreenHeader` gana `accessory`**, una pieza a la derecha en vez de una
+  acción de texto: en Hoy es el retrato, que lleva a la ficha
+- **`formatIngress`**, hermana de `formatSkyMoment` con otra puntuación: en una
+  frase, `hoy · 17:12` con su punto medio se lee como un dato pegado y no como
+  algo que va a pasar. Y en Hoy, "hoy" se calla
+- **Campo estelar `today`**: tres estrellas y muy arriba. Hoy es una pila de
+  tarjetas con sombra, y una estrella detrás de una tarjeta no se ve
+- **375 tests** (eran 368), lint y `tsc` limpios
+
+### 2026-08-28 (31) — publicar el diario, provisionalmente en GitHub
+- **GitHub Pages en vez de Cloudflare, y a sabiendas.** Se prueba en GitHub
+  porque no exige abrir una cuenta más y el workflow del diario ya vive ahí;
+  D11 sigue en pie y la migración pasa a ser **requisito de salida**, no mejora
+  (Bloque 4b). Los dos motivos: los términos de uso de Pages desaconsejan
+  servir un producto de pago, y son 100 GB/mes blandos frente a ilimitado
+- **Lo que de verdad congela la decisión no es el host, es la URL.** Se hornea
+  en cada build instalado: mientras no haya nada en la tienda, cambiar de CDN
+  es una línea de `app.json`; después es una actualización que deja colgadas
+  las instalaciones viejas. Por eso el requisito se escribe como **"salir con
+  un dominio propio delante"** y no como "migrar algún día"
+- **`publish-content.yml` publica solo `content/daily/*.json`.** El catálogo
+  inmutable viaja en el binario y no tiene por qué estar en la web, y los
+  `*.report.md` son notas de revisión internas. Con `.nojekyll`, que si no
+  Jekyll se come cualquier fichero que empiece por `_`, y una portada mínima
+  para poder saber de un vistazo si el despliegue funcionó
+- **Sin cancelar el despliegue en curso** (`cancel-in-progress: false`): el que
+  corre ya está publicando ficheros y cortarlo por la mitad dejaría el sitio a
+  medias
+- **Corregido un aviso de la sesión 29**: decía que había que publicar la
+  edición de D antes de que D empezara en España. El workflow del diario **ya
+  genera hoy + 7 días**, así que está cubierto mientras el buffer se mantenga.
+  Lo que sí hace falta es **llenarlo la primera vez**: el día que se encienda
+  el cron no hay ninguna edición futura publicada
+- **Cerrada una sección obsoleta del plan**: el hueco de contenido del artboard
+  23 se tapó en la sesión 23b (los 8 fragmentos de la fase como cielo) y la
+  ficha tiene las dos secciones desde entonces. El plan seguía anunciándolo
+  como pendiente
+- **Encargo de diseño escrito**, siete puntos, con el selector de mascota del
+  hub arriba del todo: es lo único que bloquea un flujo entero (segunda
+  mascota → paywall)
