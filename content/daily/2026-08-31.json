@@ -1,0 +1,298 @@
+[
+  {
+    "key": "date=2026-08-31;axis=moon;sign=virgo",
+    "headline": "Su orden de Virgo choca con la prisa",
+    "body": "Su Luna en Virgo pide horarios clavados, y la Luna en Aries de hoy llega con acelerón. Puede que arranque un juego y lo suelte a los dos minutos, o que te siga de cuarto en cuarto sin decidirse por un sitio donde tumbarse. Lo previsible le devuelve el eje.",
+    "advice": "Saca el paseo a la hora de siempre y regálale cinco minutos de olfateo tranquilo antes de volver a casa.",
+    "energyScore": 3,
+    "colorOfDay": "earth"
+  },
+  {
+    "key": "date=2026-08-31;axis=moon;sign=capricorn",
+    "headline": "Prisa de Aries contra su reloj interno",
+    "body": "La Luna en Aries hace cuadratura a su Luna en Capricornio: el impulso empuja y la costumbre frena. Puede plantarse ante la puerta media hora antes del paseo, moverse en la cama sin acabar de acomodarse y protestar si algo se sale del guion de siempre.",
+    "advice": "Respeta los horarios de siempre y añade diez minutos de juego intenso antes del paseo, para descargar la prisa.",
+    "energyScore": 4,
+    "colorOfDay": "earth"
+  },
+  {
+    "key": "date=2026-08-31;axis=moon;sign=scorpio",
+    "headline": "Cariño con prisa y a tu sombra",
+    "body": "Tu Luna en Escorpio quiere apego profundo, y la Luna de hoy en Aries lo pide todo ya. Espera que te siga de habitación en habitación, que deje caer el juguete a tus pies y que insista dos minutos después. Nada dramático: solo impaciencia con capa de intensidad.",
+    "advice": "Dale diez minutos de juego intenso al llegar a casa y después un rato largo de sofá y caricias sin ninguna prisa.",
+    "energyScore": 4,
+    "colorOfDay": "water"
+  },
+  {
+    "key": "date=2026-08-31;axis=moon;sign=cancer",
+    "headline": "Prisa por fuera, nido por dentro",
+    "body": "La Luna de hoy pasa por Aries y hace cuadratura a tu Luna en Cáncer: quiere salir disparada y a la vez volver a la cama. Espera arranques repentinos hacia la puerta, mimos algo exigentes y esa manía de seguirte de habitación en habitación. El menguante suaviza el pico.",
+    "advice": "Un paseo corto y con ritmo a media tarde, y luego la manta en su sitio de siempre: primero descarga, después refugio.",
+    "energyScore": 3,
+    "colorOfDay": "water"
+  },
+  {
+    "key": "date=2026-08-31;axis=sun;sign=sagittarius",
+    "headline": "Dos fuegos que se reconocen sin hablar",
+    "body": "La Luna en Aries hace trígono a tu Sol en Sagitario y el fuego se reconoce: hoy sale de casa tirando de la correa y con la nariz marcando el rumbo. Va a querer ruta nueva, no la de siempre. La menguante le pone freno suave al final del día, cuando se derrumbe en su cama.",
+    "advice": "Cambia el recorrido del paseo largo de hoy: una calle nueva, otro parque, y déjale elegir alguna esquina.",
+    "energyScore": 5,
+    "colorOfDay": "fire"
+  },
+  {
+    "key": "date=2026-08-31;axis=moon;sign=pisces",
+    "headline": "Un empujón de fuego sobre agua mansa",
+    "body": "La Luna en Aries pasa por delante de tu Luna en Piscis y le mete prisa a un perro que suele ir a su ritmo. Puede levantarse de golpe, ladrar hacia la puerta y dos minutos después venir a pegarse a tu pierna. Arranques cortos y una vuelta rápida al contacto.",
+    "advice": "Sal a dar una vuelta corta en cuanto se active y, al volver, quédate un rato junto a su cama sin pedir nada más.",
+    "energyScore": 3,
+    "colorOfDay": "water"
+  },
+  {
+    "key": "date=2026-08-31;axis=sun;sign=scorpio",
+    "headline": "Marte manda en los dos, a distinto ritmo",
+    "body": "Tu Sol en Escorpio va de intensidad sostenida; la Luna en Aries, de arranques secos. Hoy verás las dos cosas: quince minutos clavado a un juguete y, de pronto, la urgencia de salir disparado. Nada extraño, solo dos velocidades del mismo motor compartiendo la tarde.",
+    "advice": "Empieza con un tira y afloja largo y termina con un paseo sin rumbo, parando donde quiera olfatear a su aire.",
+    "energyScore": 4,
+    "colorOfDay": "fire"
+  },
+  {
+    "key": "date=2026-08-31;axis=ascendant;sign=gemini",
+    "headline": "Hoy se presenta con el morro por delante",
+    "body": "La Luna en Aries hace sextil a tu Ascendente en Géminis: el filtro habitual de curiosidad dispersa se le vuelve arranque directo. Verás menos husmeo indeciso y más decisiones tomadas en medio segundo, sobre todo al cruzar puertas y saludar a desconocidos en el paseo.",
+    "advice": "Paseo por una ruta nueva del barrio y tres o cuatro minutos de juego de buscar el juguete escondido al volver.",
+    "energyScore": 4,
+    "colorOfDay": "air"
+  },
+  {
+    "key": "date=2026-08-31;axis=moon;sign=libra",
+    "headline": "Su Luna diplomática frente a un cielo brusco",
+    "body": "La Luna en Aries se opone a su Luna en Libra: el impulso tira de un perro que en el fondo prefiere los acuerdos. Espera peticiones repentinas —correa, juguete, tu regazo— y abandonos igual de repentinos. Hoy tiene la mecha algo corta con las prisas de los demás.",
+    "advice": "Sal a la hora de siempre y déjale marcar el ritmo: cinco minutos de olfateo tranquilo cierran muy bien el paseo.",
+    "energyScore": 3,
+    "colorOfDay": "air"
+  },
+  {
+    "key": "date=2026-08-31;axis=moon;sign=taurus",
+    "headline": "Su Tauro interior le pide el sofá, Aries le pide la puerta",
+    "body": "Tu Luna en Tauro va de rutinas firmes: la misma cama, el mismo horario, el mismo cojín. Hoy la Luna en Aries pasa por delante con prisa y le mete impaciencia en el cuerpo: puede plantarse en la puerta antes de la hora y luego volver al sitio de siempre a rumiarlo.",
+    "advice": "Sal a pasear diez minutos antes de lo habitual y deja que marque el ritmo; al volver, respeta su rincón sin insistir en jugar.",
+    "energyScore": 3,
+    "colorOfDay": "earth"
+  },
+  {
+    "key": "date=2026-08-31;axis=ascendant;sign=scorpio",
+    "headline": "El vigilante de siempre, con prisa",
+    "body": "Tu Ascendente en Escorpio se presenta al mundo observando primero: mirada fija, cuerpo quieto, todo bajo control. La Luna en Aries le mete un resorte debajo, así que hoy el escaneo dura tres segundos y luego sale disparado. Espera arranques secos en el paseo y frenazos igual de bruscos.",
+    "advice": "Dale un paseo con margen para arrancar cuando quiera y un juego de tira y afloja al volver, para cerrar el día con calma.",
+    "energyScore": 4,
+    "colorOfDay": "fire"
+  },
+  {
+    "key": "date=2026-08-31",
+    "headline": "La Luna en Aries enciende la mecha",
+    "body": "Con la Luna en Aries hay arranque puro: tirones al salir por la puerta, juguetes lanzados al aire y ganas de empezar cosas sin terminar ninguna. La fase menguante recorta la mecha, así que el chispazo llega pronto y se apaga pronto. Saturno retrógrado afloja las rutinas y las órdenes se oyen menos.",
+    "advice": "Saca hoy el paseo diez minutos antes y deja que marque el ritmo del primer tramo; luego, un juego corto de tira y afloja.",
+    "energyScore": 4,
+    "colorOfDay": "fire"
+  },
+  {
+    "key": "date=2026-08-31;axis=sun;sign=pisces",
+    "headline": "Un empujón de Aries en su alma de agua",
+    "body": "Con el Sol en Piscis, tu perro funciona a base de calma y medias tintas; hoy la Luna en Aries le mete prisa desde un signo vecino que no le pega nada. Puede arrancar a jugar con mucho ímpetu y desinflarse a los dos minutos, o buscarte con la mirada cuando el paseo se anima.",
+    "advice": "Salid a dar una vuelta conocida, con dos juegos cortos de por medio, y luego sofá sin pedirle nada más.",
+    "energyScore": 3,
+    "colorOfDay": "water"
+  },
+  {
+    "key": "date=2026-08-31;axis=ascendant;sign=aquarius",
+    "headline": "Tu raro de siempre, hoy con prisa",
+    "body": "La Luna en Aries hace sextil a tu Ascendente en Acuario: el perro que suele observar desde la barrera hoy entra primero. Saludará antes de pensarlo, cambiará de idea a mitad de paseo y elegirá la ruta nueva. La gibosa menguante le quita mecha al tramo final.",
+    "advice": "Déjale elegir el desvío en el paseo de hoy y reserva diez minutos de juego tranquilo para la vuelta a casa.",
+    "energyScore": 4,
+    "colorOfDay": "air"
+  },
+  {
+    "key": "date=2026-08-31;axis=sun;sign=leo",
+    "headline": "Fuego con fuego: hoy manda su Leo",
+    "body": "La Luna en Aries hace trígono a su Sol en Leo y los dos fuegos se suman sin discutir: saldrá a la calle con el pecho fuera, saludará a quien no le ha pedido nada y convertirá cualquier juguete en un acto público. Con Saturno retrógrado, el «quieto» de ayer hoy suena a sugerencia.",
+    "advice": "Dale un juego con público: lanzar y traer en el parque, y celebra cada devolución como si fuera la primera.",
+    "energyScore": 4,
+    "colorOfDay": "fire"
+  },
+  {
+    "key": "date=2026-08-31;axis=sun;sign=taurus",
+    "headline": "Prisa en el cielo, calma en el Tauro",
+    "body": "La Luna en Aries mete prisa y su Sol en Tauro no piensa negociar el ritmo. Espera arranques cortos —dos saltos, un ladrido al timbre— seguidos de plantarse en mitad de la acera a olerlo todo. La fase menguante baja el volumen: querrá moverse, pero a su manera y con pausas.",
+    "advice": "Sal al paseo sin reloj y déjale marcar el paso; aprovecha las paradas largas para rascarle el lomo con calma.",
+    "energyScore": 3,
+    "colorOfDay": "earth"
+  },
+  {
+    "key": "date=2026-08-31;axis=sun;sign=aquarius",
+    "headline": "Tu independiente de siempre, con arranque",
+    "body": "La Luna en Aries hace sextil con tu Sol de Acuario: hoy decide antes de consultarte. Tira hacia la calle que no tocaba, se inventa una versión rara del juego de siempre y se aburre del tercer 'siéntate' en cuanto lo pilla. Distante, pero de buen humor.",
+    "advice": "Déjale elegir el desvío en el paseo de hoy y cambia de juego en cuanto se aburra: novedad corta, poca repetición.",
+    "energyScore": 4,
+    "colorOfDay": "air"
+  },
+  {
+    "key": "date=2026-08-31;axis=ascendant;sign=virgo",
+    "headline": "Prisa de Aries contra el manual de Virgo",
+    "body": "Tu ascendente en Virgo inspecciona antes de actuar: olfatea, mide, repite. La Luna en Aries le mete prisa en el cuerpo y hoy arranca disparado en la puerta, frena en seco a los diez metros y vuelve atrás a revisar lo que se saltó. Método y arranque no se ponen de acuerdo.",
+    "advice": "Saca a pasear a la hora de siempre y alterna: unos minutos de trote y luego una parada larga de olfato tranquilo.",
+    "energyScore": 3,
+    "colorOfDay": "earth"
+  },
+  {
+    "key": "date=2026-08-31;axis=sun;sign=virgo",
+    "headline": "Su método ordenado contra el sprint de Aries",
+    "body": "El Sol en Virgo le pide rutina, orden y saber qué toca a cada hora. La Luna en Aries llega con prisa y propone lo contrario: salir ya, morder el juguete primero y pensar después. Espera un perro que arranca disparado y a los diez minutos vuelve a su ruta de siempre.",
+    "advice": "Empieza el paseo por el recorrido de siempre y guárdale cinco minutos de carrera suelta para el final.",
+    "energyScore": 4,
+    "colorOfDay": "earth"
+  },
+  {
+    "key": "date=2026-08-31;axis=ascendant;sign=aries",
+    "headline": "La Luna aterriza en su propia puerta",
+    "body": "La Luna pasa por tu Ascendente y la primera impresión sube de volumen: hoy sale primero por la puerta, saluda de frente y decide antes de pensar. Con Saturno retrógrado, las normas de siempre suenan más a sugerencia, así que cuenta con algún tirón en la esquina de costumbre.",
+    "advice": "Sal al paseo un poco antes y deja que marque el ritmo los cinco primeros minutos; luego retomas tú la dirección.",
+    "energyScore": 5,
+    "colorOfDay": "fire"
+  },
+  {
+    "key": "date=2026-08-31;axis=sun;sign=cancer",
+    "headline": "Impulso de Aries contra alma casera",
+    "body": "La Luna en Aries hace cuadratura a tu Sol en Cáncer: el arranque va por delante del carácter. Puede salir corriendo hacia la puerta y, dos minutos después, volver a pegarse a tu pierna. Empieza juegos que abandona a medias y después reclama sofá, manta y compañía.",
+    "advice": "Sal a un paseo corto y con ritmo, y al volver reserva diez minutos de sofá y caricias sin pedirle nada más.",
+    "energyScore": 3,
+    "colorOfDay": "water"
+  },
+  {
+    "key": "date=2026-08-31;axis=moon;sign=leo",
+    "headline": "Tu Luna de Leo se enciende con chispa de Aries",
+    "body": "La Luna en Aries hace trígono con su Luna en Leo: dos fuegos que se entienden sin discutir. Espera un perro que reclama público, que se planta delante de ti hasta que le mires y que celebra cualquier cosa como si fuera un cumpleaños. El apego hoy se expresa en volumen, no en mimos silenciosos.",
+    "advice": "Dedícale diez minutos de atención exclusiva y algún truco que ya domine: quiere aplausos más que juguetes nuevos.",
+    "energyScore": 4,
+    "colorOfDay": "fire"
+  },
+  {
+    "key": "date=2026-08-31;axis=sun;sign=gemini",
+    "headline": "Tu Géminis con el acelerador pisado",
+    "body": "La Luna en Aries hace trígono a tu Sol en Géminis y eso se traduce en un perro que empieza cinco cosas y termina una. Va a cambiar de juguete a media partida, tirar de la correa hacia cada esquina nueva y contestarte con dos ladridos cuando le hables. Hoy la novedad gana.",
+    "advice": "Cambia la ruta del paseo y mete tres juegos cortos en lugar de uno largo: hoy agradece variedad más que distancia.",
+    "energyScore": 4,
+    "colorOfDay": "air"
+  },
+  {
+    "key": "date=2026-08-31;axis=ascendant;sign=pisces",
+    "headline": "Cara de soñador, patas de sprinter",
+    "body": "El Ascendente en Piscis le da esa expresión blanda de perro que lo pide todo con los ojos, pero la Luna en Aries le mete prisa: hoy se planta en la puerta antes de que cojas la correa. Con la gibosa menguante, los arranques son cortos y luego vuelve el modo sofá.",
+    "advice": "Salid pronto y deja que marque el ritmo los diez primeros minutos; luego, un rato tranquilo de caricias en su cama.",
+    "energyScore": 3,
+    "colorOfDay": "water"
+  },
+  {
+    "key": "date=2026-08-31;axis=ascendant;sign=cancer",
+    "headline": "Valiente en la puerta, tierno en casa",
+    "body": "La Luna en Aries empuja a tu Ascendente en Cáncer a salir disparado: será el primero en la puerta y el primero en ladrarle al timbre. Dos minutos después lo tendrás pegado a tu pierna, comprobando que sigues ahí. Arranques rápidos y vuelta a la base.",
+    "advice": "Empieza el paseo con un tramo rápido y termínalo en el sofá, con una ronda larga y tranquila de caricias.",
+    "energyScore": 4,
+    "colorOfDay": "water"
+  },
+  {
+    "key": "date=2026-08-31;axis=moon;sign=sagittarius",
+    "headline": "Tu Luna de fuego encuentra chispa gemela",
+    "body": "La Luna en Aries hace trígono a su Luna en Sagitario: dos fuegos que se entienden sin discutir. Hoy el apego se le vuelve aventurero, así que en lugar de pedir mimos en el sofá te va a pedir puerta, correa y algo de mundo nuevo que olfatear. Poca queja, mucho movimiento.",
+    "advice": "Cambia el recorrido del paseo largo de hoy: una calle nueva, otro parque, y déjale marcar el ritmo un rato.",
+    "energyScore": 4,
+    "colorOfDay": "fire"
+  },
+  {
+    "key": "date=2026-08-31;axis=moon;sign=aquarius",
+    "headline": "Cariño sí, pero a su manera",
+    "body": "La Luna en Aries choca con su Luna en Acuario y le sale la vena independiente con prisa. Buscará el juego antes que el regazo: dos vueltas de tira y afloja y luego se tumba a tres metros de ti, vigilando desde su sitio. No es desapego, es su forma de estar contigo.",
+    "advice": "Ofrécele un juego corto e intenso al llegar a casa y luego déjale su espacio; ya volverá él a buscarte.",
+    "energyScore": 4,
+    "colorOfDay": "air"
+  },
+  {
+    "key": "date=2026-08-31;axis=ascendant;sign=sagittarius",
+    "headline": "Se presenta con la nariz por delante",
+    "body": "Tu Ascendente en Sagitario y la Luna en Aries hablan el mismo idioma de fuego: hoy la primera impresión que da es puro impulso. Espera tirones al salir de casa, saludos efusivos a cualquier desconocido y una insistencia clara por meterse en el camino que no tocaba.",
+    "advice": "Alarga el paseo diez minutos y deja que elija el desvío: hoy una calle nueva le sienta mejor que la ruta de siempre.",
+    "energyScore": 5,
+    "colorOfDay": "fire"
+  },
+  {
+    "key": "date=2026-08-31;axis=moon;sign=gemini",
+    "headline": "Tu Luna de aire con chispa de Aries",
+    "body": "La Luna en Aries roza en sextil esa Luna natal en Géminis: apego alegre y sin dramas. Te seguirá de habitación en habitación, pero con la cola en marcha, no con cara de abandono. Espera cambios de plan cada tres minutos y ganas de que tú improvises también.",
+    "advice": "Prueba una ruta nueva en el paseo y para dos veces a olfatear sin prisa: hoy explorar le vale de conversación.",
+    "energyScore": 4,
+    "colorOfDay": "air"
+  },
+  {
+    "key": "date=2026-08-31;axis=moon;sign=aries",
+    "headline": "La Luna vuelve a casa con prisa",
+    "body": "La Luna del cielo pasa hoy por encima de su Luna natal: conjunción en Aries. Lo que sienta, lo sentirá sin medias tintas. Espera arranques cortos y decididos: se levanta de golpe, quiere salir ya, y diez minutos más tarde duerme como si nada hubiera pasado.",
+    "advice": "Sal con él en cuanto lo pida, aunque sea poco rato: hoy le vienen mejor dos paseos breves que uno largo.",
+    "energyScore": 4,
+    "colorOfDay": "fire"
+  },
+  {
+    "key": "date=2026-08-31;axis=ascendant;sign=libra",
+    "headline": "Tu diplomático de siempre viene con prisa",
+    "body": "El Ascendente en Libra pide equilibrio y la Luna en Aries, justo enfrente, pide acción ahora. Esperas la presentación amable de siempre y te llega un empujón: correa tirante en los primeros metros, saludos sin protocolo en el parque y ganas de decidir el rumbo.",
+    "advice": "Deja que elija la dirección en el primer tramo del paseo y luego retoma tú la ruta de siempre, sin discutirla.",
+    "energyScore": 4,
+    "colorOfDay": "fire"
+  },
+  {
+    "key": "date=2026-08-31;axis=sun;sign=libra",
+    "headline": "Tu Libra diplomático con prisa de Aries",
+    "body": "La Luna en Aries se planta frente a su Sol en Libra: el perro que suele consultarte antes de decidir hoy sale disparado y luego se gira a ver si le sigues. Espera tirones al principio del paseo y, después, dos minutos apoyado en tu pierna pidiendo que todo vuelva a la calma.",
+    "advice": "Saca la cuerda y déjale ganar dos tirones seguidos: el desahogo con reglas le devuelve el equilibrio por la tarde.",
+    "energyScore": 4,
+    "colorOfDay": "air"
+  },
+  {
+    "key": "date=2026-08-31;axis=ascendant;sign=capricorn",
+    "headline": "Perro serio con prisa de cachorro",
+    "body": "La Luna en Aries choca con ese Ascendente en Capricornio que suele medir cada paso: hoy sale de casa con arranques bruscos y a los diez metros se planta a olisquear como si nada. Con Saturno retrógrado, su regente, la compostura habitual se le desordena un poco.",
+    "advice": "Sal por la ruta de siempre y déjale marcar el ritmo: unos metros de tirón, una pausa larga, sin corregir nada.",
+    "energyScore": 3,
+    "colorOfDay": "earth"
+  },
+  {
+    "key": "date=2026-08-31;axis=sun;sign=capricorn",
+    "headline": "Tu perro de rutinas contra la prisa",
+    "body": "La Luna en Aries hace cuadratura a tu Sol en Capricornio: el cielo quiere salir ya y tu perro prefiere su horario de siempre. Esperará el paseo a la hora exacta y luego tirará de la correa como si llegara tarde. Terquedad cardinal, con Saturno retrógrado subrayándola.",
+    "advice": "Saca el paseo a su hora habitual y déjale marcar el ritmo los primeros cinco minutos; después vuelve al tuyo.",
+    "energyScore": 3,
+    "colorOfDay": "earth"
+  },
+  {
+    "key": "date=2026-08-31;axis=sun;sign=aries",
+    "headline": "La Luna aterriza sobre su Sol de Aries",
+    "body": "Hoy la Luna pasa por Aries, exactamente encima de su Sol: conjunción, sin matices. Es el perro que ya es, pero con el volumen subido. Sale disparado hacia la puerta, decide el ritmo del paseo antes que tú y aparece con el juguete sin que nadie se lo pida.",
+    "advice": "Dale una sesión larga de pelota temprano; con el impulso ya gastado, la tarde será bastante más tranquila.",
+    "energyScore": 5,
+    "colorOfDay": "fire"
+  },
+  {
+    "key": "date=2026-08-31;axis=ascendant;sign=taurus",
+    "headline": "Aries empuja, tu Tauro frena",
+    "body": "La Luna en Aries llega con prisa a un Ascendente de Tauro que no piensa moverse antes de tiempo. Se presentará al mundo con dos velocidades: un arranque súbito hacia la puerta y, dos minutos después, plantada en la alfombra sin intención de negociar. Los tres retrógrados refuerzan lo segundo.",
+    "advice": "Sal a pasear a la hora de siempre y déjala marcar el ritmo: primero el sprint, luego los cinco minutos de olfateo parada.",
+    "energyScore": 3,
+    "colorOfDay": "earth"
+  },
+  {
+    "key": "date=2026-08-31;axis=ascendant;sign=leo",
+    "headline": "Entra en la sala como si hubiera público",
+    "body": "La Luna en Aries hace trígono a tu Ascendente en Leo y la primera impresión de hoy viene con banda sonora: entrada firme, cola alta, mirada directa a quien acabe de llegar. Espera saludos ruidosos en el portal y cierta insistencia en ir siempre medio metro por delante.",
+    "advice": "Dale su momento de protagonismo: dos trucos que ya domine ante alguien que le aplauda y después un paseo largo.",
+    "energyScore": 4,
+    "colorOfDay": "fire"
+  }
+]
