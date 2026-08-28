@@ -37,17 +37,15 @@ describe('constelaciones generadas', () => {
     }
   });
 
-  it('la longitud de cada trazado es la de su polilínea', () => {
-    // Es lo que hace posible animar el trazado sin medir el path en runtime:
-    // si se desincronizara, la constelación se dibujaría a medias.
+  it('cada trazado es una polilínea pura', () => {
+    // Es el contrato del asset y lo que hace que `Skia.Path.MakeFromSVGString`
+    // no devuelva `null`. Un `d` que no parsea **no da error** en la app: da
+    // una constelación con estrellas y sin líneas, y nadie se entera hasta
+    // verla. Antes esta prueba comprobaba una longitud precalculada; ya no
+    // hace falta ninguna, porque Skia recorta el camino por fracción.
     for (const sign of SIGNS) {
-      for (const { d, length } of CONSTELLATIONS[sign].paths) {
-        const n = d.match(/[\d.]+/g)!.map(Number);
-        let esperada = 0;
-        for (let i = 2; i < n.length; i += 2) {
-          esperada += Math.hypot(n[i] - n[i - 2], n[i + 1] - n[i - 1]);
-        }
-        expect(length).toBeCloseTo(esperada, 1);
+      for (const { d } of CONSTELLATIONS[sign].paths) {
+        expect(d.replace(/\s+/g, ' ').trim()).toMatch(/^M[\d.\s]+(?:L[\d.\s]+)+$/);
       }
     }
   });

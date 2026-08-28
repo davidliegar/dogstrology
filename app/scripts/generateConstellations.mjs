@@ -5,12 +5,14 @@
  * es un segundo derivado, no una copia editable. Se genera en lugar de
  * importarse porque:
  *
- *  - `react-native-svg` no lee ficheros .svg sin un transformer de Metro, y
- *    meter uno para 12 assets estáticos es más máquina de la que hace falta;
+ *  - nadie en la app lee ficheros .svg sin un transformer de Metro, y meter
+ *    uno para 12 assets estáticos es más máquina de la que hace falta;
  *  - el contrato de `design/constellations/README.md` exige **dos ranuras de
  *    color** (`.lines` y `.nodes`) y halo en la dominante. Con los datos
- *    sueltos el componente las controla con tokens; con un `<SvgXml>` opaco
- *    habría que reteñir a base de reemplazos de cadena.
+ *    sueltos el componente las controla con tokens; con un SVG opaco habría
+ *    que reteñir a base de reemplazos de cadena;
+ *  - y el trazado se anima **por trazo**, así que hacen falta los `d` sueltos
+ *    y no un dibujo entero.
  *
  * Uso: npm run generate:constellations
  */
@@ -38,24 +40,19 @@ const fail = (message) => {
 };
 
 /**
- * Longitud del trazado, para poder animarlo con `strokeDasharray`: sin ella el
- * componente tendría que medir el path en tiempo de ejecución, y
- * `react-native-svg` no expone `getTotalLength()`.
+ * Los trazados de `plot.mjs` son polilíneas puras (`M x y L x y …`) y aquí se
+ * exige que lo sigan siendo.
  *
- * Los trazados de `plot.mjs` son polilíneas puras (`M x y L x y …`), así que
- * son sumas de segmentos rectos. Si algún día llevaran curvas, esto dejaría de
- * ser exacto — por eso se comprueba la forma y se rompe en vez de aproximar.
+ * Ya no hace falta para medirlos —Skia recorta el camino por fracción y mide
+ * él solo—, pero sigue siendo el contrato del asset: es la forma que
+ * `Skia.Path.MakeFromSVGString` parsea sin sorpresas, y un `d` que no parsea
+ * no da error en la app, da una constelación sin líneas. Mejor que reviente
+ * aquí.
  */
-function polylineLength(d, file) {
+function assertPolyline(d, file) {
   if (!/^M[\d.\s]+(?:L[\d.\s]+)+$/.test(d.replace(/\s+/g, ' ').trim())) {
-    fail(`${file}: trazado que no es una polilínea: ${d}. El cálculo de longitud dejaría de ser exacto.`);
+    fail(`${file}: trazado que no es una polilínea: ${d}. El contrato del asset dice que lo son.`);
   }
-  const numbers = d.match(/[\d.]+/g).map(Number);
-  let total = 0;
-  for (let i = 2; i < numbers.length; i += 2) {
-    total += Math.hypot(numbers[i] - numbers[i - 2], numbers[i + 1] - numbers[i - 1]);
-  }
-  return Math.round(total * 10) / 10;
 }
 
 function parse(svg, file) {
@@ -67,10 +64,10 @@ function parse(svg, file) {
   const nodes = svg.match(/<g class="nodes"[^>]*>([\s\S]*?)<\/g>/);
   if (!lines || !nodes) fail(`${file}: faltan los grupos .lines / .nodes del contrato`);
 
-  const paths = [...lines[1].matchAll(/<path\s+d="([^"]+)"/g)].map((m) => ({
-    d: m[1],
-    length: polylineLength(m[1], file),
-  }));
+  const paths = [...lines[1].matchAll(/<path\s+d="([^"]+)"/g)].map((m) => {
+    assertPolyline(m[1], file);
+    return { d: m[1] };
+  });
 
   // El contrato del asset codifica la magnitud aparente en el radio:
   // r = clamp(10 − 1,4·mag, 3, 10). Se invierte aquí, que es donde vive la
@@ -132,7 +129,7 @@ const body = ordered.map(([sign, { paths, stars }]) => {
   ).join('\n');
   return `  '${sign}': {
     paths: [
-${paths.map(({ d, length }) => `      { d: ${JSON.stringify(d)}, length: ${length} },`).join('\n')}
+${paths.map(({ d }) => `      { d: ${JSON.stringify(d)} },`).join('\n')}
     ],
     stars: [
 ${starLines}
@@ -167,9 +164,11 @@ export interface ConstellationStar {
 }
 
 export interface ConstellationPath {
+  /**
+   * Polilínea pura (\`M x y L x y …\`), que es el contrato del asset. Sin
+   * longitud precalculada: Skia recorta el camino por fracción y lo mide él.
+   */
   d: string;
-  /** Longitud exacta de la polilínea: la usa \`strokeDasharray\` para trazarla. */
-  length: number;
 }
 
 export interface ConstellationArt {

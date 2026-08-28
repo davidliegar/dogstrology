@@ -25,9 +25,11 @@ export interface ConstellationStar {
 }
 
 export interface ConstellationPath {
+  /**
+   * Polilínea pura (`M x y L x y …`), que es el contrato del asset. Sin
+   * longitud precalculada: Skia recorta el camino por fracción y lo mide él.
+   */
   d: string;
-  /** Longitud exacta de la polilínea: la usa `strokeDasharray` para trazarla. */
-  length: number;
 }
 
 export interface ConstellationArt {
@@ -38,7 +40,7 @@ export interface ConstellationArt {
 export const CONSTELLATIONS: Record<Sign, ConstellationArt> = {
   'aries': {
     paths: [
-      { d: "M64 138 L355.2 250.5 L440.5 329.1 L448 374", length: 473.7 },
+      { d: "M64 138 L355.2 250.5 L440.5 329.1 L448 374" },
     ],
     stars: [
       { cx: 64, cy: 138, r: 4.9, magnitude: 3.6, name: "Bharani", dominant: false },
@@ -49,9 +51,9 @@ export const CONSTELLATIONS: Record<Sign, ConstellationArt> = {
   },
   'taurus': {
     paths: [
-      { d: "M64 176.7 L242.4 232.1 L263.4 239.7 L289.1 242.6 L280 219.7 L263.6 200.2 L96.8 87.6", length: 486.4 },
-      { d: "M289.1 242.6 L344.3 280.1 L441.2 313 L337.2 357.7", length: 282.3 },
-      { d: "M441.2 313 L448 321.4 L413.1 424.4", length: 119.6 },
+      { d: "M64 176.7 L242.4 232.1 L263.4 239.7 L289.1 242.6 L280 219.7 L263.6 200.2 L96.8 87.6" },
+      { d: "M289.1 242.6 L344.3 280.1 L441.2 313 L337.2 357.7" },
+      { d: "M441.2 313 L448 321.4 L413.1 424.4" },
     ],
     stars: [
       { cx: 64, cy: 176.7, r: 5.8, magnitude: 3, name: "Tianguan", dominant: false },
@@ -70,8 +72,8 @@ export const CONSTELLATIONS: Record<Sign, ConstellationArt> = {
   },
   'gemini': {
     paths: [
-      { d: "M448 253.9 L413.7 253.8 L324.6 205.7 L209.1 111.7 L109.5 81.6 L64 152.5 L103.9 173.3 L171 263.5 L239 289.5 L351 366.1 L318.9 430.4", length: 910.5 },
-      { d: "M171 263.5 L179.6 363.5", length: 100.4 },
+      { d: "M448 253.9 L413.7 253.8 L324.6 205.7 L209.1 111.7 L109.5 81.6 L64 152.5 L103.9 173.3 L171 263.5 L239 289.5 L351 366.1 L318.9 430.4" },
+      { d: "M171 263.5 L179.6 363.5" },
     ],
     stars: [
       { cx: 448, cy: 253.9, r: 5.4, magnitude: 3.3, name: "Propus", dominant: false },
@@ -90,8 +92,8 @@ export const CONSTELLATIONS: Record<Sign, ConstellationArt> = {
   },
   'cancer': {
     paths: [
-      { d: "M158.7 395.6 L222.7 272.1 L229.2 207 L213.3 64", length: 348.4 },
-      { d: "M222.7 272.1 L353.3 448", length: 219.1 },
+      { d: "M158.7 395.6 L222.7 272.1 L229.2 207 L213.3 64" },
+      { d: "M222.7 272.1 L353.3 448" },
     ],
     stars: [
       { cx: 158.7, cy: 395.6, r: 4, magnitude: 4.3, name: "Acubens", dominant: false },
@@ -103,8 +105,8 @@ export const CONSTELLATIONS: Record<Sign, ConstellationArt> = {
   },
   'leo': {
     paths: [
-      { d: "M377.8 348.6 L381.1 285.3 L341.7 244.7 L172.9 235.7 L64 314.2 L172.5 302.9 L377.8 348.6", length: 742.7 },
-      { d: "M341.7 244.7 L351.9 197.6 L426.5 163.4 L448 192.9", length: 166.8 },
+      { d: "M377.8 348.6 L381.1 285.3 L341.7 244.7 L172.9 235.7 L64 314.2 L172.5 302.9 L377.8 348.6" },
+      { d: "M341.7 244.7 L351.9 197.6 L426.5 163.4 L448 192.9" },
     ],
     stars: [
       { cx: 377.8, cy: 348.6, r: 8.1, magnitude: 1.4, name: "Regulus", dominant: true },
@@ -120,9 +122,9 @@ export const CONSTELLATIONS: Record<Sign, ConstellationArt> = {
   },
   'virgo': {
     paths: [
-      { d: "M448 199.5 L437.7 240.1 L375.5 260.8 L329.2 267.5 L269 302.3 L236.5 350.2 L128.4 306.2 L70.8 303.3", length: 456 },
-      { d: "M285.5 161.8 L299.5 226.2 L329.2 267.5", length: 116.8 },
-      { d: "M269 302.3 L216.3 260.2 L158.9 242 L64 239", length: 222.6 },
+      { d: "M448 199.5 L437.7 240.1 L375.5 260.8 L329.2 267.5 L269 302.3 L236.5 350.2 L128.4 306.2 L70.8 303.3" },
+      { d: "M285.5 161.8 L299.5 226.2 L329.2 267.5" },
+      { d: "M269 302.3 L216.3 260.2 L158.9 242 L64 239" },
     ],
     stars: [
       { cx: 448, cy: 199.5, r: 4.3, magnitude: 4.1, name: null, dominant: false },
@@ -142,8 +144,8 @@ export const CONSTELLATIONS: Record<Sign, ConstellationArt> = {
   },
   'libra': {
     paths: [
-      { d: "M303.4 363.4 L361.9 189.4 L246.1 64 L163.9 165.8 L157.3 417.1 L150.1 448", length: 768.2 },
-      { d: "M361.9 189.4 L163.9 165.8", length: 199.4 },
+      { d: "M303.4 363.4 L361.9 189.4 L246.1 64 L163.9 165.8 L157.3 417.1 L150.1 448" },
+      { d: "M361.9 189.4 L163.9 165.8" },
     ],
     stars: [
       { cx: 303.4, cy: 363.4, r: 5.5, magnitude: 3.2, name: "Brachium", dominant: false },
@@ -156,8 +158,8 @@ export const CONSTELLATIONS: Record<Sign, ConstellationArt> = {
   },
   'scorpio': {
     paths: [
-      { d: "M445.9 167.4 L440.7 110.1 L422.9 64", length: 107 },
-      { d: "M440.7 110.1 L367.9 158.8 L339.2 172.6 L316.5 201.8 L266.7 301.4 L260.7 362.9 L251.2 433.6 L189.9 448 L102 444 L66.1 397 L83.9 379 L115 347.5", length: 680.6 },
+      { d: "M445.9 167.4 L440.7 110.1 L422.9 64" },
+      { d: "M440.7 110.1 L367.9 158.8 L339.2 172.6 L316.5 201.8 L266.7 301.4 L260.7 362.9 L251.2 433.6 L189.9 448 L102 444 L66.1 397 L83.9 379 L115 347.5" },
     ],
     stars: [
       { cx: 445.9, cy: 167.4, r: 6, magnitude: 2.9, name: "Fang", dominant: false },
@@ -178,10 +180,10 @@ export const CONSTELLATIONS: Record<Sign, ConstellationArt> = {
   },
   'sagittarius': {
     paths: [
-      { d: "M387.4 344.3 L368.4 312.3 L377.6 250.9 L357.3 191.5 L398.6 132.8", length: 233.8 },
-      { d: "M198.2 448 L194.5 396.2 L256.5 251.6 L305.8 212.7 L357.3 191.5", length: 327.8 },
-      { d: "M103.2 413.1 L90.2 324.3 L101.5 203.4 L157.2 184.3 L190.5 179.2 L218.8 189.3 L277.8 203.3 L305.8 212.7 L377.6 250.9 L421.8 258.9 L368.4 312.3 L256.5 251.6 L243.9 221.8 L277.8 203.3 L250.4 142 L235.6 132.3 L212.7 104.4 L201 89.5 L200.8 64", length: 989.4 },
-      { d: "M250.4 142 L270.7 133.4 L281 155.5 L277.8 203.3", length: 94.3 },
+      { d: "M387.4 344.3 L368.4 312.3 L377.6 250.9 L357.3 191.5 L398.6 132.8" },
+      { d: "M198.2 448 L194.5 396.2 L256.5 251.6 L305.8 212.7 L357.3 191.5" },
+      { d: "M103.2 413.1 L90.2 324.3 L101.5 203.4 L157.2 184.3 L190.5 179.2 L218.8 189.3 L277.8 203.3 L305.8 212.7 L377.6 250.9 L421.8 258.9 L368.4 312.3 L256.5 251.6 L243.9 221.8 L277.8 203.3 L250.4 142 L235.6 132.3 L212.7 104.4 L201 89.5 L200.8 64" },
+      { d: "M250.4 142 L270.7 133.4 L281 155.5 L277.8 203.3" },
     ],
     stars: [
       { cx: 387.4, cy: 344.3, r: 5.7, magnitude: 3.1, name: "Hamalwarid", dominant: false },
@@ -213,7 +215,7 @@ export const CONSTELLATIONS: Record<Sign, ConstellationArt> = {
   },
   'capricorn': {
     paths: [
-      { d: "M448 124.5 L433.6 166 L399.8 221.3 L325.8 357.4 L301.2 387.5 L151.5 305.2 L64 190.5 L93.9 200.3 L170.5 203.4 L240.5 210.7 L448 124.5", length: 1020.8 },
+      { d: "M448 124.5 L433.6 166 L399.8 221.3 L325.8 357.4 L301.2 387.5 L151.5 305.2 L64 190.5 L93.9 200.3 L170.5 203.4 L240.5 210.7 L448 124.5" },
     ],
     stars: [
       { cx: 448, cy: 124.5, r: 4, magnitude: 4.3, name: "Prima Giedi", dominant: false },
@@ -230,11 +232,11 @@ export const CONSTELLATIONS: Record<Sign, ConstellationArt> = {
   },
   'aquarius': {
     paths: [
-      { d: "M448 252.4 L437 247.8 L351.2 217.3 L275.7 170.2 L240.7 179.8 L224.9 167.5 L210.5 168.4 L172.4 235.2 L116.6 249.6 L135.3 357", length: 506.3 },
-      { d: "M351.2 217.3 L274.3 291.6", length: 106.9 },
-      { d: "M275.7 170.2 L251.3 237.1", length: 71.2 },
-      { d: "M224.9 167.5 L232.7 155", length: 14.7 },
-      { d: "M105.5 347.4 L116.6 249.6 L64 326.9", length: 191.9 },
+      { d: "M448 252.4 L437 247.8 L351.2 217.3 L275.7 170.2 L240.7 179.8 L224.9 167.5 L210.5 168.4 L172.4 235.2 L116.6 249.6 L135.3 357" },
+      { d: "M351.2 217.3 L274.3 291.6" },
+      { d: "M275.7 170.2 L251.3 237.1" },
+      { d: "M224.9 167.5 L232.7 155" },
+      { d: "M105.5 347.4 L116.6 249.6 L64 326.9" },
     ],
     stars: [
       { cx: 448, cy: 252.4, r: 4.7, magnitude: 3.8, name: "Albali", dominant: false },
@@ -256,8 +258,8 @@ export const CONSTELLATIONS: Record<Sign, ConstellationArt> = {
   },
   'pisces': {
     paths: [
-      { d: "M168.1 176.2 L172.6 126.9 L155.8 152.2 L168.1 176.2 L173 208 L129.9 258.9 L99.9 314.3 L64 371.6 L82.3 367.8 L108.4 347.2 L132.7 341.3 L168.1 328.5 L191.4 325.7 L222.1 328.4 L328.5 334.9 L370.3 346 L396.1 339.2 L412.5 348.1 L419.4 366.9 L398.3 385.1 L365.7 380.4 L356.4 365.1 L370.3 346", length: 822.8 },
-      { d: "M419.4 366.9 L448 362.1", length: 29 },
+      { d: "M168.1 176.2 L172.6 126.9 L155.8 152.2 L168.1 176.2 L173 208 L129.9 258.9 L99.9 314.3 L64 371.6 L82.3 367.8 L108.4 347.2 L132.7 341.3 L168.1 328.5 L191.4 325.7 L222.1 328.4 L328.5 334.9 L370.3 346 L396.1 339.2 L412.5 348.1 L419.4 366.9 L398.3 385.1 L365.7 380.4 L356.4 365.1 L370.3 346" },
+      { d: "M419.4 366.9 L448 362.1" },
     ],
     stars: [
       { cx: 168.1, cy: 176.2, r: 3.5, magnitude: 4.6, name: null, dominant: false },
