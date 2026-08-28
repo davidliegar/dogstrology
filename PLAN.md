@@ -188,8 +188,26 @@ Lo que está esperando al canvas, ordenado por lo que bloquea:
 3. ⚠️ **Falta el estado "el día todavía no está publicado"**, que no es lo
    mismo que sin red: uno se arregla con cobertura y el otro no se arregla
    desde el móvil. Existe ya en la app con texto escrito aquí
-   (`UNPUBLISHED_NOTE`) y merece su rótulo en el canvas — hoy es, además, el
-   estado en el que se ve la app hasta que el CDN publique
+   (`UNPUBLISHED_NOTE`) y merece su rótulo en el canvas.
+
+   **Y merece más que un punto gris y una línea** (mejora, probado en
+   dispositivo el 2026-08-28: funciona, pero es seco). Hoy la pantalla enseña
+   la tira de la Luna —que es correcta y es cálculo local— y debajo un pie de
+   13 px. Le falta algo que ocupe el hueco de las tarjetas que no están, y ese
+   hueco es grande. El encargo, con sus restricciones:
+
+   - **arte lineal monocromo en SVG, recoloreable por token** (BRD §11.2.3),
+     como todo lo demás;
+   - **regla de canon** (§11.2.0): si sale algo del cielo, es el de verdad. Ya
+     hay doce constelaciones ploteadas desde coordenadas y un `MoonDisc` con
+     terminador real — el asset puede apoyarse en ellos en vez de dibujar
+     cielo nuevo;
+   - **no puede leerse como un error.** No falta ningún dato del usuario: su
+     carta y su Luna están y son correctas. Lo que falta es un texto que
+     llegará solo;
+   - **¿uno o dos?** Sin red y sin publicar son dos causas distintas y hoy
+     comparten forma. Puede que compartan asset y cambien solo el pie, o que
+     no — es decisión de diseño
 4. **La tarjeta de "Su Luna" del artboard 04 va sin cuerpo**, solo titular,
    mientras las otras dos lo llevan, y el 17 hace lo mismo con la del Sol. No
    hay nota que lo explique, así que se implementó **con cuerpo en las tres**:
@@ -822,11 +840,27 @@ tienda**: es una parada, no un destino.
       18.538 B · 35 fragmentos**, y la fecha de hoy da **404**, que es
       exactamente el camino de "ese día no está publicado". La tubería entera
       está probada; lo único que falta es contenido
+- [x] **El workflow del diario, arreglado** (2026-08-28). El primer intento
+      murió en 19 s con `ERR_MODULE_NOT_FOUND: astronomy-engine`: `pipeline`
+      importa `proto/astro.mjs` para leer el cielo del día, y **Node resuelve
+      las dependencias de ese fichero desde su propia carpeta** —
+      `proto/node_modules` y luego la raíz del repo, nunca
+      `pipeline/node_modules`—. El workflow solo instalaba `pipeline`. En local
+      no se nota porque `proto/node_modules` está desde el prototipo. Se añade
+      un `npm ci` en `proto`
+- [x] **Red de seguridad antes del PR**: el contenido generado se sube como
+      artefacto con `if: always()`. El paso que llama a la Batch API **cuesta
+      dinero y tarda hasta una hora**, y todo lo que viene detrás es fontanería
+      de git — si fallara un permiso o la rama, lo ya pagado se iría con la
+      máquina
 - [ ] **Generar una edición para el día de hoy** y verla en la app. ⚠️ **Hay
       que escribir la fecha a mano** en el `workflow_dispatch`: el valor por
-      defecto es **hoy + 7 días** (el buffer de F12), así que dejarlo vacío
-      genera el 4 de septiembre y hoy se seguiría viendo el pie de "todavía no
-      está". Al mergear el PR, la publicación se dispara sola
+      defecto es **hoy + 7 días** (el buffer de F12). El primer intento se
+      lanzó en vacío y apuntaba al 4 de septiembre
+- [ ] Si el paso del PR falla con *"GitHub Actions is not permitted to create
+      or approve pull requests"*, es un interruptor de **Settings → Actions →
+      General → Workflow permissions**. El contenido no se pierde: está en el
+      artefacto
 
 ### ⚠️ Requisito de salida: migrar antes de publicar en la tienda
 

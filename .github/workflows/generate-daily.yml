@@ -35,8 +35,19 @@ jobs:
         with:
           node-version: 20
 
+      # Dos instalaciones, y las dos hacen falta. `pipeline` importa
+      # `proto/astro.mjs` para leer el cielo del día, y Node resuelve las
+      # dependencias de ese fichero desde **su** carpeta: `proto/node_modules`
+      # y luego la raíz del repo, nunca `pipeline/node_modules`. Sin esta
+      # segunda línea el workflow muere en el primer `import` con un
+      # ERR_MODULE_NOT_FOUND de `astronomy-engine`, y en local no se nota
+      # porque `proto/node_modules` ya está desde el prototipo.
       - name: Instalar dependencias del pipeline
         working-directory: pipeline
+        run: npm ci
+
+      - name: Instalar el motor astrológico
+        working-directory: proto
         run: npm ci
 
       - name: Calcular fecha objetivo
@@ -53,6 +64,20 @@ jobs:
         env:
           ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
         run: node src/generateDaily.mjs --date "${{ steps.date.outputs.value }}" --confirm
+
+      # Red de seguridad, y no es paranoia: el paso de arriba **cuesta dinero y
+      # no es repetible barato** (un lote de 37 contra la Batch API, hasta una
+      # hora). Todo lo que viene después es fontanería de git, y si falla —un
+      # permiso, un conflicto de rama— el contenido ya pagado se iría con la
+      # máquina. Guardado como artefacto se puede recuperar y commitear a mano.
+      - name: Guardar el contenido generado, pase lo que pase
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: diario-${{ steps.date.outputs.value }}
+          path: content/daily/${{ steps.date.outputs.value }}.*
+          if-no-files-found: warn
+          retention-days: 30
 
       - name: Leer el informe del filtro para el cuerpo del PR
         id: report
