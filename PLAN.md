@@ -2356,9 +2356,26 @@ cero. Si algún día se hace: límite duro de 5 mensajes/día aplicado en servid
   plugin version (0.10.1 vs. 0.10.4)`. No era una dependencia mal resuelta
   —`npm ls` daba 0.10.1 en todas partes— sino el **caché de transformación de
   Metro**, lleno de módulos compilados por el plugin de la sesión anterior.
-  `npx expo start --clear` y listo. Queda escrito porque va a volver a pasar:
-  **cada vez que cambie la versión de `react-native-worklets` hay que limpiar
-  el caché de Metro, además de regenerar `ios/`**
+  `npx expo start --clear` y listo
+- **Y en Android, el mismo desajuste en otro sitio.** `ninja: error: …
+  react-native-worklets/android/build/intermediates/cxx/Debug/**1u3k1y2h**/…/
+  libworklets.so, missing and no known rule to make it`. El `.so` existía, pero
+  bajo el hash **`5m1n3z15`**, que es el de worklets 0.10.1: lo que estaba
+  caducado era la **configuración de CMake** de otros módulos, que seguía
+  pidiendo el hash del 0.10.4. Y lo traicionero es dónde vive esa
+  configuración — en `node_modules/<módulo>/android/.cxx`, **no en
+  `android/`**: borrar `android/` y volver a hacer `prebuild`, que es el
+  arreglo de iOS, aquí no toca nada. Afectaba a `expo-modules-core` y a
+  `react-native-gesture-handler` (reanimated se había reconfigurado solo).
+  Arreglado borrando sus `.cxx` y sus `build/intermediates/cxx`; `BUILD
+  SUCCESSFUL` e instalado en el dispositivo
+- **La regla, que es lo que hay que recordar**: al cambiar la versión de
+  `react-native-worklets` caducan **tres** cachés en tres sitios distintos —
+  el de transformación de Metro (`--clear`), los Pods de iOS (regenerar
+  `ios/`) y la configuración de CMake dentro de `node_modules`. Ninguno de los
+  tres se arregla con los otros dos, y ninguno da un error que se parezca a su
+  causa. Para el tercero: `grep -rl "<hash-viejo>" node_modules` y borrar el
+  `.cxx` de lo que salga — barrer de golpe, porque va módulo a módulo
 - **Verificado de punta a punta en iOS**: `Build Succeeded` con Skia enlazado,
   bundle servido (2.329 módulos) y la app arrancando sin errores. Lo que no se
   ha podido mirar desde aquí son los píxeles de la rueda: abrir la carta por
