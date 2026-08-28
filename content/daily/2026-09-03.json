@@ -1,0 +1,298 @@
+[
+  {
+    "key": "date=2026-09-03;axis=moon;sign=leo",
+    "headline": "Tu Luna en Leo encuentra público hoy",
+    "body": "La Luna de Géminis hace sextil a su Luna en Leo: el apego teatral se vuelve conversador. Espera que te siga de habitación en habitación buscando espectador, que estrene algún truco viejo y que se conforme con menos mimo del habitual si hay novedad que investigar.",
+    "advice": "Dedícale cinco minutos de atención plena esta tarde: un truco que ya domine, aplauso incluido, y luego siesta compartida.",
+    "energyScore": 3,
+    "colorOfDay": "gold"
+  },
+  {
+    "key": "date=2026-09-03;axis=moon;sign=virgo",
+    "headline": "Un cielo disperso contra su Luna metódica",
+    "body": "La Luna en Géminis cuadra a su Luna en Virgo: lo que él quiere es que el día vaya en el orden de siempre, y hoy el aire va por otro lado. Espera que te siga de una habitación a otra, que interrumpa la siesta y que revise dos veces si la cama sigue donde estaba.",
+    "advice": "Repite el paseo de siempre a la hora de siempre y dedícale cinco minutos de caricias tranquilas en su sitio.",
+    "energyScore": 2,
+    "colorOfDay": "earth"
+  },
+  {
+    "key": "date=2026-09-03;axis=moon;sign=taurus",
+    "headline": "Tauro pide rutina, el cielo trae ruido",
+    "body": "La Luna en Géminis cuadra su Luna en Tauro: mucho estímulo suelto para un perro que solo quiere sus horarios de siempre. Puede quedarse en su cama mirándote con cara de reproche, o seguirte de habitación en habitación buscando la referencia fija que hoy no encuentra fuera.",
+    "advice": "Manten los horarios de paseo y cama tal cual, y reserva cinco minutos de caricias tranquilas al final del día.",
+    "energyScore": 2,
+    "colorOfDay": "earth"
+  },
+  {
+    "key": "date=2026-09-03;axis=sun;sign=cancer",
+    "headline": "Corazón de Cáncer con la antena puesta",
+    "body": "El Sol en Cáncer pide sofá, manta y tu presencia a un metro; la Luna en Géminis le mete ruido de fondo y curiosidad por cada portazo del rellano. Espera un perro que se levanta a investigar y vuelve a tu lado a los treinta segundos, como si no hubiera pasado nada.",
+    "advice": "Paseo corto por calles ya conocidas y luego un rato largo en su cama contigo cerca: novedad justa, refugio de sobra.",
+    "energyScore": 3,
+    "colorOfDay": "water"
+  },
+  {
+    "key": "date=2026-09-03;axis=sun;sign=gemini",
+    "headline": "La Luna se sienta encima de tu Sol",
+    "body": "Luna y Sol comparten signo hoy, así que tu perro es más él mismo que nunca: orejas que giran a cada ruido, cambio de tema cada dos minutos y un olfateo interminable en cada esquina. El menguante le baja las revoluciones, y la curiosidad se le queda más por dentro que por fuera.",
+    "advice": "Sal a pasear por una calle que no soléis pisar: media hora de olores nuevos le cunde hoy más que cualquier carrera.",
+    "energyScore": 3,
+    "colorOfDay": "air"
+  },
+  {
+    "key": "date=2026-09-03",
+    "headline": "Orejas en modo radar, plan en modo borrador",
+    "body": "La Luna en Géminis reparte la atención en trocitos: hoy olfatea tres metros, levanta la cabeza y cambia de idea. El cuarto menguante baja el volumen, así que la energía sale a ratos. Con Saturno, Neptuno y Plutón retrógrados, lo aprendido de siempre llega con retardo.",
+    "advice": "Cambia el recorrido del paseo y déjale marcar el ritmo; si se para a mirar algo, concédele ese par de minutos.",
+    "energyScore": 3,
+    "colorOfDay": "air"
+  },
+  {
+    "key": "date=2026-09-03;axis=ascendant;sign=gemini",
+    "headline": "La Luna se planta sobre su Ascendente",
+    "body": "Luna en Géminis pega justo en su Ascendente: aire sobre aire. Hoy se presenta al mundo en versión ampliada —oreja arriba con cada ruido, cambio de plan a mitad de paseo, ganas de saludar a todo el que pase. El menguante acorta la mecha: chispa breve, no maratón.",
+    "advice": "Sal a un paseo con ruta nueva y corta, y déjale olfatear a su ritmo; cinco minutos de juguete al volver y listo.",
+    "energyScore": 3,
+    "colorOfDay": "air"
+  },
+  {
+    "key": "date=2026-09-03;axis=moon;sign=sagittarius",
+    "headline": "Tu Luna de Sagitario, frente al espejo",
+    "body": "La Luna en Géminis se coloca justo enfrente de su Luna en Sagitario, y la oposición se reparte así: la nariz quiere quedarse en cada portal del barrio y las patas quieren irse dos calles más allá. Espera cambios de cama, algún lloriqueo breve y ganas de paseo largo.",
+    "advice": "Alarga el paseo de la tarde y déjale elegir el camino en un par de cruces; al volver, sofá y caricias sin prisa.",
+    "energyScore": 4,
+    "colorOfDay": "air"
+  },
+  {
+    "key": "date=2026-09-03;axis=sun;sign=leo",
+    "headline": "Tu león quiere público y hoy lo tiene",
+    "body": "La Luna en Géminis se lleva bien con tu Sol en Leo y enciende la parte teatral: saludos exagerados en la puerta, juguetes traídos sin que se los pidas, interés inmediato por cualquiera que pase. El menguante acorta la mecha, así que el show será brillante pero breve.",
+    "advice": "Dedícale cinco minutos de juego con público y aplausos, y después un rato tranquilo en su sitio de siempre.",
+    "energyScore": 4,
+    "colorOfDay": "gold"
+  },
+  {
+    "key": "date=2026-09-03;axis=sun;sign=capricorn",
+    "headline": "Tu capricornio no entiende tanta prisa",
+    "body": "Con el Sol en Capricornio funciona por horarios y prefiere las cosas donde estaban. La Luna en Géminis mete ruido nuevo: se distrae en el paseo, cambia de juguete a media partida y se levanta de la cama a mitad de siesta. Con Saturno retrógrado, la rutina va más suelta.",
+    "advice": "Mantén las horas de paseo y de comida como siempre; si se dispersa, un juego corto de olfato en casa lo recoloca.",
+    "energyScore": 3,
+    "colorOfDay": "earth"
+  },
+  {
+    "key": "date=2026-09-03;axis=ascendant;sign=aries",
+    "headline": "Tu Aries de salida se distrae a mitad",
+    "body": "El Ascendente en Aries arranca siempre en primera: puerta abierta, salida disparada. Con la Luna en Géminis el impulso se reparte en cinco direcciones y a media calle se para a olfatear un seto. El menguante recorta la reserva, así que el segundo tramo irá más tranquilo.",
+    "advice": "Cambia el recorrido de siempre por una calle nueva y déjale marcar el ritmo en la vuelta a casa, sin prisa.",
+    "energyScore": 3,
+    "colorOfDay": "fire"
+  },
+  {
+    "key": "date=2026-09-03;axis=ascendant;sign=pisces",
+    "headline": "Tu Piscis con la antena algo torcida",
+    "body": "El Ascendente en Piscis le hace leer el ambiente antes de decidir cómo presentarse, y hoy la Luna en Géminis le llena la cabeza de ruido de fondo: olfatea tres cosas a la vez y no acaba ninguna. Con el menguante, la dispersión va en versión suave y despistada.",
+    "advice": "Paseo por una ruta conocida y sin prisa: si se para a oler, espera sin tirar de la correa. Hoy manda su nariz.",
+    "energyScore": 3,
+    "colorOfDay": "water"
+  },
+  {
+    "key": "date=2026-09-03;axis=moon;sign=libra",
+    "headline": "Dos aires que se entienden sin ruido",
+    "body": "La Luna de Géminis hace trígono con su Luna en Libra y hoy el apego sale fácil: te sigue de una habitación a otra sin dramas y se tumba donde estés. El menguante baja el volumen, así que tocan ratos de compañía tranquila y siestas largas entre medias.",
+    "advice": "Siéntate a leer en el sofá con la manta al lado: hoy basta con tenerte cerca, sin juego ni fiesta de por medio.",
+    "energyScore": 3,
+    "colorOfDay": "air"
+  },
+  {
+    "key": "date=2026-09-03;axis=ascendant;sign=aquarius",
+    "headline": "Aire con aire, y hoy va a su bola",
+    "body": "Tu Ascendente en Acuario se entiende de maravilla con la Luna en Géminis: saluda a cualquiera, se distrae con cada bicicleta y vuelve cuando le apetece. El menguante baja las revoluciones, así que la curiosidad irá más de olfatear despacio que de salir disparado.",
+    "advice": "Cambia la ruta del paseo aunque sean dos calles: hoy le apetecen esquinas nuevas antes que el circuito de siempre.",
+    "energyScore": 3,
+    "colorOfDay": "air"
+  },
+  {
+    "key": "date=2026-09-03;axis=ascendant;sign=sagittarius",
+    "headline": "Curiosidad de sobra, rumbo ninguno",
+    "body": "La Luna en Géminis se coloca justo enfrente de su Ascendente: hoy sale a la calle con mucha curiosidad y poca decisión. Va a olfatear tres portales seguidos y querer girar en cada esquina. Con el cuarto menguante la batería no da para todo: arranques cortos, pausas largas.",
+    "advice": "Alarga el paseo de la tarde por una calle que no conozca y déjale elegir el rumbo en dos o tres cruces.",
+    "energyScore": 3,
+    "colorOfDay": "air"
+  },
+  {
+    "key": "date=2026-09-03;axis=ascendant;sign=cancer",
+    "headline": "Un caracol sentimental que hoy curiosea",
+    "body": "Con Ascendente en Cáncer la presentación de siempre es cama, manta y tu regazo, pero la Luna en Géminis le suelta las orejas: hoy saluda antes de pensárselo, cambia de sitio tres veces y vuelve a por caricias. El menguante baja el volumen a media tarde.",
+    "advice": "Dale un paseo tranquilo por una calle nueva y, al volver, deja la manta en el sitio de siempre para aterrizar.",
+    "energyScore": 3,
+    "colorOfDay": "water"
+  },
+  {
+    "key": "date=2026-09-03;axis=sun;sign=aquarius",
+    "headline": "Tu Acuario en modo antena parabólica",
+    "body": "La Luna en Géminis hace trígono a tu Sol en Acuario: dos aires que se entienden a la primera. Espera un perro despistado y sociable, que cambia de olfateo cada tres pasos y saluda a quien pase. Con el menguante, esa curiosidad va por rachas cortas y no a pleno gas.",
+    "advice": "Cambia la ruta del paseo y déjale elegir un par de esquinas; media hora de novedad le rinde más que una hora repetida.",
+    "energyScore": 4,
+    "colorOfDay": "air"
+  },
+  {
+    "key": "date=2026-09-03;axis=sun;sign=libra",
+    "headline": "Aire con aire: tu Libra va sobrado",
+    "body": "La Luna en Géminis hace trígono con tu Sol en Libra y todo fluye: saluda a cualquiera que pase, cambia de juguete a media partida y te mira de reojo para consultar el plan. El cuarto menguante recorta la batería, así que la sociabilidad viene hoy en formato corto y con pausas.",
+    "advice": "Dad un paseo por una calle con gente y perros conocidos, sin prisa, y volved antes de que se le acabe la cuerda.",
+    "energyScore": 3,
+    "colorOfDay": "air"
+  },
+  {
+    "key": "date=2026-09-03;axis=moon;sign=capricorn",
+    "headline": "Pide horario mientras el cielo cambia de tema",
+    "body": "La Luna en Géminis salta de rama en rama y tu Luna en Capricornio quiere la misma hora de siempre. Puede que se plante junto a la puerta antes del paseo o que te mire fijo si la cena se retrasa diez minutos. El menguante baja el volumen: vigilancia tranquila, sin drama.",
+    "advice": "Mantén los horarios clavados hoy y dedica cinco minutos a un juego de olfato en casa antes de salir a la calle.",
+    "energyScore": 3,
+    "colorOfDay": "earth"
+  },
+  {
+    "key": "date=2026-09-03;axis=moon;sign=aries",
+    "headline": "Su impulso encuentra conversación",
+    "body": "La Luna en Géminis hace sextil a su Luna en Aries: el arranque de siempre, pero con ganas de enterarse de todo. Espera entusiasmos cortos, un juguete abandonado a medio juego y visitas rápidas a tu lado para confirmar que sigues ahí antes de volver a lo suyo.",
+    "advice": "Saca dos juguetes distintos y ve alternando cada pocos minutos: el cambio le engancha más que una sesión larga.",
+    "energyScore": 4,
+    "colorOfDay": "air"
+  },
+  {
+    "key": "date=2026-09-03;axis=sun;sign=sagittarius",
+    "headline": "Tu Sagitario tira, la Luna dispersa",
+    "body": "La Luna en Géminis se planta justo enfrente de su Sol de Sagitario y sale un perro con veinte planes y ninguno terminado: arranca decidido, se para en el tercer portal, cambia de acera y vuelve a tirar. No es capricho, es curiosidad multiplicada por dos.",
+    "advice": "Alarga el paseo diez minutos y déjale elegir el rumbo en un par de esquinas: hoy olfatear cansa más que correr.",
+    "energyScore": 4,
+    "colorOfDay": "fire"
+  },
+  {
+    "key": "date=2026-09-03;axis=ascendant;sign=scorpio",
+    "headline": "Tu Escorpio observa, el cielo parlotea",
+    "body": "Con Ascendente en Escorpio se presenta como siempre: mirada fija, pocas palabras, todo bajo control. Hoy la Luna en Géminis mete ruido de fondo y le da ganas de olfatear tres cosas a la vez sin soltar esa pose de perro serio. El menguante baja el volumen.",
+    "advice": "Un paseo por una ruta nueva pero corta: novedad para el olfato y tiempo de sobra para investigar a su ritmo.",
+    "energyScore": 3,
+    "colorOfDay": "water"
+  },
+  {
+    "key": "date=2026-09-03;axis=ascendant;sign=leo",
+    "headline": "Tu Leo sale a escena con conversación",
+    "body": "La Luna en Géminis hace sextil a tu Ascendente en Leo: la pose de siempre, pero con más charla. Saluda a cualquiera que pase, se coloca en el centro del salón y espera público. El cuarto menguante le baja una marcha, así que el espectáculo será corto y con buen final.",
+    "advice": "Dale dos minutos de atención completa cuando se plante delante de ti: un truco viejo, aplausos y luego a descansar.",
+    "energyScore": 3,
+    "colorOfDay": "gold"
+  },
+  {
+    "key": "date=2026-09-03;axis=moon;sign=aquarius",
+    "headline": "Te quiere, pero desde la otra punta",
+    "body": "Tu Luna en Acuario recibe un trígono de la Luna en Géminis: afecto sin dramas y ganas de enterarse de todo. Hoy prefiere tumbarse a dos metros de ti antes que encima, y levanta la cabeza con cada ruido nuevo. El menguante baja el volumen: curiosidad tranquila, no fiesta.",
+    "advice": "Dale el paseo por una calle distinta y déjale olfatear a su ritmo; al volver, sofá cerca pero sin insistirle.",
+    "energyScore": 3,
+    "colorOfDay": "air"
+  },
+  {
+    "key": "date=2026-09-03;axis=ascendant;sign=taurus",
+    "headline": "Tierra firme bajo un cielo disperso",
+    "body": "El Ascendente en Tauro pide lo de siempre: misma esquina, mismo ritmo, mismo rincón del sofá. La Luna en Géminis va a otra velocidad y hoy lo vas a notar dudar en mitad del paseo, olfatear tres cosas y no decidirse por ninguna. La menguante rebaja las prisas.",
+    "advice": "Repite el recorrido de siempre y dale margen para husmear sin meterle prisa: que marque el ritmo en las paradas.",
+    "energyScore": 2,
+    "colorOfDay": "earth"
+  },
+  {
+    "key": "date=2026-09-03;axis=sun;sign=pisces",
+    "headline": "Tu soñador de Piscis, hoy en modo antena",
+    "body": "La Luna en Géminis hace cuadratura a su Sol en Piscis: el perro sensible de siempre se vuelve curioso a saltos. Empieza un juego, lo deja por un ruido de la calle y vuelve a buscarte. Espera órdenes seguidas a medias y una atención que se le escapa entre las patas.",
+    "advice": "Cámbiale de juego cada pocos minutos en vez de insistir con uno solo, y cierra la tarde con un rato de sofá y caricias.",
+    "energyScore": 3,
+    "colorOfDay": "air"
+  },
+  {
+    "key": "date=2026-09-03;axis=moon;sign=gemini",
+    "headline": "Tu Luna vuelve a casa, y viene charlatana",
+    "body": "La Luna del cielo se posa justo sobre su Luna natal: apego amplificado, pero en versión Géminis. Te seguirá de habitación en habitación, cambiará de juguete a mitad de partida y pedirá atención con un ladrido corto. El menguante baja el volumen entre ratos de sofá.",
+    "advice": "Esconde tres premios por el salón y déjale buscarlos; después, un rato juntos en el sofá sin pedirle nada.",
+    "energyScore": 3,
+    "colorOfDay": "air"
+  },
+  {
+    "key": "date=2026-09-03;axis=ascendant;sign=virgo",
+    "headline": "Tu perro metódico se despista hoy",
+    "body": "La Luna en Géminis hace cuadratura a su Ascendente en Virgo: dos caras de Mercurio que no se ponen de acuerdo. Hoy se presenta más disperso de lo normal, olfatea tres cosas a la vez y deja el juguete a medias. Con el cuarto menguante el ritmo baja y pide orden.",
+    "advice": "Repite el recorrido de paseo de siempre y dos órdenes que ya domina; lo previsible le devuelve el foco hoy.",
+    "energyScore": 3,
+    "colorOfDay": "air"
+  },
+  {
+    "key": "date=2026-09-03;axis=moon;sign=pisces",
+    "headline": "Tu Luna de agua contra un cielo parlanchín",
+    "body": "La Luna en Géminis choca con su Luna natal en Piscis y el resultado es un día con la antena puesta: te sigue de una habitación a otra, levanta la cabeza con cada ruido del portal y tarda en encontrar postura en la cama. El menguante baja el volumen por la tarde.",
+    "advice": "Siéntate diez minutos en el suelo, sin pedir nada, y acaricia despacio: eso ordena el día mejor que un paseo largo.",
+    "energyScore": 2,
+    "colorOfDay": "water"
+  },
+  {
+    "key": "date=2026-09-03;axis=sun;sign=virgo",
+    "headline": "Tu Virgo metódico se dispersa hoy",
+    "body": "El Sol en Virgo pide la rutina de siempre, pero la Luna en Géminis le tira hacia cada ruido nuevo del pasillo. Espera un perro que empieza algo, se distrae con la puerta y vuelve tres minutos después como si nada. En cuarto menguante, además, la chispa se apaga pronto.",
+    "advice": "Dos paseos cortos mejor que uno largo, y que olfatee lo que quiera: el orden de siempre vuelve por la tarde.",
+    "energyScore": 3,
+    "colorOfDay": "air"
+  },
+  {
+    "key": "date=2026-09-03;axis=ascendant;sign=libra",
+    "headline": "Encanto de aire con ganas de compañía",
+    "body": "La Luna en Géminis hace trígono a tu Ascendente en Libra y saca su mejor cara: saludos a todo el mundo, cola en marcha y ganas de investigar cada portal. El menguante rebaja el volumen, así que tras el entusiasmo llegará una siesta larga sin negociar.",
+    "advice": "Alarga el paseo por una calle nueva y deja que salude a quien quiera; luego, cama tranquila y cero planes.",
+    "energyScore": 3,
+    "colorOfDay": "air"
+  },
+  {
+    "key": "date=2026-09-03;axis=sun;sign=scorpio",
+    "headline": "Tu Escorpio no quiere charla, quiere plan",
+    "body": "La Luna en Géminis reparte atención en migajas y tu Sol en Escorpio no negocia: quiere una cosa, entera y con testigos. Verás cambios de idea que no son suyos, olisqueos a medias y luego una mirada fija esperando que decidas tú. El menguante baja el volumen, no la intensidad.",
+    "advice": "Elige un solo juego y repítelo diez minutos sin cambiarlo. Con esta Luna dispersa, la constancia le sienta mejor que la variedad.",
+    "energyScore": 3,
+    "colorOfDay": "water"
+  },
+  {
+    "key": "date=2026-09-03;axis=sun;sign=aries",
+    "headline": "Tu Aries hoy va con la antena puesta",
+    "body": "La Luna en Géminis hace sextil a tu Sol en Aries: el empuje de siempre, pero repartido en diez direcciones. Arranca hacia un olor, lo deja a medias y va al siguiente. El menguante recorta algo la mecha, así que sale fuerte y baja el ritmo antes de lo previsto.",
+    "advice": "Dale un paseo con ruta nueva y varias paradas cortas: hoy cunde más olfatear diez esquinas que correr una recta.",
+    "energyScore": 4,
+    "colorOfDay": "air"
+  },
+  {
+    "key": "date=2026-09-03;axis=moon;sign=scorpio",
+    "headline": "Tu Luna intensa ante un cielo disperso",
+    "body": "La Luna pasa por Géminis, ligera y saltarina, mientras la suya en Escorpio solo pide saber dónde estás. El desajuste se ve en detalles: te sigue de habitación en habitación y se planta en la puerta del baño. El menguante baja el volumen de todo lo demás.",
+    "advice": "Dedícale diez minutos de contacto tranquilo en el sofá, sin pantallas: hoy la presencia le vale más que el juego.",
+    "energyScore": 2,
+    "colorOfDay": "water"
+  },
+  {
+    "key": "date=2026-09-03;axis=ascendant;sign=capricorn",
+    "headline": "El perro formal frente a un día disperso",
+    "body": "La Luna en Géminis cuadra ese Ascendente en Capricornio: quien normalmente se presenta serio y con protocolo hoy se distrae con cada ruido del portal. Con Saturno retrógrado y luna menguante, la disciplina se afloja un poco; puede ignorar el \"aquí\" y volver dos segundos tarde.",
+    "advice": "Repite el paseo de siempre por la ruta de siempre, y pide solo una orden fácil al final para cerrar bien el día.",
+    "energyScore": 3,
+    "colorOfDay": "earth"
+  },
+  {
+    "key": "date=2026-09-03;axis=moon;sign=cancer",
+    "headline": "La cabeza en la calle, el cuerpo en su cama",
+    "body": "La Luna pasa por Géminis y reparte la atención en mil direcciones, pero tu Luna de Cáncer tira hacia dentro. Espera un día de idas y venidas: se distrae con un ruido de la escalera, se levanta, y a los dos minutos vuelve a su manta o a tus pies. El menguante baja las revoluciones.",
+    "advice": "Deja su manta en el sitio de siempre y siéntate cerca un rato largo. Un paseo corto y tranquilo remata bien la tarde.",
+    "energyScore": 2,
+    "colorOfDay": "water"
+  },
+  {
+    "key": "date=2026-09-03;axis=sun;sign=taurus",
+    "headline": "Tu Tauro no piensa cambiar de planes",
+    "body": "Con el Sol en Tauro, hoy toca el mismo paseo, la misma cama y el mismo juguete de siempre. La Luna en Géminis pasa cerca y mete ruidos y olores nuevos: verás dos o tres alzadas de cabeza antes de volver al sitio de costumbre. Cuarto menguante: curiosidad corta, siesta larga.",
+    "advice": "Repite el recorrido de siempre y añade solo un desvío de dos minutos: novedad suficiente, rutina intacta.",
+    "energyScore": 2,
+    "colorOfDay": "earth"
+  }
+]
