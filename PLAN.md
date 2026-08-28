@@ -25,7 +25,11 @@ el binario y hay puerto, adaptador y gramática de claves para abrirlos.
 catálogo — la primera pantalla de la app con contenido de verdad.
 **Explorar completo** (sesión 23): los tres filtros, las tres rejillas —doce
 signos, doce casas, ocho fases— y las tres fichas de detalle. Es la parte de
-la app que se lee sin haber creado ninguna mascota. **F4 hecho** (sesión 24):
+la app que se lee sin haber creado ninguna mascota. **Armazón y Ajustes,
+hechos** (sesión 26): la barra de pestañas con sus cuatro destinos raíz, la
+pantalla de Ajustes y el selector de sistema de casas con su contexto
+`settings/` — se acabaron los enlaces provisionales de Hoy salvo los tres que
+son destinos de F5. **F4 hecho** (sesión 24):
 la rueda se dibuja con Skia, se revela al abrirse en 1200 ms y el planeta
 abierto se enciende con su halo; el campo estelar tiene parallax de
 giroscopio. **Del Bloque 4 solo queda F5**, que es infraestructura y pide
@@ -54,16 +58,12 @@ están marcados F4, y eso no estaba en ningún resumen.
 
 ## Siguiente sesión: **F5 — la carta del día**
 
-Con F4 cerrado, del Bloque 4 **solo queda F5**, y no es una pantalla: es
-infraestructura. Conviene verlo entero antes de empezarlo: CDN (Cloudflare
+Con F4, la barra de pestañas y Ajustes cerrados, del Bloque 4 **solo queda
+F5**, y no es una pantalla: es infraestructura. Conviene verlo entero antes de empezarlo: CDN (Cloudflare
 Pages, D11), un adaptador de contenido **remoto** —hoy `content/` solo sabe
 leer del binario—, la caché offline de 7 días (F12, Bloque 5) y el diario
 generándose de verdad (cron descomentado + secreto). Arrastra detrás la barra
 de pestañas y los artboards **15** y **17**, que son estados suyos.
-
-Lo que queda suelto y barato, para rellenar: el selector de sistema de casas
-(Bloque 4) y la pantalla de Ajustes, que además es donde cuelga Créditos —hoy
-se entra por el enlace provisional de `home.tsx`.
 
 Y un cabo suelto de F4, pequeño: **`Constellation` sigue trazándose con
 `Animated` y `useNativeDriver: false`**, que es exactamente el defecto por el
@@ -101,10 +101,13 @@ F6. Todos hechos. De los que quedan:
   diseño que la sesión 21 dejó pedido llegó dibujado (20 a 23) y se implementó:
   los tres filtros, las tres rejillas y las tres fichas. Cierra el ⚠️ de
   "Casas y Fases lunares se quedaron fuera"
-- ⚠️ **Sigue faltando la barra de pestañas**, que los artboards 20 y 22 vuelven
-  a dibujar. Es el armazón de la app entera —Hoy, la mascota, Explorar,
-  Ajustes— y dos de esas cuatro pestañas no tienen todavía pantalla de
-  destino. Hoy se entra a Explorar desde el enlace provisional de `home.tsx`
+- **La barra de pestañas, hecha (sesión 26)**: `_ui/components/TabBar.tsx` y el
+  grupo `app/(tabs)/`. Está especificada en el canvas del **sistema de
+  diseño**, sección *Tab bar*, no en el de pantallas — por eso costó tanto
+  encontrarla. ⚠️ **El destino raíz de la pestaña de la mascota no está
+  dibujado**: 09 es un editor con "Guardar" y sin barra, y los tres artboards
+  marcados "destino raíz" son 04, 08 y 10. Se apunta al perfil, que es la
+  pantalla de la mascota que existe
 - **24 Créditos — hecho (sesión 23)**. Llegó dibujado y se implementó:
   `app/credits.tsx`. Cierra el bloqueo de la atribución de GeoNames, que es
   **obligación de licencia** y no cortesía. Vive dentro de Ajustes, que no
@@ -129,8 +132,8 @@ F6. Todos hechos. De los que quedan:
   fragmentos de cielo que lo bloqueaban
 - **04 Hoy** necesita el diario, que el pipeline todavía no publica:
   `aspects.json` es de tránsito y hay que calcular el día
-- **10 Ajustes** depende del selector de sistema de casas (Bloque 4) y
-  **11 Paywall** de RevenueCat. **12 Compartir** no depende de nada que falte:
+- **10 Ajustes, hecho a medias (sesión 26)** — ver el registro. **11 Paywall**
+  sigue dependiendo de RevenueCat. **12 Compartir** no depende de nada que falte:
   la spec de marca de agua **sí está escrita** (`design/brand/README.md`,
   composición, posición, tamaño, color, los dos lienzos y las prohibiciones).
   Es solo que F9 vive en el Bloque 5 — corregido en la sesión 23, la sesión 21
@@ -686,7 +689,10 @@ Referencia: **BRD §7.4, §7.5**.
       La fase, la iluminación y el día del ciclo, el disco con su terminador
       real, el próximo cambio de signo, la próxima luna nueva y su Luna natal.
       Se sostiene **sin mascota**: lo único suyo es la última fila
-- [ ] Ajuste avanzado: sistema de casas, con aviso al cambiar (BRD §12.3)
+- [x] **Ajuste avanzado: sistema de casas, con aviso al cambiar** (BRD §12.3),
+      hecho (sesión 26): contexto `settings/` entero y
+      `app/settings/house-system.tsx`. **Dos opciones y no tres** — las casas
+      iguales son el fallback del motor en latitud alta, no una elección
 
 ---
 
@@ -2436,3 +2442,73 @@ cero. Si algún día se hace: límite duro de 5 mensajes/día aplicado en servid
   superior de `divider`, `padding: 8px 0 24px`, filas de 56. Y una regla que no
   se deduce del dibujo: **la segunda pestaña lleva el nombre de la mascota**,
   no "Perfil"
+
+### 2026-08-28 (26) — el armazón: pestañas, Ajustes y el sistema de casas
+- **La barra de pestañas estaba especificada y en otro sitio**: no en
+  `Pantallas MVP.dc.html`, donde los artboards solo la dibujan, sino en
+  `Sistema de diseño.dc.html`, sección *Tab bar*. Los iconos son de Lucide y se
+  llaman por su nombre (`sun`, `paw-print`, `compass`, `settings`), así que
+  entra `lucide-react-native` — es JS sobre `react-native-svg`, no un módulo
+  nativo más
+- **`typography.tabLabel`, token nuevo**: 11 px con espaciado 0,4, que no es
+  `overline` —ese va en mayúsculas y a 1,2— porque aquí el texto es un nombre,
+  no un encabezado de grupo. El activo cambia de familia y no de tamaño, para
+  que la fila no dé un salto al cambiar de pestaña
+- **Sin mascota no hay barra**, que es lo que dice el artboard 16 y no un caso
+  raro que se nos escape: sin mascota la app no tiene todavía armazón que
+  enseñar, y Hoy se convierte entero en la invitación a crear una
+- **Las rutas se reorganizan**: `app/(tabs)/` con los cuatro destinos raíz y
+  todo lo demás apilado encima, que es lo que hace que la barra desaparezca en
+  la carta, en la Luna o en una ficha — exactamente los artboards que no la
+  llevan. `app/index.tsx` sigue siendo el reparto de arranque
+- **La pestaña de la mascota no lleva id en la ruta**: el MVP es de una
+  mascota y la barra rotula esa misma con su nombre. Los editores de debajo sí
+  van por id, porque son pantallas apiladas y el id es lo que las ancla
+- ⚠️ **El destino raíz de esa pestaña no está dibujado.** Los tres artboards
+  rotulados "destino raíz" son 04, 08 y 10; el 09 es un editor con "Guardar" y
+  **sin barra**. Se apunta al perfil, que es la pantalla de la mascota que
+  existe, pero conviene que el canvas diga si eso es lo que quiere
+- **Ajustes entra a medias, a propósito.** De los cuatro grupos del artboard 10
+  solo está el que puede funcionar. Los otros tres serían controles que
+  mienten: la tarjeta de suscripción es F11 y no hay RevenueCat, los dos
+  interruptores de avisos prometerían una notificación que nadie envía, y
+  "Privacidad y datos" no tiene ni pantalla ni texto escrito. Misma decisión
+  que dejó fuera el botón de compartir de la hoja de planeta
+- **El disclaimer de entretenimiento llega a la app por primera vez** (BRD §14
+  R1). Va en el pie fijo y fuera del scroll, como pide la nota del artboard:
+  es requisito de ficha, así que no puede depender de que el usuario baje
+- **`Screen` gana `insideTabs`**, que cambia una sola cosa: el pie deja de
+  reservar la zona segura de abajo, porque quien la ocupa ya es la barra. Sin
+  eso el aire se contaría dos veces
+- **Contexto `settings/` entero** —modelo, puerto, dos casos de uso, adaptador
+  SQLite, doble en memoria y migración 002— para lo que hasta ahora era un
+  argumento por defecto de `useNatalChart`. La tabla es de **una sola fila y lo
+  dice el esquema**: `CHECK (id = 1)` convierte en error de la base lo que si
+  no sería disciplina de los repositorios
+- **Dos sistemas de casas y no tres**, que es lo que dice el BRD (D7, §12.3):
+  signos enteros por defecto y Placidus para quien cruza datos con astro.com.
+  Las casas iguales **no son una elección**: son el fallback automático del
+  motor por encima de los 66°, donde Placidus degenera (§14 R10). Ofrecerlas
+  sería pedirle al usuario que eligiera una degradación. Hay test
+- **Leer los ajustes no los escribe.** Sin fila, el adaptador devuelve los
+  ajustes por defecto y no guarda nada: escribir en una lectura convertiría
+  abrir la app en una escritura y dejaría perdida para siempre la respuesta a
+  "¿ha elegido el usuario alguna vez?"
+- **Cambiar de sistema no invalida ninguna caché**, y eso es lo bueno de que el
+  sistema viva dentro de la clave de la carta (§12.3, regla 3): `useNatalChart`
+  pasa a pedir otra clave y se recalcula sola. La del sistema anterior se queda
+  cacheada, así que volver atrás es instantáneo
+- **El sistema sale de los ajustes y no de quien llama.** `useNatalChart` ya no
+  acepta el parámetro: la carta de una mascota es la misma en toda la app, y
+  dejar que cada pantalla eligiera sería pedir que las once se acordaran de lo
+  mismo. Mientras los ajustes se leen, la carta espera — calcular con el
+  defecto y recalcular medio segundo después haría bailar los números de casa
+  delante del usuario, que es justo lo que §12.3 manda evitar
+- **El aviso que el BRD exige va como nota fija**, no como diálogo de
+  confirmación: lo que hay que entender es qué cambia, no dar permiso. Y dice
+  las dos mitades — cambian los números de casa, no lo que cada casa significa
+- **La pantalla de elección no está en el canvas y no se ha inventado nada**:
+  es el patrón del selector de raza (artboard B) aplicado a una lista de dos.
+  De paso, la marca de acento sale a `_ui/components/SelectedMark.tsx` y ahora
+  la comparten los dos
+- **341 tests** (eran 330), lint y `tsc` limpios
