@@ -1,12 +1,17 @@
 import { openDatabase } from './_db/base';
 import type { DatabaseProvider } from './_db/types';
+import { contentBaseUrl } from './_kernel/config';
 import type { ChartCalculator } from './chart/domain/ChartCalculator';
 import { AstronomyEngineChartCalculator } from './chart/infrastructure/AstronomyEngineChartCalculator';
 import CalculateNatalChartUseCase from './chart/application/CalculateNatalChartUseCase';
 import FindMoonSignChangeUseCase from './chart/application/FindMoonSignChangeUseCase';
 import GetMoonSkyUseCase from './chart/application/GetMoonSkyUseCase';
 import type { ContentRepository } from './content/domain/ContentRepository';
+import type { DailyRepository } from './content/domain/DailyRepository';
 import { BundledCatalogContentRepository } from './content/infrastructure/BundledCatalogContentRepository';
+import { CdnDailyRepository } from './content/infrastructure/CdnDailyRepository';
+import { SqliteDailyCache } from './content/infrastructure/SqliteDailyCache';
+import GetDailyEditionUseCase from './content/application/GetDailyEditionUseCase';
 import GetFragmentUseCase from './content/application/GetFragmentUseCase';
 import GetFragmentsUseCase from './content/application/GetFragmentsUseCase';
 import type { PreferencesRepository } from './settings/domain/PreferencesRepository';
@@ -35,6 +40,7 @@ export interface DogstrologyDependencies {
   photoStore?: PhotoStore;
   chartCalculator?: ChartCalculator;
   contentRepository?: ContentRepository;
+  dailyRepository?: DailyRepository;
   preferencesRepository?: PreferencesRepository;
 }
 
@@ -51,10 +57,12 @@ export interface DogstrologyDependencies {
  * abre la base de datos ni calcula nada.
  */
 export class Dogstrology {
+  private readonly db: DatabaseProvider;
   private readonly petRepository: PetRepository;
   private readonly photoStore: PhotoStore;
   private readonly chartCalculator: ChartCalculator;
   private readonly contentRepository: ContentRepository;
+  private readonly dailyRepositoryOverride?: DailyRepository;
   private readonly preferencesRepository: PreferencesRepository;
   private readonly useCases = new Map<string, unknown>();
 
@@ -68,8 +76,11 @@ export class Dogstrology {
     photoStore,
     chartCalculator,
     contentRepository,
+    dailyRepository,
     preferencesRepository,
   }: DogstrologyDependencies = {}) {
+    this.db = db;
+    this.dailyRepositoryOverride = dailyRepository;
     this.petRepository = petRepository ?? SqlitePetRepository.create({ db });
     this.photoStore = photoStore ?? FileSystemPhotoStore.create();
     this.chartCalculator = chartCalculator ?? AstronomyEngineChartCalculator.create();
@@ -160,6 +171,26 @@ export class Dogstrology {
   get GetFragmentsUseCase(): GetFragmentsUseCase {
     return this.useCase('GetFragmentsUseCase', () =>
       GetFragmentsUseCase.create({ repository: this.contentRepository }),
+    );
+  }
+
+  /**
+   * El diario (capa 2) es el **único** adaptador que se construye tarde, y a
+   * propósito: leer `contentBaseUrl()` lanza si el build no lo trae, y hacerlo
+   * en el constructor tumbaría la app entera por una pantalla que necesita
+   * red. Así, un despliegue sin CDN deja Hoy rota y la carta natal, el perfil
+   * y Explorar intactos.
+   */
+  get GetDailyEditionUseCase(): GetDailyEditionUseCase {
+    return this.useCase('GetDailyEditionUseCase', () =>
+      GetDailyEditionUseCase.create({
+        repository:
+          this.dailyRepositoryOverride ??
+          CdnDailyRepository.create({
+            baseUrl: contentBaseUrl(),
+            cache: SqliteDailyCache.create({ db: this.db }),
+          }),
+      }),
     );
   }
 }

@@ -1,5 +1,8 @@
 import { Dogstrology } from '../index';
 import { ContentKey } from '../content/domain/ContentKey';
+import { DailyEdition } from '../content/domain/DailyEdition';
+import { Fragment } from '../content/domain/Fragment';
+import { InMemoryDailyRepository } from '../content/testing/InMemoryDailyRepository';
 import { NatalChartMother } from '../chart/testing/NatalChartMother';
 import { StubChartCalculator } from '../chart/testing/StubChartCalculator';
 import { InMemoryPetRepository } from '../pet/testing/InMemoryPetRepository';
@@ -28,6 +31,36 @@ describe('Dogstrology — composition root', () => {
     const app = domain();
     expect(app.ListPetsUseCase).toBe(app.ListPetsUseCase);
     expect(app.CalculateNatalChartUseCase).toBe(app.CalculateNatalChartUseCase);
+  });
+
+  it('el diario entra por su puerto, y su adaptador se construye tarde', async () => {
+    // Sin `dailyRepository` inyectado, pedir este caso de uso leería
+    // `contentBaseUrl()`. Que se pueda sustituir es lo que deja probar la
+    // pantalla de Hoy sin red y sin CDN; que se construya en el getter y no en
+    // el constructor es lo que evita que un build sin CDN tumbe la app entera.
+    const edition = DailyEdition.create({
+      date: '2026-08-25',
+      fragments: [
+        Fragment.create({
+          key: 'date=2026-08-25',
+          headline: 'La Luna entra en Escorpio a media tarde',
+          body: 'Baja el volumen de todo: el cielo pide guarida, no parque.',
+          advice: 'Paseo corto y manta.',
+          energyScore: 3,
+          color: 'water',
+        }),
+      ],
+    });
+    const app = Dogstrology.create({
+      petRepository: new InMemoryPetRepository(),
+      dailyRepository: InMemoryDailyRepository.with(edition),
+    });
+
+    const today = await app.GetDailyEditionUseCase.execute({ date: '2026-08-25' });
+
+    expect(today?.sky()?.headline()).toBe('La Luna entra en Escorpio a media tarde');
+    expect(await app.GetDailyEditionUseCase.execute({ date: '2026-08-24' })).toBeNull();
+    expect(app.GetDailyEditionUseCase).toBe(app.GetDailyEditionUseCase);
   });
 
   it('el ciclo completo pasa por los puertos: crear mascota → calcular su carta', async () => {

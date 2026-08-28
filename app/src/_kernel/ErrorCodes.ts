@@ -11,4 +11,11 @@ export enum ErrorCode {
   /** Ajustes guardados que ya no son del vocabulario: una fila escrita por una
    * versión anterior con un valor que hoy no existe. */
   INVALID_PREFERENCES = 'INVALID_PREFERENCES',
+  /**
+   * No se pudo llegar al CDN del diario y no había copia local. Es el único
+   * fallo de la app que se arregla con cobertura, y por eso tiene código
+   * propio: es lo que deja a la pantalla ofrecer un reintento en vez de un
+   * "algo ha ido mal" (artboard 17).
+   */
+  NETWORK_ERROR = 'NETWORK_ERROR',
 }
