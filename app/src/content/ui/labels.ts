@@ -15,17 +15,42 @@ export const DAILY_AXIS_LABELS: Record<DailyAxis, string> = {
 export const SKY_LABEL = 'El cielo de hoy';
 
 /**
- * Cuando no hay tarjetas del día, el pie dice por qué. Son los dos únicos
- * motivos que puede haber, y no son lo mismo: uno se arregla con cobertura y
- * el otro no se arregla desde el móvil.
- *
- * **El texto del artboard 17 se corrige aquí.** Decía "su carta y su día se
- * calculan en el móvil": la carta sí, el día no — el diario se descarga
- * (BRD §7.4, capa 2). Prometer que el texto del día está calculado en el
- * dispositivo sería explicar mal justo el fallo que se está enseñando.
+ * El rótulo de una lectura caducada (artboard 17): las tarjetas descargadas
+ * viven bajo **un solo** rótulo de fecha, porque son una lectura y no dos.
+ * Fecharlas por separado insinuaría que pueden caducar a distinto ritmo.
  */
-export const OFFLINE_NOTE =
-  'Sin conexión. Su carta y la Luna se calculan en el móvil y siguen siendo correctas — lo que espera es el texto del día.';
+export const staleReadingLabel = (weekdayAndDay: string): string => `La lectura del ${weekdayAndDay}`;
 
-export const UNPUBLISHED_NOTE =
-  'El texto de hoy todavía no está. La carta y la Luna son de este momento; el resto llega en cuanto haya conexión.';
+/** `ayer`, `hace 3 días`. Va al otro extremo del rótulo, no dentro. */
+export const relativeDay = (days: number): string => (days === 1 ? 'ayer' : `hace ${days} días`);
+
+/**
+ * El pie de sin conexión (artboard 17). **Reparte las dos naturalezas en la
+ * misma frase**, que es de lo que va la pantalla: la fase lunar sale del motor
+ * y es la de hoy; la lectura se descarga y se quedó donde se quedó.
+ *
+ * Sin botón de reintentar, y el punto en `textFaint` y no en oro: no falta
+ * ningún dato del usuario, y no hay nada que reintentar a mano.
+ */
+export const offlineNote = (reading?: string): string =>
+  'Sin conexión. La fase lunar de arriba se calcula en el móvil y es la de hoy; ' +
+  (reading
+    ? `la lectura se descarga, y la última que llegó es la del ${reading}. `
+    : 'la lectura se descarga y todavía no ha llegado ninguna. ') +
+  'Al volver la cobertura se actualiza sola.';
+
+/**
+ * El día no está publicado (artboard 27). **No es el 17 con otro texto**, y la
+ * diferencia es de quién es el fallo: sin red el usuario puede hacer algo
+ * —moverse, esperar cobertura— y aquí no. Por eso no se le pide nada, no se le
+ * ofrece reintentar (solo repetiría el mismo vacío) y no se llama error: es
+ * una lectura que se publica por la mañana y aún no ha salido.
+ */
+export const UNPUBLISHED = {
+  overline: SKY_LABEL,
+  headline: 'Su lectura de hoy todavía no está',
+  body: 'Se publica cada mañana. Vuelve en un rato y estará aquí.',
+} as const;
+
+/** Lo que sí se puede leer mientras no hay lectura del día: no depende de él. */
+export const MEANWHILE_LABEL = 'Mientras tanto';

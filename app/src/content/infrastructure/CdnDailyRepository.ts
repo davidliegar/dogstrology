@@ -4,7 +4,7 @@ import type { DailyCache } from '../domain/DailyCache';
 import { OFFLINE_DAYS } from '../domain/DailyCache';
 import { shiftIsoDate } from '../domain/DailyDate';
 import { DailyEdition } from '../domain/DailyEdition';
-import type { DailyRepository, getEditionInput } from '../domain/DailyRepository';
+import type { DailyRepository, getEditionInput, lastReadingInput } from '../domain/DailyRepository';
 import { Fragment, type FragmentColor } from '../domain/Fragment';
 
 /**
@@ -73,6 +73,14 @@ export class CdnDailyRepository implements DailyRepository {
     // mirar el diario de anteayer no borra la mitad de la reserva.
     await this.cache.prune({ before: shiftIsoDate(date, -(OFFLINE_DAYS - 1)) });
     return edition;
+  }
+
+  /**
+   * **Solo caché, nunca red.** Es lo que se enseña cuando la red ya ha
+   * fallado: intentar descargar aquí sería fallar en el mismo sitio otra vez.
+   */
+  async lastReading({ notAfter }: lastReadingInput): Promise<DailyEdition | null> {
+    return this.cache.latest({ notAfter });
   }
 
   /** `null` si el día no está publicado; lanza si no se pudo llegar. */

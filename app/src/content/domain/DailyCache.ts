@@ -19,6 +19,11 @@ export interface writeEditionInput {
   edition: DailyEdition;
 }
 
+export interface readLatestInput {
+  /** La más reciente que no sea posterior a esta fecha. */
+  notAfter: string;
+}
+
 export interface pruneEditionsInput {
   /** Se borra todo lo **anterior** a esta fecha; ella se queda. */
   before: string;
@@ -38,6 +43,11 @@ export interface pruneEditionsInput {
  */
 export interface DailyCache {
   read(input: readEditionInput): Promise<DailyEdition | null>;
+  /**
+   * La última lectura que llegó, sin pasar de una fecha. Es lo que se enseña
+   * sin cobertura: no la de hoy —esa no está—, sino la última que sí.
+   */
+  latest(input: readLatestInput): Promise<DailyEdition | null>;
   write(input: writeEditionInput): Promise<void>;
   prune(input: pruneEditionsInput): Promise<void>;
 }

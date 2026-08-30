@@ -12,6 +12,7 @@ import { BundledCatalogContentRepository } from './content/infrastructure/Bundle
 import { CdnDailyRepository } from './content/infrastructure/CdnDailyRepository';
 import { SqliteDailyCache } from './content/infrastructure/SqliteDailyCache';
 import GetDailyEditionUseCase from './content/application/GetDailyEditionUseCase';
+import GetLastReadingUseCase from './content/application/GetLastReadingUseCase';
 import GetFragmentUseCase from './content/application/GetFragmentUseCase';
 import GetFragmentsUseCase from './content/application/GetFragmentsUseCase';
 import type { PreferencesRepository } from './settings/domain/PreferencesRepository';
@@ -63,6 +64,7 @@ export class Dogstrology {
   private readonly chartCalculator: ChartCalculator;
   private readonly contentRepository: ContentRepository;
   private readonly dailyRepositoryOverride?: DailyRepository;
+  private dailyRepository?: DailyRepository;
   private readonly preferencesRepository: PreferencesRepository;
   private readonly useCases = new Map<string, unknown>();
 
@@ -183,14 +185,24 @@ export class Dogstrology {
    */
   get GetDailyEditionUseCase(): GetDailyEditionUseCase {
     return this.useCase('GetDailyEditionUseCase', () =>
-      GetDailyEditionUseCase.create({
-        repository:
-          this.dailyRepositoryOverride ??
-          CdnDailyRepository.create({
-            baseUrl: contentBaseUrl(),
-            cache: SqliteDailyCache.create({ db: this.db }),
-          }),
-      }),
+      GetDailyEditionUseCase.create({ repository: this.daily() }),
     );
+  }
+
+  get GetLastReadingUseCase(): GetLastReadingUseCase {
+    return this.useCase('GetLastReadingUseCase', () =>
+      GetLastReadingUseCase.create({ repository: this.daily() }),
+    );
+  }
+
+  /** Memorizado aparte de los casos de uso: los dos del diario comparten adaptador. */
+  private daily(): DailyRepository {
+    this.dailyRepository ??=
+      this.dailyRepositoryOverride ??
+      CdnDailyRepository.create({
+        baseUrl: contentBaseUrl(),
+        cache: SqliteDailyCache.create({ db: this.db }),
+      });
+    return this.dailyRepository;
   }
 }

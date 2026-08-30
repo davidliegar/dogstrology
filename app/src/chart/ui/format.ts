@@ -87,6 +87,18 @@ export function formatWeekdayDate(iso: string): string {
   return `${weekday[0].toUpperCase()}${weekday.slice(1)} ${day} de ${MONTHS[month - 1]}`;
 }
 
+/**
+ * `2026-08-25` → `lunes 25`. El día de la semana y el número, sin el mes.
+ *
+ * Va dentro de una frase —"la lectura del lunes 25"— y ahí el mes sobra: una
+ * lectura caducada nunca lo está tanto como para que haga falta. La caché solo
+ * guarda siete días.
+ */
+export function formatWeekdayAndDay(iso: string): string {
+  const [year, month, day] = iso.split('-').map(Number);
+  return `${WEEKDAYS[new Date(Date.UTC(year, month - 1, day)).getUTCDay()]} ${day}`;
+}
+
 /** `2026-09-02T03:44:00Z` → `2 sep`. Tres letras bastan y son inequívocas en español. */
 const shortDate = (date: Date): string => `${date.getDate()} ${MONTHS[date.getMonth()].slice(0, 3)}`;
 

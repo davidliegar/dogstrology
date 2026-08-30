@@ -73,7 +73,9 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     gap: spacing[3],
-    paddingVertical: spacing[3],
+    // 8 y no 12: el artboard 04 aprieta la tira desde que hay cuatro tarjetas
+    // debajo. El disco de 36 sigue mandando el alto de la fila.
+    paddingVertical: spacing[2],
     paddingHorizontal: spacing[4],
     borderRadius: radii.m,
     backgroundColor: colors.surface,

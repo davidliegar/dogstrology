@@ -6,15 +6,31 @@ import { Screen } from '@/_ui/components/Screen';
 import { ScreenHeader } from '@/_ui/components/ScreenHeader';
 import { MoonStrip } from '@/chart/ui/MoonStrip';
 import { useMoonSky, useNatalChart } from '@/chart/ui/chartQueries';
-import { formatDegree, formatWeekdayDate } from '@/chart/ui/format';
+import { formatDegree, formatWeekdayAndDay, formatWeekdayDate } from '@/chart/ui/format';
 import { SIGN_LABELS } from '@/chart/ui/labels';
 import { CardDegree, DailyCard } from '@/content/ui/DailyCard';
 import { dailyAxisCards } from '@/content/ui/dailyCards';
 import { DailySkeleton } from '@/content/ui/DailySkeleton';
 import { EnergyDots } from '@/content/ui/EnergyDots';
-import { isNetworkError, useDailyEdition, usePrefetchDailyBuffer } from '@/content/ui/dailyQueries';
+import { daysBetween } from '@/content/domain/DailyDate';
+import {
+  isNetworkError,
+  useDailyEdition,
+  useLastReading,
+  usePrefetchDailyBuffer,
+} from '@/content/ui/dailyQueries';
 import { useCalendarDay } from '@/content/ui/useCalendarDay';
-import { DAILY_AXIS_LABELS, OFFLINE_NOTE, SKY_LABEL, UNPUBLISHED_NOTE } from '@/content/ui/labels';
+import {
+  DAILY_AXIS_LABELS,
+  MEANWHILE_LABEL,
+  SKY_LABEL,
+  UNPUBLISHED,
+  offlineNote,
+  relativeDay,
+  staleReadingLabel,
+} from '@/content/ui/labels';
+import { NavRow } from '@/_ui/components/NavRow';
+import { breedLabel } from '@/pet/ui/format';
 import { NoPetPrompt } from '@/pet/ui/NoPetPrompt';
 import { usePets, usePetPhotoUri } from '@/pet/ui/petQueries';
 
@@ -56,19 +72,34 @@ export default function Today() {
   // las 00:05 seguiría enseñando el día de ayer con su contenido.
   const today = useCalendarDay();
   const { data: edition, isPending, error } = useDailyEdition(today);
+  const offline = isNetworkError(error);
 
   // Y en cuanto hoy está resuelto, se bajan los días que vienen: es lo que
   // hace que la caché de siete días sirva para algo (F12).
-  usePrefetchDailyBuffer({ from: today, enabled: !isPending && !isNetworkError(error) });
+  usePrefetchDailyBuffer({ from: today, enabled: !isPending && !offline });
+
+  // Consulta de consolación: solo cuando la de hoy ya ha fallado por red.
+  const { data: lastReading } = useLastReading({ notAfter: today, enabled: offline });
 
   // Sin mascota, Hoy no tiene nada que contar: entra el artboard 16 entero.
   // Se llega borrando la única mascota — el reparto de `index.tsx` manda al
   // onboarding en el primer arranque, así que esto es la vuelta, no la ida.
   if (pets && !pet) return <NoPetPrompt onAdd={() => router.push('/onboarding/name')} />;
 
-  const sky = edition?.sky();
-  const cards = dailyAxisCards(edition, chart);
-  const hasContent = Boolean(sky) || cards.length > 0;
+  // Lo que se enseña: la de hoy si la hay y, sin cobertura, la última que
+  // llegó. Es una lectura o ninguna — nunca media de cada.
+  const reading = edition ?? (offline ? lastReading : null);
+  const staleDays = reading && reading.date() !== today ? daysBetween(reading.date(), today) : 0;
+  const sky = reading?.sky();
+  const cards = dailyAxisCards(reading, chart);
+  const hasReading = Boolean(sky) || cards.length > 0;
+
+  // La misma línea que el hub pone bajo "Quién es". Se repite aquí y no se
+  // comparte porque son dos frases con el mismo texto y distinto motivo: allí
+  // describe un destino, aquí es lo que se ofrece cuando no hay lectura.
+  const sunSign = chart ? SIGN_LABELS[chart.sunSign()] : undefined;
+  const breed = pet ? breedLabel(pet.breedId()) : undefined;
+  const identityNote = sunSign && (breed ? `${breed} en ${sunSign}` : `Su Sol en ${sunSign}`);
 
   return (
     <Screen
@@ -76,7 +107,9 @@ export default function Today() {
       scroll
       stars="today"
       align="flex-start"
-      gap={spacing[4]}
+      // 12 y no 16: desde que la tarjeta de la Luna lleva cuerpo, en 844 px
+      // caben cuatro tarjetas solo si el aire se aprieta (artboard 04).
+      gap={spacing[3]}
       header={
         <ScreenHeader
           divided
@@ -94,7 +127,13 @@ export default function Today() {
           }
         />
       }
-      footer={hasContent ? null : <StatusNote>{isNetworkError(error) ? OFFLINE_NOTE : UNPUBLISHED_NOTE}</StatusNote>}
+      footer={
+        offline ? (
+          <StatusNote>
+            {offlineNote(reading ? formatWeekdayAndDay(reading.date()) : undefined)}
+          </StatusNote>
+        ) : null
+      }
     >
       {/* Lo del cielo va primero y sin esperar a nada: es cálculo local. */}
       {moon ? <MoonStrip sky={moon} onPress={() => router.push('/moon')} /> : null}
@@ -103,18 +142,33 @@ export default function Today() {
         <DailySkeleton />
       ) : (
         <>
+          {/* Las tarjetas descargadas viven bajo **un solo** rótulo de fecha,
+              porque son una lectura y no dos: fecharlas por separado
+              insinuaría que pueden caducar a distinto ritmo. */}
+          {staleDays > 0 && reading ? (
+            <View style={styles.staleLabel}>
+              <Text style={styles.staleDate}>{staleReadingLabel(formatWeekdayAndDay(reading.date()))}</Text>
+              <Text style={styles.staleAge}>{relativeDay(staleDays)}</Text>
+            </View>
+          ) : null}
+
           {sky ? (
             <DailyCard
               featured
               index={0}
               overline={SKY_LABEL}
               tint={elementColor(sky.color())}
+              // Un día caducado no se recorre: los puntos de energía son del
+              // día de hoy, y sobre una lectura de ayer invitarían a leerlos
+              // como si lo fueran.
               meta={
-                <EnergyDots
-                  score={sky.energyScore()}
-                  color={elementColor(sky.color())}
-                  label={`Energía ${sky.energyScore()} de 5`}
-                />
+                staleDays > 0 ? undefined : (
+                  <EnergyDots
+                    score={sky.energyScore()}
+                    color={elementColor(sky.color())}
+                    label={`Energía ${sky.energyScore()} de 5`}
+                  />
+                )
               }
               headline={sky.headline()}
               body={sky.body()}
@@ -141,6 +195,41 @@ export default function Today() {
               body={card.body}
             />
           ))}
+
+          {/* Artboard 27. **No es el 17 con otro texto**: sin red el usuario
+              puede hacer algo —moverse, esperar cobertura— y aquí no, así que
+              no se le pide nada ni se le ofrece reintentar. Tampoco es un
+              error: es una lectura que sale por la mañana y aún no ha salido. */}
+          {!hasReading && !offline ? (
+            <DailyCard
+              index={0}
+              overline={UNPUBLISHED.overline}
+              tint={colors.textFaint}
+              headline={UNPUBLISHED.headline}
+              body={UNPUBLISHED.body}
+            />
+          ) : null}
+
+          {/* Y en vez de dejar la pantalla vacía, lo que sí se puede leer: lo
+              que no depende del día. Es la mitad del artboard 27 que convierte
+              un hueco en una oferta. */}
+          {!hasReading && pet ? (
+            <View style={styles.meanwhile}>
+              <Text style={styles.meanwhileLabel}>{MEANWHILE_LABEL}</Text>
+              <NavRow
+                boxed
+                label="Su carta natal"
+                note="No depende del día"
+                onPress={() => router.push({ pathname: '/pet/[id]/chart', params: { id: pet.id() } })}
+              />
+              <NavRow
+                boxed
+                label="Quién es"
+                note={identityNote || undefined}
+                onPress={() => router.push({ pathname: '/pet/[id]/personality', params: { id: pet.id() } })}
+              />
+            </View>
+          ) : null}
         </>
       )}
     </Screen>
@@ -199,5 +288,28 @@ const styles = StyleSheet.create({
     ...typography.caption,
     color: colors.textMuted,
     flexShrink: 1,
+  },
+  staleLabel: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    gap: spacing[3],
+  },
+  staleDate: {
+    ...typography.overline,
+    color: colors.textFaint,
+    flexShrink: 1,
+  },
+  staleAge: {
+    ...typography.caption,
+    color: colors.textFaint,
+    flexShrink: 0,
+  },
+  meanwhile: {
+    gap: spacing[2],
+  },
+  meanwhileLabel: {
+    ...typography.overline,
+    color: colors.textFaint,
   },
 });

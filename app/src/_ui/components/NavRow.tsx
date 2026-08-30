@@ -1,6 +1,6 @@
 import { Pressable, StyleSheet, Text, View } from 'react-native';
 
-import { colors, spacing, typography } from '@/design/theme';
+import { colors, radii, spacing, typography } from '@/design/theme';
 import { Chevron } from './Chevron';
 
 /**
@@ -19,6 +19,12 @@ export interface NavRowProps {
   note?: string;
   /** Bajo la nota. Hoy, la insignia C.2b cuando a la carta le falta un dato. */
   badge?: React.ReactNode;
+  /**
+   * Con caja en vez de suelta. La lleva cuando la fila **no** pertenece a una
+   * lista con separadores sino que va sola, como las de "Mientras tanto" del
+   * artboard 27: sin la caja, una fila aislada no se lee como tocable.
+   */
+  boxed?: boolean;
   onPress: () => void;
 }
 
@@ -30,13 +36,13 @@ export interface NavRowProps {
  * derecha. Compartirlas obligaría a un `boxless` más y a un modo sin dato, que
  * es la forma de acabar con un componente que hace de todo.
  */
-export function NavRow({ label, note, badge, onPress }: NavRowProps) {
+export function NavRow({ label, note, badge, boxed = false, onPress }: NavRowProps) {
   return (
     <Pressable
       onPress={onPress}
       accessibilityRole="button"
       accessibilityLabel={note ? `${label}. ${note}` : label}
-      style={styles.row}
+      style={[styles.row, boxed && styles.boxed]}
     >
       <View style={styles.texts}>
         <Text style={styles.label}>{label}</Text>
@@ -56,6 +62,14 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     gap: spacing[4],
     paddingVertical: spacing[3],
+  },
+  boxed: {
+    minHeight: 0,
+    borderRadius: radii.m,
+    backgroundColor: colors.surface,
+    borderWidth: 1,
+    borderColor: colors.divider,
+    padding: spacing[4],
   },
   texts: {
     flexShrink: 1,

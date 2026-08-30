@@ -76,3 +76,28 @@ describe('SqliteDailyCache', () => {
     expect(await cache.read({ date: '2026-08-25' })).toBeNull();
   });
 });
+
+describe('la última lectura que llegó', () => {
+  it('es la más reciente que no pasa de la fecha pedida', async () => {
+    const { cache } = await createCache();
+    for (const date of ['2026-08-24', '2026-08-25', '2026-08-30']) {
+      await cache.write({ edition: edition(date) });
+    }
+
+    // Sin cobertura el 26: lo último que llegó es del 25, no del 30 —que es
+    // futuro y todavía no ha pasado— ni del 24.
+    expect((await cache.latest({ notAfter: '2026-08-26' }))?.date()).toBe('2026-08-25');
+  });
+
+  it('la de hoy también cuenta: el borde es "no posterior a"', async () => {
+    const { cache } = await createCache();
+    await cache.write({ edition: edition('2026-08-26') });
+
+    expect((await cache.latest({ notAfter: '2026-08-26' }))?.date()).toBe('2026-08-26');
+  });
+
+  it('sin nada guardado, null — que es la app recién instalada y sin red', async () => {
+    const { cache } = await createCache();
+    expect(await cache.latest({ notAfter: '2026-08-26' })).toBeNull();
+  });
+});

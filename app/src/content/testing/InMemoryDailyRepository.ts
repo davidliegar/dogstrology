@@ -1,5 +1,5 @@
 import type { DailyEdition } from '../domain/DailyEdition';
-import type { DailyRepository, getEditionInput } from '../domain/DailyRepository';
+import type { DailyRepository, getEditionInput, lastReadingInput } from '../domain/DailyRepository';
 
 /**
  * Doble de `DailyRepository` con las ediciones que le pases y ninguna más.
@@ -27,5 +27,11 @@ export class InMemoryDailyRepository implements DailyRepository {
   async get({ date }: getEditionInput): Promise<DailyEdition | null> {
     if (this.failure) throw this.failure;
     return this.editions.get(date) ?? null;
+  }
+
+  /** No lanza aunque el doble esté en modo fallo: la caché no depende de la red. */
+  async lastReading({ notAfter }: lastReadingInput): Promise<DailyEdition | null> {
+    const date = [...this.editions.keys()].filter((d) => d <= notAfter).sort().pop();
+    return date ? (this.editions.get(date) ?? null) : null;
   }
 }

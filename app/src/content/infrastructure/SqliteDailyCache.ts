@@ -5,6 +5,7 @@ import type {
   DailyCache,
   pruneEditionsInput,
   readEditionInput,
+  readLatestInput,
   writeEditionInput,
 } from '../domain/DailyCache';
 import { DailyEdition } from '../domain/DailyEdition';
@@ -12,6 +13,10 @@ import type { FragmentData } from '../domain/Fragment';
 
 interface EditionRow {
   fragments: string;
+}
+
+interface DatedEditionRow extends EditionRow {
+  date: string;
 }
 
 /**
@@ -45,12 +50,33 @@ export class SqliteDailyCache implements DailyCache {
     );
     if (!row) return null;
 
+    return this.parse(date, row.fragments);
+  }
+
+  private parse(date: string, fragments: string): DailyEdition | null {
     try {
-      const fragments = JSON.parse(row.fragments) as FragmentData[];
-      return DailyEdition.fromJSON({ date, fragments });
+      return DailyEdition.fromJSON({ date, fragments: JSON.parse(fragments) as FragmentData[] });
     } catch {
       return null;
     }
+  }
+
+  /**
+   * Orden descendente por texto, que en `YYYY-MM-DD` es el orden de calendario.
+   * Una fila ilegible aquí devuelve `null` en vez de saltar a la anterior: son
+   * casos que no se dan a la vez, y buscar hacia atrás escondería que la copia
+   * más reciente está rota.
+   */
+  async latest({ notAfter }: readLatestInput): Promise<DailyEdition | null> {
+    const db = await this.db();
+    const row = await this.guard(() =>
+      db.getFirstAsync<DatedEditionRow>(
+        'SELECT date, fragments FROM daily_editions WHERE date <= ? ORDER BY date DESC LIMIT 1',
+        [notAfter],
+      ),
+    );
+    if (!row) return null;
+    return this.parse(row.date, row.fragments);
   }
 
   async write({ edition }: writeEditionInput): Promise<void> {

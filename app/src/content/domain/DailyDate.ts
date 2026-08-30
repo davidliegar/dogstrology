@@ -39,3 +39,15 @@ export function shiftIsoDate(iso: string, days: number): string {
 export function isIsoDate(value: string): boolean {
   return typeof value === 'string' && ISO_DATE.test(value);
 }
+
+/**
+ * Cuántos días separan dos fechas de calendario. Positivo si `iso` es
+ * anterior a `today`.
+ */
+export function daysBetween(iso: string, today: string): number {
+  const at = (value: string) => {
+    const [year, month, day] = value.split('-').map(Number);
+    return new Date(year, month - 1, day).getTime();
+  };
+  return Math.round((at(today) - at(iso)) / (24 * 60 * 60 * 1000));
+}

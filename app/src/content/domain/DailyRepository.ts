@@ -22,6 +22,20 @@ export interface getEditionInput {
  *   Es el único de los tres que se arregla con conexión, y por eso es el único
  *   que la pantalla puede ofrecer reintentar (artboard 17).
  */
+export interface lastReadingInput {
+  /** No posterior a esta fecha: hoy, normalmente. */
+  notAfter: string;
+}
+
 export interface DailyRepository {
   get(input: getEditionInput): Promise<DailyEdition | null>;
+  /**
+   * La última lectura que llegó a este dispositivo, **sin tocar la red**.
+   *
+   * Es el desenlace que faltaba: sin cobertura, la pantalla no se queda vacía
+   * —enseña la última que sí llegó, fechada— y por eso esto no puede intentar
+   * descargar nada. Si lo hiciera, el caso que existe para resolver sería el
+   * mismo caso en el que fallaría.
+   */
+  lastReading(input: lastReadingInput): Promise<DailyEdition | null>;
 }

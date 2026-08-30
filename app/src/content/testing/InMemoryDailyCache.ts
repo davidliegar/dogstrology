@@ -2,6 +2,7 @@ import type {
   DailyCache,
   pruneEditionsInput,
   readEditionInput,
+  readLatestInput,
   writeEditionInput,
 } from '../domain/DailyCache';
 import type { DailyEdition } from '../domain/DailyEdition';
@@ -23,6 +24,11 @@ export class InMemoryDailyCache implements DailyCache {
 
   async read({ date }: readEditionInput): Promise<DailyEdition | null> {
     return this.editions.get(date) ?? null;
+  }
+
+  async latest({ notAfter }: readLatestInput): Promise<DailyEdition | null> {
+    const date = [...this.editions.keys()].filter((d) => d <= notAfter).sort().pop();
+    return date ? (this.editions.get(date) ?? null) : null;
   }
 
   async write({ edition }: writeEditionInput): Promise<void> {

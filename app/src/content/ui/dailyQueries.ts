@@ -105,3 +105,28 @@ export function usePrefetchDailyBuffer({ from, enabled }: { from: string; enable
 /** Si lo que falló fue la red, y no otra cosa. Decide qué pie se enseña. */
 export const isNetworkError = (error: unknown): boolean =>
   error instanceof DomainError && error.hasCode(ErrorCode.NETWORK_ERROR);
+
+/**
+ * La última lectura que llegó al dispositivo, para la pantalla sin conexión
+ * (artboard 17).
+ *
+ * Se pide **solo cuando la de hoy ha fallado por red**: es una consulta de
+ * consolación, y lanzarla siempre gastaría una lectura de SQLite en el caso
+ * normal, que es el que tiene que ir rápido. Nunca toca la red, así que no
+ * reintenta.
+ */
+export const lastReadingKeys = {
+  all: ['daily', 'last'] as const,
+  notAfter: (date: string) => [...lastReadingKeys.all, date] as const,
+};
+
+export function useLastReading({ notAfter, enabled }: { notAfter: string; enabled: boolean }) {
+  const domain = useDomain();
+
+  return useQuery({
+    queryKey: lastReadingKeys.notAfter(notAfter),
+    queryFn: async () => (await domain.GetLastReadingUseCase.execute({ notAfter })) ?? null,
+    enabled,
+    retry: 0,
+  });
+}

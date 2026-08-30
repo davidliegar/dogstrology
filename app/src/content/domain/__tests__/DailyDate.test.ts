@@ -1,5 +1,5 @@
 import { bufferDates, OFFLINE_DAYS } from '../DailyCache';
-import { isIsoDate, isoDateOf, shiftIsoDate } from '../DailyDate';
+import { daysBetween, isIsoDate, isoDateOf, shiftIsoDate } from '../DailyDate';
 
 describe('las fechas del diario', () => {
   it('lee la fecha de calendario local, no la UTC', () => {
@@ -58,5 +58,20 @@ describe('los días que la despensa tiene por delante', () => {
   it('cruza el cambio de mes sin saltarse un día', () => {
     expect(bufferDates('2026-12-30')[0]).toBe('2026-12-31');
     expect(bufferDates('2026-12-30')[1]).toBe('2027-01-01');
+  });
+});
+
+describe('la distancia entre dos días', () => {
+  it('cuenta días de calendario, no de 24 horas', () => {
+    expect(daysBetween('2026-08-25', '2026-08-26')).toBe(1);
+    expect(daysBetween('2026-08-23', '2026-08-26')).toBe(3);
+    expect(daysBetween('2026-08-26', '2026-08-26')).toBe(0);
+  });
+
+  it('sobrevive al cambio de horario, que hace días de 23 y de 25 horas', () => {
+    // En España el último domingo de octubre dura 25 horas. Restando
+    // milisegundos, "ayer" saldría 1,04 días y redondearía bien por suerte;
+    // por campos de calendario sale 1 por construcción.
+    expect(daysBetween('2026-10-24', '2026-10-26')).toBe(2);
   });
 });

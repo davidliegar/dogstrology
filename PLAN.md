@@ -95,7 +95,24 @@ con contenido real.
 **F5 está cerrado** (sesión 34) y **el cron está encendido**. Lo que queda del
 MVP ya no es F5: es contenido, monetización y salir de la parada provisional.
 
-### 1. Probar la build de preview en un móvil de verdad
+### 1. El artboard 26 — selector de mascota, y con él el paywall
+
+Es lo único del encargo de diseño que llegó y no se ha implementado, y no por
+tamaño de pantalla: **es una feature con dinero detrás**. Lo que hace falta:
+
+- **Mascota activa en el dominio.** Hoy la app coge `pets[0]` en cinco sitios.
+  Con dos mascotas eso deja de ser una respuesta
+- **La hoja de selección** sobre el hub (26), con el punto oro relleno —el
+  mismo de la pestaña activa— marcando la elegida. No una marca de
+  verificación: es selección de estado, no confirmación
+- **La fila de añadir**, que **no va desactivada ni con candado**: es una fila
+  legítima con su "+" en oro y "Con Dogstrology Cósmico" de subtítulo, así que
+  quien la toca sabe qué va a encontrar. *Bloquearla enseñaría una puerta
+  cerrada; esto enseña una puerta*
+- **El artboard 11** al otro lado, que es RevenueCat
+- Y respetar los **dos únicos puntos de conversión** (ver las reglas de abajo)
+
+### 2. Probar la build de preview en un móvil de verdad
 
 Es lo único de esta tanda que no se puede comprobar desde aquí. Lo que hay que
 mirar, en este orden: que Hoy salga con las cuatro tarjetas y su cascada; que
@@ -103,7 +120,7 @@ el trío del hub y la carta cuadren con lo que dice Hoy; que el arrastre de la
 hoja de planeta vaya fino en Android; y —si se puede— **dejar la app abierta
 pasada la medianoche**, que es lo que la sesión 34 arregló a ciegas.
 
-### 2. Y lo que no se puede comprimir al final
+### 3. Y lo que no se puede comprimir al final
 
 **La revisión humana de los 1.560 fragmentos del catálogo.** Van 8 revisados.
 Lo limita una persona leyendo, y BRD §7.5 + §14 R1 dicen que nada se publica
@@ -190,59 +207,61 @@ otra cosa. Se generó la novena categoría (8 fragmentos, clave
 dos secciones**: "En un perro" y "Nacido en esta fase". Afectaba también al
 artboard 07, que se apoyaba en el mismo contenido.
 
-### Encargo de diseño pendiente
+### Encargo de diseño — respondido casi entero (2026-08-30)
 
-Lo que está esperando al canvas, ordenado por lo que bloquea:
+Llegaron **27 artboards** y dos reglas. Lo que estaba pedido y ya está:
 
-1. ⚠️ **El selector de mascota del hub no está dibujado** (artboard 25). Su
-   nota dice que una segunda mascota entraría "por el nombre de arriba", y ese
-   control —el nombre con su punta, y la hoja de selección— no existe.
-   **Bloquea el flujo de segunda mascota**, que es donde se toca el paywall de
-   verdad, y es lo que el propio canvas anuncia como "lo siguiente"
-2. ⚠️ **El pie del artboard 17 explica mal el fallo que enseña**: "su carta y
-   su día se calculan en el móvil". La carta sí; el día se **descarga** (BRD
-   §7.4, capa 2). Corregido en la app (`content/ui/labels.ts`, `OFFLINE_NOTE`);
-   falta en el canvas
-3. ⚠️ **Falta el estado "el día todavía no está publicado"**, que no es lo
-   mismo que sin red: uno se arregla con cobertura y el otro no se arregla
-   desde el móvil. Existe ya en la app con texto escrito aquí
-   (`UNPUBLISHED_NOTE`) y merece su rótulo en el canvas.
+- ~~El selector de mascota~~ → **artboard 26**, y es una **hoja baja sobre el
+  hub**, no una pantalla: elegir mascota no es ir a otro sitio, es cambiar de
+  sujeto sin perder dónde estabas. **Implementarlo requiere multimascota y el
+  paywall**, así que va en tanda propia (ver abajo)
+- ~~El pie del 17~~ → reescrito, y con más fondo del que se pidió: el artboard
+  **enseña la última lectura que llegó**, fechada, en vez de dejar la pantalla
+  vacía. Hecho (sesión 38)
+- ~~El estado "todavía no publicado"~~ → **artboard 27**, que no es el 17 con
+  otro texto. Hecho (sesión 38)
+- ~~La tarjeta de "Su Luna" del 04~~ → lleva cuerpo, como se implementó
+- ~~El tratamiento de las constelaciones pobres~~ → **la regla es que no hay
+  tratamiento**: no se compensan dibujando, el halo va en todas por igual y lo
+  que cambia es el pie, que nombra la estrella mayor con su magnitud y
+  convierte la escasez en el dato interesante. `constellationNote.ts` **ya lo
+  hacía**
+- ~~"Cáncer es la constelación más tenue"~~ → corregido en el canvas, que ahora
+  dice "uno de los asterismos con **menos nodos**". Y era necesario: la más
+  tenue por magnitud es **Piscis** (Alpherg, 3,6); Cáncer es la de menos nodos
+  (5), detrás de Aries (4). La app lo calcula, no lo supone
 
-   **Y merece más que un punto gris y una línea** (mejora, probado en
-   dispositivo el 2026-08-28: funciona, pero es seco). Hoy la pantalla enseña
-   la tira de la Luna —que es correcta y es cálculo local— y debajo un pie de
-   13 px. Le falta algo que ocupe el hueco de las tarjetas que no están, y ese
-   hueco es grande. El encargo, con sus restricciones:
+**Lo que sigue pendiente de diseño:**
 
-   - **arte lineal monocromo en SVG, recoloreable por token** (BRD §11.2.3),
-     como todo lo demás;
-   - **regla de canon** (§11.2.0): si sale algo del cielo, es el de verdad. Ya
-     hay doce constelaciones ploteadas desde coordenadas y un `MoonDisc` con
-     terminador real — el asset puede apoyarse en ellos en vez de dibujar
-     cielo nuevo;
-   - **no puede leerse como un error.** No falta ningún dato del usuario: su
-     carta y su Luna están y son correctas. Lo que falta es un texto que
-     llegará solo;
-   - **¿uno o dos?** Sin red y sin publicar son dos causas distintas y hoy
-     comparten forma. Puede que compartan asset y cambien solo el pie, o que
-     no — es decisión de diseño
-4. **La tarjeta de "Su Luna" del artboard 04 va sin cuerpo**, solo titular,
-   mientras las otras dos lo llevan, y el 17 hace lo mismo con la del Sol. No
-   hay nota que lo explique, así que se implementó **con cuerpo en las tres**:
-   esconder texto que existe pide una razón escrita. Si la razón es que una
-   Luna dudosa no debe afirmar tanto, se dice y se cambia
-5. **El tratamiento de las constelaciones pobres** (Aries 4 estrellas, Cáncer
-   5, Libra 6; Piscis con la dominante a magnitud 3,62). Se dejó "para
-   decidirlo con las tarjetas de F5 delante" — **ya están delante**
-6. **El artboard 18 afirma que Cáncer es "la constelación más tenue"**: es un
-   dato, y hay que verificarlo antes de publicarlo
-7. **El contorno del perro sobre el asterismo del icono** — necesita mano de
-   dibujo. Todo el andamio está hecho (Bloque 1); faltan las líneas
-8. **Un icono por variante** (sesión 36). Desde que hay tres apps instalables a
-   la vez —dev, test y producción—, en la pantalla de inicio se distinguen solo
-   por el nombre, y con el mismo icono cuesta saber cuál se está abriendo. Lo
-   habitual es una marca de esquina o un teñido; con un icono monocromo
-   recoloreable, teñirlo sale casi gratis
+1. **Un icono por variante** (dev / test / producción). Hoy las tres apps se
+   distinguen solo por el nombre en la pantalla de inicio
+2. **El contorno del perro sobre el asterismo del icono** — necesita mano de
+   dibujo; el andamio está hecho desde el Bloque 1
+3. **Menor**: el 27 titula la cabecera "El día de Baloo" y el 04 la titula
+   "Hoy". Se implementó "Hoy", que es la del artboard canónico de la pantalla;
+   si el cambio es intencionado, vale para las dos
+
+### Las dos reglas que no dan pantalla
+
+Viven en las notas del canvas, así que **hay que leerlo con las notas
+activadas** o se pierden al importar.
+
+**Constelaciones pobres** (nota del 18) — Aries con cuatro estrellas, Cáncer
+con cinco, Libra con seis. No se compensan: mismo pozo, mismo trazo fino, ni
+una estrella que no esté en el catálogo, y **el halo va en todas por igual**
+para que la diferencia entre dos signos no la marque el tratamiento. Lo que
+cambia es el pie.
+
+**Puntos de conversión al paywall** (nota del 11) — se llega al 11 **por dos
+puertas y solo dos**: la oferta de Ajustes, arriba y una sola vez, que es la
+fría (quien la toca ha ido a buscarla); y la fila de añadir mascota del 26, que
+es la caliente (el usuario quiere hacer algo concreto que el plan incluye).
+Ninguna es un aviso interpuesto ni un candado sobre contenido ya visible, y
+**en el 04 no hay ninguna**: el MVP no cobra por el día, así que la pantalla
+que se abre cada mañana no pide nada. En las dos, el nombre del plan aparece
+**antes que el precio**, para que el 11 no sea la primera vez que se lee
+"Dogstrology Cósmico". La regla: *la puerta se pinta donde el usuario topa con
+el límite, y si no topa, no se pinta.*
 
 ### Lo que hay que leer antes de tocar código
 
@@ -3156,3 +3175,33 @@ caché.**
   (compartir) y el paywall — que no son detalles, son retención, adquisición y
   dinero. La app está completa como producto de uso y no ha empezado a ser un
   negocio
+
+### 2026-08-30 (38) — los tres estados de Hoy, dibujados
+Llegaron 27 artboards. Se implementan **17 y 27**; el 26 va en tanda propia.
+
+- ⚠️ **El 17 no era un cambio de texto, era de comportamiento.** El artboard
+  enseña **la última lectura que llegó**, fechada, en vez de dejar la pantalla
+  vacía: cabecera en el martes, franja lunar al 52 % —calculada— y la lectura
+  parada en el lunes. *Ese par es la comprobación de que la pantalla distingue
+  lo que calcula de lo que descarga.* Hacía falta caja nueva: `DailyCache.latest`
+  y `DailyRepository.lastReading`, que **solo lee de la copia local y nunca de
+  la red** — si intentara descargar, el caso que existe para resolver sería el
+  mismo en el que fallaría
+- **Un solo rótulo de fecha para las tarjetas caducadas**, con "ayer" al otro
+  extremo: son una lectura y no dos, y fecharlas por separado insinuaría que
+  pueden caducar a distinto ritmo. **Sin puntos de energía**: un día caducado
+  no se recorre
+- **El 27 no es el 17 con otro texto**, y la nota lo dice mejor que yo: sin red
+  el usuario puede hacer algo —moverse, esperar cobertura— y aquí no, así que
+  no se le pide nada ni se le ofrece reintentar, que solo repetiría el mismo
+  vacío. Y no es un error: es una lectura que sale por la mañana y aún no ha
+  salido
+- **La mitad del 27 que convierte el hueco en oferta**: "Mientras tanto", con
+  la carta natal ("No depende del día") y quién es. Era justo lo que le faltaba
+  a mi versión, que dejaba la pantalla con una tira lunar y un pie
+- **Los textos que yo había escrito se caen**, y era la idea: `OFFLINE_NOTE` y
+  `UNPUBLISHED_NOTE` los inventé para tapar un hueco del canvas, y ahora hay
+  copy de verdad
+- **El 04 aprieta el aire** —12 en vez de 16, y la tira lunar a 8— porque desde
+  que la tarjeta de la Luna lleva cuerpo hay que meter cuatro en 844 px
+- **395 tests** (eran 390), lint y `tsc` limpios
