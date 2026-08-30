@@ -81,13 +81,20 @@ dispare **solo** en el caso vacío y no vaya a la red cada vez que se vuelve a
 la app, y un tic que re-renderice al cambiar el día natural. `useMoonSky` tiene
 la misma raíz.
 
-### 2. Encender el cron
+### 2. Bajarse el colchón, no solo publicarlo *(F12)*
+
+La app **solo pide el día de hoy**, así que las ocho ediciones publicadas no le
+sirven de nada a quien se queda sin cobertura. Falta el `prefetch` de los días
+que faltan — ver F12 en el Bloque 5.
+
+### 3. Encender el cron *(con fecha)*
 
 Descomentar el `schedule` de `generate-daily.yml`. A partir de ahí genera **un**
-día (hoy + 7) por noche y mantiene el colchón rodando. El colchón ya está lleno
-hasta el 2026-09-04.
+día (hoy + 7) por noche y mantiene el colchón rodando. ⚠️ **El colchón se acaba
+el 2026-09-04**: si el cron no está encendido para entonces, Hoy se queda otra
+vez con su pie de "el texto de hoy todavía no está".
 
-### 3. Y lo que no se puede comprimir al final
+### 4. Y lo que no se puede comprimir al final
 
 **La revisión humana de los 1.560 fragmentos del catálogo.** Van 8 revisados.
 Lo limita una persona leyendo, y BRD §7.5 + §14 R1 dicen que nada se publica
@@ -928,7 +935,19 @@ primera versión publicada congela la decisión para siempre.
 
 - [ ] F8 — Push diario con hora configurable. **Pedir permiso después de demostrar valor**, nunca al arrancar (BRD §14 R8)
 - [ ] F9 — Compartir imagen con marca de agua (spec en `design/brand/README.md`)
-- [ ] F12 — Caché offline de 7 días de contenido
+- [ ] **F12 — Caché offline de 7 días**. La mitad está hecha en F5 y **la otra
+      mitad es la que cumple la promesa**:
+      - [x] **La despensa**: tabla `daily_editions`, puerto `DailyCache`,
+            política de 7 días y poda (sesión 29)
+      - [ ] ⚠️ **Llenarla por adelantado.** Hoy la app **solo pide el día de
+            hoy** (`today.tsx` → `useDailyEdition(today)`), así que la caché
+            guarda únicamente los días que alguien abrió. Quien abre la app y
+            se va tres días de monte ve "sin conexión" el segundo y el tercero,
+            y las ocho ediciones publicadas se quedan en el CDN sin que nadie
+            se las baje. El BRD §7.4 dice "la app descarga 7 días por
+            adelantado" y eso todavía no pasa. Es un `prefetch` de los días que
+            faltan, en segundo plano y sin bloquear la pantalla: el adaptador y
+            la caché ya saben hacerlo, lo que falta es quien se lo pida
 - [ ] RevenueCat + paywall
 - [ ] Puntos de conversión al paywall (BRD §10.6)
 
