@@ -2,12 +2,13 @@
 # filtrado (BRD §7.4, Capa 2: GitHub Action → Batch API → filtro → PR →
 # revisión humana → merge → Cloudflare Pages).
 #
-# DESACTIVADA A PROPÓSITO: el `schedule` del cron nocturno está comentado.
-# De momento solo se puede lanzar a mano (`workflow_dispatch`), mientras el
-# pipeline se sigue validando con contenido de prueba. Para activar el cron:
-# descomentar el bloque `schedule` de abajo y confirmar que el secreto
-# ANTHROPIC_API_KEY está configurado en Settings → Secrets and variables →
-# Actions del repo (nunca en el código ni en el repo, BRD §7.4).
+# ACTIVA desde el 2026-08-30: el cron nocturno genera un día por noche y
+# mantiene el colchón de siete. El secreto ANTHROPIC_API_KEY vive en Settings →
+# Secrets and variables → Actions (nunca en el código ni en el repo, BRD §7.4).
+#
+# Para llenar el colchón de golpe —la primera vez, o si se queda atrás— se
+# lanza a mano con `date` y `days`: ver `--days` en `generateDaily.mjs`.
+# Cada noche cuesta ~0,40 €.
 name: Generar contenido diario
 
 on:
@@ -20,8 +21,12 @@ on:
         description: 'Cuántos días consecutivos, en UN solo lote. 1 para el cron; 8 para llenar el colchón la primera vez'
         required: false
         default: '1'
-  # schedule:
-  #   - cron: '0 3 * * *' # 03:00 UTC cada noche
+  schedule:
+    # 03:00 UTC cada noche. Genera hoy + 7, así que el colchón se mantiene
+    # rodando y la edición de un día está publicada mucho antes de que ese día
+    # empiece en España — que es lo que necesita la app, porque pide la fecha
+    # **local** (ver `content/domain/DailyDate`).
+    - cron: '0 3 * * *'
 
 permissions:
   contents: write

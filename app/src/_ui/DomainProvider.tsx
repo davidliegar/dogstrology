@@ -1,5 +1,6 @@
-import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
-import { createContext, useContext, useMemo, type ReactNode } from 'react';
+import { QueryClient, QueryClientProvider, focusManager } from '@tanstack/react-query';
+import { createContext, useContext, useEffect, useMemo, type ReactNode } from 'react';
+import { AppState } from 'react-native';
 
 import { Dogstrology, type DogstrologyDependencies } from '@/index';
 
@@ -12,7 +13,10 @@ const DomainContext = createContext<Dogstrology | null>(null);
  *   una mutación lo cambia, y solo entonces.
  * - `retry: 0` — reintentar una consulta a SQLite no arregla nada; si falla,
  *   falla de verdad y la UI tiene que enseñarlo.
- * - `refetchOnWindowFocus: false` — no hay ventana que enfocar.
+ * - `refetchOnWindowFocus: false` — **por defecto**, porque un dato local no
+ *   se queda viejo mientras la app está en segundo plano. Lo que sí viene de
+ *   la red —el diario— lo activa por su cuenta, y solo cuando no tiene datos
+ *   (ver `content/ui/dailyQueries`).
  */
 export const createQueryClient = (): QueryClient =>
   new QueryClient({
@@ -36,6 +40,19 @@ export interface DomainProviderProps {
 export function DomainProvider({ children, dependencies, queryClient }: DomainProviderProps) {
   const domain = useMemo(() => Dogstrology.create(dependencies), [dependencies]);
   const client = useMemo(() => queryClient ?? createQueryClient(), [queryClient]);
+
+  // TanStack sabe refrescar "al volver a enfocar", pero en un móvil no hay
+  // ventana: lo que hay es `AppState`. Sin este puente, una consulta marcada
+  // como caducada no se entera nunca de que la app ha vuelto del segundo
+  // plano — y la única de la app que lo necesita, el diario, se quedaba con
+  // "el texto de hoy todavía no está" hasta reiniciar aunque ya se hubiera
+  // publicado. Es el patrón que documenta TanStack para React Native.
+  useEffect(() => {
+    const subscription = AppState.addEventListener('change', (status) => {
+      focusManager.setFocused(status === 'active');
+    });
+    return () => subscription.remove();
+  }, []);
 
   return (
     <QueryClientProvider client={client}>

@@ -1,3 +1,4 @@
+import { bufferDates, OFFLINE_DAYS } from '../DailyCache';
 import { isIsoDate, isoDateOf, shiftIsoDate } from '../DailyDate';
 
 describe('las fechas del diario', () => {
@@ -32,5 +33,30 @@ describe('las fechas del diario', () => {
     expect(isIsoDate('2026-8-25')).toBe(false);
     expect(isIsoDate('25-08-2026')).toBe(false);
     expect(isIsoDate('')).toBe(false);
+  });
+});
+
+describe('los días que la despensa tiene por delante', () => {
+  it('son seis, desde mañana, y con el de hoy suman los siete de F12', () => {
+    const dias = bufferDates('2026-08-28');
+
+    expect(dias).toEqual([
+      '2026-08-29',
+      '2026-08-30',
+      '2026-08-31',
+      '2026-09-01',
+      '2026-09-02',
+      '2026-09-03',
+    ]);
+    expect(dias).toHaveLength(OFFLINE_DAYS - 1);
+  });
+
+  it('no incluye el día que se pide: ese lo trae la consulta de la pantalla', () => {
+    expect(bufferDates('2026-08-28')).not.toContain('2026-08-28');
+  });
+
+  it('cruza el cambio de mes sin saltarse un día', () => {
+    expect(bufferDates('2026-12-30')[0]).toBe('2026-12-31');
+    expect(bufferDates('2026-12-30')[1]).toBe('2027-01-01');
   });
 });

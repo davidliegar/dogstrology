@@ -1,3 +1,4 @@
+import { shiftIsoDate } from './DailyDate';
 import type { DailyEdition } from './DailyEdition';
 
 /**
@@ -39,4 +40,18 @@ export interface DailyCache {
   read(input: readEditionInput): Promise<DailyEdition | null>;
   write(input: writeEditionInput): Promise<void>;
   prune(input: pruneEditionsInput): Promise<void>;
+}
+
+/**
+ * Los días que la despensa tiene que tener **por delante**, sin contar el que
+ * se pide: `OFFLINE_DAYS - 1`, empezando por mañana.
+ *
+ * Vive aquí, junto a `OFFLINE_DAYS`, porque es la misma política dicha de otra
+ * forma: si un día se decide que son diez en vez de siete, se cambia un número
+ * y esto sigue cuadrando. Y es pura para poder atarla con un test — la parte
+ * de React que la usa (`usePrefetchDailyBuffer`) no se puede probar sin montar
+ * un árbol, pero lo que puede salir mal es esto.
+ */
+export function bufferDates(from: string): string[] {
+  return Array.from({ length: OFFLINE_DAYS - 1 }, (_, ahead) => shiftIsoDate(from, ahead + 1));
 }

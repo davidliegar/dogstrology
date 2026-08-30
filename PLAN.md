@@ -56,45 +56,23 @@ el resumen habrían salido mal. Antes de maquetar **cualquier** pantalla,
 importar su artboard. En F3 volvió a pasar: los dos artboards de la carta natal
 están marcados F4, y eso no estaba en ningún resumen.
 
-## Siguiente sesión: **cerrar F5 por dentro**
+## Siguiente sesión: **probarlo en un móvil, y empezar la revisión**
 
-El Bloque 4 está cerrado y el diario se publica de verdad: ocho ediciones en el
-CDN, verificadas, y Hoy pintándose con contenido real. **Lo único que le queda
-a F5 por dentro** es que la pantalla se entere de que pasa el tiempo.
+El Bloque 4 está cerrado, el diario se publica solo cada noche y Hoy se pinta
+con contenido real.
 
-### 1. El hueco del tiempo en Hoy *(lo siguiente, y es pequeño)*
+**F5 está cerrado** (sesión 34) y **el cron está encendido**. Lo que queda del
+MVP ya no es F5: es contenido, monetización y salir de la parada provisional.
 
-Dos cosas, con causas distintas:
+### 1. Probar la build de preview en un móvil de verdad
 
-- **La fecha se calcula una vez por render** (`isoDateOf(new Date())`) y nada
-  fuerza un render a medianoche: una app abierta a las 00:05 sigue enseñando el
-  día de ayer, en la cabecera y en las tarjetas.
-- **`staleTime: Infinity` es correcto para una edición publicada** —inmutable,
-  con la fecha en el nombre— y **equivocado para un `null`**: quien abrió la
-  app antes de que se publicara el día se queda con "el texto de hoy todavía no
-  está" hasta reiniciar, aunque ya esté.
+Es lo único de esta tanda que no se puede comprobar desde aquí. Lo que hay que
+mirar, en este orden: que Hoy salga con las cuatro tarjetas y su cascada; que
+el trío del hub y la carta cuadren con lo que dice Hoy; que el arrastre de la
+hoja de planeta vaya fino en Android; y —si se puede— **dejar la app abierta
+pasada la medianoche**, que es lo que la sesión 34 arregló a ciegas.
 
-La forma: escuchar `AppState → active` enganchado al `focusManager` de
-TanStack (es su patrón documentado en React Native), un `staleTime` que dependa
-del resultado —`Infinity` con datos, 0 sin ellos— para que el refetch por foco
-dispare **solo** en el caso vacío y no vaya a la red cada vez que se vuelve a
-la app, y un tic que re-renderice al cambiar el día natural. `useMoonSky` tiene
-la misma raíz.
-
-### 2. Bajarse el colchón, no solo publicarlo *(F12)*
-
-La app **solo pide el día de hoy**, así que las ocho ediciones publicadas no le
-sirven de nada a quien se queda sin cobertura. Falta el `prefetch` de los días
-que faltan — ver F12 en el Bloque 5.
-
-### 3. Encender el cron *(con fecha)*
-
-Descomentar el `schedule` de `generate-daily.yml`. A partir de ahí genera **un**
-día (hoy + 7) por noche y mantiene el colchón rodando. ⚠️ **El colchón se acaba
-el 2026-09-04**: si el cron no está encendido para entonces, Hoy se queda otra
-vez con su pie de "el texto de hoy todavía no está".
-
-### 4. Y lo que no se puede comprimir al final
+### 2. Y lo que no se puede comprimir al final
 
 **La revisión humana de los 1.560 fragmentos del catálogo.** Van 8 revisados.
 Lo limita una persona leyendo, y BRD §7.5 + §14 R1 dicen que nada se publica
@@ -939,15 +917,10 @@ primera versión publicada congela la decisión para siempre.
       mitad es la que cumple la promesa**:
       - [x] **La despensa**: tabla `daily_editions`, puerto `DailyCache`,
             política de 7 días y poda (sesión 29)
-      - [ ] ⚠️ **Llenarla por adelantado.** Hoy la app **solo pide el día de
-            hoy** (`today.tsx` → `useDailyEdition(today)`), así que la caché
-            guarda únicamente los días que alguien abrió. Quien abre la app y
-            se va tres días de monte ve "sin conexión" el segundo y el tercero,
-            y las ocho ediciones publicadas se quedan en el CDN sin que nadie
-            se las baje. El BRD §7.4 dice "la app descarga 7 días por
-            adelantado" y eso todavía no pasa. Es un `prefetch` de los días que
-            faltan, en segundo plano y sin bloquear la pantalla: el adaptador y
-            la caché ya saben hacerlo, lo que falta es quien se lo pida
+      - [x] **Llenarla por adelantado** (sesión 34): `usePrefetchDailyBuffer`
+            se baja los seis días que vienen en cuanto el de hoy está resuelto.
+            En serie y detrás de hoy, parándose al primer fallo, y solo si no
+            hubo fallo de red. `bufferDates()` es pura y tiene test
 - [ ] RevenueCat + paywall
 - [ ] Puntos de conversión al paywall (BRD §10.6)
 
@@ -3046,3 +3019,38 @@ decisión sobre EAS** (los builds locales siguen siendo lo de a diario).
   clon limpio **no basta** —npm 11 se traga el lock roto—; lo que sí lo caza es
   `npm ls <paquete>` buscando `invalid`, o correr `npm ci` con la versión de
   npm del runner
+
+### 2026-08-30 (34) — Hoy se entera de que pasa el tiempo, y la despensa se llena
+- **El cron del diario, encendido.** Genera un día (hoy + 7) cada noche a las
+  03:00 UTC y mantiene el colchón rodando. Se activó ahora y no más tarde
+  porque el colchón manual llegaba solo hasta el 2026-09-04
+- **`AppState` enganchado al `focusManager` de TanStack**, en `DomainProvider`.
+  TanStack sabe refrescar "al volver a enfocar", pero en un móvil no hay
+  ventana: hay `AppState`. Sin ese puente, una consulta caducada no se entera
+  nunca de que la app ha vuelto del segundo plano
+- **Una edición publicada no caduca; un hueco, sí.** Es la asimetría que lo
+  arregla: con datos, `staleTime: Infinity` —la edición de un día es inmutable
+  y lleva la fecha en el nombre—; sin datos, caduca en el acto y se reintenta
+  al enfocar. Antes, quien abría la app antes de que se publicara el día se
+  quedaba con "el texto de hoy todavía no está" **hasta reiniciar**. El
+  `refetchOnWindowFocus` se enciende **solo** para esta consulta: el cliente lo
+  trae apagado porque los datos locales no se quedan viejos solos
+- **`useCalendarDay`**: la fecha se observa en vez de calcularse una vez.
+  Dos relojes, porque ninguno basta solo — un temporizador hasta la próxima
+  medianoche local, para la app que se queda abierta, y `AppState`, porque en
+  segundo plano iOS congela los temporizadores y volver al día siguiente es el
+  caso **normal**: se mira el móvil por la mañana. La medianoche se calcula por
+  campos de calendario, que el día del cambio de horario dura 23 o 25
+- **F12, la mitad que faltaba**: `usePrefetchDailyBuffer` se baja los seis días
+  que vienen en cuanto el de hoy está resuelto. La caché de siete días existía
+  desde F5 y **nadie la llenaba** — la app solo pedía hoy, así que las ocho
+  ediciones publicadas se quedaban en el CDN. En serie y detrás de hoy (lo que
+  el usuario mira no compite con lo que quizá mire la semana que viene), se
+  para al primer fallo (insistir seis veces sin red gasta batería para nada) y
+  solo arranca si la consulta de hoy no falló por red
+- **`fetchQuery` y no `prefetchQuery`**: el segundo se traga los errores, y
+  aquí el error es la señal de parar
+- **`bufferDates()` es pura y tiene test.** La parte de React no se puede
+  probar sin montar un árbol, pero lo que puede salir mal —cuántos días, desde
+  cuándo, y que cruce bien el cambio de mes— sí
+- **378 tests** (eran 375), lint y `tsc` limpios

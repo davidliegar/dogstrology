@@ -8,12 +8,12 @@ import { MoonStrip } from '@/chart/ui/MoonStrip';
 import { useMoonSky, useNatalChart } from '@/chart/ui/chartQueries';
 import { formatDegree, formatWeekdayDate } from '@/chart/ui/format';
 import { SIGN_LABELS } from '@/chart/ui/labels';
-import { isoDateOf } from '@/content/domain/DailyDate';
 import { CardDegree, DailyCard } from '@/content/ui/DailyCard';
 import { dailyAxisCards } from '@/content/ui/dailyCards';
 import { DailySkeleton } from '@/content/ui/DailySkeleton';
 import { EnergyDots } from '@/content/ui/EnergyDots';
-import { isNetworkError, useDailyEdition } from '@/content/ui/dailyQueries';
+import { isNetworkError, useDailyEdition, usePrefetchDailyBuffer } from '@/content/ui/dailyQueries';
+import { useCalendarDay } from '@/content/ui/useCalendarDay';
 import { DAILY_AXIS_LABELS, OFFLINE_NOTE, SKY_LABEL, UNPUBLISHED_NOTE } from '@/content/ui/labels';
 import { NoPetPrompt } from '@/pet/ui/NoPetPrompt';
 import { usePets, usePetPhotoUri } from '@/pet/ui/petQueries';
@@ -52,8 +52,14 @@ export default function Today() {
   const { data: photoUri } = usePetPhotoUri(pet);
   const { data: moon } = useMoonSky();
 
-  const today = isoDateOf(new Date());
+  // La fecha **se observa**, no se calcula una vez: si no, una app abierta a
+  // las 00:05 seguiría enseñando el día de ayer con su contenido.
+  const today = useCalendarDay();
   const { data: edition, isPending, error } = useDailyEdition(today);
+
+  // Y en cuanto hoy está resuelto, se bajan los días que vienen: es lo que
+  // hace que la caché de siete días sirva para algo (F12).
+  usePrefetchDailyBuffer({ from: today, enabled: !isPending && !isNetworkError(error) });
 
   // Sin mascota, Hoy no tiene nada que contar: entra el artboard 16 entero.
   // Se llega borrando la única mascota — el reparto de `index.tsx` manda al
