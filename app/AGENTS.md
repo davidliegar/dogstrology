@@ -136,12 +136,43 @@ Dos consecuencias que conviene tener claras:
 - Los errores cruzan las fronteras como `DomainError` con un `ErrorCode`; una
   librería no asoma nunca fuera de su adaptador.
 
+## Las tres variantes
+
+Se instalan **a la vez** en el mismo móvil porque cada una tiene su propio
+identificador de aplicación, que es por lo que el sistema decide si dos APK son
+la misma app o dos distintas. Lo elige `app.config.ts` leyendo `APP_VARIANT`:
+
+| `APP_VARIANT` | Identificador | Nombre | Esquema |
+|---|---|---|---|
+| `development` *(defecto)* | `com.nexus.zoodiac.dev` | Dogstrology dev | `dogstrology-dev` |
+| `preview` | `com.nexus.zoodiac.test` | Dogstrology test | `dogstrology-test` |
+| `production` | `com.nexus.zoodiac` | Dogstrology | `dogstrology` |
+
+- **Producción conserva `com.nexus.zoodiac` intacto.** No se puede cambiar
+  nunca (CLAUDE.md): es la identidad en las tiendas. Hay un test que lo ata.
+- **Sin la variable, `development`.** El defecto es el seguro, no el cómodo: lo
+  que no puede pasar por descuido es construir producción. Y un valor mal
+  escrito **revienta** en vez de caer al defecto.
+- `eas.json` pone la variable en cada perfil, así que una build de EAS ya sale
+  con la suya.
+- `app.json` sigue siendo la base; `app.config.ts` solo reescribe lo que
+  depende del entorno. `CONTENT_BASE_URL` también se puede sobrescribir.
+- **Las tres comparten icono**: en la pantalla de inicio se distinguen por el
+  nombre. Un icono por variante es un encargo de diseño pendiente.
+
 ## Comandos
 
 ```bash
 npm test          # jest
 npx tsc --noEmit  # tipos
 npm run lint      # capas + reglas de diseño
-npm run ios       # build local (Expo Go no sirve: BRD §5.2)
+npm run ios       # build local de desarrollo (Expo Go no sirve: BRD §5.2)
 npm run android
+
+APP_VARIANT=preview npx expo run:android    # la de test, en local
+npx eas-cli build --profile preview --platform android
 ```
+
+**Al cambiar de variante, el proyecto nativo hay que regenerarlo**: `android/`
+e `ios/` están ignorados y llevan dentro el identificador con el que se
+generaron. Si `expo run:*` no lo recoge solo, `npx expo prebuild --clean`.

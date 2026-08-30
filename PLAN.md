@@ -207,6 +207,11 @@ Lo que está esperando al canvas, ordenado por lo que bloquea:
    dato, y hay que verificarlo antes de publicarlo
 7. **El contorno del perro sobre el asterismo del icono** — necesita mano de
    dibujo. Todo el andamio está hecho (Bloque 1); faltan las líneas
+8. **Un icono por variante** (sesión 36). Desde que hay tres apps instalables a
+   la vez —dev, test y producción—, en la pantalla de inicio se distinguen solo
+   por el nombre, y con el mismo icono cuesta saber cuál se está abriendo. Lo
+   habitual es una marca de esquina o un teñido; con un icono monocromo
+   recoloreable, teñirlo sale casi gratis
 
 ### Lo que hay que leer antes de tocar código
 
@@ -3083,3 +3088,28 @@ caché.**
   que no tenían por qué enterarse. La clave correcta es aquello **de lo que el
   dato deriva**, y si cuesta nombrarlo es que al dominio le falta un método
 - **384 tests** (eran 378), lint y `tsc` limpios
+
+### 2026-08-30 (36) — tres apps en el mismo móvil
+- **`app.json` → `app.config.ts`**, con `APP_VARIANT` decidiendo identificador,
+  nombre y esquema. Lo que separa dos apps de verdad es el identificador: es
+  por lo que el sistema decide si dos APK son la misma o dos distintas
+- **Producción conserva `com.nexus.zoodiac` sin sufijo**, que es lo que
+  CLAUDE.md dice que no se puede cambiar nunca. Las otras dos son ese mismo id
+  con `.dev` y `.test`, así que nacen sin tocar la que un día se publique. **Hay
+  un test que lo ata**: era una regla escrita y ahora es un fallo de build
+- **Sin la variable, `development`.** El defecto es el seguro y no el cómodo:
+  lo que no puede pasar por descuido es construir producción —con el
+  identificador de las tiendas— porque a alguien se le olvidó exportar algo. Y
+  un valor mal escrito **revienta**, en vez de caer al defecto: `APP_VARAINT`
+  no puede acabar en una app que parece de desarrollo y lleva el id bueno
+- **`app.json` sigue siendo la base** y `app.config.ts` solo reescribe lo que
+  depende del entorno. `CONTENT_BASE_URL` también se puede sobrescribir, para
+  el día que haya un origen de contenido de prueba; hoy las tres leen el mismo,
+  que es lo correcto porque el diario es contenido público y no hay nada que
+  aislar
+- ⚠️ **Al cambiar de variante hay que regenerar el proyecto nativo**:
+  `android/` e `ios/` están ignorados y llevan dentro el identificador con el
+  que se generaron. Si `expo run:*` no lo recoge, `npx expo prebuild --clean`.
+  Y la app instalada con el id viejo se queda ahí, huérfana: conviene
+  desinstalarla a mano
+- **390 tests** (eran 384), lint y `tsc` limpios
