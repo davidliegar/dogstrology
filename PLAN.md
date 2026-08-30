@@ -30,9 +30,40 @@ Lo que sostiene eso, por si hay que tocarlo:
 - **25 artboards implementados** de `Pantallas MVP.dc.html`, contra el canvas y
   no contra el resumen.
 
-**Lo que falta para poder publicar**, en orden de lo que bloquea: el hueco de
-Hoy con el tiempo (abajo), la revisión humana de los 1.560 fragmentos, el
-paywall (F11, RevenueCat), y salir de GitHub Pages con un dominio propio.
+### Cuánto falta para el MVP
+
+El MVP es **F1-F9 + F12 + el paywall** (BRD §8.1, D5). Ojo: **F11 es "inglés" y
+está cortado del MVP; el paywall no tiene número de feature** — el BRD lo
+mantiene dentro porque sin anuncios la suscripción es la única monetización.
+
+| | Feature | Estado |
+|---|---|---|
+| F1 | Onboarding express | ✅ |
+| F2 | Perfil de mascota | ✅ |
+| F3 | Cálculo de carta natal | ✅ |
+| F4 | Rueda con Skia | ✅ |
+| F5 | Carta del día | ✅ |
+| F6 | Perfil de personalidad | ✅ |
+| F7 | Fase lunar de hoy | ✅ |
+| F12 | Offline (7 días) | ✅ |
+| F8 | **Push diaria** | ❌ — el motor de retención |
+| F9 | **Compartir** | ❌ — el bucle de adquisición; la spec de marca de agua sí está escrita |
+| — | **Paywall de suscripción** | ❌ — RevenueCat sin integrar |
+
+**Ocho de once.** Y las tres que faltan no son detalles: son *retención*,
+*adquisición* y *dinero*. La app hoy es completa como producto de uso y no ha
+empezado a ser un negocio.
+
+**Y hay dos cosas que no son features y bloquean igual**:
+
+- **La revisión humana del contenido** — 1.560 fragmentos, 8 revisados. BRD
+  §7.5 y §14 R1: nada se publica sin ella. Es lo único que **no se puede
+  comprimir al final**, porque lo limita una persona leyendo.
+- **Salir de GitHub Pages con un dominio propio** antes del primer build de
+  tienda (Bloque 4b), porque la URL se hornea en cada instalación.
+
+Más el Bloque 6 entero, que es papeleo de lanzamiento: precio, PostHog,
+capturas, ficha de ASO, EUIPO.
 
 **Última sesión**: 2026-08-28
 **Decisión: los builds de EAS se posponen.** Consumen cuota limitada (15+15
@@ -893,7 +924,7 @@ es el que muerde:
 
 1. **Los términos de uso de GitHub Pages** desaconsejan servir un producto de
    pago ("not intended to be used as a free web hosting service to run your
-   online business"). Dogstrology cobra suscripción (F11), así que es zona
+   online business"). Dogstrology cobra suscripción, así que es zona
    gris — y el ancho de banda es de 100 GB/mes blandos frente a ilimitado en
    Cloudflare, que da para unos 170.000 usuarios activos a ~18 KB/día.
 2. **La URL se hornea en cada build instalado.** Mientras no haya nada en la
@@ -2696,7 +2727,7 @@ cero. Si algún día se hace: límite duro de 5 mensajes/día aplicado en servid
   existe, pero conviene que el canvas diga si eso es lo que quiere
 - **Ajustes entra a medias, a propósito.** De los cuatro grupos del artboard 10
   solo está el que puede funcionar. Los otros tres serían controles que
-  mienten: la tarjeta de suscripción es F11 y no hay RevenueCat, los dos
+  mienten: la tarjeta de suscripción no tiene RevenueCat detrás, los dos
   interruptores de avisos prometerían una notificación que nadie envía, y
   "Privacidad y datos" no tiene ni pantalla ni texto escrito. Misma decisión
   que dejó fuera el botón de compartir de la hoja de planeta
@@ -3113,3 +3144,15 @@ caché.**
   Y la app instalada con el id viejo se queda ahí, huérfana: conviene
   desinstalarla a mano
 - **390 tests** (eran 384), lint y `tsc` limpios
+
+### 2026-08-30 (37) — el marcador del MVP, y un error de etiquetado
+- **"F11" se estaba usando para el paywall en cuatro sitios**, y F11 en el BRD
+  es **inglés**, que D5 corta del MVP. El paywall **no tiene número de
+  feature**: es la fila "— | Paywall de suscripción" de §8.1, y el BRD lo
+  mantiene dentro explícitamente ("sin ads, la suscripción es la única
+  monetización"). Quien leyera el código o el plan concluía justo lo contrario
+  de lo que dice el BRD. Corregido en `settings.tsx` y en el plan
+- **Marcador del MVP, en "Estado actual"**: ocho de once. Faltan F8 (push), F9
+  (compartir) y el paywall — que no son detalles, son retención, adquisición y
+  dinero. La app está completa como producto de uso y no ha empezado a ser un
+  negocio

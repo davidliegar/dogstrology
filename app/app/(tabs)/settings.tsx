@@ -27,7 +27,7 @@ const DISCLAIMER =
  * **Está a medias a propósito.** El artboard dibuja cuatro grupos y aquí solo
  * hay uno, porque los otros tres serían controles muertos:
  *
- * - la tarjeta de suscripción es F11 y no hay RevenueCat, así que "Ver los
+ * - la tarjeta de suscripción espera a RevenueCat, así que "Ver los
  *   planes" no llevaría a ninguna parte;
  * - los dos interruptores de avisos prometerían una notificación que nadie
  *   envía todavía;
