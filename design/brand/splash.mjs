@@ -4,17 +4,20 @@
  *
  *   node design/brand/splash.mjs
  *
- * **Por qué se genera y no se dibuja a mano**: el logotipo va horneado en el
- * píxel, y el nombre comercial es renombrable a Zoodiac sin coste técnico
- * (CLAUDE.md). Con generador, ese cambio cuesta una constante; con un PNG
- * suelto, cuesta encontrar a quien lo dibujó.
+ * **Solo la marca, sin logotipo.** El artboard lo lleva debajo, pero un splash
+ * nativo no es una pantalla: desde Android 12 el sistema pinta **color de fondo
+ * + una imagen centrada**, y esa imagen es el icono. Poner ahí el nombre es
+ * horneado en píxel lo que ya dice la tienda, y ata el asset a un nombre
+ * comercial que es renombrable a Zoodiac sin coste técnico (CLAUDE.md). Sin
+ * texto, el splash sobrevive al cambio de nombre sin tocarse.
  *
- * **Por qué una sola imagen y no tres capas.** El splash no es una pantalla de
- * la app: es el asset nativo que el sistema pinta antes de que arranque nada, y
- * desde Android 12 la API solo admite **color de fondo + una imagen centrada**.
- * Así que el campo de estrellas del artboard no puede viajar —se pierde una
- * fracción de segundo sobre el mismo `#0B1026`, y la app lo pinta en cuanto
- * monta— y la marca y el logotipo se hornean juntos en el mismo PNG.
+ * Por lo mismo, **el campo de estrellas del artboard tampoco viaja**: no cabe
+ * como capa aparte. Se pierde una fracción de segundo sobre el mismo `#0B1026`
+ * y la app lo pinta en cuanto monta.
+ *
+ * **Por qué se genera y no se dibuja**: es geometría del artboard, igual que
+ * las doce constelaciones. Un PNG suelto es un dibujo del que nadie sabe ya de
+ * dónde salió.
  *
  * El rasterizado usa `qlmanage`, que es WebKit y **solo existe en macOS**. Es
  * la única dependencia de plataforma del proyecto y se acepta porque esto se
@@ -22,7 +25,7 @@
  */
 
 import { execFileSync } from 'node:child_process';
-import { mkdtempSync, readFileSync, renameSync, writeFileSync } from 'node:fs';
+import { mkdtempSync, renameSync, writeFileSync } from 'node:fs';
 import { tmpdir } from 'node:os';
 import { dirname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
@@ -30,21 +33,18 @@ import { fileURLToPath } from 'node:url';
 const here = dirname(fileURLToPath(import.meta.url));
 const ROOT = join(here, '..', '..');
 
-const FONT = join(ROOT, 'app/node_modules/@expo-google-fonts/fraunces/600SemiBold/Fraunces_600SemiBold.ttf');
 const SVG_OUT = join(here, 'splash.svg');
 const PNG_OUT = join(ROOT, 'app/assets/splash-icon.png');
 
-/** El nombre comercial. Lo único que cambia si Dogstrology pasa a Zoodiac. */
-const WORDMARK = 'Dogstrology';
-
 /**
- * Lienzo cuadrado: `qlmanage` devuelve siempre un cuadrado, así que componer
- * en cuadrado evita que el relleno cuente como parte de la imagen y encoja la
- * marca respecto al `imageWidth` que se declara en `app.json`.
+ * El lienzo **es** la marca: 120, el mismo del artboard. Así el `imageWidth`
+ * que declara `app.json` es el ancho real de la marca en pantalla y no hay que
+ * descontar relleno. El aire que se ve alrededor del anillo exterior es del
+ * dibujo —r=47 sobre un centro en 60—, no del lienzo.
  */
-const CANVAS = 240;
-/** Salida a 3x del `imageWidth` de 200 dp. */
-const EXPORT = 720;
+const CANVAS = 120;
+/** 4x, que es la densidad xxxhdpi de Android. */
+const EXPORT = 480;
 
 /**
  * La marca del artboard 28, en su lienzo de 120. **Es el asterismo, no el
@@ -69,37 +69,20 @@ const STARS = [
 /** Del tema. No se escriben colores aquí que no estén en `design/theme.ts`. */
 const INK = { accent: '#E8C87A', text: '#F2EFE6' };
 
-/** Aire entre la marca y el logotipo, y caja del texto (artboard 28). */
-const GAP = 24;
-const WORDMARK_SIZE = 28;
-const WORDMARK_LINE = 34;
-
 function buildSvg() {
-  const font = readFileSync(FONT).toString('base64');
-
-  const blockHeight = MARK + GAP + WORDMARK_LINE;
-  const top = (CANVAS - blockHeight) / 2;
-  const markLeft = (CANVAS - MARK) / 2;
-  // Línea base del texto: su caja empieza bajo la marca y el hueco.
-  const baseline = top + MARK + GAP + WORDMARK_SIZE;
-
   // Ancho y alto **al tamaño de exportación**, no al del lienzo lógico: si el
-  // SVG declara 240 y se le piden 720, Quick Look escala y ancla arriba a la
+  // SVG declara 120 y se le piden 480, Quick Look escala y ancla arriba a la
   // izquierda, y un splash descentrado no vale. Con el tamaño natural igual al
   // pedido, renderiza 1:1 y llena el cuadrado.
   return `<svg xmlns="http://www.w3.org/2000/svg" width="${EXPORT}" height="${EXPORT}" viewBox="0 0 ${CANVAS} ${CANVAS}" fill="none">
   <!-- GENERADO por design/brand/splash.mjs. No editar a mano. -->
-  <style>@font-face{font-family:"Fraunces";src:url(data:font/ttf;base64,${font});}</style>
-  <g transform="translate(${markLeft} ${top})">
-${RINGS.map((ring) => `    <circle cx="${MARK / 2}" cy="${MARK / 2}" r="${ring.r}" stroke="${INK.accent}" stroke-width="1" opacity="${ring.opacity}"/>`).join('\n')}
-    <g stroke="${INK.text}" stroke-width="1.75" opacity="0.32" stroke-linecap="round" stroke-linejoin="round">
-${TRACE.map((d) => `      <path d="${d}"/>`).join('\n')}
-    </g>
-    <g fill="${INK.accent}">
-${STARS.map((s) => `      <circle cx="${s.cx}" cy="${s.cy}" r="${s.r}"/>`).join('\n')}
-    </g>
+${RINGS.map((ring) => `  <circle cx="${MARK / 2}" cy="${MARK / 2}" r="${ring.r}" stroke="${INK.accent}" stroke-width="1" opacity="${ring.opacity}"/>`).join('\n')}
+  <g stroke="${INK.text}" stroke-width="1.75" opacity="0.32" stroke-linecap="round" stroke-linejoin="round">
+${TRACE.map((d) => `    <path d="${d}"/>`).join('\n')}
   </g>
-  <text x="${CANVAS / 2}" y="${baseline}" text-anchor="middle" font-family="Fraunces" font-size="${WORDMARK_SIZE}" letter-spacing="-0.3" fill="${INK.text}">${WORDMARK}</text>
+  <g fill="${INK.accent}">
+${STARS.map((s) => `    <circle cx="${s.cx}" cy="${s.cy}" r="${s.r}"/>`).join('\n')}
+  </g>
 </svg>
 `;
 }
@@ -113,6 +96,6 @@ const scratch = mkdtempSync(join(tmpdir(), 'splash-'));
 execFileSync('qlmanage', ['-t', '-s', String(EXPORT), '-o', scratch, SVG_OUT], { stdio: 'ignore' });
 renameSync(join(scratch, 'splash.svg.png'), PNG_OUT);
 
-console.log(`✓ ${WORDMARK} · marca ${MARK} + logotipo ${WORDMARK_SIZE} en ${CANVAS}²`);
+console.log(`✓ marca de ${MARK} en lienzo de ${CANVAS}, sin logotipo`);
 console.log(`  design/brand/splash.svg`);
 console.log(`  app/assets/splash-icon.png (${EXPORT}×${EXPORT})`);

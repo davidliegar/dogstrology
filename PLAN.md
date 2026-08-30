@@ -3294,11 +3294,16 @@ Llegaron 27 artboards. Se implementan **17 y 27**; el 26 va en tanda propia.
   de estrellas del artboard no puede viajar como capa aparte, así que se pierde
   una fracción de segundo sobre el mismo fondo y la app lo pinta en cuanto
   monta. La marca y el logotipo van horneados en el mismo PNG
-- **Se genera, no se dibuja**: `design/brand/splash.mjs` compone el SVG con la
-  fuente incrustada y lo rasteriza. El nombre comercial es renombrable a
-  Zoodiac sin coste técnico (CLAUDE.md), y con generador ese cambio cuesta una
-  constante. `imageWidth: 240` sobre un lienzo de 240 con una marca de 120 deja
-  la marca a 120 dp, la proporción del artboard
+- **Sin logotipo, aunque el artboard lo lleve.** Un splash nativo no es una
+  pantalla: el sistema pinta el **icono** centrado, y poner ahí el nombre es
+  hornear en píxel lo que ya dice la tienda — además de atar el asset a un
+  nombre comercial que es renombrable a Zoodiac sin coste técnico (CLAUDE.md).
+  Sin texto, el splash sobrevive al cambio sin tocarse. De paso desaparece la
+  fuente incrustada y el SVG pasa de 95 KB a 744 bytes
+- **Se genera, no se dibuja**: `design/brand/splash.mjs`, porque es geometría
+  del artboard igual que las doce constelaciones. El lienzo **es** la marca
+  (120), así que `imageWidth: 120` es su ancho real en pantalla y no hay
+  relleno que descontar
 - **El rasterizado usa `qlmanage`**, que es WebKit y solo existe en macOS —
   única dependencia de plataforma del proyecto, y se acepta porque esto corre
   una vez cada muchos meses. Ojo con su trampa: si el SVG declara un tamaño
