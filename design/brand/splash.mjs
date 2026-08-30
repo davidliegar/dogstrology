@@ -4,12 +4,18 @@
  *
  *   node design/brand/splash.mjs
  *
- * **Solo la marca, sin logotipo.** El artboard lo lleva debajo, pero un splash
- * nativo no es una pantalla: desde Android 12 el sistema pinta **color de fondo
- * + una imagen centrada**, y esa imagen es el icono. Poner ahí el nombre es
- * horneado en píxel lo que ya dice la tienda, y ata el asset a un nombre
- * comercial que es renombrable a Zoodiac sin coste técnico (CLAUDE.md). Sin
- * texto, el splash sobrevive al cambio de nombre sin tocarse.
+ * **Canis Major entero, no un asterismo de adorno.** Las once estrellas reales
+ * en su posición (J2000), leídas de `canis-major.svg` — que a su vez lo genera
+ * `plot.mjs` desde el catálogo—, así que si el catálogo se corrige, el splash
+ * se corrige con él. Es la regla de canon (BRD §11.2.0): lo que existe se
+ * representa como es.
+ *
+ * **Sin logotipo.** El artboard lo lleva debajo, pero un splash nativo no es
+ * una pantalla: desde Android 12 el sistema pinta **color de fondo + una
+ * imagen centrada**, y esa imagen es el icono. Poner ahí el nombre es hornear
+ * en píxel lo que ya dice la tienda, y ata el asset a un nombre comercial que
+ * es renombrable a Zoodiac sin coste técnico (CLAUDE.md). Sin texto, el splash
+ * sobrevive al cambio de nombre sin tocarse.
  *
  * Por lo mismo, **el campo de estrellas del artboard tampoco viaja**: no cabe
  * como capa aparte. Se pierde una fracción de segundo sobre el mismo `#0B1026`
@@ -25,7 +31,7 @@
  */
 
 import { execFileSync } from 'node:child_process';
-import { mkdtempSync, renameSync, writeFileSync } from 'node:fs';
+import { mkdtempSync, readFileSync, renameSync, writeFileSync } from 'node:fs';
 import { tmpdir } from 'node:os';
 import { dirname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
@@ -33,55 +39,98 @@ import { fileURLToPath } from 'node:url';
 const here = dirname(fileURLToPath(import.meta.url));
 const ROOT = join(here, '..', '..');
 
+const SOURCE = join(here, 'canis-major.svg');
 const SVG_OUT = join(here, 'splash.svg');
 const PNG_OUT = join(ROOT, 'app/assets/splash-icon.png');
 
 /**
- * El lienzo **es** la marca: 120, el mismo del artboard. Así el `imageWidth`
- * que declara `app.json` es el ancho real de la marca en pantalla y no hay que
- * descontar relleno. El aire que se ve alrededor del anillo exterior es del
- * dibujo —r=47 sobre un centro en 60—, no del lienzo.
+ * El lienzo de `canis-major.svg`, que se conserva: así las coordenadas de las
+ * estrellas se usan tal cual y no hay una segunda proyección que pueda
+ * desviarse de la del catálogo.
  */
-const CANVAS = 120;
-/** 4x, que es la densidad xxxhdpi de Android. */
+const CANVAS = 512;
+/** 4x sobre los 120 dp a los que se pinta la marca (xxxhdpi de Android). */
 const EXPORT = 480;
 
 /**
- * La marca del artboard 28, en su lienzo de 120. **Es el asterismo, no el
- * perro**: cinco estrellas y su trazado, con el lenguaje de los pozos de cielo
- * del 18 y el 23. Por eso el splash no espera al contorno del perro — y cuando
- * exista, entra dentro de estos dos anillos sin tocar nada más.
+ * Los dos anillos del artboard 28, en su proporción: r=47 y r=33 sobre un
+ * lienzo de 120, o sea el 39% y el 27,5% del lado.
  */
-const MARK = 120;
 const RINGS = [
-  { r: 47, opacity: 0.35 },
-  { r: 33, opacity: 0.18 },
+  { ratio: 47 / 120, opacity: 0.35 },
+  { ratio: 33 / 120, opacity: 0.18 },
 ];
-const TRACE = ['M38 78 L52 52 L74 44 L88 26', 'M52 52 L46 30'];
-const STARS = [
-  { cx: 38, cy: 78, r: 3.2 },
-  { cx: 52, cy: 52, r: 4 },
-  { cx: 74, cy: 44, r: 2.8 },
-  { cx: 46, cy: 30, r: 2.6 },
-  { cx: 88, cy: 26, r: 4.6 },
-];
+
+/**
+ * Cuánto ocupa la constelación dentro del anillo exterior. En el artboard las
+ * cinco estrellas llegan a 44 de un anillo de 47, así que rozan el borde sin
+ * tocarlo — es lo que hace que el anillo se lea como encuadre y no como marco.
+ */
+const FILL = 44 / 47;
+
+/**
+ * Todo se escala **a los 120 dp de pantalla**, no al lienzo: un trazo de 2
+ * sobre 512 se queda en 0,47 dp y desaparece. `K` lleva las medidas del
+ * artboard —que están en 120— a este lienzo.
+ */
+const K = CANVAS / 120;
+const RING_STROKE = 1 * K;
+const TRACE_STROKE = 1.75 * K;
+
+/**
+ * Los radios del catálogo salen de la magnitud aparente y a 120 dp se quedan
+ * cortos: Sirio mide 10 sobre 512, que son 2,3 dp. El factor lo lleva a los
+ * 4,6 del artboard **conservando la proporción entre magnitudes**, que es lo
+ * que no se puede tocar — el tamaño de cada punto es un dato, no un gusto.
+ */
+const NODE_FACTOR = 1.9;
 
 /** Del tema. No se escriben colores aquí que no estén en `design/theme.ts`. */
 const INK = { accent: '#E8C87A', text: '#F2EFE6' };
 
+/** Lee la geometría de `canis-major.svg`: es la única fuente de las posiciones. */
+function readAsterism() {
+  const svg = readFileSync(SOURCE, 'utf8');
+  const paths = [...svg.matchAll(/<path d="([^"]+)"/g)].map((m) => m[1]);
+  const stars = [...svg.matchAll(/<circle[^>]*cx="([\d.]+)"\s+cy="([\d.]+)"\s+r="([\d.]+)"/g)].map(
+    (m) => ({ cx: Number(m[1]), cy: Number(m[2]), r: Number(m[3]) }),
+  );
+  if (paths.length === 0 || stars.length === 0) {
+    throw new Error(`[splash] no se pudo leer la geometría de ${SOURCE}`);
+  }
+  return { paths, stars };
+}
+
+/**
+ * Escala la constelación **sobre el centro del lienzo** para que su estrella
+ * más lejana quede justo dentro del anillo exterior. Se calcula en vez de
+ * fijarse a mano: si el catálogo cambia una posición, el encuadre se ajusta
+ * solo.
+ */
+function fitToRing(stars) {
+  const c = CANVAS / 2;
+  const reach = Math.max(...stars.map((s) => Math.hypot(s.cx - c, s.cy - c)));
+  return (RINGS[0].ratio * CANVAS * FILL) / reach;
+}
+
 function buildSvg() {
+  const { paths, stars } = readAsterism();
+  const c = CANVAS / 2;
+  const scale = fitToRing(stars);
+
   // Ancho y alto **al tamaño de exportación**, no al del lienzo lógico: si el
-  // SVG declara 120 y se le piden 480, Quick Look escala y ancla arriba a la
-  // izquierda, y un splash descentrado no vale. Con el tamaño natural igual al
-  // pedido, renderiza 1:1 y llena el cuadrado.
+  // SVG declara 512 y se le piden 480, Quick Look escala y ancla arriba a la
+  // izquierda, y un splash descentrado no vale.
   return `<svg xmlns="http://www.w3.org/2000/svg" width="${EXPORT}" height="${EXPORT}" viewBox="0 0 ${CANVAS} ${CANVAS}" fill="none">
-  <!-- GENERADO por design/brand/splash.mjs. No editar a mano. -->
-${RINGS.map((ring) => `  <circle cx="${MARK / 2}" cy="${MARK / 2}" r="${ring.r}" stroke="${INK.accent}" stroke-width="1" opacity="${ring.opacity}"/>`).join('\n')}
-  <g stroke="${INK.text}" stroke-width="1.75" opacity="0.32" stroke-linecap="round" stroke-linejoin="round">
-${TRACE.map((d) => `    <path d="${d}"/>`).join('\n')}
-  </g>
-  <g fill="${INK.accent}">
-${STARS.map((s) => `    <circle cx="${s.cx}" cy="${s.cy}" r="${s.r}"/>`).join('\n')}
+  <!-- GENERADO por design/brand/splash.mjs desde canis-major.svg. No editar a mano. -->
+${RINGS.map((ring) => `  <circle cx="${c}" cy="${c}" r="${(ring.ratio * CANVAS).toFixed(1)}" stroke="${INK.accent}" stroke-width="${RING_STROKE}" opacity="${ring.opacity}"/>`).join('\n')}
+  <g transform="translate(${(c * (1 - scale)).toFixed(2)} ${(c * (1 - scale)).toFixed(2)}) scale(${scale.toFixed(4)})">
+    <g stroke="${INK.text}" stroke-width="${(TRACE_STROKE / scale).toFixed(2)}" opacity="0.32" stroke-linecap="round" stroke-linejoin="round">
+${paths.map((d) => `      <path d="${d}"/>`).join('\n')}
+    </g>
+    <g fill="${INK.accent}">
+${stars.map((s) => `      <circle cx="${s.cx}" cy="${s.cy}" r="${(s.r * NODE_FACTOR).toFixed(1)}"/>`).join('\n')}
+    </g>
   </g>
 </svg>
 `;
@@ -96,6 +145,6 @@ const scratch = mkdtempSync(join(tmpdir(), 'splash-'));
 execFileSync('qlmanage', ['-t', '-s', String(EXPORT), '-o', scratch, SVG_OUT], { stdio: 'ignore' });
 renameSync(join(scratch, 'splash.svg.png'), PNG_OUT);
 
-console.log(`✓ marca de ${MARK} en lienzo de ${CANVAS}, sin logotipo`);
+console.log(`✓ Canis Major entero, ${readAsterism().stars.length} estrellas, sin logotipo`);
 console.log(`  design/brand/splash.svg`);
 console.log(`  app/assets/splash-icon.png (${EXPORT}×${EXPORT})`);
