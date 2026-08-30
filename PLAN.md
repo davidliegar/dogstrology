@@ -87,42 +87,70 @@ el resumen habrían salido mal. Antes de maquetar **cualquier** pantalla,
 importar su artboard. En F3 volvió a pasar: los dos artboards de la carta natal
 están marcados F4, y eso no estaba en ningún resumen.
 
-## Siguiente sesión: **probarlo en un móvil, y empezar la revisión**
+## Siguiente sesión: **el paywall, y con él el selector de mascota**
 
-El Bloque 4 está cerrado, el diario se publica solo cada noche y Hoy se pinta
-con contenido real.
+El Bloque 4 está cerrado, F5 también, el diario se publica solo cada noche y
+Hoy se pinta con contenido real. **Lo que le queda al MVP ya no es producto de
+uso: es monetización, retención y adquisición** — y de las tres, la que
+desbloquea una pantalla ya dibujada es la primera.
 
-**F5 está cerrado** (sesión 34) y **el cron está encendido**. Lo que queda del
-MVP ya no es F5: es contenido, monetización y salir de la parada provisional.
+### Antes de escribir una línea
 
-### 1. El paywall (11) y, con él, el selector de mascota (26)
+1. **`design/reglas.md`**, las entradas del **11**, el **25** y el **26**. Son
+   tres notas cortas y las tres son decisiones, no descripciones.
+2. **BRD §10** (monetización), **§8.1** (por qué el paywall está en el MVP
+   aunque no tenga número de feature) y **§15.3** (el precio de partida).
+3. **`app/AGENTS.md`**, obligatorio antes de tocar `app/`.
 
-**Corrección de lo que se dijo el 2026-08-30**: el 26 no está bloqueado por
-multimascota. La nota del 25 lo dice al revés — *«con un solo perro la hoja es
-casi vacía a propósito: enseña al que hay marcado y "Añadir otra mascota", así
-que el control existe desde el primer día y no aparece de la nada al llegar la
-segunda»*. Con una mascota la hoja **ya funciona**: elegirla es un no-op y la
-lista crece sola cuando haya más.
+### Lo que ya está decidido y no se vuelve a discutir
 
-Lo que de verdad lo bloquea es **a dónde va la fila de añadir**: al artboard
-11, que no existe en código. Y esa fila **no puede ir desactivada ni con
-candado** —es una fila legítima con su "+" en oro y "Con Dogstrology Cósmico"
-de subtítulo—, así que no hay forma de pintarla a medias sin romper la regla de
-no pintar controles muertos.
+- **Dos puertas al paywall y solo dos**: la oferta de Ajustes —arriba, una sola
+  vez, la fría— y la fila de añadir mascota del 26 —la caliente—. **En Hoy no
+  hay ninguna**: el MVP no cobra por el día. *La puerta se pinta donde el
+  usuario topa con el límite, y si no topa, no se pinta.*
+- **La fila de añadir no lleva candado ni va desactivada.** Bloquearla enseña
+  una puerta cerrada; así enseña una puerta.
+- **El nombre del plan aparece antes que el precio** en las dos puertas, para
+  que el 11 no sea la primera vez que se lee "Dogstrology Cósmico".
+- **El 11 es oferta, no muro**: la X arriba y a la vista desde el primer
+  momento. El anual es el ancla — único plan con filo de oro y precio mensual
+  desglosado.
+- **El marcado del 26 es el punto oro relleno**, el mismo de la pestaña activa.
+  No una marca de verificación: es selección de estado, no confirmación.
 
-Conclusión: **11 y 26 son la misma tanda**, y esa tanda es RevenueCat. Lo que
-lleva dentro:
+### El orden que evita quedarse bloqueado
 
-- **El artboard 11**, con sus dos puertas de entrada y ninguna más (abajo)
-- **La hoja del 26**, con el punto oro relleno —el mismo de la pestaña activa—
-  marcando la elegida. No una marca de verificación: es selección de estado, no
-  confirmación
-- **La punta de 9 px y gris** junto al nombre del hub: dice "hay más" sin
-  prometer una acción que compita con los tres destinos
-- **Mascota activa en el dominio** solo cuando haya una segunda de verdad. Hoy
-  `pets[0]` sigue siendo una respuesta correcta
+RevenueCat necesita cuentas, productos en Play Console y **un build nativo
+nuevo**, y nada de eso se hace desde aquí. Así que **el adaptador va al final**:
 
-### 2. Probar la build de preview en un móvil de verdad
+1. **Contexto `subscription/`**: puerto `SubscriptionGateway` en el dominio,
+   los casos de uso, y un doble en memoria. Con eso, todo lo de abajo se
+   construye y se prueba sin tocar RevenueCat.
+2. **El artboard 11**, la pantalla del paywall.
+3. **El artboard 26**: la hoja sobre el hub, más la punta de 9 px junto al
+   nombre. Con una mascota ya funciona — la nota del 25 dice que la hoja casi
+   vacía es a propósito.
+4. **La oferta de Ajustes**, que es la segunda puerta.
+5. **Y entonces sí**: RevenueCat como adaptador del puerto.
+
+Con los pasos 1 a 4 hechos, el 5 es sustituir un doble por un adaptador.
+
+### Lo que necesita a alguien que no soy yo
+
+- Cuenta de RevenueCat y sus claves
+- Productos y precio en Play Console — punto de partida **3,99 €/mes ·
+  19,99 €/año** (BRD §15.3)
+- **Un build nativo nuevo** cuando entre el módulo. Y la lección de la sesión
+  33: **una dependencia se añade con `npm install <paquete>`, nunca editando
+  `package.json` a mano**, o `npm ci` revienta en la nube y no en local
+
+### Hecho cuando
+
+Se puede llegar al 11 por sus dos puertas y por ninguna más; el 26 abre, marca
+y cierra con una mascota; la fila de añadir lleva al 11 sin candado; y el
+paywall compra de verdad contra RevenueCat en un dispositivo.
+
+### En paralelo: probar la build en un móvil de verdad
 
 Es lo único de esta tanda que no se puede comprobar desde aquí. Lo que hay que
 mirar, en este orden: que Hoy salga con las cuatro tarjetas y su cascada; que
@@ -130,7 +158,7 @@ el trío del hub y la carta cuadren con lo que dice Hoy; que el arrastre de la
 hoja de planeta vaya fino en Android; y —si se puede— **dejar la app abierta
 pasada la medianoche**, que es lo que la sesión 34 arregló a ciegas.
 
-### 3. Y lo que no se puede comprimir al final
+### Y lo que no se puede comprimir al final
 
 **La revisión humana de los 1.560 fragmentos del catálogo.** Van 8 revisados.
 Lo limita una persona leyendo, y BRD §7.5 + §14 R1 dicen que nada se publica
