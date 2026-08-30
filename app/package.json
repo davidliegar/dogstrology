@@ -52,6 +52,7 @@
     "lint": "eslint .",
     "generate:constellations": "node scripts/generateConstellations.mjs",
     "generate:splash": "node ../design/brand/splash.mjs",
+    "generate:icon": "node ../design/brand/icon.mjs ../design/brand/icono-fuente.png",
     "generate:municipalities": "node scripts/generateMunicipalities.mjs",
     "generate:catalog": "node scripts/generateCatalog.mjs"
   },
