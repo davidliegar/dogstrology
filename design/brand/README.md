@@ -128,6 +128,10 @@ Conclusión: hace falta **interpretación de dibujante**, no un calco más fino.
 lámina sirve como referencia de postura y proporción, no como origen de la
 geometría.
 
+El encargo está escrito en **`contorno-prompt.md`**, con los anclajes, las
+prohibiciones que salen de estos tres fracasos y la única prueba que importa:
+reducirlo a 96 px, dejar solo la línea exterior y ver si sigue leyéndose.
+
 ### Cómo entra el contorno bueno
 
 Cualquiera de estas dos vías, con la lámina y la tabla de anclajes delante:
