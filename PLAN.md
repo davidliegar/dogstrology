@@ -271,13 +271,17 @@ Llegaron **27 artboards** y dos reglas. Lo que estaba pedido y ya está:
 
 **Lo que sigue pendiente de diseño:**
 
-1. **Un icono por variante** (dev / test / producción). Hoy las tres apps se
-   distinguen solo por el nombre en la pantalla de inicio
-2. **El contorno del perro sobre el asterismo del icono** — necesita mano de
-   dibujo; el andamio está hecho desde el Bloque 1
-3. **Menor**: el 27 titula la cabecera "El día de Baloo" y el 04 la titula
-   "Hoy". Se implementó "Hoy", que es la del artboard canónico de la pantalla;
-   si el cambio es intencionado, vale para las dos
+1. **El contorno del perro sobre el asterismo del icono** — necesita mano de
+   dibujo; el andamio está hecho desde el Bloque 1. Es el único que bloquea a
+   otro: sin él no hay icono definitivo
+2. **El teñido del icono por variante** (dev / test / producción), que va
+   **detrás** del contorno. Hoy las tres apps se distinguen solo por el nombre
+   en la pantalla de inicio
+
+~~El estado "todavía no publicado"~~, ~~el pie del 17~~, ~~la tarjeta de la
+Luna del 04~~, ~~las constelaciones pobres~~, ~~"la más tenue"~~, ~~el título de
+la cabecera de Hoy~~ y ~~el splash~~ están resueltos (artboards 26, 27 y 28 y
+las notas del 18 y el 11).
 
 ### Las dos reglas que no dan pantalla
 
@@ -3271,3 +3275,37 @@ Llegaron 27 artboards. Se implementan **17 y 27**; el 26 va en tanda propia.
   añadir**: al 11, que no existe. Y esa fila no puede ir con candado, así que
   no hay media implementación posible. **11 y 26 son la misma tanda, y esa
   tanda es RevenueCat**
+
+### 2026-08-30 (40) — el splash, que abría en blanco
+- ⚠️ **Era un fallo, no un pendiente**: `expo-splash-screen` estaba en
+  `plugins` como cadena pelada, sin configurar, así que se aplicaban los
+  valores por defecto — **fondo blanco**. Y `assets/splash-icon.png` era un
+  huérfano de la plantilla que no referenciaba nadie. En una app cuyo concepto
+  es el cielo nocturno, ese fogonazo es lo mismo que el primer fotograma con la
+  fuente del sistema que BRD §11.2.2 prohíbe
+- **Artboard 28**, y las tres decisiones de su nota: **sin animación ni
+  indicador de carga** —es el asset nativo que el sistema pinta antes de que
+  arranque nada, así que las estrellas van sin parpadeo: el twinkle es CSS y
+  ahí todavía no hay CSS—; **fondo `#0B1026`**, el mismo del primer fotograma
+  de la app, para que no cambie de color; y **la marca es el asterismo, no el
+  perro**, que es lo que desbloquea el splash sin esperar al icono
+- ⚠️ **Una capa, no tres, y es la plataforma quien manda**: desde Android 12 la
+  API del splash solo admite **color de fondo + una imagen centrada**. El campo
+  de estrellas del artboard no puede viajar como capa aparte, así que se pierde
+  una fracción de segundo sobre el mismo fondo y la app lo pinta en cuanto
+  monta. La marca y el logotipo van horneados en el mismo PNG
+- **Se genera, no se dibuja**: `design/brand/splash.mjs` compone el SVG con la
+  fuente incrustada y lo rasteriza. El nombre comercial es renombrable a
+  Zoodiac sin coste técnico (CLAUDE.md), y con generador ese cambio cuesta una
+  constante. `imageWidth: 240` sobre un lienzo de 240 con una marca de 120 deja
+  la marca a 120 dp, la proporción del artboard
+- **El rasterizado usa `qlmanage`**, que es WebKit y solo existe en macOS —
+  única dependencia de plataforma del proyecto, y se acepta porque esto corre
+  una vez cada muchos meses. Ojo con su trampa: si el SVG declara un tamaño
+  natural distinto del pedido, Quick Look escala y **ancla arriba a la
+  izquierda**, y un splash descentrado no vale
+- **El fundido de salida pasa de `calm` a `trace`**, que es lo que dice la
+  nota: el único movimiento admisible del splash es cómo se sale
+- ⚠️ **Hace falta regenerar el proyecto nativo** para que el splash entre:
+  `android/` e `ios/` están ignorados y llevan dentro la configuración con la
+  que se generaron

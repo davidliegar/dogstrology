@@ -60,6 +60,7 @@ solo los dibujos. Si discrepa del canvas, gana el canvas.
 | Comando | De dónde | A dónde |
 |---------|----------|---------|
 | `npm run generate:constellations` | `design/constelaciones/svg/*.svg` | `src/chart/ui/constellations.generated.ts` |
+| `npm run generate:splash` | artboard 28, en `design/brand/splash.mjs` | `design/brand/splash.svg` + `assets/splash-icon.png` |
 | `npm run generate:municipalities` | `data/geonames-ES.txt.gz` | `src/pet/ui/municipalities.generated.json` |
 | `npm run generate:catalog` | `content/catalog/*.json` | `src/content/infrastructure/catalog/*.generated.json` |
 

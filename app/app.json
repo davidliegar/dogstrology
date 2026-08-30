@@ -29,7 +29,15 @@
       "expo-status-bar",
       "expo-sqlite",
       "expo-font",
-      "expo-splash-screen"
+      [
+        "expo-splash-screen",
+        {
+          "backgroundColor": "#0B1026",
+          "image": "./assets/splash-icon.png",
+          "imageWidth": 240,
+          "resizeMode": "contain"
+        }
+      ]
     ],
     "experiments": {
       "typedRoutes": true

@@ -14,7 +14,11 @@ import { colors, motion } from '@/design/theme';
 // Se pide antes de montar nada: si el splash se ocultase solo, el primer
 // fotograma saldría con la fuente de sistema (BRD §11.2.2 lo prohíbe).
 SplashScreen.preventAutoHideAsync();
-SplashScreen.setOptions({ duration: motion.duration.calm, fade: true });
+// `trace` y no `calm`: la nota del artboard 28 dice que **el único movimiento
+// admisible del splash es cómo se sale**, un fundido de `duration.trace` hacia
+// el 01 o hacia el día. Es el mismo tiempo que tarda en trazarse un asterismo,
+// y el splash lleva uno dibujado.
+SplashScreen.setOptions({ duration: motion.duration.trace, fade: true });
 
 export default function RootLayout() {
   const [fontsLoaded, fontError] = useFonts(fontAssets);
