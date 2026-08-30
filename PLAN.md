@@ -2997,3 +2997,33 @@ cero. Si algún día se hace: límite duro de 5 mensajes/día aplicado en servid
 - ⚠️ **Anotado el hueco que queda en Hoy**: la pantalla no se entera de que ha
   pasado el tiempo — ni de medianoche, ni de volver de segundo plano cuando la
   edición ya se publicó. Ver "lo que está esperando a alguien que no soy yo"
+
+### 2026-08-30 (33) — el lockfile estaba roto, y solo lo dice `npm ci`
+Salió al hacer una build de prueba en EAS. **Se arregla en `main`; no cambia la
+decisión sobre EAS** (los builds locales siguen siendo lo de a diario).
+
+- **`package-lock.json` llevaba tiempo internamente inconsistente.**
+  `react-native-worklets` declara `@react-native/metro-config: *` —un peer con
+  comodín— así que npm izaba la **0.87.1**; pero `community-cli-plugin`, dentro
+  de `react-native@0.86.2`, lo pide **clavado en 0.86.2**. El lock acababa con
+  `metro-config`, `metro-babel-transformer` y `babel-preset` en 0.87.1
+  sirviendo a un React Native que exige 0.86.2
+- **Por qué no se había visto nunca**: en local se usa `npm install`, que
+  tolera el conflicto de peers, y npm 11 más todavía. `npm ci` —que es lo que
+  corre cualquier build reproducible— lo rechaza en seco. La primera build en
+  la nube fue la primera vez que alguien lo validó. Habría reventado igual el
+  día que se montara CI
+- **Arreglado con un `override` a 0.86.2**, que es como este proyecto ya
+  resolvía los otros tres transitivos de `expo-router` (`react-dom`,
+  `reanimated`, `worklets`). Los dos que lo piden reciben ahora la misma
+  versión, deduplicada
+- **Y un segundo desajuste, este mío**: `react-native-gesture-handler` se
+  declaró editando `package.json` a mano, sin regenerar el lock. Lección:
+  **una dependencia se añade con `npm install <paquete>`, nunca a mano**, y
+  `npm install --package-lock-only` tampoco vale de red de seguridad — resuelve
+  contra el registro en vez de contra lo instalado, así que puede flotar
+  versiones sin avisar
+- **Cómo comprobarlo antes de gastar una build**: `npm ci --dry-run` en un
+  clon limpio **no basta** —npm 11 se traga el lock roto—; lo que sí lo caza es
+  `npm ls <paquete>` buscando `invalid`, o correr `npm ci` con la versión de
+  npm del runner
