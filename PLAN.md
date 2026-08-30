@@ -95,22 +95,32 @@ con contenido real.
 **F5 está cerrado** (sesión 34) y **el cron está encendido**. Lo que queda del
 MVP ya no es F5: es contenido, monetización y salir de la parada provisional.
 
-### 1. El artboard 26 — selector de mascota, y con él el paywall
+### 1. El paywall (11) y, con él, el selector de mascota (26)
 
-Es lo único del encargo de diseño que llegó y no se ha implementado, y no por
-tamaño de pantalla: **es una feature con dinero detrás**. Lo que hace falta:
+**Corrección de lo que se dijo el 2026-08-30**: el 26 no está bloqueado por
+multimascota. La nota del 25 lo dice al revés — *«con un solo perro la hoja es
+casi vacía a propósito: enseña al que hay marcado y "Añadir otra mascota", así
+que el control existe desde el primer día y no aparece de la nada al llegar la
+segunda»*. Con una mascota la hoja **ya funciona**: elegirla es un no-op y la
+lista crece sola cuando haya más.
 
-- **Mascota activa en el dominio.** Hoy la app coge `pets[0]` en cinco sitios.
-  Con dos mascotas eso deja de ser una respuesta
-- **La hoja de selección** sobre el hub (26), con el punto oro relleno —el
-  mismo de la pestaña activa— marcando la elegida. No una marca de
-  verificación: es selección de estado, no confirmación
-- **La fila de añadir**, que **no va desactivada ni con candado**: es una fila
-  legítima con su "+" en oro y "Con Dogstrology Cósmico" de subtítulo, así que
-  quien la toca sabe qué va a encontrar. *Bloquearla enseñaría una puerta
-  cerrada; esto enseña una puerta*
-- **El artboard 11** al otro lado, que es RevenueCat
-- Y respetar los **dos únicos puntos de conversión** (ver las reglas de abajo)
+Lo que de verdad lo bloquea es **a dónde va la fila de añadir**: al artboard
+11, que no existe en código. Y esa fila **no puede ir desactivada ni con
+candado** —es una fila legítima con su "+" en oro y "Con Dogstrology Cósmico"
+de subtítulo—, así que no hay forma de pintarla a medias sin romper la regla de
+no pintar controles muertos.
+
+Conclusión: **11 y 26 son la misma tanda**, y esa tanda es RevenueCat. Lo que
+lleva dentro:
+
+- **El artboard 11**, con sus dos puertas de entrada y ninguna más (abajo)
+- **La hoja del 26**, con el punto oro relleno —el mismo de la pestaña activa—
+  marcando la elegida. No una marca de verificación: es selección de estado, no
+  confirmación
+- **La punta de 9 px y gris** junto al nombre del hub: dice "hay más" sin
+  prometer una acción que compita con los tres destinos
+- **Mascota activa en el dominio** solo cuando haya una segunda de verdad. Hoy
+  `pets[0]` sigue siendo una respuesta correcta
 
 ### 2. Probar la build de preview en un móvil de verdad
 
@@ -267,6 +277,12 @@ el límite, y si no topa, no se pinta.*
 
 `CLAUDE.md` (se carga solo), esta sección, y **`app/AGENTS.md`** — obligatorio
 antes de tocar `app/`.
+
+**`design/reglas.md`** es la extracción de las notas del canvas, y hay que
+leerlo antes de tocar una pantalla. No es un resumen: las notas son **lo que se
+pierde al importar artboards**, y ahí están las decisiones — el artboard 17
+entero (enseñar la última lectura que llegó, fechada) estaba en su nota y no en
+el dibujo. Si el documento y el canvas discrepan, **gana el canvas**.
 
 Los artboards se importan con **DesignSync**: `list_files` / `get_file` contra
 el id del proyecto (`ebb0a79e-9647-4378-913f-349475c3a6b5`). Ojo: `list_projects`
@@ -3205,3 +3221,25 @@ Llegaron 27 artboards. Se implementan **17 y 27**; el 26 va en tanda propia.
 - **El 04 aprieta el aire** —12 en vez de 16, y la tira lunar a 8— porque desde
   que la tarjeta de la Luna lleva cuerpo hay que meter cuatro en 844 px
 - **395 tests** (eran 390), lint y `tsc` limpios
+
+### 2026-08-30 (39) — las reglas del canvas, en el repo
+- **`design/reglas.md`**: las notas del canvas extraídas, importadas tal cual.
+  No es un resumen más —`components.md` y `mvp-screens.md` ya lo son— sino la
+  parte que **se pierde al importar artboards**: el 17 entero estaba en su nota
+  y no en el dibujo, y por eso la primera versión de esa pantalla salió mal.
+  Manda el canvas si discrepan
+- **La cabecera de Hoy pasa a "El día de Baloo"**, que es más personal y es lo
+  que la pantalla es: el día **de alguien**. Resuelve la discrepancia entre el
+  04 y el 27 a favor del segundo
+- **Auditoría del código contra las reglas: cero incumplimientos.** Se
+  comprobaron los umbrales de fase en cuartos, que 62 % y 52 % compartan
+  nombre, el grupo de la raza subido y en oro, los 15° de separación de discos,
+  el resaltado de casas que se calla sin hora y el tratamiento de las
+  constelaciones pobres. Todo estaba
+- ⚠️ **Corregido lo que se dijo del 26**: no lo bloquea multimascota. La nota
+  del 25 dice lo contrario — con un solo perro la hoja **es casi vacía a
+  propósito**, para que el control exista desde el primer día y no aparezca de
+  la nada al llegar la segunda. Lo que lo bloquea es **a dónde va la fila de
+  añadir**: al 11, que no existe. Y esa fila no puede ir con candado, así que
+  no hay media implementación posible. **11 y 26 son la misma tanda, y esa
+  tanda es RevenueCat**

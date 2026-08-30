@@ -53,6 +53,10 @@ editable cuelga de ella, en `app/pet/[id]/index.tsx`.
 Fuera de `src/`: `scripts/` guarda los generadores de assets, y los ficheros
 `.generated.*` que producen **no se editan a mano**.
 
+**Antes de tocar una pantalla, `design/reglas.md`**: son las notas del canvas
+extraídas, que es donde viven las decisiones y lo que se pierde al importar
+solo los dibujos. Si discrepa del canvas, gana el canvas.
+
 | Comando | De dónde | A dónde |
 |---------|----------|---------|
 | `npm run generate:constellations` | `design/constelaciones/svg/*.svg` | `src/chart/ui/constellations.generated.ts` |

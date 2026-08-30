@@ -114,7 +114,10 @@ export default function Today() {
         <ScreenHeader
           divided
           overline={formatWeekdayDate(today)}
-          title="Hoy"
+          // "El día de Baloo" y no "Hoy": es más personal, y es lo que la
+          // pantalla es — el día **de alguien**. Sin mascota no se llega aquí,
+          // entra el artboard 16 antes.
+          title={pet ? `El día de ${pet.name()}` : 'Hoy'}
           accessory={
             <Pressable
               onPress={() => router.navigate('/pet')}
