@@ -34,3 +34,26 @@ describe('MediaReference', () => {
     expect(MediaReference.fromJSON(remote.toJSON()).toJSON()).toEqual(remote.toJSON());
   });
 });
+
+describe('target()', () => {
+  it('dice a dónde apunta, sea local o remota', () => {
+    expect(MediaReference.local({ relativePath: 'pets/abc-1700000000000.jpg' }).target()).toBe(
+      'pets/abc-1700000000000.jpg',
+    );
+    expect(MediaReference.remote({ url: 'https://cdn.example/foto.jpg' }).target()).toBe(
+      'https://cdn.example/foto.jpg',
+    );
+  });
+
+  /**
+   * Es lo que deja cachear la foto por su ruta sin arriesgarse a enseñar la
+   * vieja: `FileSystemPhotoStore` mete un sello de tiempo en cada nombre, así
+   * que dos fotos distintas nunca comparten destino.
+   */
+  it('distingue dos fotos de la misma mascota', () => {
+    const antes = MediaReference.local({ relativePath: 'pets/abc-1700000000000.jpg' });
+    const despues = MediaReference.local({ relativePath: 'pets/abc-1700000009999.jpg' });
+
+    expect(antes.target()).not.toBe(despues.target());
+  });
+});

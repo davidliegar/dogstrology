@@ -12,9 +12,16 @@ export const petKeys = {
   all: ['pets'] as const,
   list: () => [...petKeys.all, 'list'] as const,
   detail: (id: string) => [...petKeys.all, 'detail', id] as const,
-  /** La foto depende de la mascota **y de su versión**: cambiarla cambia la
-   * ruta, y sin `updatedAt` en la clave se seguiría enseñando la vieja. */
-  photo: (id: string, updatedAt: number) => [...petKeys.all, 'photo', id, updatedAt] as const,
+  /**
+   * La foto depende de **a qué fichero apunta**, no de la versión de la
+   * mascota. Cada foto guardada estrena ruta —lleva su sello de tiempo—, así
+   * que la ruta basta para no enseñar nunca la vieja.
+   *
+   * Con `updatedAt` en la clave, cualquier edición —el sexo, la raza— volvía a
+   * resolver la foto y el retrato parpadeaba al tocar un interruptor que no
+   * tenía nada que ver con ella.
+   */
+  photo: (id: string, target: string) => [...petKeys.all, 'photo', id, target] as const,
 };
 
 /**
@@ -65,7 +72,7 @@ export function useUpdatePet() {
 export function usePetPhotoUri(pet: Pet | undefined) {
   const domain = useDomain();
   return useQuery({
-    queryKey: petKeys.photo(pet?.id() ?? '', pet?.updatedAt() ?? 0),
+    queryKey: petKeys.photo(pet?.id() ?? '', pet?.photo()?.target() ?? ''),
     // `await` antes del `??`: sin él, el `?? null` se aplica a la **promesa**,
     // que nunca es nullish, y la query acaba recibiendo el `undefined` de una
     // mascota sin foto — que es justo lo único que TanStack Query no acepta.

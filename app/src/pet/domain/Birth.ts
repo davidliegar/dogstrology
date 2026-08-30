@@ -162,6 +162,26 @@ export class Birth extends Model {
     return this._lat !== undefined && this._lon !== undefined;
   }
 
+  /**
+   * **El cuándo y el dónde, en una cadena estable.** Dos nacimientos con el
+   * mismo `moment()` producen exactamente la misma carta: son los cinco campos
+   * que `CalculateNatalChartUseCase` le pasa al motor, y ninguno más.
+   *
+   * Es una afirmación del dominio antes que una clave de caché, y por eso vive
+   * aquí y no en la capa que cachea. Lo que quedaba fuera —el nombre del
+   * lugar, la exactitud de la fecha— no entra en el cálculo: el motor no los
+   * ve. Si algún día el cálculo mirase un sexto campo, este método tiene que
+   * crecer con él, y el comentario de arriba es el aviso.
+   *
+   * `''` para lo ausente y no `undefined`: sin hora ni lugar la cadena tiene
+   * que seguir siendo comparable, y `'2021-06-14||||'` lo es.
+   */
+  moment(): string {
+    return [this._date, this._time, this._tzOffsetMinutes, this._lat, this._lon]
+      .map((value) => value ?? '')
+      .join('|');
+  }
+
   toJSON() {
     return {
       date: this._date,

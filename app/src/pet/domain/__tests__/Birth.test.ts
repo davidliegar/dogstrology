@@ -106,3 +106,48 @@ describe('placeName', () => {
     expect(Birth.createOrNull({ ...valid, placeName: '' })).toBeNull();
   });
 });
+
+describe('moment()', () => {
+  const base = { date: '2021-06-14', accuracy: 'exact' as const };
+
+  it('es el cuándo y el dónde: los cinco campos que ve el motor', () => {
+    const birth = Birth.create({
+      ...base,
+      time: '08:30',
+      tzOffsetMinutes: 120,
+      lat: 41.3874,
+      lon: 2.1686,
+    });
+
+    expect(birth.moment()).toBe('2021-06-14|08:30|120|41.3874|2.1686');
+  });
+
+  it('deja hueco por lo que falta, para que siga siendo comparable', () => {
+    expect(Birth.create(base).moment()).toBe('2021-06-14||||');
+  });
+
+  /**
+   * El test que de verdad importa: es lo que impide que marcar "esterilizado"
+   * recalcule la carta. Ni el nombre del lugar ni la exactitud de la fecha
+   * llegan al motor, así que no pueden cambiar el momento.
+   */
+  it('no cambia por lo que el motor no mira', () => {
+    const conLugar = Birth.create({ ...base, lat: 41.3874, lon: 2.1686, placeName: 'Barcelona' });
+    const sinNombre = Birth.create({ ...base, lat: 41.3874, lon: 2.1686 });
+    const otraExactitud = Birth.create({ ...base, lat: 41.3874, lon: 2.1686, accuracy: 'gotcha_day' });
+
+    expect(sinNombre.moment()).toBe(conLugar.moment());
+    expect(otraExactitud.moment()).toBe(conLugar.moment());
+  });
+
+  it('sí cambia con cualquiera de los cinco', () => {
+    const original = Birth.create({ ...base, time: '08:30', tzOffsetMinutes: 120, lat: 41.3, lon: 2.1 });
+
+    expect(Birth.create({ ...base, time: '08:31', tzOffsetMinutes: 120, lat: 41.3, lon: 2.1 }).moment())
+      .not.toBe(original.moment());
+    expect(Birth.create({ ...base, time: '08:30', tzOffsetMinutes: 60, lat: 41.3, lon: 2.1 }).moment())
+      .not.toBe(original.moment());
+    expect(Birth.create({ ...base, time: '08:30', tzOffsetMinutes: 120, lat: 41.4, lon: 2.1 }).moment())
+      .not.toBe(original.moment());
+  });
+});

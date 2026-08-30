@@ -11,10 +11,18 @@ import type { PlanetId, PlanetPosition, Sign } from '../domain/PlanetPosition';
 import { PERSONALITY_FACETS } from './labels';
 
 /**
- * La carta es un derivado: su clave lleva **de qué mascota**, **en qué
- * versión** (`updatedAt` cambia al editar la fecha o la hora de nacimiento) y
- * **con qué sistema de casas** (BRD §12.1: parte de la clave de caché). Así
- * cambiar la hora de nacimiento recalcula sola, sin invalidar nada a mano.
+ * La carta es un derivado: su clave lleva **de qué mascota**, **de qué
+ * nacimiento** y **con qué sistema de casas** (BRD §12.1: parte de la clave de
+ * caché). Cambiar la hora de nacimiento la recalcula sola, sin invalidar nada
+ * a mano.
+ *
+ * **El nacimiento y no la versión de la mascota**, que es lo que llevaba
+ * antes. Con `updatedAt` en la clave, marcar "esterilizado" o elegir la raza
+ * recalculaban la carta entera: la consulta se quedaba sin datos un instante y
+ * todo lo que cuelga de ella —el aviso de confianza, la barra, el trío del
+ * hub— desaparecía y volvía. En un dispositivo eso se ve, y se ve como un
+ * parpadeo de la pantalla al tocar un interruptor que no tiene nada que ver
+ * con el cielo. `Birth.moment()` es exactamente lo que el motor mira.
  *
  * `engineVersion` no entra en la clave porque esta caché vive en memoria y
  * muere con el proceso: no puede sobrevivir a un cambio de motor. El día que
@@ -23,8 +31,8 @@ import { PERSONALITY_FACETS } from './labels';
  */
 export const chartKeys = {
   all: ['charts'] as const,
-  of: (petId: string, updatedAt: number, houseSystem: HouseSystem) =>
-    [...chartKeys.all, petId, updatedAt, houseSystem] as const,
+  of: (petId: string, moment: string, houseSystem: HouseSystem) =>
+    [...chartKeys.all, petId, moment, houseSystem] as const,
 };
 
 /**
@@ -42,7 +50,7 @@ export function useNatalChart(pet: Pet | undefined) {
   const houseSystem = preferences?.houseSystem();
 
   return useQuery({
-    queryKey: chartKeys.of(pet?.id() ?? '', pet?.updatedAt() ?? 0, houseSystem ?? DEFAULT_HOUSE_SYSTEM),
+    queryKey: chartKeys.of(pet?.id() ?? '', pet?.birth().moment() ?? '', houseSystem ?? DEFAULT_HOUSE_SYSTEM),
     queryFn: () =>
       domain.CalculateNatalChartUseCase.execute({ pet: pet as Pet, houseSystem: houseSystem as HouseSystem }),
     enabled: Boolean(pet) && Boolean(houseSystem),
@@ -98,7 +106,9 @@ export function usePlanetFragments(planet: PlanetPosition | undefined) {
  */
 export const personalityKeys = {
   all: ['fragments', 'personality'] as const,
-  of: (petId: string, updatedAt: number) => [...personalityKeys.all, petId, updatedAt] as const,
+  /** De la raza y del nacimiento: es de lo que salen el cruce y los tres ejes. */
+  of: (petId: string, breedId: string, moment: string) =>
+    [...personalityKeys.all, petId, breedId, moment] as const,
 };
 
 export interface PersonalityContent {
@@ -110,7 +120,7 @@ export function usePersonality(pet: Pet | undefined, chart: NatalChart | undefin
   const domain = useDomain();
 
   return useQuery({
-    queryKey: personalityKeys.of(pet?.id() ?? '', pet?.updatedAt() ?? 0),
+    queryKey: personalityKeys.of(pet?.id() ?? '', pet?.breedId() ?? '', pet?.birth().moment() ?? ''),
     queryFn: async (): Promise<PersonalityContent> => {
       const natal = chart as NatalChart;
       const sunSign = natal.sunSign();
@@ -144,18 +154,18 @@ export function usePersonality(pet: Pet | undefined, chart: NatalChart | undefin
 }
 
 /**
- * A qué hora cambió de signo la Luna el día que nació. Se consulta una sola
- * vez por mascota y versión: es un hecho del cielo, no cambia solo.
+ * A qué hora cambió de signo la Luna el día que nació. Es un hecho del cielo:
+ * solo cambia si cambia el nacimiento.
  */
 export const moonSignChangeKeys = {
   all: ['moonSignChange'] as const,
-  of: (petId: string, updatedAt: number) => [...moonSignChangeKeys.all, petId, updatedAt] as const,
+  of: (petId: string, moment: string) => [...moonSignChangeKeys.all, petId, moment] as const,
 };
 
 export function useMoonSignChange(pet: Pet | undefined) {
   const domain = useDomain();
   return useQuery({
-    queryKey: moonSignChangeKeys.of(pet?.id() ?? '', pet?.updatedAt() ?? 0),
+    queryKey: moonSignChangeKeys.of(pet?.id() ?? '', pet?.birth().moment() ?? ''),
     // `?? null`: "ese día la Luna no cambió de signo" es un resultado legítimo,
     // y un `queryFn` que devuelve `undefined` revienta en TanStack Query.
     queryFn: async () => (await domain.FindMoonSignChangeUseCase.execute({ pet: pet as Pet })) ?? null,

@@ -61,6 +61,19 @@ export class MediaReference extends Model {
     return this._value.kind === 'remote' ? this._value.url : undefined;
   }
 
+  /**
+   * A dónde apunta, sea local o remota. Identifica **el fichero**, sin decir
+   * cómo se lee.
+   *
+   * Sirve de identidad estable porque las rutas nunca se reutilizan: cada foto
+   * guardada lleva su sello de tiempo en el nombre (`FileSystemPhotoStore`), y
+   * ese detalle es justo lo que permite cachear por ruta sin enseñar la foto
+   * vieja.
+   */
+  target(): string {
+    return this._value.kind === 'local' ? this._value.relativePath : this._value.url;
+  }
+
   toJSON(): MediaReferenceJSON {
     return { ...this._value };
   }

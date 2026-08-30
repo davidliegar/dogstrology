@@ -3054,3 +3054,32 @@ decisión sobre EAS** (los builds locales siguen siendo lo de a diario).
   probar sin montar un árbol, pero lo que puede salir mal —cuántos días, desde
   cuándo, y que cruce bien el cambio de mes— sí
 - **378 tests** (eran 375), lint y `tsc` limpios
+
+### 2026-08-30 (35) — el parpadeo al tocar un interruptor
+Salió probando la build en un dispositivo: al elegir raza, sexo o esterilizado,
+la pantalla del perfil daba un tirón. **No era la escritura, eran las claves de
+caché.**
+
+- **La carta llevaba `updatedAt` en su clave**, es decir, la versión de la
+  mascota **entera**. Cualquier edición estrenaba clave, la consulta se quedaba
+  sin datos un instante y todo lo que cuelga de ella —el aviso de confianza, la
+  barra, el trío del hub— se desmontaba y volvía. Marcar "esterilizado"
+  recalculaba efemérides
+- **La carta depende de cinco campos y de ninguno más**: fecha, hora, huso,
+  latitud y longitud. Eso es ahora `Birth.moment()`, un método del dominio y no
+  una utilidad de la capa que cachea — es una afirmación sobre qué define una
+  carta, y la caché solo se aprovecha de ella. El test que importa es el que
+  comprueba que **no** cambia con el nombre del lugar ni con la exactitud de la
+  fecha, que son los dos campos que el motor no ve
+- **La foto tenía el mismo problema** y se arregla igual: la clave es a qué
+  fichero apunta (`MediaReference.target()`), no la versión de la mascota. Se
+  puede cachear por ruta sin miedo porque `FileSystemPhotoStore` mete un sello
+  de tiempo en cada nombre, así que dos fotos nunca comparten destino
+- **Y lo mismo el cambio de signo de la Luna y la personalidad**: el primero
+  depende del nacimiento; la segunda, de la raza y del nacimiento. Ya no queda
+  ninguna clave que dependa de la versión de la mascota
+- **La lección**: `updatedAt` es cómodo y por eso es la trampa. Como clave de
+  caché dice "algo cambió", que es siempre verdad y nunca útil — invalida cosas
+  que no tenían por qué enterarse. La clave correcta es aquello **de lo que el
+  dato deriva**, y si cuesta nombrarlo es que al dominio le falta un método
+- **384 tests** (eran 378), lint y `tsc` limpios
