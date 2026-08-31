@@ -5,11 +5,12 @@ import { Screen } from '@/_ui/components/Screen';
 import { ScreenHeader } from '@/_ui/components/ScreenHeader';
 import { text } from '@/_ui/typography';
 import { MoonDisc } from '@/chart/ui/MoonDisc';
-import { useMoonSky, useNatalChart } from '@/chart/ui/chartQueries';
+import { useMoonSky, useNatalChart, useNatalCharts } from '@/chart/ui/chartQueries';
 import { formatPosition, formatSkyMoment } from '@/chart/ui/format';
-import { MOON_PHASE_LABELS, SIGN_LABELS } from '@/chart/ui/labels';
+import { MOON_PHASE_LABELS, SIGN_LABELS, possessiveOfPlanet } from '@/chart/ui/labels';
 import { moonTodayMeta } from '@/chart/ui/moonPhase';
 import { useMoonPhaseSky } from '@/content/ui/contentQueries';
+import { ConnectionList, type Connection } from '@/_ui/components/ConnectionList';
 import { usePets } from '@/pet/ui/petQueries';
 
 import { colors, screenPadding, spacing, typography } from '@/design/theme';
@@ -37,12 +38,14 @@ const ROW_HEIGHT = 56;
  * sombra es media elipse, y el propio artboard 23 ya lo dice.
  */
 export default function MoonToday() {
-  // **Solo con una mascota.** La fila dice «Su Luna natal», y con dos perros
-  // ese «su» no tiene sujeto: la pantalla es del cielo de hoy, no de nadie.
-  // Con varias se cae la fila en vez de elegir un perro por el usuario.
+  // **«Su Luna natal» solo se puede decir con una mascota**: con dos perros
+  // ese «su» no tiene sujeto. Con varias, cada perro trae su fila con su
+  // nombre y su carta, que es el mismo reparto que el pie de las fichas — un
+  // perro, una fila, y cada una a donde se lee entera.
   const { data: pets } = usePets();
   const only = pets?.length === 1 ? pets[0] : undefined;
   const { data: chart } = useNatalChart(only);
+  const charts = useNatalCharts(only ? undefined : pets);
   const { data: moon } = useMoonSky();
   const { data: fragment } = useMoonPhaseSky(moon?.phase.name);
   const { width } = useWindowDimensions();
@@ -58,6 +61,20 @@ export default function MoonToday() {
   const { phase, ingress, nextNewMoon } = moon;
   const natalMoon = chart?.planet('moon');
   const disc = Math.round((width - screenPadding * 2) * DISC_RATIO);
+
+  const natalMoons: Connection[] = (only ? [] : (pets ?? [])).flatMap((each, index) => {
+    const theirMoon = charts[index]?.data?.planet('moon');
+    if (!theirMoon) return [];
+    return [
+      {
+        name: each.name(),
+        title: `${possessiveOfPlanet('moon')} de ${each.name()}`,
+        detail: formatPosition({ degree: theirMoon.degree(), sign: SIGN_LABELS[theirMoon.sign()] }),
+        onPress: () =>
+          router.push({ pathname: '/pet/[id]/chart', params: { id: each.id(), planet: 'moon' } }),
+      },
+    ];
+  });
 
   return (
     <Screen
@@ -81,6 +98,7 @@ export default function MoonToday() {
               divided
             />
           ) : null}
+          {natalMoons.length > 0 ? <ConnectionList connections={natalMoons} /> : null}
         </View>
       }
     >
@@ -142,7 +160,7 @@ const styles = StyleSheet.create({
     paddingTop: spacing[2],
   },
   rows: {
-    gap: spacing[1],
+    gap: spacing[2],
   },
   divider: {
     height: 1,

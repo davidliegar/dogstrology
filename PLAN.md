@@ -340,9 +340,12 @@ en la sesión 50. **Multimascota queda cerrado del todo.**)*
   cambia. Con varias nacidas en la misma fase se repite la fila, una por perro
   con su fecha — es información y no lleva punta, así que no necesitaba caja
 - **La Luna natal de la pantalla de la Luna** decía «Su Luna natal» y con
-  varias mascotas ese «su» se queda sin sujeto. La fila **solo se pinta con una
-  mascota**; con varias se cae, en vez de elegir un perro por el usuario. No
-  está dibujado
+  varias mascotas ese «su» se queda sin sujeto. **Resuelto reusando el pie de
+  las fichas** (sesión 51): con una mascota la fila de siempre; con varias, una
+  fila por perro —«La Luna de Baloo» y su posición—, cada una a su carta con la
+  Luna enfocada. Es el mismo reparto que el 35 y la misma caja, con su tope de
+  tres y su fila que despliega. **No está dibujado**: si el sitio pide otra
+  cosa, se cambia
 
 ---
 
@@ -4033,3 +4036,16 @@ Llegaron 27 artboards. Se implementan **17 y 27**; el 26 va en tanda propia.
   mascota» con una sola, es `pets[0]`
 - **`countWord` y `joinList` a `_ui/text.ts`**: los escribí tres veces en tres
   sesiones seguidas, que es una vez más de lo que hace falta para verlo
+
+### 2026-08-31 (51) — la Luna natal, con nombre
+- **La fila que se caía con dos perros vuelve, y con nombre.** «Su Luna natal»
+  no se puede decir cuando hay dos: ese «su» no tiene sujeto. Con varias, cada
+  perro trae su fila —«La Luna de Baloo» y su posición— y cada una abre su
+  carta con la Luna enfocada
+- **No hace falta componente nuevo**: es el pie de las fichas del artboard 35,
+  que resuelve exactamente esta forma de problema —varias mascotas, cada una
+  con su carta— y trae puesto el tope de tres filas y la que despliega el resto
+- Y **gana un destino que no tenía**: desde la Luna de hoy se llega a la Luna
+  natal de cada perro, que es la comparación que la pantalla invita a hacer
+- ⚠️ **Derivación, no dibujo.** El pie de esta pantalla son filas sueltas y
+  ahora lleva además una caja; si el sitio pide otra cosa, se cambia
