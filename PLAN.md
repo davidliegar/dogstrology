@@ -65,8 +65,9 @@ Lo que queda del MVP sigue siendo *retención* (F8), *adquisición* (F9) y el
 - **Salir de GitHub Pages con un dominio propio** antes del primer build de
   tienda (Bloque 4b), porque la URL se hornea en cada instalación.
 
-Más el Bloque 6 entero, que es papeleo de lanzamiento: precio, PostHog,
-capturas, ficha de ASO, EUIPO.
+Más el Bloque 6 entero, que es papeleo de lanzamiento: dar de alta los tres
+productos en Play Console —el precio ya está fijado—, PostHog, capturas, ficha
+de ASO, EUIPO.
 
 **Última sesión**: 2026-08-31
 **Decisión: los builds de EAS se posponen.** Consumen cuota limitada (15+15
@@ -108,12 +109,20 @@ En orden: que la app **ya no abra en blanco** y que el splash salga con su
 marca grande y sin caja —se arregló a ciegas en la sesión 46 y es de lo que
 más falta hace ver en un móvil, sobre todo por si Android 12+ recorta el
 anillo con su máscara redonda—; el icono en el lanzador, **en las tres
-variantes a la vez**, a tamaño real y con el tema de Android 13; que Hoy salga con las cuatro tarjetas
-y su cascada; que el trío del hub y la carta cuadren con lo que dice Hoy; que
-el arrastre de la hoja de planeta **y el de la hoja del 26** vayan finos en
-Android; el paywall entero, que es pantalla nueva; y —si se puede— **dejar la
-app abierta pasada la medianoche**, que es lo que la sesión 34 arregló a
-ciegas.
+variantes a la vez**, a tamaño real y con el tema de Android 13; que Hoy salga
+con las cuatro tarjetas y su cascada; que el trío del hub y la carta cuadren
+con lo que dice Hoy; que el arrastre de la hoja de planeta **y el de la hoja
+del 26** vayan finos en Android; el paywall entero, que es pantalla nueva; y
+—si se puede— **dejar la app abierta pasada la medianoche**, que es lo que la
+sesión 34 arregló a ciegas.
+
+**Y con dos mascotas, que es media app sin probar**: el carrusel de Hoy —la
+mirilla, el enganche al soltar, y que el arrastre horizontal no se pelee con el
+desplazamiento vertical, que es donde estos carruseles se rompen—, la lista de
+la pestaña, el hub con cabecera de vuelta y el pie de las fichas con dos filas.
+Nada de eso se ha visto nunca en un dispositivo. **Se llega comprando**: el
+tier gratuito deja una mascota, así que hay que pasar por el paywall — y hoy
+detrás hay un doble en memoria, así que basta tocar «Empezar».
 
 ### Después, F8 (push) y F9 (compartir)
 
@@ -122,13 +131,26 @@ permiso se pide después de demostrar valor, nunca al arrancar** (BRD §14 R8).
 F9 es el bucle de adquisición y su marca de agua ya tiene spec escrita
 (`design/brand/README.md`).
 
-### Multimascota, hecho
+### Multimascota, cerrado
 
-El encargo está cerrado (artboards 30, 31 y 32): Hoy con varias mascotas, su
-techo, el día completo de cada perro, la lista de la pestaña y el hub como
-detalle. **Lo que falta de multimascota ya no es diseño ni código, es probarlo
-con dos mascotas en un móvil** — hoy el tier gratuito solo deja una, así que en
-la app real solo se llega comprando.
+Tres encargos y ocho artboards (30 a 35), y lo que quedó en pie es esto: Hoy
+con **carrusel** —quién arriba, qué le pasa hoy debajo—, la lista de la
+pestaña, el hub como detalle, Explorar resaltando lo de todas, y el pie de las
+fichas con una fila por perro. Por el camino se borraron dos cosas que dejaron
+de tener trabajo: la pantalla del día completo de un perro y el estado de
+«mascota seleccionada».
+
+**Lo que falta de multimascota ya no es diseño ni código: es verlo con dos
+mascotas en un móvil.**
+
+Dos cabos sueltos, los dos menores y anotados donde toca:
+
+- **El grado de una Luna incierta** en la tarjeta del eje: sale vacío, que es
+  la regla de C.2b. Falta decidir si lleva la insignia «aprox.» como sí la
+  llevan las tarjetas del día
+- **El pie de la pantalla de la Luna** con varias mascotas es una derivación
+  mía, no un dibujo: reusa la caja de filas del 35 debajo de las filas sueltas
+  del cielo
 
 ### Y RevenueCat, cuando haya cuentas
 
