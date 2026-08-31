@@ -21,8 +21,12 @@ export const SKY_LABEL = 'El cielo de hoy';
  * dos o más, el nombre de uno no puede rotular a todos y baja a la cabecera de
  * su bloque: es la misma regla que reparte el contenido —lo compartido se
  * nombra una vez, arriba— aplicada al rótulo.
+ *
+ * **«en la casa» y no «de la casa»**: la casa no tiene día, lo tienen los
+ * perros que viven en ella. Y deja sitio para la dinámica de manada, que sí
+ * será algo *de* la casa, sin que las dos cosas se llamen igual.
  */
-export const HOUSE_DAY_TITLE = 'El día de la casa';
+export const HOUSE_DAY_TITLE = 'El día en la casa';
 
 export const petDayTitle = (name: string): string => `El día de ${name}`;
 

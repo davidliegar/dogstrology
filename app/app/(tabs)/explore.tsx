@@ -10,6 +10,7 @@ import { useMoonSky, useNatalChart } from '@/chart/ui/chartQueries';
 import { HOUSE_NUMERALS, SIGN_GLYPHS } from '@/chart/ui/glyphs';
 import { HOUSE_LABELS, MOON_PHASE_LABELS, SIGN_LABELS } from '@/chart/ui/labels';
 import { archetypalIllumination, isWaningPhase } from '@/chart/ui/moonPhase';
+import { exploreCaption, type ExploreFilter } from '@/chart/ui/exploreCaptions';
 import { HOUSES, elementOfHouse } from '@/chart/domain/House';
 import { MOON_PHASE_NAMES, type MoonPhaseName } from '@/chart/domain/NatalChart';
 import { SIGNS, elementOfSign, type Sign } from '@/chart/domain/PlanetPosition';
@@ -39,7 +40,7 @@ const FILTERS = [
   { id: 'phases', label: 'Fases lunares', title: 'Las ocho fases' },
 ] as const;
 
-type Filter = (typeof FILTERS)[number]['id'];
+type Filter = ExploreFilter;
 
 /**
  * Explorar (artboards 8, 20 y 22) — destino raíz.
@@ -49,16 +50,8 @@ type Filter = (typeof FILTERS)[number]['id'];
  * mascota. Los tres filtros reparten las tres rejillas y cada tarjeta abre su
  * ficha.
  *
- * Lo que resalta cada rejilla **no significa lo mismo en las tres**, y es la
- * diferencia que las tres leyendas del pie explican:
- *
- * - **Signos**: el signo solar de la mascota. Basta la fecha de nacimiento.
- * - **Casas**: la casa donde cae su Sol, que solo existe con hora y lugar
- *   (BRD §12.3). Sin ellos las doce salen iguales, y así debe ser: fingir un
- *   resaltado sería inventar una casa que no se ha podido calcular.
- * - **Fases**: la de **hoy**, no la suya. Las fases son del cielo de este
- *   momento e iguales para todos los perros — es el único sitio de la app
- *   donde lo resaltado caduca solo.
+ * Lo que resalta cada rejilla **no significa lo mismo en las tres**, y esa es
+ * la diferencia que explican las leyendas del pie (`exploreCaptions.ts`).
  *
  * El filtro vive en estado local y no en la ruta: la pantalla es una sola, y
  * al volver de una ficha el propio stack de Expo Router la devuelve montada
@@ -76,6 +69,17 @@ export default function Explore() {
   const side = (width - screenPadding * 2 - spacing[3] * (COLUMNS - 1)) / COLUMNS;
   const active = FILTERS.find((one) => one.id === filter) as (typeof FILTERS)[number];
 
+  // Qué resalta cada rejilla **ahora mismo**, que es lo que la leyenda tiene
+  // que contar. La de casas puede no tener nada teniendo mascota: sin hora y
+  // lugar no hay casa que resaltar (BRD §12.3).
+  const ownSign = chart?.sunSign();
+  const ownHouse = chart?.planet('sun')?.house();
+  const highlighted = {
+    signs: Boolean(ownSign),
+    houses: Boolean(ownHouse),
+    phases: Boolean(sky),
+  };
+
   return (
     <Screen
       scroll
@@ -89,29 +93,15 @@ export default function Explore() {
         ))}
       </View>
 
-      {filter === 'signs' ? <SignGrid side={side} own={chart?.sunSign()} /> : null}
-      {filter === 'houses' ? <HouseGrid side={side} own={chart?.planet('sun')?.house()} /> : null}
+      {filter === 'signs' ? <SignGrid side={side} own={ownSign} /> : null}
+      {filter === 'houses' ? <HouseGrid side={side} own={ownHouse} /> : null}
       {filter === 'phases' ? <PhaseGrid side={side} today={sky?.phase.name} /> : null}
 
-      <Text style={styles.caption}>{caption({ filter, name: pet?.name(), hasChart: Boolean(chart) })}</Text>
+      <Text style={styles.caption}>
+        {exploreCaption({ filter, name: pet?.name(), highlighted: highlighted[filter] })}
+      </Text>
     </Screen>
   );
-}
-
-/**
- * La leyenda del pie. Es lo que evita que las tres rejillas se lean como la
- * misma cosa: dice qué está resaltado y por qué, y calla cuando no hay nada
- * resaltado que explicar.
- */
-function caption({ filter, name, hasChart }: { filter: Filter; name?: string; hasChart: boolean }): string {
-  if (filter === 'signs') {
-    const own = name && hasChart ? `El de ${name} aparece resaltado. ` : '';
-    return `${own}Cada signo abre su constelación, su elemento y qué significa en un perro.`;
-  }
-  if (filter === 'houses') {
-    return 'Cada casa abre qué área de la vida gobierna y qué significa en un perro. La de su Sol sale resaltada en cuanto su carta tenga hora y lugar.';
-  }
-  return 'La resaltada es la de hoy, no la suya: las fases son del cielo de este momento, iguales para todos los perros.';
 }
 
 function SignGrid({ side, own }: { side: number; own?: Sign }) {

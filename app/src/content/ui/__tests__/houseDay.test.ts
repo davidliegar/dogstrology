@@ -9,7 +9,7 @@ describe('el día de la casa', () => {
 
   it('con la segunda, el nombre de uno ya no puede rotular a todos', () => {
     expect(isHouseDay(2)).toBe(true);
-    expect(HOUSE_DAY_TITLE).toBe('El día de la casa');
+    expect(HOUSE_DAY_TITLE).toBe('El día en la casa');
   });
 
   it('con dos se cuenta entera cada una', () => {
