@@ -15,12 +15,32 @@ describe('Subscription', () => {
   });
 
   it('premium no tiene tope de mascotas', () => {
-    const premium = Subscription.premium('annual');
+    const premium = Subscription.premium({ planId: 'annual' });
     expect(premium.isPremium()).toBe(true);
     expect(premium.canAddPet(37)).toBe(true);
   });
 
   it('recuerda con qué plan se compró', () => {
-    expect(Subscription.premium('monthly').planId()).toBe('monthly');
+    expect(Subscription.premium({ planId: 'monthly' }).planId()).toBe('monthly');
+  });
+
+  it('los planes que renuevan dicen cuándo; «Para siempre» no caduca', () => {
+    const annual = Subscription.premium({ planId: 'annual', renewsAt: '2027-08-24' });
+    expect(annual.renews()).toBe(true);
+    expect(annual.renewsAt()).toBe('2027-08-24');
+
+    const lifetime = Subscription.premium({ planId: 'lifetime' });
+    expect(lifetime.isPremium()).toBe(true);
+    expect(lifetime.renews()).toBe(false);
+    expect(lifetime.renewsAt()).toBeUndefined();
+  });
+
+  it('una fecha guardada en un vitalicio no se enseña: el plan manda sobre el dato', () => {
+    expect(Subscription.premium({ planId: 'lifetime', renewsAt: '2027-08-24' }).renewsAt()).toBeUndefined();
+  });
+
+  it('el tier gratuito no renueva nada', () => {
+    expect(Subscription.free().renews()).toBe(false);
+    expect(Subscription.free().renewsAt()).toBeUndefined();
   });
 });

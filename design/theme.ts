@@ -213,6 +213,20 @@ export const typography = {
     fontSize: 16,
     lineHeight: 25,
   },
+  /**
+   * El mismo cuerpo con dos píxeles menos de interlineado. Lo pide el artboard
+   * 29, donde cinco apartados de texto legal tienen que caber sin desplazar y
+   * el sitio se recupera de la columna, no recortando contenido: el quinto
+   * —el aviso de que esto es entretenimiento y no sustituye al veterinario—
+   * es justo el que no se puede dejar fuera.
+   *
+   * No es un cuerpo distinto: es el mismo, apretado donde la columna manda.
+   */
+  bodyTight: {
+    fontFamily: fonts.body,
+    fontSize: 16,
+    lineHeight: 23,
+  },
   caption: {
     fontFamily: fonts.body,
     fontSize: 13,

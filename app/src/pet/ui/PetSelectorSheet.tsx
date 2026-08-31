@@ -21,7 +21,7 @@ import Animated, {
 
 import { useNatalChart } from '@/chart/ui/chartQueries';
 import { SIGN_LABELS } from '@/chart/ui/labels';
-import { ADD_PET_LABEL, ADD_PET_NOTE, PET_SHEET_TITLE } from '@/subscription/ui/labels';
+import { ADD_PET_LABEL, PET_SHEET_TITLE } from '@/subscription/ui/labels';
 import type { Pet } from '../domain/Pet';
 import { breedLabel } from './format';
 import { usePetPhotoUri } from './petQueries';
@@ -60,6 +60,13 @@ export interface PetSelectorSheetProps {
   pets: Pet[];
   selectedId: string;
   onSelect: (id: string) => void;
+  /**
+   * Subtítulo de la fila de añadir. Con el plan gratuito es el nombre del
+   * plan, para que quien la toca sepa qué va a encontrar antes de llegar al
+   * 11; **con la suscripción activa no hay subtítulo** (artboard 30), porque
+   * ya no hay nada que anunciar. Nada más cambia en la fila.
+   */
+  addNote?: string;
   onAdd: () => void;
   onClose: () => void;
 }
@@ -73,9 +80,11 @@ export interface PetSelectorSheetProps {
  * hoja se cierra y el hub de debajo cambia de perro.
  *
  * **La fila de añadir no lleva candado ni va desactivada.** Es una fila
- * legítima, con su «+» en oro y el nombre del plan de subtítulo, así que quien
- * la toca ya sabe qué se va a encontrar. Bloquearla enseñaría una puerta
- * cerrada; así enseña una puerta.
+ * legítima, con su «+» en oro y —mientras haya algo que vender— el nombre del
+ * plan de subtítulo, así que quien la toca ya sabe qué se va a encontrar.
+ * Bloquearla enseñaría una puerta cerrada; así enseña una puerta. Comprado el
+ * plan, se cae el subtítulo y la fila lleva al alta: misma altura, mismo oro,
+ * mismo sitio.
  *
  * **El marcado es el punto de oro relleno**, el mismo de la pestaña activa, y
  * no una marca de verificación: es selección de estado, no confirmación. Por
@@ -88,7 +97,14 @@ export interface PetSelectorSheetProps {
  * Se cierra sola antes de avisar, igual que la hoja de planeta: si avisara
  * primero, el padre la desmontaría a media animación.
  */
-export function PetSelectorSheet({ pets, selectedId, onSelect, onAdd, onClose }: PetSelectorSheetProps) {
+export function PetSelectorSheet({
+  pets,
+  selectedId,
+  onSelect,
+  addNote,
+  onAdd,
+  onClose,
+}: PetSelectorSheetProps) {
   const { height: windowHeight } = useWindowDimensions();
 
   const offset = useSharedValue(windowHeight);
@@ -163,7 +179,7 @@ export function PetSelectorSheet({ pets, selectedId, onSelect, onAdd, onClose }:
           <Pressable
             onPress={onAdd}
             accessibilityRole="button"
-            accessibilityLabel={`${ADD_PET_LABEL}. ${ADD_PET_NOTE}`}
+            accessibilityLabel={addNote ? `${ADD_PET_LABEL}. ${addNote}` : ADD_PET_LABEL}
             style={({ pressed }) => [styles.row, styles.addRow, pressed && styles.pressed]}
           >
             <View style={styles.addAvatar}>
@@ -174,7 +190,7 @@ export function PetSelectorSheet({ pets, selectedId, onSelect, onAdd, onClose }:
             </View>
             <View style={styles.names}>
               <Text style={styles.addLabel}>{ADD_PET_LABEL}</Text>
-              <Text style={styles.note}>{ADD_PET_NOTE}</Text>
+              {addNote ? <Text style={styles.note}>{addNote}</Text> : null}
             </View>
           </Pressable>
         </ScrollView>

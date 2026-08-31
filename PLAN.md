@@ -133,28 +133,34 @@ falta antes no es código:
   33: **una dependencia se añade con `npm install <paquete>`, nunca editando
   `package.json` a mano**, o `npm ci` revienta en la nube y no en local
 
-### Los tres huecos de diseño que dejó el paywall
+### Los huecos que dejó el paywall, cerrados (sesión 43)
 
-Ninguno bloquea lo que hay construido; los tres hacen falta antes de publicar.
+Los cuatro se cerraron con dos artboards nuevos, y la pregunta de
+comportamiento se resolvió al revés de como estaba implementada:
 
-1. **«Condiciones»**, que el artboard 11 pinta junto a «Restaurar compra». No
-   hay ni pantalla ni URL escritas, así que la fila no está: sería un control
-   que no lleva a ninguna parte. **Hace falta antes de publicar** — una
-   suscripción sin condiciones enlazadas no pasa la ficha.
-2. **La fila de añadir del 26 con la suscripción ya activa.** Hoy lleva al 11
-   siempre, que es lo que pedía el encargo. Falta decidir qué dice esa fila
-   cuando ya no hay límite que vender, y a dónde lleva: no hay flujo de alta
-   de una segunda mascota más allá del onboarding de F1.
-3. **La oferta de Ajustes con la suscripción activa.** Desaparece, siguiendo
-   la regla del 11 —la puerta se pinta donde el usuario topa con el límite—,
-   pero nadie ha dibujado si en su sitio va algo (el plan, cuándo renueva,
-   cómo se gestiona).
+- **Las filas del 11 seleccionan, no compran.** El filo de oro marca el plan
+  elegido y arranca en el anual porque es el recomendado. Tres puntos de compra
+  en una pantalla que tiene un botón es roce, y con «Para siempre» a 29,99 € el
+  roce cuesta caro. El botón dice qué compra: «Empezar · 19,99 € al año»
+- **Artboard 29 · Condiciones**, pantalla y no enlace al navegador
+- **Artboard 30**, los otros tres en un sitio: la fila del 26 pierde el
+  subtítulo y lleva al alta, la tarjeta de Ajustes cambia de trabajo en vez de
+  desaparecer, y el teñido del icono por variante
 
-Y una pregunta de comportamiento, no de píxeles: **tocar una fila de plan
-compra ese plan**, y el botón de abajo compra el anual. Es la lectura que
-encaja con la nota («único plan con filo de oro» es el tratamiento fijo del
-ancla, no una selección que se mueva). Si la intención era que las filas
-seleccionaran y el botón comprara lo seleccionado, es un cambio de dos líneas.
+**Lo único que queda abierto de los cuatro es cómo se aplica el teñido** — ver
+el aviso del Bloque 1.
+
+### Un desfase de precio que hay que resolver antes de Play Console
+
+El artboard 11 dice **19,99 € al año** (y BRD §10.4 y §15.3 también); el
+artboard 29 dice **24,99 €**. Los dos no pueden ser el precio del mismo
+producto, y la nota del 29 avisa justamente de eso: si Play Console cambia un
+precio, esa pantalla miente.
+
+En la app ya no puede mentir —la frase de «Qué se cobra» se compone con lo que
+dice la tienda, igual que el 11—, así que **no bloquea nada**. Lo que hay que
+decidir es qué número se da de alta. El doble sigue en 19,99 €, que es lo que
+dicen el BRD y el 11.
 
 ### Y lo que no se puede comprimir al final
 
@@ -269,22 +275,17 @@ Llegaron **27 artboards** y dos reglas. Lo que estaba pedido y ya está:
 
 **Lo que sigue pendiente de diseño:**
 
-1. **Un teñido por variante** para el icono (dev / test / producción). Ya no
-   está bloqueado por nada: el icono es un dibujo y `icon.mjs` lo procesa, así
-   que teñirlo son tres salidas en vez de una. Falta **decidir cómo** — un
-   viraje de tono, una marca de esquina— porque hoy las tres apps se distinguen
-   solo por el nombre en la pantalla de inicio
-2. **«Condiciones»**, la fila que el artboard 11 pinta junto a «Restaurar
-   compra». No hay ni pantalla ni URL escritas, así que no está implementada:
-   sería un control que no lleva a ninguna parte. **Requisito de ficha** — una
-   suscripción sin condiciones enlazadas no pasa la revisión de la tienda
-3. **La fila de añadir del 26 con la suscripción ya activa.** Hoy lleva al 11
-   siempre. Falta decidir qué dice cuando ya no hay límite que vender y a dónde
-   lleva: no hay flujo de alta de una segunda mascota más allá del onboarding
-4. **El sitio de la oferta en Ajustes con la suscripción activa.** La oferta
-   desaparece, siguiendo la regla del 11 —la puerta se pinta donde el usuario
-   topa con el límite—, pero nadie ha dibujado si en su hueco va algo: el plan
-   contratado, cuándo renueva, cómo se gestiona
+1. **El teñido por variante del icono**: respondido en el artboard 30 —oro,
+   agua y fuego, con el trazado en hueso en las tres— y **sin implementar**,
+   porque el spec dibuja el teñido sobre `canis-major.svg` (la constelación en
+   `currentColor`) y el icono que se generó en la sesión 41 es el **dibujo
+   encargado**, un ráster que `icon.mjs` procesa. Antes de tocar los assets
+   hace falta saber cuál de las dos cosas es el icono de producción — ver el
+   registro de la sesión 43
+
+~~«Condiciones»~~ → **artboard 29**, implementado. ~~La fila de añadir del 26
+con la suscripción activa~~ y ~~el sitio de la oferta en Ajustes~~ →
+**artboard 30**, los dos implementados (sesión 43).
 
 ~~El estado "todavía no publicado"~~, ~~el pie del 17~~, ~~la tarjeta de la
 Luna del 04~~, ~~las constelaciones pobres~~, ~~"la más tenue"~~, ~~el título
@@ -1055,8 +1056,14 @@ primera versión publicada congela la decisión para siempre.
       - [ ] **El adaptador de RevenueCat**: sustituir el doble por él en
             `src/index.ts`. Antes hacen falta cuenta, productos en Play
             Console y un build nativo
-      - [ ] **«Condiciones»** en el pie del 11 — hueco de diseño, y requisito
-            de ficha
+      - [x] **«Condiciones»** (sesión 43): **artboard 29**, pantalla y no
+            enlace al navegador, con los tres precios compuestos desde la
+            tienda para que no puedan desfasarse del 11
+      - [x] **Los tres estados con el plan activo** (sesión 43): **artboard
+            30** — la fila del 26 sin subtítulo y hacia el alta, y la tarjeta
+            de Ajustes que deja de vender y dice qué tienes y hasta cuándo
+      - [ ] Publicar el texto de las condiciones **también como URL**: la
+            ficha de la tienda pide una y ahí no vale una pantalla
 - [x] **Puntos de conversión al paywall** (BRD §10.6) — **dos y solo dos**: la
       oferta de Ajustes (la fría) y la fila de añadir mascota del 26 (la
       caliente). En Hoy no hay ninguna: el MVP no cobra por el día
@@ -3414,3 +3421,45 @@ Llegaron 27 artboards. Se implementan **17 y 27**; el 26 va en tanda propia.
   antes de publicar: «Condiciones» en el pie del 11 (requisito de ficha), qué
   dice la fila de añadir del 26 con la suscripción ya activa, y qué ocupa el
   sitio de la oferta en Ajustes cuando ya no hay nada que ofrecer
+
+### 2026-08-31 (43) — las filas seleccionan, y los cuatro huecos cerrados
+- **El 11 se corrigió al revés de como estaba**: las filas seleccionan y solo
+  el botón compra. El filo de oro no era el tratamiento fijo del ancla sino la
+  marca del plan elegido, que arranca en el anual porque es el recomendado.
+  Tres puntos de compra en una pantalla con un botón es roce, y con «Para
+  siempre» a 29,99 € el roce cuesta caro
+- **El rótulo del botón dice qué compra** — «Empezar · 19,99 € al año»— porque
+  con tres precios arriba un «Empezar» a secas obliga a mirar hacia atrás para
+  saber qué se va a pagar. El periodo sale de la misma tabla que usan las
+  condiciones, así que el botón y el texto legal no pueden nombrar lo mismo de
+  dos formas
+- **Artboard 29 · Condiciones**: pantalla y no enlace al navegador, porque
+  sacar al usuario del móvil en mitad de una compra es donde se abandona.
+  **Los precios no están escritos en la pantalla**: la frase de «Qué se cobra»
+  se compone con lo que dice la tienda, que es la misma fuente que el 11. La
+  nota del artboard avisa de que si Play Console cambia un precio la pantalla
+  miente; componerla así es lo que hace que no pueda. Sin los tres planes
+  cargados, el apartado se queda con su segunda frase en vez de inventar cifras
+- **⚠️ El 11 dice 19,99 € al año y el 29 dice 24,99 €.** No bloquea nada —la
+  app compone el precio— pero hay que decidir cuál se da de alta. El doble se
+  queda en 19,99 €, que es lo que dicen el BRD (§10.4, §15.3) y el 11
+- **Artboard 30**: la fila de añadir del 26 pierde el subtítulo y lleva al
+  alta; la tarjeta de Ajustes **no desaparece, cambia de trabajo** y dice qué
+  tienes y hasta cuándo. `Subscription` gana `renewsAt`, y «Para siempre» dice
+  «No caduca» y se queda sin fila de gestionar porque no hay nada que gestionar
+- **El alta usa el flujo de F1**, que es el único que crea una mascota, y al
+  terminar **selecciona la recién creada**: sin eso se acaba de dar de alta un
+  perro y la app sigue enseñando el anterior
+- **`typography.bodyTight`**: el mismo cuerpo con dos píxeles menos de
+  interlineado, que es lo que el 29 usa para que quepan los cinco apartados sin
+  desplazar. Va al tema y no como número suelto en un `StyleSheet`
+- **⚠️ El icono por variante no se implementó.** El artboard 30 dibuja el
+  teñido sobre `canis-major.svg` —la constelación en `currentColor`, un color
+  heredado y no tres assets— y el icono de la sesión 41 es el **dibujo
+  encargado**, un ráster. Aplicar el spec tal cual cambiaría el icono de
+  producción de un perro dibujado a un asterismo, así que hace falta decidirlo
+  antes de tocar nada
+- **El canvas pasa de 256 KiB**, que es el tope de lectura de DesignSync: una
+  importación se trae el fichero cortado y los últimos artboards no llegan. Los
+  del paywall están al principio, así que esta vez no molestó — pero conviene
+  saberlo antes de dar por ausente un artboard que sí está

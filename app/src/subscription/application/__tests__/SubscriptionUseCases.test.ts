@@ -80,6 +80,19 @@ describe('los casos de uso de la suscripción', () => {
     }
   });
 
+  it('cada plan trae su renovación, y el vitalicio no trae ninguna', async () => {
+    const now = () => new Date('2026-08-24T09:00:00.000Z');
+    const { purchase } = useCases(InMemorySubscriptionGateway.create({ now }));
+
+    expect((await purchase.execute({ planId: 'annual' })).renewsAt()).toBe('2027-08-24');
+    expect((await purchase.execute({ planId: 'monthly' })).renewsAt()).toBe('2026-09-24');
+
+    const lifetime = await purchase.execute({ planId: 'lifetime' });
+    expect(lifetime.isPremium()).toBe(true);
+    expect(lifetime.renews()).toBe(false);
+    expect(lifetime.renewsAt()).toBeUndefined();
+  });
+
   it('restaurar recupera la compra hecha en otro móvil', async () => {
     const { restore } = useCases(InMemorySubscriptionGateway.create().withPreviousPurchase('monthly'));
 

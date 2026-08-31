@@ -1,4 +1,5 @@
 import { router } from 'expo-router';
+import { useState } from 'react';
 import { ActivityIndicator, Pressable, StyleSheet, Text, View, type TextStyle } from 'react-native';
 
 import { CloseMark } from '@/_ui/components/CloseMark';
@@ -6,15 +7,15 @@ import { PrimaryButton } from '@/_ui/components/PrimaryButton';
 import { Screen } from '@/_ui/components/Screen';
 import { text } from '@/_ui/typography';
 import type { Plan, PlanId } from '@/subscription/domain/Plan';
-import { formatMonthlyBreakdown, formatSavings } from '@/subscription/ui/format';
+import { formatMonthlyBreakdown, formatPurchaseCta, formatSavings } from '@/subscription/ui/format';
 import {
   PAYWALL_BENEFITS,
-  PAYWALL_CTA,
   PAYWALL_TITLE,
   PLAN_LABELS,
   PREMIUM_NAME,
   PURCHASE_FAILED_NOTE,
   RESTORE_LABEL,
+  TERMS_LINK,
 } from '@/subscription/ui/labels';
 import {
   isPurchaseCancelled,
@@ -43,26 +44,32 @@ const TABULAR = { fontVariant: ['tabular-nums'] } as TextStyle;
  * fría, y la fila de añadir mascota del 26, que es la caliente. En Hoy no hay
  * ninguna — el MVP no cobra por el día.
  *
- * **Tocar un plan lo compra.** El filo de oro del anual no es una selección
- * que se mueva al tocar otro: la nota dice «único plan con filo de oro», así
- * que es el tratamiento fijo del ancla, igual que su desglose mensual. El
- * botón de abajo compra el ancla, que es la que está resaltada. La hoja de
- * compra de la tienda sigue siendo la confirmación, así que nadie paga por
- * tocar de más.
+ * **Tocar un plan lo selecciona; comprar lo hace el botón, y uno solo.** El
+ * filo de oro marca el plan elegido y arranca en el anual porque es el
+ * recomendado. Filas que compraran al tocarlas dejarían tres puntos de compra
+ * en una pantalla que tiene un botón, y con «Para siempre» a 29,99 € el roce
+ * cuesta caro. Por eso el rótulo del botón **dice qué compra** en vez de un
+ * «Empezar» a secas: con tres precios arriba, el botón tiene que poder leerse
+ * solo.
  *
- * Falta «Condiciones», que el artboard pinta junto a «Restaurar compra»: no
- * hay ni pantalla ni URL de condiciones escritas todavía, y una fila que no
- * lleva a ninguna parte es justo el control que miente. Es un hueco anotado,
- * y hace falta cerrarlo **antes de publicar**: una suscripción sin condiciones
- * enlazadas no pasa la ficha.
+ * El desglose mensual y el «Ahorras» siguen siendo del anual y no se mueven
+ * con la selección: son propiedades del plan, no del estado de la pantalla.
  */
 export default function Paywall() {
   const { data: plans } = usePlans();
   const purchase = usePurchasePlan();
   const restore = useRestorePurchases();
 
+  // Mientras no se toque nada, el elegido es el ancla. Se guarda la elección
+  // del usuario y no el ancla misma: los planes llegan después del primer
+  // fotograma, y sembrar el estado con lo que todavía no ha cargado dejaría la
+  // pantalla sin ninguna fila marcada.
+  const [chosen, setChosen] = useState<PlanId>();
+
   const anchor = plans?.find((plan) => plan.isAnchor());
   const monthly = plans?.find((plan) => plan.id() === 'monthly');
+  const selectedId = chosen ?? anchor?.id() ?? plans?.[0]?.id();
+  const selected = plans?.find((plan) => plan.id() === selectedId);
   const busy = purchase.isPending || restore.isPending;
 
   // Cancelar no se cuenta como fallo: cerrar la hoja de la tienda es una
@@ -71,8 +78,9 @@ export default function Paywall() {
 
   // Comprado, la pantalla se va sola: el usuario venía de otro sitio con algo
   // que hacer, y quedarse en la oferta que acaba de aceptar no es un destino.
-  const buy = (planId: PlanId) => {
-    purchase.mutate(planId, { onSuccess: () => router.back() });
+  const buy = () => {
+    if (selectedId === undefined) return;
+    purchase.mutate(selectedId, { onSuccess: () => router.back() });
   };
 
   return (
@@ -97,20 +105,33 @@ export default function Paywall() {
       footer={
         <>
           <PrimaryButton
-            label={PAYWALL_CTA}
+            label={formatPurchaseCta(selected)}
             loading={purchase.isPending}
-            disabled={!anchor || busy}
-            onPress={() => anchor && buy(anchor.id())}
+            disabled={!selected || busy}
+            onPress={buy}
           />
-          <Pressable
-            onPress={() => restore.mutate()}
-            disabled={busy}
-            accessibilityRole="button"
-            accessibilityLabel={RESTORE_LABEL}
-            style={styles.restore}
-          >
-            <Text style={styles.restoreLabel}>{RESTORE_LABEL}</Text>
-          </Pressable>
+          {/* Los dos enlaces del pie del artboard. «Condiciones» es pantalla y
+              no enlace al navegador: sacar al usuario del móvil en medio de una
+              compra es donde se abandona. */}
+          <View style={styles.links}>
+            <Pressable
+              onPress={() => restore.mutate()}
+              disabled={busy}
+              accessibilityRole="button"
+              accessibilityLabel={RESTORE_LABEL}
+              style={styles.link}
+            >
+              <Text style={styles.linkLabel}>{RESTORE_LABEL}</Text>
+            </Pressable>
+            <Pressable
+              onPress={() => router.push('/terms')}
+              accessibilityRole="button"
+              accessibilityLabel={TERMS_LINK}
+              style={styles.link}
+            >
+              <Text style={styles.linkLabel}>{TERMS_LINK}</Text>
+            </Pressable>
+          </View>
         </>
       }
     >
@@ -135,8 +156,9 @@ export default function Paywall() {
               key={plan.id()}
               plan={plan}
               monthly={monthly}
+              selected={plan.id() === selectedId}
               disabled={busy}
-              onPress={() => buy(plan.id())}
+              onPress={() => setChosen(plan.id())}
             />
           ))
         ) : (
@@ -150,18 +172,24 @@ export default function Paywall() {
 }
 
 /**
- * Una fila de plan. El ancla es la única con filo de oro, precio en Fraunces y
- * las dos líneas de más —el desglose mensual y el ahorro—: es lo que la
- * convierte en ancla, y si lo llevara otra dejaría de haberla.
+ * Una fila de plan, que **selecciona y no compra**. El filo de oro es la
+ * marca de la selección y se mueve con ella; el desglose mensual y el ahorro
+ * se quedan en el anual pase lo que pase, porque son suyos.
+ *
+ * El ancla es más alta aunque no esté elegida: sus dos líneas ocupan lo que
+ * ocupan, y una fila que cambiara de alto al tocarla haría saltar la lista
+ * bajo el dedo.
  */
 function PlanRow({
   plan,
   monthly,
+  selected,
   disabled,
   onPress,
 }: {
   plan: Plan;
   monthly: Plan | undefined;
+  selected: boolean;
   disabled: boolean;
   onPress: () => void;
 }) {
@@ -174,11 +202,13 @@ function PlanRow({
     <Pressable
       onPress={onPress}
       disabled={disabled}
-      accessibilityRole="button"
+      accessibilityRole="radio"
+      accessibilityState={{ selected, disabled }}
       accessibilityLabel={`${label}, ${plan.priceLabel()}`}
       style={({ pressed }) => [
         styles.plan,
-        anchor ? styles.anchor : styles.plain,
+        anchor ? styles.anchorHeight : styles.plainHeight,
+        selected ? styles.selected : styles.unselected,
         pressed && styles.pressed,
       ]}
     >
@@ -253,18 +283,24 @@ const styles = StyleSheet.create({
     gap: spacing[4],
     paddingHorizontal: spacing[5],
   },
+  /** El alto es del plan, no de la selección: si cambiara al tocar, la lista
+   * saltaría bajo el dedo. */
+  anchorHeight: {
+    height: ANCHOR_HEIGHT,
+  },
+  plainHeight: {
+    height: PLAN_HEIGHT,
+  },
   /**
    * Sin halo: `glow.accent` sobre una superficie opaca se puede, pero el
    * artboard lo pinta con `box-shadow`, que en React Native se dibuja bajo
    * **toda** la caja. El filo de oro y el relleno son lo que las dos
    * plataformas pintan igual (nota de `theme.glow`).
    */
-  anchor: {
-    height: ANCHOR_HEIGHT,
+  selected: {
     borderColor: colors.accent,
   },
-  plain: {
-    height: PLAN_HEIGHT,
+  unselected: {
     borderColor: colors.divider,
   },
   pressed: {
@@ -307,12 +343,16 @@ const styles = StyleSheet.create({
     ...typography.caption,
     color: colors.textMuted,
   },
-  restore: {
+  links: {
+    flexDirection: 'row',
+    justifyContent: 'center',
+    gap: spacing[5],
+  },
+  link: {
     height: touchTarget,
-    alignItems: 'center',
     justifyContent: 'center',
   },
-  restoreLabel: {
+  linkLabel: {
     ...typography.caption,
     color: colors.textFaint,
   },

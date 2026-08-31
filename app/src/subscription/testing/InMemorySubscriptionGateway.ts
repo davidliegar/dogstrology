@@ -20,6 +20,23 @@ export interface InMemorySubscriptionGatewayOptions {
   plans?: PlanData[];
   /** Con qué estado empieza. Por defecto, el tier gratuito. */
   subscription?: Subscription;
+  /** El día de hoy, para poder fijar la fecha de renovación en los tests. */
+  now?: () => Date;
+}
+
+/** `2027-08-24`. La fecha del próximo cobro, en el formato del dominio. */
+const isoDate = (date: Date): string => date.toISOString().slice(0, 10);
+
+/**
+ * A cuándo renueva cada plan contando desde hoy. El vitalicio no aparece: no
+ * renueva, y el modelo ya lo sabe.
+ */
+function renewalOf(planId: PlanId, now: Date): string | undefined {
+  const next = new Date(now.getTime());
+  if (planId === 'annual') next.setUTCFullYear(next.getUTCFullYear() + 1);
+  else if (planId === 'monthly') next.setUTCMonth(next.getUTCMonth() + 1);
+  else return undefined;
+  return isoDate(next);
 }
 
 /**
@@ -39,14 +56,20 @@ export class InMemorySubscriptionGateway implements SubscriptionGateway {
   private readonly catalog: Plan[];
   private outcome: 'ok' | 'cancelled' | 'failed' = 'ok';
   private previous?: Subscription;
+  private readonly now: () => Date;
 
   static create(options: InMemorySubscriptionGatewayOptions = {}): InMemorySubscriptionGateway {
     return new InMemorySubscriptionGateway(options);
   }
 
-  constructor({ plans = DEFAULT_PLANS, subscription }: InMemorySubscriptionGatewayOptions = {}) {
+  constructor({
+    plans = DEFAULT_PLANS,
+    subscription,
+    now = () => new Date(),
+  }: InMemorySubscriptionGatewayOptions = {}) {
     this.catalog = plans.map((data) => Plan.create(data));
     this.subscription = subscription ?? Subscription.free();
+    this.now = now;
   }
 
   async current(): Promise<Subscription> {
@@ -63,7 +86,7 @@ export class InMemorySubscriptionGateway implements SubscriptionGateway {
     if (!this.catalog.some((plan) => plan.id() === planId)) {
       throw DomainError.withCodes(ErrorCode.PURCHASE_FAILED);
     }
-    this.subscription = Subscription.premium(planId);
+    this.subscription = Subscription.premium({ planId, renewsAt: renewalOf(planId, this.now()) });
     return this.subscription;
   }
 
@@ -90,7 +113,7 @@ export class InMemorySubscriptionGateway implements SubscriptionGateway {
 
   /** Una compra hecha en otro móvil, para que `restore()` encuentre algo. */
   withPreviousPurchase(planId: PlanId): this {
-    this.previous = Subscription.premium(planId);
+    this.previous = Subscription.premium({ planId, renewsAt: renewalOf(planId, this.now()) });
     return this;
   }
 }

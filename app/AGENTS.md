@@ -32,6 +32,8 @@ src/
 │   └── domain/               Preferences (hoy, el sistema de casas)
 ├── subscription/             Bounded context: quién ha pagado y qué se vende
 │   ├── domain/               Plan, Subscription, puerto SubscriptionGateway
+│   ├── application/          Leer, listar planes, comprar y restaurar
+│   ├── ui/                   labels.ts, format.ts y los hooks de compra
 │   └── testing/              El doble en memoria, que **hoy es el adaptador**
 └── content/                  Bounded context: lo que el usuario lee (BRD §7.3, §7.4)
     ├── domain/               Capa 1: ContentKey, Fragment, ContentRepository

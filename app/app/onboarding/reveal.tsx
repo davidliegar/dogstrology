@@ -10,6 +10,7 @@ import { ELEMENT_LABELS, MODALITY_LABELS, SIGN_LABELS } from '@/chart/ui/labels'
 import { useNatalChart } from '@/chart/ui/chartQueries';
 import { useOnboardingStore } from '@/pet/ui/onboardingStore';
 import { usePet } from '@/pet/ui/petQueries';
+import { useSelectedPetStore } from '@/pet/ui/selectedPetStore';
 
 import { colors, elementColor, screenPadding, spacing, typography } from '@/design/theme';
 
@@ -17,11 +18,17 @@ export default function OnboardingReveal() {
   const { petId } = useLocalSearchParams<{ petId: string }>();
   const { width } = useWindowDimensions();
   const reset = useOnboardingStore((state) => state.reset);
+  const select = useSelectedPetStore((state) => state.select);
 
   const { data: pet, isError: petFailed } = usePet(petId);
   const { data: chart, isError: chartFailed } = useNatalChart(pet);
 
   const done = () => {
+    // La recién creada pasa a ser de la que habla la app. Con una sola mascota
+    // da igual —es la primera de la lista—, pero al añadir la segunda desde el
+    // 26 no: sin esto se acabaría de dar de alta un perro y la app seguiría
+    // enseñando el anterior.
+    if (petId) select(petId);
     // El wizard ha cumplido: a partir de aquí la verdad es el repositorio.
     reset();
     router.replace('/today');

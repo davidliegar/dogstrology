@@ -14,11 +14,20 @@ export const FREE_PET_LIMIT = 1;
 
 const schema = z.object({
   planId: z.enum(PLAN_IDS).optional(),
+  renewsAt: z
+    .string()
+    .regex(/^\d{4}-\d{2}-\d{2}$/, '[Subscription] renewsAt es una fecha ISO `YYYY-MM-DD`')
+    .optional(),
 });
 
 export interface SubscriptionData {
   /** El plan activo, o `undefined` en el tier gratuito. */
   planId?: PlanId;
+  /**
+   * Cuándo vuelve a cobrar, `YYYY-MM-DD`. Solo lo tienen los planes que
+   * renuevan: «Para siempre» no caduca, así que no hay fecha que enseñar.
+   */
+  renewsAt?: string;
 }
 
 /**
@@ -37,19 +46,22 @@ export class Subscription extends Model {
   static create(data: SubscriptionData): Subscription {
     const parsed = schema.safeParse(data);
     if (!parsed.success) throw DomainError.withCodes(ErrorCode.INVALID_SUBSCRIPTION);
-    return new Subscription(parsed.data.planId);
+    return new Subscription(parsed.data.planId, parsed.data.renewsAt);
   }
 
   /** Lo que tiene todo el mundo hasta que compra, y a lo que se vuelve al caducar. */
   static free(): Subscription {
-    return new Subscription(undefined);
+    return new Subscription(undefined, undefined);
   }
 
-  static premium(planId: PlanId): Subscription {
-    return Subscription.create({ planId });
+  static premium({ planId, renewsAt }: { planId: PlanId; renewsAt?: string }): Subscription {
+    return Subscription.create({ planId, renewsAt });
   }
 
-  constructor(private readonly _planId: PlanId | undefined) {
+  constructor(
+    private readonly _planId: PlanId | undefined,
+    private readonly _renewsAt: string | undefined,
+  ) {
     super();
   }
 
@@ -59,6 +71,25 @@ export class Subscription extends Model {
 
   planId(): PlanId | undefined {
     return this._planId;
+  }
+
+  /**
+   * Si el plan vuelve a cobrar. «Para siempre» es un pago único, y de ahí sale
+   * la diferencia que pinta el artboard 30: donde uno dice cuándo se renueva,
+   * el otro dice que no caduca — y se queda sin la fila de gestionar, porque
+   * no hay nada que gestionar.
+   */
+  renews(): boolean {
+    return this.isPremium() && this._planId !== 'lifetime';
+  }
+
+  /**
+   * La fecha del próximo cobro, `YYYY-MM-DD`. `undefined` si el plan no
+   * renueva —o si la tienda no la ha dicho—, y entonces la línea no se pinta:
+   * antes callar que inventar una fecha en una pantalla que habla de dinero.
+   */
+  renewsAt(): string | undefined {
+    return this.renews() ? this._renewsAt : undefined;
   }
 
   /** Cuántas mascotas caben con este plan. Premium es ilimitado (BRD §10.4). */
@@ -79,6 +110,9 @@ export class Subscription extends Model {
   }
 
   toData(): SubscriptionData {
-    return this._planId === undefined ? {} : { planId: this._planId };
+    if (this._planId === undefined) return {};
+    return this._renewsAt === undefined
+      ? { planId: this._planId }
+      : { planId: this._planId, renewsAt: this._renewsAt };
   }
 }

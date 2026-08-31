@@ -13,6 +13,8 @@ import { PetIdentity } from '@/pet/ui/PetIdentity';
 import { PetSelectorSheet } from '@/pet/ui/PetSelectorSheet';
 import { usePets, usePetPhotoUri, useSelectedPet } from '@/pet/ui/petQueries';
 import { useSelectedPetStore } from '@/pet/ui/selectedPetStore';
+import { ADD_PET_NOTE } from '@/subscription/ui/labels';
+import { useCanAddPet } from '@/subscription/ui/subscriptionQueries';
 
 import { colors, screenPadding, spacing, typography } from '@/design/theme';
 
@@ -43,6 +45,7 @@ export default function PetHub() {
   const { data: pet, isPending, isError } = useSelectedPet();
   const { data: pets } = usePets();
   const select = useSelectedPetStore((state) => state.select);
+  const canAddPet = useCanAddPet();
   const [selectorOpen, setSelectorOpen] = useState(false);
   const { data: chart } = useNatalChart(pet);
   const { data: photoUri } = usePetPhotoUri(pet);
@@ -132,11 +135,14 @@ export default function PetHub() {
           pets={pets}
           selectedId={id}
           onSelect={select}
-          // La fila de añadir lleva al 11 **sin candado**: es la puerta
-          // caliente de las dos que tiene el paywall.
+          // Sin plan, la fila de añadir lleva al 11 **sin candado**: es la
+          // puerta caliente de las dos que tiene el paywall. Con el plan
+          // activo pierde el subtítulo y lleva al alta (artboard 30) — que
+          // hoy es el flujo de F1, el único que crea una mascota.
+          addNote={canAddPet ? undefined : ADD_PET_NOTE}
           onAdd={() => {
             setSelectorOpen(false);
-            router.push('/paywall');
+            router.push(canAddPet ? '/onboarding/name' : '/paywall');
           }}
           onClose={() => setSelectorOpen(false)}
         />
