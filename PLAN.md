@@ -3314,3 +3314,31 @@ Llegaron 27 artboards. Se implementan **17 y 27**; el 26 va en tanda propia.
 - ⚠️ **Hace falta regenerar el proyecto nativo** para que el splash entre:
   `android/` e `ios/` están ignorados y llevan dentro la configuración con la
   que se generaron
+
+### 2026-08-31 (41) — el icono, entero
+- **Llegó el dibujo** y se convierte en las cinco piezas con `icon.mjs`:
+  `icon.png`, las tres capas del adaptativo de Android y el favicon. **No son
+  un fichero, son cinco**: actualizar solo `icon.png` habría dejado Android
+  enseñando el icono viejo, porque el adaptativo tiene prioridad sobre el
+  heredado
+- **Venía a 464×482 y descentrado** —76 px de margen izquierdo contra 48—, así
+  que el script mide la caja del dibujo en vez de recortar a mano: cada
+  generación trae los suyos, y el dibujo se va a iterar
+- **Dos zonas seguras distintas, y confundirlas cuesta caro.** El 66% es del
+  **adaptativo**, cuyas capas de 108 dp solo enseñan el centro de 72 porque el
+  sistema las recorta y las mueve con el parallax. `icon.png` lo consume iOS,
+  que solo redondea esquinas, así que ahí va al **84%** — al 66% se regalaba un
+  tercio del lado a un margen que nadie recorta, y a 48 px eso era la
+  diferencia entre ver un perro y ver una mancha
+- **El alfa se saca de la distancia al fondo y el color se deja sin
+  despremultiplicar**: la capa de fondo es exactamente el color sobre el que se
+  dibujó, así que compuesta reproduce el original y el fleco de los bordes es
+  invisible — es el mismo color que hay debajo. Por eso el
+  `adaptiveIcon.backgroundColor` de `app.json` pasa a `#0E142B`, el del dibujo,
+  y no al token: si difirieran, un fallo al cargar la capa dejaría un halo
+- **PNG escrito a mano** con el `zlib` de Node. `sips` convierte formatos pero
+  no sabe recortar un fondo, y BMP no lleva alfa, así que la capa de dibujo del
+  adaptativo no se podía producir con las herramientas del sistema
+- **Legibilidad**: a 192 y 96 se lee el perro entero; a 48 queda un anillo con
+  el punto de oro encendido. Es techo del dibujo, no del encuadre — y sigue
+  siendo una identidad reconocible a ese tamaño

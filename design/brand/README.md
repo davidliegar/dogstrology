@@ -48,9 +48,15 @@ esfuerzo; a 48 conserva la estructura, que era lo que fallaba en las variantes s
 líneas — a ese tamaño los puntos sueltos no dicen nada y la línea es lo que da
 figura.
 
-**Pendiente**: verlo en un dispositivo real, exportar los tamaños que piden las
-stores, y decidir el icono monocromo que Android 13+ usa para los temas. Ninguna
-de las tres se resuelve mirando un PNG en el portátil.
+**Sustituido el 2026-08-31.** El icono ya no se plotea: es un dibujo, en
+`icono-fuente.png`, y `icon.mjs` saca de él las cinco piezas —el heredado, las
+tres capas del adaptativo y el favicon—. El encargo que lo produjo está en
+`icono-prompt.md`.
+
+Lo que sigue pendiente es **verlo en un dispositivo real**: a 96 px se lee el
+perro entero, y a 48 queda un anillo con el punto de oro encendido. Eso último
+es techo del dibujo, no del encuadre, y solo se juzga en una pantalla de
+verdad.
 
 ## Contorno de la figura — pendiente, y ya enchufado
 
