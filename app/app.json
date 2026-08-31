@@ -14,7 +14,7 @@
     "android": {
       "package": "com.nexus.zoodiac",
       "adaptiveIcon": {
-        "backgroundColor": "#0B1026",
+        "backgroundColor": "#0E142B",
         "foregroundImage": "./assets/icons/production/android-icon-foreground.png",
         "backgroundImage": "./assets/icons/production/android-icon-background.png",
         "monochromeImage": "./assets/icons/production/android-icon-monochrome.png"

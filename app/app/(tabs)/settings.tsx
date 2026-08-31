@@ -16,6 +16,7 @@ import {
   PLAN_LABELS,
   PREMIUM_NAME,
   PREMIUM_SHORT_NAME,
+  TERMS_TITLE,
 } from '@/subscription/ui/labels';
 import { useSubscription } from '@/subscription/ui/subscriptionQueries';
 import type { Subscription } from '@/subscription/domain/Subscription';
@@ -76,6 +77,12 @@ const DISCLAIMER =
  * **La fila de Créditos no es cortesía**: la geodata de GeoNames es CC BY 4.0
  * y su atribución tiene que estar visible dentro de la app. Por eso el
  * artboard la coloca sin scroll, y por eso entra desde el primer día.
+ *
+ * **«Condiciones» va justo debajo**, y no está en el artboard 10: el 29 solo
+ * se alcanzaba desde el paywall, y el paywall desaparece al comprar — quien ya
+ * ha pagado es justamente quien puede necesitar releerlas. Van juntas porque
+ * son la misma pregunta hecha dos veces: de dónde sale esto y a qué me he
+ * comprometido.
  */
 export default function Settings() {
   const { data: preferences } = usePreferences();
@@ -110,6 +117,8 @@ export default function Settings() {
         />
         <View style={styles.divider} />
         <Row label="Créditos" onPress={() => router.push('/credits')} />
+        <View style={styles.divider} />
+        <Row label={TERMS_TITLE} onPress={() => router.push('/terms')} />
       </View>
     </Screen>
   );

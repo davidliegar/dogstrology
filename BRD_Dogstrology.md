@@ -480,6 +480,31 @@ La captación en sí queda fuera de este documento, pero tres cosas dejan de ser
 2. **Las capturas de store son un entregable de primera clase.** Contra 4 competidores ya posicionados (§3), la ficha es donde se gana o se pierde la instalación. Se renderizan desde la app real (§11.2.4), nunca se generan con IA.
 3. **El nombre ya está optimizado para esto.** D1 eligió `Dogstrology` precisamente por su ASO en el nicho perro — la decisión y el canal son coherentes.
 
+#### Consecuencia de vender "mascotas ilimitadas" (2026-08-31)
+
+El paywall cobra por quitar el límite de una mascota (§10.3, §10.4). Eso convierte
+**sostener varias mascotas en alcance del MVP**, aunque el análisis de manada sea
+fase 2: en cuanto alguien paga, la app tiene dos perros y ninguna pantalla
+pensada para dos.
+
+Lo que el MVP debe resolver, y que hoy no resuelve:
+
+1. **Hoy con varias mascotas.** La carta del día es *por mascota* — se compone
+   con su carta natal (§7.3) — así que con dos perros hay dos lecturas. Hoy
+   enseña una sola y la elección vive escondida en el hub. Es la pantalla del
+   hábito diario: si no cabe la segunda mascota, lo que se ha vendido no se ve.
+2. **La pestaña de la mascota deja de tener un nombre.** Con una se llama
+   "Baloo"; con dos, un nombre propio en la barra afirma algo falso — que la app
+   habla de ese perro. Con varias, la pestaña es el sitio donde se elige.
+3. **Llegar al perfil de cada una desde Hoy.** Con una mascota el rodeo por la
+   pestaña no molesta; con varias, tener el perro delante y no poder entrar en
+   él desde ahí es el rodeo que hace que no se entre.
+
+**No es contenido nuevo ni motor nuevo**: los fragmentos ya son por carta, y el
+motor ya calcula una carta por mascota. Es UI, y es la parte que hace visible lo
+que se está cobrando. El análisis de manada (§9, fase 2) se apoya encima, pero
+no lo sustituye: sin esto, la fase 2 no tiene dónde entrar.
+
 ### 8.2 Fuera del MVP (fase 2+)
 
 Compatibilidad entre mascotas · compatibilidad con el humano · multi-especie (gato) · calendario cósmico de "momentos" · test de rectificación conductual · chat con la "voz cósmica" de la mascota · widgets de home screen · social/comunidad · tienda de pósters de carta astral impresa
@@ -515,6 +540,8 @@ Alcance de §8.1. Objetivo: validar que el contenido diario genera hábito (DAU/
 - **Compatibilidad perro ↔ humano**: el dueño mete **su propia** fecha de nacimiento. Enorme para engagement y conversión: el usuario pasa a ser protagonista.
   ⚠️ Esto introduce **datos personales del usuario** (fecha y lugar de nacimiento) → obligaciones GDPR. Mantenerlo local en el dispositivo mientras se pueda.
 - **Multi-mascota**: la casa entera. "Dinámica de manada" — mapa de tensiones y afinidades entre los 3 perros de casa. Feature premium natural y muy diferencial.
+  El **MVP deja el terreno hecho** (§8.1, consecuencia de vender mascotas ilimitadas): varias mascotas conviviendo en Hoy, la pestaña convertida en selector y el perfil de cada una a un toque. La manada es la capa de *relación* encima de eso — sinastría entre las cartas que ya se calculan—, no la que enseña que hay dos perros.
+  ⚠️ El paywall ya promete "dinámica de manada" en su lista de ventajas (artboard 11). Mientras sea fase 2, es una **promesa y no un destino**: la lista del paywall no enlaza a ningún sitio, y no puede empezar a hacerlo hasta que exista.
 
 ### Fase 3 — Momentos y calendario cósmico (est. +3 semanas) · **la utilidad disfrazada**
 
@@ -775,11 +802,17 @@ Existe integración de Figma en el entorno, así que el sistema de diseño se pu
 ```
 Onboarding (3 pasos)
 └─ Home / Hoy ······· tarjeta del día, fase lunar, energía, acceso rápido
-   ├─ Perfil mascota · carta natal (rueda Skia), personalidad, raza×signo
+   │                  con varias mascotas: una lectura por mascota, y desde
+   │                  cada una se entra a su perfil (§8.1)
+   ├─ Mascota ········ hub: carta natal (rueda Skia), personalidad
+   │  │                raza×signo, sus datos
+   │  │                con varias: la pestaña se llama "Mascotas" y es el
+   │  │                selector — elegir una, o añadir otra
    │  └─ Editar datos de nacimiento
    ├─ Explorar ······· los 12 signos, glosario de planetas y casas (contenido SEO/ASO)
    ├─ Compartir ······ generador de imagen
-   └─ Ajustes ········ hora de notificación, idioma, suscripción, privacidad, disclaimer
+   └─ Ajustes ········ suscripción, hora de notificación, sistema de casas,
+                       créditos, condiciones, privacidad, disclaimer
 ```
 
 ---
@@ -1065,7 +1098,7 @@ Ninguna de estas dos impide escribir una línea de código. Son ajustes de confi
 
 | Qué | Valor de partida | Cuándo se fija |
 |-----|-----------------|----------------|
-| **Precio de la suscripción** | 3,99 €/mes · 19,99 €/año *(estimación de mercado)* | Al crear los productos en Play Console. La UI del paywall es idéntica con cualquier cifra. Fácil de bajar después, incómodo de subir |
+| ~~**Precio de la suscripción**~~ ✅ **Fijado (2026-08-31)** | **3,99 €/mes · 19,99 €/año · 29,99 € una sola vez** — y son **tres productos**, no dos: el artboard 11 pinta el vitalicio | Se da de alta en Play Console con estas tres cifras. La UI del paywall es idéntica con cualquiera: el precio, la moneda y su texto llegan de la tienda por el puerto, así que cambiarlo no toca código. Fácil de bajar después, incómodo de subir |
 | **Herramienta de analytics** | PostHog EU cloud, plan gratuito | Antes de publicar. Hasta entonces no hay histórico que perder, así que el coste de cambiar de opinión es cero |
 
 ### 15.4 Abierto de verdad

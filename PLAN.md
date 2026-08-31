@@ -119,6 +119,13 @@ permiso se pide después de demostrar valor, nunca al arrancar** (BRD §14 R8).
 F9 es el bucle de adquisición y su marca de agua ya tiene spec escrita
 (`design/brand/README.md`).
 
+### Y en cuanto lleguen los artboards: multimascota
+
+El encargo está escrito aquí abajo, cuatro puntos. **No es una mejora**: el
+paywall ya cobra por quitar el límite de una mascota, así que en cuanto alguien
+paga hay dos perros y ninguna pantalla pensada para dos (BRD §8.1). Va por
+delante de F9 si los dibujos llegan antes.
+
 ### Y RevenueCat, cuando haya cuentas
 
 Los pasos 1 a 4 del encargo anterior están hechos, así que **el 5 es sustituir
@@ -154,17 +161,16 @@ era el dibujo encargado. Decidido que **el icono vuelve a ser Canis Major**, se
 generan las tres variantes de un solo SVG y `icono-fuente.png` se queda como
 registro del encargo.
 
-### Un desfase de precio que hay que resolver antes de Play Console
+### El precio, fijado (2026-08-31)
 
-El artboard 11 dice **19,99 € al año** (y BRD §10.4 y §15.3 también); el
-artboard 29 dice **24,99 €**. Los dos no pueden ser el precio del mismo
-producto, y la nota del 29 avisa justamente de eso: si Play Console cambia un
-precio, esa pantalla miente.
+**3,99 €/mes · 19,99 €/año · 29,99 € una sola vez**, y son **tres productos**
+en Play Console, no dos. El desfase entre el artboard 11 (19,99) y el 29
+(24,99) se resuelve a favor del 11, que es también lo que dicen BRD §10.4 y
+§15.3. BRD §15.3 pasa de "se fija antes de publicar" a fijado.
 
-En la app ya no puede mentir —la frase de «Qué se cobra» se compone con lo que
-dice la tienda, igual que el 11—, así que **no bloquea nada**. Lo que hay que
-decidir es qué número se da de alta. El doble sigue en 19,99 €, que es lo que
-dicen el BRD y el 11.
+⚠️ **El artboard 29 hay que corregirlo en el canvas**: sigue diciendo 24,99 €.
+En la app no importa —la frase de «Qué se cobra» se compone con lo que dice la
+tienda—, pero el dibujo es la referencia y así como está desmiente al 11.
 
 ### Y lo que no se puede comprimir al final
 
@@ -277,13 +283,121 @@ Llegaron **27 artboards** y dos reglas. Lo que estaba pedido y ya está:
   tenue por magnitud es **Piscis** (Alpherg, 3,6); Cáncer es la de menos nodos
   (5), detrás de Aries (4). La app lo calcula, no lo supone
 
-**Lo que sigue pendiente de diseño:**
-
-No queda ninguno abierto.
+**Lo que sigue pendiente de diseño:** los tres puntos del encargo de
+multimascota, aquí abajo. De la tanda anterior no queda ninguno.
 
 ~~El teñido por variante del icono~~, ~~«Condiciones»~~, ~~la fila de añadir
 del 26 con la suscripción activa~~ y ~~el sitio de la oferta en Ajustes~~ →
 **artboards 29 y 30**, los cuatro implementados (sesión 43).
+
+---
+
+## Encargo de diseño — **multimascota** (2026-08-31)
+
+### Por qué ahora, y por qué es del MVP
+
+El paywall ya cobra por quitar el límite de una mascota. En cuanto alguien
+paga, la app tiene dos perros **y ninguna pantalla pensada para dos**: Hoy
+enseña uno, la pestaña se llama con su nombre, y elegir mascota está escondido
+en una hoja que se abre tocando ese nombre.
+
+No es contenido nuevo ni motor nuevo — los fragmentos ya son por carta y el
+motor ya calcula una carta por mascota. Es **la UI que hace visible lo que se
+está cobrando** (BRD §8.1, consecuencia de vender mascotas ilimitadas).
+
+### Lo que ya está construido y no hay que volver a dibujar
+
+- **Artboard 26**, el selector, implementado: hoja baja sobre el hub, punto de
+  oro de marcado, fila de añadir sin candado. Funciona, y con el plan activo
+  pierde el subtítulo y lleva al alta (artboard 30)
+- **Hoy** con sus cuatro tarjetas y su cascada, para **una** mascota
+- La app ya sabe de qué mascota habla (`useSelectedPet`), así que cambiar de
+  sujeto ya funciona de verdad en las ocho pantallas que lo usan
+
+### 1 · Hoy con varias mascotas
+
+**El problema.** La carta del día es **por mascota**: se compone con su carta
+natal, así que dos perros son dos lecturas completas, no una lectura con dos
+nombres. Hoy hoy enseña una sola, y la otra no existe en la pantalla del
+hábito diario — que es justo donde tiene que verse lo que se ha pagado.
+
+**Lo que hace falta decidir:** cómo conviven dos —y tres, y cinco— lecturas en
+una pantalla que se abre cada mañana y que hoy ya llena su alto con una.
+
+Algunas tensiones que conviene tener delante, sin que sean una propuesta:
+
+- La fase lunar y el cielo del día **son los mismos para toda la casa**; el Sol
+  natal, el consejo y la energía son de cada perro. Hay una parte que no se
+  repite y otra que sí
+- Apilar lecturas completas multiplica el desplazamiento por el número de
+  perros, y la cascada de revelado se vuelve larga
+- Ponerlas en carrusel esconde la segunda detrás de un gesto, que es lo que
+  pasa hoy con la hoja del 26 y lo que estamos arreglando
+- Con cinco perros, cualquier cosa que funcione con dos deja de funcionar
+
+**Estados a dibujar:** una mascota (lo de hoy, que no debería cambiar), dos, y
+el techo — a partir de cuántas la pantalla cambia de forma.
+
+### 2 · La pestaña, cuando hay varias
+
+Con una mascota la pestaña se llama **«Baloo»** y lleva a su hub. Con dos, un
+nombre propio en la barra **afirma algo falso**: que la app habla de ese perro.
+
+**La dirección ya decidida:** con varias, la pestaña se llama **«Mascotas»** y
+al entrar se elige — y ahí está también **«Añadir»**. Es más intuitivo que lo
+de ahora, donde el selector se abre tocando el nombre dentro del hub.
+
+**Lo que hace falta decidir:**
+
+- Qué es esa pantalla de elección: ¿el 26 promovido de hoja a destino raíz? ¿O
+  una lista distinta, con más sitio, que se pueda permitir enseñar el Sol y la
+  foto de cada uno en grande?
+- **Qué pasa entonces con el 26.** Si la pestaña ya es el selector, ¿la hoja
+  sigue existiendo dentro del hub para cambiar de perro sin salir? ¿O sobra?
+- El rótulo y el icono de la pestaña con varias mascotas, y cómo se pasa de
+  «Baloo» a «Mascotas» sin que parezca otra app
+- Con una sola mascota **no cambia nada**: sigue llamándose por su nombre y
+  llevando a su hub. Eso es firme
+
+### 3 · Entrar al perfil de cada mascota desde Hoy
+
+Depende del punto 1: en cuanto Hoy enseña a los dos, tocar a uno tiene que
+llevar a **su** hub. Con una mascota el rodeo por la pestaña no molesta; con
+varias, tener el perro delante y no poder entrar en él desde ahí es
+exactamente el rodeo que hace que no se entre.
+
+**Lo que hace falta decidir:** qué parte del bloque de cada mascota es la que
+lleva a su hub —el retrato, el nombre, la tarjeta entera— sin robarle el toque
+a lo que la tarjeta ya hace.
+
+### 4 · Y mirando a la fase 2: la dinámica de manada
+
+**No es de esta tanda** — es fase 2 (BRD §9) y es sinastría entre las cartas
+que ya se calculan. Pero conviene tenerla delante mientras se dibuja el punto
+1, para no tener que rehacer Hoy cuando llegue.
+
+Dos cosas que ya son ciertas y la condicionan:
+
+- **El paywall ya la promete**: «Mascotas ilimitadas y dinámica de manada» es
+  una de las cuatro ventajas del artboard 11. Mientras no exista es una
+  promesa, y la lista no enlaza a ningún sitio
+- Es una lectura **de la casa**, no de un perro: tensiones y afinidades entre
+  ellos. O sea, un bloque que no cabe dentro del de ninguna mascota
+
+**La pregunta que sí ayuda ahora:** ¿el Hoy multimascota deja un sitio natural
+donde ese bloque pueda entrar después —encima de las lecturas, debajo, como una
+tarjeta más— o habría que rehacerlo? Con eso basta; el contenido y la pantalla
+de la manada se encargan en su fase.
+
+### Lo que no se puede tocar
+
+- **Regla de canon** (BRD §11.2.0): las constelaciones, las fases y los
+  símbolos salen del dato. Nada de esto se rediseña para que quepa
+- El disclaimer de entretenimiento y el guardarraíl de salud (BRD §7.5, §14 R1)
+- Ningún color, espaciado o radio fuera de `design/theme.ts`
+- Lo gratuito sigue siendo **una** mascota: todo esto solo se ve con el plan
+  activo, así que ninguna pantalla de las nuevas puede ser la primera que un
+  usuario gratuito encuentre vacía
 
 ~~El estado "todavía no publicado"~~, ~~el pie del 17~~, ~~la tarjeta de la
 Luna del 04~~, ~~las constelaciones pobres~~, ~~"la más tenue"~~, ~~el título
@@ -1060,6 +1174,9 @@ primera versión publicada congela la decisión para siempre.
       - [x] **Los tres estados con el plan activo** (sesión 43): **artboard
             30** — la fila del 26 sin subtítulo y hacia el alta, y la tarjeta
             de Ajustes que deja de vender y dice qué tienes y hasta cuándo
+      - [x] **«Condiciones» también en Ajustes** (sesión 44), debajo de
+            «Créditos»: el 29 solo se alcanzaba desde el paywall, y el paywall
+            desaparece al comprar
       - [ ] Publicar el texto de las condiciones **también como URL**: la
             ficha de la tienda pide una y ahí no vale una pantalla
 - [x] **Puntos de conversión al paywall** (BRD §10.6) — **dos y solo dos**: la
@@ -1070,9 +1187,9 @@ primera versión publicada congela la decisión para siempre.
 
 ## Bloque 6 — Lanzamiento
 
-- [ ] Fijar precio en Play Console — punto de partida 3,99 €/mes · 19,99 €/año
-      · 29,99 € para siempre (BRD §10.4, §15.3). **Son tres productos**: el
-      artboard 11 pinta el vitalicio
+- [ ] Dar de alta los **tres productos** en Play Console — precio ya fijado
+      (BRD §15.3, 2026-08-31): **3,99 €/mes · 19,99 €/año · 29,99 € una sola
+      vez**. Son tres y no dos: el artboard 11 pinta el vitalicio
 - [ ] Integrar PostHog EU, sin identificadores de dispositivo (D10)
 - [ ] Capturas de store **renderizadas desde la app real**, nunca generadas (BRD §11.2.4)
 - [ ] Ficha de Play optimizada para ASO (D9)
@@ -3451,18 +3568,40 @@ Llegaron 27 artboards. Se implementan **17 y 27**; el 26 va en tanda propia.
 - **`typography.bodyTight`**: el mismo cuerpo con dos píxeles menos de
   interlineado, que es lo que el 29 usa para que quepan los cinco apartados sin
   desplazar. Va al tema y no como número suelto en un `StyleSheet`
-- **El icono vuelve a ser Canis Major**, y con él las tres variantes teñidas.
-  El artboard 30 dibuja el teñido sobre el asterismo y el icono de la sesión 41
-  era el dibujo encargado: decidido que manda el asterismo, `icono-fuente.png`
-  se queda como registro. `icon.mjs` se reescribe entero — lee la geometría de
-  `icon.svg`, la tiñe con un color por variante y saca las cinco piezas de cada
-  una en `app/assets/icons/<variante>/`
-- **El alfa del adaptativo se despeja en vez de estimarse.** `qlmanage` compone
-  siempre sobre blanco —también con un SVG sin fondo—, así que cada capa se
-  rasteriza dos veces, sobre el azul noche y sobre blanco, y de las dos sale la
-  ecuación de composición resuelta. La versión anterior lo aproximaba por
-  distancia al fondo y dejaba las estrellas un punto oscuras al componer
+- **El icono se llevó al asterismo ploteado** —el artboard 30 dibuja ahí el
+  teñido— y **la sesión 44 lo devolvió al dibujo**: ver abajo. Lo que sobrevive
+  de esta sesión es la estructura, `app/assets/icons/<variante>/` con sus cinco
+  piezas, y el cableado por variante en `app.config.ts`
 - **El canvas pasa de 256 KiB**, que es el tope de lectura de DesignSync: una
   importación se trae el fichero cortado y los últimos artboards no llegan. Los
   del paywall están al principio, así que esta vez no molestó — pero conviene
   saberlo antes de dar por ausente un artboard que sí está
+
+### 2026-08-31 (44) — el icono vuelve al dibujo, y el encargo de multimascota
+- **El icono es el dibujo, y se queda.** Llevarlo al asterismo ploteado seguía
+  el artboard 30 al pie de la letra y cambiaba el icono de producción de un
+  perro dibujado a un mapa estelar. **Es lo que se toca para abrir la app**: se
+  juzga por cuánto se reconoce, no por cuánto se parece al cielo. El canon vive
+  en la carta y en el splash, que sí son datos
+- **Con aire**: el heredado pasa del 84% al 76% del lado y las capas del
+  adaptativo del 66% al 60%. A 84 el anillo llegaba casi al borde y con la
+  máscara redonda de Android el icono se leía apretado. El aire va **fuera**
+  del dibujo, así que la figura no se encoge
+- **El teñido sí sobrevive**, aplicado al dibujo: producción **sin tocar** —el
+  dibujo tal y como se entregó— y agua y fuego en las otras dos. Lo delicado
+  era separar el oro del hueso, y no se puede por tono (el hueso es cálido y
+  cae a cuatro grados del oro) ni por saturación (un borde de estrella medio
+  fundido está *menos* saturado que el trazado). **Se separa por cuánto azul le
+  falta al píxel** (`B/R`): hueso 0,95 · oro 0,53 · fondo 3,07. Y por rampa, no
+  por umbral — con umbral cada estrella se quedaba con un aro del color viejo
+- **El precio, fijado**: 3,99 €/mes · 19,99 €/año · 29,99 € una sola vez. BRD
+  §15.3 pasa de "se fija antes de publicar" a fijado, y son **tres productos**.
+  ⚠️ El artboard 29 sigue diciendo 24,99 € y hay que corregirlo en el canvas
+- **«Condiciones» entra en Ajustes, debajo de «Créditos»**, que era el agujero
+  que quedaba: el 29 solo se alcanzaba desde el paywall y el paywall desaparece
+  al comprar — quien ya ha pagado es justamente quien puede querer releerlas
+- **Encargo de diseño de multimascota escrito**, cuatro puntos, y anotado antes
+  en el BRD: vender "mascotas ilimitadas" convierte sostener varias mascotas en
+  alcance del MVP, aunque el análisis de manada sea fase 2. Hoy con dos
+  lecturas, la pestaña convertida en selector y el perfil de cada una a un
+  toque desde Hoy

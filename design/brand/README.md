@@ -51,35 +51,37 @@ figura.
 **Sustituido el 2026-08-31 (mañana).** El icono pasó a ser un dibujo encargado,
 `icono-fuente.png`, del que `icon.mjs` sacaba las cinco piezas.
 
-**Y devuelto a la constelación el 2026-08-31 (tarde), con el artboard 30.** El
-icono vuelve a ser este asterismo: la geometría sale de `icon.svg` —la de la
-tabla de arriba, ploteada desde el catálogo— y lo que cambia entre variantes es
-**un color heredado, no tres assets**. `icono-fuente.png` y `icono-prompt.md` se
-quedan como registro del encargo; ya no los usa nadie.
+**Se probó devolverlo al asterismo ploteado y se descartó el mismo día.** El
+artboard 30 dibuja el teñido por variante sobre la constelación, y llevarlo al
+pie de la letra cambiaba el icono de producción de un perro dibujado a un
+asterismo. **Manda el dibujo**: es lo que se toca para abrir la app, y un
+icono de lanzador se juzga por cuánto se reconoce, no por cuánto se parece a un
+mapa estelar. El canon vive en la carta y en el splash, que sí son datos.
 
-| Variante | Estrellas y halo | Trazado |
+Lo que sí se quedó del artboard 30 es **el teñido**:
+
+| Variante | Estrellas y halo | Trazado del perro |
 |---|---|---|
-| `production` | `colors.accent` — oro | hueso en las tres, que es lo que las hace la misma marca |
-| `preview` | agua | |
-| `development` | fuego | |
+| `production` | **sin teñir** — el dibujo tal y como se entregó | hueso en las tres, que es lo que las hace la misma marca |
+| `preview` | agua (`#5FB3B8`) | |
+| `development` | fuego (`#E86A50`) | |
 
-El tratamiento del artboard sube el contraste sobre el asset de pantalla: trazo
-14 al 40% de opacidad, radios ×1,55 y un **solo** anillo de halo sobre Sirio
-(r 40, trazo 8, 30%) en vez del anillo con núcleo. El factor de radio es uno
-para las ocho: la proporción entre magnitudes es un dato, no un gusto — a Sirio
-la señala el halo, que ya es suyo.
+**El oro se separa del hueso por cuánto azul le falta al píxel**, `B/R`, y no
+por tono ni por saturación: el hueso (`#F2EFE6`) es cálido y cae a 45°, a cuatro
+grados del oro, y un borde de estrella medio fundido con el fondo está *menos*
+saturado que el trazado. Con el azul hay holgura de sobra — hueso 0,95, oro
+0,53, fondo 3,07 — y la transición es una rampa, porque un umbral duro deja cada
+estrella teñida con un aro del color viejo.
 
-**El alfa de las capas del adaptativo se despeja, no se estima.** `qlmanage`
-compone siempre sobre blanco, incluso con un SVG sin fondo, así que cada capa se
-rasteriza dos veces —sobre el azul noche y sobre blanco— y de las dos sale la
-ecuación de composición resuelta: `a` y la tinta, exactas. La versión anterior
-lo aproximaba por distancia al fondo y dejaba las estrellas un punto oscuras al
-componer.
+**Y aire alrededor (2026-08-31).** El heredado pasa del 84% al **76%** del lado
+y las capas del adaptativo del 66% al **60%**: a 84 el anillo del dibujo llegaba
+casi al borde y con la máscara redonda de Android el icono se leía apretado. El
+aire va **fuera** del dibujo, así que la figura no se encoge de verdad.
 
 Lo que sigue pendiente es **verlo en un dispositivo real**, y en las tres
-variantes a la vez: a 96 px se lee la figura entera y a 48 queda la estructura
-con Sirio encendido, que es lo que se quería. Eso solo se juzga en una pantalla
-de verdad.
+variantes a la vez: a 96 px se lee el perro entero, y a 48 queda un anillo con
+el punto de oro encendido. Eso último es techo del dibujo, no del encuadre, y
+solo se juzga en una pantalla de verdad.
 
 ## Contorno de la figura — pendiente, y ya enchufado
 
