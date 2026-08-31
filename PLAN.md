@@ -48,11 +48,14 @@ mantiene dentro porque sin anuncios la suscripción es la única monetización.
 | F12 | Offline (7 días) | ✅ |
 | F8 | **Push diaria** | ❌ — el motor de retención |
 | F9 | **Compartir** | ❌ — el bucle de adquisición; la spec de marca de agua sí está escrita |
-| — | **Paywall de suscripción** | ❌ — RevenueCat sin integrar |
+| — | **Paywall de suscripción** | 🟡 — la pantalla, sus dos puertas y el dominio están; falta el adaptador de RevenueCat |
 
-**Ocho de once.** Y las tres que faltan no son detalles: son *retención*,
-*adquisición* y *dinero*. La app hoy es completa como producto de uso y no ha
-empezado a ser un negocio.
+**Ocho de once, y la novena a medias.** El paywall ya existe como producto —se
+llega por sus dos puertas, se eligen los tres planes y la app sabe quién ha
+pagado—, pero **no cobra**: detrás del puerto hay un doble en memoria y no
+RevenueCat, que necesita cuenta, productos en Play Console y un build nativo.
+Lo que queda del MVP sigue siendo *retención* (F8), *adquisición* (F9) y el
+último tramo del *dinero*.
 
 **Y hay dos cosas que no son features y bloquean igual**:
 
@@ -65,7 +68,7 @@ empezado a ser un negocio.
 Más el Bloque 6 entero, que es papeleo de lanzamiento: precio, PostHog,
 capturas, ficha de ASO, EUIPO.
 
-**Última sesión**: 2026-08-28
+**Última sesión**: 2026-08-31
 **Decisión: los builds de EAS se posponen.** Consumen cuota limitada (15+15
 builds/mes); un build local (`npx expo run:ios` / `run:android`) es
 ilimitado y sirve igual para desarrollar contra módulos nativos (RevenueCat,
@@ -87,72 +90,16 @@ el resumen habrían salido mal. Antes de maquetar **cualquier** pantalla,
 importar su artboard. En F3 volvió a pasar: los dos artboards de la carta natal
 están marcados F4, y eso no estaba en ningún resumen.
 
-## Siguiente sesión: **el paywall, y con él el selector de mascota**
+## Siguiente sesión: **probar en un móvil, y después F8**
 
-El Bloque 4 está cerrado, F5 también, el diario se publica solo cada noche y
-Hoy se pinta con contenido real. **Lo que le queda al MVP ya no es producto de
-uso: es monetización, retención y adquisición** — y de las tres, la que
-desbloquea una pantalla ya dibujada es la primera.
+El paywall está construido y el selector con él. Lo que queda del MVP ya no
+tiene ninguna pantalla dibujada esperando: es **retención** (F8) y
+**adquisición** (F9), más el tramo de RevenueCat que no se puede hacer desde
+el editor.
 
-### Antes de escribir una línea
+### Primero, y sin escribir código: la build en un móvil de verdad
 
-1. **`design/reglas.md`**, las entradas del **11**, el **25** y el **26**. Son
-   tres notas cortas y las tres son decisiones, no descripciones.
-2. **BRD §10** (monetización), **§8.1** (por qué el paywall está en el MVP
-   aunque no tenga número de feature) y **§15.3** (el precio de partida).
-3. **`app/AGENTS.md`**, obligatorio antes de tocar `app/`.
-
-### Lo que ya está decidido y no se vuelve a discutir
-
-- **Dos puertas al paywall y solo dos**: la oferta de Ajustes —arriba, una sola
-  vez, la fría— y la fila de añadir mascota del 26 —la caliente—. **En Hoy no
-  hay ninguna**: el MVP no cobra por el día. *La puerta se pinta donde el
-  usuario topa con el límite, y si no topa, no se pinta.*
-- **La fila de añadir no lleva candado ni va desactivada.** Bloquearla enseña
-  una puerta cerrada; así enseña una puerta.
-- **El nombre del plan aparece antes que el precio** en las dos puertas, para
-  que el 11 no sea la primera vez que se lee "Dogstrology Cósmico".
-- **El 11 es oferta, no muro**: la X arriba y a la vista desde el primer
-  momento. El anual es el ancla — único plan con filo de oro y precio mensual
-  desglosado.
-- **El marcado del 26 es el punto oro relleno**, el mismo de la pestaña activa.
-  No una marca de verificación: es selección de estado, no confirmación.
-
-### El orden que evita quedarse bloqueado
-
-RevenueCat necesita cuentas, productos en Play Console y **un build nativo
-nuevo**, y nada de eso se hace desde aquí. Así que **el adaptador va al final**:
-
-1. **Contexto `subscription/`**: puerto `SubscriptionGateway` en el dominio,
-   los casos de uso, y un doble en memoria. Con eso, todo lo de abajo se
-   construye y se prueba sin tocar RevenueCat.
-2. **El artboard 11**, la pantalla del paywall.
-3. **El artboard 26**: la hoja sobre el hub, más la punta de 9 px junto al
-   nombre. Con una mascota ya funciona — la nota del 25 dice que la hoja casi
-   vacía es a propósito.
-4. **La oferta de Ajustes**, que es la segunda puerta.
-5. **Y entonces sí**: RevenueCat como adaptador del puerto.
-
-Con los pasos 1 a 4 hechos, el 5 es sustituir un doble por un adaptador.
-
-### Lo que necesita a alguien que no soy yo
-
-- Cuenta de RevenueCat y sus claves
-- Productos y precio en Play Console — punto de partida **3,99 €/mes ·
-  19,99 €/año** (BRD §15.3)
-- **Un build nativo nuevo** cuando entre el módulo. Y la lección de la sesión
-  33: **una dependencia se añade con `npm install <paquete>`, nunca editando
-  `package.json` a mano**, o `npm ci` revienta en la nube y no en local
-
-### Hecho cuando
-
-Se puede llegar al 11 por sus dos puertas y por ninguna más; el 26 abre, marca
-y cierra con una mascota; la fila de añadir lleva al 11 sin candado; y el
-paywall compra de verdad contra RevenueCat en un dispositivo.
-
-### En paralelo: probar la build en un móvil de verdad
-
-Es lo único de esta tanda que no se puede comprobar desde aquí, y ahora hay más
+Es lo único que no se puede comprobar desde aquí, y ya se ha acumulado mucho
 que mirar. **Antes hace falta `npx expo prebuild --clean`**: el splash y el
 icono viven en el proyecto nativo, que está ignorado y lleva dentro la
 configuración con la que se generó.
@@ -160,16 +107,61 @@ configuración con la que se generó.
 En orden: que la app **ya no abra en blanco**; el icono en el lanzador, a
 tamaño real y con el tema de Android 13; que Hoy salga con las cuatro tarjetas
 y su cascada; que el trío del hub y la carta cuadren con lo que dice Hoy; que
-el arrastre de la hoja de planeta vaya fino en Android; y —si se puede— **dejar
-la app abierta pasada la medianoche**, que es lo que la sesión 34 arregló a
+el arrastre de la hoja de planeta **y el de la hoja del 26** vayan finos en
+Android; el paywall entero, que es pantalla nueva; y —si se puede— **dejar la
+app abierta pasada la medianoche**, que es lo que la sesión 34 arregló a
 ciegas.
+
+### Después, F8 (push) y F9 (compartir)
+
+Son las dos últimas features del MVP. F8 es el motor de retención y **el
+permiso se pide después de demostrar valor, nunca al arrancar** (BRD §14 R8).
+F9 es el bucle de adquisición y su marca de agua ya tiene spec escrita
+(`design/brand/README.md`).
+
+### Y RevenueCat, cuando haya cuentas
+
+Los pasos 1 a 4 del encargo anterior están hechos, así que **el 5 es sustituir
+un doble por un adaptador**: una sola línea en `src/index.ts`. Lo que hace
+falta antes no es código:
+
+- Cuenta de RevenueCat y sus claves
+- Productos y precio en Play Console — punto de partida **3,99 €/mes ·
+  19,99 €/año · 29,99 € para siempre** (BRD §10.4, §15.3). **Son tres**: el
+  artboard 11 pinta el vitalicio, que el encargo anterior daba por cortado
+- **Un build nativo nuevo** cuando entre el módulo. Y la lección de la sesión
+  33: **una dependencia se añade con `npm install <paquete>`, nunca editando
+  `package.json` a mano**, o `npm ci` revienta en la nube y no en local
+
+### Los tres huecos de diseño que dejó el paywall
+
+Ninguno bloquea lo que hay construido; los tres hacen falta antes de publicar.
+
+1. **«Condiciones»**, que el artboard 11 pinta junto a «Restaurar compra». No
+   hay ni pantalla ni URL escritas, así que la fila no está: sería un control
+   que no lleva a ninguna parte. **Hace falta antes de publicar** — una
+   suscripción sin condiciones enlazadas no pasa la ficha.
+2. **La fila de añadir del 26 con la suscripción ya activa.** Hoy lleva al 11
+   siempre, que es lo que pedía el encargo. Falta decidir qué dice esa fila
+   cuando ya no hay límite que vender, y a dónde lleva: no hay flujo de alta
+   de una segunda mascota más allá del onboarding de F1.
+3. **La oferta de Ajustes con la suscripción activa.** Desaparece, siguiendo
+   la regla del 11 —la puerta se pinta donde el usuario topa con el límite—,
+   pero nadie ha dibujado si en su sitio va algo (el plan, cuándo renueva,
+   cómo se gestiona).
+
+Y una pregunta de comportamiento, no de píxeles: **tocar una fila de plan
+compra ese plan**, y el botón de abajo compra el anual. Es la lectura que
+encaja con la nota («único plan con filo de oro» es el tratamiento fijo del
+ancla, no una selección que se mueva). Si la intención era que las filas
+seleccionaran y el botón comprara lo seleccionado, es un cambio de dos líneas.
 
 ### Y lo que no se puede comprimir al final
 
-**La revisión humana de los 1.560 fragmentos del catálogo.** Van 8 revisados.
-Lo limita una persona leyendo, y BRD §7.5 + §14 R1 dicen que nada se publica
-sin ella. Conviene ir por tandas ya, en paralelo con todo lo demás.
-
+**La revisión humana de los 1.560 fragmentos del catálogo.** Van 8 revisados,
+y con el cron encendido crecen cada noche. Lo limita una persona leyendo, y
+BRD §7.5 + §14 R1 dicen que nada se publica sin ella. Conviene ir por tandas
+ya, en paralelo con todo lo demás.
 ### Los huecos de F3, cerrados (sesión 20)
 
 Los dos que quedaban abiertos se dibujaron y se implementaron: **artboard 14**
@@ -257,8 +249,8 @@ Llegaron **27 artboards** y dos reglas. Lo que estaba pedido y ya está:
 
 - ~~El selector de mascota~~ → **artboard 26**, y es una **hoja baja sobre el
   hub**, no una pantalla: elegir mascota no es ir a otro sitio, es cambiar de
-  sujeto sin perder dónde estabas. **Implementarlo requiere multimascota y el
-  paywall**, así que va en tanda propia (ver abajo)
+  sujeto sin perder dónde estabas. Implementado en la sesión 42, junto al
+  paywall
 - ~~El pie del 17~~ → reescrito, y con más fondo del que se pidió: el artboard
   **enseña la última lectura que llegó**, fechada, en vez de dejar la pantalla
   vacía. Hecho (sesión 38)
@@ -282,6 +274,17 @@ Llegaron **27 artboards** y dos reglas. Lo que estaba pedido y ya está:
    que teñirlo son tres salidas en vez de una. Falta **decidir cómo** — un
    viraje de tono, una marca de esquina— porque hoy las tres apps se distinguen
    solo por el nombre en la pantalla de inicio
+2. **«Condiciones»**, la fila que el artboard 11 pinta junto a «Restaurar
+   compra». No hay ni pantalla ni URL escritas, así que no está implementada:
+   sería un control que no lleva a ninguna parte. **Requisito de ficha** — una
+   suscripción sin condiciones enlazadas no pasa la revisión de la tienda
+3. **La fila de añadir del 26 con la suscripción ya activa.** Hoy lleva al 11
+   siempre. Falta decidir qué dice cuando ya no hay límite que vender y a dónde
+   lleva: no hay flujo de alta de una segunda mascota más allá del onboarding
+4. **El sitio de la oferta en Ajustes con la suscripción activa.** La oferta
+   desaparece, siguiendo la regla del 11 —la puerta se pinta donde el usuario
+   topa con el límite—, pero nadie ha dibujado si en su hueco va algo: el plan
+   contratado, cuándo renueva, cómo se gestiona
 
 ~~El estado "todavía no publicado"~~, ~~el pie del 17~~, ~~la tarjeta de la
 Luna del 04~~, ~~las constelaciones pobres~~, ~~"la más tenue"~~, ~~el título
@@ -1038,14 +1041,33 @@ primera versión publicada congela la decisión para siempre.
             se baja los seis días que vienen en cuanto el de hoy está resuelto.
             En serie y detrás de hoy, parándose al primer fallo, y solo si no
             hubo fallo de red. `bufferDates()` es pura y tiene test
-- [ ] RevenueCat + paywall
-- [ ] Puntos de conversión al paywall (BRD §10.6)
+- [ ] **RevenueCat + paywall**. Lo de arriba del puerto está hecho; lo de
+      abajo necesita cuentas y un build nativo:
+      - [x] **Contexto `subscription/`** (sesión 42): `Plan`, `Subscription`,
+            puerto `SubscriptionGateway`, cuatro casos de uso y el doble en
+            memoria, que **hoy es el adaptador** que monta el composition root
+      - [x] **El artboard 11** (sesión 42): oferta y no muro, los tres planes
+            con el anual de ancla, comprar y restaurar
+      - [x] **El artboard 26** (sesión 42): la hoja sobre el hub, el punto de
+            oro de marcado y la punta de 9 px junto al nombre
+      - [x] **Las dos puertas** (sesión 42): la oferta de Ajustes y la fila de
+            añadir del 26, con un test que impide que aparezca una tercera
+      - [ ] **El adaptador de RevenueCat**: sustituir el doble por él en
+            `src/index.ts`. Antes hacen falta cuenta, productos en Play
+            Console y un build nativo
+      - [ ] **«Condiciones»** en el pie del 11 — hueco de diseño, y requisito
+            de ficha
+- [x] **Puntos de conversión al paywall** (BRD §10.6) — **dos y solo dos**: la
+      oferta de Ajustes (la fría) y la fila de añadir mascota del 26 (la
+      caliente). En Hoy no hay ninguna: el MVP no cobra por el día
 
 ---
 
 ## Bloque 6 — Lanzamiento
 
-- [ ] Fijar precio en Play Console — punto de partida 3,99 €/mes · 19,99 €/año (BRD §15.3)
+- [ ] Fijar precio en Play Console — punto de partida 3,99 €/mes · 19,99 €/año
+      · 29,99 € para siempre (BRD §10.4, §15.3). **Son tres productos**: el
+      artboard 11 pinta el vitalicio
 - [ ] Integrar PostHog EU, sin identificadores de dispositivo (D10)
 - [ ] Capturas de store **renderizadas desde la app real**, nunca generadas (BRD §11.2.4)
 - [ ] Ficha de Play optimizada para ASO (D9)
@@ -3356,3 +3378,39 @@ Llegaron 27 artboards. Se implementan **17 y 27**; el 26 va en tanda propia.
 - **Legibilidad**: a 192 y 96 se lee el perro entero; a 48 queda un anillo con
   el punto de oro encendido. Es techo del dibujo, no del encuadre — y sigue
   siendo una identidad reconocible a ese tamaño
+
+### 2026-08-31 (42) — el paywall, y con él el selector de mascota
+- **El contexto `subscription/` entero, sin infraestructura**: `Plan`,
+  `Subscription`, el puerto `SubscriptionGateway`, cuatro casos de uso y el
+  doble en memoria. **El doble es hoy el adaptador que monta `src/index.ts`**,
+  y esa línea es todo lo que cambia el día que entre RevenueCat — que necesita
+  cuenta, productos y build nativo, ninguno de los tres desde aquí
+- **El artboard 11 tiene tres planes, no dos.** El encargo daba el vitalicio
+  por cortado y el canvas lo pinta: «Para siempre», 29,99 €. Gana el canvas
+  (regla del proyecto), así que `PLAN_IDS` son tres y **el orden de la pantalla
+  vive en el dominio** — ordenar en la vista habría dejado la jerarquía a
+  merced de en qué orden devuelva sus productos la tienda
+- **El precio no se escribe en el código.** El importe, la moneda y el texto
+  del precio llegan por el puerto: BRD §15.3 los fija al crear los productos en
+  Play Console, y un precio quemado obligaría a publicar una versión para
+  cambiarlo. Lo único que se formatea aquí es la cuenta propia —el desglose
+  mensual del anual— porque esa no la escribe la tienda
+- **Cancelar no es fallar, y por eso son dos códigos.** `PURCHASE_CANCELLED`
+  cuando el usuario cierra la hoja de compra y `PURCHASE_FAILED` cuando la
+  tienda rechaza: la pantalla se calla en el primer caso. Contestar con un
+  aviso a quien solo ha mirado el precio es regañarle
+- **Las dos puertas tienen test.** No es una regla que rompa el compilador:
+  se rompe cuando alguien añade una tercera porque le viene bien, y a partir de
+  ahí la app pide dinero donde el usuario no ha topado con ningún límite.
+  `paywallDoors.test.ts` lee el árbol de fuentes y falla si aparece una
+- **`pets?.[0]` estaba en ocho pantallas**, y ahí el 26 no habría funcionado:
+  elegir mascota habría cambiado el hub dejando Hoy hablando de otro perro.
+  Ahora hay `useSelectedPet()` y un store efímero — la mascota está en SQLite,
+  pero *a cuál se está mirando* no, y al arrancar se vuelve a la primera
+- **El marcado del 26 no reutiliza `SelectedMark`**: ese es el disco con
+  palito de una lista de una sola opción, y aquí la nota pide el punto de oro
+  relleno de la pestaña activa. Es selección de estado, no confirmación
+- **Tres huecos de diseño anotados**, ninguno bloqueante y los tres necesarios
+  antes de publicar: «Condiciones» en el pie del 11 (requisito de ficha), qué
+  dice la fila de añadir del 26 con la suscripción ya activa, y qué ocupa el
+  sitio de la oferta en Ajustes cuando ya no hay nada que ofrecer

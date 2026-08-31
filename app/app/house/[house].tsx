@@ -26,7 +26,7 @@ import {
 } from '@/chart/domain/House';
 import type { PlanetId } from '@/chart/domain/PlanetPosition';
 import { useHouseGlossary } from '@/content/ui/contentQueries';
-import { usePets } from '@/pet/ui/petQueries';
+import { useSelectedPet } from '@/pet/ui/petQueries';
 
 import { colors, elementColor, radii, screenPadding, spacing, typography } from '@/design/theme';
 
@@ -53,8 +53,7 @@ export default function HouseDetail() {
   const { house: raw } = useLocalSearchParams<{ house: string }>();
   const house = Number(raw);
   const valid = isHouse(house);
-  const { data: pets } = usePets();
-  const pet = pets?.[0];
+  const { data: pet } = useSelectedPet();
   const { data: chart } = useNatalChart(pet);
   const { data: fragment } = useHouseGlossary(valid ? house : undefined);
   const { width } = useWindowDimensions();

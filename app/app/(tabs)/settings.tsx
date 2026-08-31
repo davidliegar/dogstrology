@@ -2,12 +2,15 @@ import { router } from 'expo-router';
 import { Pressable, StyleSheet, Text, View } from 'react-native';
 
 import { Chevron } from '@/_ui/components/Chevron';
+import { PrimaryButton } from '@/_ui/components/PrimaryButton';
 import { Screen } from '@/_ui/components/Screen';
 import { ScreenHeader } from '@/_ui/components/ScreenHeader';
 import { HOUSE_SYSTEM_LABELS } from '@/chart/ui/labels';
 import { usePreferences } from '@/settings/ui/settingsQueries';
+import { OFFER_CTA, OFFER_TITLE, PREMIUM_NAME } from '@/subscription/ui/labels';
+import { useSubscription } from '@/subscription/ui/subscriptionQueries';
 
-import { colors, spacing, typography } from '@/design/theme';
+import { colors, radii, spacing, typography } from '@/design/theme';
 
 /** Alto de fila del artboard 10. El mismo de la carta y de la Luna. */
 const ROW_HEIGHT = 56;
@@ -24,17 +27,22 @@ const DISCLAIMER =
 /**
  * Ajustes — artboard 10, destino raíz de la cuarta pestaña.
  *
- * **Está a medias a propósito.** El artboard dibuja cuatro grupos y aquí solo
- * hay uno, porque los otros tres serían controles muertos:
+ * **Está a medias a propósito.** El artboard dibuja cuatro grupos y aquí hay
+ * dos, porque los que faltan serían controles muertos:
  *
- * - la tarjeta de suscripción espera a RevenueCat, así que "Ver los
- *   planes" no llevaría a ninguna parte;
  * - los dos interruptores de avisos prometerían una notificación que nadie
- *   envía todavía;
+ *   envía todavía (F8);
  * - "Privacidad y datos" no tiene ni pantalla ni texto escrito.
  *
  * Es la misma decisión que dejó fuera el botón de compartir de la hoja de
  * planeta: antes un hueco que un control que miente.
+ *
+ * **La oferta de arriba es una de las dos puertas del paywall**, y la fría:
+ * quien la toca ha ido a buscarla. Se pinta **una sola vez y solo mientras hay
+ * algo que ofrecer** — con la suscripción activa desaparece, que es la regla
+ * del artboard 11: la puerta se pinta donde el usuario topa con el límite, y
+ * si no topa, no se pinta. El nombre del plan va antes que ningún precio, para
+ * que el 11 no sea la primera vez que se lee.
  *
  * **La fila de Créditos no es cortesía**: la geodata de GeoNames es CC BY 4.0
  * y su atribución tiene que estar visible dentro de la app. Por eso el
@@ -42,6 +50,7 @@ const DISCLAIMER =
  */
 export default function Settings() {
   const { data: preferences } = usePreferences();
+  const { data: subscription } = useSubscription();
   const houseSystem = preferences?.houseSystem();
 
   return (
@@ -53,6 +62,14 @@ export default function Settings() {
       footerDivider
       footer={<Text style={styles.disclaimer}>{DISCLAIMER}</Text>}
     >
+      {subscription && !subscription.isPremium() ? (
+        <View style={styles.offer}>
+          <Text style={styles.offerName}>{PREMIUM_NAME}</Text>
+          <Text style={styles.offerTitle}>{OFFER_TITLE}</Text>
+          <PrimaryButton label={OFFER_CTA} onPress={() => router.push('/paywall')} />
+        </View>
+      ) : null}
+
       <View style={styles.group}>
         <Text style={styles.groupLabel}>Carta</Text>
         <Row
@@ -80,6 +97,22 @@ function Row({ label, value, onPress }: { label: string; value?: string; onPress
 }
 
 const styles = StyleSheet.create({
+  offer: {
+    borderRadius: radii.card,
+    backgroundColor: colors.surface,
+    borderWidth: 1,
+    borderColor: colors.border,
+    padding: spacing[4],
+    gap: spacing[2],
+  },
+  offerName: {
+    ...typography.overline,
+    color: colors.accent,
+  },
+  offerTitle: {
+    ...typography.section,
+    color: colors.text,
+  },
   group: {
     gap: spacing[1],
   },

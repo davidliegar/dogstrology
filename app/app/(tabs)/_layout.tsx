@@ -1,7 +1,7 @@
 import Tabs from 'expo-router/tabs';
 
 import { TabBar, type TabName } from '@/_ui/components/TabBar';
-import { usePets } from '@/pet/ui/petQueries';
+import { useSelectedPet } from '@/pet/ui/petQueries';
 
 import { colors } from '@/design/theme';
 
@@ -18,8 +18,7 @@ import { colors } from '@/design/theme';
  * borrando la única que había.
  */
 export default function TabsLayout() {
-  const { data: pets } = usePets();
-  const pet = pets?.[0];
+  const { data: pet } = useSelectedPet();
 
   return (
     <Tabs

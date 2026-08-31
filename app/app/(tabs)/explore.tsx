@@ -13,7 +13,7 @@ import { archetypalIllumination, isWaningPhase } from '@/chart/ui/moonPhase';
 import { HOUSES, elementOfHouse } from '@/chart/domain/House';
 import { MOON_PHASE_NAMES, type MoonPhaseName } from '@/chart/domain/NatalChart';
 import { SIGNS, elementOfSign, type Sign } from '@/chart/domain/PlanetPosition';
-import { usePets } from '@/pet/ui/petQueries';
+import { useSelectedPet } from '@/pet/ui/petQueries';
 
 import {
   colors,
@@ -66,8 +66,7 @@ type Filter = (typeof FILTERS)[number]['id'];
  */
 export default function Explore() {
   const [filter, setFilter] = useState<Filter>('signs');
-  const { data: pets } = usePets();
-  const pet = pets?.[0];
+  const { data: pet } = useSelectedPet();
   const { data: chart } = useNatalChart(pet);
   const { data: sky } = useMoonSky();
   const { width } = useWindowDimensions();

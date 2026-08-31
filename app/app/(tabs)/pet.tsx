@@ -1,4 +1,5 @@
 import { router } from 'expo-router';
+import { useState } from 'react';
 import { ActivityIndicator, StyleSheet, Text, View } from 'react-native';
 
 import { ApproximateBadge } from '@/_ui/components/ApproximateBadge';
@@ -9,7 +10,9 @@ import { useNatalChart } from '@/chart/ui/chartQueries';
 import { MISSING_DATUM_NOTES, SIGN_LABELS } from '@/chart/ui/labels';
 import { breedLabel, formatLongDate } from '@/pet/ui/format';
 import { PetIdentity } from '@/pet/ui/PetIdentity';
-import { usePets, usePetPhotoUri } from '@/pet/ui/petQueries';
+import { PetSelectorSheet } from '@/pet/ui/PetSelectorSheet';
+import { usePets, usePetPhotoUri, useSelectedPet } from '@/pet/ui/petQueries';
+import { useSelectedPetStore } from '@/pet/ui/selectedPetStore';
 
 import { colors, screenPadding, spacing, typography } from '@/design/theme';
 
@@ -28,13 +31,19 @@ import { colors, screenPadding, spacing, typography } from '@/design/theme';
  * pie: es F9 (Bloque 5) y todavía no hay a dónde llevarla. Misma decisión que
  * dejó fuera el botón de compartir de la hoja de planeta — antes un hueco que
  * un control que miente.
+ *
+ * **El nombre abre el selector** (artboard 26): lleva la punta de 9 px y la
+ * hoja se monta encima, con el hub entero detrás del velo.
  */
 export default function PetHub() {
-  // La pestaña no lleva id en la ruta: el MVP es de una mascota, y la barra
-  // rotula esa misma con su nombre. De aquí abajo todo va por id, porque son
-  // pantallas apiladas y el id es lo que las ancla.
-  const { data: pets, isPending, isError } = usePets();
-  const pet = pets?.[0];
+  // La pestaña no lleva id en la ruta: la mascota de la que habla la app es la
+  // que marcó el selector, y la barra rotula esa misma con su nombre. De aquí
+  // abajo todo va por id, porque son pantallas apiladas y el id es lo que las
+  // ancla.
+  const { data: pet, isPending, isError } = useSelectedPet();
+  const { data: pets } = usePets();
+  const select = useSelectedPetStore((state) => state.select);
+  const [selectorOpen, setSelectorOpen] = useState(false);
   const { data: chart } = useNatalChart(pet);
   const { data: photoUri } = usePetPhotoUri(pet);
 
@@ -72,47 +81,67 @@ export default function PetHub() {
   const identityNote = sunSign && (breed ? `${breed} en ${sunSign}` : `Su Sol en ${sunSign}`);
 
   return (
-    <Screen insideTabs scroll align="flex-start" gap={spacing[5]}>
-      {/* El retrato lleva a "Sus datos", que es donde se pone la foto. No es
-          un cuarto destino que se cuele en la pantalla: es que **ahí es donde
-          la gente toca**, instintivamente, y sin foto el hueco con su aspa es
-          la invitación más clara que tiene el hub. Llevarlo directo al
-          selector de foto se descartó: desde el título se va a la ficha, no a
-          un editor suelto. */}
-      <PetIdentity
-        pet={pet}
-        photoUri={photoUri ?? undefined}
-        size="hero"
-        pressLabel="Sus datos, donde se pone su foto"
-        onPressAvatar={() => router.push({ pathname: '/pet/[id]', params: { id } })}
-      />
+    <>
+      <Screen insideTabs scroll align="flex-start" gap={spacing[5]}>
+        {/* El retrato lleva a "Sus datos", que es donde se pone la foto. No es
+            un cuarto destino que se cuele en la pantalla: es que **ahí es donde
+            la gente toca**, instintivamente, y sin foto el hueco con su aspa es
+            la invitación más clara que tiene el hub. Llevarlo directo al
+            selector de foto se descartó: desde el título se va a la ficha, no a
+            un editor suelto. */}
+        <PetIdentity
+          pet={pet}
+          photoUri={photoUri ?? undefined}
+          size="hero"
+          pressLabel="Sus datos, donde se pone su foto"
+          onPressAvatar={() => router.push({ pathname: '/pet/[id]', params: { id } })}
+          onPressName={() => setSelectorOpen(true)}
+        />
 
-      {chart ? <ChartTrio chart={chart} /> : null}
+        {chart ? <ChartTrio chart={chart} /> : null}
 
-      <View>
-        <NavRow
-          label="Su carta natal"
-          note="La rueda entera, planeta a planeta"
-          onPress={() => router.push({ pathname: '/pet/[id]/chart', params: { id } })}
+        <View>
+          <NavRow
+            label="Su carta natal"
+            note="La rueda entera, planeta a planeta"
+            onPress={() => router.push({ pathname: '/pet/[id]/chart', params: { id } })}
+          />
+          <View style={styles.divider} />
+          <NavRow
+            label="Quién es"
+            note={identityNote || undefined}
+            onPress={() => router.push({ pathname: '/pet/[id]/personality', params: { id } })}
+          />
+          <View style={styles.divider} />
+          <NavRow
+            label="Sus datos"
+            note={dataNote}
+            // C.2b en su medida corta. Va **en esta fila y no en la tarjeta del
+            // trío** porque esta es la que lleva al sitio donde se arregla: la
+            // tarjeta ya dice qué falta con su trazo discontinuo.
+            badge={missing ? <ApproximateBadge>{missing}</ApproximateBadge> : null}
+            onPress={() => router.push({ pathname: '/pet/[id]', params: { id } })}
+          />
+        </View>
+      </Screen>
+
+      {/* Fuera del `Screen`, como la hoja de planeta: el velo tiene que tapar
+          la pantalla entera, y dentro del cuerpo con scroll no la alcanzaría. */}
+      {selectorOpen && pets ? (
+        <PetSelectorSheet
+          pets={pets}
+          selectedId={id}
+          onSelect={select}
+          // La fila de añadir lleva al 11 **sin candado**: es la puerta
+          // caliente de las dos que tiene el paywall.
+          onAdd={() => {
+            setSelectorOpen(false);
+            router.push('/paywall');
+          }}
+          onClose={() => setSelectorOpen(false)}
         />
-        <View style={styles.divider} />
-        <NavRow
-          label="Quién es"
-          note={identityNote || undefined}
-          onPress={() => router.push({ pathname: '/pet/[id]/personality', params: { id } })}
-        />
-        <View style={styles.divider} />
-        <NavRow
-          label="Sus datos"
-          note={dataNote}
-          // C.2b en su medida corta. Va **en esta fila y no en la tarjeta del
-          // trío** porque esta es la que lleva al sitio donde se arregla: la
-          // tarjeta ya dice qué falta con su trazo discontinuo.
-          badge={missing ? <ApproximateBadge>{missing}</ApproximateBadge> : null}
-          onPress={() => router.push({ pathname: '/pet/[id]', params: { id } })}
-        />
-      </View>
-    </Screen>
+      ) : null}
+    </>
   );
 }
 

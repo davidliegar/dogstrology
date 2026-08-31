@@ -32,7 +32,7 @@ import {
 import { NavRow } from '@/_ui/components/NavRow';
 import { breedLabel } from '@/pet/ui/format';
 import { NoPetPrompt } from '@/pet/ui/NoPetPrompt';
-import { usePets, usePetPhotoUri } from '@/pet/ui/petQueries';
+import { usePetPhotoUri, useSelectedPet } from '@/pet/ui/petQueries';
 
 import { colors, elementColor, radii, spacing, typography } from '@/design/theme';
 
@@ -62,8 +62,7 @@ const NOTE_DOT_BASELINE = 8;
  * - **17**, sin red: lo que hay, más el pie que dice qué falta y por qué.
  */
 export default function Today() {
-  const { data: pets } = usePets();
-  const pet = pets?.[0];
+  const { data: pet, isSuccess: petsLoaded } = useSelectedPet();
   const { data: chart } = useNatalChart(pet);
   const { data: photoUri } = usePetPhotoUri(pet);
   const { data: moon } = useMoonSky();
@@ -84,7 +83,7 @@ export default function Today() {
   // Sin mascota, Hoy no tiene nada que contar: entra el artboard 16 entero.
   // Se llega borrando la única mascota — el reparto de `index.tsx` manda al
   // onboarding en el primer arranque, así que esto es la vuelta, no la ida.
-  if (pets && !pet) return <NoPetPrompt onAdd={() => router.push('/onboarding/name')} />;
+  if (petsLoaded && !pet) return <NoPetPrompt onAdd={() => router.push('/onboarding/name')} />;
 
   // Lo que se enseña: la de hoy si la hay y, sin cobertura, la última que
   // llegó. Es una lectura o ninguna — nunca media de cada.

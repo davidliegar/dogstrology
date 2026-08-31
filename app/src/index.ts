@@ -19,6 +19,12 @@ import type { PreferencesRepository } from './settings/domain/PreferencesReposit
 import { SqlitePreferencesRepository } from './settings/infrastructure/SqlitePreferencesRepository';
 import GetPreferencesUseCase from './settings/application/GetPreferencesUseCase';
 import SetHouseSystemUseCase from './settings/application/SetHouseSystemUseCase';
+import type { SubscriptionGateway } from './subscription/domain/SubscriptionGateway';
+import { InMemorySubscriptionGateway } from './subscription/testing/InMemorySubscriptionGateway';
+import GetSubscriptionUseCase from './subscription/application/GetSubscriptionUseCase';
+import ListPlansUseCase from './subscription/application/ListPlansUseCase';
+import PurchasePlanUseCase from './subscription/application/PurchasePlanUseCase';
+import RestorePurchasesUseCase from './subscription/application/RestorePurchasesUseCase';
 import type { PetRepository } from './pet/domain/PetRepository';
 import type { PhotoStore } from './pet/domain/PhotoStore';
 import { FileSystemPhotoStore } from './pet/infrastructure/FileSystemPhotoStore';
@@ -43,6 +49,7 @@ export interface DogstrologyDependencies {
   contentRepository?: ContentRepository;
   dailyRepository?: DailyRepository;
   preferencesRepository?: PreferencesRepository;
+  subscriptionGateway?: SubscriptionGateway;
 }
 
 /**
@@ -66,6 +73,7 @@ export class Dogstrology {
   private readonly dailyRepositoryOverride?: DailyRepository;
   private dailyRepository?: DailyRepository;
   private readonly preferencesRepository: PreferencesRepository;
+  private readonly subscriptionGateway: SubscriptionGateway;
   private readonly useCases = new Map<string, unknown>();
 
   static create(dependencies: DogstrologyDependencies = {}): Dogstrology {
@@ -80,6 +88,7 @@ export class Dogstrology {
     contentRepository,
     dailyRepository,
     preferencesRepository,
+    subscriptionGateway,
   }: DogstrologyDependencies = {}) {
     this.db = db;
     this.dailyRepositoryOverride = dailyRepository;
@@ -88,6 +97,11 @@ export class Dogstrology {
     this.chartCalculator = chartCalculator ?? AstronomyEngineChartCalculator.create();
     this.contentRepository = contentRepository ?? BundledCatalogContentRepository.create();
     this.preferencesRepository = preferencesRepository ?? SqlitePreferencesRepository.create({ db });
+    // El único puerto sin adaptador de verdad. RevenueCat necesita cuenta,
+    // productos en Play Console y un build nativo (BRD §15.4), así que hasta
+    // entonces la app corre con el doble y **esta línea es todo lo que hay que
+    // cambiar** el día que entre el módulo.
+    this.subscriptionGateway = subscriptionGateway ?? InMemorySubscriptionGateway.create();
   }
 
   private useCase<T>(name: string, build: () => T): T {
@@ -160,6 +174,31 @@ export class Dogstrology {
   get SetHouseSystemUseCase(): SetHouseSystemUseCase {
     return this.useCase('SetHouseSystemUseCase', () =>
       SetHouseSystemUseCase.create({ repository: this.preferencesRepository }),
+    );
+  }
+
+  /* Subscription */
+  get GetSubscriptionUseCase(): GetSubscriptionUseCase {
+    return this.useCase('GetSubscriptionUseCase', () =>
+      GetSubscriptionUseCase.create({ gateway: this.subscriptionGateway }),
+    );
+  }
+
+  get ListPlansUseCase(): ListPlansUseCase {
+    return this.useCase('ListPlansUseCase', () =>
+      ListPlansUseCase.create({ gateway: this.subscriptionGateway }),
+    );
+  }
+
+  get PurchasePlanUseCase(): PurchasePlanUseCase {
+    return this.useCase('PurchasePlanUseCase', () =>
+      PurchasePlanUseCase.create({ gateway: this.subscriptionGateway }),
+    );
+  }
+
+  get RestorePurchasesUseCase(): RestorePurchasesUseCase {
+    return this.useCase('RestorePurchasesUseCase', () =>
+      RestorePurchasesUseCase.create({ gateway: this.subscriptionGateway }),
     );
   }
 

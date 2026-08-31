@@ -1,6 +1,7 @@
 import { Image, Pressable, StyleSheet, Text, View } from 'react-native';
 
-import { colors, icon, radii, spacing, typography } from '@/design/theme';
+import { colors, icon, radii, spacing, touchTarget, typography } from '@/design/theme';
+import { Chevron } from '@/_ui/components/Chevron';
 import { text } from '@/_ui/typography';
 import type { Pet } from '../domain/Pet';
 import { formatBreedAndSex } from './format';
@@ -15,6 +16,13 @@ import { formatBreedAndSex } from './format';
  */
 const AVATAR = { compact: 64, hero: 88 } as const;
 const PLUS = 20;
+/** La punta que abre el selector de mascota. Nueve px, del artboard 25. */
+const NAME_CHEVRON = 9;
+/**
+ * Girada 45°, el centro geométrico de la punta queda por debajo del que se ve.
+ * El canvas la sube estos cuatro px para alinearla con la línea del nombre.
+ */
+const NAME_CHEVRON_LIFT = -4;
 /** El aspa va apagada: es una invitación, no un botón que reclame la pantalla. */
 const PLUS_OPACITY = 0.55;
 
@@ -32,6 +40,13 @@ export interface PetIdentityProps {
    */
   pressLabel?: string;
   onPressAvatar?: () => void;
+  /**
+   * Abre el selector de mascota (artboard 26). Con él, el nombre lleva la
+   * punta de 9 px del artboard 25 — **gris y pequeña, no un botón**: dice «hay
+   * más» sin prometer una acción principal que compita con los tres destinos
+   * del hub.
+   */
+  onPressName?: () => void;
 }
 
 /**
@@ -43,7 +58,14 @@ export interface PetIdentityProps {
  * §12.2.5) y no puede vivir en un componente. Sin foto, el hueco con su aspa,
  * que es también la llamada a ponerla.
  */
-export function PetIdentity({ pet, photoUri, size = 'compact', pressLabel, onPressAvatar }: PetIdentityProps) {
+export function PetIdentity({
+  pet,
+  photoUri,
+  size = 'compact',
+  pressLabel,
+  onPressAvatar,
+  onPressName,
+}: PetIdentityProps) {
   const subtitle = formatBreedAndSex(pet);
   const side = AVATAR[size];
 
@@ -74,9 +96,26 @@ export function PetIdentity({ pet, photoUri, size = 'compact', pressLabel, onPre
         ) : null}
       </Pressable>
       <View style={styles.names}>
-        <Text style={styles.name} numberOfLines={1}>
-          {pet.name()}
-        </Text>
+        {onPressName ? (
+          <Pressable
+            onPress={onPressName}
+            accessibilityRole="button"
+            accessibilityLabel={`${pet.name()}. Cambiar de mascota`}
+            style={styles.nameRow}
+            hitSlop={styles.nameHitSlop}
+          >
+            <Text style={styles.name} numberOfLines={1}>
+              {pet.name()}
+            </Text>
+            <View style={styles.nameChevron}>
+              <Chevron direction="down" size={NAME_CHEVRON} color={colors.textFaint} />
+            </View>
+          </Pressable>
+        ) : (
+          <Text style={styles.name} numberOfLines={1}>
+            {pet.name()}
+          </Text>
+        )}
         {subtitle ? (
           <Text style={styles.subtitle}>{subtitle}</Text>
         ) : onPressAvatar && !photoUri ? (
@@ -129,9 +168,29 @@ const styles = StyleSheet.create({
     flexShrink: 1,
     gap: spacing[1],
   },
+  nameRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: spacing[2],
+  },
+  nameChevron: {
+    marginTop: NAME_CHEVRON_LIFT,
+  },
+  /**
+   * El nombre es texto, no un botón, así que su caja mide lo que mide la
+   * línea. La zona táctil se estira por debajo hasta el mínimo del tema sin
+   * mover un píxel de lo que se ve.
+   */
+  nameHitSlop: {
+    top: spacing[2],
+    bottom: spacing[2],
+    left: spacing[2],
+    right: touchTarget / 2,
+  },
   name: {
     ...typography.title,
     color: colors.text,
+    flexShrink: 1,
   },
   subtitle: {
     ...text('ephemeris'),

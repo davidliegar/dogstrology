@@ -123,6 +123,26 @@ describe('Dogstrology — composition root', () => {
     expect(fragment?.body().length).toBeGreaterThan(0);
   });
 
+  it('la suscripción entra por su puerto, y los cuatro casos comparten pasarela', async () => {
+    // Sin inyectar nada, el puerto lo sirve el doble en memoria: RevenueCat
+    // necesita cuenta, productos y build nativo (BRD §15.4). Que comprar
+    // cambie lo que lee el otro caso de uso es lo que prueba que hay una sola
+    // pasarela detrás, y es justo lo que no puede romperse el día que el doble
+    // se sustituya por el adaptador.
+    const app = domain();
+    expect((await app.GetSubscriptionUseCase.execute()).isPremium()).toBe(false);
+
+    const bought = await app.PurchasePlanUseCase.execute({ planId: 'annual' });
+
+    expect(bought.planId()).toBe('annual');
+    expect((await app.GetSubscriptionUseCase.execute()).isPremium()).toBe(true);
+    expect((await app.ListPlansUseCase.execute()).map((plan) => plan.id())).toEqual([
+      'annual',
+      'monthly',
+      'lifetime',
+    ]);
+  });
+
   it('crear la fachada no toca la base de datos: nadie llama al proveedor hasta la primera consulta', () => {
     let opened = 0;
     Dogstrology.create({

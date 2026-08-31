@@ -18,4 +18,19 @@ export enum ErrorCode {
    * "algo ha ido mal" (artboard 17).
    */
   NETWORK_ERROR = 'NETWORK_ERROR',
+  /** Un plan que llega de la tienda sin precio, sin moneda o con un
+   * identificador que la app no conoce: producto mal dado de alta en Play
+   * Console, no un fallo del usuario. */
+  INVALID_PLAN = 'INVALID_PLAN',
+  /** Estado de suscripción que no es del vocabulario. */
+  INVALID_SUBSCRIPTION = 'INVALID_SUBSCRIPTION',
+  /**
+   * El usuario cerró la hoja de compra de la tienda. Tiene código propio
+   * porque **no es un error que enseñar**: es la salida normal de quien mira
+   * el precio y decide que no. Distinguirlo es lo que evita el aviso rojo
+   * después de un gesto deliberado.
+   */
+  PURCHASE_CANCELLED = 'PURCHASE_CANCELLED',
+  /** La compra se intentó y la tienda la rechazó. Esta sí se enseña. */
+  PURCHASE_FAILED = 'PURCHASE_FAILED',
 }

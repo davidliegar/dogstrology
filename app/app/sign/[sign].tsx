@@ -20,7 +20,7 @@ import {
 } from '@/chart/ui/labels';
 import { SIGNS, elementOfSign, modalityOfSign, type Sign } from '@/chart/domain/PlanetPosition';
 import { useSignPersonality } from '@/content/ui/contentQueries';
-import { usePets } from '@/pet/ui/petQueries';
+import { useSelectedPet } from '@/pet/ui/petQueries';
 
 import {
   colors,
@@ -47,8 +47,7 @@ const ART_PADDING = spacing[4];
  */
 export default function SignDetail() {
   const { sign } = useLocalSearchParams<{ sign: Sign }>();
-  const { data: pets } = usePets();
-  const pet = pets?.[0];
+  const { data: pet } = useSelectedPet();
   const { data: chart } = useNatalChart(pet);
   const { data: fragment } = useSignPersonality(SIGNS.includes(sign) ? sign : undefined);
   const { width } = useWindowDimensions();

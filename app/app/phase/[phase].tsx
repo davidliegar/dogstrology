@@ -14,7 +14,7 @@ import { moonPhaseFacts, risingNote } from '@/chart/ui/moonPhase';
 import { MOON_PHASE_NAMES, type MoonPhaseName } from '@/chart/domain/NatalChart';
 import { useMoonPhasePersonality, useMoonPhaseSky } from '@/content/ui/contentQueries';
 import { formatLongDate } from '@/pet/ui/format';
-import { usePets } from '@/pet/ui/petQueries';
+import { useSelectedPet } from '@/pet/ui/petQueries';
 
 import { colors, radii, screenPadding, spacing, typography } from '@/design/theme';
 
@@ -57,8 +57,7 @@ const todayISO = (): string => {
 export default function PhaseDetail() {
   const { phase } = useLocalSearchParams<{ phase: MoonPhaseName }>();
   const valid = MOON_PHASE_NAMES.includes(phase);
-  const { data: pets } = usePets();
-  const pet = pets?.[0];
+  const { data: pet } = useSelectedPet();
   const { data: chart } = useNatalChart(pet);
   const { data: moon } = useMoonSky();
   const { data: natal } = useMoonPhasePersonality(valid ? phase : undefined);

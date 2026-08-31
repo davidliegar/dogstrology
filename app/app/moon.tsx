@@ -10,7 +10,7 @@ import { formatPosition, formatSkyMoment } from '@/chart/ui/format';
 import { MOON_PHASE_LABELS, SIGN_LABELS } from '@/chart/ui/labels';
 import { moonTodayMeta } from '@/chart/ui/moonPhase';
 import { useMoonPhaseSky } from '@/content/ui/contentQueries';
-import { usePets } from '@/pet/ui/petQueries';
+import { useSelectedPet } from '@/pet/ui/petQueries';
 
 import { colors, screenPadding, spacing, typography } from '@/design/theme';
 
@@ -37,8 +37,7 @@ const ROW_HEIGHT = 56;
  * sombra es media elipse, y el propio artboard 23 ya lo dice.
  */
 export default function MoonToday() {
-  const { data: pets } = usePets();
-  const pet = pets?.[0];
+  const { data: pet } = useSelectedPet();
   const { data: chart } = useNatalChart(pet);
   const { data: moon } = useMoonSky();
   const { data: fragment } = useMoonPhaseSky(moon?.phase.name);

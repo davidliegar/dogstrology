@@ -30,6 +30,9 @@ src/
 ├── chart/                    Bounded context (misma estructura)
 ├── settings/                 Bounded context: los ajustes del usuario
 │   └── domain/               Preferences (hoy, el sistema de casas)
+├── subscription/             Bounded context: quién ha pagado y qué se vende
+│   ├── domain/               Plan, Subscription, puerto SubscriptionGateway
+│   └── testing/              El doble en memoria, que **hoy es el adaptador**
 └── content/                  Bounded context: lo que el usuario lee (BRD §7.3, §7.4)
     ├── domain/               Capa 1: ContentKey, Fragment, ContentRepository
     │                         Capa 2: DailyKey, DailyEdition, DailyRepository, DailyCache
@@ -43,6 +46,15 @@ descarga cada día y se guarda siete (F12). Por eso son dos puertos y no uno.
 
 `_kernel/config.ts` es lo único que la app lee de fuera del código
 (`app.json` → `expo.extra`). Hoy, la URL del CDN del diario.
+
+**`subscription/` no tiene infraestructura todavía, y es a propósito.**
+RevenueCat necesita cuenta, productos en Play Console y un build nativo (BRD
+§15.4), y nada de eso se hace desde el editor. El puerto y su doble dejan
+construir y probar el paywall entero antes; el día que entre el módulo, lo
+único que cambia es la línea de `src/index.ts` que hoy monta
+`InMemorySubscriptionGateway`. El doble no persiste: cada arranque vuelve al
+tier gratuito, que es también lo que hace obvio que esto no es todavía una
+suscripción de verdad.
 
 Las rutas van en `app/`, y el grupo `app/(tabs)/` son **los cuatro destinos
 raíz** de la barra de pestañas. Todo lo demás se apila encima y por eso tapa la
@@ -95,8 +107,14 @@ Dos consecuencias que conviene tener claras:
   claves viven juntas por contexto (`petKeys`, `chartKeys`, `fragmentKeys`),
   para que invalidar
   sea una decisión y no una cadena repetida.
-- **Zustand** solo para estado efímero de pantalla (el wizard de onboarding de
-  F1). Si un dato se puede volver a leer del repositorio, no va en un store.
+- **Zustand** solo para estado efímero de pantalla: el wizard de onboarding de
+  F1 y **qué mascota está mirando la app** (`pet/ui/selectedPetStore`, lo que
+  elige la hoja del artboard 26). Si un dato se puede volver a leer del
+  repositorio, no va en un store — la mascota sí está en SQLite, pero *a cuál
+  se está mirando* no, y al arrancar se vuelve a la primera.
+- **Nadie escribe `pets?.[0]`**: la mascota de la que habla la app se pide con
+  `useSelectedPet()`. Con esa línea repartida por ocho pantallas, elegir en el
+  26 habría cambiado el hub y dejado Hoy hablando de otro perro.
 - Ningún componente llama a un caso de uso directamente: pasa por un hook de
   `<contexto>/ui/`.
 

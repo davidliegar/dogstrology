@@ -96,6 +96,18 @@ export const STAR_FIELDS = {
     { left: '62%', top: '14%', size: 2, twinkleMs: 2600 },
     { left: '84%', top: '27%', size: 1 },
   ],
+  /**
+   * Artboard 11. Cinco, en las dos esquinas de arriba y las dos de abajo: el
+   * paywall es la tercera pantalla que se hunde al azul profundo, y el cielo
+   * enmarca sin meterse en la lista de planes, que ocupa el centro.
+   */
+  paywall: [
+    { left: '12%', top: '10%', size: 2, twinkleMs: 3000 },
+    { left: '44%', top: '6%', size: 1 },
+    { left: '79%', top: '13%', size: 2, twinkleMs: 2700 },
+    { left: '24%', top: '86%', size: 1 },
+    { left: '68%', top: '91%', size: 2, twinkleMs: 3400 },
+  ],
 } satisfies Record<string, Star[]>;
 
 export type StarFieldName = keyof typeof STAR_FIELDS;
