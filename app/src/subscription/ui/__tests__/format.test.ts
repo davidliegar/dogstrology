@@ -56,7 +56,7 @@ describe('el rótulo del botón del 11', () => {
 describe('el apartado «Qué se cobra» de las condiciones', () => {
   it('nombra los tres precios que dice la tienda, no los del código', () => {
     expect(formatPricingOffer([plan(ANNUAL), plan(MONTHLY), plan(LIFETIME)])).toBe(
-      'Dogstrology Cósmico se ofrece en tres formas: 19,99 € al año, 3,99 € al mes y 29,99 € una sola vez.',
+      'Cósmico se ofrece en tres formas: 19,99 € al año, 3,99 € al mes y 29,99 € una sola vez.',
     );
   });
 

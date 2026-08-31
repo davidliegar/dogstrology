@@ -1,6 +1,6 @@
 import { formatLongDate } from '@/pet/ui/format';
 import type { Plan } from '../domain/Plan';
-import { PAYWALL_CTA, PLAN_PERIODS, PREMIUM_NAME } from './labels';
+import { PAYWALL_CTA, PLAN_PERIODS, PREMIUM_SHORT_NAME } from './labels';
 
 /**
  * Símbolo de la moneda. Solo el euro, que es el único mercado del lanzamiento
@@ -68,7 +68,7 @@ function joinList(items: string[]): string {
  */
 export function formatPricingOffer(plans: Plan[] | undefined): string | undefined {
   if (plans === undefined || plans.length !== 3) return undefined;
-  return `${PREMIUM_NAME} se ofrece en tres formas: ${joinList(plans.map(formatPlanPrice))}.`;
+  return `${PREMIUM_SHORT_NAME} se ofrece en tres formas: ${joinList(plans.map(formatPlanPrice))}.`;
 }
 
 /** `Se renueva el 24 de agosto de 2027`, o nada si el plan no renueva. */

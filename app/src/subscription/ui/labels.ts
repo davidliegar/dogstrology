@@ -92,16 +92,22 @@ export const TERMS_CREDITS_LINK = 'Créditos';
  * cifras es exactamente cómo esta pantalla acabaría mintiendo.
  */
 export const TERMS_PRICING_NOTE =
-  'El precio que aparece en la pantalla de planes es el que cobra tu tienda, en tu moneda y con los impuestos de tu país ya incluidos.';
+  'El precio que ves es el de tu tienda, en tu moneda y con impuestos incluidos.';
 
 /**
- * Los otros cuatro apartados del artboard 29, en su orden. Ni uno de relleno:
- * cómo se cancela, quién devuelve, dónde viven los datos y qué es la app.
+ * Los otros cinco apartados del artboard 29, en su orden. Ni uno de relleno:
+ * cómo se cancela, quién devuelve, dónde viven los datos, cuántas mascotas
+ * caben y qué es la app.
+ *
+ * **«Cuántas mascotas» no es un apartado de cortesía**: el paywall vende
+ * «ilimitadas» y además promete la dinámica de manada, que todavía no existe.
+ * Prometer en la ficha de una tienda algo que no está es de lo que tumba una
+ * revisión, y este es el sitio donde se acota sin desdecir la oferta.
  */
 export const TERMS_SECTIONS: { title: string; body: string }[] = [
   {
     title: 'Renovación y baja',
-    body: 'Las dos suscripciones se renuevan solas al terminar cada periodo. Se cancelan desde tu cuenta de la tienda, no desde aquí, y hasta el último día siguen activas. «Para siempre» no se renueva porque no caduca.',
+    body: 'Se renuevan solas y se cancelan desde tu cuenta de la tienda, no desde aquí; hasta el último día siguen activas. «Para siempre» no caduca.',
   },
   {
     title: 'Devoluciones',
@@ -109,7 +115,11 @@ export const TERMS_SECTIONS: { title: string; body: string }[] = [
   },
   {
     title: 'Tus datos',
-    body: 'Los datos de tus mascotas se quedan en el móvil. No hay cuenta ni correo, así que no viajan a ningún servidor nuestro y no se recuperan si desinstalas la app.',
+    body: 'Se quedan en el móvil. Sin cuenta ni correo: no viajan a ningún servidor nuestro y no se recuperan si desinstalas la app.',
+  },
+  {
+    title: 'Cuántas mascotas',
+    body: `${PREMIUM_SHORT_NAME} no pone límite. La manada todavía no existe y llegará sin coste añadido.`,
   },
   {
     title: 'Qué es esto',

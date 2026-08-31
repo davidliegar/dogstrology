@@ -60,9 +60,16 @@ suscripción de verdad.
 
 Las rutas van en `app/`, y el grupo `app/(tabs)/` son **los cuatro destinos
 raíz** de la barra de pestañas. Todo lo demás se apila encima y por eso tapa la
-barra: es lo que dicen los artboards, donde solo 04, 08, 10, 15, 17 y 25 la
-llevan. La pestaña de la mascota es el **hub** (artboard 25); el perfil
+barra: es lo que dicen los artboards, donde solo 04, 08, 10, 15, 17, 25, 30 y
+31 la llevan. La pestaña de la mascota es el **hub** (artboard 25); el perfil
 editable cuelga de ella, en `app/pet/[id]/index.tsx`.
+
+**Hoy tiene dos formas y una sola pantalla.** Con una mascota es su día
+(artboard 04); con dos o más es el de la casa (30 y 31): lo compartido arriba
+una vez y un bloque por perro debajo. `app/pet/[id]/day.tsx` es el día completo
+de uno, que es a donde lleva cada bloque — y comparte `DailyReading` con Hoy,
+para que la insignia de C.2b y los puntos de energía no se olviden en una de
+las dos.
 
 Fuera de `src/`: `scripts/` guarda los generadores de assets, y los ficheros
 `.generated.*` que producen **no se editan a mano**.

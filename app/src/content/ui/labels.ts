@@ -15,6 +15,29 @@ export const DAILY_AXIS_LABELS: Record<DailyAxis, string> = {
 export const SKY_LABEL = 'El cielo de hoy';
 
 /**
+ * El título de Hoy cambia de sujeto con la segunda mascota (artboard 30).
+ *
+ * Con una, la pantalla es el día **de alguien** y se llama por su nombre. Con
+ * dos o más, el nombre de uno no puede rotular a todos y baja a la cabecera de
+ * su bloque: es la misma regla que reparte el contenido —lo compartido se
+ * nombra una vez, arriba— aplicada al rótulo.
+ */
+export const HOUSE_DAY_TITLE = 'El día de la casa';
+
+export const petDayTitle = (name: string): string => `El día de ${name}`;
+
+/** Los números que caben en «Los otros cuatro». Con más, se escribe la cifra. */
+const COUNT_WORDS = ['cero', 'uno', 'dos', 'tres', 'cuatro', 'cinco', 'seis', 'siete', 'ocho', 'nueve'];
+
+/**
+ * El rótulo del grupo de filas del artboard 31. Con tres perros o más, lo que
+ * se viene a hacer en Hoy es comparar, no leer: solo la seleccionada mantiene
+ * su titular y las demás pasan a una línea bajo este rótulo.
+ */
+export const othersLabel = (count: number): string =>
+  count === 1 ? 'La otra' : `Los otros ${COUNT_WORDS[count] ?? count}`;
+
+/**
  * El rótulo de una lectura caducada (artboard 17): las tarjetas descargadas
  * viven bajo **un solo** rótulo de fecha, porque son una lectura y no dos.
  * Fecharlas por separado insinuaría que pueden caducar a distinto ritmo.

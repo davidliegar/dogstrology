@@ -10,12 +10,23 @@ import { isWaningPhase } from './moonPhase';
 
 import { colors, opacity, radii, spacing, typography } from '@/design/theme';
 
-/** Diámetro del disco en la tira, del artboard 04. */
-const DISC = 36;
+/** Diámetro del disco en la tira: 36 en el artboard 04, 26 en el 30. */
+const DISC = { full: 36, compact: 26 } as const;
 
 export interface MoonStripProps {
   sky: MoonSkyData;
   onPress?: () => void;
+  /**
+   * La tira encogida del artboard 30, para el Hoy de varias mascotas: disco
+   * más pequeño, el nombre de la fase en una línea y solo el porcentaje.
+   *
+   * **Y sin punta**, así que tampoco lleva a ninguna parte: con varias
+   * mascotas el cielo compartido es contexto de lo que viene debajo, no un
+   * destino que compita con los bloques de cada perro. El artboard no la
+   * dibuja, y una zona que se pulsa sin decirlo es peor que una que no se
+   * pulsa.
+   */
+  compact?: boolean;
 }
 
 /**
@@ -30,31 +41,40 @@ export interface MoonStripProps {
  * El disco es el mismo de la pantalla de la Luna, con el terminador de verdad:
  * el porcentaje y la forma son el mismo número.
  */
-export function MoonStrip({ sky, onPress }: MoonStripProps) {
+export function MoonStrip({ sky, onPress, compact = false }: MoonStripProps) {
   const { phase, ingress } = sky;
   const label = MOON_PHASE_LABELS[phase.name];
   const detail = ingress
     ? formatIngress({ sign: SIGN_LABELS[ingress.to], at: ingress.at })
     : undefined;
-  const meta = [`${Math.round(phase.illumination * 100)}% iluminada`, detail].filter(Boolean).join(' · ');
+  const illuminated = `${Math.round(phase.illumination * 100)}%`;
+  const meta = [`${illuminated} iluminada`, detail].filter(Boolean).join(' · ');
+  const pressable = Boolean(onPress) && !compact;
 
   const content = (
     <>
       <MoonDisc
         illumination={phase.illumination}
         waning={isWaningPhase(phase.name)}
-        size={DISC}
+        size={compact ? DISC.compact : DISC.full}
         label={label}
       />
-      <View style={styles.texts}>
-        <Text style={styles.title}>{label}</Text>
-        <Text style={styles.meta}>{meta}</Text>
-      </View>
-      {onPress ? <Chevron direction="right" size={8} color={colors.textFaint} /> : null}
+      {compact ? (
+        <>
+          <Text style={styles.compactTitle}>{label}</Text>
+          <Text style={styles.illuminated}>{illuminated}</Text>
+        </>
+      ) : (
+        <View style={styles.texts}>
+          <Text style={styles.title}>{label}</Text>
+          <Text style={styles.meta}>{meta}</Text>
+        </View>
+      )}
+      {pressable ? <Chevron direction="right" size={8} color={colors.textFaint} /> : null}
     </>
   );
 
-  if (!onPress) return <View style={styles.strip}>{content}</View>;
+  if (!pressable) return <View style={styles.strip}>{content}</View>;
 
   return (
     <Pressable
@@ -88,6 +108,16 @@ const styles = StyleSheet.create({
   texts: {
     flex: 1,
     gap: spacing[1],
+  },
+  compactTitle: {
+    ...typography.caption,
+    color: colors.textMuted,
+    flex: 1,
+  },
+  illuminated: {
+    ...text('ephemeris'),
+    color: colors.textFaint,
+    flexShrink: 0,
   },
   title: {
     ...typography.bodyEmphasis,

@@ -63,26 +63,25 @@ export default function Terms() {
         </View>
       }
     >
-      <Section title={TERMS_PRICING_TITLE} body={[offer, TERMS_PRICING_NOTE].filter(Boolean).join(' ')} tight />
-      {TERMS_SECTIONS.map((section, index) => (
-        <Section
-          key={section.title}
-          title={section.title}
-          body={section.body}
-          // Los dos cuerpos largos son los que se aprietan; los tres cortos
-          // caben con el interlineado normal y no hay por qué apretarlos.
-          tight={index === 0}
-        />
+      {/*
+        Los seis cuerpos van apretados, no dos: con el sexto apartado dentro
+        —«Cuántas mascotas»— el sitio se recupera de la columna y no
+        recortando, y el que no puede quedarse fuera es justo el último, el
+        aviso de que esto es entretenimiento.
+      */}
+      <Section title={TERMS_PRICING_TITLE} body={[offer, TERMS_PRICING_NOTE].filter(Boolean).join(' ')} />
+      {TERMS_SECTIONS.map((section) => (
+        <Section key={section.title} title={section.title} body={section.body} />
       ))}
     </Screen>
   );
 }
 
-function Section({ title, body, tight = false }: { title: string; body: string; tight?: boolean }) {
+function Section({ title, body }: { title: string; body: string }) {
   return (
     <View style={styles.section}>
       <Text style={styles.sectionTitle}>{title}</Text>
-      <Text style={tight ? styles.tightBody : styles.body}>{body}</Text>
+      <Text style={styles.body}>{body}</Text>
     </View>
   );
 }
@@ -96,10 +95,6 @@ const styles = StyleSheet.create({
     color: colors.textFaint,
   },
   body: {
-    ...typography.body,
-    color: colors.textMuted,
-  },
-  tightBody: {
     ...typography.bodyTight,
     color: colors.textMuted,
   },

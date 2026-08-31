@@ -119,12 +119,13 @@ permiso se pide después de demostrar valor, nunca al arrancar** (BRD §14 R8).
 F9 es el bucle de adquisición y su marca de agua ya tiene spec escrita
 (`design/brand/README.md`).
 
-### Y en cuanto lleguen los artboards: multimascota
+### Multimascota, hecho salvo una pantalla
 
-El encargo está escrito aquí abajo, cuatro puntos. **No es una mejora**: el
-paywall ya cobra por quitar el límite de una mascota, así que en cuanto alguien
-paga hay dos perros y ninguna pantalla pensada para dos (BRD §8.1). Va por
-delante de F9 si los dibujos llegan antes.
+El encargo está contestado (artboards 30 y 31) y **Hoy con varias mascotas ya
+funciona**, con su techo y con el día completo de cada perro. Falta **la lista
+de mascotas** a la que lleva la pestaña, que es lo único que el canvas no
+dibuja — hasta que exista, la pestaña sigue llamándose por el nombre de la
+seleccionada. Ver el encargo, al final.
 
 ### Y RevenueCat, cuando haya cuentas
 
@@ -283,8 +284,8 @@ Llegaron **27 artboards** y dos reglas. Lo que estaba pedido y ya está:
   tenue por magnitud es **Piscis** (Alpherg, 3,6); Cáncer es la de menos nodos
   (5), detrás de Aries (4). La app lo calcula, no lo supone
 
-**Lo que sigue pendiente de diseño:** los tres puntos del encargo de
-multimascota, aquí abajo. De la tanda anterior no queda ninguno.
+**Lo que sigue pendiente de diseño:** una pantalla, la lista de mascotas del
+encargo de multimascota. De la tanda anterior no queda ninguno.
 
 ~~El teñido por variante del icono~~, ~~«Condiciones»~~, ~~la fila de añadir
 del 26 con la suscripción activa~~ y ~~el sitio de la oferta en Ajustes~~ →
@@ -292,7 +293,12 @@ del 26 con la suscripción activa~~ y ~~el sitio de la oferta en Ajustes~~ →
 
 ---
 
-## Encargo de diseño — **multimascota** (2026-08-31)
+## Encargo de diseño — **multimascota** (2026-08-31) · **contestado**
+
+**Artboards 29 (corregido), 30 y 31.** Los cuatro puntos tienen dibujo y los
+tres primeros están implementados (sesión 45). Lo que sigue abierto es **una
+sola pantalla**: la lista de mascotas a la que lleva la pestaña — ver el final
+de esta sección.
 
 ### Por qué ahora, y por qué es del MVP
 
@@ -388,6 +394,49 @@ Dos cosas que ya son ciertas y la condicionan:
 donde ese bloque pueda entrar después —encima de las lecturas, debajo, como una
 tarjeta más— o habría que rehacerlo? Con eso basta; el contenido y la pantalla
 de la manada se encargan en su fase.
+
+### Las respuestas, y qué se hizo con ellas
+
+- **1 · Hoy con varias** → **artboard 30**. Lo compartido arriba y una sola
+  vez; debajo, un bloque por perro con lo que sí es suyo. Apilado y no en
+  carrusel. Cada bloque lleva el color de su elemento, que es lo que deja saber
+  de quién habla sin leer el nombre. El título cambia de sujeto: «El día de
+  Baloo» → «El día de la casa». **Implementado**
+- **El techo** → **artboard 31**, y no es de mascotas sino de **cuánto se
+  cuenta de cada una**: con tres o más ninguna lleva cuerpo, la seleccionada
+  mantiene su titular y las demás pasan a fila de una línea bajo «Los otros
+  cuatro». **Implementado** (`houseDayDetail`, con test)
+- **2 · La hoja del 26 sigue existiendo**, y es otra cosa que la lista: cambiar
+  de sujeto sin salir de donde estás. **Nada que tocar**
+- **3 · El toque lleva al día completo de ese perro**, no al perfil: quien toca
+  quiere más de esa lectura, no editar la fecha de nacimiento.
+  **Implementado** (`app/pet/[id]/day.tsx`, que comparte `DailyReading` con Hoy)
+- **4 · La manada encaja sin rehacer nada**: su sitio es el bloque de cielo
+  compartido, el único que ya habla de todos a la vez. **Anotado en el código**,
+  en `SharedSkyCard`
+
+### Lo que queda abierto: **la lista de mascotas**
+
+La nota del 31 dice que con dos o más la pestaña **se llama «Mascotas», lista, y
+el hub del 25 pasa a ser el detalle de una**. La regla está clara y el rótulo
+está dibujado en la barra de los dos artboards. **Lo que no está dibujado es la
+lista**, y era justo la pregunta que el encargo dejaba abierta: ¿el 26 promovido
+de hoja a destino raíz, o una lista distinta con más sitio?
+
+Sin ella no se puede renombrar la pestaña: «Mascotas» llevando al hub de un solo
+perro es exactamente el control que miente. Así que **la pestaña sigue
+llamándose por el nombre de la mascota seleccionada** hasta que exista, y la
+hoja del 26 sigue siendo cómo se cambia de perro.
+
+Lo que hace falta para cerrarlo:
+
+1. **La lista como destino raíz**: qué enseña de cada mascota —foto, Sol,
+   titular de hoy— y si lleva la marca de selección del 26 o no, porque aquí
+   entrar en una no es lo mismo que elegirla
+2. **Dónde va «Añadir otra mascota»** en esa lista, y si mantiene el trato del
+   26 (fila legítima, «+» en oro, sin candado)
+3. **El hub como detalle**: hoy el 25 es la pestaña. Al pasar a colgar de la
+   lista necesita cabecera con vuelta atrás, que un destino raíz no lleva
 
 ### Lo que no se puede tocar
 
@@ -3605,3 +3654,32 @@ Llegaron 27 artboards. Se implementan **17 y 27**; el 26 va en tanda propia.
   alcance del MVP, aunque el análisis de manada sea fase 2. Hoy con dos
   lecturas, la pestaña convertida en selector y el perfil de cada una a un
   toque desde Hoy
+
+### 2026-08-31 (45) — el día de la casa
+- **Hoy tiene dos formas y sigue siendo una pantalla.** Con una mascota es su
+  día (artboard 04); con dos o más es el de la casa (30): la fase lunar y el
+  cielo arriba y una sola vez —son del cielo, no de un perro— y debajo un
+  bloque por perro con su Sol, su titular y su línea. Apilado y no en carrusel
+- **El techo no es de mascotas, es de cuánto se cuenta de cada una** (31). Con
+  tres o más ninguna lleva cuerpo: la seleccionada mantiene su titular y las
+  demás pasan a fila de una línea. La regla vive en `houseDayDetail`, con test,
+  porque es una decisión de producto y no un `if` de maquetación
+- **`DailyReading` sale de Hoy** y lo comparten Hoy y el día de un perro. Eran
+  la misma lectura desde dos sitios, y duplicarla habría hecho que solo una de
+  las dos se acordara de callar los puntos de energía en una lectura caducada
+- **El toque lleva al día, no al perfil** (`app/pet/[id]/day.tsx`): quien toca
+  el bloque de un perro quiere más de esa lectura, no editar su fecha de
+  nacimiento
+- **El artboard 29 gana un sexto apartado**, «Cuántas mascotas», y los seis
+  cuerpos pasan a interlineado apretado. Entra porque el paywall vende
+  «ilimitadas» y promete la manada, que no existe: prometer en una ficha algo
+  que no está es de lo que tumba una revisión
+- **⚠️ Queda una pantalla sin dibujar: la lista de mascotas.** La nota del 31
+  dice que con dos o más la pestaña se llama «Mascotas» y lista, pero la lista
+  no está en el canvas — era la pregunta que el encargo dejaba abierta. Sin
+  ella no se puede renombrar la pestaña: «Mascotas» llevando al hub de un solo
+  perro es el control que miente. La pestaña sigue con el nombre de la
+  seleccionada
+- **El día completo de un perro tampoco tiene artboard propio**, y ahí sí es
+  derivación y no hueco: es el 04 empujado, con cabecera de vuelta en vez de
+  barra de pestañas
