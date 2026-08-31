@@ -71,14 +71,19 @@ de vuelta (`app/pet/[id]/hub.tsx`). El perfil editable cuelga del hub, en
 si Hoy es de un perro o de la casa: son la misma pregunta.
 
 **Hoy tiene dos formas y una sola pantalla.** Con una mascota es su día
-(artboard 04); con dos o más es **el día en la casa** (33 y 34): lo compartido
-arriba una vez —la fase y el cielo son del cielo, no de un perro— y debajo un
-**carrusel** con una tarjeta por mascota. La mirilla de 28 px es lo que lo hace
-legítimo: el segundo perro no está escondido detrás de un gesto.
+(artboard 04); con dos o más es **el día en la casa** (33 y 34), y el reparto
+es: lo compartido arriba una vez —la fase y el cielo son del cielo, no de un
+perro—, un **carrusel** que dice *quién*, y debajo *qué le pasa hoy*: las tres
+lecturas del perro que está delante. Deslizar cambia las tres.
 
-Cada tarjeta lleva su lectura y **sus tres ejes con grado**, y por eso la punta
-abre su carta natal: con los tres dentro, la pantalla del día completo de un
-perro se quedó sin nada más que contar y se borró.
+La mirilla de 28 px es lo que hace legítimo el carrusel —el segundo perro no
+está escondido detrás de un gesto— y la tarjeta del carrusel es **solo
+identidad**: no se toca y no lleva a ninguna parte.
+
+**Nadie tiene una «mascota seleccionada».** Fue un estado que decidía de quién
+hablaban Hoy, Explorar y las fichas; el carrusel enseña la que se mira,
+Explorar las enseña todas y las fichas nombran a todas las que cumplen, así que
+se borró. Donde el código dice «la mascota» con una sola, es `pets[0]`.
 
 **Explorar resalta lo de todas las mascotas** (artboard 35). De quién es cada
 casilla no lo dice el color —ya es el elemento— sino una inicial en un disco, y

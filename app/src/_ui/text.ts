@@ -20,3 +20,12 @@ export const normalize = (value: string): string =>
  */
 export const joinList = (items: string[]): string =>
   items.length <= 1 ? items.join('') : `${items.slice(0, -1).join(', ')} y ${items[items.length - 1]}`;
+
+/** Hasta nueve se escribe con letra, que es como se cuentan pocas cosas. */
+const COUNT_WORDS = ['cero', 'una', 'dos', 'tres', 'cuatro', 'cinco', 'seis', 'siete', 'ocho', 'nueve'];
+
+/**
+ * `cinco`, y `12` a partir de diez. En femenino porque en esta app lo que se
+ * cuenta son mascotas — «tus cinco mascotas», «y otras dos».
+ */
+export const countWord = (count: number): string => COUNT_WORDS[count] ?? String(count);

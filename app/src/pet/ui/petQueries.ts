@@ -1,7 +1,6 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 
 import { useDomain } from '@/_ui/DomainProvider';
-import { useSelectedPetStore } from './selectedPetStore';
 import type { CreatePetUseCaseInput } from '../application/CreatePetUseCase';
 import type { Pet, PetChanges } from '../domain/Pet';
 
@@ -36,28 +35,6 @@ export function usePets() {
     queryKey: petKeys.list(),
     queryFn: () => domain.ListPetsUseCase.execute(),
   });
-}
-
-/**
- * La mascota de la que habla la app: la que marcó la hoja del 26, o la primera
- * si todavía no se ha elegido ninguna.
- *
- * Devuelve la misma consulta de la lista con otro `data`, para que quien la
- * use siga teniendo `isPending` y `isError` — la lista es una sola lectura y
- * elegir dentro de ella no es otra.
- *
- * **Nadie vuelve a escribir `pets?.[0]`.** Con esa línea repartida por ocho
- * pantallas, elegir mascota habría cambiado el hub y dejado Hoy hablando de
- * otro perro.
- */
-export function useSelectedPet() {
-  const query = usePets();
-  const selectedPetId = useSelectedPetStore((state) => state.selectedPetId);
-  const pets = query.data;
-  // Una mascota borrada deja de estar en la lista y la selección cae sola a la
-  // primera: no hace falta limpiar el store al borrar.
-  const data = pets?.find((pet) => pet.id() === selectedPetId) ?? pets?.[0];
-  return { ...query, data };
 }
 
 export function usePet(id: string | undefined) {

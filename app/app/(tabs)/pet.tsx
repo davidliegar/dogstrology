@@ -7,7 +7,7 @@ import { text } from '@/_ui/typography';
 import { isHouseDay } from '@/content/ui/dailyCards';
 import { AddPetRow, PetRow } from '@/pet/ui/PetList';
 import { PetHub } from '@/pet/ui/PetHub';
-import { usePets, useSelectedPet } from '@/pet/ui/petQueries';
+import { usePets } from '@/pet/ui/petQueries';
 import { ADD_PET_NOTE, PETS_TAB_LABEL } from '@/subscription/ui/labels';
 import { useCanAddPet } from '@/subscription/ui/subscriptionQueries';
 
@@ -35,7 +35,7 @@ import { colors, screenPadding, spacing, typography } from '@/design/theme';
  */
 export default function PetTab() {
   const { data: pets, isPending, isError } = usePets();
-  const { data: pet } = useSelectedPet();
+  const pet = pets?.[0];
   const canAddPet = useCanAddPet();
 
   if (isPending) {

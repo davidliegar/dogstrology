@@ -7,14 +7,14 @@ import { Screen } from '@/_ui/components/Screen';
 import { ScreenHeader } from '@/_ui/components/ScreenHeader';
 import { StarField } from '@/_ui/components/StarField';
 import { MoonDisc } from '@/chart/ui/MoonDisc';
-import { useMoonSky, useNatalChart } from '@/chart/ui/chartQueries';
+import { useMoonSky, useNatalCharts } from '@/chart/ui/chartQueries';
 import { formatWeekdayDate } from '@/chart/ui/format';
 import { MOON_PHASE_LABELS } from '@/chart/ui/labels';
 import { moonPhaseFacts, risingNote } from '@/chart/ui/moonPhase';
 import { MOON_PHASE_NAMES, type MoonPhaseName } from '@/chart/domain/NatalChart';
 import { useMoonPhasePersonality, useMoonPhaseSky } from '@/content/ui/contentQueries';
 import { formatLongDate } from '@/pet/ui/format';
-import { useSelectedPet } from '@/pet/ui/petQueries';
+import { usePets } from '@/pet/ui/petQueries';
 
 import { colors, radii, screenPadding, spacing, typography } from '@/design/theme';
 
@@ -57,8 +57,8 @@ const todayISO = (): string => {
 export default function PhaseDetail() {
   const { phase } = useLocalSearchParams<{ phase: MoonPhaseName }>();
   const valid = MOON_PHASE_NAMES.includes(phase);
-  const { data: pet } = useSelectedPet();
-  const { data: chart } = useNatalChart(pet);
+  const { data: pets } = usePets();
+  const charts = useNatalCharts(pets);
   const { data: moon } = useMoonSky();
   const { data: natal } = useMoonPhasePersonality(valid ? phase : undefined);
   const { data: sky } = useMoonPhaseSky(valid ? phase : undefined);
@@ -74,7 +74,14 @@ export default function PhaseDetail() {
 
   const facts = moonPhaseFacts({ phase, now: moon?.phase });
   const isToday = moon?.phase.name === phase;
-  const bornInIt = Boolean(pet && chart?.moonPhaseAtBirth().name === phase);
+  // Quién nació en esta fase. **El pie de la fase no cambia con varias
+  // mascotas** —la fase es de hoy y no es de nadie—, pero el que sí es de
+  // alguien es este: si nacieron dos, se nombran las dos, cada una con su
+  // fecha. Sin punta, como antes: no hay a dónde ir.
+  const born = (pets ?? []).filter(
+    (each, index) => charts[index]?.data?.moonPhaseAtBirth().name === phase,
+  );
+  const bornInIt = born.length > 0;
   const disc = Math.round((width - screenPadding * 2 - ART_PADDING * 2) * DISC_RATIO);
 
   return (
@@ -101,11 +108,16 @@ export default function PhaseDetail() {
         // las dos existe, así que el pie es información y no un enlace.
         isToday ? (
           <ConnectionFooter title="Es la fase de hoy" detail={formatWeekdayDate(todayISO())} />
-        ) : pet && bornInIt ? (
-          <ConnectionFooter
-            title={`${pet.name()} nació en esta fase`}
-            detail={formatLongDate(pet.birth().date())}
-          />
+        ) : bornInIt ? (
+          <View style={styles.born}>
+            {born.map((each) => (
+              <ConnectionFooter
+                key={each.id()}
+                title={`${each.name()} nació en esta fase`}
+                detail={formatLongDate(each.birth().date())}
+              />
+            ))}
+          </View>
         ) : null
       }
       footerDivider={isToday || bornInIt}
@@ -154,6 +166,9 @@ function Section({ label, body }: { label: string; body?: string }) {
 }
 
 const styles = StyleSheet.create({
+  born: {
+    gap: spacing[3],
+  },
   sky: {
     overflow: 'hidden',
     borderRadius: radii.card,

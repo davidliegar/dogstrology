@@ -8,19 +8,21 @@ import { ScreenHeader } from '@/_ui/components/ScreenHeader';
 import { StarField } from '@/_ui/components/StarField';
 import { Constellation } from '@/chart/ui/Constellation';
 import { constellationNote } from '@/chart/ui/constellationNote';
-import { useNatalChart } from '@/chart/ui/chartQueries';
+import { useNatalCharts } from '@/chart/ui/chartQueries';
 import { PLANET_GLYPHS, SIGN_GLYPHS } from '@/chart/ui/glyphs';
 import {
   ELEMENT_LABELS,
   MODALITY_LABELS,
   PLANET_LABELS,
+  noneHere,
   POSSESSIVE_LABELS,
   SIGN_LABELS,
   SIGN_RULERS,
 } from '@/chart/ui/labels';
 import { SIGNS, elementOfSign, modalityOfSign, type Sign } from '@/chart/domain/PlanetPosition';
 import { useSignPersonality } from '@/content/ui/contentQueries';
-import { useSelectedPet } from '@/pet/ui/petQueries';
+import { ConnectionList, type Connection } from '@/_ui/components/ConnectionList';
+import { usePets } from '@/pet/ui/petQueries';
 
 import {
   colors,
@@ -47,8 +49,8 @@ const ART_PADDING = spacing[4];
  */
 export default function SignDetail() {
   const { sign } = useLocalSearchParams<{ sign: Sign }>();
-  const { data: pet } = useSelectedPet();
-  const { data: chart } = useNatalChart(pet);
+  const { data: pets } = usePets();
+  const charts = useNatalCharts(pets);
   const { data: fragment } = useSignPersonality(SIGNS.includes(sign) ? sign : undefined);
   const { width } = useWindowDimensions();
 
@@ -65,15 +67,36 @@ export default function SignDetail() {
   const element = elementOfSign(sign);
   const art = width - screenPadding * 2 - ART_PADDING * 2;
 
-  // Qué tiene la mascota en este signo. Solo Sol, Luna y Ascendente: son los
+  // Qué tiene cada mascota en este signo. Solo Sol, Luna y Ascendente: son los
   // que el usuario reconoce y los únicos con los que la frase suena a español.
-  const own = chart
-    ? ([
-        chart.sunSign() === sign && 'sun',
-        chart.moonSign() === sign && 'moon',
-        chart.ascendantSign() === sign && 'ascendant',
-      ].find(Boolean) as 'sun' | 'moon' | 'ascendant' | undefined)
-    : undefined;
+  const owners = (pets ?? []).flatMap((each, index) => {
+    const chart = charts[index]?.data;
+    if (!chart) return [];
+    const axis = [
+      chart.sunSign() === sign && 'sun',
+      chart.moonSign() === sign && 'moon',
+      chart.ascendantSign() === sign && 'ascendant',
+    ].find(Boolean) as 'sun' | 'moon' | 'ascendant' | undefined;
+    return axis ? [{ pet: each, axis }] : [];
+  });
+
+  const several = (pets?.length ?? 0) > 1;
+  const openChart = (id: string, axis: 'sun' | 'moon' | 'ascendant') =>
+    router.push({
+      pathname: '/pet/[id]/chart',
+      // El Ascendente no es un planeta y no tiene hoja: se abre la rueda sin
+      // enfocar nada, que es de donde el usuario lo lee.
+      params: axis === 'ascendant' ? { id } : { id, planet: axis },
+    });
+
+  const connections: Connection[] = owners.map(({ pet, axis }) => ({
+    name: pet.name(),
+    title: `${POSSESSIVE_LABELS[axis]} de ${pet.name()}`,
+    detail: 'está en este signo',
+    onPress: () => openChart(pet.id(), axis),
+  }));
+
+  const [only] = owners;
 
   return (
     <Screen
@@ -81,23 +104,28 @@ export default function SignDetail() {
       align="flex-start"
       gap={spacing[5]}
       header={<ScreenHeader overline="Los doce signos" title={SIGN_LABELS[sign]} onBack={() => router.back()} />}
+      /*
+        Con una mascota, la fila suelta de siempre y nada cuando no tiene nada
+        aquí: la ausencia es obvia. Con varias, la caja de filas —una por
+        perro, cada una a su carta— y, **si no cumple ninguna, se dice**:
+        entre cinco perros el silencio se confunde con que no se ha calculado.
+      */
       footer={
-        own && pet ? (
+        several ? (
+          connections.length > 0 ? (
+            <ConnectionList connections={connections} />
+          ) : (
+            <Text style={styles.none}>{noneHere(pets?.length ?? 0, 'está en este signo')}</Text>
+          )
+        ) : only ? (
           <ConnectionFooter
-            title={`${POSSESSIVE_LABELS[own]} de ${pet.name()}`}
+            title={`${POSSESSIVE_LABELS[only.axis]} de ${only.pet.name()}`}
             detail="está en este signo"
-            // El Ascendente no es un planeta y no tiene hoja: se abre la rueda
-            // sin enfocar nada, que es de donde el usuario lo lee.
-            onPress={() =>
-              router.push({
-                pathname: '/pet/[id]/chart',
-                params: own === 'ascendant' ? { id: pet.id() } : { id: pet.id(), planet: own },
-              })
-            }
+            onPress={() => openChart(only.pet.id(), only.axis)}
           />
         ) : null
       }
-      footerDivider={Boolean(own && pet)}
+      footerDivider={several || Boolean(only)}
     >
       {/* El arte va sobre su propio pozo de cielo, no sobre el fondo de la
           pantalla: es lo que lo separa del texto sin necesidad de un marco. */}
@@ -139,6 +167,10 @@ function Section({ label, children }: { label: string; children: React.ReactNode
 }
 
 const styles = StyleSheet.create({
+  none: {
+    ...typography.caption,
+    color: colors.textMuted,
+  },
   sky: {
     overflow: 'hidden',
     borderRadius: radii.card,

@@ -7,7 +7,7 @@ import { Screen } from '@/_ui/components/Screen';
 import { ScreenHeader } from '@/_ui/components/ScreenHeader';
 import { HouseWheel } from '@/chart/ui/HouseWheel';
 import { housePlacementNote } from '@/chart/ui/houseNote';
-import { useNatalChart } from '@/chart/ui/chartQueries';
+import { useNatalCharts } from '@/chart/ui/chartQueries';
 import { HOUSE_NUMERALS, SIGN_GLYPHS } from '@/chart/ui/glyphs';
 import {
   ELEMENT_LABELS,
@@ -15,6 +15,8 @@ import {
   HOUSE_LABELS,
   PLANET_LABELS,
   SIGN_LABELS,
+  noneHere,
+  planetsOfPet,
   possessiveOfPlanet,
 } from '@/chart/ui/labels';
 import {
@@ -26,7 +28,8 @@ import {
 } from '@/chart/domain/House';
 import type { PlanetId } from '@/chart/domain/PlanetPosition';
 import { useHouseGlossary } from '@/content/ui/contentQueries';
-import { useSelectedPet } from '@/pet/ui/petQueries';
+import { ConnectionList, type Connection } from '@/_ui/components/ConnectionList';
+import { usePets } from '@/pet/ui/petQueries';
 
 import { colors, elementColor, radii, screenPadding, spacing, typography } from '@/design/theme';
 
@@ -53,8 +56,8 @@ export default function HouseDetail() {
   const { house: raw } = useLocalSearchParams<{ house: string }>();
   const house = Number(raw);
   const valid = isHouse(house);
-  const { data: pet } = useSelectedPet();
-  const { data: chart } = useNatalChart(pet);
+  const { data: pets } = usePets();
+  const charts = useNatalCharts(pets);
   const { data: fragment } = useHouseGlossary(valid ? house : undefined);
   const { width } = useWindowDimensions();
 
@@ -69,7 +72,25 @@ export default function HouseDetail() {
   const element = elementOfHouse(house);
   const ruler = signRulingHouse(house);
   const art = width - screenPadding * 2 - ART_PADDING * 2;
-  const inside = chart?.planetsInHouse(house) ?? [];
+  // Qué tiene cada mascota en esta casa. Un perro sin hora no tiene casas, así
+  // que sencillamente no sale (BRD §12.3).
+  const owners = (pets ?? []).flatMap((each, index) => {
+    const planets = charts[index]?.data?.planetsInHouse(house) ?? [];
+    return planets.length > 0 ? [{ pet: each, planets: planets.map((planet) => planet.id()) }] : [];
+  });
+
+  const several = (pets?.length ?? 0) > 1;
+  const connections: Connection[] = owners.map(({ pet, planets }) => ({
+    name: pet.name(),
+    title: planetsOfPet(planets, pet.name()),
+    detail: planets.length > 1 ? 'caen en esta casa' : 'cae en esta casa',
+    // Abre la hoja del planeta que se nombra primero, no la rueda entera: el
+    // pie promete uno concreto.
+    onPress: () =>
+      router.push({ pathname: '/pet/[id]/chart', params: { id: pet.id(), planet: planets[0] } }),
+  }));
+
+  const [only] = owners;
 
   return (
     <Screen
@@ -79,12 +100,24 @@ export default function HouseDetail() {
       header={
         <ScreenHeader overline="Las doce casas" title={HOUSE_LABELS[house]} onBack={() => router.back()} />
       }
+      /*
+        Con una mascota, la fila suelta de siempre; con varias, la caja de
+        filas —una por perro, cada una a su carta— y, si no cumple ninguna, se
+        dice: entre cinco perros el silencio se confunde con que no se ha
+        calculado.
+      */
       footer={
-        pet && inside.length > 0 ? (
-          <Tenants house={house} petId={pet.id()} name={pet.name()} inside={inside.map((p) => p.id())} />
+        several ? (
+          connections.length > 0 ? (
+            <ConnectionList connections={connections} />
+          ) : (
+            <Text style={styles.none}>{noneHere(pets?.length ?? 0, 'tiene planetas en esta casa')}</Text>
+          )
+        ) : only ? (
+          <Tenants house={house} petId={only.pet.id()} name={only.pet.name()} inside={only.planets} />
         ) : null
       }
-      footerDivider={Boolean(pet && inside.length > 0)}
+      footerDivider={several || Boolean(only)}
     >
       {/* El sector va sobre su propio pozo de cielo, igual que la
           constelación en la ficha de un signo: es lo que lo separa del texto
@@ -149,6 +182,10 @@ function Tenants({
 }
 
 const styles = StyleSheet.create({
+  none: {
+    ...typography.caption,
+    color: colors.textMuted,
+  },
   sky: {
     overflow: 'hidden',
     borderRadius: radii.card,

@@ -1,5 +1,6 @@
 import type { ChartConfidence, HouseSystem, MoonPhaseName } from '../domain/NatalChart';
 import type { AspectType } from '../domain/ChartAspect';
+import { countWord, joinList } from '@/_ui/text';
 import type { House, HouseKind } from '../domain/House';
 import type { Element, Modality, PlanetId, Sign } from '../domain/PlanetPosition';
 
@@ -147,6 +148,38 @@ export const POSSESSIVE_LABELS: Partial<Record<PlanetId | 'ascendant', string>> 
  */
 export const possessiveOfPlanet = (planet: PlanetId): string =>
   POSSESSIVE_LABELS[planet] ?? PLANET_LABELS[planet];
+
+/**
+ * El pie de una ficha cuando **ninguna** mascota cumple, y solo con varias
+ * (artboard 35): con una, la ausencia es obvia y el pie no se pinta; entre
+ * cinco perros, el silencio se confunde con que no se ha calculado.
+ *
+ * `what` es lo mismo que dirían las filas —«está en este signo»—, para que la
+ * frase que las sustituye no invente otra manera de decirlo.
+ */
+export const noneHere = (petCount: number, what: string): string =>
+  `Ninguna de tus ${countWord(petCount)} mascotas ${what}.`;
+
+/**
+ * «La Luna y el Sol de Baloo» — los planetas que una mascota tiene en una casa
+ * (artboard 35). **Un perro, una fila, y dentro de la fila sus planetas**: la
+ * frase de una sola mascota —«Su Luna de Baloo cae en la casa V, con su Sol»—
+ * no escala a dos cartas, así que se parte por perro, que es la unidad que
+ * tiene destino, y los planetas se enumeran dentro.
+ *
+ * Solo el primero lleva mayúscula, y **solo si es un artículo**: dentro de la
+ * frase «el Sol» va en minúscula pero *Marte* no, que es un nombre propio. La
+ * diferencia la marca `POSSESSIVE_LABELS`, que es justo la tabla de los tres
+ * que llevan artículo.
+ */
+export const planetsOfPet = (planets: PlanetId[], name: string): string => {
+  const [first, ...rest] = planets;
+  const inline = rest.map((planet) => {
+    const label = possessiveOfPlanet(planet);
+    return planet in POSSESSIVE_LABELS ? label.charAt(0).toLowerCase() + label.slice(1) : label;
+  });
+  return `${joinList([possessiveOfPlanet(first), ...inline])} de ${name}`;
+};
 
 /**
  * El nombre de cada casa (artboard 20): el área de la vida que gobierna,

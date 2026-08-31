@@ -1,4 +1,4 @@
-import { joinList } from '@/_ui/text';
+import { countWord, joinList } from '@/_ui/text';
 
 /**
  * La leyenda del pie de Explorar (artboards 8, 20, 22 y 35).
@@ -50,11 +50,6 @@ const SHARED_PRONOUN = { signs: 'lo', houses: 'la' } as const;
 const HOUSES_PENDING = 'La de su Sol sale resaltada en cuanto su carta tenga hora y lugar.';
 const HOUSES_PENDING_MANY =
   'Las casas de sus Soles salen resaltadas en cuanto sus cartas tengan hora y lugar.';
-
-/** Hasta nueve se escribe con letra, que es como se cuentan pocas cosas. */
-const COUNT_WORDS = ['cero', 'una', 'dos', 'tres', 'cuatro', 'cinco', 'seis', 'siete', 'ocho', 'nueve'];
-
-const countWord = (count: number): string => COUNT_WORDS[count] ?? String(count);
 
 /** Las casillas que resalta más de una mascota, en el orden en que aparecen. */
 function sharedCells(pets: PetHighlight[]): { cell: string; names: string[] }[] {

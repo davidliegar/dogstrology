@@ -17,13 +17,14 @@ export interface PageDotsProps {
  * **Es censo y no navegación**: dice cuántas hay y por cuál se va, y nadie
  * apunta con el dedo a un punto de 6 px. Por eso no se pueden tocar.
  *
- * **Con dos páginas no se pintan.** La mirilla —el borde de la siguiente
- * tarjeta asomando— ya dice que hay otra, y unos puntos dirían lo mismo dos
- * veces. Con tres o más sí, porque ahí la mirilla dice «hay más» pero no
- * cuántas.
+ * **También con dos.** La mirilla —el borde de la siguiente tarjeta asomando—
+ * dice que hay algo más, pero no dice «esto se desliza»: con la tarjeta
+ * convertida en identidad, lo que asoma es medio retrato, y medio retrato se
+ * puede leer como recorte antes que como gesto. Los puntos lo cierran. Con
+ * cinco dicen además cuántas hay, que la mirilla nunca dijo.
  */
 export function PageDots({ count, active }: PageDotsProps) {
-  if (count < 3) return null;
+  if (count < 2) return null;
 
   return (
     <View style={styles.dots} accessibilityElementsHidden importantForAccessibility="no-hide-descendants">

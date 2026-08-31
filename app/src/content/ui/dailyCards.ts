@@ -14,6 +14,12 @@ export interface DailyAxisCard {
   approximate: boolean;
   headline: string;
   body: string;
+  /**
+   * La energía del día de este eje, de 1 a 5. La lleva **cada** fragmento —el
+   * schema del pipeline la exige—, así que la tarjeta del Sol puede enseñar la
+   * suya sin tomar prestada la del cielo.
+   */
+  energyScore: number;
 }
 
 /**
@@ -64,6 +70,7 @@ export function dailyAxisCards(
         approximate,
         headline: fragment.headline(),
         body: fragment.body(),
+        energyScore: fragment.energyScore(),
       },
     ];
   });

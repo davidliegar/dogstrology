@@ -23,7 +23,7 @@ import { DailyReading, hasDailyReading } from '@/content/ui/DailyReading';
 import { isHouseDay } from '@/content/ui/dailyCards';
 import { DailySkeleton } from '@/content/ui/DailySkeleton';
 import { PageDots } from '@/_ui/components/PageDots';
-import { PetDayCard, SharedSkyCard } from '@/content/ui/HouseDay';
+import { PetIdentityCard, PetReading, SharedSkyCard } from '@/content/ui/HouseDay';
 import { daysBetween } from '@/content/domain/DailyDate';
 import {
   isNetworkError,
@@ -37,7 +37,7 @@ import type { DailyEdition } from '@/content/domain/DailyEdition';
 import type { Pet } from '@/pet/domain/Pet';
 import { breedLabel } from '@/pet/ui/format';
 import { NoPetPrompt } from '@/pet/ui/NoPetPrompt';
-import { usePetPhotoUri, usePets, useSelectedPet } from '@/pet/ui/petQueries';
+import { usePetPhotoUri, usePets } from '@/pet/ui/petQueries';
 
 import { colors, radii, screenPadding, spacing, typography } from '@/design/theme';
 
@@ -63,9 +63,12 @@ const NOTE_DOT_BASELINE = 8;
  *
  * **Con dos o más es el día en la casa** (artboards 33 y 34). Lo compartido va
  * arriba y una sola vez —la fase lunar y el cielo son del cielo, no de un
- * perro— y debajo **un carrusel** con una tarjeta por mascota. La mirilla es
- * lo que lo hace legítimo: se ven 28 px de la siguiente, así que el segundo
- * perro no está escondido detrás de un gesto.
+ * perro—, debajo **un carrusel** con una tarjeta por mascota, y debajo del
+ * carrusel **la lectura entera del perro que está delante**. El reparto es:
+ * el carrusel es *quién* y lo de abajo es *qué le pasa hoy*.
+ *
+ * La mirilla es lo que hace legítimo el carrusel: se ven 28 px de la
+ * siguiente, así que el segundo perro no está escondido detrás de un gesto.
  *
  * **El título cambia de sujeto con la segunda mascota**, y el nombre baja a la
  * cabecera de su bloque. Es la misma regla que reparte el contenido, aplicada
@@ -82,8 +85,11 @@ const NOTE_DOT_BASELINE = 8;
  * - **17**, sin red: lo que hay, más el pie que dice qué falta y por qué.
  */
 export default function Today() {
-  const { data: pets } = usePets();
-  const { data: pet, isSuccess: petsLoaded } = useSelectedPet();
+  const { data: pets, isSuccess: petsLoaded } = usePets();
+  // Con una sola mascota, la mascota **es** la primera: ya no hay ninguna
+  // «seleccionada» que elegir — el carrusel enseña la que se está mirando y
+  // Explorar las enseña todas.
+  const pet = pets?.[0];
   const { data: chart } = useNatalChart(pet);
   const { data: photoUri } = usePetPhotoUri(pet);
   const { data: moon } = useMoonSky();
@@ -135,7 +141,7 @@ export default function Today() {
           <DailySkeleton />
         ) : (
           <>
-            {sky ? <SharedSkyCard headline={sky.headline()} /> : null}
+            {sky ? <SharedSkyCard headline={sky.headline()} body={sky.body()} /> : null}
             <PetCarousel pets={pets} edition={reading} />
           </>
         )}
@@ -213,6 +219,8 @@ export default function Today() {
 function PetCarousel({ pets, edition }: { pets: Pet[]; edition: DailyEdition | null | undefined }) {
   const { width } = useWindowDimensions();
   const [active, setActive] = useState(0);
+  const front = pets[Math.min(active, pets.length - 1)];
+  const { data: chart } = useNatalChart(front);
 
   const cardWidth = width - screenPadding - spacing[3] - PEEK;
   const interval = cardWidth + spacing[3];
@@ -222,28 +230,30 @@ function PetCarousel({ pets, edition }: { pets: Pet[]; edition: DailyEdition | n
   };
 
   return (
-    <View style={styles.carousel}>
-      <ScrollView
-        horizontal
-        showsHorizontalScrollIndicator={false}
-        decelerationRate="fast"
-        snapToInterval={interval}
-        snapToAlignment="start"
-        onMomentumScrollEnd={onSettled}
-        contentContainerStyle={styles.track}
-      >
-        {pets.map((each) => (
-          <PetDayCard
-            key={each.id()}
-            pet={each}
-            edition={edition}
-            width={cardWidth}
-            onPress={() => router.push({ pathname: '/pet/[id]/chart', params: { id: each.id() } })}
-          />
-        ))}
-      </ScrollView>
-      <PageDots count={pets.length} active={active} />
-    </View>
+    <>
+      <View style={styles.carousel}>
+        <ScrollView
+          horizontal
+          showsHorizontalScrollIndicator={false}
+          decelerationRate="fast"
+          snapToInterval={interval}
+          snapToAlignment="start"
+          onMomentumScrollEnd={onSettled}
+          contentContainerStyle={styles.track}
+        >
+          {pets.map((each) => (
+            <PetIdentityCard key={each.id()} pet={each} width={cardWidth} />
+          ))}
+        </ScrollView>
+        <PageDots count={pets.length} active={active} />
+      </View>
+
+      {/* La lectura se remonta al cambiar de perro —de ahí la `key`—, así que
+          las tres tarjetas entran de nuevo. La cascada de 70 ms se queda para
+          la primera del día; repetir la ceremonia en cada gesto la convierte
+          en espera, y por eso el retardo lo pone `DailyReading` y no esto. */}
+      {front ? <PetReading key={front.id()} pet={front} edition={edition} chart={chart} /> : null}
+    </>
   );
 }
 
@@ -329,7 +339,8 @@ const styles = StyleSheet.create({
   },
   carousel: {
     // Al borde de la pantalla, saliéndose del margen del cuerpo: la mirilla
-    // vive justo ahí.
+    // vive justo ahí. La banda tiene alto propio, así que el arrastre
+    // horizontal no compite con el desplazamiento vertical de la página.
     marginHorizontal: -screenPadding,
     gap: spacing[3],
   },

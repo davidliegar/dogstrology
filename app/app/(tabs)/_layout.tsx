@@ -2,7 +2,7 @@ import Tabs from 'expo-router/tabs';
 
 import { TabBar, type TabName } from '@/_ui/components/TabBar';
 import { isHouseDay } from '@/content/ui/dailyCards';
-import { usePets, useSelectedPet } from '@/pet/ui/petQueries';
+import { usePets } from '@/pet/ui/petQueries';
 import { PETS_TAB_LABEL } from '@/subscription/ui/labels';
 
 import { colors } from '@/design/theme';
@@ -27,8 +27,7 @@ import { colors } from '@/design/theme';
  */
 export default function TabsLayout() {
   const { data: pets } = usePets();
-  const { data: pet } = useSelectedPet();
-  const petLabel = pets && isHouseDay(pets.length) ? PETS_TAB_LABEL : pet?.name();
+  const petLabel = pets && isHouseDay(pets.length) ? PETS_TAB_LABEL : pets?.[0]?.name();
 
   return (
     <Tabs
@@ -37,7 +36,7 @@ export default function TabsLayout() {
         sceneStyle: { backgroundColor: colors.background },
       }}
       tabBar={({ state, navigation }) =>
-        pet ? (
+        petLabel ? (
           <TabBar
             active={state.routes[state.index].name as TabName}
             onSelect={(tab) => navigation.navigate(tab)}

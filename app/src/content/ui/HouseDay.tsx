@@ -1,150 +1,173 @@
-import { Image, Pressable, StyleSheet, Text, View } from 'react-native';
+import { Image, StyleSheet, Text, View } from 'react-native';
 
-import { Chevron } from '@/_ui/components/Chevron';
 import { text } from '@/_ui/typography';
 import type { NatalChart } from '@/chart/domain/NatalChart';
 import { elementOfSign } from '@/chart/domain/PlanetPosition';
 import { useNatalChart } from '@/chart/ui/chartQueries';
 import { formatDegree } from '@/chart/ui/format';
+import { PLANET_GLYPHS } from '@/chart/ui/glyphs';
 import { SIGN_LABELS } from '@/chart/ui/labels';
 import type { Pet } from '@/pet/domain/Pet';
+import { breedLabel } from '@/pet/ui/format';
 import { usePetPhotoUri } from '@/pet/ui/petQueries';
 import type { DailyEdition } from '../domain/DailyEdition';
+import { DailyCard } from './DailyCard';
 import { dailyAxisCards } from './dailyCards';
-import { DAILY_AXIS_LABELS, NO_TIME, SKY_LABEL } from './labels';
+import { EnergyDots } from './EnergyDots';
+import { DAILY_AXIS_LABELS, ENERGY_LABEL, SKY_LABEL, readingOf } from './labels';
 
-import { colors, elementColor, icon, opacity, radii, spacing, typography } from '@/design/theme';
+import {
+  colors,
+  elementColor,
+  glyphSize,
+  icon,
+  radii,
+  spacing,
+  typography,
+} from '@/design/theme';
 
-/** Retrato de la cabecera de una tarjeta (artboard 33). */
-const BADGE = 44;
+/** Retrato de la tarjeta de identidad (artboard 33). */
+const PORTRAIT = 72;
 /** El hueco sin foto: el cuadrado de trazo del canvas, en el color del elemento. */
-const PLACEHOLDER = 16;
-/** Ancho del rótulo de un eje. Cabe «Su Ascendente» sin partirse. */
-const AXIS_LABEL = 78;
-/** Alto de una fila de eje. Tres caben bajo el texto sin pedir desplazamiento. */
-const AXIS_ROW = 32;
+const PLACEHOLDER = 28;
+/** Caja del símbolo del eje, para que los tres rótulos empiecen alineados. */
+const GLYPH_BOX = icon.size.m;
 
 /**
- * **Lo compartido, una sola vez y arriba** (artboard 30, y sigue en el 33). La
- * fase lunar y el cielo del día son del cielo, no de un perro: repetirlos por
- * mascota sería afirmar dos veces el mismo hecho.
+ * **Lo compartido, una sola vez y arriba** (artboard 33). La fase lunar y el
+ * cielo del día son del cielo, no de un perro: repetirlos por mascota sería
+ * afirmar dos veces el mismo hecho.
  *
- * Sin cuerpo y sin puntos de energía, al contrario que en el Hoy de una sola
- * mascota: aquí esta tarjeta es el contexto de lo que viene debajo, y lo que
- * se lee entero es la tarjeta de cada perro.
+ * **Con cuerpo**, como en el día de una sola mascota: cuando debajo se lee el
+ * día entero no hay razón para recortarlo. Lo que no lleva son los puntos de
+ * energía, que se van a la tarjeta del Sol.
  *
  * **Y es el sitio donde entrará la dinámica de manada** cuando llegue (fase 2,
  * BRD §9): es el único bloque de la pantalla que ya habla de todos a la vez.
  */
-export function SharedSkyCard({ headline }: { headline: string }) {
+export function SharedSkyCard({ headline, body }: { headline: string; body: string }) {
   return (
-    <View style={styles.card}>
-      <Text style={styles.sharedOverline}>{SKY_LABEL}</Text>
-      <Text style={styles.headline}>{headline}</Text>
+    <View style={styles.sky}>
+      <Text style={styles.skyOverline}>{SKY_LABEL}</Text>
+      <Text style={styles.skyHeadline}>{headline}</Text>
+      <Text style={styles.skyBody}>{body}</Text>
     </View>
   );
 }
 
-export interface PetDayCardProps {
-  pet: Pet;
-  edition: DailyEdition | null | undefined;
-  width: number;
-  onPress: () => void;
-}
-
 /**
- * La tarjeta de una mascota en el carrusel de Hoy (artboards 33 y 34).
+ * La tarjeta del carrusel (artboards 33 y 34): **quién**, y nada más.
  *
- * **Cabe entera, y eso no es un efecto secundario**: es la restricción que
- * impone el carrusel y de donde sale su altura. Si el contenido de un perro no
- * cupiera, la tarjeta pediría desplazamiento vertical dentro de un carrusel
- * horizontal, que es donde esto se rompe en un móvil de verdad.
+ * Adelgazó a identidad —retrato, nombre, raza y signo— cuando el detalle bajó
+ * a las tres tarjetas de lectura: llevar allí el titular lo decía dos veces,
+ * una encima de la otra.
  *
- * Lleva su lectura del día —titular y línea— y **sus tres ejes con grado**,
- * que es lo que compra el sitio del carrusel: con una tarjeta por pantalla
- * caben los tres, y con ellos la pantalla del día completo de un perro se
- * quedó sin trabajo. Por eso **la punta abre su carta natal**, que es el paso
- * siguiente de verdad.
- *
- * **El Ascendente que falta se dice, no se quita.** Con varias mascotas
- * conviven las que tienen hora y las que no; borrar la fila dejaría tarjetas
- * de distinta altura en un carrusel y, sobre todo, escondería que a ese perro
- * le falta un dato.
+ * **No se toca.** No lleva punta y no lleva a ninguna parte: es la cabecera de
+ * lo que hay debajo, no un enlace. Una zona que se pulsa sin decirlo es peor
+ * que una que no se pulsa — y a la carta natal se llega desde el perfil.
  */
-export function PetDayCard({ pet, edition, width, onPress }: PetDayCardProps) {
+export function PetIdentityCard({ pet, width }: { pet: Pet; width: number }) {
   const { data: chart } = useNatalChart(pet);
   const { data: photoUri } = usePetPhotoUri(pet);
-  const sun = dailyAxisCards(edition, chart).find((card) => card.axis === 'sun');
-  const tint = chart ? elementColor(elementOfSign(chart.sunSign())) : colors.accent;
+  const sign = chart?.sunSign();
+  const tint = sign ? elementColor(elementOfSign(sign)) : colors.accent;
+  const note = [breedLabel(pet.breedId()), sign && SIGN_LABELS[sign]].filter(Boolean).join(' · ');
 
   return (
-    <Pressable
-      onPress={onPress}
-      accessibilityRole="button"
-      accessibilityLabel={`La carta natal de ${pet.name()}`}
-      style={({ pressed }) => [styles.card, { width }, pressed && styles.pressed]}
-    >
-      <View style={styles.header}>
-        <View style={[styles.badge, { borderColor: tint }]}>
-          {photoUri ? (
-            <Image source={{ uri: photoUri }} style={styles.photo} resizeMode="cover" />
-          ) : (
-            <View style={[styles.placeholder, { borderColor: tint }]} />
-          )}
-        </View>
+    <View style={[styles.identity, { width }]}>
+      <View style={[styles.portrait, { borderColor: tint }]}>
+        {photoUri ? (
+          <Image source={{ uri: photoUri }} style={styles.photo} resizeMode="cover" />
+        ) : (
+          <View style={[styles.placeholder, { borderColor: tint }]} />
+        )}
+      </View>
+      <View style={styles.names}>
         <Text style={styles.name} numberOfLines={1}>
           {pet.name()}
         </Text>
-        <Chevron direction="right" />
+        {note ? (
+          <Text style={styles.note} numberOfLines={1}>
+            {note}
+          </Text>
+        ) : null}
       </View>
-
-      {sun ? <Text style={styles.headline}>{sun.headline}</Text> : null}
-      {sun ? <Text style={styles.body}>{sun.body}</Text> : null}
-
-      {chart ? (
-        <>
-          <View style={styles.divider} />
-          <View>
-            <AxisRow axis="sun" chart={chart} />
-            <AxisRow axis="moon" chart={chart} />
-            <AxisRow axis="ascendant" chart={chart} />
-          </View>
-        </>
-      ) : null}
-    </Pressable>
+    </View>
   );
 }
 
 /**
- * Una fila de eje: el rótulo, el signo y el grado.
+ * La lectura del perro que está delante (artboard 33): sus tres ejes, **las
+ * mismas tarjetas que ve una casa de un solo perro**.
  *
- * El grado se calla cuando la Luna es dudosa —dar 8°40′ de algo que puede caer
- * en otro signo es justo lo que la insignia de C.2b existe para evitar— y el
- * Ascendente sin hora dice «Sin hora» en gris, en el sitio del signo.
+ * Es lo que arregló el agujero que abrió el carrusel: el diario trae tres
+ * lecturas por perro y el resumen enseñaba una. Deslizar cambia las tres.
+ *
+ * Cada tarjeta lleva su símbolo a la izquierda —el rótulo compite aquí con el
+ * nombre del perro que está encima— y su grado a la derecha. Los puntos de
+ * energía van al pie de la del Sol.
  */
-function AxisRow({ axis, chart }: { axis: 'sun' | 'moon' | 'ascendant'; chart: NatalChart }) {
-  const ascendant = chart.ascendant();
-  const planet = axis === 'ascendant' ? undefined : chart.planet(axis);
-
-  const sign = axis === 'ascendant' ? ascendant?.sign : planet?.sign();
-  const degree =
-    axis === 'ascendant'
-      ? ascendant?.degree
-      : axis === 'moon' && chart.isMoonUncertain()
-        ? undefined
-        : planet?.degree();
+export function PetReading({
+  pet,
+  edition,
+  chart,
+}: {
+  pet: Pet;
+  edition: DailyEdition | null | undefined;
+  chart: NatalChart | undefined;
+}) {
+  const cards = dailyAxisCards(edition, chart);
+  if (cards.length === 0) return null;
 
   return (
-    <View style={styles.axis}>
-      <Text style={styles.axisLabel}>{DAILY_AXIS_LABELS[axis]}</Text>
-      <Text style={sign ? styles.axisSign : styles.axisMissing}>{sign ? SIGN_LABELS[sign] : NO_TIME}</Text>
-      <Text style={styles.axisDegree}>{degree === undefined ? '' : formatDegree(degree)}</Text>
+    <View style={styles.reading}>
+      <Text style={styles.readingLabel}>{readingOf(pet.name())}</Text>
+      {cards.map((card, position) => {
+        const tint = elementColor(card.element);
+        return (
+          <DailyCard
+            key={card.axis}
+            index={position}
+            glyph={<AxisGlyph axis={card.axis} tint={tint} />}
+            overline={`${DAILY_AXIS_LABELS[card.axis]} · ${SIGN_LABELS[card.sign]}`}
+            tint={tint}
+            meta={card.degree === undefined ? undefined : <Text style={styles.degree}>{formatDegree(card.degree)}</Text>}
+            headline={card.headline}
+            body={card.body}
+            // Solo la del Sol: la energía del día es una y no tres, y es la
+            // del eje que manda la lectura.
+            footer={
+              card.axis === 'sun' ? (
+                <View style={styles.energy}>
+                  <Text style={styles.energyLabel}>{ENERGY_LABEL}</Text>
+                  <EnergyDots
+                    score={card.energyScore}
+                    color={tint}
+                    label={`Energía ${card.energyScore} de 5`}
+                  />
+                </View>
+              ) : undefined
+            }
+          />
+        );
+      })}
+    </View>
+  );
+}
+
+/** El símbolo del eje. El Ascendente no tiene glifo heredado: lleva su rótulo. */
+function AxisGlyph({ axis, tint }: { axis: 'sun' | 'moon' | 'ascendant'; tint: string }) {
+  return (
+    <View style={styles.glyphBox}>
+      <Text style={[axis === 'ascendant' ? styles.angleGlyph : styles.glyph, { color: tint }]}>
+        {axis === 'ascendant' ? 'ASC' : PLANET_GLYPHS[axis]}
+      </Text>
     </View>
   );
 }
 
 const styles = StyleSheet.create({
-  card: {
+  sky: {
     borderRadius: radii.card,
     backgroundColor: colors.surface,
     borderWidth: 1,
@@ -152,21 +175,32 @@ const styles = StyleSheet.create({
     padding: spacing[4],
     gap: spacing[3],
   },
-  pressed: {
-    opacity: opacity.pressed,
-  },
-  sharedOverline: {
+  skyOverline: {
     ...typography.overline,
     color: colors.textFaint,
   },
-  header: {
+  skyHeadline: {
+    ...typography.section,
+    color: colors.text,
+  },
+  skyBody: {
+    ...typography.body,
+    color: colors.textMuted,
+  },
+  identity: {
+    borderRadius: radii.card,
+    backgroundColor: colors.surface,
+    borderWidth: 1,
+    borderColor: colors.divider,
+    paddingVertical: spacing[4],
+    paddingHorizontal: spacing[5],
     flexDirection: 'row',
     alignItems: 'center',
-    gap: spacing[3],
+    gap: spacing[4],
   },
-  badge: {
-    width: BADGE,
-    height: BADGE,
+  portrait: {
+    width: PORTRAIT,
+    height: PORTRAIT,
     borderRadius: radii.pill,
     backgroundColor: colors.background,
     borderWidth: 1,
@@ -182,56 +216,56 @@ const styles = StyleSheet.create({
   placeholder: {
     width: PLACEHOLDER,
     height: PLACEHOLDER,
-    borderRadius: icon.radius.m,
+    borderRadius: radii.s,
     borderWidth: icon.stroke,
     opacity: 0.6,
   },
-  name: {
-    ...typography.section,
-    color: colors.text,
+  names: {
     flex: 1,
+    gap: spacing[1],
+    minWidth: 0,
   },
-  headline: {
-    ...typography.section,
+  name: {
+    ...typography.title,
     color: colors.text,
   },
-  /**
-   * Interlineado apretado, como en las condiciones: la tarjeta tiene que caber
-   * entera y el sitio se recupera de la columna, no recortando el texto.
-   */
-  body: {
-    ...typography.bodyTight,
-    color: colors.textMuted,
+  note: {
+    ...typography.caption,
+    color: colors.textFaint,
   },
-  divider: {
-    height: 1,
-    backgroundColor: colors.divider,
-  },
-  axis: {
-    height: AXIS_ROW,
-    flexDirection: 'row',
-    alignItems: 'center',
+  reading: {
     gap: spacing[3],
   },
-  axisLabel: {
+  readingLabel: {
     ...typography.overline,
     color: colors.textFaint,
-    width: AXIS_LABEL,
-    flexShrink: 0,
   },
-  axisSign: {
-    ...typography.bodyEmphasis,
-    color: colors.text,
-    flex: 1,
-  },
-  axisMissing: {
-    ...typography.bodyEmphasis,
-    color: colors.textFaint,
-    flex: 1,
-  },
-  axisDegree: {
+  degree: {
     ...text('ephemeris'),
     color: colors.textFaint,
     flexShrink: 0,
+  },
+  glyphBox: {
+    width: GLYPH_BOX,
+    alignItems: 'center',
+    flexShrink: 0,
+  },
+  glyph: {
+    fontSize: glyphSize.compact,
+  },
+  angleGlyph: {
+    ...typography.overline,
+  },
+  energy: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: spacing[2],
+  },
+  energyLabel: {
+    ...typography.tabLabel,
+    letterSpacing: typography.overline.letterSpacing,
+    textTransform: 'uppercase',
+    color: colors.textFaint,
+    flex: 1,
   },
 });

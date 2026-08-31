@@ -296,141 +296,53 @@ del 26 con la suscripción activa~~ y ~~el sitio de la oferta en Ajustes~~ →
 
 ---
 
-## Encargo de diseño — **las fichas con varias mascotas**, y el canvas al día
+## Encargo de diseño — **las fichas y el detalle del día** · **cerrado**
 
-*(2026-08-31. Texto tal cual se manda a Claude Design.)*
+*(2026-08-31. Contestado en el canvas —33, 34, 35 y sus notas— e implementado
+en la sesión 50. **Multimascota queda cerrado del todo.**)*
 
-El carrusel, Explorar y la lista están implementados (artboards 33, 34 y 35).
-Van tres cosas: **una regresión que hay que arreglar** —el carrusel dejó fuera
-dos tercios de la lectura de cada perro—, **una pantalla que falta** y **ocho
-apuntes** para que el dibujo y el código no se desalineen.
+### Lo que contestó
 
----
+- **El agujero del carrusel, tapado como se propuso**: debajo del carrusel van
+  las **tres lecturas** del perro que está delante, las mismas tarjetas que ve
+  una casa de un solo perro. El reparto queda en *el carrusel es quién y debajo
+  va qué le pasa hoy*, y con él la tarjeta adelgaza a identidad —retrato de 72,
+  nombre, raza y signo—, pierde el titular y **deja de llevar a ninguna parte**
+- **Las filas de eje desaparecen y no vuelven**: eran posiciones natales
+  metidas en la pantalla del día, y ahora cada eje tiene su tarjeta con su
+  lectura y su grado
+- **La tarjeta del cielo recupera su cuerpo** y **los puntos de energía se van
+  a la del Sol**, con su rótulo. Cada fragmento trae su propia energía, así que
+  la del Sol es suya y no prestada
+- **Puntos también con dos**: la mirilla dice «hay algo más», no «esto se
+  desliza», y con la tarjeta convertida en identidad lo que asoma es medio
+  retrato — que se lee como recorte antes que como gesto
+- **El pie de las fichas**: una fila por perro y cada una a su carta. Enlazar
+  solo al primero es arbitrario, y una fila que los nombra sin enlazar rompe lo
+  único que el pie promete. Tres filas y una cuarta que despliega el resto en
+  el sitio, sin punta porque no va a ninguna parte
+- **En casas, un perro una fila y dentro sus planetas**: «La Luna y el Sol de
+  Baloo caen en esta casa». La frase de una mascota no escalaba a dos cartas
+- **Y cuando ninguna cumple, con varias el pie se pinta y lo dice**: con una la
+  ausencia es obvia, con cinco el silencio se confunde con que no se ha
+  calculado
+- **Los ocho apuntes del canvas, aplicados**: «El día en la casa», el `padding`
+  de 20 bajado a 16 en todos los artboards, la regla del glifo apagado escrita
+  en la nota del 35, la cabecera de la leyenda de casas confirmada, y el día
+  completo de un perro dado por borrado
 
-### A · Lo urgente: con el carrusel, Hoy dejó de enseñar dos tercios de la lectura
+### Lo que quedó fuera, y por qué
 
-**Es una regresión y la introduje yo**, siguiendo la nota del 33 al pie de la
-letra. Conviene arreglarla antes que nada de lo demás.
-
-El diario trae **37 fragmentos** al día: 36 por eje —Sol, Luna y Ascendente ×
-12 signos— y uno del cielo. **De cada perro se leen tres**, uno por eje. La
-tarjeta del carrusel enseña **solo el del Sol**; sus tres filas de eje son
-posiciones natales —«Su Luna · Piscis 8°02′»—, no lo que la Luna le dice hoy.
-
-Y como la nota del 33 daba por hecho que con esas tres filas el día completo de
-un perro se quedaba sin trabajo, esa pantalla se borró. **Ahí es donde vivían
-los otros dos fragmentos**, y con ellos el cuerpo de la tarjeta del cielo y sus
-puntos de energía, que en el Hoy de varias mascotas tampoco se pintan.
-
-Resultado, para una casa con dos perros: se descargan seis lecturas de eje y se
-enseñan dos. Con una sola mascota no pasa — Hoy sigue enseñando las tres.
-
-**La propuesta**: que el carrusel siga siendo **quién**, y que debajo vayan las
-**tres tarjetas del día del perro que esté delante** — las mismas que ve una
-casa de un solo perro. Al deslizar, cambian las tres.
-
-**Lo que hace falta decidir:**
-
-1. **Qué pasa con las tres filas de eje de la tarjeta.** Si debajo hay una
-   tarjeta «Su Luna · Piscis» con el texto del día, la fila «Su Luna · Piscis
-   8°02′» de arriba dice medio lo mismo. ¿Se quedan las filas —son el grado,
-   que las tarjetas no llevan—, o la tarjeta vuelve a ser resumen y las cede?
-2. **La tarjeta del cielo**: con varias mascotas hoy va sin cuerpo y sin puntos
-   de energía. Si debajo se lee el día entero, ¿los recupera?
-3. **La cascada al deslizar.** Las tarjetas del día entran con un retardo de
-   70 ms encadenado. Al cambiar de perro, ¿vuelven a entrar en cascada, o
-   cambian sin ceremonia? Una cascada por cada deslizamiento es mucha ceremonia
-   para un gesto que se repite
-4. **Y el destino de la punta.** El 30 la mandaba al día completo del perro; el
-   33 la manda a su carta natal. Con las tarjetas debajo, el día completo ya no
-   hace falta y la carta natal encaja — pero conviene confirmarlo
-
-**La alternativa, por si se prefiere:** devolver la pantalla del día completo de
-un perro y que la punta vuelva a abrirla, como decía el 30. Cuesta menos y
-recupera todo, pero deja la lectura a un toque de distancia en la pantalla del
-hábito diario, que es justo lo que el carrusel venía a evitar.
-
----
-
-### B · Lo que hay que dibujar: el pie de las fichas con varias mascotas
-
-**El problema.** La nota del 35 dice que la respuesta entera está «en la ficha
-del signo, que nombra a los dos». Las fichas de signo, de casa y de fase
-**siguen nombrando a una sola**, y no es un descuido: su pie es una fila que
-**enlaza a una carta natal**, y con Nala y Ona compartiendo Cáncer no hay un
-solo destino al que llevar.
-
-Hoy Explorar dice «Cáncer lo comparten Nala y Ona» y la ficha de Cáncer nombra
-a una. Es la última costura de multimascota que queda abierta.
-
-**Lo que hace hoy el pie** (artboards 18 y 21, y sigue vigente con una
-mascota): una fila fija abajo, separada por un filo, con el título «Su Sol de
-Baloo», el detalle «está en este signo» y una punta que abre su carta natal
-—enfocando el planeta que se nombra, no la rueda entera—.
-
-**Lo que hace falta decidir:**
-
-1. **Con dos o más perros en la misma casilla**: ¿dos filas, una por perro y
-   cada una a su carta? ¿Una fila que los nombra a todos y no enlaza? ¿Una que
-   enlaza al primero y nombra al resto? Cada opción cambia lo que el pie
-   promete
-2. **Cuántos caben.** Con cinco perros en Cáncer, un pie de cinco filas es más
-   alto que el contenido de la ficha
-3. **La ficha de casa tiene un caso más**: el pie de hoy nombra el planeta que
-   cae dentro —«Su Luna de Baloo cae en la casa V, con su Sol»—. Con dos perros
-   son dos planetas de dos cartas en la misma frase
-4. **La ficha de fase** nombra la fase de hoy, que **no es de nadie**: ahí
-   probablemente no cambie nada, pero conviene confirmarlo
-5. **Y qué pasa cuando ninguna cumple.** Hoy el pie no se pinta. Con cinco
-   perros y ninguno en Cáncer, ¿sigue sin pintarse, o dice que no hay ninguno?
-
-**Consecuencia técnica, para que se sepa:** de esto depende **borrar el último
-estado de «mascota seleccionada»** que queda en la app. Nació para decidir de
-quién hablaban Hoy, Explorar y las fichas; Hoy pasó a carrusel y Explorar las
-enseña todas, así que las fichas son su único cliente. En cuanto nombren a
-todas, se borra.
-
----
-
-### C · Ocho apuntes para poner el canvas al día
-
-Nada de esto bloquea; son sitios donde el código ya decidió y el dibujo no lo
-refleja. Si alguno se decidió al revés de como está implementado, se cambia el
-código.
-
-1. **Los artboards 33 y 34 dicen «El día de la casa»** en la cabecera, y quedó
-   en **«El día en la casa»** — la casa no tiene día, lo tienen los perros que
-   viven en ella. Está así en la app
-2. **El glifo apagado.** El artboard 8 pinta los doce glifos en oro y el 35
-   apaga los que no están resaltados. Se implementó la regla que cumple los dos
-   literalmente: **el resto se apaga solo cuando hay algo resaltado**. Con nada
-   resaltado, los doce en oro. Conviene escribirlo en una nota o corregir uno
-   de los dos artboards
-3. **La cabecera de la leyenda de casas no está dibujada.** El 35 dibuja la de
-   signos —«Resaltados, los Soles de tus cinco mascotas»— y cita la cláusula de
-   casas —«Duna y Ciro no tienen hora»—, pero no la primera frase. Está escrita
-   como **«Resaltadas, las casas del Sol de tus mascotas.»**, sin número a
-   propósito: no todas aparecen, y de eso ya avisa la cláusula
-4. **Y falta el caso de que ninguna tenga hora**: con varias mascotas y ninguna
-   con hora, la leyenda dice «Las casas de sus Soles salen resaltadas en cuanto
-   sus cartas tengan hora y lugar»
-5. **El grado de una Luna incierta.** En el 33, Nala no tiene hora y su Luna
-   sale con grado (26°10′). El motor marca la Luna como **incierta** cuando no
-   hay hora y está a menos de 6,5° de cambiar de signo — y 26°10′ lo está—, así
-   que en la app esa celda sale **sin grado**. ¿Se queda vacía, como está
-   implementado, o lleva la insignia «aprox.» que sí usan las tarjetas del día?
-6. **El punto de oro de la hoja del 26 cambió de significado.** Marcaba la
-   mascota seleccionada; con la selección fuera, ahora marca **la mascota cuyo
-   hub estás mirando**. La lista del 32 perdió el suyo y la hoja lo conserva:
-   ¿es correcto que uno se caiga y el otro no?
-7. **Padding de 20 px.** Los artboards 30, 32 (tarjeta de estado de Ajustes) y
-   33 usan `padding: 20`, y la escala de espaciado del sistema no tiene 20 — va
-   de 16 a 24. Está implementado a **16**. O entra un 20 en la escala, o los
-   artboards bajan a 16: hoy es una deriva de 4 px que se repite
-8. **Sin artboard, y a propósito**: el día completo de un perro **se borró** de
-   la app. La tarjeta del carrusel creció a tres ejes con grado y esa pantalla
-   se quedó sin nada más que contar, así que la punta de la tarjeta abre la
-   carta natal. Si alguna nota sigue apuntando a ella, sobra
+- **El grado de una Luna incierta** (apunte 5) no se contestó. Sigue como
+  estaba: la celda sale sin grado. Es la regla de C.2b y no molesta a nadie,
+  pero conviene decidir si lleva la insignia «aprox.» el día que se dibuje
+- **La ficha de fase**: la nota dice que no cambia, y con una mascota no
+  cambia. Con varias nacidas en la misma fase se repite la fila, una por perro
+  con su fecha — es información y no lleva punta, así que no necesitaba caja
+- **La Luna natal de la pantalla de la Luna** decía «Su Luna natal» y con
+  varias mascotas ese «su» se queda sin sujeto. La fila **solo se pinta con una
+  mascota**; con varias se cae, en vez de elegir un perro por el usuario. No
+  está dibujado
 
 ---
 
@@ -4098,3 +4010,26 @@ Llegaron 27 artboards. Se implementan **17 y 27**; el 26 va en tanda propia.
 - ⚠️ **Queda el pie de las fichas**: Explorar ya dice «Cáncer lo comparten Nala
   y Ona» y la ficha de Cáncer sigue nombrando a una. Su pie enlaza a una carta,
   y con dos perros no hay un solo destino — hace falta dibujarlo
+
+### 2026-08-31 (50) — el detalle vuelve a Hoy, y multimascota se cierra
+- **Las tres lecturas bajan al carrusel** y con eso se tapa el agujero que
+  abrió el 33: el diario trae tres fragmentos por perro y la pantalla enseñaba
+  uno. Ahora enseña los tres del que se mira, y deslizar cambia los tres
+- **`DailyCard` gana un símbolo y un pie** en vez de nacer una tarjeta nueva:
+  el rótulo compite aquí con el nombre del perro que está encima, y la energía
+  no cabe a la derecha del rótulo porque ahí ya está el grado. Es la misma
+  tarjeta del 04 con dos ranuras más
+- **`DailyAxisCard` gana `energyScore`**, que cada fragmento traía y nadie
+  leía: la tarjeta del Sol enseña la suya y no la del cielo
+- **El pie de las fichas se parte por perro** (`ConnectionList`): una fila cada
+  uno, tres visibles y una cuarta que despliega el resto en el sitio. Con una
+  mascota **no cambia nada** — sigue siendo la fila suelta de siempre
+- **Y un defecto que sacó su propio test**: al enumerar los planetas de una
+  casa, pasar a minúscula todo lo que no es el primero convertía *Marte* en
+  «marte». Solo llevan artículo el Sol, la Luna y el Ascendente; los demás son
+  nombres propios. Lo dice ahora `POSSESSIVE_LABELS`, que era justo esa tabla
+- **`selectedPetStore` borrado.** Era el estado que decidía de quién hablaban
+  Hoy, Explorar y las fichas, y los tres dejaron de preguntar. Donde queda «la
+  mascota» con una sola, es `pets[0]`
+- **`countWord` y `joinList` a `_ui/text.ts`**: los escribí tres veces en tres
+  sesiones seguidas, que es una vez más de lo que hace falta para verlo

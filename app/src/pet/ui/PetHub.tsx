@@ -16,7 +16,6 @@ import { breedLabel, formatLongDate } from './format';
 import { PetIdentity } from './PetIdentity';
 import { PetSelectorSheet } from './PetSelectorSheet';
 import { usePets, usePetPhotoUri } from './petQueries';
-import { useSelectedPetStore } from './selectedPetStore';
 
 import { colors, spacing } from '@/design/theme';
 
@@ -56,15 +55,13 @@ export function PetHub({ pet, onBack }: PetHubProps) {
   const { data: pets } = usePets();
   const { data: chart } = useNatalChart(pet);
   const { data: photoUri } = usePetPhotoUri(pet);
-  const select = useSelectedPetStore((state) => state.select);
   const canAddPet = useCanAddPet();
 
-  // Con varias mascotas el hub cuelga de la lista y saltar a otro perro es
-  // sustituir esta pantalla. Con una sola no hay a dónde saltar —la hoja
-  // enseña ese perro y la fila de añadir— y basta con dejarla marcada.
+  // Saltar a otro perro **sustituye** esta pantalla en vez de apilar otra, así
+  // que el atrás sigue devolviendo a la lista y no a una cadena de hubs. Con
+  // una sola mascota no hay a dónde saltar y la hoja solo se cierra.
   const pickPet = (picked: string) => {
     if (onBack) router.replace({ pathname: '/pet/[id]/hub', params: { id: picked } });
-    else select(picked);
   };
   const [selectorOpen, setSelectorOpen] = useState(false);
 

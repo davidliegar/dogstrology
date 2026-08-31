@@ -24,6 +24,12 @@ const RISE = 12;
 const ENTER_EASING = Easing.bezier(...motion.easing.enter);
 
 export interface DailyCardProps {
+  /**
+   * El símbolo del eje, a la izquierda del rótulo (artboard 33). Lo llevan las
+   * tarjetas del día en la casa, donde el rótulo compite con el nombre del
+   * perro que está encima; en el día de una sola mascota no hace falta.
+   */
+  glyph?: React.ReactNode;
   /** El rótulo pequeño de arriba, en el color de la tarjeta. */
   overline: string;
   /** El color que tiñe rótulo y filo: el del día, o el del elemento del eje. */
@@ -40,6 +46,13 @@ export interface DailyCardProps {
   featured?: boolean;
   /** Su sitio en la cascada. 0 entra la primera. */
   index?: number;
+  /**
+   * Debajo del cuerpo: hoy, los puntos de energía de la tarjeta del Sol en el
+   * día en la casa (artboard 33). Van al pie y no en el rótulo porque ahí
+   * arriba ya está el grado, y dos cosas a la derecha del mismo rótulo se
+   * estorban.
+   */
+  footer?: React.ReactNode;
 }
 
 /**
@@ -51,6 +64,7 @@ export interface DailyCardProps {
  * parecidos, y llegando a la vez el ojo no sabe por dónde empezar.
  */
 export function DailyCard({
+  glyph,
   overline,
   tint,
   meta,
@@ -58,6 +72,7 @@ export function DailyCard({
   body,
   featured = false,
   index = 0,
+  footer,
 }: DailyCardProps) {
   const reduceMotion = useReducedMotion();
   const entrance = useSharedValue(reduceMotion ? 1 : 0);
@@ -83,6 +98,7 @@ export function DailyCard({
       style={[styles.card, featured && [styles.featured, { borderColor: tint }], style]}
     >
       <View style={styles.head}>
+        {glyph}
         <Text style={[styles.overline, { color: tint }]} numberOfLines={1}>
           {overline}
         </Text>
@@ -90,6 +106,7 @@ export function DailyCard({
       </View>
       <Text style={styles.headline}>{headline}</Text>
       <Text style={styles.body}>{body}</Text>
+      {footer}
     </Animated.View>
   );
 }
@@ -115,11 +132,11 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
-    gap: spacing[3],
+    gap: spacing[2],
   },
   overline: {
     ...typography.overline,
-    flexShrink: 1,
+    flex: 1,
   },
   headline: {
     ...typography.section,

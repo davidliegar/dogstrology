@@ -31,6 +31,15 @@ export const HOUSE_DAY_TITLE = 'El día en la casa';
 export const petDayTitle = (name: string): string => `El día de ${name}`;
 
 /**
+ * El rótulo que separa el carrusel de la lectura del perro que está delante
+ * (artboard 33). El carrusel es **quién** y esto es **qué le pasa hoy**.
+ */
+export const readingOf = (name: string): string => `La lectura de ${name}`;
+
+/** El pie de la tarjeta del Sol, delante de los cinco puntos (artboard 33). */
+export const ENERGY_LABEL = 'Energía';
+
+/**
  * Lo que ocupa el sitio del Ascendente cuando no hay hora de nacimiento
  * (artboard 33). **Se dice, no se quita**: con varias mascotas conviven las
  * que la tienen y las que no, y borrar la fila dejaría tarjetas de distinta

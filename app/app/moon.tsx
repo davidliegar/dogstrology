@@ -10,7 +10,7 @@ import { formatPosition, formatSkyMoment } from '@/chart/ui/format';
 import { MOON_PHASE_LABELS, SIGN_LABELS } from '@/chart/ui/labels';
 import { moonTodayMeta } from '@/chart/ui/moonPhase';
 import { useMoonPhaseSky } from '@/content/ui/contentQueries';
-import { useSelectedPet } from '@/pet/ui/petQueries';
+import { usePets } from '@/pet/ui/petQueries';
 
 import { colors, screenPadding, spacing, typography } from '@/design/theme';
 
@@ -37,8 +37,12 @@ const ROW_HEIGHT = 56;
  * sombra es media elipse, y el propio artboard 23 ya lo dice.
  */
 export default function MoonToday() {
-  const { data: pet } = useSelectedPet();
-  const { data: chart } = useNatalChart(pet);
+  // **Solo con una mascota.** La fila dice «Su Luna natal», y con dos perros
+  // ese «su» no tiene sujeto: la pantalla es del cielo de hoy, no de nadie.
+  // Con varias se cae la fila en vez de elegir un perro por el usuario.
+  const { data: pets } = usePets();
+  const only = pets?.length === 1 ? pets[0] : undefined;
+  const { data: chart } = useNatalChart(only);
   const { data: moon } = useMoonSky();
   const { data: fragment } = useMoonPhaseSky(moon?.phase.name);
   const { width } = useWindowDimensions();
