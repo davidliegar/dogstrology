@@ -152,11 +152,17 @@ paywall compra de verdad contra RevenueCat en un dispositivo.
 
 ### En paralelo: probar la build en un móvil de verdad
 
-Es lo único de esta tanda que no se puede comprobar desde aquí. Lo que hay que
-mirar, en este orden: que Hoy salga con las cuatro tarjetas y su cascada; que
-el trío del hub y la carta cuadren con lo que dice Hoy; que el arrastre de la
-hoja de planeta vaya fino en Android; y —si se puede— **dejar la app abierta
-pasada la medianoche**, que es lo que la sesión 34 arregló a ciegas.
+Es lo único de esta tanda que no se puede comprobar desde aquí, y ahora hay más
+que mirar. **Antes hace falta `npx expo prebuild --clean`**: el splash y el
+icono viven en el proyecto nativo, que está ignorado y lleva dentro la
+configuración con la que se generó.
+
+En orden: que la app **ya no abra en blanco**; el icono en el lanzador, a
+tamaño real y con el tema de Android 13; que Hoy salga con las cuatro tarjetas
+y su cascada; que el trío del hub y la carta cuadren con lo que dice Hoy; que
+el arrastre de la hoja de planeta vaya fino en Android; y —si se puede— **dejar
+la app abierta pasada la medianoche**, que es lo que la sesión 34 arregló a
+ciegas.
 
 ### Y lo que no se puede comprimir al final
 
@@ -271,17 +277,24 @@ Llegaron **27 artboards** y dos reglas. Lo que estaba pedido y ya está:
 
 **Lo que sigue pendiente de diseño:**
 
-1. **El contorno del perro sobre el asterismo del icono** — necesita mano de
-   dibujo; el andamio está hecho desde el Bloque 1. Es el único que bloquea a
-   otro: sin él no hay icono definitivo
-2. **El teñido del icono por variante** (dev / test / producción), que va
-   **detrás** del contorno. Hoy las tres apps se distinguen solo por el nombre
-   en la pantalla de inicio
+1. **Un teñido por variante** para el icono (dev / test / producción). Ya no
+   está bloqueado por nada: el icono es un dibujo y `icon.mjs` lo procesa, así
+   que teñirlo son tres salidas en vez de una. Falta **decidir cómo** — un
+   viraje de tono, una marca de esquina— porque hoy las tres apps se distinguen
+   solo por el nombre en la pantalla de inicio
 
 ~~El estado "todavía no publicado"~~, ~~el pie del 17~~, ~~la tarjeta de la
-Luna del 04~~, ~~las constelaciones pobres~~, ~~"la más tenue"~~, ~~el título de
-la cabecera de Hoy~~ y ~~el splash~~ están resueltos (artboards 26, 27 y 28 y
-las notas del 18 y el 11).
+Luna del 04~~, ~~las constelaciones pobres~~, ~~"la más tenue"~~, ~~el título
+de la cabecera de Hoy~~, ~~el splash~~ y ~~el contorno del perro~~ están
+resueltos (artboards 26, 27 y 28, las notas del 18 y el 11, y el dibujo del
+icono).
+
+**El contorno dejó de ser un problema al cambiar de enfoque**: se perseguía
+como un `contorno.svg` que `plot.mjs` inyectaría sobre el asterismo ploteado, y
+tres intentos fallaron porque en el grabado de Bayer la forma la lleva el
+sombreado interior. Encargando **el icono entero como dibujo** —figura y
+estrellas juntas, y las posiciones reales replanteadas encima— el problema
+desaparece.
 
 ### Las dos reglas que no dan pantalla
 
@@ -405,9 +418,10 @@ Pendiente, sin bloquear el resto del Bloque 3:
   se hicieron aquí porque tocar la pantalla de la revelación pide el artboard
   delante
 
-Del Bloque 1 quedan 3 cabos que no se cierran desde aquí: el contorno del perro
-(necesita mano de dibujo), el icono en dispositivo real, y el tratamiento de las
-constelaciones pobres, que se decide con las tarjetas de F5 delante
+Del Bloque 1 queda **un cabo**: ver el icono en un dispositivo real. Los otros
+dos están cerrados — el contorno del perro, cambiando de enfoque (el icono es un
+dibujo, no un plot con silueta encima), y el tratamiento de las constelaciones
+pobres, que resultó ser *no hay tratamiento*
 
 | | |
 |---|---|
@@ -467,14 +481,14 @@ Diseño con IA (D2), pero las constelaciones **se plotean desde datos**, no se g
       en el cielo, y contiene a Sirio (mag −1,44). Verificado a 48/96/512 px.
       *Pendiente*: verlo en dispositivo, exportar tamaños de store y decidir el
       icono monocromo de Android 13+
-- [ ] **Contorno del perro** sobre el asterismo del icono. Todo el andamio está
-      hecho: lámina de Bayer 1603 localizada (dominio público), **registro
-      verificado** (`lienzo = 0,634 · lámina − (211,3 · 218,2)`, residuo ~9 px
-      sobre 512), anclajes corregidos con la lámina delante —**Sirio es el
-      hocico**, no la cabeza— y `plot.mjs` inyecta el contorno y reencaja el
-      conjunto. Falta **solo el dibujo**: tres intentos míos y ninguno lee. En el
-      grabado la forma la lleva el sombreado interior, no el contorno, así que un
-      calco más fino no lo arregla. Ver `design/brand/README.md`
+- [x] ~~Contorno del perro sobre el asterismo~~ — **resuelto cambiando de
+      enfoque** (2026-08-31). Se perseguía como un `contorno.svg` inyectado
+      sobre el asterismo ploteado, y tres intentos fallaron porque en el grabado
+      de Bayer la forma la lleva el sombreado interior. El icono pasa a ser **un
+      dibujo entero** (`design/brand/icono-fuente.png`, encargado con
+      `icono-prompt.md`) y `icon.mjs` saca de él las cinco piezas. El andamio
+      del registro —lámina de Bayer, ajuste por mínimos cuadrados, anclajes—
+      sigue en `README.md` por si hace falta replantear las posiciones reales
 - [ ] Marca de agua para compartir — **es el vector de adquisición** (BRD §8.1),
       merece diseño real. Especificada en `design/brand/README.md`; **es un
       componente, no un asset**, así que se implementa en F9 (Bloque 5)
