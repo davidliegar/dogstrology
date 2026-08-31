@@ -75,7 +75,7 @@ solo los dibujos. Si discrepa del canvas, gana el canvas.
 |---------|----------|---------|
 | `npm run generate:constellations` | `design/constelaciones/svg/*.svg` | `src/chart/ui/constellations.generated.ts` |
 | `npm run generate:splash` | artboard 28, en `design/brand/splash.mjs` | `design/brand/splash.svg` + `assets/splash-icon.png` |
-| `npm run generate:icon` | `design/brand/icono-fuente.png` | `assets/icon.png` (cuadrado, centrado, 1024²) |
+| `npm run generate:icon` | artboard 30, sobre `design/brand/icon.svg` | `assets/icons/<variante>/` — las cinco piezas, teñidas |
 | `npm run generate:municipalities` | `data/geonames-ES.txt.gz` | `src/pet/ui/municipalities.generated.json` |
 | `npm run generate:catalog` | `content/catalog/*.json` | `src/content/infrastructure/catalog/*.generated.json` |
 
@@ -183,8 +183,10 @@ la misma app o dos distintas. Lo elige `app.config.ts` leyendo `APP_VARIANT`:
   con la suya.
 - `app.json` sigue siendo la base; `app.config.ts` solo reescribe lo que
   depende del entorno. `CONTENT_BASE_URL` también se puede sobrescribir.
-- **Las tres comparten icono**: en la pantalla de inicio se distinguen por el
-  nombre. Un icono por variante es un encargo de diseño pendiente.
+- **Cada una lleva su icono teñido** (artboard 30): el mismo asterismo de Canis
+  Major con las estrellas en oro, agua o fuego, y el trazado en hueso en las
+  tres — un color heredado, no tres dibujos. `app.json` apunta a las piezas de
+  producción y `app.config.ts` las reescribe para las otras dos.
 
 ## Comandos
 

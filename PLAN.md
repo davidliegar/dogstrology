@@ -145,10 +145,14 @@ comportamiento se resolvió al revés de como estaba implementada:
 - **Artboard 29 · Condiciones**, pantalla y no enlace al navegador
 - **Artboard 30**, los otros tres en un sitio: la fila del 26 pierde el
   subtítulo y lleva al alta, la tarjeta de Ajustes cambia de trabajo en vez de
-  desaparecer, y el teñido del icono por variante
+  desaparecer, y el icono se tiñe por variante — oro, agua y fuego, con el
+  trazado en hueso en las tres
 
-**Lo único que queda abierto de los cuatro es cómo se aplica el teñido** — ver
-el aviso del Bloque 1.
+**Los cuatro están implementados.** El del icono llevaba una decisión detrás:
+el artboard 30 dibuja el teñido sobre el asterismo y el icono de la sesión 41
+era el dibujo encargado. Decidido que **el icono vuelve a ser Canis Major**, se
+generan las tres variantes de un solo SVG y `icono-fuente.png` se queda como
+registro del encargo.
 
 ### Un desfase de precio que hay que resolver antes de Play Console
 
@@ -275,17 +279,11 @@ Llegaron **27 artboards** y dos reglas. Lo que estaba pedido y ya está:
 
 **Lo que sigue pendiente de diseño:**
 
-1. **El teñido por variante del icono**: respondido en el artboard 30 —oro,
-   agua y fuego, con el trazado en hueso en las tres— y **sin implementar**,
-   porque el spec dibuja el teñido sobre `canis-major.svg` (la constelación en
-   `currentColor`) y el icono que se generó en la sesión 41 es el **dibujo
-   encargado**, un ráster que `icon.mjs` procesa. Antes de tocar los assets
-   hace falta saber cuál de las dos cosas es el icono de producción — ver el
-   registro de la sesión 43
+No queda ninguno abierto.
 
-~~«Condiciones»~~ → **artboard 29**, implementado. ~~La fila de añadir del 26
-con la suscripción activa~~ y ~~el sitio de la oferta en Ajustes~~ →
-**artboard 30**, los dos implementados (sesión 43).
+~~El teñido por variante del icono~~, ~~«Condiciones»~~, ~~la fila de añadir
+del 26 con la suscripción activa~~ y ~~el sitio de la oferta en Ajustes~~ →
+**artboards 29 y 30**, los cuatro implementados (sesión 43).
 
 ~~El estado "todavía no publicado"~~, ~~el pie del 17~~, ~~la tarjeta de la
 Luna del 04~~, ~~las constelaciones pobres~~, ~~"la más tenue"~~, ~~el título
@@ -3453,12 +3451,17 @@ Llegaron 27 artboards. Se implementan **17 y 27**; el 26 va en tanda propia.
 - **`typography.bodyTight`**: el mismo cuerpo con dos píxeles menos de
   interlineado, que es lo que el 29 usa para que quepan los cinco apartados sin
   desplazar. Va al tema y no como número suelto en un `StyleSheet`
-- **⚠️ El icono por variante no se implementó.** El artboard 30 dibuja el
-  teñido sobre `canis-major.svg` —la constelación en `currentColor`, un color
-  heredado y no tres assets— y el icono de la sesión 41 es el **dibujo
-  encargado**, un ráster. Aplicar el spec tal cual cambiaría el icono de
-  producción de un perro dibujado a un asterismo, así que hace falta decidirlo
-  antes de tocar nada
+- **El icono vuelve a ser Canis Major**, y con él las tres variantes teñidas.
+  El artboard 30 dibuja el teñido sobre el asterismo y el icono de la sesión 41
+  era el dibujo encargado: decidido que manda el asterismo, `icono-fuente.png`
+  se queda como registro. `icon.mjs` se reescribe entero — lee la geometría de
+  `icon.svg`, la tiñe con un color por variante y saca las cinco piezas de cada
+  una en `app/assets/icons/<variante>/`
+- **El alfa del adaptativo se despeja en vez de estimarse.** `qlmanage` compone
+  siempre sobre blanco —también con un SVG sin fondo—, así que cada capa se
+  rasteriza dos veces, sobre el azul noche y sobre blanco, y de las dos sale la
+  ecuación de composición resuelta. La versión anterior lo aproximaba por
+  distancia al fondo y dejaba las estrellas un punto oscuras al componer
 - **El canvas pasa de 256 KiB**, que es el tope de lectura de DesignSync: una
   importación se trae el fichero cortado y los últimos artboards no llegan. Los
   del paywall están al principio, así que esta vez no molestó — pero conviene

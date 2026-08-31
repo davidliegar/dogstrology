@@ -48,15 +48,38 @@ esfuerzo; a 48 conserva la estructura, que era lo que fallaba en las variantes s
 líneas — a ese tamaño los puntos sueltos no dicen nada y la línea es lo que da
 figura.
 
-**Sustituido el 2026-08-31.** El icono ya no se plotea: es un dibujo, en
-`icono-fuente.png`, y `icon.mjs` saca de él las cinco piezas —el heredado, las
-tres capas del adaptativo y el favicon—. El encargo que lo produjo está en
-`icono-prompt.md`.
+**Sustituido el 2026-08-31 (mañana).** El icono pasó a ser un dibujo encargado,
+`icono-fuente.png`, del que `icon.mjs` sacaba las cinco piezas.
 
-Lo que sigue pendiente es **verlo en un dispositivo real**: a 96 px se lee el
-perro entero, y a 48 queda un anillo con el punto de oro encendido. Eso último
-es techo del dibujo, no del encuadre, y solo se juzga en una pantalla de
-verdad.
+**Y devuelto a la constelación el 2026-08-31 (tarde), con el artboard 30.** El
+icono vuelve a ser este asterismo: la geometría sale de `icon.svg` —la de la
+tabla de arriba, ploteada desde el catálogo— y lo que cambia entre variantes es
+**un color heredado, no tres assets**. `icono-fuente.png` y `icono-prompt.md` se
+quedan como registro del encargo; ya no los usa nadie.
+
+| Variante | Estrellas y halo | Trazado |
+|---|---|---|
+| `production` | `colors.accent` — oro | hueso en las tres, que es lo que las hace la misma marca |
+| `preview` | agua | |
+| `development` | fuego | |
+
+El tratamiento del artboard sube el contraste sobre el asset de pantalla: trazo
+14 al 40% de opacidad, radios ×1,55 y un **solo** anillo de halo sobre Sirio
+(r 40, trazo 8, 30%) en vez del anillo con núcleo. El factor de radio es uno
+para las ocho: la proporción entre magnitudes es un dato, no un gusto — a Sirio
+la señala el halo, que ya es suyo.
+
+**El alfa de las capas del adaptativo se despeja, no se estima.** `qlmanage`
+compone siempre sobre blanco, incluso con un SVG sin fondo, así que cada capa se
+rasteriza dos veces —sobre el azul noche y sobre blanco— y de las dos sale la
+ecuación de composición resuelta: `a` y la tinta, exactas. La versión anterior
+lo aproximaba por distancia al fondo y dejaba las estrellas un punto oscuras al
+componer.
+
+Lo que sigue pendiente es **verlo en un dispositivo real**, y en las tres
+variantes a la vez: a 96 px se lee la figura entera y a 48 queda la estructura
+con Sirio encendido, que es lo que se quería. Eso solo se juzga en una pantalla
+de verdad.
 
 ## Contorno de la figura — pendiente, y ya enchufado
 

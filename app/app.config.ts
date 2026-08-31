@@ -13,6 +13,11 @@ import type { ConfigContext, ExpoConfig } from 'expo/config';
  * puede cambiar nunca, es la identidad en las tiendas). Las otras dos son ese
  * mismo id con sufijo, que es lo que hace que sean apps nuevas sin tocar la
  * que un día se publique.
+ *
+ * **Y cada una lleva su icono teñido** (artboard 30): el mismo asterismo con
+ * las estrellas en oro, agua o fuego. Tres apps con el mismo icono se
+ * distinguen leyendo el nombre; con el color se distinguen de un vistazo, que
+ * es lo que hace falta cuando están las tres en la pantalla de inicio.
  */
 const VARIANTS = {
   development: {
@@ -33,6 +38,14 @@ const VARIANTS = {
 } as const;
 
 type VariantName = keyof typeof VARIANTS;
+
+/**
+ * Las cinco piezas del icono de una variante. Las genera
+ * `design/brand/icon.mjs`, una carpeta por variante, y **no se editan a
+ * mano**. `app.json` apunta a las de producción, que es la base; aquí se
+ * reescriben para las otras dos.
+ */
+const iconsOf = (variant: VariantName) => `./assets/icons/${variant}`;
 
 /**
  * **Sin `APP_VARIANT`, `development`.** El defecto no es el cómodo, es el
@@ -64,14 +77,26 @@ export default ({ config }: ConfigContext): ExpoConfig => {
 
   const bundleIdentifier = `${config.ios?.bundleIdentifier ?? ''}${suffix}`;
   const androidPackage = `${config.android?.package ?? ''}${suffix}`;
+  const icons = iconsOf(variant);
 
   return {
     ...config,
     name,
     slug: config.slug ?? 'dogstrology',
     scheme,
+    icon: `${icons}/icon.png`,
     ios: { ...config.ios, bundleIdentifier },
-    android: { ...config.android, package: androidPackage },
+    android: {
+      ...config.android,
+      package: androidPackage,
+      adaptiveIcon: {
+        ...config.android?.adaptiveIcon,
+        foregroundImage: `${icons}/android-icon-foreground.png`,
+        backgroundImage: `${icons}/android-icon-background.png`,
+        monochromeImage: `${icons}/android-icon-monochrome.png`,
+      },
+    },
+    web: { ...config.web, favicon: `${icons}/favicon.png` },
     extra: {
       ...config.extra,
       variant,

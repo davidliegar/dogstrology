@@ -2,6 +2,8 @@ import type { ConfigContext, ExpoConfig } from 'expo/config';
 
 import defineConfig from '../../app.config';
 
+import { colors } from '@/design/theme';
+
 /**
  * `app.config.ts` decide **con qué identidad se instala la app**, y eso es una
  * de las pocas cosas del proyecto que no se pueden deshacer: el
@@ -17,7 +19,7 @@ const base = {
   slug: 'dogstrology',
   scheme: 'dogstrology',
   ios: { bundleIdentifier: 'com.nexus.zoodiac', supportsTablet: true },
-  android: { package: 'com.nexus.zoodiac' },
+  android: { package: 'com.nexus.zoodiac', adaptiveIcon: { backgroundColor: colors.background } },
   extra: { contentBaseUrl: 'https://ejemplo/daily/', eas: { projectId: 'abc' } },
 } as unknown as ExpoConfig;
 
@@ -68,6 +70,31 @@ describe('las tres variantes de la app', () => {
     // `APP_VARAINT` mal escrito no puede acabar en una app que parece de
     // desarrollo y lleva el identificador de producción.
     expect(() => resolve('produccion')).toThrow('no es una variante');
+  });
+
+  /**
+   * Artboard 30: el mismo asterismo con las estrellas en oro, agua o fuego.
+   * Tres apps con el mismo icono obligan a leer el nombre para saber cuál se
+   * está abriendo; con el color se distinguen de un vistazo.
+   */
+  it('cada variante lleva su icono, y las cinco piezas son de la misma', () => {
+    for (const variant of ['development', 'preview', 'production'] as const) {
+      const config = resolve(variant);
+      const adaptive = config.android?.adaptiveIcon;
+
+      expect(config.icon).toBe(`./assets/icons/${variant}/icon.png`);
+      expect(adaptive?.foregroundImage).toBe(`./assets/icons/${variant}/android-icon-foreground.png`);
+      expect(adaptive?.backgroundImage).toBe(`./assets/icons/${variant}/android-icon-background.png`);
+      expect(adaptive?.monochromeImage).toBe(`./assets/icons/${variant}/android-icon-monochrome.png`);
+      expect(config.web?.favicon).toBe(`./assets/icons/${variant}/favicon.png`);
+    }
+  });
+
+  it('el color de fondo del adaptativo no se pierde al reescribir las capas', () => {
+    // Se reescriben tres claves de `adaptiveIcon` y la cuarta viene de
+    // `app.json`: si el objeto se sustituyera en vez de extenderse, Android se
+    // quedaría sin color detrás del asterismo y saldría un icono con halo.
+    expect(resolve('preview').android?.adaptiveIcon?.backgroundColor).toBe(colors.background);
   });
 
   it('el CDN se puede apuntar a otro sitio sin tocar el código', () => {

@@ -4,7 +4,7 @@
     "slug": "dogstrology",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/icon.png",
+    "icon": "./assets/icons/production/icon.png",
     "scheme": "dogstrology",
     "userInterfaceStyle": "dark",
     "ios": {
@@ -14,15 +14,15 @@
     "android": {
       "package": "com.nexus.zoodiac",
       "adaptiveIcon": {
-        "backgroundColor": "#0E142B",
-        "foregroundImage": "./assets/android-icon-foreground.png",
-        "backgroundImage": "./assets/android-icon-background.png",
-        "monochromeImage": "./assets/android-icon-monochrome.png"
+        "backgroundColor": "#0B1026",
+        "foregroundImage": "./assets/icons/production/android-icon-foreground.png",
+        "backgroundImage": "./assets/icons/production/android-icon-background.png",
+        "monochromeImage": "./assets/icons/production/android-icon-monochrome.png"
       },
       "predictiveBackGestureEnabled": false
     },
     "web": {
-      "favicon": "./assets/favicon.png"
+      "favicon": "./assets/icons/production/favicon.png"
     },
     "plugins": [
       "expo-router",
