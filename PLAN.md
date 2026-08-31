@@ -301,13 +301,58 @@ del 26 con la suscripción activa~~ y ~~el sitio de la oferta en Ajustes~~ →
 *(2026-08-31. Texto tal cual se manda a Claude Design.)*
 
 El carrusel, Explorar y la lista están implementados (artboards 33, 34 y 35).
-Van dos cosas: **lo que hay que dibujar** —que es una— y **lo que hay que
-corregir en el canvas** para que el dibujo y el código no se desalineen, que
-son ocho apuntes cortos.
+Van tres cosas: **una regresión que hay que arreglar** —el carrusel dejó fuera
+dos tercios de la lectura de cada perro—, **una pantalla que falta** y **ocho
+apuntes** para que el dibujo y el código no se desalineen.
 
 ---
 
-### A · Lo que hay que dibujar: el pie de las fichas con varias mascotas
+### A · Lo urgente: con el carrusel, Hoy dejó de enseñar dos tercios de la lectura
+
+**Es una regresión y la introduje yo**, siguiendo la nota del 33 al pie de la
+letra. Conviene arreglarla antes que nada de lo demás.
+
+El diario trae **37 fragmentos** al día: 36 por eje —Sol, Luna y Ascendente ×
+12 signos— y uno del cielo. **De cada perro se leen tres**, uno por eje. La
+tarjeta del carrusel enseña **solo el del Sol**; sus tres filas de eje son
+posiciones natales —«Su Luna · Piscis 8°02′»—, no lo que la Luna le dice hoy.
+
+Y como la nota del 33 daba por hecho que con esas tres filas el día completo de
+un perro se quedaba sin trabajo, esa pantalla se borró. **Ahí es donde vivían
+los otros dos fragmentos**, y con ellos el cuerpo de la tarjeta del cielo y sus
+puntos de energía, que en el Hoy de varias mascotas tampoco se pintan.
+
+Resultado, para una casa con dos perros: se descargan seis lecturas de eje y se
+enseñan dos. Con una sola mascota no pasa — Hoy sigue enseñando las tres.
+
+**La propuesta**: que el carrusel siga siendo **quién**, y que debajo vayan las
+**tres tarjetas del día del perro que esté delante** — las mismas que ve una
+casa de un solo perro. Al deslizar, cambian las tres.
+
+**Lo que hace falta decidir:**
+
+1. **Qué pasa con las tres filas de eje de la tarjeta.** Si debajo hay una
+   tarjeta «Su Luna · Piscis» con el texto del día, la fila «Su Luna · Piscis
+   8°02′» de arriba dice medio lo mismo. ¿Se quedan las filas —son el grado,
+   que las tarjetas no llevan—, o la tarjeta vuelve a ser resumen y las cede?
+2. **La tarjeta del cielo**: con varias mascotas hoy va sin cuerpo y sin puntos
+   de energía. Si debajo se lee el día entero, ¿los recupera?
+3. **La cascada al deslizar.** Las tarjetas del día entran con un retardo de
+   70 ms encadenado. Al cambiar de perro, ¿vuelven a entrar en cascada, o
+   cambian sin ceremonia? Una cascada por cada deslizamiento es mucha ceremonia
+   para un gesto que se repite
+4. **Y el destino de la punta.** El 30 la mandaba al día completo del perro; el
+   33 la manda a su carta natal. Con las tarjetas debajo, el día completo ya no
+   hace falta y la carta natal encaja — pero conviene confirmarlo
+
+**La alternativa, por si se prefiere:** devolver la pantalla del día completo de
+un perro y que la punta vuelva a abrirla, como decía el 30. Cuesta menos y
+recupera todo, pero deja la lectura a un toque de distancia en la pantalla del
+hábito diario, que es justo lo que el carrusel venía a evitar.
+
+---
+
+### B · Lo que hay que dibujar: el pie de las fichas con varias mascotas
 
 **El problema.** La nota del 35 dice que la respuesta entera está «en la ficha
 del signo, que nombra a los dos». Las fichas de signo, de casa y de fase
@@ -347,7 +392,7 @@ todas, se borra.
 
 ---
 
-### B · Ocho apuntes para poner el canvas al día
+### C · Ocho apuntes para poner el canvas al día
 
 Nada de esto bloquea; son sitios donde el código ya decidió y el dibujo no lo
 refleja. Si alguno se decidió al revés de como está implementado, se cambia el
