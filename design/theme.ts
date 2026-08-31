@@ -62,6 +62,12 @@ export const colors = {
   border: 'rgba(232, 200, 122, 0.18)', // filo de oro a un pelo de grosor
   borderStrong: palette.night500,
   divider: 'rgba(242, 239, 230, 0.08)',
+  /**
+   * Hueso al 18 %: una pieza que está pero no manda. Hoy, el punto de una
+   * página del carrusel que no se está viendo (artboard 34) — más presente que
+   * un filo y menos que un texto.
+   */
+  inactive: 'rgba(242, 239, 230, 0.18)',
 
   // Campo estelar y arte lineal de constelaciones (BRD §11.2.3).
   // Las constelaciones son SVG monocromo recoloreado por token: el color va
@@ -245,6 +251,17 @@ export const typography = {
     lineHeight: 18,
     letterSpacing: 0.4,
     fontVariant: ['tabular-nums'] as const,
+  },
+  /**
+   * La inicial de una mascota en un disco de 18 px (artboard 35). Va en la
+   * fuente de titulares y no en la de cuerpo porque **es un nombre propio
+   * abreviado**, no un rótulo: los nombres de las mascotas van en Fraunces en
+   * toda la app y una inicial no deja de ser uno.
+   */
+  initial: {
+    fontFamily: fonts.display,
+    fontSize: 11,
+    lineHeight: 14,
   },
   overline: {
     fontFamily: fonts.bodyBold,

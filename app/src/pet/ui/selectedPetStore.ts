@@ -7,8 +7,14 @@ export interface SelectedPetState {
 }
 
 /**
- * De qué mascota habla la app ahora mismo: lo que elige la hoja del artboard
- * 26 y lo que leen Hoy, el hub y las pantallas de exploración.
+ * De qué mascota habla lo que **todavía es de una sola**: las fichas de signo,
+ * de casa y de fase, que nombran a un perro en su pie.
+ *
+ * **Le queda poco.** Nació para decidir de quién hablaban Hoy, Explorar y las
+ * fichas; Hoy pasó a carrusel y enseña la que se está mirando, y Explorar las
+ * enseña todas (artboard 35). Cuando las fichas nombren a todas las que
+ * cumplen, esto se puede borrar — hoy su único escritor es el final del
+ * onboarding, para que la recién creada sea la que se ve.
  *
  * **Efímero a propósito** (`app/AGENTS.md`): al arrancar se vuelve a la
  * primera. No es un dato de la mascota —está en SQLite y no cambia— sino a

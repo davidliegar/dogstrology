@@ -30,16 +30,13 @@ export const HOUSE_DAY_TITLE = 'El día en la casa';
 
 export const petDayTitle = (name: string): string => `El día de ${name}`;
 
-/** Los números que caben en «Los otros cuatro». Con más, se escribe la cifra. */
-const COUNT_WORDS = ['cero', 'uno', 'dos', 'tres', 'cuatro', 'cinco', 'seis', 'siete', 'ocho', 'nueve'];
-
 /**
- * El rótulo del grupo de filas del artboard 31. Con tres perros o más, lo que
- * se viene a hacer en Hoy es comparar, no leer: solo la seleccionada mantiene
- * su titular y las demás pasan a una línea bajo este rótulo.
+ * Lo que ocupa el sitio del Ascendente cuando no hay hora de nacimiento
+ * (artboard 33). **Se dice, no se quita**: con varias mascotas conviven las
+ * que la tienen y las que no, y borrar la fila dejaría tarjetas de distinta
+ * altura en un carrusel — y escondería que a ese perro le falta un dato.
  */
-export const othersLabel = (count: number): string =>
-  count === 1 ? 'La otra' : `Los otros ${COUNT_WORDS[count] ?? count}`;
+export const NO_TIME = 'Sin hora';
 
 /**
  * El rótulo de una lectura caducada (artboard 17): las tarjetas descargadas

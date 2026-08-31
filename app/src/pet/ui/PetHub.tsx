@@ -48,8 +48,9 @@ export interface PetHubProps {
  * un control que miente.
  *
  * **El nombre abre el selector** (artboard 26), y sigue haciéndolo aunque la
- * lista exista: la hoja es para cambiar de sujeto sin salir de donde estás, y
- * la lista es para entrar. Dejó de ser el único camino, no de hacer falta.
+ * lista exista — con otro trabajo: **saltar entre perfiles sin volver a la
+ * lista**. Elegir otro perro sustituye esta pantalla en vez de apilar otra,
+ * así que el atrás sigue devolviendo a la lista y no a una cadena de hubs.
  */
 export function PetHub({ pet, onBack }: PetHubProps) {
   const { data: pets } = usePets();
@@ -57,6 +58,14 @@ export function PetHub({ pet, onBack }: PetHubProps) {
   const { data: photoUri } = usePetPhotoUri(pet);
   const select = useSelectedPetStore((state) => state.select);
   const canAddPet = useCanAddPet();
+
+  // Con varias mascotas el hub cuelga de la lista y saltar a otro perro es
+  // sustituir esta pantalla. Con una sola no hay a dónde saltar —la hoja
+  // enseña ese perro y la fila de añadir— y basta con dejarla marcada.
+  const pickPet = (picked: string) => {
+    if (onBack) router.replace({ pathname: '/pet/[id]/hub', params: { id: picked } });
+    else select(picked);
+  };
   const [selectorOpen, setSelectorOpen] = useState(false);
 
   const id = pet.id();
@@ -130,7 +139,7 @@ export function PetHub({ pet, onBack }: PetHubProps) {
         <PetSelectorSheet
           pets={pets}
           selectedId={id}
-          onSelect={select}
+          onSelect={pickPet}
           // Sin plan, la fila de añadir lleva al 11 **sin candado**: es la
           // puerta caliente de las dos que tiene el paywall. Con el plan
           // activo pierde el subtítulo y lleva al alta (artboard 30) — que

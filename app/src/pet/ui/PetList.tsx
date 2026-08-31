@@ -12,9 +12,8 @@ import { usePetPhotoUri } from './petQueries';
 
 import { colors, elementColor, icon, opacity, radii, spacing, touchTarget, typography } from '@/design/theme';
 
-/** Retrato de la fila y punto de marcado, los dos del artboard 32. */
+/** Retrato de la fila, del artboard 32. */
 const AVATAR = 56;
-const MARK = 8;
 /** El hueco sin foto: el cuadrado de trazo del canvas, en el color del elemento. */
 const PLACEHOLDER = 20;
 /** El disco del «+» de la última fila, y el brazo del aspa dentro. */
@@ -23,7 +22,6 @@ const PLUS_ARM = 11;
 
 export interface PetRowProps {
   pet: Pet;
-  selected: boolean;
   onPress: () => void;
 }
 
@@ -31,16 +29,17 @@ export interface PetRowProps {
  * Una mascota en la lista (artboard 32): retrato, nombre, su Sol y la línea de
  * raza y edad.
  *
- * **El punto de oro es estado y nunca un control.** Entrar en una mascota la
- * selecciona, así que no hay dos maneras de decir lo mismo ni un cruce entre
- * entrar y elegir: se toca la fila, se entra, y de paso la app pasa a hablar
- * de ese perro.
+ * **Ya no lleva el punto de oro del 32.** Marcaba la mascota seleccionada, y
+ * la selección era un estado que decidía de quién hablaban Hoy, Explorar y las
+ * fichas: con el carrusel Hoy enseña la que se está mirando y Explorar las
+ * enseña todas, así que no queda nadie a quien servir. **La lista es
+ * navegación**, y una lista de navegación no marca.
  *
  * La segunda línea es **raza y edad**, que es lo que identifica a un perro
  * cuando son cinco y dos son mestizas medianas. El color del filo y del rótulo
  * es el del elemento de su Sol, el mismo que llevan sus bloques en Hoy.
  */
-export function PetRow({ pet, selected, onPress }: PetRowProps) {
+export function PetRow({ pet, onPress }: PetRowProps) {
   const { data: photoUri } = usePetPhotoUri(pet);
   const { data: chart } = useNatalChart(pet);
   const sign = chart?.sunSign();
@@ -50,13 +49,8 @@ export function PetRow({ pet, selected, onPress }: PetRowProps) {
     <Pressable
       onPress={onPress}
       accessibilityRole="button"
-      accessibilityState={{ selected }}
       accessibilityLabel={pet.name()}
-      style={({ pressed }) => [
-        styles.row,
-        selected ? styles.selected : styles.plain,
-        pressed && styles.pressed,
-      ]}
+      style={({ pressed }) => [styles.row, pressed && styles.pressed]}
     >
       <View style={[styles.avatar, { borderColor: tint }]}>
         {photoUri ? (
@@ -66,12 +60,9 @@ export function PetRow({ pet, selected, onPress }: PetRowProps) {
         )}
       </View>
       <View style={styles.texts}>
-        <View style={styles.nameRow}>
-          <Text style={styles.name} numberOfLines={1}>
-            {pet.name()}
-          </Text>
-          {selected ? <View style={styles.mark} /> : null}
-        </View>
+        <Text style={styles.name} numberOfLines={1}>
+          {pet.name()}
+        </Text>
         {sign ? (
           <Text style={[styles.sun, { color: tint }]}>
             {DAILY_AXIS_LABELS.sun} · {SIGN_LABELS[sign]}
@@ -119,17 +110,11 @@ const styles = StyleSheet.create({
     borderRadius: radii.row,
     backgroundColor: colors.surface,
     borderWidth: 1,
+    borderColor: colors.divider,
     flexDirection: 'row',
     alignItems: 'center',
     gap: spacing[4],
     padding: spacing[4],
-  },
-  /** La marcada lleva filo de oro además del punto: se ve antes que el punto. */
-  selected: {
-    borderColor: colors.border,
-  },
-  plain: {
-    borderColor: colors.divider,
   },
   pressed: {
     opacity: opacity.pressed,
@@ -161,22 +146,10 @@ const styles = StyleSheet.create({
     gap: spacing[1],
     minWidth: 0,
   },
-  nameRow: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: spacing[2],
-  },
   name: {
     ...typography.section,
     color: colors.text,
     flexShrink: 1,
-  },
-  mark: {
-    width: MARK,
-    height: MARK,
-    borderRadius: radii.pill,
-    backgroundColor: colors.accent,
-    flexShrink: 0,
   },
   sun: {
     ...typography.overline,

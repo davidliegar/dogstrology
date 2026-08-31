@@ -8,7 +8,6 @@ import { isHouseDay } from '@/content/ui/dailyCards';
 import { AddPetRow, PetRow } from '@/pet/ui/PetList';
 import { PetHub } from '@/pet/ui/PetHub';
 import { usePets, useSelectedPet } from '@/pet/ui/petQueries';
-import { useSelectedPetStore } from '@/pet/ui/selectedPetStore';
 import { ADD_PET_NOTE, PETS_TAB_LABEL } from '@/subscription/ui/labels';
 import { useCanAddPet } from '@/subscription/ui/subscriptionQueries';
 
@@ -26,13 +25,17 @@ import { colors, screenPadding, spacing, typography } from '@/design/theme';
  * todos, y el hub pasa a ser el detalle de una — con cabecera de vuelta,
  * porque deja de ser un destino raíz.
  *
+ * **La lista no marca ninguna.** El punto de oro del 32 se cayó con el
+ * carrusel: marcaba la mascota seleccionada, y la selección decidía de quién
+ * hablaban Hoy, Explorar y las fichas. Hoy enseña la que se está mirando y
+ * Explorar las enseña todas, así que ya no queda nadie a quien servir.
+ *
  * Es la misma regla que ya rige el título de Hoy —«El día de Baloo» → «El día
  * de la casa»— aplicada a la barra.
  */
 export default function PetTab() {
   const { data: pets, isPending, isError } = usePets();
   const { data: pet } = useSelectedPet();
-  const select = useSelectedPetStore((state) => state.select);
   const canAddPet = useCanAddPet();
 
   if (isPending) {
@@ -54,14 +57,6 @@ export default function PetTab() {
 
   if (!isHouseDay(pets.length)) return <PetHub pet={pet} />;
 
-  // **Entrar en una mascota la selecciona.** Con eso desaparece el cruce entre
-  // entrar y elegir: el punto de oro es siempre estado y nunca un control, y
-  // no hay dos maneras de decir lo mismo.
-  const open = (id: string) => {
-    select(id);
-    router.push({ pathname: '/pet/[id]/hub', params: { id } });
-  };
-
   return (
     <Screen
       insideTabs
@@ -80,8 +75,7 @@ export default function PetTab() {
         <PetRow
           key={each.id()}
           pet={each}
-          selected={each.id() === pet.id()}
-          onPress={() => open(each.id())}
+          onPress={() => router.push({ pathname: '/pet/[id]/hub', params: { id: each.id() } })}
         />
       ))}
       <AddPetRow

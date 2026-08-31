@@ -3,24 +3,27 @@ import { useState } from 'react';
 import { Pressable, StyleSheet, Text, View, useWindowDimensions } from 'react-native';
 
 import { Chip } from '@/_ui/components/Chip';
+import { joinList } from '@/_ui/text';
 import { Screen } from '@/_ui/components/Screen';
 import { ScreenHeader } from '@/_ui/components/ScreenHeader';
+import { InitialBadge } from '@/_ui/components/InitialBadge';
 import { MoonDisc } from '@/chart/ui/MoonDisc';
-import { useMoonSky, useNatalChart } from '@/chart/ui/chartQueries';
+import { useMoonSky, useNatalCharts } from '@/chart/ui/chartQueries';
 import { HOUSE_NUMERALS, SIGN_GLYPHS } from '@/chart/ui/glyphs';
 import { HOUSE_LABELS, MOON_PHASE_LABELS, SIGN_LABELS } from '@/chart/ui/labels';
 import { archetypalIllumination, isWaningPhase } from '@/chart/ui/moonPhase';
-import { exploreCaption, type ExploreFilter } from '@/chart/ui/exploreCaptions';
+import { exploreCaption, type ExploreFilter, type PetHighlight } from '@/chart/ui/exploreCaptions';
 import { HOUSES, elementOfHouse } from '@/chart/domain/House';
 import { MOON_PHASE_NAMES, type MoonPhaseName } from '@/chart/domain/NatalChart';
 import { SIGNS, elementOfSign, type Sign } from '@/chart/domain/PlanetPosition';
-import { useSelectedPet } from '@/pet/ui/petQueries';
+import { usePets } from '@/pet/ui/petQueries';
 
 import {
   colors,
   elementColor,
   fonts,
   glyphSize,
+  opacity,
   radii,
   screenPadding,
   spacing,
@@ -30,6 +33,9 @@ import {
 const COLUMNS = 3;
 /** Punto de elemento de la tarjeta: más pequeño que el de un chip. */
 const DOT = 6;
+/** El aire de los discos de inicial en la esquina de la tarjeta (artboard 35). */
+const BADGES_INSET = 6;
+const BADGES_GAP = 3;
 /** Disco lunar dentro de la tarjeta. Sale del artboard 22. */
 const PHASE_DISC = 38;
 
@@ -53,14 +59,20 @@ type Filter = ExploreFilter;
  * Lo que resalta cada rejilla **no significa lo mismo en las tres**, y esa es
  * la diferencia que explican las leyendas del pie (`exploreCaptions.ts`).
  *
+ * **Con varias mascotas se resaltan las de todas** (artboard 35): resaltar
+ * solo una convertiría diez de doce tarjetas en falso negativo — dirían
+ * «ninguno de tus perros» cuando sí. De quién es cada casilla no lo puede
+ * decir el color, porque el color ya es el elemento; lo dice una inicial en un
+ * disco, y dos discos cuando la comparten dos perros.
+ *
  * El filtro vive en estado local y no en la ruta: la pantalla es una sola, y
  * al volver de una ficha el propio stack de Expo Router la devuelve montada
  * con el filtro donde estaba.
  */
 export default function Explore() {
   const [filter, setFilter] = useState<Filter>('signs');
-  const { data: pet } = useSelectedPet();
-  const { data: chart } = useNatalChart(pet);
+  const { data: pets } = usePets();
+  const charts = useNatalCharts(pets);
   const { data: sky } = useMoonSky();
   const { width } = useWindowDimensions();
 
@@ -69,15 +81,25 @@ export default function Explore() {
   const side = (width - screenPadding * 2 - spacing[3] * (COLUMNS - 1)) / COLUMNS;
   const active = FILTERS.find((one) => one.id === filter) as (typeof FILTERS)[number];
 
-  // Qué resalta cada rejilla **ahora mismo**, que es lo que la leyenda tiene
-  // que contar. La de casas puede no tener nada teniendo mascota: sin hora y
-  // lugar no hay casa que resaltar (BRD §12.3).
-  const ownSign = chart?.sunSign();
-  const ownHouse = chart?.planet('sun')?.house();
-  const highlighted = {
-    signs: Boolean(ownSign),
-    houses: Boolean(ownHouse),
-    phases: Boolean(sky),
+  // Quién resalta qué, alineado con la lista de mascotas. La rejilla de casas
+  // puede dejar fuera a una que sí está en la de signos: sin hora y lugar no
+  // hay casa que resaltar (BRD §12.3), y eso lo cuenta la leyenda.
+  const owners = (pets ?? []).map((pet, index) => {
+    const chart = charts[index]?.data;
+    return {
+      name: pet.name(),
+      sign: chart?.sunSign(),
+      house: chart?.planet('sun')?.house(),
+    };
+  });
+
+  const highlights: Record<Filter, PetHighlight[]> = {
+    signs: owners.map(({ name, sign }) => ({ name, cell: sign && SIGN_LABELS[sign] })),
+    houses: owners.map(({ name, house }) => ({
+      name,
+      cell: house === undefined ? undefined : `La casa ${HOUSE_NUMERALS[house - 1]}`,
+    })),
+    phases: [],
   };
 
   return (
@@ -93,52 +115,74 @@ export default function Explore() {
         ))}
       </View>
 
-      {filter === 'signs' ? <SignGrid side={side} own={ownSign} /> : null}
-      {filter === 'houses' ? <HouseGrid side={side} own={ownHouse} /> : null}
+      {filter === 'signs' ? <SignGrid side={side} owners={owners} /> : null}
+      {filter === 'houses' ? <HouseGrid side={side} owners={owners} /> : null}
       {filter === 'phases' ? <PhaseGrid side={side} today={sky?.phase.name} /> : null}
 
-      <Text style={styles.caption}>
-        {exploreCaption({ filter, name: pet?.name(), highlighted: highlighted[filter] })}
-      </Text>
+      <Text style={styles.caption}>{exploreCaption({ filter, pets: highlights[filter] })}</Text>
     </Screen>
   );
 }
 
-function SignGrid({ side, own }: { side: number; own?: Sign }) {
+interface Owner {
+  name: string;
+  sign?: Sign;
+  house?: number;
+}
+
+/**
+ * Si la rejilla tiene algo resaltado. **Decide si las demás tarjetas se
+ * apagan**: sin nada resaltado todas van en oro (artboard 8), y en cuanto hay
+ * alguna, el resto baja a hueso apagado para que el resaltado se lea
+ * (artboard 35). Con cinco perros y cinco casillas encendidas, doce glifos de
+ * oro no dirían nada.
+ */
+const anyOwned = (owners: Owner[], key: 'sign' | 'house'): boolean =>
+  owners.some((owner) => owner[key] !== undefined);
+
+function SignGrid({ side, owners }: { side: number; owners: Owner[] }) {
   return (
     <View style={styles.grid}>
-      {SIGNS.map((sign) => (
-        <Card
-          key={sign}
-          side={side}
-          highlighted={sign === own}
-          label={SIGN_LABELS[sign]}
-          dotColor={elementColor(elementOfSign(sign))}
-          onPress={() => router.push({ pathname: '/sign/[sign]', params: { sign } })}
-        >
-          <Text style={styles.glyph}>{SIGN_GLYPHS[sign]}</Text>
-        </Card>
-      ))}
+      {SIGNS.map((sign) => {
+        const mine = owners.filter((owner) => owner.sign === sign);
+        return (
+          <Card
+            key={sign}
+            side={side}
+            owners={mine.map((owner) => owner.name)}
+            dimmed={anyOwned(owners, 'sign') && mine.length === 0}
+            label={SIGN_LABELS[sign]}
+            dotColor={elementColor(elementOfSign(sign))}
+            onPress={() => router.push({ pathname: '/sign/[sign]', params: { sign } })}
+          >
+            <Text style={styles.glyph}>{SIGN_GLYPHS[sign]}</Text>
+          </Card>
+        );
+      })}
     </View>
   );
 }
 
-function HouseGrid({ side, own }: { side: number; own?: number }) {
+function HouseGrid({ side, owners }: { side: number; owners: Owner[] }) {
   return (
     <View style={styles.grid}>
-      {HOUSES.map((house) => (
-        <Card
-          key={house}
-          side={side}
-          highlighted={house === own}
-          label={HOUSE_LABELS[house]}
-          dotColor={elementColor(elementOfHouse(house))}
-          onPress={() => router.push({ pathname: '/house/[house]', params: { house } })}
-        >
-          {/* El numeral romano hace de glifo: una casa no tiene símbolo. */}
-          <Text style={styles.numeral}>{HOUSE_NUMERALS[house - 1]}</Text>
-        </Card>
-      ))}
+      {HOUSES.map((house) => {
+        const mine = owners.filter((owner) => owner.house === house);
+        return (
+          <Card
+            key={house}
+            side={side}
+            owners={mine.map((owner) => owner.name)}
+            dimmed={anyOwned(owners, 'house') && mine.length === 0}
+            label={HOUSE_LABELS[house]}
+            dotColor={elementColor(elementOfHouse(house))}
+            onPress={() => router.push({ pathname: '/house/[house]', params: { house } })}
+          >
+            {/* El numeral romano hace de glifo: una casa no tiene símbolo. */}
+            <Text style={styles.numeral}>{HOUSE_NUMERALS[house - 1]}</Text>
+          </Card>
+        );
+      })}
     </View>
   );
 }
@@ -174,29 +218,47 @@ function PhaseGrid({ side, today }: { side: number; today?: MoonPhaseName }) {
 /** El molde de las tres rejillas: cuadrada, con su marca arriba y su nombre. */
 function Card({
   side,
+  owners = [],
   highlighted,
+  dimmed = false,
   label,
   dotColor,
   onPress,
   children,
 }: {
   side: number;
-  highlighted: boolean;
+  /** Las mascotas que resaltan esta casilla, para los discos de inicial. */
+  owners?: string[];
+  /** La casilla está resaltada. En signos y casas lo dice `owners`. */
+  highlighted?: boolean;
+  /** Hay resaltado en la rejilla y esta no lo tiene. */
+  dimmed?: boolean;
   label: string;
   dotColor?: string;
   onPress: () => void;
   children: React.ReactNode;
 }) {
+  const own = highlighted ?? owners.length > 0;
+
   return (
     <Pressable
-      style={[styles.card, { width: side, height: side }, highlighted && styles.cardOwn]}
+      style={[styles.card, { width: side, height: side }, own && styles.cardOwn]}
       onPress={onPress}
       accessibilityRole="button"
-      accessibilityLabel={label}
-      accessibilityState={{ selected: highlighted }}
+      // Quién la resalta se dice aquí y no solo con los discos: una inicial no
+      // se lee con un lector de pantalla, y el nombre sí.
+      accessibilityLabel={owners.length > 0 ? `${label}. ${joinList(owners)}` : label}
+      accessibilityState={{ selected: own }}
     >
-      {children}
-      <Text style={[styles.name, highlighted && styles.nameOwn]}>{label}</Text>
+      {owners.length > 0 ? (
+        <View style={styles.badges}>
+          {owners.map((name) => (
+            <InitialBadge key={name} name={name} />
+          ))}
+        </View>
+      ) : null}
+      <View style={dimmed ? styles.dimmed : undefined}>{children}</View>
+      <Text style={[styles.name, own && styles.nameOwn]}>{label}</Text>
       {dotColor ? <View style={[styles.dot, { backgroundColor: dotColor }]} /> : null}
     </Pressable>
   );
@@ -231,6 +293,21 @@ const styles = StyleSheet.create({
   cardOwn: {
     backgroundColor: colors.accentSoft,
     borderColor: colors.border,
+  },
+  /** Los discos de inicial, arriba a la derecha (artboard 35). */
+  badges: {
+    position: 'absolute',
+    top: BADGES_INSET,
+    right: BADGES_INSET,
+    flexDirection: 'row',
+    gap: BADGES_GAP,
+  },
+  /**
+   * El glifo de una casilla sin resaltar cuando sí hay resaltadas. Se apaga en
+   * vez de cambiar de color: el oro sigue siendo el oro, solo que más lejos.
+   */
+  dimmed: {
+    opacity: opacity.disabled,
   },
   glyph: {
     fontSize: glyphSize.standard,

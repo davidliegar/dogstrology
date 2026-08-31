@@ -296,13 +296,53 @@ del 26 con la suscripción activa~~ y ~~el sitio de la oferta en Ajustes~~ →
 
 ---
 
-## Encargo de diseño — **el carrusel de Hoy y Explorar multimascota**
+## Encargo de diseño — **el carrusel de Hoy y Explorar multimascota** · **cerrado**
 
-*(2026-08-31. Texto tal cual se manda a Claude Design.)*
+*(2026-08-31. Contestado con los artboards 33, 34 y 35, e implementado en la
+sesión 49. Queda **un** hueco, al final de la sección.)*
 
-**Dos de los cinco puntos ya están hechos** y no van en el encargo: «El día de
-la casa» → «El día en la casa», y la leyenda de casas de Explorar, que
-prometía en futuro un resaltado que ya estaba presente.
+**Dos de los cinco puntos se hicieron sin esperar**: «El día de la casa» → «El
+día en la casa», y la leyenda de casas de Explorar, que prometía en futuro un
+resaltado que ya estaba presente.
+
+### Las respuestas
+
+- **1 · Carrusel: sí, y la mirilla es lo que lo permite** (33 y 34). 28 px de
+  la siguiente —un borde reconocible como tarjeta, no una raya—; la activa
+  mantiene el margen de 24 y en la última la anterior asoma por la izquierda.
+  Puntos solo con tres o más, y **como censo, no como navegación**: nadie
+  apunta a un punto de 6 px, así que no se tocan
+- **Los dos gestos no se cruzan porque la tarjeta cabe entera**, y esa es la
+  restricción que impone el carrusel y de donde sale su altura
+- **Las dos consecuencias, aceptadas enteras.** El techo del 31 desaparece —sin
+  altura que repartir no hay nada que recortar— y la tarjeta crece a tres ejes
+  con grado, así que **`app/pet/[id]/day.tsx` se borra**: la punta abre la
+  carta natal, que es el paso siguiente de verdad. Una pantalla menos, no una
+  huérfana
+- **«Sin hora» se dice, no se quita**: con varias conviven las que tienen hora
+  y las que no, y borrar la fila dejaría tarjetas de distinta altura en un
+  carrusel — y escondería que a ese perro le falta un dato
+- **3 · Explorar las enseña todas** (35). Con cinco perros, resaltar solo una
+  convierte diez de doce tarjetas en falso negativo. De quién es no lo dice el
+  color —ya es el elemento— sino una inicial en un disco de 18 px, y dos
+  discos cuando la comparten
+- **4 · El punto del 32 se cae.** Era un estado que decidía de quién hablaban
+  Hoy, Explorar y las fichas, y los dos primeros dejaron de preguntar. La lista
+  queda como navegación, y la hoja del 26 sobrevive con otro trabajo: saltar
+  entre perfiles sin volver a la lista
+
+### El hueco que deja: las fichas con varias mascotas
+
+La nota del 35 dice que la respuesta entera está «en la ficha del signo, que
+nombra a los dos». **Las fichas de signo, de casa y de fase siguen nombrando a
+una sola**, y no es un descuido de implementación: su pie es un
+`ConnectionFooter` que **enlaza a una carta**, y con dos perros compartiendo
+signo no hay un solo destino al que llevar.
+
+Así que Explorar puede decir «Cáncer lo comparten Nala y Ona» y la ficha de
+Cáncer nombrar solo a una. Hace falta dibujar qué hace ese pie con dos —¿dos
+filas, una por perro? ¿una fila que no enlaza?—, y hasta entonces **el store de
+la mascota seleccionada sigue vivo** solo para eso: es su último cliente.
 
 ---
 
@@ -3887,3 +3927,36 @@ Llegaron 27 artboards. Se implementan **17 y 27**; el 26 va en tanda propia.
   la mirilla como el argumento que cambia—, Explorar con varias mascotas, y el
   punto de selección de la lista, que solo sobrevive si Explorar sigue siendo
   de una
+
+### 2026-08-31 (49) — el carrusel, y Explorar que las enseña todas
+- **Hoy con varias mascotas pasa a carrusel** (artboards 33 y 34). El
+  `ScrollView` se sale del margen del cuerpo con un margen negativo, porque la
+  mirilla vive justo en el borde: el ancho de tarjeta es lo que queda tras un
+  margen, un hueco y los 28 px que asoman. Con esa cuenta, al llegar a la
+  última el desplazamiento se queda corto por esos mismos 28 y la anterior
+  asoma por la izquierda — **siempre hay mirilla por algún lado**, sin
+  programar el caso aparte
+- **Una pantalla borrada, no huérfana**: la tarjeta creció a tres ejes con
+  grado y `app/pet/[id]/day.tsx` se quedó sin nada que contar. La punta abre la
+  carta natal
+- **El techo del artboard 31 desaparece** con su `houseDayDetail` y su
+  `othersLabel`: existía porque cinco tarjetas apiladas eran mil doscientos
+  píxeles, y en un carrusel no hay altura que repartir
+- **Explorar resalta lo de todas** (artboard 35), con `useNatalCharts` —
+  `useQueries` con las mismas claves que `useNatalChart`, así que entrar con
+  cinco perros no recalcula ninguna carta que ya estuviera
+- **Y el glifo de las casillas sin resaltar se apaga solo cuando hay
+  resaltadas.** Es lo que reconcilia los dos artboards: el 8 las pinta todas en
+  oro porque no hay ninguna resaltada, y el 35 apaga las once restantes para
+  que las cinco encendidas se lean
+- **La leyenda cambia de forma con varias**: enuncia la regla —«Resaltados, los
+  Soles de tus cinco mascotas»— y solo detalla lo que la rejilla no dice sola,
+  que es quién comparte casilla. En casas añade quién no aparece y por qué,
+  porque una ausencia sin explicar se lee como que a ese perro no le toca
+  ninguna casa
+- **El punto de la lista se cae** y la hoja del 26 cambia de trabajo: saltar
+  entre perfiles con `replace`, para que el atrás vuelva a la lista y no a una
+  cadena de hubs
+- ⚠️ **Queda el pie de las fichas**: Explorar ya dice «Cáncer lo comparten Nala
+  y Ona» y la ficha de Cáncer sigue nombrando a una. Su pie enlaza a una carta,
+  y con dos perros no hay un solo destino — hace falta dibujarlo

@@ -1,4 +1,4 @@
-import { useQuery } from '@tanstack/react-query';
+import { useQueries, useQuery } from '@tanstack/react-query';
 
 import { useDomain } from '@/_ui/DomainProvider';
 import { DEFAULT_HOUSE_SYSTEM } from '@/settings/domain/Preferences';
@@ -54,6 +54,31 @@ export function useNatalChart(pet: Pet | undefined) {
     queryFn: () =>
       domain.CalculateNatalChartUseCase.execute({ pet: pet as Pet, houseSystem: houseSystem as HouseSystem }),
     enabled: Boolean(pet) && Boolean(houseSystem),
+  });
+}
+
+/**
+ * Las cartas de **varias** mascotas a la vez, alineadas con la lista que se le
+ * pasa. Las claves son las mismas que las de `useNatalChart`, así que las once
+ * pantallas que piden una carta suelta y esta comparten caché: entrar en
+ * Explorar con cinco perros no recalcula nada que ya estuviera.
+ *
+ * Existe porque hay pantallas que preguntan por todas a la vez —Explorar
+ * resalta lo de cada mascota (artboard 35)— y un hook por mascota dentro de un
+ * bucle no es una opción en React.
+ */
+export function useNatalCharts(pets: Pet[] | undefined) {
+  const domain = useDomain();
+  const { data: preferences } = usePreferences();
+  const houseSystem = preferences?.houseSystem();
+
+  return useQueries({
+    queries: (pets ?? []).map((pet) => ({
+      queryKey: chartKeys.of(pet.id(), pet.birth().moment(), houseSystem ?? DEFAULT_HOUSE_SYSTEM),
+      queryFn: () =>
+        domain.CalculateNatalChartUseCase.execute({ pet, houseSystem: houseSystem as HouseSystem }),
+      enabled: Boolean(houseSystem),
+    })),
   });
 }
 

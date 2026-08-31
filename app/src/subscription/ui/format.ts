@@ -1,3 +1,4 @@
+import { joinList } from '@/_ui/text';
 import { formatLongDate } from '@/pet/ui/format';
 import type { Plan } from '../domain/Plan';
 import { PAYWALL_CTA, PLAN_PERIODS, PREMIUM_SHORT_NAME } from './labels';
@@ -47,12 +48,6 @@ export function formatPlanPrice(plan: Plan): string {
  */
 export function formatPurchaseCta(plan: Plan | undefined): string {
   return plan === undefined ? PAYWALL_CTA : `${PAYWALL_CTA} · ${formatPlanPrice(plan)}`;
-}
-
-/** `a, b y c` — la coma de la lista y la «y» del final, como se escribe en español. */
-function joinList(items: string[]): string {
-  if (items.length <= 1) return items.join('');
-  return `${items.slice(0, -1).join(', ')} y ${items[items.length - 1]}`;
 }
 
 /**

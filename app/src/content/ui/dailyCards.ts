@@ -71,21 +71,13 @@ export function dailyAxisCards(
 
 /**
  * Desde cuántas mascotas Hoy deja de ser el día de un perro y pasa a ser el de
- * la casa (artboard 30): dos.
+ * la casa (artboards 30 y 33): dos.
+ *
+ * **Y ya no hay techo por encima.** El del artboard 31 —con tres o más, solo
+ * la seleccionada entera— existía porque cinco tarjetas apiladas eran mil
+ * doscientos píxeles de desplazamiento. En un carrusel cada perro tiene su
+ * pantalla y no hay altura que repartir, así que no hay nada que recortar.
  */
 const HOUSE_FROM = 2;
 
-/**
- * Hasta cuántas se cuenta entera cada una (artboard 31). **No es un límite de
- * mascotas** —el plan no pone ninguno— sino de cuánto se cuenta de cada una:
- * con tres o más, ninguna lleva cuerpo, porque lo que se viene a hacer ahí es
- * comparar y no leer. Cinco bloques completos son mil doscientos píxeles para
- * leer cinco veces la misma estructura.
- */
-const FULL_DETAIL_MAX = 2;
-
 export const isHouseDay = (petCount: number): boolean => petCount >= HOUSE_FROM;
-
-/** Cuánto se cuenta de cada mascota en el Hoy de la casa. */
-export const houseDayDetail = (petCount: number): 'full' | 'headline' =>
-  petCount <= FULL_DETAIL_MAX ? 'full' : 'headline';

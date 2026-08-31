@@ -71,11 +71,18 @@ de vuelta (`app/pet/[id]/hub.tsx`). El perfil editable cuelga del hub, en
 si Hoy es de un perro o de la casa: son la misma pregunta.
 
 **Hoy tiene dos formas y una sola pantalla.** Con una mascota es su día
-(artboard 04); con dos o más es el de la casa (30 y 31): lo compartido arriba
-una vez y un bloque por perro debajo. `app/pet/[id]/day.tsx` es el día completo
-de uno, que es a donde lleva cada bloque — y comparte `DailyReading` con Hoy,
-para que la insignia de C.2b y los puntos de energía no se olviden en una de
-las dos.
+(artboard 04); con dos o más es **el día en la casa** (33 y 34): lo compartido
+arriba una vez —la fase y el cielo son del cielo, no de un perro— y debajo un
+**carrusel** con una tarjeta por mascota. La mirilla de 28 px es lo que lo hace
+legítimo: el segundo perro no está escondido detrás de un gesto.
+
+Cada tarjeta lleva su lectura y **sus tres ejes con grado**, y por eso la punta
+abre su carta natal: con los tres dentro, la pantalla del día completo de un
+perro se quedó sin nada más que contar y se borró.
+
+**Explorar resalta lo de todas las mascotas** (artboard 35). De quién es cada
+casilla no lo dice el color —ya es el elemento— sino una inicial en un disco, y
+`useNatalCharts` pide las cartas de todas compartiendo caché con `useNatalChart`.
 
 Fuera de `src/`: `scripts/` guarda los generadores de assets, y los ficheros
 `.generated.*` que producen **no se editan a mano**.

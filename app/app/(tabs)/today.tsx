@@ -1,5 +1,16 @@
 import { router } from 'expo-router';
-import { Image, Pressable, StyleSheet, Text, View } from 'react-native';
+import { useState } from 'react';
+import {
+  Image,
+  Pressable,
+  ScrollView,
+  StyleSheet,
+  Text,
+  View,
+  useWindowDimensions,
+  type NativeScrollEvent,
+  type NativeSyntheticEvent,
+} from 'react-native';
 
 import { NavRow } from '@/_ui/components/NavRow';
 import { Screen } from '@/_ui/components/Screen';
@@ -9,9 +20,10 @@ import { useMoonSky, useNatalChart } from '@/chart/ui/chartQueries';
 import { formatWeekdayAndDay, formatWeekdayDate } from '@/chart/ui/format';
 import { SIGN_LABELS } from '@/chart/ui/labels';
 import { DailyReading, hasDailyReading } from '@/content/ui/DailyReading';
-import { houseDayDetail, isHouseDay } from '@/content/ui/dailyCards';
+import { isHouseDay } from '@/content/ui/dailyCards';
 import { DailySkeleton } from '@/content/ui/DailySkeleton';
-import { PetDayCard, PetDayRow, SharedSkyCard } from '@/content/ui/HouseDay';
+import { PageDots } from '@/_ui/components/PageDots';
+import { PetDayCard, SharedSkyCard } from '@/content/ui/HouseDay';
 import { daysBetween } from '@/content/domain/DailyDate';
 import {
   isNetworkError,
@@ -20,22 +32,24 @@ import {
   usePrefetchDailyBuffer,
 } from '@/content/ui/dailyQueries';
 import { useCalendarDay } from '@/content/ui/useCalendarDay';
-import {
-  HOUSE_DAY_TITLE,
-  MEANWHILE_LABEL,
-  offlineNote,
-  othersLabel,
-  petDayTitle,
-} from '@/content/ui/labels';
+import { HOUSE_DAY_TITLE, MEANWHILE_LABEL, offlineNote, petDayTitle } from '@/content/ui/labels';
+import type { DailyEdition } from '@/content/domain/DailyEdition';
 import type { Pet } from '@/pet/domain/Pet';
 import { breedLabel } from '@/pet/ui/format';
 import { NoPetPrompt } from '@/pet/ui/NoPetPrompt';
 import { usePetPhotoUri, usePets, useSelectedPet } from '@/pet/ui/petQueries';
 
-import { colors, radii, spacing, typography } from '@/design/theme';
+import { colors, radii, screenPadding, spacing, typography } from '@/design/theme';
 
 /** El retrato de la cabecera, del artboard 04. */
 const AVATAR = 32;
+/**
+ * Cuánto se ve de la tarjeta siguiente (artboard 33). **Es lo que permite el
+ * carrusel**: con la mirilla el segundo perro no está escondido, y sin ella la
+ * objeción del 30 —esconder al segundo detrás de un gesto— seguiría en pie.
+ * Veintiocho porque es un borde reconocible como tarjeta, no una raya.
+ */
+const PEEK = 28;
 /** El punto del pie de estado. Gris y no oro: no falta ningún dato del usuario. */
 const NOTE_DOT = 8;
 const NOTE_DOT_BASELINE = 8;
@@ -47,11 +61,11 @@ const NOTE_DOT_BASELINE = 8;
  * cascada — el cielo, que es igual para todo el mundo, y luego cada eje de su
  * carta.
  *
- * **Con dos o más es el día de la casa** (artboard 30). Lo compartido va
+ * **Con dos o más es el día en la casa** (artboards 33 y 34). Lo compartido va
  * arriba y una sola vez —la fase lunar y el cielo son del cielo, no de un
- * perro— y debajo un bloque por mascota con lo que sí es suyo. Apilados y no
- * en carrusel: esconder al segundo detrás de un gesto es justo el defecto que
- * se quitó del hub.
+ * perro— y debajo **un carrusel** con una tarjeta por mascota. La mirilla es
+ * lo que lo hace legítimo: se ven 28 px de la siguiente, así que el segundo
+ * perro no está escondido detrás de un gesto.
  *
  * **El título cambia de sujeto con la segunda mascota**, y el nombre baja a la
  * cabecera de su bloque. Es la misma regla que reparte el contenido, aplicada
@@ -98,16 +112,11 @@ export default function Today() {
   const staleDays = reading && reading.date() !== today ? daysBetween(reading.date(), today) : 0;
   const house = isHouseDay(pets?.length ?? 0);
 
-  const openDay = (id: string) => router.push({ pathname: '/pet/[id]/day', params: { id } });
-
   const footer = offline ? (
     <StatusNote>{offlineNote(reading ? formatWeekdayAndDay(reading.date()) : undefined)}</StatusNote>
   ) : null;
 
-  if (house && pets && pet) {
-    // Las demás, en el orden de la lista y sin la seleccionada, que va arriba.
-    const others = pets.filter((other) => other.id() !== pet.id());
-    const detail = houseDayDetail(pets.length);
+  if (house && pets) {
     const sky = reading?.sky();
 
     return (
@@ -116,7 +125,7 @@ export default function Today() {
         scroll
         stars="today"
         align="flex-start"
-        gap={spacing[4]}
+        gap={spacing[3]}
         header={<ScreenHeader overline={formatWeekdayDate(today)} title={HOUSE_DAY_TITLE} />}
         footer={footer}
       >
@@ -127,31 +136,7 @@ export default function Today() {
         ) : (
           <>
             {sky ? <SharedSkyCard headline={sky.headline()} /> : null}
-
-            <PetDayCard pet={pet} edition={reading} detail={detail} onPress={() => openDay(pet.id())} />
-
-            {detail === 'full' ? (
-              others.map((other) => (
-                <PetDayCard
-                  key={other.id()}
-                  pet={other}
-                  edition={reading}
-                  onPress={() => openDay(other.id())}
-                />
-              ))
-            ) : (
-              <View style={styles.others}>
-                <Text style={styles.othersLabel}>{othersLabel(others.length)}</Text>
-                {others.map((other) => (
-                  <PetDayRow
-                    key={other.id()}
-                    pet={other}
-                    edition={reading}
-                    onPress={() => openDay(other.id())}
-                  />
-                ))}
-              </View>
-            )}
+            <PetCarousel pets={pets} edition={reading} />
           </>
         )}
       </Screen>
@@ -205,6 +190,60 @@ export default function Today() {
         </>
       )}
     </Screen>
+  );
+}
+
+/**
+ * El carrusel de mascotas (artboards 33 y 34).
+ *
+ * **A pantalla completa y no dentro del margen**: la tarjeta activa conserva
+ * los 24 px del resto de la pantalla y la siguiente asoma por la derecha, así
+ * que el `ScrollView` tiene que llegar al borde. De ahí el margen negativo —
+ * el cuerpo de `Screen` viene con el suyo puesto.
+ *
+ * El ancho de la tarjeta sale de la mirilla y del hueco: lo que queda de la
+ * pantalla después de un margen, un hueco y los 28 px que asoman. Con eso, al
+ * llegar a la última el desplazamiento se queda corto por esos mismos 28 y la
+ * anterior asoma por la izquierda — **siempre hay mirilla por algún lado**, y
+ * una tarjeta sola contra los dos márgenes sería la única que mentiría.
+ *
+ * La punta de cada tarjeta abre **su carta natal**: desde que la tarjeta lleva
+ * los tres ejes, el día completo de un perro se quedó sin nada más que contar.
+ */
+function PetCarousel({ pets, edition }: { pets: Pet[]; edition: DailyEdition | null | undefined }) {
+  const { width } = useWindowDimensions();
+  const [active, setActive] = useState(0);
+
+  const cardWidth = width - screenPadding - spacing[3] - PEEK;
+  const interval = cardWidth + spacing[3];
+
+  const onSettled = (event: NativeSyntheticEvent<NativeScrollEvent>) => {
+    setActive(Math.round(event.nativeEvent.contentOffset.x / interval));
+  };
+
+  return (
+    <View style={styles.carousel}>
+      <ScrollView
+        horizontal
+        showsHorizontalScrollIndicator={false}
+        decelerationRate="fast"
+        snapToInterval={interval}
+        snapToAlignment="start"
+        onMomentumScrollEnd={onSettled}
+        contentContainerStyle={styles.track}
+      >
+        {pets.map((each) => (
+          <PetDayCard
+            key={each.id()}
+            pet={each}
+            edition={edition}
+            width={cardWidth}
+            onPress={() => router.push({ pathname: '/pet/[id]/chart', params: { id: each.id() } })}
+          />
+        ))}
+      </ScrollView>
+      <PageDots count={pets.length} active={active} />
+    </View>
   );
 }
 
@@ -288,12 +327,15 @@ const styles = StyleSheet.create({
     color: colors.textMuted,
     flexShrink: 1,
   },
-  others: {
-    gap: spacing[2],
+  carousel: {
+    // Al borde de la pantalla, saliéndose del margen del cuerpo: la mirilla
+    // vive justo ahí.
+    marginHorizontal: -screenPadding,
+    gap: spacing[3],
   },
-  othersLabel: {
-    ...typography.overline,
-    color: colors.textFaint,
+  track: {
+    paddingHorizontal: screenPadding,
+    gap: spacing[3],
   },
   meanwhile: {
     gap: spacing[2],

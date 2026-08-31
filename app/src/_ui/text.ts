@@ -12,3 +12,11 @@ export const normalize = (value: string): string =>
     .replace(/[\u0300-\u036f]/g, '')
     .toLowerCase()
     .trim();
+
+/**
+ * `a, b y c` — la coma de la lista y la «y» del final, como se escribe en
+ * español. Lo usan el apartado de precios de las condiciones y las leyendas de
+ * Explorar, que enumeran mascotas.
+ */
+export const joinList = (items: string[]): string =>
+  items.length <= 1 ? items.join('') : `${items.slice(0, -1).join(', ')} y ${items[items.length - 1]}`;

@@ -1,30 +1,37 @@
 import { Image, Pressable, StyleSheet, Text, View } from 'react-native';
 
 import { Chevron } from '@/_ui/components/Chevron';
+import { text } from '@/_ui/typography';
+import type { NatalChart } from '@/chart/domain/NatalChart';
+import { elementOfSign } from '@/chart/domain/PlanetPosition';
 import { useNatalChart } from '@/chart/ui/chartQueries';
+import { formatDegree } from '@/chart/ui/format';
 import { SIGN_LABELS } from '@/chart/ui/labels';
 import type { Pet } from '@/pet/domain/Pet';
 import { usePetPhotoUri } from '@/pet/ui/petQueries';
 import type { DailyEdition } from '../domain/DailyEdition';
 import { dailyAxisCards } from './dailyCards';
-import { DAILY_AXIS_LABELS, SKY_LABEL } from './labels';
+import { DAILY_AXIS_LABELS, NO_TIME, SKY_LABEL } from './labels';
 
 import { colors, elementColor, icon, opacity, radii, spacing, typography } from '@/design/theme';
 
-/** Retrato de la cabecera de un bloque (artboard 30) y punto de fila (31). */
+/** Retrato de la cabecera de una tarjeta (artboard 33). */
 const BADGE = 44;
-const DOT = 8;
 /** El hueco sin foto: el cuadrado de trazo del canvas, en el color del elemento. */
 const PLACEHOLDER = 16;
+/** Ancho del rótulo de un eje. Cabe «Su Ascendente» sin partirse. */
+const AXIS_LABEL = 78;
+/** Alto de una fila de eje. Tres caben bajo el texto sin pedir desplazamiento. */
+const AXIS_ROW = 32;
 
 /**
- * **Lo compartido, una sola vez y arriba** (artboard 30). La fase lunar y el
- * cielo del día son del cielo, no de un perro: repetirlos por mascota sería
- * afirmar dos veces el mismo hecho.
+ * **Lo compartido, una sola vez y arriba** (artboard 30, y sigue en el 33). La
+ * fase lunar y el cielo del día son del cielo, no de un perro: repetirlos por
+ * mascota sería afirmar dos veces el mismo hecho.
  *
  * Sin cuerpo y sin puntos de energía, al contrario que en el Hoy de una sola
  * mascota: aquí esta tarjeta es el contexto de lo que viene debajo, y lo que
- * se lee entero es el bloque de cada perro.
+ * se lee entero es la tarjeta de cada perro.
  *
  * **Y es el sitio donde entrará la dinámica de manada** cuando llegue (fase 2,
  * BRD §9): es el único bloque de la pantalla que ya habla de todos a la vez.
@@ -38,44 +45,44 @@ export function SharedSkyCard({ headline }: { headline: string }) {
   );
 }
 
-export interface PetDayProps {
+export interface PetDayCardProps {
   pet: Pet;
   edition: DailyEdition | null | undefined;
+  width: number;
   onPress: () => void;
 }
 
 /**
- * El bloque de una mascota en el Hoy de la casa (artboard 30).
+ * La tarjeta de una mascota en el carrusel de Hoy (artboards 33 y 34).
  *
- * Lleva **lo que sí es suyo**: su Sol, el titular de su lectura y su línea. El
- * color es el de su elemento y no es decoración — es lo que deja saber de
- * quién habla cada tarjeta sin leer el nombre.
+ * **Cabe entera, y eso no es un efecto secundario**: es la restricción que
+ * impone el carrusel y de donde sale su altura. Si el contenido de un perro no
+ * cupiera, la tarjeta pediría desplazamiento vertical dentro de un carrusel
+ * horizontal, que es donde esto se rompe en un móvil de verdad.
  *
- * `detail="headline"` es el techo del artboard 31: **no es un límite de
- * mascotas** —el plan no pone ninguno— sino de cuánto se cuenta de cada una.
- * Con tres perros o más ninguna lleva cuerpo, porque lo que se viene a hacer
- * ahí es comparar, no leer.
+ * Lleva su lectura del día —titular y línea— y **sus tres ejes con grado**,
+ * que es lo que compra el sitio del carrusel: con una tarjeta por pantalla
+ * caben los tres, y con ellos la pantalla del día completo de un perro se
+ * quedó sin trabajo. Por eso **la punta abre su carta natal**, que es el paso
+ * siguiente de verdad.
  *
- * La punta lleva **al día completo de ese perro**, no a su perfil: quien toca
- * un bloque quiere más de esa lectura, no editar su fecha de nacimiento.
+ * **El Ascendente que falta se dice, no se quita.** Con varias mascotas
+ * conviven las que tienen hora y las que no; borrar la fila dejaría tarjetas
+ * de distinta altura en un carrusel y, sobre todo, escondería que a ese perro
+ * le falta un dato.
  */
-export function PetDayCard({
-  pet,
-  edition,
-  detail = 'full',
-  onPress,
-}: PetDayProps & { detail?: 'full' | 'headline' }) {
+export function PetDayCard({ pet, edition, width, onPress }: PetDayCardProps) {
   const { data: chart } = useNatalChart(pet);
   const { data: photoUri } = usePetPhotoUri(pet);
   const sun = dailyAxisCards(edition, chart).find((card) => card.axis === 'sun');
-  const tint = sun ? elementColor(sun.element) : colors.accent;
+  const tint = chart ? elementColor(elementOfSign(chart.sunSign())) : colors.accent;
 
   return (
     <Pressable
       onPress={onPress}
       accessibilityRole="button"
-      accessibilityLabel={`El día de ${pet.name()}`}
-      style={({ pressed }) => [styles.card, pressed && styles.pressed]}
+      accessibilityLabel={`La carta natal de ${pet.name()}`}
+      style={({ pressed }) => [styles.card, { width }, pressed && styles.pressed]}
     >
       <View style={styles.header}>
         <View style={[styles.badge, { borderColor: tint }]}>
@@ -85,53 +92,54 @@ export function PetDayCard({
             <View style={[styles.placeholder, { borderColor: tint }]} />
           )}
         </View>
-        <View style={styles.names}>
-          <Text style={styles.name} numberOfLines={1}>
-            {pet.name()}
-          </Text>
-          {sun ? (
-            <Text style={[styles.sun, { color: tint }]}>
-              {DAILY_AXIS_LABELS.sun} · {SIGN_LABELS[sun.sign]}
-            </Text>
-          ) : null}
-        </View>
+        <Text style={styles.name} numberOfLines={1}>
+          {pet.name()}
+        </Text>
         <Chevron direction="right" />
       </View>
+
       {sun ? <Text style={styles.headline}>{sun.headline}</Text> : null}
-      {sun && detail === 'full' ? <Text style={styles.body}>{sun.body}</Text> : null}
+      {sun ? <Text style={styles.body}>{sun.body}</Text> : null}
+
+      {chart ? (
+        <>
+          <View style={styles.divider} />
+          <View>
+            <AxisRow axis="sun" chart={chart} />
+            <AxisRow axis="moon" chart={chart} />
+            <AxisRow axis="ascendant" chart={chart} />
+          </View>
+        </>
+      ) : null}
     </Pressable>
   );
 }
 
 /**
- * Una mascota en una línea (artboard 31): el punto de su elemento, su nombre y
- * el titular de su lectura. Cada fila abre el día de su perro completo.
+ * Una fila de eje: el rótulo, el signo y el grado.
+ *
+ * El grado se calla cuando la Luna es dudosa —dar 8°40′ de algo que puede caer
+ * en otro signo es justo lo que la insignia de C.2b existe para evitar— y el
+ * Ascendente sin hora dice «Sin hora» en gris, en el sitio del signo.
  */
-export function PetDayRow({ pet, edition, onPress }: PetDayProps) {
-  const { data: chart } = useNatalChart(pet);
-  const sun = dailyAxisCards(edition, chart).find((card) => card.axis === 'sun');
-  const tint = sun ? elementColor(sun.element) : colors.accent;
+function AxisRow({ axis, chart }: { axis: 'sun' | 'moon' | 'ascendant'; chart: NatalChart }) {
+  const ascendant = chart.ascendant();
+  const planet = axis === 'ascendant' ? undefined : chart.planet(axis);
+
+  const sign = axis === 'ascendant' ? ascendant?.sign : planet?.sign();
+  const degree =
+    axis === 'ascendant'
+      ? ascendant?.degree
+      : axis === 'moon' && chart.isMoonUncertain()
+        ? undefined
+        : planet?.degree();
 
   return (
-    <Pressable
-      onPress={onPress}
-      accessibilityRole="button"
-      accessibilityLabel={`El día de ${pet.name()}`}
-      style={({ pressed }) => [styles.row, pressed && styles.pressed]}
-    >
-      <View style={[styles.dot, { backgroundColor: tint }]} />
-      <View style={styles.names}>
-        <Text style={styles.rowName} numberOfLines={1}>
-          {pet.name()}
-        </Text>
-        {sun ? (
-          <Text style={styles.rowNote} numberOfLines={2}>
-            {sun.headline}
-          </Text>
-        ) : null}
-      </View>
-      <Chevron direction="right" />
-    </Pressable>
+    <View style={styles.axis}>
+      <Text style={styles.axisLabel}>{DAILY_AXIS_LABELS[axis]}</Text>
+      <Text style={sign ? styles.axisSign : styles.axisMissing}>{sign ? SIGN_LABELS[sign] : NO_TIME}</Text>
+      <Text style={styles.axisDegree}>{degree === undefined ? '' : formatDegree(degree)}</Text>
+    </View>
   );
 }
 
@@ -178,48 +186,52 @@ const styles = StyleSheet.create({
     borderWidth: icon.stroke,
     opacity: 0.6,
   },
-  names: {
-    flex: 1,
-    gap: spacing[1],
-  },
   name: {
     ...typography.section,
     color: colors.text,
-  },
-  sun: {
-    ...typography.overline,
+    flex: 1,
   },
   headline: {
     ...typography.section,
     color: colors.text,
   },
+  /**
+   * Interlineado apretado, como en las condiciones: la tarjeta tiene que caber
+   * entera y el sitio se recupera de la columna, no recortando el texto.
+   */
   body: {
-    ...typography.body,
+    ...typography.bodyTight,
     color: colors.textMuted,
   },
-  row: {
+  divider: {
+    height: 1,
+    backgroundColor: colors.divider,
+  },
+  axis: {
+    height: AXIS_ROW,
     flexDirection: 'row',
     alignItems: 'center',
     gap: spacing[3],
-    paddingVertical: spacing[2],
-    paddingHorizontal: spacing[4],
-    borderRadius: radii.m,
-    backgroundColor: colors.surface,
-    borderWidth: 1,
-    borderColor: colors.divider,
   },
-  dot: {
-    width: DOT,
-    height: DOT,
-    borderRadius: radii.pill,
+  axisLabel: {
+    ...typography.overline,
+    color: colors.textFaint,
+    width: AXIS_LABEL,
     flexShrink: 0,
   },
-  rowName: {
+  axisSign: {
     ...typography.bodyEmphasis,
     color: colors.text,
+    flex: 1,
   },
-  rowNote: {
-    ...typography.caption,
+  axisMissing: {
+    ...typography.bodyEmphasis,
     color: colors.textFaint,
+    flex: 1,
+  },
+  axisDegree: {
+    ...text('ephemeris'),
+    color: colors.textFaint,
+    flexShrink: 0,
   },
 });
