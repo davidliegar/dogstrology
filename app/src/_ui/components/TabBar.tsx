@@ -29,11 +29,14 @@ export interface TabBarProps {
   active: TabName;
   onSelect: (tab: TabName) => void;
   /**
-   * El nombre de la mascota, que es lo que rotula su pestaña — **no
-   * «Perfil»**, y lo dice el canvas. Sin mascota no hay nombre que poner y la
-   * pestaña desaparece: llevaría a una pantalla que no puede existir.
+   * Lo que rotula la segunda pestaña — **no «Perfil»**, y lo dice el canvas.
+   *
+   * Con una mascota es **su nombre**, porque el destino es ese perro; con dos
+   * o más, «Mascotas», porque el nombre de uno no puede rotular a todos
+   * (artboards 30, 31 y 32). Sin mascota no hay nada que poner y la pestaña
+   * desaparece: llevaría a una pantalla que no puede existir.
    */
-  petName?: string;
+  petLabel?: string;
 }
 
 /**
@@ -47,13 +50,13 @@ export interface TabBarProps {
  * misma razón del canvas: el campo estelar tiene que poder pasar por debajo
  * sin cortarse.
  */
-export function TabBar({ active, onSelect, petName }: TabBarProps) {
+export function TabBar({ active, onSelect, petLabel }: TabBarProps) {
   const insets = useSafeAreaInsets();
 
   return (
     <View style={[styles.bar, { paddingBottom: Math.max(insets.bottom, BAR_BOTTOM) }]}>
       {TABS.map(({ name, label, Icon }) => {
-        const text = label ?? petName;
+        const text = label ?? petLabel;
         if (!text) return null;
         const isActive = name === active;
         return (

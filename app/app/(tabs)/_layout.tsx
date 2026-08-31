@@ -1,7 +1,9 @@
 import Tabs from 'expo-router/tabs';
 
 import { TabBar, type TabName } from '@/_ui/components/TabBar';
-import { useSelectedPet } from '@/pet/ui/petQueries';
+import { isHouseDay } from '@/content/ui/dailyCards';
+import { usePets, useSelectedPet } from '@/pet/ui/petQueries';
+import { PETS_TAB_LABEL } from '@/subscription/ui/labels';
 
 import { colors } from '@/design/theme';
 
@@ -16,9 +18,17 @@ import { colors } from '@/design/theme';
  * Hoy se convierte entero en la invitación a crear una. El reparto de
  * `index.tsx` manda al onboarding en el primer arranque, así que aquí se llega
  * borrando la única que había.
+ *
+ * **La segunda pestaña cambia de rótulo con la segunda mascota**: de «Baloo» a
+ * «Mascotas» (artboards 30, 31 y 32). Es la misma regla del título de Hoy
+ * aplicada a la barra — con un perro el destino es ese perro; con dos, el
+ * nombre de uno no puede rotular a todos. Y cambia de destino con él: el hub
+ * pasa a ser la lista.
  */
 export default function TabsLayout() {
+  const { data: pets } = usePets();
   const { data: pet } = useSelectedPet();
+  const petLabel = pets && isHouseDay(pets.length) ? PETS_TAB_LABEL : pet?.name();
 
   return (
     <Tabs
@@ -31,7 +41,7 @@ export default function TabsLayout() {
           <TabBar
             active={state.routes[state.index].name as TabName}
             onSelect={(tab) => navigation.navigate(tab)}
-            petName={pet.name()}
+            petLabel={petLabel}
           />
         ) : null
       }

@@ -60,9 +60,15 @@ suscripción de verdad.
 
 Las rutas van en `app/`, y el grupo `app/(tabs)/` son **los cuatro destinos
 raíz** de la barra de pestañas. Todo lo demás se apila encima y por eso tapa la
-barra: es lo que dicen los artboards, donde solo 04, 08, 10, 15, 17, 25, 30 y
-31 la llevan. La pestaña de la mascota es el **hub** (artboard 25); el perfil
-editable cuelga de ella, en `app/pet/[id]/index.tsx`.
+barra: es lo que dicen los artboards, donde solo 04, 08, 10, 15, 17, 25, 30,
+31 y 32 la llevan.
+
+**La segunda pestaña cambia de destino con la segunda mascota.** Con una es el
+**hub** (artboard 25) y se llama por su nombre; con dos o más es la **lista**
+(artboard 32), se llama «Mascotas», y el hub pasa a colgar de ella con cabecera
+de vuelta (`app/pet/[id]/hub.tsx`). El perfil editable cuelga del hub, en
+`app/pet/[id]/index.tsx`. La regla vive en `isHouseDay()`, la misma que decide
+si Hoy es de un perro o de la casa: son la misma pregunta.
 
 **Hoy tiene dos formas y una sola pantalla.** Con una mascota es su día
 (artboard 04); con dos o más es el de la casa (30 y 31): lo compartido arriba

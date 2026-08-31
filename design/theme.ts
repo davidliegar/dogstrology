@@ -132,6 +132,12 @@ export const touchTarget = 44;
 export const radii = {
   s: 8,
   m: 16,
+  /**
+   * Fila de lista con retrato: el elemento de la lista de mascotas (artboard
+   * 32). Entre `m` y `l` porque es lo que es — más que una fila y menos que
+   * una tarjeta, y con un disco de 56 dentro un radio de 16 se queda seco.
+   */
+  row: 20,
   l: 24,
   card: 28, // tarjeta tipo carta astral (BRD §11.2.2)
   pill: 999,

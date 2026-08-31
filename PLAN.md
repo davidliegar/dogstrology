@@ -122,13 +122,13 @@ permiso se pide después de demostrar valor, nunca al arrancar** (BRD §14 R8).
 F9 es el bucle de adquisición y su marca de agua ya tiene spec escrita
 (`design/brand/README.md`).
 
-### Multimascota, hecho salvo una pantalla
+### Multimascota, hecho
 
-El encargo está contestado (artboards 30 y 31) y **Hoy con varias mascotas ya
-funciona**, con su techo y con el día completo de cada perro. Falta **la lista
-de mascotas** a la que lleva la pestaña, que es lo único que el canvas no
-dibuja — hasta que exista, la pestaña sigue llamándose por el nombre de la
-seleccionada. Ver el encargo, al final.
+El encargo está cerrado (artboards 30, 31 y 32): Hoy con varias mascotas, su
+techo, el día completo de cada perro, la lista de la pestaña y el hub como
+detalle. **Lo que falta de multimascota ya no es diseño ni código, es probarlo
+con dos mascotas en un móvil** — hoy el tier gratuito solo deja una, así que en
+la app real solo se llega comprando.
 
 ### Y RevenueCat, cuando haya cuentas
 
@@ -287,8 +287,8 @@ Llegaron **27 artboards** y dos reglas. Lo que estaba pedido y ya está:
   tenue por magnitud es **Piscis** (Alpherg, 3,6); Cáncer es la de menos nodos
   (5), detrás de Aries (4). La app lo calcula, no lo supone
 
-**Lo que sigue pendiente de diseño:** una pantalla, la lista de mascotas del
-encargo de multimascota. De la tanda anterior no queda ninguno.
+**Lo que sigue pendiente de diseño:** nada. El encargo de multimascota se
+cerró con el artboard 32.
 
 ~~El teñido por variante del icono~~, ~~«Condiciones»~~, ~~la fila de añadir
 del 26 con la suscripción activa~~ y ~~el sitio de la oferta en Ajustes~~ →
@@ -296,12 +296,10 @@ del 26 con la suscripción activa~~ y ~~el sitio de la oferta en Ajustes~~ →
 
 ---
 
-## Encargo de diseño — **multimascota** (2026-08-31) · **contestado**
+## Encargo de diseño — **multimascota** (2026-08-31) · **cerrado**
 
-**Artboards 29 (corregido), 30 y 31.** Los cuatro puntos tienen dibujo y los
-tres primeros están implementados (sesión 45). Lo que sigue abierto es **una
-sola pantalla**: la lista de mascotas a la que lleva la pestaña — ver el final
-de esta sección.
+**Artboards 29 (corregido), 30, 31 y 32.** Los cuatro puntos tienen dibujo y
+están implementados (sesiones 45 y 47). No queda nada abierto.
 
 ### Por qué ahora, y por qué es del MVP
 
@@ -418,28 +416,29 @@ de la manada se encargan en su fase.
   compartido, el único que ya habla de todos a la vez. **Anotado en el código**,
   en `SharedSkyCard`
 
-### Lo que queda abierto: **la lista de mascotas**
+### La lista de mascotas — **artboard 32**, y con ella se cierra
 
-La nota del 31 dice que con dos o más la pestaña **se llama «Mascotas», lista, y
-el hub del 25 pasa a ser el detalle de una**. La regla está clara y el rótulo
-está dibujado en la barra de los dos artboards. **Lo que no está dibujado es la
-lista**, y era justo la pregunta que el encargo dejaba abierta: ¿el 26 promovido
-de hoja a destino raíz, o una lista distinta con más sitio?
+Era la pregunta que el encargo dejaba abierta, y la respuesta **no es el 26
+promovido**: la hoja es un control de dos alturas de dedo y la lista tiene sitio
+para que cada perro traiga lo que lo identifica —su Sol, su raza y su edad—, que
+es lo que hace falta cuando son cinco y dos son mestizas medianas.
 
-Sin ella no se puede renombrar la pestaña: «Mascotas» llevando al hub de un solo
-perro es exactamente el control que miente. Así que **la pestaña sigue
-llamándose por el nombre de la mascota seleccionada** hasta que exista, y la
-hoja del 26 sigue siendo cómo se cambia de perro.
+Las tres cosas que hacían falta, contestadas:
 
-Lo que hace falta para cerrarlo:
+1. **Entrar en una mascota la selecciona.** Con eso desaparece el cruce entre
+   entrar y elegir: el punto de oro es siempre **estado** y nunca un control, y
+   no hay dos maneras de decir lo mismo
+2. **«Añadir» es la última fila y no un botón flotante**: son cinco elementos,
+   no doscientos, y un flotante taparía justo la mascota de abajo. Trazo
+   discontinuo porque es un hueco por rellenar, no un elemento de la lista
+3. **El hub lleva cabecera de vuelta** cuando se entra desde aquí, y el día
+   completo de un perro es el 04 con cabecera de vuelta, sin artboard propio
+   — la derivación de la sesión 45, confirmada
 
-1. **La lista como destino raíz**: qué enseña de cada mascota —foto, Sol,
-   titular de hoy— y si lleva la marca de selección del 26 o no, porque aquí
-   entrar en una no es lo mismo que elegirla
-2. **Dónde va «Añadir otra mascota»** en esa lista, y si mantiene el trato del
-   26 (fila legítima, «+» en oro, sin candado)
-3. **El hub como detalle**: hoy el 25 es la pestaña. Al pasar a colgar de la
-   lista necesita cabecera con vuelta atrás, que un destino raíz no lleva
+**La segunda línea es raza y edad**, y la edad se dice en meses hasta los dos
+años y en años a partir de ahí: un cachorro de ocho meses y uno de dieciséis son
+perros distintos, y «0 años» no dice nada. La regla vive en `formatAge`, con
+test, y el dominio gana `Pet.ageInMonths()`.
 
 ### Lo que no se puede tocar
 
@@ -3710,3 +3709,28 @@ Llegaron 27 artboards. Se implementan **17 y 27**; el 26 va en tanda propia.
   splash en un círculo, y aunque el anillo se inscribe con holgura en el
   lienzo, a `imageWidth: 200` hay que verlo. Va el primero de la lista del
   móvil
+
+### 2026-08-31 (47) — la lista de mascotas, y la pestaña que cambia de nombre
+- **Artboard 32.** La lista que faltaba, y no era el 26 promovido: retrato de
+  56, nombre, su Sol y la línea de raza y edad. Con cinco perros y dos mestizas
+  medianas, el Sol y la edad son lo que los distingue
+- **Entrar en una mascota la selecciona**, y eso quita el cruce entre entrar y
+  elegir: el punto de oro pasa a ser siempre estado y nunca un control
+- **La pestaña cambia de rótulo y de destino con la segunda mascota**: de
+  «Baloo» al hub, a «Mascotas» y la lista. Lo decide `isHouseDay()`, la misma
+  regla que dice si Hoy es de un perro o de la casa — son la misma pregunta, y
+  tenerla en dos sitios era la forma de que un día dejaran de coincidir
+- **`Pet.ageInMonths()` y `formatAge`**: meses hasta los dos años y años a
+  partir de ahí. La cuenta va al dominio con el mismo cuidado de zona horaria
+  que `ageInYears()`; cómo se dice, a la capa que lo enseña. Por debajo del mes
+  se escribe «menos de un mes», que es la única de las tres frases que el
+  artboard no dibuja — su ejemplo más joven tiene ocho meses
+- **El hub sale de la pestaña** a `pet/ui/PetHub.tsx` y lo usan los dos: la
+  pestaña con una mascota, y `app/pet/[id]/hub.tsx` con cabecera de vuelta
+  cuando se entra desde la lista
+- **La fila de añadir es la misma puerta dibujada dos veces**, en la hoja y en
+  la lista, y el test de las puertas del paywall lo dice ahora explícitamente:
+  son dos puertas, no dos ficheros. De paso gana una segunda comprobación —
+  que ni Hoy ni el día de un perro pidan dinero nunca
+- **`radii.row = 20`** al tema: entre `m` y `l`, que es lo que el artboard usa
+  para una fila con un disco de 56 dentro

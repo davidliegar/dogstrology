@@ -59,6 +59,14 @@ export const TERMS_LINK = 'Condiciones';
 export const OFFER_TITLE = 'Su carta completa, y toda la casa';
 export const OFFER_CTA = 'Ver los planes';
 
+/**
+ * El rótulo de la segunda pestaña **cuando hay más de una mascota** (artboards
+ * 30, 31 y 32). Con una sola, la pestaña se llama por su nombre: el destino
+ * *es* ese perro, y llamarlo «Mascotas» sería enfriar la pantalla más personal
+ * de la app por una lista de uno.
+ */
+export const PETS_TAB_LABEL = 'Mascotas';
+
 /** La hoja del artboard 26. */
 export const PET_SHEET_TITLE = 'Tus mascotas';
 export const ADD_PET_LABEL = 'Añadir otra mascota';

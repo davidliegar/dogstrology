@@ -1,16 +1,26 @@
 import { Pet } from '@/pet/domain/Pet';
 import { Birth } from '@/pet/domain/Birth';
 import { BREEDS } from '../breeds';
-import { breedLabel, formatBreedAndSex, formatCoordinates, formatLongDate, profileDates } from '../format';
+import {
+  breedLabel,
+  formatAge,
+  formatBreedAndAge,
+  formatBreedAndSex,
+  formatCoordinates,
+  formatLongDate,
+  profileDates,
+} from '../format';
 
-const petWith = (changes: { breedId?: string; sex?: 'male' | 'female' }) =>
-  Pet.createNew({
+const petWith = (changes: { breedId?: string; sex?: 'male' | 'female'; date?: string }) => {
+  const { date = '2025-12-14', ...rest } = changes;
+  return Pet.createNew({
     id: '0193f0a0-0000-7000-8000-000000000000',
     name: 'Baloo',
     species: 'dog',
-    birth: Birth.create({ date: '2025-12-14', accuracy: 'exact' }),
-    ...changes,
+    birth: Birth.create({ date, accuracy: 'exact' }),
+    ...rest,
   });
+};
 
 describe('formatLongDate', () => {
   it('escribe la fecha larga en español', () => {
@@ -108,5 +118,47 @@ describe('profileDates', () => {
 
   it('y sigue desapareciendo aunque adoptionDate esté puesto', () => {
     expect(profileDates(petWithDates({ date: '2026-03-02', accuracy: 'gotcha_day' }, '2026-03-02')).adoption).toBeNull();
+  });
+});
+
+/**
+ * Los tres ejemplos del artboard 32, leídos el 31 de agosto de 2026: Baloo con
+ * ocho meses, Ciro con quince y Nala con siete años.
+ */
+describe('la edad de la lista de mascotas', () => {
+  const today = new Date(2026, 7, 31);
+
+  it('en meses hasta los dos años, que es cuando la cifra dice algo', () => {
+    expect(formatAge(petWith({ date: '2025-12-14' }), today)).toBe('8 meses');
+    expect(formatAge(petWith({ date: '2025-05-25' }), today)).toBe('15 meses');
+  });
+
+  it('en años a partir de ahí', () => {
+    expect(formatAge(petWith({ date: '2019-03-02' }), today)).toBe('7 años');
+  });
+
+  /** El salto es a los 24 meses justos, no «a los dos años más o menos». */
+  it('el cambio de unidad cae en los veinticuatro meses', () => {
+    expect(formatAge(petWith({ date: '2024-09-01' }), today)).toBe('23 meses');
+    expect(formatAge(petWith({ date: '2024-08-31' }), today)).toBe('2 años');
+  });
+
+  it('el primer mes se dice en singular, y antes no se dice en cifra', () => {
+    expect(formatAge(petWith({ date: '2026-07-31' }), today)).toBe('1 mes');
+    expect(formatAge(petWith({ date: '2026-08-15' }), today)).toBe('menos de un mes');
+  });
+
+  it('no cumple años ni meses antes de tiempo por la zona horaria', () => {
+    // Un día antes del día del mes: todavía no ha cumplido.
+    expect(formatAge(petWith({ date: '2025-12-14' }), new Date(2026, 7, 13))).toBe('7 meses');
+    expect(formatAge(petWith({ date: '2025-12-14' }), new Date(2026, 7, 14))).toBe('8 meses');
+  });
+
+  it('la línea es la raza y luego la edad, y sin raza queda la edad sola', () => {
+    const [breed] = BREEDS;
+    expect(formatBreedAndAge(petWith({ breedId: breed.id, date: '2025-12-14' }), today)).toBe(
+      `${breed.label} · 8 meses`,
+    );
+    expect(formatBreedAndAge(petWith({ date: '2025-12-14' }), today)).toBe('8 meses');
   });
 });

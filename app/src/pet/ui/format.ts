@@ -25,6 +25,39 @@ export function formatCoordinates(lat: number, lon: number): string {
   return `${coordinate(lat)} · ${coordinate(lon)}`;
 }
 
+/**
+ * Hasta cuándo la edad se dice en meses (artboard 32): hasta los dos años.
+ * Un cachorro de ocho meses y uno de dieciséis son perros distintos, y en años
+ * los dos serían «0», que no dice nada.
+ */
+const MONTHS_UNTIL = 24;
+
+/**
+ * `8 meses`, `15 meses`, `7 años`. La regla del artboard 32, y vive aquí
+ * porque es cómo se cuenta y no qué se cuenta: el dominio da los dos números.
+ *
+ * Por debajo del mes se dice así en vez de «0 meses», que es lo mismo que «0
+ * años» y no dice nada. Es la única frase de las tres que el artboard no
+ * dibuja, porque su ejemplo más joven tiene ocho meses.
+ */
+export function formatAge(pet: Pet, reference?: Date): string {
+  const months = pet.ageInMonths(reference);
+  if (months === 0) return 'menos de un mes';
+  if (months < MONTHS_UNTIL) return months === 1 ? '1 mes' : `${months} meses`;
+  return `${pet.ageInYears(reference)} años`;
+}
+
+/**
+ * La segunda línea de la lista de mascotas: `Perro de agua español · 8 meses`.
+ *
+ * **Raza y edad, en ese orden**, que es lo que identifica a un perro cuando
+ * son cinco y dos son mestizas medianas. Sin raza queda la edad sola: la edad
+ * siempre se sabe —la fecha es obligatoria— y la raza no.
+ */
+export function formatBreedAndAge(pet: Pet, reference?: Date): string {
+  return [breedLabel(pet.breedId()), formatAge(pet, reference)].filter(Boolean).join(' · ');
+}
+
 /** La etiqueta de la raza, o `undefined` si la mascota no tiene raza puesta. */
 export function breedLabel(breedId: string | undefined): string | undefined {
   if (breedId === undefined) return undefined;

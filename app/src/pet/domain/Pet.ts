@@ -192,6 +192,21 @@ export class Pet extends Model {
   }
 
   /**
+   * Meses cumplidos a fecha de `reference`. El mismo cuidado con la fecha que
+   * `ageInYears()`, y por lo mismo.
+   *
+   * Existe porque **un cachorro de ocho meses y uno de dieciséis son perros
+   * distintos**, y en años los dos son «0». Cuándo se cuenta en meses y cuándo
+   * en años lo decide la capa que lo enseña, no este método.
+   */
+  ageInMonths(reference: Date = new Date()): number {
+    const [birthYear, birthMonth, birthDay] = this._birth.date().split('-').map(Number);
+    let months = (reference.getFullYear() - birthYear) * 12 + (reference.getMonth() + 1 - birthMonth);
+    if (reference.getDate() < birthDay) months -= 1;
+    return Math.max(0, months);
+  }
+
+  /**
    * Única transición interna: reconstruye la mascota cambiando lo indicado y
    * dejando intacto lo demás. Privada a propósito — `withChanges()` y
    * `deleted()` pasan por aquí, así la lista de campos vive en un solo sitio y
