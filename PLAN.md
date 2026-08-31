@@ -296,89 +296,138 @@ del 26 con la suscripción activa~~ y ~~el sitio de la oferta en Ajustes~~ →
 
 ---
 
-## Encargo de diseño — **el carrusel de Hoy y Explorar multimascota** (2026-08-31)
+## Encargo de diseño — **el carrusel de Hoy y Explorar multimascota**
 
-Segunda vuelta sobre multimascota, con lo construido delante. **Dos de los
-cinco puntos ya están hechos** (sesión 48); los otros tres necesitan dibujo.
+*(2026-08-31. Texto tal cual se manda a Claude Design.)*
 
-### Hecho sin esperar
+**Dos de los cinco puntos ya están hechos** y no van en el encargo: «El día de
+la casa» → «El día en la casa», y la leyenda de casas de Explorar, que
+prometía en futuro un resaltado que ya estaba presente.
 
-- **«El día de la casa» → «El día en la casa».** La casa no tiene día, lo
-  tienen los perros que viven en ella. Y deja libre el «de la casa» para la
-  dinámica de manada, que sí será algo *de* la casa
-- **La leyenda de casas en Explorar mentía.** Decía «la de su Sol sale
-  resaltada en cuanto su carta tenga hora y lugar» **también cuando ya lo
-  estaba**: prometía en futuro algo que el usuario tenía delante. Ahora las dos
-  rejillas de carta tienen la misma forma —de quién es lo resaltado, y qué abre
-  cada tarjeta— y la frase en futuro solo sale cuando de verdad falta hora y
-  lugar (`exploreCaptions.ts`, con test)
+---
+
+### Segunda vuelta sobre multimascota
+
+Multimascota está construido y funcionando: Hoy con varias mascotas, la lista
+de la pestaña, el hub como detalle y el día completo de cada perro. Con eso
+delante hay tres cosas que replantear, y una de ellas **revierte una decisión
+que tomamos hace dos artboards** — con un argumento nuevo, no por olvido.
+
+### Lo que ya está construido — no hace falta redibujarlo
+
+| | |
+|---|---|
+| **04** | Hoy con una mascota: «El día de Baloo», cuatro tarjetas en cascada |
+| **30** | Hoy con dos: lo compartido arriba una vez, un bloque por perro **apilado** |
+| **31** | El techo: con tres o más, la seleccionada arriba y las demás en fila de una línea |
+| **32** | La lista de la pestaña «Mascotas», con el punto de oro de la seleccionada |
+| **26** | La hoja para cambiar de mascota, que se abre desde el nombre en el hub |
+| **25** | El hub, que con varias mascotas cuelga de la lista y lleva cabecera de vuelta |
+
+El día completo de un perro —a donde lleva tocar su bloque en el 30— es el 04
+con cabecera de vuelta, sin artboard propio.
+
+---
 
 ### 1 · El carrusel de mascotas en Hoy
 
-**Sustituye a la pila del artboard 30**, y conviene decirlo claro porque la
-nota del 30 rechazaba el carrusel con estas palabras: *«apilados y no en
-carrusel: esconder al segundo detrás de un gesto es el defecto que acabamos de
-quitar del hub»*. Lo que cambia el argumento es **la mirilla**: si el borde de
-la siguiente tarjeta se ve, el segundo perro deja de estar escondido y el gesto
-deja de ser un secreto. Sin mirilla, la objeción del 30 sigue en pie.
+La idea: **en vez de apilar un bloque por perro, un carrusel** — se desliza a
+izquierda y derecha y se pasa de mascota. Y para que el gesto sea evidente,
+**se tiene que ver un poco de la tarjeta siguiente**.
 
-**Lo que hay que dibujar:**
+**Esto revierte la nota del 30**, que decía: *«apilados y no en carrusel:
+esconder al segundo detrás de un gesto es el defecto que acabamos de quitar del
+hub»*. Lo que cambia el argumento es **la mirilla**. Si el borde del siguiente
+perro se ve, el segundo deja de estar escondido y el gesto deja de ser un
+secreto. **Sin mirilla, la objeción del 30 sigue en pie** — así que las dos
+cosas son la misma decisión y no un detalle de ejecución.
+
+**Lo que hace falta decidir:**
 
 - Cuánto se ve de la tarjeta siguiente, y si la primera y la última se pegan al
   margen o mantienen la mirilla por los dos lados
-- Si hace falta indicador además de la mirilla, o la mirilla basta
+- Si hace falta un indicador además de la mirilla, o la mirilla ya lo dice
 - Cómo convive el arrastre horizontal con el desplazamiento vertical de la
-  pantalla, que es donde estos carruseles se rompen en un móvil real
+  pantalla, que es donde estos carruseles se rompen en un móvil de verdad
 
-**Y dos consecuencias que conviene decidir a la vez, porque cambian lo que ya
-está construido:**
+**Dos consecuencias que cambian lo ya construido, y que conviene decidir en el
+mismo dibujo:**
 
-- **El techo del artboard 31 puede dejar de tener sentido.** Existía porque
-  cinco bloques apilados son mil doscientos píxeles de scroll; en un carrusel
-  cada perro tiene su propia pantalla y no hay altura que repartir. ¿Siguen las
-  filas de una línea para los demás, o el carrusel las sustituye?
-- **La tarjeta de cada perro puede crecer.** Hoy el bloque del 30 lleva **solo
-  su Sol**; con una tarjeta por pantalla caben sus tres ejes —Sol, Luna y
-  Ascendente—, que es exactamente lo que enseña `app/pet/[id]/day.tsx`. Si
-  crece, **esa pantalla se queda sin trabajo** y el toque del 30 deja de tener
-  destino
+1. **El techo del 31 puede dejar de tener sentido.** Existía porque cinco
+   bloques apilados son mil doscientos píxeles de desplazamiento; en un
+   carrusel cada perro tiene su propia pantalla y no hay altura que repartir.
+   ¿Siguen las filas de una línea para los demás, o el carrusel las sustituye?
+2. **La tarjeta de cada perro puede crecer.** Hoy el bloque del 30 lleva **solo
+   su Sol**; con una tarjeta por pantalla caben sus tres ejes —Sol, Luna y
+   Ascendente—, que es exactamente lo que enseña el día completo de un perro.
+   Si crece, **esa pantalla se queda sin trabajo** y el toque del 30 deja de
+   tener destino.
+
+---
 
 ### 2 · Qué queda fuera del carrusel
 
-Ya está resuelto en el 30 y sigue valiendo, pero conviene confirmarlo con el
-carrusel delante. **Lo compartido es del cielo, no de un perro:**
+Ya está resuelto en el 30 y sigue valiendo; se confirma con el carrusel
+delante. **Lo compartido es del cielo, no de un perro**, y se nombra una vez:
 
-- **La fase lunar de la tira**: el mismo dato para toda la casa. Fuera
-- **«El cielo de hoy»**: el mismo fragmento para todos. Fuera — y es el sitio
-  donde entrará la manada
-- ⚠️ **Ojo con «Su Luna»**, que suena a lo mismo y no lo es: esa tarjeta es la
-  Luna **natal** de cada perro, distinta para cada uno. Va dentro
+- **La tira de la fase lunar** — el mismo dato para toda la casa. Fuera
+- **«El cielo de hoy»** — el mismo fragmento para todos. Fuera, y es el sitio
+  donde entrará la dinámica de manada cuando llegue
+- ⚠️ **«Su Luna» suena a lo mismo y es lo contrario.** Esa tarjeta es la Luna
+  **natal** de cada perro, distinta para cada uno. Va dentro
+
+---
 
 ### 3 · Explorar con varias mascotas
 
-Hoy Explorar resalta **la del perro seleccionado** y nada más. Con varias, la
-pregunta es si resalta las de todos.
+Hoy Explorar resalta lo de **una** mascota —la seleccionada— y nada más. Con
+varias, la pregunta es si resalta las de todas.
 
-- Cómo se resalta un signo que comparten dos perros, y uno que solo tiene uno.
-  El color de la tarjeta ya es el del elemento del signo, así que el color no
-  puede ser también de quién
-- **El texto que falta debajo**: qué mascotas cumplen lo resaltado. Con una es
+**Lo que hace falta decidir:**
+
+- Cómo se resalta un signo que **comparten dos perros**, y uno que solo tiene
+  uno. Ojo: **el color de la tarjeta ya es el del elemento del signo**, así que
+  el color no puede ser además de quién — chocarían dos significados en la
+  misma señal
+- **El texto que falta debajo: qué mascotas cumplen lo resaltado.** Con una es
   «El de Baloo aparece resaltado»; con tres y dos compartiendo signo, esa frase
   no vale
-- Y lo mismo en la rejilla de casas, donde además cada perro puede tener casa o
-  no según tenga hora y lugar
+- Lo mismo en la rejilla de **casas**, donde además cada perro puede tener casa
+  o no tenerla, según tenga hora y lugar de nacimiento. Con varias mascotas
+  pueden convivir las dos cosas en la misma pantalla
 
-### 4 · El punto de selección de la lista
+---
 
-Con el carrusel, **Hoy deja de necesitar una mascota seleccionada**: la de
-arriba es la que se esté mirando. Lo que hoy decide la selección, además de
-Hoy, es qué mascota resalta Explorar y qué mascota nombran las fichas de signo,
-de casa y de fase.
+### 4 · El punto de selección de la lista (32)
 
-Así que el punto del artboard 32 sobrevive **solo si Explorar sigue siendo de
-una mascota**. Si el punto 3 lo lleva a enseñarlas todas, la selección se queda
-sin nadie a quien servir y el punto se cae. Son la misma decisión, y por eso
-van juntas.
+Con el carrusel, **Hoy deja de necesitar una mascota seleccionada**: la que se
+está mirando es la que está delante. Lo que hoy decide la selección, además de
+Hoy, es **qué mascota resalta Explorar** y a qué mascota nombran las fichas de
+signo, de casa y de fase.
+
+Así que el punto del 32 **sobrevive solo si Explorar sigue siendo de una
+mascota**. Si el punto 3 lo lleva a enseñarlas todas, la selección se queda sin
+nadie a quien servir y el punto se cae. Son la misma decisión: contestar el 3
+contesta el 4.
+
+---
+
+### Lo que no se puede tocar
+
+- **Regla de canon** (BRD §11.2.0): constelaciones, fases y símbolos salen del
+  dato o de la convención heredada. Nada de esto se rediseña para que quepa
+- Ningún color, espaciado o radio fuera de `theme.ts`
+- El aviso de entretenimiento y el guardarraíl de salud (BRD §7.5, §14 R1)
+- **Lo gratuito sigue siendo una mascota**: todo esto solo se ve con el plan
+  activo, así que ninguna pantalla nueva puede ser la primera que un usuario
+  gratuito encuentre vacía
+- **Con una sola mascota no cambia nada**: Hoy sigue siendo «El día de Baloo»
+  con sus cuatro tarjetas, y la pestaña se sigue llamando por su nombre
+
+### Estados a dibujar
+
+Dos mascotas y cinco, en Hoy y en Explorar. Y en Explorar, el caso que hoy no
+existe: **dos perros compartiendo signo**.
 
 ---
 
