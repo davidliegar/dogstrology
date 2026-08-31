@@ -104,8 +104,11 @@ que mirar. **Antes hace falta `npx expo prebuild --clean`**: el splash y el
 icono viven en el proyecto nativo, que está ignorado y lleva dentro la
 configuración con la que se generó.
 
-En orden: que la app **ya no abra en blanco**; el icono en el lanzador, a
-tamaño real y con el tema de Android 13; que Hoy salga con las cuatro tarjetas
+En orden: que la app **ya no abra en blanco** y que el splash salga con su
+marca grande y sin caja —se arregló a ciegas en la sesión 46 y es de lo que
+más falta hace ver en un móvil, sobre todo por si Android 12+ recorta el
+anillo con su máscara redonda—; el icono en el lanzador, **en las tres
+variantes a la vez**, a tamaño real y con el tema de Android 13; que Hoy salga con las cuatro tarjetas
 y su cascada; que el trío del hub y la carta cuadren con lo que dice Hoy; que
 el arrastre de la hoja de planeta **y el de la hoja del 26** vayan finos en
 Android; el paywall entero, que es pantalla nueva; y —si se puede— **dejar la
@@ -3683,3 +3686,27 @@ Llegaron 27 artboards. Se implementan **17 y 27**; el 26 va en tanda propia.
 - **El día completo de un perro tampoco tiene artboard propio**, y ahí sí es
   derivación y no hueco: es el 04 empujado, con cabecera de vuelta en vez de
   barra de pestañas
+
+### 2026-08-31 (46) — el splash, sin caja blanca y al doble
+- **El fondo blanco era el PNG, no la configuración.** `qlmanage` compone
+  siempre sobre blanco —lo hace también con un SVG sin fondo—, así que
+  `splash-icon.png` era una imagen **opaca y blanca** con las líneas de hueso
+  invisibles encima. En el móvil, una caja blanca en mitad del cielo
+- **Se arregla despejando el alfa**, no pintando el fondo: se rasteriza dos
+  veces —sobre el azul noche y sobre blanco— y de las dos sale la ecuación de
+  composición resuelta. Es el mismo método que ya usaban las capas del
+  adaptativo, y ahora vive en `design/brand/raster.mjs`, que comparten los dos
+  generadores. La esquina del PNG es `(0,0,0,0)` y el píxel más brillante es
+  exactamente `#E8C87A`
+- **Y más grande**: el asset pasa de 480² a **1024²** —que es lo que pide
+  Expo— y `imageWidth` de 120 a **200**. La sesión 40 anotó que «el lienzo es
+  la marca, así que `imageWidth: 120` es su ancho real»: **no lo era**, el
+  anillo exterior ocupa el 78% del lienzo, así que se estaba pintando a 94 dp
+  de marca sobre 120 de caja
+- **`raster.mjs`**: `readBmp`, `writeBmp`, `writePng`, `rasterize` y `unmixer`,
+  que estaban solo en `icon.mjs` o en ninguno de los dos. El icono sale byte a
+  byte idéntico después de la extracción
+- ⚠️ **Sin comprobar en un dispositivo**: Android 12+ enmascara el icono del
+  splash en un círculo, y aunque el anillo se inscribe con holgura en el
+  lienzo, a `imageWidth: 200` hay que verlo. Va el primero de la lista del
+  móvil

@@ -44,11 +44,12 @@
  */
 
 import { execFileSync } from 'node:child_process';
-import { deflateSync } from 'node:zlib';
-import { mkdirSync, mkdtempSync, readFileSync, writeFileSync } from 'node:fs';
+import { mkdirSync, mkdtempSync } from 'node:fs';
 import { tmpdir } from 'node:os';
 import { dirname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
+
+import { hexToRgb, readBmp, writeBmp, writePng } from './raster.mjs';
 
 const here = dirname(fileURLToPath(import.meta.url));
 const ASSETS = join(here, '..', '..', 'app/assets/icons');
@@ -115,24 +116,6 @@ const CHROMA_FLOOR = 0.03;
 /** Cuánto se puede separar un píxel del fondo para contar como dibujo. */
 const THRESHOLD = 18;
 
-function readBmp(path) {
-  const b = readFileSync(path);
-  const offset = b.readUInt32LE(10);
-  const width = b.readInt32LE(18);
-  const raw = b.readInt32LE(22);
-  const topDown = raw < 0;
-  const height = Math.abs(raw);
-  const bpp = b.readUInt16LE(28);
-  const stride = Math.ceil((width * bpp) / 8 / 4) * 4;
-
-  const at = (x, y) => {
-    const row = topDown ? y : height - 1 - y;
-    const i = offset + row * stride + x * (bpp / 8);
-    return [b[i + 2], b[i + 1], b[i]];
-  };
-  return { width, height, at };
-}
-
 /**
  * La caja del dibujo: la primera y la última fila y columna que se salen del
  * fondo. Se mide en vez de fijarse a mano porque cada generación viene con sus
@@ -162,93 +145,7 @@ function contentBox({ width, height, at }) {
   return { x0, y0, w: x1 - x0 + 1, h: y1 - y0 + 1, background };
 }
 
-/**
- * PNG con alfa, escrito a mano. `sips` sabe convertir formatos pero no sabe
- * recortar un fondo, y BMP no lleva canal alfa — así que la capa de dibujo del
- * adaptativo no se puede producir con las herramientas del sistema. Node trae
- * `zlib`, que es lo único que un PNG necesita de verdad.
- */
-const CRC_TABLE = Array.from({ length: 256 }, (_, n) => {
-  let c = n;
-  for (let k = 0; k < 8; k++) c = c & 1 ? 0xedb88320 ^ (c >>> 1) : c >>> 1;
-  return c >>> 0;
-});
-
-const crc32 = (buffer) => {
-  let c = 0xffffffff;
-  for (const byte of buffer) c = CRC_TABLE[(c ^ byte) & 0xff] ^ (c >>> 8);
-  return (c ^ 0xffffffff) >>> 0;
-};
-
-function chunk(type, data) {
-  const head = Buffer.alloc(8);
-  head.writeUInt32BE(data.length, 0);
-  head.write(type, 4);
-  const crc = Buffer.alloc(4);
-  crc.writeUInt32BE(crc32(Buffer.concat([Buffer.from(type), data])), 0);
-  return Buffer.concat([head, data, crc]);
-}
-
-function writePng(path, side, pixels) {
-  // Una línea de filtro 0 por fila: sin predicción. El PNG sale algo más
-  // grande y el código, mucho más corto — son cuatro iconos, no un vídeo.
-  const raw = Buffer.alloc(side * (1 + side * 4));
-  for (let y = 0; y < side; y++) {
-    const row = y * (1 + side * 4);
-    for (let x = 0; x < side; x++) {
-      const [r, g, b, a] = pixels(x, y);
-      const i = row + 1 + x * 4;
-      raw[i] = r;
-      raw[i + 1] = g;
-      raw[i + 2] = b;
-      raw[i + 3] = a;
-    }
-  }
-  const ihdr = Buffer.alloc(13);
-  ihdr.writeUInt32BE(side, 0);
-  ihdr.writeUInt32BE(side, 4);
-  ihdr[8] = 8; // 8 bits por canal
-  ihdr[9] = 6; // RGBA
-  writeFileSync(
-    path,
-    Buffer.concat([
-      Buffer.from([0x89, 0x50, 0x4e, 0x47, 0x0d, 0x0a, 0x1a, 0x0a]),
-      chunk('IHDR', ihdr),
-      chunk('IDAT', deflateSync(raw, { level: 9 })),
-      chunk('IEND', Buffer.alloc(0)),
-    ]),
-  );
-}
-
-/** BMP de 24 bits, de abajo arriba: el formato que `sips` lee sin discutir. */
-function writeBmp(path, side, pixels) {
-  const stride = Math.ceil((side * 3) / 4) * 4;
-  const body = Buffer.alloc(stride * side);
-  for (let y = 0; y < side; y++) {
-    for (let x = 0; x < side; x++) {
-      const [r, g, b] = pixels(x, y);
-      const i = (side - 1 - y) * stride + x * 3;
-      body[i] = b;
-      body[i + 1] = g;
-      body[i + 2] = r;
-    }
-  }
-  const header = Buffer.alloc(54);
-  header.write('BM', 0);
-  header.writeUInt32LE(54 + body.length, 2);
-  header.writeUInt32LE(54, 10);
-  header.writeUInt32LE(40, 14);
-  header.writeInt32LE(side, 18);
-  header.writeInt32LE(side, 22);
-  header.writeUInt16LE(1, 26);
-  header.writeUInt16LE(24, 28);
-  header.writeUInt32LE(body.length, 34);
-  writeFileSync(path, Buffer.concat([header, body]));
-}
-
 /* --- El teñido: llevar el oro del dibujo al color de la variante. ---------- */
-
-const hexToRgb = (hex) => [1, 3, 5].map((i) => parseInt(hex.slice(i, i + 2), 16));
 
 /** Tono en grados, croma de 0 a 1 y luminosidad de 0 a 1. */
 function toHcl([r, g, b]) {

@@ -25,16 +25,24 @@
  * las doce constelaciones. Un PNG suelto es un dibujo del que nadie sabe ya de
  * dónde salió.
  *
+ * **Y con fondo transparente**, que es lo que pide Expo y lo que este script
+ * no hacía: `qlmanage` compone siempre sobre blanco, también con un SVG sin
+ * fondo, así que el PNG salía blanco entero — con las líneas de hueso
+ * invisibles sobre él y una caja blanca en mitad del cielo al arrancar. Se
+ * rasteriza **dos veces**, sobre el azul noche y sobre blanco, y de las dos se
+ * despeja la ecuación de composición (`raster.mjs`).
+ *
  * El rasterizado usa `qlmanage`, que es WebKit y **solo existe en macOS**. Es
  * la única dependencia de plataforma del proyecto y se acepta porque esto se
  * ejecuta una vez cada muchos meses.
  */
 
-import { execFileSync } from 'node:child_process';
-import { mkdtempSync, readFileSync, renameSync, writeFileSync } from 'node:fs';
+import { mkdtempSync, readFileSync, writeFileSync } from 'node:fs';
 import { tmpdir } from 'node:os';
 import { dirname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
+
+import { rasterize, unmixer, writePng } from './raster.mjs';
 
 const here = dirname(fileURLToPath(import.meta.url));
 const ROOT = join(here, '..', '..');
@@ -49,8 +57,20 @@ const PNG_OUT = join(ROOT, 'app/assets/splash-icon.png');
  * desviarse de la del catálogo.
  */
 const CANVAS = 512;
-/** 4x sobre los 120 dp a los que se pinta la marca (xxxhdpi de Android). */
-const EXPORT = 480;
+/**
+ * 1024², que es lo que Expo pide para el splash: el asset se pinta a `imageWidth`
+ * dp y a esa resolución sobra en cualquier densidad. Antes eran 480 —4x sobre
+ * 120 dp— y la marca se pinta ahora al doble de tamaño.
+ */
+const EXPORT = 1024;
+
+/**
+ * El fondo sobre el que se rasteriza, y el segundo con el que se despeja el
+ * alfa. El primero es el del splash (`app.json`), así que los bordes suaves
+ * quedan mezclados con el color exacto que van a tener debajo.
+ */
+const NIGHT = '#0B1026';
+const PROBE = '#FFFFFF';
 
 /**
  * Los dos anillos del artboard 28, en su proporción: r=47 y r=33 sobre un
@@ -69,19 +89,22 @@ const RINGS = [
 const FILL = 44 / 47;
 
 /**
- * Todo se escala **a los 120 dp de pantalla**, no al lienzo: un trazo de 2
- * sobre 512 se queda en 0,47 dp y desaparece. `K` lleva las medidas del
- * artboard —que están en 120— a este lienzo.
+ * Todo se escala **a las proporciones del artboard**, que están medidas sobre
+ * un lienzo de 120: un trazo de 2 sobre 512 se queda en nada. `K` las trae a
+ * este lienzo, y de ahí al tamaño que se pinte — el asset es vectorial hasta
+ * el rasterizado, así que el grosor **relativo** no depende de a cuántos dp
+ * acabe saliendo.
  */
 const K = CANVAS / 120;
 const RING_STROKE = 1 * K;
 const TRACE_STROKE = 1.75 * K;
 
 /**
- * Los radios del catálogo salen de la magnitud aparente y a 120 dp se quedan
- * cortos: Sirio mide 10 sobre 512, que son 2,3 dp. El factor lo lleva a los
- * 4,6 del artboard **conservando la proporción entre magnitudes**, que es lo
- * que no se puede tocar — el tamaño de cada punto es un dato, no un gusto.
+ * Los radios del catálogo salen de la magnitud aparente y en el lienzo del
+ * artboard se quedan cortos: Sirio mide 10 sobre 512, que son 2,3 sobre 120.
+ * El factor lo lleva a los 4,6 del artboard **conservando la proporción entre
+ * magnitudes**, que es lo que no se puede tocar — el tamaño de cada punto es
+ * un dato, no un gusto.
  */
 const NODE_FACTOR = 1.9;
 
@@ -113,16 +136,17 @@ function fitToRing(stars) {
   return (RINGS[0].ratio * CANVAS * FILL) / reach;
 }
 
-function buildSvg() {
+function buildSvg(background) {
   const { paths, stars } = readAsterism();
   const c = CANVAS / 2;
   const scale = fitToRing(stars);
 
   // Ancho y alto **al tamaño de exportación**, no al del lienzo lógico: si el
-  // SVG declara 512 y se le piden 480, Quick Look escala y ancla arriba a la
+  // SVG declara 512 y se le piden 1024, Quick Look escala y ancla arriba a la
   // izquierda, y un splash descentrado no vale.
   return `<svg xmlns="http://www.w3.org/2000/svg" width="${EXPORT}" height="${EXPORT}" viewBox="0 0 ${CANVAS} ${CANVAS}" fill="none">
   <!-- GENERADO por design/brand/splash.mjs desde canis-major.svg. No editar a mano. -->
+${background ? `  <rect width="${CANVAS}" height="${CANVAS}" fill="${background}"/>` : ''}
 ${RINGS.map((ring) => `  <circle cx="${c}" cy="${c}" r="${(ring.ratio * CANVAS).toFixed(1)}" stroke="${INK.accent}" stroke-width="${RING_STROKE}" opacity="${ring.opacity}"/>`).join('\n')}
   <g transform="translate(${(c * (1 - scale)).toFixed(2)} ${(c * (1 - scale)).toFixed(2)}) scale(${scale.toFixed(4)})">
     <g stroke="${INK.text}" stroke-width="${(TRACE_STROKE / scale).toFixed(2)}" opacity="0.32" stroke-linecap="round" stroke-linejoin="round">
@@ -136,15 +160,17 @@ ${stars.map((s) => `      <circle cx="${s.cx}" cy="${s.cy}" r="${(s.r * NODE_FAC
 `;
 }
 
-const svg = buildSvg();
-writeFileSync(SVG_OUT, svg);
+// El SVG que se guarda es el limpio, sin fondo: es la marca, y el fondo solo
+// existe para poder despejar el alfa del PNG.
+writeFileSync(SVG_OUT, buildSvg(null));
 
-// `qlmanage` escribe `<nombre>.png` dentro del directorio de salida, así que se
-// renderiza en uno temporal y se mueve al sitio con el nombre que toca.
 const scratch = mkdtempSync(join(tmpdir(), 'splash-'));
-execFileSync('qlmanage', ['-t', '-s', String(EXPORT), '-o', scratch, SVG_OUT], { stdio: 'ignore' });
-renameSync(join(scratch, 'splash.svg.png'), PNG_OUT);
+const onNight = rasterize({ svg: buildSvg(NIGHT), side: EXPORT, scratch, name: 'noche' });
+const onProbe = rasterize({ svg: buildSvg(PROBE), side: EXPORT, scratch, name: 'blanco' });
+const unmix = unmixer(NIGHT, PROBE);
+
+writePng(PNG_OUT, EXPORT, (x, y) => unmix(onNight.at(x, y), onProbe.at(x, y)));
 
 console.log(`✓ Canis Major entero, ${readAsterism().stars.length} estrellas, sin logotipo`);
 console.log(`  design/brand/splash.svg`);
-console.log(`  app/assets/splash-icon.png (${EXPORT}×${EXPORT})`);
+console.log(`  app/assets/splash-icon.png (${EXPORT}×${EXPORT}, con alfa)`);
