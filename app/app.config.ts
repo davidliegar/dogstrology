@@ -67,6 +67,43 @@ function readVariant(): VariantName {
 }
 
 /**
+ * Los orígenes que sirven el diario **mientras no hay dominio propio**. Están
+ * aquí para una sola cosa: que producción no se pueda construir con uno dentro.
+ *
+ * No es celo. `contentBaseUrl` viaja en el binario y **cada instalación se
+ * lleva la URL grabada**, así que mover el contenido después obliga a publicar
+ * una versión nueva y deja sin diario a quien no actualice — y no hay
+ * actualización por aire que lo salve, porque `expo-updates` está desactivado.
+ * Es el requisito de salida del Bloque 4b (PLAN.md), aquí convertido en un
+ * fallo de build en vez de en una nota que se olvida el día que corre prisa.
+ *
+ * `workers.dev` además lleva dentro el nombre de la cuenta de Cloudflare, y
+ * Cloudflare la ofrece como URL de desarrollo, no de producción.
+ */
+const PROVISIONAL_ORIGINS = ['github.io', 'workers.dev'];
+
+/**
+ * El CDN se puede apuntar a otro sitio sin tocar el código: es lo que permitirá
+ * que una build de test lea contenido de prueba el día que haya dos orígenes.
+ * Hoy los tres leen el mismo, y eso está bien — el diario es contenido público
+ * y no hay nada que aislar todavía.
+ */
+function readContentBaseUrl(variant: VariantName, base: string): string {
+  const url = process.env.CONTENT_BASE_URL ?? base;
+  if (variant !== 'production') return url;
+
+  const provisional = PROVISIONAL_ORIGINS.find((origin) => url.includes(origin));
+  if (provisional === undefined) return url;
+
+  throw new Error(
+    `El contenido de producción no puede salir de ${provisional}: "${url}".\n` +
+      'La URL se graba en cada instalación y después no se puede mover sin publicar ' +
+      'otra versión (PLAN.md, Bloque 4b). Pon el dominio propio en app.json, o ' +
+      'expórtalo en CONTENT_BASE_URL para esta build.',
+  );
+}
+
+/**
  * `app.json` sigue siendo la base —lo que no cambia entre variantes— y aquí
  * solo se reescribe lo que sí. Así el fichero estático se sigue leyendo de un
  * vistazo y este solo tiene lo que depende del entorno.
@@ -100,11 +137,7 @@ export default ({ config }: ConfigContext): ExpoConfig => {
     extra: {
       ...config.extra,
       variant,
-      // El CDN se puede apuntar a otro sitio sin tocar el código: es lo que
-      // permitirá que una build de test lea contenido de prueba el día que
-      // haya dos orígenes. Hoy los tres leen el mismo, y eso está bien —
-      // el diario es contenido público, no hay nada que aislar todavía.
-      contentBaseUrl: process.env.CONTENT_BASE_URL ?? (config.extra?.contentBaseUrl as string),
+      contentBaseUrl: readContentBaseUrl(variant, config.extra?.contentBaseUrl as string),
     },
   };
 };

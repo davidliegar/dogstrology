@@ -1492,9 +1492,27 @@ primera versión publicada congela la decisión para siempre.
       es lo que `CdnDailyRepository` lee como «no publicado» (artboard 27). Si
       hubiera caído en el `index.html` de las apps web, la app habría recibido
       HTML donde espera JSON
-- [ ] Dominio propio, apuntando al CDN
-- [ ] `contentBaseUrl` con el dominio propio, **antes del primer build de
-      tienda**
+- [x] **El desarrollo ya lee de Cloudflare** (2026-09-01): `app.json` apunta a
+      `https://dogstrology.davidliegar.workers.dev/daily/`. GitHub Pages sigue
+      publicando en paralelo, así que no hay nada que pueda romperse por esto
+- [x] **Y producción no se puede construir contra un origen provisional**: si
+      `contentBaseUrl` sale de `github.io` o de `workers.dev`, `app.config.ts`
+      **revienta el build** con la explicación. El requisito de salida deja de
+      ser una nota que se olvida el día que corre prisa y pasa a ser un fallo,
+      que es lo mismo que ya hacía con `APP_VARIANT`. Cuatro tests lo atan
+- [ ] ⏳ **DEUDA: el dominio propio.** Es lo único que queda del bloque, y su
+      plazo es **antes del primer build que suba a la tienda** — que está detrás
+      de RevenueCat, de Play Console y de la revisión del contenido, así que no
+      bloquea nada de lo que viene ahora. Hasta entonces el desarrollo tira de
+      `workers.dev` sin problema
+      - No hace falta comprar nada nuevo: **un subdominio de un dominio que ya
+        tengas vale igual** y cuesta cero
+      - Se conecta en Custom domains del Worker, y luego es cambiar una línea
+        de `app.json` — el guardarraíl de arriba se apaga solo al hacerlo
+      - **Por qué no se puede dejar para después**: la URL viaja en el binario y
+        cada instalación se la lleva grabada. Mover el contenido después obliga
+        a publicar otra versión y deja sin diario a quien no actualice, y no hay
+        actualización por aire que lo salve porque `expo-updates` está apagado
 - [ ] Retirar `publish-content.yml`, o dejarlo publicando en paralelo mientras
       dure la transición
 

@@ -50,7 +50,7 @@
       "typedRoutes": true
     },
     "extra": {
-      "contentBaseUrl": "https://davidliegar.github.io/dogstrology/daily/",
+      "contentBaseUrl": "https://dogstrology.davidliegar.workers.dev/daily/",
       "router": {},
       "eas": {
         "projectId": "0a43767b-8ca7-481f-af35-661652f8f79f"

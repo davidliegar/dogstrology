@@ -32,6 +32,7 @@ const resolve = (variant?: string): ExpoConfig => {
 describe('las tres variantes de la app', () => {
   afterEach(() => {
     delete process.env.APP_VARIANT;
+    delete process.env.CONTENT_BASE_URL;
   });
 
   it('producción conserva el identificador de las tiendas, sin sufijo', () => {
@@ -103,5 +104,62 @@ describe('las tres variantes de la app', () => {
     delete process.env.CONTENT_BASE_URL;
 
     expect(resolve('preview').extra?.contentBaseUrl).toBe('https://ejemplo/daily/');
+  });
+});
+
+/**
+ * La otra cosa que no se puede deshacer: **la URL del contenido viaja en el
+ * binario**. Cada instalación se la lleva grabada, así que un origen
+ * provisional publicado deja sin diario a quien no actualice — y `expo-updates`
+ * está desactivado, así que no hay actualización por aire que lo salve.
+ *
+ * El requisito de salida del Bloque 4b, convertido en un fallo de build.
+ */
+describe('el origen del contenido', () => {
+  const withOrigin = (url: string): ExpoConfig =>
+    ({ ...base, extra: { ...base.extra, contentBaseUrl: url } }) as ExpoConfig;
+
+  const resolveWith = (variant: string, url: string): ExpoConfig => {
+    process.env.APP_VARIANT = variant;
+    return defineConfig({ config: withOrigin(url) } as ConfigContext);
+  };
+
+  afterEach(() => {
+    delete process.env.APP_VARIANT;
+    delete process.env.CONTENT_BASE_URL;
+  });
+
+  it.each([
+    ['GitHub Pages', 'https://davidliegar.github.io/dogstrology/daily/'],
+    ['el subdominio de Cloudflare', 'https://dogstrology.davidliegar.workers.dev/daily/'],
+  ])('desarrollo y pruebas sí pueden leer de %s', (_origen, url) => {
+    expect(resolveWith('development', url).extra?.contentBaseUrl).toBe(url);
+    expect(resolveWith('preview', url).extra?.contentBaseUrl).toBe(url);
+  });
+
+  it.each([
+    ['GitHub Pages', 'https://davidliegar.github.io/dogstrology/daily/'],
+    ['el subdominio de Cloudflare', 'https://dogstrology.davidliegar.workers.dev/daily/'],
+  ])('producción no se puede construir contra %s', (_origen, url) => {
+    expect(() => resolveWith('production', url)).toThrow(/no puede salir de/);
+  });
+
+  it('con un dominio propio, producción pasa sin decir nada', () => {
+    const url = 'https://contenido.dogstrology.app/daily/';
+    expect(resolveWith('production', url).extra?.contentBaseUrl).toBe(url);
+  });
+
+  it('la variable de entorno manda, y el guardarraíl también la mira', () => {
+    // Sirve para apuntar una build a otro origen sin tocar `app.json`, pero no
+    // para colar uno provisional en producción por la puerta de atrás.
+    process.env.CONTENT_BASE_URL = 'https://otro.ejemplo/daily/';
+    expect(resolveWith('production', 'https://contenido.dogstrology.app/daily/').extra?.contentBaseUrl).toBe(
+      'https://otro.ejemplo/daily/',
+    );
+
+    process.env.CONTENT_BASE_URL = 'https://dogstrology.davidliegar.workers.dev/daily/';
+    expect(() => resolveWith('production', 'https://contenido.dogstrology.app/daily/')).toThrow(
+      /no puede salir de/,
+    );
   });
 });
