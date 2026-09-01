@@ -1,0 +1,21 @@
+# Cloudflare Workers · el origen del contenido diario (BRD §7.4, capa 2 · D11).
+#
+# **Sitio estático y nada más**: no hay `main`, así que no se despliega ningún
+# Worker — solo los ficheros que monta `scripts/build-cdn.sh`. La cabecera de
+# caché la pone `_headers`, dentro de esa misma carpeta.
+#
+# El flujo de Cloudflare para proyectos nuevos ya no pregunta por una carpeta de
+# salida: construye con `bash scripts/build-cdn.sh` y despliega con
+# `npx wrangler deploy`, que es quien lee esto.
+#
+# ⚠️ **`name` tiene que ser exactamente el del Worker en el panel.** Si no
+# coincide, `wrangler deploy` no actualiza el tuyo: crea otro con este nombre y
+# el dominio se queda apuntando al vacío.
+name = "dogstrology"
+
+# La fecha fija el comportamiento del runtime: subirla es optar por cambios
+# nuevos, así que se toca a propósito y no por costumbre.
+compatibility_date = "2026-09-01"
+
+[assets]
+directory = "./_site"

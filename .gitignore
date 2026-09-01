@@ -3,3 +3,7 @@ node_modules/
 
 # Caché de catálogos estelares descargados (1,2 MB). `catalog.json` sí se versiona.
 design/constellations/.cache/
+
+# Lo que monta `scripts/build-cdn.sh` para el CDN. Se genera en cada build de
+# Cloudflare Pages y no se versiona.
+_site/
