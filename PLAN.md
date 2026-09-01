@@ -1591,8 +1591,18 @@ justo lo que no sale barato, porque la URL se hornea en cada instalación.
       - [x] **«Condiciones» también en Ajustes** (sesión 44), debajo de
             «Créditos»: el 29 solo se alcanzaba desde el paywall, y el paywall
             desaparece al comprar
-      - [ ] Publicar el texto de las condiciones **también como URL**: la
-            ficha de la tienda pide una y ahí no vale una pantalla
+      - [x] **Las condiciones, publicadas como URL** (2026-09-01):
+            `/condiciones` en el mismo CDN, que es para lo que se reservó la
+            raíz. **El texto no se copia: se importa** de
+            `app/src/subscription/ui/labels.ts`, el mismo fichero que lee la
+            pantalla, así que la web y la app no pueden desdecirse. Node 24
+            quita los tipos al importar un `.ts`, y por eso hay un
+            `.node-version` en la raíz: una imagen de build con Node viejo
+            rompería esto sin decir por qué
+            - ⚠️ **Los precios son la única excepción y están escritos a
+              mano** en `scripts/build-terms.mjs`: la app compone esa frase con
+              lo que dice la tienda y una página estática no tiene tienda a
+              quien preguntar. Si cambian en Play Console, cambian ahí
 - [x] **Puntos de conversión al paywall** (BRD §10.6) — **dos y solo dos**: la
       oferta de Ajustes (la fría) y la fila de añadir mascota del 26 (la
       caliente). En Hoy no hay ninguna: el MVP no cobra por el día
@@ -1601,6 +1611,10 @@ justo lo que no sale barato, porque la URL se hornea en cada instalación.
 
 ## Bloque 6 — Lanzamiento
 
+- [x] **Cuenta de Play Console**, ya existe de otros proyectos (2026-09-01). Se
+      ahorra la verificación de identidad y —si sigue vigente— el test cerrado
+      de 12 testers durante 14 días que Google exige a las cuentas personales
+      nuevas. Era la puerta de calendario más larga que quedaba
 - [ ] Dar de alta los **tres productos** en Play Console — precio ya fijado
       (BRD §15.3, 2026-08-31): **3,99 €/mes · 19,99 €/año · 29,99 € una sola
       vez**. Son tres y no dos: el artboard 11 pinta el vitalicio
