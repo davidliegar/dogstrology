@@ -27,6 +27,13 @@ directory = "./_site"
 # HTML donde espera JSON y el día saldría roto en vez de no publicado.
 not_found_handling = "none"
 
+# **Una sola forma canónica, y sin barra final.** Es lo que ya hace el defecto
+# con los ficheros que hay aquí, y se fija porque `/condiciones` va en la ficha
+# de una tienda y en un texto legal: la dirección que se da ahí no puede
+# depender de un defecto que cambie. `/condiciones/` y `/condiciones.html`
+# redirigen a ella.
+html_handling = "drop-trailing-slash"
+
 # Los dos avisos que salieron en el primer despliegue, contestados a propósito
 # en vez de dejados al defecto:
 #
