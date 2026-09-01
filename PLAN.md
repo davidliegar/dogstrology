@@ -48,7 +48,7 @@ mantiene dentro porque sin anuncios la suscripción es la única monetización.
 | F12 | Offline (7 días) | ✅ |
 | F8 | **Aviso diario** | ✅ — local, sin servidor. **Probado en un móvil**: pide permiso, llega a su hora y se apaga solo si se revoca |
 | F9 | **Compartir** | ✅ — la imagen del día con marca de agua, tres lienzos. **Probada en un móvil** |
-| — | **Paywall de suscripción** | 🟡 — la pantalla, sus dos puertas y el dominio están; falta el adaptador de RevenueCat |
+| — | **Paywall de suscripción** | 🟡 — la pantalla y sus dos puertas están; faltan el adaptador de RevenueCat y **lo que se vende** (D19) |
 
 **Diez de once, y la undécima a medias.** El paywall ya existe como producto —se
 llega por sus dos puertas, se eligen los tres planes y la app sabe quién ha
@@ -97,10 +97,13 @@ el resumen habrían salido mal. Antes de maquetar **cualquier** pantalla,
 importar su artboard. En F3 volvió a pasar: los dos artboards de la carta natal
 están marcados F4, y eso no estaba en ningún resumen.
 
-## Siguiente sesión: **Cloudflare Pages y el dominio propio**
+## Siguiente sesión: **RevenueCat, y lo que se vende**
 
-**El MVP está completo en código**: once de once features, y las dos últimas
-—F8 y F9— vistas en un móvil. Lo que queda no es programación de app.
+**Las once features del MVP están y probadas en un móvil.** Lo que queda es el
+dinero: el adaptador de RevenueCat —bloqueado solo por subir un build al canal
+interno de Play, que es lo que desbloquea crear los productos— y **D19, lo que
+el paywall vende de verdad**, que es la deuda de producto más gorda que queda y
+está decidida pero sin construir.
 
 Lo siguiente es el **Bloque 4b**, y es lo más urgente de todo lo que queda por
 una razón de calendario: **`contentBaseUrl` se hornea en cada instalación**, así
@@ -156,6 +159,61 @@ legible el artboard 12, que era lo que faltaba:
       esperando a tener a dónde llevar
 - [x] **Y que quepa**: el texto encoge hasta caber en vez de salirse por debajo.
       Con los 320 caracteres que admite el esquema no cabía en ningún lienzo
+
+### ⚠️ Lo que se vende — decidido y sin construir (D19, 2026-09-01)
+
+**El paywall vendía algo que la app regalaba.** Salió al preparar RevenueCat, y
+las cuatro fuentes se contradecían entre ellas:
+
+| Dónde | Qué decía |
+|---|---|
+| BRD §10.3 | Gratis: 1 mascota, carta del día **basada en el signo solar**, personalidad básica, fase lunar |
+| BRD §7 | «El Sol es gratis y universal. Luna y Ascendente son la palanca de premium. **No los regales**» |
+| El paywall | «Su Sol es el principio. **Falta su Luna**» · «Luna, Ascendente, casas y aspectos» |
+| El canvas, artboard 04 | «En el 04 no hay ninguna puerta: **el MVP no cobra por el día**» |
+| La app | La **única** puerta del código es la segunda mascota |
+
+El BRD y el canvas se contradecían, la app siguió al canvas, y nadie lo notó
+porque el paywall todavía no cobraba.
+
+**Y el problema no era regalar contenido: era no tener nada que vender.** La
+mayoría de la gente tiene un perro, así que para el usuario típico la única
+función de pago del MVP era irrelevante — y el titular le prometía una Luna que
+ya estaba leyendo gratis cada mañana.
+
+**Decisión (D19): se bloquea, no se quita.** Borroso y con candado, dejando ver
+que hay algo escrito sobre su perro: eso convierte el límite en deseo, y no
+saber que existe no convierte nada.
+
+- **Gratis**: la tarjeta del cielo y la del Sol, enteras. Personalidad, fase
+  lunar y una mascota. **El hábito diario no se toca**: quien no paga sigue
+  teniendo motivo para abrir la app cada mañana, que es la retención sobre la
+  que se sostiene el negocio
+- **Premium**: la lectura del día de la **Luna** y el **Ascendente**, la **carta
+  natal completa** —rueda, casas, aspectos y la posición exacta del ASC— y
+  mascotas ilimitadas
+
+Lo que hace falta para construirlo:
+
+- [ ] **Diseño**: el estado borroso con candado no está dibujado en ninguna
+      parte. Hay precedente de degradación —el artboard 14, la carta sin hora—
+      así que no se parte de cero, pero es un encargo: cómo se difumina, dónde
+      va el candado, qué dice y a dónde lleva
+- [ ] ⚠️ **Corregir el artboard 04 en el canvas**: su nota dice «el MVP no cobra
+      por el día» y D19 la desmiente. Va con las otras dos correcciones
+      pendientes del canvas (el 29 con 24,99 € y el 25 con «Compartir su carta»)
+- [ ] **El guardarraíl en el dominio**: hoy `Subscription` solo sabe contar
+      mascotas (`canAddPet`). Necesita responder también qué se puede leer, y
+      esa regla vive en `subscription/`, no repartida por las pantallas
+- [ ] **Los sitios**: las tarjetas de Luna y Ascendente de Hoy (04 y 33), la
+      rueda de la carta (05), y decidir qué pasa con el trío del hub (25), que
+      hoy enseña Sol · Luna · Ascendente de un vistazo
+- [ ] **Repasar el copy del paywall** contra lo que de verdad desbloquea: los
+      cuatro beneficios del artboard 11 son uno real y tres de fase 2, y ahora
+      pasan a ser dos reales y el resto prometidos
+
+**No bloquea el build interno ni RevenueCat**: se puede montar después, y solo
+tiene que estar antes de publicar.
 
 ### Multimascota, cerrado
 

@@ -643,10 +643,21 @@ Freemium con **suscripción como único motor en el MVP** (D8: sin anuncios al l
 
 **En el MVP (sin anuncios):**
 - 1 mascota
-- Carta del día (versión corta) basada en signo solar
+- **La lectura del día de su Sol**, entera
 - Perfil de personalidad básico
 - Fase lunar del día
 - **Sin anuncios de ningún tipo** → la experiencia gratuita es limpia, lo que maximiza la retención que se está midiendo
+
+**Lo que se bloquea, y cómo** (D19). La Luna y el Ascendente —su lectura del día
+y su posición en la carta— y la rueda natal completa con casas y aspectos **se
+ven borrosos con un candado, no desaparecen**. El usuario sabe que hay algo
+escrito sobre su perro y que no puede leerlo todavía, que es una palanca más
+fuerte que no saber que existe.
+
+**El hábito no se toca**: la tarjeta del cielo y la del Sol se leen enteras cada
+mañana, así que quien no paga sigue teniendo motivo para abrir la app a diario —
+que es la retención sobre la que se sostiene el negocio (§10.6). Lo que se
+bloquea es la profundidad, nunca el hábito.
 
 **Cuando se añadan ads (post-MVP):**
 - **Rewarded video** para desbloquear la lectura extendida de hoy, ver una compatibilidad puntual o añadir una segunda mascota 24h. Formato principal y probablemente único.
@@ -662,7 +673,21 @@ Freemium con **suscripción como único motor en el MVP** (D8: sin anuncios al l
 | Anual | 19,99 € (~58% dto., ancla de conversión) |
 | Lifetime | 29,99 € |
 
-Incluye: mascotas ilimitadas · carta natal completa (Luna, Ascendente, casas, aspectos) · sin anuncios · compatibilidades ilimitadas · calendario cósmico y momentos · previsión mensual · exportar carta en PDF/imagen alta resolución · temas visuales exclusivos · notificaciones de eventos astrológicos
+**En el MVP** desbloquea dos cosas, y las dos existen: la **lectura diaria de su
+Luna y su Ascendente**, y la **carta natal completa** — la rueda con casas y
+aspectos, y la posición exacta del Ascendente. Más **mascotas ilimitadas**.
+
+**Prometido para fase 2**, y así se dice en el paywall: dinámica de manada ·
+compatibilidades ilimitadas · calendario cósmico y momentos · previsión mensual ·
+exportar la carta en alta resolución · temas visuales · notificaciones de eventos
+astrológicos.
+
+⚠️ La separación entre las dos listas **no es cosmética**: prometer en la ficha
+de una tienda algo que no está es de lo que tumba una revisión (§14 R1 tiene el
+mismo espíritu), y el artboard 29 acota exactamente por eso. Sin ella, tres de
+los cuatro beneficios que pinta el artboard 11 serían futuros.
+
+Sin anuncios en ningún tier (D8).
 
 ### 10.5 IAP puntuales (no consumibles)
 
@@ -1069,6 +1094,7 @@ Si en algún momento se revierte D10 y hay identificadores, recuperar la métric
 | D7 | **Dos sistemas de casas**: signos enteros por defecto, Placidus en modo avanzado | §12.3 nueva. Coste de contenido: **cero** (ver el razonamiento allí) |
 | D8 | **Sin anuncios en el lanzamiento**. Rewarded cuando haya volumen | §10.3. Evita el flujo UMP, la superficie extra de revisión y el daño a la retención que se está midiendo |
 | D9 | **Adquisición: ASO puro**, con perfiles de Instagram como apoyo | El *cómo* de la captación queda fuera del alcance de este BRD. Lo que sí entra son sus consecuencias de producto: ver la nota bajo §8.1 |
+| D19 | **El contenido de pago se bloquea, no se quita** (2026-09-01). La Luna y el Ascendente —tanto su lectura del día como su posición en la carta— se ven **borrosos con un candado**, no ausentes. La rueda natal completa, con casas y aspectos, igual | §10.3 y §10.4 rescritas. Nació de una contradicción que el paywall al cobrar sacó a la luz: el BRD decía que el tier gratuito era «carta del día basada en el signo solar» y que la Luna y el Ascendente no se regalan (§7), el paywall los vendía —«Su Sol es el principio. Falta su Luna»—, y **la app los daba gratis**: la única puerta de todo el código era la segunda mascota. Con un perro por dueño, que es el caso típico, eso dejaba al MVP sin nada que vender. Bloquear en vez de esconder es lo que convierte el límite en deseo: el usuario ve que hay algo escrito sobre su perro y que no puede leerlo, que es más fuerte que no saber que existe. ⚠️ **La nota del artboard 04 dice «el MVP no cobra por el día» y queda desmentida: hay que corregirla en el canvas**, y el estado borroso no está dibujado en ninguna parte |
 | D18 | **La rueda natal se adelanta a F3 en SVG; F4 es el tratamiento** (2026-08-27). Los dos artboards de carta natal del canvas están marcados F4, así que F3 —"carta natal integrada"— no tenía diseño propio. Se implementa el diseño que existe con `react-native-svg`, y F4 se queda con Skia, el revelado y el movimiento | §8.1 (F3, F4). La alternativa era inventarse una pantalla de lista que el diseño no tiene, o parar F3 entero esperando artboard. La geometría queda resuelta y con tests (`chart/ui/wheel.ts`), validada contra las coordenadas del propio artboard: F4 cambia el motor de pintado, no dónde va cada cosa. **Queda sin dibujar el estado sin hora de la carta**, que es justo la degradación que F3 prometía |
 | D17 | **Guardado atómico en el perfil: cada acción escribe sola** (2026-08-26). No hay botón "Guardar" que confirme la pantalla entera; elegir raza, sexo, fecha, hora, lugar, foto o día de adopción guarda en el momento | §8.1 (F2). Nació de un fallo real: con borrador en memoria, volver de un editor no enseñaba el dato hasta confirmar. Mantener sincronizados borrador y pantalla es trabajo permanente que se evita entero si la verdad es siempre el repositorio — que es además lo que ya exigía la arquitectura. **El artboard A del canvas todavía dibuja "Guardar" y hay que corregirlo** |
 | D16 | **El lugar de nacimiento es España en el MVP** (2026-08-26). El buscador de lugar ofrece municipios españoles y nada más. La zona horaria se **calcula**, no se consulta: península y Baleares en CET/CEST (UTC+1/+2), Canarias en WET/WEST (UTC+0/+1), y el cambio de hora por la regla de la UE — último domingo de marzo a último domingo de octubre | §8.1 (F2, campo "lugar"). Desbloquea el editor de hora, que **no puede** existir sin huso: es la combinación hora+lugar la que produce Ascendente y casas, y un huso equivocado cuesta 15° por hora. Evita el dataset mundial de husos históricos, que era el único bloqueo real que le quedaba a F2. Ningún perro vivo nació antes de 1996, así que la regla actual de la UE cubre el rango entero sin tabla histórica. Ampliar a otros países es añadir municipios y su regla de DST — no cambia ni el modelo ni el motor |
