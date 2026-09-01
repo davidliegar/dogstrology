@@ -7,8 +7,15 @@ canal.
 
 **Tres reglas que la atan:**
 
-1. **El aviso de entretenimiento es obligatorio** en la app *y* en la ficha
-   (BRD §14 R1). Va al final, con todas las letras.
+1. **El guardarraíl de salud va al final, con todas las letras.** Pero **sin la
+   palabra «entretenimiento»** (decisión de David, 2026-09-01): la app se
+   posiciona como seria, y calcula cartas de verdad con efemérides de verdad —
+   presentarse como pasatiempo contradice lo que la ficha promete tres párrafos
+   antes.
+   ⚠️ **Eso diverge de la regla escrita.** `CLAUDE.md` y BRD §14 R1 dicen «el
+   disclaimer de entretenimiento es obligatorio en app y ficha de store», y el
+   pie de Ajustes de la app sigue diciendo «Dogstrology es entretenimiento».
+   O se cambian los tres sitios, o se cambia la ficha: **hoy no coinciden**.
 2. **Nada de fase 2 se promete aquí.** El paywall puede prometer la manada y el
    calendario cósmico —lo hace, y el artboard 29 lo acota—, pero una ficha de
    tienda no: prometer ahí algo que no está es de lo que tumba una revisión.
@@ -88,12 +95,12 @@ La suscripción desbloquea la carta astral completa —la rueda con sus casas y 
 
 Se cancela desde tu cuenta de Google Play cuando quieras.
 
-UNA COSA MÁS
+SOBRE SU SALUD
 
-Dogstrology es entretenimiento. No sustituye a tu veterinario: ante cualquier señal de salud, consúltale.
+Dogstrology no sustituye a tu veterinario. Ante cualquier señal de salud, consúltale.
 ```
 
-2577 caracteres. No se rellena hasta el tope a propósito: el texto de más no
+2559 caracteres. No se rellena hasta el tope a propósito: el texto de más no
 posiciona mejor y sí se lee peor.
 
 ---

@@ -1710,6 +1710,14 @@ justo lo que no sale barato, porque la URL se hornea en cada instalación.
       promete nada de fase 2** —eso puede hacerlo el paywall, acotado por el
       artboard 29, pero una ficha de tienda no— y describe la app **con D19
       construido**, que es el estado con el que se publica
+      - ⚠️ **La ficha no lleva la palabra «entretenimiento»** (decisión de
+        David): la app se posiciona como seria y calcula cartas de verdad, así
+        que presentarse como pasatiempo contradice lo que promete tres párrafos
+        antes. El guardarraíl de salud sí va, entero — «no sustituye a tu
+        veterinario». **Pero `CLAUDE.md` y BRD §14 R1 siguen exigiendo el
+        disclaimer de entretenimiento en app y ficha, y el pie de Ajustes lo
+        dice.** O se cambian los tres sitios o se cambia la ficha: hoy no
+        coinciden, y esto hay que cerrarlo antes de publicar
 - [ ] Capturas, icono de 512, gráfico destacado, categoría y público objetivo
 - [ ] Disclaimer de entretenimiento visible en app y ficha (BRD §14). **En la
       app ya está** (sesión 26, pie fijo de Ajustes); queda la ficha de store
