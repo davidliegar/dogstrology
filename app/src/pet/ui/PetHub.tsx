@@ -1,6 +1,7 @@
 import { router } from 'expo-router';
 import { useState } from 'react';
-import { StyleSheet, View } from 'react-native';
+import { Pressable, StyleSheet, Text, View } from 'react-native';
+import { Share2 } from 'lucide-react-native';
 
 import { ApproximateBadge } from '@/_ui/components/ApproximateBadge';
 import { NavRow } from '@/_ui/components/NavRow';
@@ -17,7 +18,9 @@ import { PetIdentity } from './PetIdentity';
 import { PetSelectorSheet } from './PetSelectorSheet';
 import { usePets, usePetPhotoUri } from './petQueries';
 
-import { colors, spacing } from '@/design/theme';
+import { SHARE_TITLE } from '@/sharing/ui/labels';
+
+import { colors, icon, spacing, typography } from '@/design/theme';
 
 export interface PetHubProps {
   pet: Pet;
@@ -41,10 +44,14 @@ export interface PetHubProps {
  * título, que es lo que un destino raíz puede permitirse y una pantalla
  * apilada no.
  *
- * Falta a propósito la fila de "Compartir su carta" que el artboard pinta al
- * pie: es F9 (Bloque 5) y todavía no hay a dónde llevarla. Misma decisión que
- * dejó fuera el botón de compartir de la hoja de planeta — antes un hueco que
- * un control que miente.
+ * **La fila de compartir del pie ya lleva a algún sitio** (F9): al artboard 12,
+ * que compone la imagen del día. Va abajo y en gris porque es la única acción
+ * de la pantalla y no compite con los tres destinos.
+ *
+ * **Dice «Compartir su día» y el artboard 25 dice «su carta»**, y es decisión
+ * tomada (2026-09-01): la única composición dibujada —el artboard 12— es una
+ * lectura, rótulo, titular y texto, no la rueda. Rotularla «su carta» prometería
+ * una imagen que no existe. El que se corrige es el 25.
  *
  * **El nombre abre el selector** (artboard 26), y sigue haciéndolo aunque la
  * lista exista — con otro trabajo: **saltar entre perfiles sin volver a la
@@ -128,6 +135,16 @@ export function PetHub({ pet, onBack }: PetHubProps) {
             onPress={() => router.push({ pathname: '/pet/[id]', params: { id } })}
           />
         </View>
+
+        <Pressable
+          onPress={() => router.push({ pathname: '/pet/[id]/share', params: { id } })}
+          accessibilityRole="button"
+          accessibilityLabel={SHARE_TITLE}
+          style={styles.share}
+        >
+          <Text style={styles.shareLabel}>{SHARE_TITLE}</Text>
+          <Share2 size={icon.size.m} strokeWidth={icon.stroke} color={colors.textFaint} />
+        </Pressable>
       </Screen>
 
       {/* Fuera del `Screen`, como la hoja de planeta: el velo tiene que tapar
@@ -157,5 +174,18 @@ const styles = StyleSheet.create({
   divider: {
     height: 1,
     backgroundColor: colors.divider,
+  },
+  share: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    gap: spacing[4],
+    // El aire de arriba lo pone el `gap` del cuerpo; esto es el del artboard
+    // menos ese, para que la fila no se despegue de los tres destinos.
+    paddingBottom: spacing[2],
+  },
+  shareLabel: {
+    ...typography.caption,
+    color: colors.textFaint,
   },
 });

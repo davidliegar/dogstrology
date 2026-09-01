@@ -2,6 +2,7 @@ import type { Migration } from '../types';
 import { migration001Pets } from './001_pets';
 import { migration002Preferences } from './002_preferences';
 import { migration003DailyEditions } from './003_daily_editions';
+import { migration004Reminder } from './004_reminder';
 
 /**
  * Ordenadas y numeradas (BRD §12.2.7). Añadir una migración es añadir un
@@ -18,4 +19,5 @@ export const MIGRATIONS: Migration[] = [
   migration001Pets,
   migration002Preferences,
   migration003DailyEditions,
+  migration004Reminder,
 ];

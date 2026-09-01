@@ -65,6 +65,12 @@ module.exports = [
     rules: { 'no-restricted-imports': 'off' },
   },
   {
+    // El fichero de arranque de Jest corre en el entorno de Jest, no en el de
+    // la app: `jest` es global ahí y en ningún otro sitio del proyecto.
+    files: ['jest.setup.js'],
+    languageOptions: { globals: { jest: 'readonly' } },
+  },
+  {
     // BRD §11.2: ningún color, fuera de theme.ts. La firma delatora de la IA
     // es justo el hex suelto dentro de un StyleSheet.
     files: ['app/**/*.{ts,tsx}', 'src/**/*.{ts,tsx}'],

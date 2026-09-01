@@ -8,6 +8,7 @@ import { GestureHandlerRootView } from 'react-native-gesture-handler';
 
 import { DomainProvider } from '@/_ui/DomainProvider';
 import { fontAssets } from '@/_ui/fonts';
+import { DailyReminderSync } from '@/notifications/ui/DailyReminderSync';
 
 import { colors, motion } from '@/design/theme';
 
@@ -41,6 +42,11 @@ export default function RootLayout() {
   return (
     <GestureHandlerRootView style={styles.root}>
       <DomainProvider>
+        {/* No pinta nada: vuelve a programar el aviso diario con el texto de
+            hoy y lo apaga si el sistema le ha retirado el permiso por fuera.
+            Va aquí y no en Ajustes porque tiene que pasar al abrir la app, no
+            al visitar la pantalla que lo configura. */}
+        <DailyReminderSync />
         <StatusBar style="light" />
         <Stack
           screenOptions={{

@@ -33,4 +33,17 @@ export enum ErrorCode {
   PURCHASE_CANCELLED = 'PURCHASE_CANCELLED',
   /** La compra se intentó y la tienda la rechazó. Esta sí se enseña. */
   PURCHASE_FAILED = 'PURCHASE_FAILED',
+  /**
+   * El sistema no dejó programar o cancelar el aviso diario. No incluye el
+   * permiso denegado, que no es un fallo: es una respuesta, y viaja como
+   * `NotificationPermission`.
+   */
+  NOTIFICATION_FAILED = 'NOTIFICATION_FAILED',
+  /**
+   * No se pudo componer o entregar la imagen que se comparte. No incluye que
+   * el usuario cierre la hoja del sistema sin elegir destino: eso no es un
+   * fallo, es la salida normal, y ni Android ni iOS lo distinguen de haber
+   * compartido.
+   */
+  SHARE_FAILED = 'SHARE_FAILED',
 }

@@ -15,6 +15,13 @@ import GetDailyEditionUseCase from './content/application/GetDailyEditionUseCase
 import GetLastReadingUseCase from './content/application/GetLastReadingUseCase';
 import GetFragmentUseCase from './content/application/GetFragmentUseCase';
 import GetFragmentsUseCase from './content/application/GetFragmentsUseCase';
+import type { NotificationScheduler } from './notifications/domain/NotificationScheduler';
+import { ExpoNotificationScheduler } from './notifications/infrastructure/ExpoNotificationScheduler';
+import SetDailyReminderUseCase from './notifications/application/SetDailyReminderUseCase';
+import SyncDailyReminderUseCase from './notifications/application/SyncDailyReminderUseCase';
+import type { ShareSheet } from './sharing/domain/ShareSheet';
+import { ExpoShareSheet } from './sharing/infrastructure/ExpoShareSheet';
+import ShareImageUseCase from './sharing/application/ShareImageUseCase';
 import type { PreferencesRepository } from './settings/domain/PreferencesRepository';
 import { SqlitePreferencesRepository } from './settings/infrastructure/SqlitePreferencesRepository';
 import GetPreferencesUseCase from './settings/application/GetPreferencesUseCase';
@@ -49,6 +56,8 @@ export interface DogstrologyDependencies {
   contentRepository?: ContentRepository;
   dailyRepository?: DailyRepository;
   preferencesRepository?: PreferencesRepository;
+  notificationScheduler?: NotificationScheduler;
+  shareSheet?: ShareSheet;
   subscriptionGateway?: SubscriptionGateway;
 }
 
@@ -73,6 +82,9 @@ export class Dogstrology {
   private readonly dailyRepositoryOverride?: DailyRepository;
   private dailyRepository?: DailyRepository;
   private readonly preferencesRepository: PreferencesRepository;
+  private readonly notificationSchedulerOverride?: NotificationScheduler;
+  private notificationScheduler?: NotificationScheduler;
+  private readonly shareSheet: ShareSheet;
   private readonly subscriptionGateway: SubscriptionGateway;
   private readonly useCases = new Map<string, unknown>();
 
@@ -88,15 +100,19 @@ export class Dogstrology {
     contentRepository,
     dailyRepository,
     preferencesRepository,
+    notificationScheduler,
+    shareSheet,
     subscriptionGateway,
   }: DogstrologyDependencies = {}) {
     this.db = db;
     this.dailyRepositoryOverride = dailyRepository;
+    this.notificationSchedulerOverride = notificationScheduler;
     this.petRepository = petRepository ?? SqlitePetRepository.create({ db });
     this.photoStore = photoStore ?? FileSystemPhotoStore.create();
     this.chartCalculator = chartCalculator ?? AstronomyEngineChartCalculator.create();
     this.contentRepository = contentRepository ?? BundledCatalogContentRepository.create();
     this.preferencesRepository = preferencesRepository ?? SqlitePreferencesRepository.create({ db });
+    this.shareSheet = shareSheet ?? ExpoShareSheet.create();
     // El único puerto sin adaptador de verdad. RevenueCat necesita cuenta,
     // productos en Play Console y un build nativo (BRD §15.4), así que hasta
     // entonces la app corre con el doble y **esta línea es todo lo que hay que
@@ -177,6 +193,30 @@ export class Dogstrology {
     );
   }
 
+  /* Notifications */
+  get SetDailyReminderUseCase(): SetDailyReminderUseCase {
+    return this.useCase('SetDailyReminderUseCase', () =>
+      SetDailyReminderUseCase.create({
+        repository: this.preferencesRepository,
+        scheduler: this.notifications(),
+      }),
+    );
+  }
+
+  get SyncDailyReminderUseCase(): SyncDailyReminderUseCase {
+    return this.useCase('SyncDailyReminderUseCase', () =>
+      SyncDailyReminderUseCase.create({
+        repository: this.preferencesRepository,
+        scheduler: this.notifications(),
+      }),
+    );
+  }
+
+  /* Sharing */
+  get ShareImageUseCase(): ShareImageUseCase {
+    return this.useCase('ShareImageUseCase', () => ShareImageUseCase.create({ sheet: this.shareSheet }));
+  }
+
   /* Subscription */
   get GetSubscriptionUseCase(): GetSubscriptionUseCase {
     return this.useCase('GetSubscriptionUseCase', () =>
@@ -232,6 +272,18 @@ export class Dogstrology {
     return this.useCase('GetLastReadingUseCase', () =>
       GetLastReadingUseCase.create({ repository: this.daily() }),
     );
+  }
+
+  /**
+   * El segundo adaptador que se construye tarde, y por otra razón que el
+   * diario: **crearlo tiene efecto**. `ExpoNotificationScheduler.create()`
+   * instala el handler de notificaciones del módulo nativo, y hacerlo en el
+   * constructor obligaría a cualquier test que monta la fachada con un doble de
+   * mascotas a cargar `expo-notifications`.
+   */
+  private notifications(): NotificationScheduler {
+    this.notificationScheduler ??= this.notificationSchedulerOverride ?? ExpoNotificationScheduler.create();
+    return this.notificationScheduler;
   }
 
   /** Memorizado aparte de los casos de uso: los dos del diario comparten adaptador. */

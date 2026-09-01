@@ -88,6 +88,18 @@ export function formatWeekdayDate(iso: string): string {
 }
 
 /**
+ * `2026-08-25` → `25 de agosto`. Sin día de la semana y sin año.
+ *
+ * Lo pide el rótulo de la imagen que se comparte (artboard 12), donde la fecha
+ * acompaña al nombre y al signo: el día de la semana sobra —la imagen se ve
+ * cuando se ve, no ese lunes— y el año todavía más.
+ */
+export function formatDayAndMonth(iso: string): string {
+  const [, month, day] = iso.split('-').map(Number);
+  return `${day} de ${MONTHS[month - 1]}`;
+}
+
+/**
  * `2026-08-25` → `lunes 25`. El día de la semana y el número, sin el mes.
  *
  * Va dentro de una frase —"la lectura del lunes 25"— y ahí el mes sobra: una

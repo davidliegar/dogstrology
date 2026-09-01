@@ -5,7 +5,17 @@ import { Chevron } from '@/_ui/components/Chevron';
 import { PrimaryButton } from '@/_ui/components/PrimaryButton';
 import { Screen } from '@/_ui/components/Screen';
 import { ScreenHeader } from '@/_ui/components/ScreenHeader';
+import { SwitchRow } from '@/_ui/components/SwitchRow';
 import { HOUSE_SYSTEM_LABELS } from '@/chart/ui/labels';
+import {
+  REMINDER_DENIED,
+  REMINDER_FAILED,
+  REMINDER_GROUP,
+  REMINDER_LABEL,
+  REMINDER_TIME_HINT,
+  reminderAt,
+} from '@/notifications/ui/labels';
+import { useDailyReminder, useSetDailyReminder } from '@/notifications/ui/notificationQueries';
 import { usePreferences } from '@/settings/ui/settingsQueries';
 import { formatRenewal } from '@/subscription/ui/format';
 import {
@@ -51,15 +61,21 @@ const DISCLAIMER =
 /**
  * Ajustes — artboard 10, destino raíz de la cuarta pestaña.
  *
- * **Está a medias a propósito.** El artboard dibuja cuatro grupos y aquí hay
- * dos, porque los que faltan serían controles muertos:
+ * **Sigue a medias a propósito, pero por menos.** De los cuatro grupos del
+ * artboard falta uno entero —"Privacidad y datos", que no tiene ni pantalla ni
+ * texto escrito— y **uno de los dos interruptores de avisos**: «Eventos del
+ * cielo» (luna llena, retrógrados) no tiene detrás nada que avisar, así que
+ * sería el mismo control muerto que fue «Aviso diario» hasta F8. Antes un hueco
+ * que un control que miente.
  *
- * - los dos interruptores de avisos prometerían una notificación que nadie
- *   envía todavía (F8);
- * - "Privacidad y datos" no tiene ni pantalla ni texto escrito.
+ * **El aviso diario sí está** (F8): el interruptor es el del sistema de diseño
+ * (C.3) y la fila es la del artboard 10 — «Su día, cada mañana», con la hora en
+ * la segunda línea.
  *
- * Es la misma decisión que dejó fuera el botón de compartir de la hoja de
- * planeta: antes un hueco que un control que miente.
+ * ⚠️ **Cómo se cambia esa hora no lo dibuja el artboard**, que solo pinta el
+ * interruptor. Aquí la abre tocar el texto de la fila, que es lo que ya cuenta
+ * la hora; el carril sigue conmutando. Una fila aparte habría dicho la hora dos
+ * veces en cuatro centímetros.
  *
  * **La tarjeta de arriba es una de las dos puertas del paywall**, y la fría:
  * quien la toca ha ido a buscarla. Se pinta una sola vez y **solo mientras hay
@@ -78,6 +94,13 @@ const DISCLAIMER =
  * y su atribución tiene que estar visible dentro de la app. Por eso el
  * artboard la coloca sin scroll, y por eso entra desde el primer día.
  *
+ * **Y por eso el cuerpo scrollea, aunque el artboard no lo pida.** El 10 cabe
+ * en los 844 px de un artboard; un móvil de verdad tiene menos alto útil, y con
+ * el grupo de avisos dentro el contenido pasaba por debajo del pie fijo — el
+ * aviso del veterinario encima de «Condiciones». Con `scroll`, donde sobra
+ * sitio no se desplaza nada y se sigue viendo entero como pide el artboard;
+ * donde no, se alcanza. Lo que no puede pasar es que se solape.
+ *
  * **«Condiciones» va justo debajo**, y no está en el artboard 10: el 29 solo
  * se alcanzaba desde el paywall, y el paywall desaparece al comprar — quien ya
  * ha pagado es justamente quien puede necesitar releerlas. Van juntas porque
@@ -87,11 +110,21 @@ const DISCLAIMER =
 export default function Settings() {
   const { data: preferences } = usePreferences();
   const { data: subscription } = useSubscription();
+  const reminder = useDailyReminder();
+  const setReminder = useSetDailyReminder();
   const houseSystem = preferences?.houseSystem();
+
+  // Solo después de intentarlo, y solo si está **bloqueado**: el aviso de que
+  // el sistema no deja avisar se enseña a quien acaba de tocar el interruptor,
+  // no a quien nunca lo ha tocado — ahí sería una advertencia sobre algo que no
+  // ha pedido. Si el usuario cerró el diálogo sin contestar, el permiso sigue
+  // siendo `askable` y no hay nada que explicar: vuelve a tocar y sale otra vez.
+  const blocked = setReminder.data?.permission === 'blocked';
 
   return (
     <Screen
       insideTabs
+      scroll
       align="flex-start"
       gap={spacing[4]}
       header={<ScreenHeader divided title="Ajustes" />}
@@ -105,6 +138,26 @@ export default function Settings() {
           <Text style={styles.offerName}>{PREMIUM_NAME}</Text>
           <Text style={styles.offerTitle}>{OFFER_TITLE}</Text>
           <PrimaryButton label={OFFER_CTA} onPress={() => router.push('/paywall')} />
+        </View>
+      ) : null}
+
+      {reminder ? (
+        <View style={styles.group}>
+          <Text style={styles.groupLabel}>{REMINDER_GROUP}</Text>
+          <SwitchRow
+            label={REMINDER_LABEL}
+            note={reminderAt(reminder.hour(), reminder.minute())}
+            value={reminder.isEnabled()}
+            onChange={(enabled) => setReminder.mutate(reminder.switched(enabled))}
+            onPressText={() => router.push('/settings/reminder-time')}
+            textHint={REMINDER_TIME_HINT}
+            disabled={setReminder.isPending}
+          />
+          {blocked ? <Text style={styles.blocked}>{REMINDER_DENIED}</Text> : null}
+          {/* Programar puede fallar sin que el permiso tenga nada que ver, y
+              antes eso no se veía: el interruptor se quedaba encendido y no
+              llegaba ningún aviso. */}
+          {setReminder.isError ? <Text style={styles.blocked}>{REMINDER_FAILED}</Text> : null}
         </View>
       ) : null}
 
@@ -261,6 +314,11 @@ const styles = StyleSheet.create({
   divider: {
     height: 1,
     backgroundColor: colors.divider,
+  },
+  blocked: {
+    ...typography.caption,
+    color: colors.textFaint,
+    paddingTop: spacing[2],
   },
   disclaimer: {
     ...typography.caption,

@@ -30,8 +30,13 @@ import {
 const PORTRAIT = 72;
 /** El hueco sin foto: el cuadrado de trazo del canvas, en el color del elemento. */
 const PLACEHOLDER = 28;
-/** Caja del símbolo del eje, para que los tres rótulos empiecen alineados. */
-const GLYPH_BOX = icon.size.m;
+/**
+ * Caja del símbolo del eje, para que los tres rótulos empiecen alineados. Sale
+ * del rótulo del Ascendente y no del tamaño de icono: «ASC» mide 24,5 px en
+ * Karla Bold de 11 con el espaciado del overline, y en una caja de `icon.size.m`
+ * se partía en dos líneas. La caja la manda lo más ancho que tiene que caber.
+ */
+const GLYPH_BOX = 26;
 
 /**
  * **Lo compartido, una sola vez y arriba** (artboard 33). La fase lunar y el
@@ -159,7 +164,10 @@ export function PetReading({
 function AxisGlyph({ axis, tint }: { axis: 'sun' | 'moon' | 'ascendant'; tint: string }) {
   return (
     <View style={styles.glyphBox}>
-      <Text style={[axis === 'ascendant' ? styles.angleGlyph : styles.glyph, { color: tint }]}>
+      <Text
+        style={[axis === 'ascendant' ? styles.angleGlyph : styles.glyph, { color: tint }]}
+        numberOfLines={1}
+      >
         {axis === 'ascendant' ? 'ASC' : PLANET_GLYPHS[axis]}
       </Text>
     </View>
@@ -246,7 +254,9 @@ const styles = StyleSheet.create({
     flexShrink: 0,
   },
   glyphBox: {
-    width: GLYPH_BOX,
+    // Ancho mínimo, no fijo: si el sistema sube el cuerpo de letra, la caja
+    // crece con el rótulo en vez de partirlo.
+    minWidth: GLYPH_BOX,
     alignItems: 'center',
     flexShrink: 0,
   },

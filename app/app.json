@@ -29,6 +29,13 @@
       "expo-status-bar",
       "expo-sqlite",
       "expo-font",
+      "expo-sharing",
+      [
+        "expo-notifications",
+        {
+          "color": "#E8C87A"
+        }
+      ],
       [
         "expo-splash-screen",
         {

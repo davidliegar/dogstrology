@@ -20,6 +20,7 @@ src/
 │   ├── DomainProvider.tsx    El dominio entra en React aquí, y solo aquí
 │   ├── fonts.ts              Las 5 variantes que declara theme.ts
 │   ├── typography.ts         text(token) → TextStyle utilizable por StyleSheet
+│   ├── timeEntry.ts          Teclear una hora, como estado puro
 │   └── components/           Screen, PrimaryButton, TextField, Chip…
 ├── pet/                      Bounded context
 │   ├── domain/               Modelos, value objects, puertos (PetRepository)
@@ -29,7 +30,17 @@ src/
 │   └── testing/              Dobles y object mothers
 ├── chart/                    Bounded context (misma estructura)
 ├── settings/                 Bounded context: los ajustes del usuario
-│   └── domain/               Preferences (hoy, el sistema de casas)
+│   └── domain/               Preferences: sistema de casas y aviso diario
+├── notifications/            Bounded context: el aviso diario (F8)
+│   ├── domain/               DailyReminder y el puerto NotificationScheduler
+│   ├── application/          Poner el aviso, y volver a cuadrarlo al arrancar
+│   ├── infrastructure/       expo-notifications, y el único sitio que lo importa
+│   └── ui/                   labels.ts, los hooks y DailyReminderSync
+├── sharing/                  Bounded context: compartir la imagen del día (F9)
+│   ├── domain/               El puerto ShareSheet: bytes y un nombre, no rutas
+│   ├── application/          ShareImageUseCase
+│   ├── infrastructure/       expo-sharing + el fichero temporal en caché
+│   └── ui/                   Los tres lienzos, la marca de agua y el render
 ├── subscription/             Bounded context: quién ha pagado y qué se vende
 │   ├── domain/               Plan, Subscription, puerto SubscriptionGateway
 │   ├── application/          Leer, listar planes, comprar y restaurar
@@ -48,6 +59,33 @@ descarga cada día y se guarda siete (F12). Por eso son dos puertos y no uno.
 
 `_kernel/config.ts` es lo único que la app lee de fuera del código
 (`app.json` → `expo.extra`). Hoy, la URL del CDN del diario.
+
+**El aviso diario es local, sin servidor** (F8). Lo programa el propio móvil
+con el disparador diario del sistema: no hay token de push, ni FCM, ni nadie a
+quien mandar nada — cuesta 0 € y cumple la regla de cero llamadas en runtime.
+La **preferencia** (encendido y hora) vive en `settings/`, porque es una
+preferencia; lo que sabe hablar con el sistema vive en `notifications/`.
+
+Dos reglas que no son obvias mirando el código:
+
+- **El permiso no se guarda.** Que el usuario quiera el aviso y que el sistema
+  deje enviarlo son hechos distintos: lo primero está en la base, lo segundo se
+  le pregunta al sistema cada vez. Guardar el permiso dejaría un `true`
+  mintiendo el día que se revoque desde los ajustes de Android.
+- **El diálogo del sistema solo lo abre un gesto del usuario** (BRD §14 R8), y
+  solo si no se ha preguntado nunca. `DailyReminderSync`, que corre al arrancar,
+  consulta pero no pide.
+
+**La imagen que se comparte se dibuja fuera de pantalla, con Skia** (F9).
+`drawAsImage` compone el árbol sin montarlo en ninguna vista, así que un móvil
+de 390 de ancho saca un 1080×1350 exacto. Capturar una vista habría atado el
+resultado a la densidad de la pantalla: el mismo diseño saldría a 1170 en un
+móvil y a 828 en otro.
+
+El reparto de capas es el de siempre, aplicado a píxeles: **la UI compone** —es
+diseño, con sus tokens y su tipografía— y **el caso de uso entrega**. Por eso el
+puerto recibe el PNG en base64 y un nombre, y no una ruta: dónde se escribe el
+fichero mientras el sistema lo lee es del adaptador.
 
 **`subscription/` no tiene infraestructura todavía, y es a propósito.**
 RevenueCat necesita cuenta, productos en Play Console y un build nativo (BRD
@@ -95,6 +133,18 @@ Fuera de `src/`: `scripts/` guarda los generadores de assets, y los ficheros
 **Antes de tocar una pantalla, `design/reglas.md`**: son las notas del canvas
 extraídas, que es donde viven las decisiones y lo que se pierde al importar
 solo los dibujos. Si discrepa del canvas, gana el canvas.
+
+**El canvas está partido en seis láminas por flujo** (2026-09-01), y no por
+gusto: entero pasaba de los 256 KiB que admite el lector y los últimos
+artboards eran ilegibles. `Pantallas MVP.dc.html` es ahora el índice con
+enlaces; los dibujos viven en `F1 Entrada y onboarding`, `F2 Mascotas`, `F3 El
+dia`, `F4 Carta y personalidad`, `F5 Explorar` y `F6 Cuenta y compra`. El
+original queda en `Pantallas MVP - canvas completo.dc.html` para comparar.
+
+Y una lección de esa lectura: **la lámina del sistema de diseño enseña los
+controles con texto de ejemplo**. El interruptor de avisos se rotula ahí «Aviso
+diario» y en el artboard 10 dice «Su día, cada mañana» — el que manda es el
+artboard, que es la pantalla; la lámina es el control.
 
 | Comando | De dónde | A dónde |
 |---------|----------|---------|

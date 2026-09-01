@@ -244,6 +244,17 @@ export const typography = {
     fontSize: 13,
     lineHeight: 19,
   },
+  /**
+   * Igual que `caption`, con cifras tabulares. Es la hora del aviso en Ajustes
+   * (artboard 10): un dato que se edita y vuelve, y con cifras proporcionales
+   * la línea se movería de ancho al pasar de «9:00» a «21:45».
+   */
+  captionNumeric: {
+    fontFamily: fonts.body,
+    fontSize: 13,
+    lineHeight: 19,
+    fontVariant: ['tabular-nums'] as const,
+  },
   // Etiquetas de grado y efemérides: 12°34' Aries. Tabular para que no baile.
   ephemeris: {
     fontFamily: fonts.bodyMedium,

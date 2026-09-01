@@ -46,16 +46,22 @@ mantiene dentro porque sin anuncios la suscripción es la única monetización.
 | F6 | Perfil de personalidad | ✅ |
 | F7 | Fase lunar de hoy | ✅ |
 | F12 | Offline (7 días) | ✅ |
-| F8 | **Push diaria** | ❌ — el motor de retención |
-| F9 | **Compartir** | ❌ — el bucle de adquisición; la spec de marca de agua sí está escrita |
+| F8 | **Aviso diario** | ✅ — local, sin servidor. **Probado en un móvil**: pide permiso, llega a su hora y se apaga solo si se revoca |
+| F9 | **Compartir** | ✅ — la imagen del día con marca de agua, tres lienzos. **Probada en un móvil** |
 | — | **Paywall de suscripción** | 🟡 — la pantalla, sus dos puertas y el dominio están; falta el adaptador de RevenueCat |
 
-**Ocho de once, y la novena a medias.** El paywall ya existe como producto —se
+**Diez de once, y la undécima a medias.** El paywall ya existe como producto —se
 llega por sus dos puertas, se eligen los tres planes y la app sabe quién ha
 pagado—, pero **no cobra**: detrás del puerto hay un doble en memoria y no
 RevenueCat, que necesita cuenta, productos en Play Console y un build nativo.
-Lo que queda del MVP sigue siendo *retención* (F8), *adquisición* (F9) y el
-último tramo del *dinero*.
+**Lo que queda del MVP en código es el último tramo del dinero**: el adaptador
+de RevenueCat, que son cuentas y un build, no programación.
+
+**F8 no necesita servidor** y eso es lo que lo hace gratis: el aviso lo programa
+el propio móvil con el disparador diario del sistema. No hay token de push, ni
+FCM, ni nada que enviar. Pero **es un módulo nativo**: hasta que no se haga un
+build nuevo (`npx expo prebuild --clean` y `run:android`), en el móvil no
+existe.
 
 **Y hay dos cosas que no son features y bloquean igual**:
 
@@ -91,45 +97,68 @@ el resumen habrían salido mal. Antes de maquetar **cualquier** pantalla,
 importar su artboard. En F3 volvió a pasar: los dos artboards de la carta natal
 están marcados F4, y eso no estaba en ningún resumen.
 
-## Siguiente sesión: **probar en un móvil, y después F8**
+## Siguiente sesión: **Cloudflare Pages y el dominio propio**
 
-El paywall está construido y el selector con él. Lo que queda del MVP ya no
-tiene ninguna pantalla dibujada esperando: es **retención** (F8) y
-**adquisición** (F9), más el tramo de RevenueCat que no se puede hacer desde
-el editor.
+**El MVP está completo en código**: once de once features, y las dos últimas
+—F8 y F9— vistas en un móvil. Lo que queda no es programación de app.
 
-### Primero, y sin escribir código: la build en un móvil de verdad
+Lo siguiente es el **Bloque 4b**, y es lo más urgente de todo lo que queda por
+una razón de calendario: **`contentBaseUrl` se hornea en cada instalación**, así
+que tiene que llevar el dominio definitivo **antes del primer build que salga a
+la tienda**. Cambiarlo después obliga a publicar una versión nueva y deja a
+quien no actualice sin diario.
 
-Es lo único que no se puede comprobar desde aquí, y ya se ha acumulado mucho
-que mirar. **Antes hace falta `npx expo prebuild --clean`**: el splash y el
-icono viven en el proyecto nativo, que está ignorado y lleva dentro la
-configuración con la que se generó.
+En orden: proyecto de Cloudflare Pages sirviendo `content/daily/`, dominio
+propio apuntando ahí, `contentBaseUrl` cambiado, y retirar o dejar en paralelo
+`publish-content.yml`.
 
-En orden: que la app **ya no abra en blanco** y que el splash salga con su
-marca grande y sin caja —se arregló a ciegas en la sesión 46 y es de lo que
-más falta hace ver en un móvil, sobre todo por si Android 12+ recorta el
-anillo con su máscara redonda—; el icono en el lanzador, **en las tres
-variantes a la vez**, a tamaño real y con el tema de Android 13; que Hoy salga
-con las cuatro tarjetas y su cascada; que el trío del hub y la carta cuadren
-con lo que dice Hoy; que el arrastre de la hoja de planeta **y el de la hoja
-del 26** vayan finos en Android; el paywall entero, que es pantalla nueva; y
-—si se puede— **dejar la app abierta pasada la medianoche**, que es lo que la
-sesión 34 arregló a ciegas.
+### Lo que sigue sin verse en un móvil
 
-**Y con dos mascotas, que es media app sin probar**: el carrusel de Hoy —la
-mirilla, el enganche al soltar, y que el arrastre horizontal no se pelee con el
-desplazamiento vertical, que es donde estos carruseles se rompen—, la lista de
-la pestaña, el hub con cabecera de vuelta y el pie de las fichas con dos filas.
-Nada de eso se ha visto nunca en un dispositivo. **Se llega comprando**: el
-tier gratuito deja una mascota, así que hay que pasar por el paywall — y hoy
-detrás hay un doble en memoria, así que basta tocar «Empezar».
+Probado ya: Hoy, Ajustes, el aviso diario y compartir. Sin ver todavía:
 
-### Después, F8 (push) y F9 (compartir)
+- **El splash y el icono en el lanzador**, en las tres variantes a la vez y con
+  el tema de Android 13. Se arreglaron a ciegas en la sesión 46
+- **El paywall entero**, que es pantalla nueva
+- **Todo lo de dos mascotas, que es media app**: el carrusel de Hoy —y sobre
+  todo si el arrastre horizontal se pelea con el vertical, que es donde estos
+  carruseles se rompen—, la lista de la pestaña, el hub con cabecera de vuelta
+  y el pie de las fichas con dos filas. **Se llega comprando**: el tier gratuito
+  deja una mascota, y detrás del paywall hay un doble en memoria, así que basta
+  tocar «Empezar»
+- **El arrastre de la hoja de planeta y el de la hoja del 26** en Android
 
-Son las dos últimas features del MVP. F8 es el motor de retención y **el
-permiso se pide después de demostrar valor, nunca al arrancar** (BRD §14 R8).
-F9 es el bucle de adquisición y su marca de agua ya tiene spec escrita
-(`design/brand/README.md`).
+### F8, probado en un móvil (2026-09-01)
+
+El permiso se pide al encender el interruptor y **el aviso llega a su hora**.
+Costó dos fallos —el permiso que en Android nunca se pedía, y el aviso que se
+guardaba antes de programarse— y los dos están cerrados con test.
+
+Probado también revocar el permiso desde los ajustes de Android: al volver a
+abrir, el interruptor aparece apagado solo.
+
+**El icono de notificación se queda como está.** Sin uno monocromo propio
+Android usa el de la app, y en el móvil se ve bien — el encargo de dibujo se
+cae del MVP.
+
+### F9, hecho y probado (sesión 53)
+
+La última feature del MVP, entera y vista en un móvil. El canvas partido dejó
+legible el artboard 12, que era lo que faltaba:
+
+- [x] **La marca de agua** (`sharing/ui/Watermark`), contra los números del
+      artboard: Can Mayor a 44 y logotipo a 13 sobre una composición de 342, con
+      el trazo al 55% y el halo de Sirio. Todo en proporciones, que es lo que
+      pide «escala con el ancho del lienzo, no en px fijos»
+- [x] **La fontanería**: puerto `ShareSheet`, adaptador de `expo-sharing` con su
+      fichero en caché, `ShareImageUseCase`, los tres lienzos y el render fuera
+      de pantalla con `drawAsImage`
+- [x] **La composición y la pantalla** (artboard 12): previsualización, los tres
+      chips y «Compartir». La previsualización **es la misma composición a
+      escala**, no una maqueta, así que no puede desincronizarse de lo que sale
+- [x] **La entrada**: la fila del pie del hub, que llevaba desde la sesión 23
+      esperando a tener a dónde llevar
+- [x] **Y que quepa**: el texto encoge hasta caber en vez de salirse por debajo.
+      Con los 320 caracteres que admite el esquema no cabía en ningún lienzo
 
 ### Multimascota, cerrado
 
@@ -197,6 +226,10 @@ en Play Console, no dos. El desfase entre el artboard 11 (19,99) y el 29
 ⚠️ **El artboard 29 hay que corregirlo en el canvas**: sigue diciendo 24,99 €.
 En la app no importa —la frase de «Qué se cobra» se compone con lo que dice la
 tienda—, pero el dibujo es la referencia y así como está desmiente al 11.
+
+⚠️ **Y el artboard 25 con él**: su fila del pie dice «Compartir su carta» y lo
+que existe —y lo que se decidió— es «Compartir su día». La composición dibujada
+(artboard 12) es una lectura, no la rueda.
 
 ### Y lo que no se puede comprimir al final
 
@@ -906,9 +939,10 @@ Diseño con IA (D2), pero las constelaciones **se plotean desde datos**, no se g
       `icono-prompt.md`) y `icon.mjs` saca de él las cinco piezas. El andamio
       del registro —lámina de Bayer, ajuste por mínimos cuadrados, anclajes—
       sigue en `README.md` por si hace falta replantear las posiciones reales
-- [ ] Marca de agua para compartir — **es el vector de adquisición** (BRD §8.1),
-      merece diseño real. Especificada en `design/brand/README.md`; **es un
-      componente, no un asset**, así que se implementa en F9 (Bloque 5)
+- [x] **Marca de agua para compartir**, hecha en F9 (sesión 53). Es un
+      componente y no un asset, así que vive en `sharing/ui/Watermark.tsx` y se
+      compone en el momento con los tokens vivos. Las proporciones salen del
+      artboard 12, que las da concretas; la nota del `README` las resume mal
 
 **Recordatorio**: las constelaciones son un gráfico de datos. Si una queda pobre,
 se compensa con tratamiento — nunca añadiendo estrellas que no existen.
@@ -935,9 +969,9 @@ Referencia: **BRD §7.4, §7.5**.
       falta de datos/desglose, ver `pipeline/README.md`
 - [x] Script de generación del diario → `pipeline/src/generateDaily.mjs` (37/día)
 - [x] GitHub Action → `.github/workflows/generate-daily.yml` (D12, D13).
-      **Desactivada a propósito**: el `schedule` del cron nocturno está
-      comentado, solo se lanza a mano (`workflow_dispatch`) hasta decidir
-      activarla de verdad — ver `pipeline/README.md`
+      **Encendida**: el cron nocturno corre a las 03:00 UTC y genera hoy + 7,
+      así que el colchón se mantiene rodando solo. También se puede lanzar a
+      mano (`workflow_dispatch`) — ver `pipeline/README.md`
 - [ ] Alerta si pasan 2 días sin generar
 - [ ] Cloudflare Pages: despliegue al mergear (D11)
 - [x] **Las 65 razas del MVP decididas** → `pipeline/src/breeds.mjs`, con
@@ -1297,7 +1331,7 @@ Referencia: **BRD §7.4, §7.5**.
       La geometría no se tocó: `chart/ui/wheel.ts` describe dónde va cada cosa
       y era independiente del motor de pintado, que es justo lo que D18 dejó
       preparado
-- [ ] **F5 — Carta del día** (tarjetas separadas por fragmento, BRD §7.4)
+- [x] **F5 — Carta del día** (tarjetas separadas por fragmento, BRD §7.4)
       - [x] **El camino del dato, hecho** (sesión 28): el diario entra como
             **capa 2 del contexto `content`** —no como contexto nuevo—, con
             `DailyKey`, `DailyEdition`, los puertos `DailyRepository` y
@@ -1311,7 +1345,7 @@ Referencia: **BRD §7.4, §7.5**.
             Pages, con `publish-content.yml` y `app.json` ya apuntando ahí.
             Sigue pendiente **encenderlo** (tres pasos a mano, arriba) y
             **migrarlo antes de salir** — Bloque 4b
-      - [ ] **El cron de verdad**: descomentar el `schedule` de
+      - [x] **El cron de verdad, encendido**: el `schedule` de
             `.github/workflows/generate-daily.yml` y poner el secreto
             `ANTHROPIC_API_KEY`. El workflow **ya genera hoy + 7 días** por
             defecto, así que el aviso que la sesión 29 dejó anotado —la app
@@ -1385,7 +1419,7 @@ tienda**: es una parada, no un destino.
       fichero y con su informe, porque el día es la unidad que publica el CDN y
       la que revisa una persona. Con tope de 31 días, que es cortafuegos contra
       la errata y no límite técnico
-- [ ] **Llenar el colchón: `date = hoy`, `days = 8`.** Ocho y no siete: el cron
+- [x] **Llenar el colchón: `date = hoy`, `days = 8`.** Ocho y no siete: el cron
       nocturno genera `hoy + 7`, así que arrancando con hoy..hoy+6 la primera
       pasada del cron generaría hoy+8 y **quedaría un agujero justo en hoy+7**.
       Con ocho, el relevo es exacto. ~3,20 € y un PR con 8 ficheros
@@ -1393,7 +1427,12 @@ tienda**: es una parada, no un destino.
       2026-09-04, **292 de 296 publicables**. Las 8 responden 200 en el CDN y
       la de hoy trae sus 37 fragmentos, así que Hoy se pinta entera. El batch
       tardó **4 min 27 s**, no la hora del peor caso
-- [ ] ⚠️ **Hoy no se entera de que ha pasado el tiempo.** Es el hueco que deja
+- [x] **Hoy ya se entera de que ha pasado el tiempo** (sesión 34):
+      `useCalendarDay` reprograma un tic a medianoche y vuelve a sincronizar al
+      volver de segundo plano, el `staleTime` depende del resultado —`Infinity`
+      con datos, 0 sin ellos— y `DomainProvider` engancha `focusManager` a
+      `AppState`. Lo que sigue, tal y como se anotó, es el problema que
+      resolvieron. Era el hueco que deja
       F5 y se ve en cuanto la app se queda abierta o vuelve de segundo plano:
       1. **la fecha se calcula una vez por render** (`isoDateOf(new Date())`) y
          nada fuerza un render a medianoche, así que una app abierta a las
@@ -1434,21 +1473,69 @@ propio delante** (`contenido.dogstrology.app` o el que sea). Con el dominio, el
 host de debajo se cambia cuando se quiera y la app ni se entera; sin él, la
 primera versión publicada congela la decisión para siempre.
 
+- [x] **El montaje del sitio** (2026-09-01): `scripts/build-cdn.sh`, que es lo
+      que Cloudflare ejecuta. **Existe para no servir la carpeta tal cual**:
+      `content/daily/` lleva un `*.report.md` al lado de cada edición —notas de
+      revisión internas— y apuntar el CDN a la carpeta las publicaría. Copia
+      solo el JSON, deja los ficheros en `/daily/` y añade `_headers` e
+      `index.html`
+- [x] **La config de despliegue** (2026-09-01): `wrangler.toml`. Cloudflare ya
+      no pregunta por una carpeta de salida en los proyectos nuevos —el flujo
+      es Workers, no Pages clásico—, así que la carpeta se declara aquí y el
+      deploy es `npx wrangler deploy`. Sin `main`: es un sitio estático, no un
+      Worker
+- [ ] **Proyecto de Cloudflare** (D11), con estos ajustes:
+      - Build command: `bash scripts/build-cdn.sh`
+      - Deploy command: `npx wrangler deploy`
+      - Root directory: `/`
+      - ⚠️ **`name` en `wrangler.toml` tiene que ser el del Worker en el panel.**
+        Si no coincide, el deploy crea otro Worker y el dominio apunta al vacío
 - [ ] Dominio propio, apuntando al CDN
-- [ ] Proyecto de Cloudflare Pages (D11) sirviendo `content/daily/`
 - [ ] `contentBaseUrl` con el dominio propio, **antes del primer build de
       tienda**
 - [ ] Retirar `publish-content.yml`, o dejarlo publicando en paralelo mientras
       dure la transición
 
+**Los ficheros van a `/daily/` y no a la raíz**, aunque hoy el CDN solo sirva
+esto: la raíz se reserva para lo que el Bloque 6 tiene que publicar como URL
+—las condiciones— sin mover el diario de sitio después. Y mover el diario es
+justo lo que no sale barato, porque la URL se hornea en cada instalación.
+
 ---
 
 ## Bloque 5 — App: F8-F9, F12 + monetización
 
-- [ ] F8 — Push diario con hora configurable. **Pedir permiso después de demostrar valor**, nunca al arrancar (BRD §14 R8)
-- [ ] F9 — Compartir imagen con marca de agua (spec en `design/brand/README.md`)
-- [ ] **F12 — Caché offline de 7 días**. La mitad está hecha en F5 y **la otra
-      mitad es la que cumple la promesa**:
+- [x] **F8 — Aviso diario con hora configurable** (sesión 52). Local, sin
+      servidor: `expo-notifications` con disparador diario, cero coste y cero
+      llamadas en runtime
+      - Contexto `notifications/`: `DailyReminder`, el puerto
+        `NotificationScheduler`, dos casos de uso, el adaptador de Expo y su
+        doble. La preferencia vive en `settings/` (migración 004), que es lo que
+        es; el permiso **no se guarda**, se le pregunta al sistema
+      - **El permiso se pide al encender el interruptor** y solo si no se ha
+        preguntado nunca (BRD §14 R8). Denegado, el aviso se guarda apagado:
+        un interruptor encendido que no avisa es peor que ninguno
+      - `DailyReminderSync` al arrancar: reprograma con el nombre de hoy y apaga
+        el aviso si el permiso se revocó desde los ajustes del sistema
+      - El reloj de la hora de nacimiento sale a `_ui/` (`TimeClock`,
+        `TimeKeypad`, `timeEntry`) y lo reusa el editor de la hora del aviso
+      - ⚠️ **Falta el icono monocromo de notificación.** Sin él Android usa el
+        de la app y lo aplasta a una silueta: hay que dibujar uno de 96² blanco
+        sobre transparente, y eso es encargo de marca
+      - **El artboard 10, leído y aplicado** (canvas partido, 2026-09-01): la
+        fila dice **«Su día, cada mañana»**, no «Aviso diario» — ese era el
+        texto de ejemplo de la lámina del sistema de diseño. La hora va en la
+        segunda línea con cifras tabulares
+      - ⚠️ **Cómo se cambia la hora no lo dibuja el 10**, que solo pinta el
+        interruptor: la abre tocar el texto de la fila, y el carril sigue
+        conmutando. Es derivación
+      - **«Eventos del cielo» se queda fuera** a propósito: es el segundo
+        interruptor del sistema de diseño y no hay nada detrás que avisar
+- [x] **F9 — Compartir imagen con marca de agua** (sesión 53), y probada en un
+      móvil: los tres lienzos del artboard 12, la previsualización que **es** la
+      composición a escala, y el texto que encoge hasta caber
+- [x] **F12 — Caché offline de 7 días**. La mitad estaba hecha en F5 y la otra
+      mitad es la que cumple la promesa:
       - [x] **La despensa**: tabla `daily_editions`, puerto `DailyCache`,
             política de 7 días y poda (sesión 29)
       - [x] **Llenarla por adelantado** (sesión 34): `usePrefetchDailyBuffer`
@@ -4071,3 +4158,193 @@ Llegaron 27 artboards. Se implementan **17 y 27**; el 26 va en tanda propia.
   natal de cada perro, que es la comparación que la pantalla invita a hacer
 - ⚠️ **Derivación, no dibujo.** El pie de esta pantalla son filas sueltas y
   ahora lleva además una caja; si el sitio pide otra cosa, se cambia
+
+### 2026-09-01 (52) — el aviso diario, y un «ASC» que no cabía
+- **F8 entero, y sin servidor.** El aviso lo programa el propio móvil con el
+  disparador diario de `expo-notifications`: no hay token, ni FCM, ni nadie a
+  quien mandar nada. Cuesta 0 € y no rompe la regla de cero llamadas en runtime
+- **Contexto `notifications/`** — `DailyReminder`, el puerto
+  `NotificationScheduler`, `SetDailyReminder`, `SyncDailyReminder`, el adaptador
+  de Expo y su doble. 21 tests nuevos
+- **La preferencia es una preferencia**, así que vive en `settings/` y en la
+  misma fila única (migración 004, aditiva y con defecto). Lo que sabe hablar
+  con el sistema vive aparte
+- **El permiso no se guarda**, y es la decisión que más código evita: que el
+  usuario quiera el aviso y que Android deje enviarlo son dos hechos distintos.
+  Guardarlo dejaría un `true` mintiendo el día que se revoque desde fuera
+- **Denegado, el aviso se guarda apagado.** Parece de más y es lo que impide un
+  interruptor encendido que no avisa nunca — con el usuario culpando a la app de
+  algo que decidió el sistema
+- **`DailyReminderSync`** al arrancar hace tres cosas que no tenían dueño:
+  apaga el interruptor si el permiso se fue por fuera, reprograma con el nombre
+  de hoy —el texto lleva el del perro, así que renombrarlo dejaba el aviso
+  hablando del anterior— y cancela lo que hubiera si está apagado
+- **El reloj sale del editor de nacimiento a `_ui/`**: `TimeClock`, `TimeKeypad`
+  y `timeEntry`. El editor de la hora del aviso es el mismo teclado, no una
+  rueda — una rueda aquí y un teclado allí serían dos formas de teclear lo mismo
+- **`SwitchRow`, del sistema de diseño (C.3)**: carril 52×32 en border-box,
+  pulsador 24, oro con halo encendido y `surfaceRaised` con filo apagado. Sin
+  rótulos dentro del carril, que es lo que pide la nota
+- ⚠️ **El artboard 10 no se pudo leer**: `Pantallas MVP.dc.html` pasa de los
+  256 KiB que admite el lector y se corta antes de llegar a él. El interruptor
+  sí estaba entero en el canvas del sistema de diseño, con sus dos rótulos
+  reales —«Aviso diario · a las 8:30» y «Eventos del cielo»—, así que el grupo
+  se montó desde ahí. La fila «Cambiar la hora» es derivación
+- ⚠️ **Falta el icono monocromo de notificación**, y se va a notar: sin él
+  Android usa el de la app aplastado a silueta
+- **El «ASC» de las tarjetas del día en la casa se partía en dos líneas.** La
+  caja del símbolo estaba fijada a `icon.size.m`, un tamaño de *icono*, y ahí
+  dentro no va un icono: va una palabra que mide 24,5 px medidos sobre el propio
+  fichero de Karla. Ahora la caja la manda lo más ancho que tiene que caber, va
+  en `minWidth` y el rótulo lleva `numberOfLines`
+- ⚠️ Y lo que ese fallo deja ver: **no hay `maxFontSizeMultiplier` en ninguna
+  parte** y las alturas de línea del tema van absolutas. El «ASC» fue el primero
+  en romperse por ser el más justo, no el único que puede
+- 487 tests (eran 466), lint y `tsc` limpios
+
+### 2026-09-01 (53) — la marca de agua, y el canvas que ya se puede leer
+- **El canvas partido en seis láminas por flujo** (lo hizo David). Es lo que
+  desbloqueó la sesión: entero pasaba de los 256 KiB del lector y los últimos
+  artboards no se podían leer. `Pantallas MVP.dc.html` es ahora el índice
+- **Y lo primero que se leyó corrigió lo de ayer**: el artboard 10 rotula la
+  fila **«Su día, cada mañana»**, no «Aviso diario». Ese era el texto de ejemplo
+  de la lámina del sistema de diseño — **la lámina enseña el control, el
+  artboard es la pantalla**, y manda el artboard. Corregido, y con las cifras
+  tabulares que el 10 pide en la hora
+- **La fila «Cambiar la hora» se cae**: el 10 no la dibuja. La hora la abre
+  ahora tocar el texto de la fila, con el carril conmutando como siempre —
+  `SwitchRow` gana `onPressText`. Una fila aparte decía la hora dos veces
+- **La marca de agua, contra el artboard y no contra la nota** (F9, tramo 1). El
+  `README` la resume como «alto ≈ 3,5% del ancho» y el 12 la dibuja concreta:
+  Can Mayor a 44, logotipo a 13, aire de 12, sobre una composición de 342. Los
+  dos números no cuadran —el 3,5% es el cuerpo del logotipo, no el lado del
+  asterismo— y gana el dibujo
+- **Confirmada la regla del tracking sin haberla visto**: el artboard escribe el
+  logotipo a 13 px con +3, que es exactamente lo que dice la lámina para menos
+  de 18. La función ya estaba escrita así
+- **La geometría del Can Mayor sale a `_ui/canisMajor`**: la pintan dos motores
+  distintos —`react-native-svg` en la app, Skia en la imagen— y lo que comparten
+  son las coordenadas, no la forma de dibujarlas
+- **Contexto `sharing/`** (tramo 2): puerto `ShareSheet` que recibe **bytes y un
+  nombre, nunca una ruta**; adaptador de `expo-sharing` con el PNG en caché;
+  `ShareImageUseCase`; los tres lienzos del 12 —feed, historias y **cuadrado**,
+  que el `README` no tenía—; y el render con `drawAsImage`
+- **La imagen se compone fuera de pantalla.** Capturar una vista habría atado el
+  resultado a la densidad: el mismo diseño saldría a 1170 en un móvil y a 828 en
+  otro. Así sale 1080×1350 exacto en todos
+- **El fichero temporal no se borra al compartir**: la hoja del sistema lo lee
+  cuando ya ha resuelto la promesa, así que borrarlo ahí es cómo se comparte una
+  imagen vacía. Se reutiliza el nombre — uno por formato, no uno por toque
+- 494 tests (eran 487), lint y `tsc` limpios
+
+### 2026-09-01 (53b) — F9 entero: la imagen del día
+- **Tramo 3, y con el artboard 12 delante.** Pantalla de compartir con la
+  previsualización, los tres chips —feed, historias y **cuadrado**— y el botón
+- **La previsualización es la composición, no una maqueta**: la misma
+  `ShareImage` dibujada a escala en un lienzo pequeño. Así no puede
+  desincronizarse de lo que se comparte, que es el fallo clásico de estas
+  pantallas
+- **Los textos son los tokens de la app multiplicados por la escala** —
+  `overline`, `title` y `body`—, con `Paragraph` de Skia, que es lo que sabe
+  partir líneas. No hay una tipografía «de compartir»: es la de la app, grande
+- **Las tipografías se cargan dos veces, y hace falta**: `expo-font` las mete en
+  el motor de texto de React Native y la imagen la dibuja Skia, que tiene el
+  suyo. Mismos ficheros, dos caminos
+- **La entrada es la fila del pie del hub**, que llevaba desde la sesión 23
+  apuntada como «no hay a dónde llevarla»
+- **Decidido: la fila se llama «Compartir su día»** (2026-09-01). El artboard 25
+  la rotula «Compartir su carta» y lo único compuesto es el día: el 12 dibuja
+  una lectura —rótulo, titular y texto—, no la rueda. Rotularla «su carta»
+  prometería una imagen que no existe. **Hay que corregir el 25 en el canvas**;
+  compartir la carta, si algún día toca, es composición nueva y encargo
+- **Decidido: el botón redondo del pie del 12 no se hace** (2026-09-01). Su
+  icono en el canvas es un marcador geométrico sin nombre, así que no se sabe
+  qué acción es; guardar en el carrete sería otro módulo nativo y otro permiso,
+  y la hoja del sistema ya ofrece «Guardar imagen»
+- **El `theme.ts` del canvas está desfasado** respecto al del repo: le faltan
+  `colors.inactive`, `controlGap`, `radii.row` y cuatro tokens de tipografía, y
+  sobre todo tiene `elements` con las claves en español, que es la decisión D15
+  al revés. Anotado para corregir en el proyecto de diseño
+- 498 tests, lint y `tsc` limpios
+
+### 2026-09-01 (53c) — lo primero que dijo el móvil
+- **La imagen no se dibujaba: «Value is undefined, expected a number».** El
+  puente nativo de Skia pregunta si una propiedad del estilo existe y, si
+  existe, la lee como número — así que **una clave puesta a `undefined` pasa la
+  primera pregunta y revienta en la segunda**. `typography.body` no tiene
+  `letterSpacing`, y yo la escribía igual. Ahora las claves que no aplican no se
+  escriben
+- La aritmética sale a `paragraphStyleOf`, **pura y con test**: el caso que
+  costó el viaje al móvil está pinchado, y de paso queda documentada la trampa
+  para el próximo que dibuje texto con Skia
+- **Ajustes se solapaba con su pie.** El artboard 10 cabe en 844 px; un móvil
+  real tiene menos alto útil, y con el grupo de avisos dentro el aviso del
+  veterinario quedaba encima de «Condiciones». El cuerpo pasa a `scroll`: donde
+  sobra sitio no se desplaza nada y se sigue viendo entero —que es lo que pide
+  la atribución de GeoNames—, y donde no, se alcanza en vez de solaparse
+- **La lección que dejan los dos**: el artboard mide 844 y los móviles no. Lo
+  que cabe en el dibujo no cabe siempre, y `Screen` sin `scroll` no recorta —
+  se sale por debajo
+- 501 tests, lint y `tsc` limpios
+
+### 2026-09-01 (53d) — el aviso no se podía encender en ningún Android
+- **En Android no existe «sin preguntar».** `getPermissionsAsync` de un permiso
+  que **nunca se ha pedido** devuelve `status: 'denied'` —`checkSelfPermission`
+  no distingue «nuevo» de «rechazado»— y lo único que los separa es
+  `canAskAgain`. Mi código solo pedía el permiso si veía `'undetermined'`, que en
+  Android no llega nunca: **ni diálogo, ni interruptor, ni error**
+- Y explicaba el resto de lo que se veía: sin permiso concedido no se crea el
+  canal, así que la app tampoco aparecía en la lista de notificaciones del
+  sistema
+- **Los tres estados se renombran por lo que dejan hacer**, no por la palabra de
+  la plataforma: `granted · askable · blocked`. El nombre era el error —
+  «undetermined» me hizo razonar sobre un estado que Android no tiene
+- **Regalo del cambio**: cerrar el diálogo sin contestar deja el permiso
+  `askable`, así que volver a tocar el interruptor lo vuelve a enseñar. Antes
+  eso quedaba como denegado para siempre
+- **Seis tests nuevos sobre el adaptador**, con las respuestas reales de Android
+  y de iOS —incluida la autorización provisional, que deja avisar con un
+  `status` que no es `'granted'`—. Era la única pieza sin prueba, y es justo
+  donde estaba el fallo
+- 507 tests, lint y `tsc` limpios
+
+### 2026-09-01 (53e) — el aviso que no saltó
+- **Sin causa confirmada todavía**, pero dos agujeros míos arreglados, y
+  cualquiera de los dos explicaría lo que se vio
+- **Se programaba después de guardar, y ahora al revés.** Si programar fallaba,
+  la preferencia ya estaba escrita como encendida: interruptor encendido, nada
+  programado y **ni un aviso en pantalla**. Ahora lo que queda escrito es lo que
+  se ha conseguido hacer, y el fallo sube a la pantalla con su línea
+- **El canal iba a importancia `DEFAULT`**, que en Android entra en la bandeja
+  pero **no asoma**: solo se ve si el usuario baja a mirar. Para el motor de
+  retención de la app eso no vale. Pasa a `HIGH`
+- ⚠️ **La importancia de un canal se fija al crearlo**: Android no deja subirla
+  después. En un móvil donde el canal ya existe hay que **reinstalar**
+- El trigger diario de Android **sí es correcto**: `DailyTrigger.nextTriggerDate`
+  programa para hoy si la hora aún no ha pasado, y para mañana si ya pasó.
+  Comprobado en el fuente del módulo, no supuesto
+- **Y funcionó**: con los dos arreglos y una reinstalación, el aviso llega a su
+  hora. **No se sabe cuál de los dos era**, y no merece la pena averiguarlo: los
+  dos eran fallos de verdad y los dos están cerrados
+- **Probado también revocar el permiso desde Android**: al volver a abrir, el
+  interruptor aparece apagado solo, que es el trabajo de `DailyReminderSync`
+- **El icono de notificación aguanta para el MVP** (decidido en el móvil): sin
+  uno monocromo propio, Android usa el de la app y se ve suficientemente bien.
+  El encargo de dibujo se cae del MVP
+- 508 tests, lint y `tsc` limpios
+
+### 2026-09-01 (53f) — el texto que no cabía
+- **La imagen se solapaba en el cuadrado**, y el cuadrado no tenía la culpa: era
+  el primero en enseñarlo. El esquema del pipeline admite **titulares de 60
+  caracteres y textos de 320**, más del doble que la lectura de ejemplo del
+  artboard, y con uno de ese largo **el 4:5 también se sale**. Quitar el
+  cuadrado habría escondido el fallo en vez de arreglarlo
+- **El texto encoge hasta caber**, y no se recorta: el texto **es** el producto,
+  así que antes pequeño que cortado
+- **El ajuste va por la raíz cuadrada**, y no es un truco: encoger el cuerpo
+  reduce a la vez el alto de línea y el número de líneas, así que la altura del
+  bloque crece con el cuadrado de la escala. Repartir el ajuste entre las dos
+  acierta casi a la primera; lineal encogería el texto casi el doble de lo
+  necesario
+- **El cuadrado se queda**: está dibujado en el artboard 12 y ya no se rompe
+- 508 tests, lint y `tsc` limpios

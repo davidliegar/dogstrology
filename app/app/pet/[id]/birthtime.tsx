@@ -6,23 +6,16 @@ import { NoticeCard } from '@/_ui/components/NoticeCard';
 import { PrimaryButton } from '@/_ui/components/PrimaryButton';
 import { Screen } from '@/_ui/components/Screen';
 import { ScreenHeader } from '@/_ui/components/ScreenHeader';
+import { TimeClock } from '@/_ui/components/TimeClock';
+import { TimeKeypad } from '@/_ui/components/TimeKeypad';
 import { useNatalChart } from '@/chart/ui/chartQueries';
 import { isEuropeanSummerTime, spanishZoneFromLongitude, spanishZoneLabel } from '@/pet/domain/spanishTimeZone';
 import { withBirthTime } from '@/pet/ui/birthEdits';
 import { formatLongDate } from '@/pet/ui/format';
 import { usePet, useUpdatePet } from '@/pet/ui/petQueries';
-import {
-  displayOf,
-  focusField,
-  isDigitAllowed,
-  pressBackspace,
-  pressDigit,
-  timeEntryFrom,
-  timeOf,
-  type TimeEntry,
-} from '@/pet/ui/timeEntry';
+import { timeEntryFrom, timeOf, type TimeEntry } from '@/_ui/timeEntry';
 
-import { colors, controlGap, focusRing, radii, spacing, touchTarget, typography } from '@/design/theme';
+import { colors, controlGap, radii, spacing, typography } from '@/design/theme';
 import { text } from '@/_ui/typography';
 
 /**
@@ -123,21 +116,7 @@ export default function BirthTimeEditor() {
         <Text style={styles.intro}>El Ascendente avanza medio grado por minuto. Es el único dato que lo hace posible.</Text>
       ) : null}
 
-      <View style={styles.clock}>
-        <Slot
-          label="hora"
-          value={entry.hour}
-          active={entry.field === 'hour'}
-          onPress={() => setDraft(focusField(entry, 'hour'))}
-        />
-        <Text style={styles.colon}>:</Text>
-        <Slot
-          label="minutos"
-          value={entry.minute}
-          active={entry.field === 'minute'}
-          onPress={() => setDraft(focusField(entry, 'minute'))}
-        />
-      </View>
+      <TimeClock entry={entry} onChange={setDraft} />
 
       {hasPlace && birth && birth.lon() !== undefined ? (
         <View style={styles.zone}>
@@ -173,117 +152,14 @@ export default function BirthTimeEditor() {
         </NoticeCard>
       )}
 
-      <View style={styles.keypad}>
-        {['1', '2', '3', '4', '5', '6', '7', '8', '9', '', '0', '⌫'].map((key, index) => {
-          const isDigit = key !== '' && key !== '⌫';
-          const off = isDigit && !isDigitAllowed(entry, key);
-          return (
-            <Pressable
-              key={index}
-              onPress={() => setDraft(key === '⌫' ? pressBackspace(entry) : pressDigit(entry, key))}
-              disabled={key === '' || off}
-              accessibilityRole="button"
-              accessibilityState={{ disabled: off }}
-              accessibilityLabel={key === '⌫' ? 'Borrar' : key}
-              style={styles.key}
-            >
-              <Text style={[styles.keyLabel, off && styles.keyLabelOff]}>{key}</Text>
-            </Pressable>
-          );
-        })}
-      </View>
+      <TimeKeypad entry={entry} onChange={setDraft} />
     </Screen>
-  );
-}
-
-/**
- * Una de las dos mitades del reloj. La activa lleva el mismo anillo doble de
- * `TextField`: el foco de esta pantalla se pinta igual que el de un campo de
- * texto, aunque el teclado sea de la app y no del sistema.
- *
- * Es pulsable a propósito. Corregir solo los minutos de una hora ya escrita es
- * la mitad de las visitas a esta pantalla, y sin poder tocarlos había que
- * borrar cuatro cifras para arreglar una.
- */
-function Slot({
-  label,
-  value,
-  active,
-  onPress,
-}: {
-  label: string;
-  value: string;
-  active: boolean;
-  onPress: () => void;
-}) {
-  return (
-    <Pressable
-      onPress={onPress}
-      accessibilityRole="button"
-      accessibilityState={{ selected: active }}
-      accessibilityLabel={`${label}: ${value === '' ? 'sin escribir' : value}`}
-      style={[styles.ring, active && styles.ringVisible]}
-    >
-      <View style={[styles.slot, active && styles.slotActive]}>
-        <Text style={[styles.slotValue, active && styles.slotValueActive]}>{displayOf(value)}</Text>
-        <Text style={[styles.slotLabel, active && styles.slotLabelActive]}>{label}</Text>
-      </View>
-    </Pressable>
   );
 }
 
 const styles = StyleSheet.create({
   intro: {
     ...typography.caption,
-    color: colors.textFaint,
-  },
-  clock: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'center',
-    gap: spacing[3],
-  },
-  ring: {
-    borderRadius: radii.m + focusRing.gap + focusRing.width,
-    borderWidth: focusRing.width,
-    padding: focusRing.gap,
-    // Ocupa sitio siempre: si apareciera al activarse, el reloj daría un salto.
-    borderColor: colors.transparent,
-  },
-  ringVisible: {
-    borderColor: focusRing.color,
-  },
-  slot: {
-    minWidth: 96,
-    height: 96,
-    borderRadius: radii.m,
-    backgroundColor: colors.backgroundDeep,
-    borderWidth: 1,
-    borderColor: colors.border,
-    alignItems: 'center',
-    justifyContent: 'center',
-    gap: controlGap,
-  },
-  slotActive: {
-    borderColor: colors.accent,
-    backgroundColor: colors.accentSoft,
-  },
-  slotValue: {
-    ...typography.hero,
-    color: colors.textMuted,
-  },
-  slotValueActive: {
-    color: colors.text,
-  },
-  slotLabel: {
-    ...typography.caption,
-    color: colors.textFaint,
-  },
-  slotLabelActive: {
-    color: colors.accent,
-  },
-  colon: {
-    ...typography.hero,
     color: colors.textFaint,
   },
   zone: {
@@ -309,26 +185,6 @@ const styles = StyleSheet.create({
   zoneNote: {
     ...typography.caption,
     color: colors.textFaint,
-  },
-  keypad: {
-    flexDirection: 'row',
-    flexWrap: 'wrap',
-  },
-  key: {
-    width: '33.33%',
-    height: touchTarget + spacing[4],
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  keyLabel: {
-    ...typography.title,
-    color: colors.text,
-  },
-  // Apagada, no invisible: la tecla sigue ahí y se entiende que ahora no lleva
-  // a ninguna hora que exista.
-  keyLabelOff: {
-    color: colors.textFaint,
-    opacity: 0.4,
   },
   secondary: {
     ...typography.bodyEmphasis,
