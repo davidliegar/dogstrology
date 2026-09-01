@@ -17,7 +17,7 @@
  * estática no tiene tienda a quien preguntar. Aquí van escritos, con la frase
  * de siempre debajo diciendo que manda el precio de tu tienda.
  */
-import { mkdirSync, writeFileSync } from 'node:fs';
+import { writeFileSync } from 'node:fs';
 import { dirname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
 
@@ -116,7 +116,9 @@ ${sections
 </html>
 `;
 
-const out = join(root, '_site/condiciones');
-mkdirSync(out, { recursive: true });
-writeFileSync(join(out, 'index.html'), page);
-console.log(`Condiciones: ${sections.length} apartados → _site/condiciones/index.html`);
+// `condiciones.html` y no `condiciones/index.html`: con la carpeta, Cloudflare
+// contesta un 307 a `/condiciones/` antes de servir. Funciona, pero esta URL va
+// en la ficha de una tienda y en un texto legal, y ahí un salto de más es una
+// forma canónica de menos.
+writeFileSync(join(root, '_site/condiciones.html'), page);
+console.log(`Condiciones: ${sections.length} apartados → _site/condiciones.html`);
