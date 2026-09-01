@@ -10,9 +10,11 @@
 # El catálogo inmutable (`content/catalog/`) no entra: viaja dentro del binario
 # y no tiene por qué estar en la web.
 #
-# Además del diario se publica **`/condiciones`**, que es la URL que pide la
-# ficha de Play. La escribe `build-terms.mjs` importando el mismo fichero de
-# etiquetas que lee la app, para que la web y la pantalla no puedan desdecirse.
+# Además del diario se publican las dos páginas que la ficha de Play exige:
+# **`/condiciones`**, que escribe `build-terms.mjs` importando el mismo fichero
+# de etiquetas que lee la app —para que la web y la pantalla no puedan
+# desdecirse—, y **`/privacidad`**, cuyo texto vive en su script porque la app
+# todavía no tiene pantalla de privacidad que pudiera contradecirla.
 #
 # Ajustes de Cloudflare Pages:
 #   Framework preset ......... None
@@ -49,6 +51,7 @@ HEADERS
 # `package.json` de la app, que es de React Native y no de Node. Se calla ese, y
 # solo ese: los demás avisos siguen saliendo en el log del build.
 node --disable-warning=MODULE_TYPELESS_PACKAGE_JSON scripts/build-terms.mjs
+node --disable-warning=MODULE_TYPELESS_PACKAGE_JSON scripts/build-privacy.mjs
 
 # Sin portada, entrar a la raíz da un 404 y no hay forma de saber de un vistazo
 # si el despliegue funcionó.
@@ -58,7 +61,7 @@ cat > "$SITE/index.html" <<'HTML'
 <title>Dogstrology</title>
 <p>Origen del contenido diario de Dogstrology. Los ficheros viven en
 <code>/daily/AAAA-MM-DD.json</code>.</p>
-<p><a href="/condiciones">Condiciones</a></p>
+<p><a href="/condiciones">Condiciones</a> · <a href="/privacidad">Privacidad</a></p>
 HTML
 
 echo "Publicando $(ls "$SITE/daily" | wc -l | tr -d ' ') ediciones:"
