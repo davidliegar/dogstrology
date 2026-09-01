@@ -79,8 +79,25 @@ function readVariant(): VariantName {
  *
  * `workers.dev` además lleva dentro el nombre de la cuenta de Cloudflare, y
  * Cloudflare la ofrece como URL de desarrollo, no de producción.
+ *
+ * **La lista son los orígenes que este proyecto ha usado o se ha planteado**, y
+ * no un intento de nombrarlos todos: cualquier lista negra de proveedores nace
+ * incompleta. Lo que la hace suficiente es que aquí solo puede entrar lo que
+ * alguien escriba en `app.json`, y eso pasa por una revisión.
  */
-const PROVISIONAL_ORIGINS = ['github.io', 'workers.dev'];
+const PROVISIONAL_ORIGINS = ['github.io', 'workers.dev', 'pages.dev', 'vercel.app'];
+
+/**
+ * La puerta para el build que **no va al público**: subir al canal interno de
+ * Play es lo que desbloquea crear los productos, y ahí la URL grabada no es un
+ * riesgo — al canal interno solo llegan testers, y los testers actualizan.
+ *
+ * Se pide **escribiendo para qué es**, no con un `1`: el valor es la intención,
+ * igual que `APP_VARIANT`. Y no vive en el perfil `production` de `eas.json`
+ * sino en uno aparte (`internal`), para que el perfil que un día publique de
+ * verdad siga sin poder construirse con un origen prestado.
+ */
+const PROVISIONAL_OVERRIDE = 'ALLOW_PROVISIONAL_CONTENT_URL';
 
 /**
  * El CDN se puede apuntar a otro sitio sin tocar el código: es lo que permitirá
@@ -94,6 +111,15 @@ function readContentBaseUrl(variant: VariantName, base: string): string {
 
   const provisional = PROVISIONAL_ORIGINS.find((origin) => url.includes(origin));
   if (provisional === undefined) return url;
+
+  if (process.env[PROVISIONAL_OVERRIDE] === 'internal') {
+    console.warn(
+      `⚠️  Contenido servido desde ${provisional}: "${url}".\n` +
+        'Este build vale para el canal interno de Play y **no se puede publicar**: ' +
+        'la URL queda grabada en cada instalación (PLAN.md, Bloque 4b).',
+    );
+    return url;
+  }
 
   throw new Error(
     `El contenido de producción no puede salir de ${provisional}: "${url}".\n` +

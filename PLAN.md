@@ -1506,11 +1506,29 @@ primera versión publicada congela la decisión para siempre.
       **revienta el build** con la explicación. El requisito de salida deja de
       ser una nota que se olvida el día que corre prisa y pasa a ser un fallo,
       que es lo mismo que ya hacía con `APP_VARIANT`. Cuatro tests lo atan
-- [ ] ⏳ **DEUDA: el dominio propio.** Es lo único que queda del bloque, y su
-      plazo es **antes del primer build que suba a la tienda** — que está detrás
-      de RevenueCat, de Play Console y de la revisión del contenido, así que no
-      bloquea nada de lo que viene ahora. Hasta entonces el desarrollo tira de
-      `workers.dev` sin problema
+- [x] **Una puerta para el build interno** (2026-09-01): Play no deja crear los
+      productos sin un build subido, y ese build es de la variante producción —
+      así que el guardarraíl paraba el paso que desbloquea RevenueCat. Con
+      `ALLOW_PROVISIONAL_CONTENT_URL=internal` pasa, avisando en voz alta de que
+      ese build no se puede publicar. Vive en un perfil aparte de `eas.json`
+      (`internal`), no en `production`, para que el que un día publique de
+      verdad siga sin poder construirse con un origen prestado
+      - **Descartado pivotar a Vercel** para ahorrarse el dominio: `vercel.app`
+        es exactamente el mismo tipo de URL prestada que `workers.dev`, así que
+        no quita el problema — solo cambia de empresa. Y su plan Hobby está
+        limitado a uso no comercial, que es el mismo motivo por el que salimos
+        de GitHub Pages. Cloudflare ya está comprobado y su tier gratuito sí
+        admite producto de pago
+- [ ] ⏳ **DEUDA: el dominio propio.** Su plazo es **antes de publicar de
+      verdad**, no antes del canal interno. Recomendado: `dogstrology.app` —el
+      `.com` está aparcado por un especulador— con el CDN en
+      `contenido.dogstrology.app`, comprado en Cloudflare Registrar (~15 €/año,
+      a precio de coste, y el DNS se engancha solo)
+      - **El subdominio y no la raíz**: la URL de la app se congela y la de las
+        condiciones no, así que la raíz se deja libre para una landing y lo
+        único grabado es algo que ningún usuario ve
+      - Antes de pagar, un vistazo a la marca en EUIPO: si `Dogstrology` está
+        cogida en la UE, mejor saberlo antes de imprimir capturas
       - No hace falta comprar nada nuevo: **un subdominio de un dominio que ya
         tengas vale igual** y cuesta cero
       - Se conecta en Custom domains del Worker, y luego es cambiar una línea

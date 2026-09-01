@@ -28,6 +28,12 @@
       "env": {
         "APP_VARIANT": "production"
       }
+    },
+    "internal": {
+      "extends": "production",
+      "env": {
+        "ALLOW_PROVISIONAL_CONTENT_URL": "internal"
+      }
     }
   },
   "submit": {

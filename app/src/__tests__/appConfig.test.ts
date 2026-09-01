@@ -127,6 +127,7 @@ describe('el origen del contenido', () => {
   afterEach(() => {
     delete process.env.APP_VARIANT;
     delete process.env.CONTENT_BASE_URL;
+    delete process.env.ALLOW_PROVISIONAL_CONTENT_URL;
   });
 
   it.each([
@@ -161,5 +162,53 @@ describe('el origen del contenido', () => {
     expect(() => resolveWith('production', 'https://contenido.dogstrology.app/daily/')).toThrow(
       /no puede salir de/,
     );
+  });
+});
+
+/**
+ * La puerta para el build que **no va al público**. Subir al canal interno de
+ * Play es lo que desbloquea crear los productos, y ahí la URL grabada no es un
+ * riesgo: al canal interno solo llegan testers, y los testers actualizan.
+ */
+describe('la puerta del build interno', () => {
+  const PROVISIONAL = 'https://dogstrology.davidliegar.workers.dev/daily/';
+
+  const resolveInternal = (override?: string) => {
+    process.env.APP_VARIANT = 'production';
+    if (override !== undefined) process.env.ALLOW_PROVISIONAL_CONTENT_URL = override;
+    const config = { ...base, extra: { ...base.extra, contentBaseUrl: PROVISIONAL } } as ExpoConfig;
+    return defineConfig({ config } as ConfigContext);
+  };
+
+  beforeEach(() => {
+    jest.spyOn(console, 'warn').mockImplementation(() => undefined);
+  });
+
+  afterEach(() => {
+    jest.restoreAllMocks();
+    delete process.env.APP_VARIANT;
+    delete process.env.ALLOW_PROVISIONAL_CONTENT_URL;
+  });
+
+  it('escrita a propósito, deja pasar el origen provisional', () => {
+    expect(resolveInternal('internal').extra?.contentBaseUrl).toBe(PROVISIONAL);
+  });
+
+  it('y lo dice en voz alta, porque ese build no se puede publicar', () => {
+    resolveInternal('internal');
+    expect(console.warn).toHaveBeenCalledWith(expect.stringContaining('no se puede publicar'));
+  });
+
+  it.each([['1'], ['true'], ['sí'], ['']])(
+    'cualquier otro valor no abre nada: "%s"',
+    (value) => {
+      // El valor **es** la intención, como en `APP_VARIANT`. Un `1` puesto por
+      // costumbre no puede colar un build publicable con la URL prestada.
+      expect(() => resolveInternal(value)).toThrow(/no puede salir de/);
+    },
+  );
+
+  it('sin la variable, sigue parando', () => {
+    expect(() => resolveInternal()).toThrow(/no puede salir de/);
   });
 });
