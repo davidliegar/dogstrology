@@ -118,14 +118,11 @@ Probado ya: Hoy, Ajustes, el aviso diario y compartir. Sin ver todavía:
 
 - **El splash y el icono en el lanzador**, en las tres variantes a la vez y con
   el tema de Android 13. Se arreglaron a ciegas en la sesión 46
-- **El paywall entero**, que es pantalla nueva
-- **Todo lo de dos mascotas, que es media app**: el carrusel de Hoy —y sobre
-  todo si el arrastre horizontal se pelea con el vertical, que es donde estos
-  carruseles se rompen—, la lista de la pestaña, el hub con cabecera de vuelta
-  y el pie de las fichas con dos filas. **Se llega comprando**: el tier gratuito
-  deja una mascota, y detrás del paywall hay un doble en memoria, así que basta
-  tocar «Empezar»
 - **El arrastre de la hoja de planeta y el de la hoja del 26** en Android
+
+**Multimascota y el paywall, probados y bien** (2026-09-01): el carrusel de Hoy,
+la lista, el hub con vuelta, el pie de las fichas con dos filas y el paywall
+entero. Era media app que no se había visto correr nunca.
 
 ### F8, probado en un móvil (2026-09-01)
 
@@ -1005,6 +1002,15 @@ Referencia: **BRD §7.4, §7.5**.
       mensaje lleva la separación escrita y se nota en el resultado ("no
       distingue cartas", "no es cosa suya en particular").
       El catálogo pasa de 1.552 a **1.560 fragmentos**
+- [x] **La herramienta para revisarlos** (2026-09-01): `scripts/build-review.mjs`
+      monta una página con los 1.560 de uno en uno, publicada como artefacto.
+      Lo que la hace útil no es la maqueta: es que **traduce la clave**.
+      `breed=german-shepherd;sign=aries` no se puede juzgar de un vistazo y
+      «Pastor alemán · Aries» sí, y juzgar es exactamente comparar el texto con
+      su asunto. Las decisiones se guardan fuera de la página, así que se puede
+      revisar a ratos y desde donde sea, y lo marcado sale con su clave para
+      arreglarlo de una tanda. El script **revienta si una clave no se traduce**,
+      que es lo que prueba que las 1.560 se entienden
 - [ ] ⚠️ **Revisar a mano la primera tanda de cada tipo de contenido.** Son
       **1.560 fragmentos generados y 8 revisados** (los de cielo, en la
       sesión 23), y BRD §7.5 + §14 R1 dicen

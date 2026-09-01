@@ -7,3 +7,7 @@ design/constellations/.cache/
 # Lo que monta `scripts/build-cdn.sh` para el CDN. Se genera en cada build de
 # Cloudflare Pages y no se versiona.
 _site/
+
+# La página de revisión del catálogo. La monta `scripts/build-review.mjs` y
+# crece cada noche con el cron: se regenera, no se versiona.
+review.html

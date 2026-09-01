@@ -1,0 +1,460 @@
+<title>Revisión del catálogo</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,600&family=Karla:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+  /* Un solo tema, y a propósito: los tokens son los de `design/theme.ts` y la
+     app es oscura por decisión (`userInterfaceStyle: dark`). Leer aquí los
+     textos sobre el mismo azul noche en que se van a leer allí es parte de
+     poder juzgarlos. Todo color se pinta explícito, así que la página aguanta
+     sobre cualquier fondo del visor. */
+  :root {
+    --night-900: #070B1C;
+    --night-800: #0B1026;
+    --night-700: #151B3B;
+    --night-600: #1E2650;
+    --gold: #E8C87A;
+    --gold-soft: rgba(232, 200, 122, 0.12);
+    --bone: #F2EFE6;
+    --bone-muted: #C6C2B8;
+    --slate: #8E96B4;
+    --divider: rgba(242, 239, 230, 0.08);
+    --border: rgba(232, 200, 122, 0.18);
+    --sage: #7C9A7E;
+    --coral: #E86A50;
+    --earth: #7C9A7E;
+    --air: #B8A6DC;
+    --water: #5FB3B8;
+    --fire: #E86A50;
+    color-scheme: dark;
+  }
+
+  * { box-sizing: border-box; }
+
+  body {
+    margin: 0;
+    background: var(--night-800);
+    color: var(--bone);
+    font-family: Karla, system-ui, sans-serif;
+    font-size: 16px;
+    line-height: 25px;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+  }
+
+  /* ---- Cabecera: dónde estoy y cuánto queda ---- */
+
+  header {
+    position: sticky;
+    top: 0;
+    z-index: 2;
+    background: var(--night-900);
+    border-bottom: 1px solid var(--divider);
+    padding: 12px 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .families {
+    display: flex;
+    gap: 8px;
+    overflow-x: auto;
+    scrollbar-width: none;
+  }
+  .families::-webkit-scrollbar { display: none; }
+
+  .family {
+    flex: none;
+    height: 36px;
+    padding: 0 14px;
+    border-radius: 999px;
+    background: var(--night-700);
+    border: 1px solid var(--divider);
+    color: var(--bone-muted);
+    font: 500 13px/1 Karla, sans-serif;
+    letter-spacing: 0.4px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    cursor: pointer;
+  }
+  .family[aria-pressed="true"] {
+    background: var(--gold-soft);
+    border-color: var(--border);
+    color: var(--gold);
+  }
+  .family .count {
+    font-variant-numeric: tabular-nums;
+    color: var(--slate);
+  }
+  .family[aria-pressed="true"] .count { color: var(--gold); }
+
+  .progress { display: flex; align-items: center; gap: 12px; }
+
+  .bar {
+    flex: 1;
+    height: 4px;
+    border-radius: 999px;
+    background: var(--night-600);
+    overflow: hidden;
+    display: flex;
+  }
+  .bar span { display: block; height: 100%; }
+  .bar .done { background: var(--sage); }
+  .bar .flagged { background: var(--coral); }
+
+  .tally {
+    font-variant-numeric: tabular-nums;
+    font-size: 13px;
+    color: var(--slate);
+    white-space: nowrap;
+  }
+
+  /* ---- El fragmento ---- */
+
+  main {
+    flex: 1;
+    padding: 24px 16px 120px;
+    max-width: 680px;
+    width: 100%;
+    margin: 0 auto;
+  }
+
+  .subject {
+    font: 700 11px/14px Karla, sans-serif;
+    letter-spacing: 1.2px;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin: 0 0 4px;
+  }
+
+  .rawkey {
+    font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+    font-size: 12px;
+    color: var(--slate);
+    word-break: break-all;
+    margin: 0 0 24px;
+  }
+
+  .headline {
+    font: 600 28px/34px Fraunces, Georgia, serif;
+    letter-spacing: -0.3px;
+    color: var(--bone);
+    text-wrap: balance;
+    margin: 0 0 16px;
+  }
+
+  .body { color: var(--bone-muted); margin: 0 0 20px; }
+
+  .advice {
+    color: var(--bone-muted);
+    background: var(--night-700);
+    border: 1px solid var(--divider);
+    border-radius: 16px;
+    padding: 16px;
+    margin: 0 0 20px;
+  }
+  .advice b {
+    display: block;
+    font: 700 11px/14px Karla, sans-serif;
+    letter-spacing: 1.2px;
+    text-transform: uppercase;
+    color: var(--slate);
+    margin-bottom: 6px;
+  }
+
+  .meta { display: flex; align-items: center; gap: 16px; color: var(--slate); font-size: 13px; }
+  .dots { display: flex; gap: 4px; }
+  .dot { width: 8px; height: 8px; border-radius: 999px; background: var(--night-600); }
+  .dot.on { background: var(--gold); }
+  .swatch { width: 10px; height: 10px; border-radius: 999px; display: inline-block; vertical-align: -1px; margin-right: 6px; }
+
+  .note {
+    width: 100%;
+    margin-top: 20px;
+    background: var(--night-900);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 12px 14px;
+    color: var(--bone);
+    font: 400 16px/25px Karla, sans-serif;
+    resize: vertical;
+    min-height: 76px;
+  }
+  .note::placeholder { color: var(--slate); }
+  .note:focus-visible { outline: 2px solid var(--gold); outline-offset: 2px; }
+
+  /* ---- Barra de acción, al alcance del pulgar ---- */
+
+  footer {
+    position: fixed;
+    left: 0; right: 0; bottom: 0;
+    background: var(--night-900);
+    border-top: 1px solid var(--divider);
+    padding: 12px 16px calc(12px + env(safe-area-inset-bottom));
+    display: flex;
+    gap: 8px;
+    justify-content: center;
+  }
+  footer > * { max-width: 680px; }
+
+  .actions { display: flex; gap: 8px; flex: 1; max-width: 680px; }
+
+  button {
+    font: 500 16px/1 Karla, sans-serif;
+    border-radius: 999px;
+    border: 1px solid transparent;
+    height: 44px;
+    cursor: pointer;
+    background: var(--night-700);
+    color: var(--bone-muted);
+    border-color: var(--divider);
+    padding: 0 16px;
+  }
+  button:focus-visible { outline: 2px solid var(--gold); outline-offset: 2px; }
+  .approve { flex: 1; background: var(--sage); color: var(--night-900); border-color: transparent; }
+  .flag { flex: 1; background: transparent; color: var(--coral); border-color: var(--coral); }
+  .nav { flex: none; width: 44px; padding: 0; }
+
+  kbd {
+    font: 500 11px/1 Karla, sans-serif;
+    opacity: 0.6;
+    margin-left: 6px;
+  }
+
+  /* ---- Estado ya decidido ---- */
+
+  .verdict {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    height: 28px;
+    padding: 0 12px;
+    border-radius: 999px;
+    font: 500 13px/1 Karla, sans-serif;
+    margin-bottom: 16px;
+  }
+  .verdict.ok { background: rgba(124, 154, 126, 0.16); color: var(--sage); }
+  .verdict.flagged { background: rgba(232, 106, 80, 0.16); color: var(--coral); }
+
+  /* ---- Panel de marcados ---- */
+
+  dialog {
+    background: var(--night-800);
+    color: var(--bone);
+    border: 1px solid var(--border);
+    border-radius: 24px;
+    padding: 0;
+    max-width: 640px;
+    width: calc(100% - 32px);
+    max-height: 80vh;
+  }
+  dialog::backdrop { background: rgba(7, 11, 28, 0.78); }
+  .sheet { padding: 24px; overflow-y: auto; max-height: 80vh; }
+  .sheet h2 { font: 600 20px/26px Fraunces, Georgia, serif; margin: 0 0 4px; }
+  .sheet p { color: var(--slate); font-size: 13px; margin: 0 0 20px; }
+  .flagged-item { border-top: 1px solid var(--divider); padding: 12px 0; }
+  .flagged-item .k { font-family: ui-monospace, Menlo, monospace; font-size: 12px; color: var(--gold); word-break: break-all; }
+  .flagged-item .h { font: 600 16px/22px Fraunces, Georgia, serif; }
+  .flagged-item .n { color: var(--bone-muted); font-size: 13px; }
+  .sheet-actions { display: flex; gap: 8px; margin-top: 20px; }
+
+  .hint { color: var(--slate); font-size: 13px; text-align: center; margin: 32px 0 0; }
+
+  @media (prefers-reduced-motion: no-preference) {
+    main { animation: rise 200ms cubic-bezier(0.16, 1, 0.3, 1); }
+    @keyframes rise { from { opacity: 0; transform: translateY(6px); } }
+  }
+</style>
+
+<header>
+  <div class="families" id="families"></div>
+  <div class="progress">
+    <div class="bar"><span class="done" id="barDone"></span><span class="flagged" id="barFlagged"></span></div>
+    <div class="tally" id="tally"></div>
+    <button type="button" id="openFlagged" style="height:28px;font-size:13px;padding:0 12px">Marcados</button>
+  </div>
+</header>
+
+<main id="card"></main>
+
+<footer>
+  <div class="actions">
+    <button type="button" class="nav" id="prev" aria-label="Anterior">←</button>
+    <button type="button" class="approve" id="approve">Vale<kbd>A</kbd></button>
+    <button type="button" class="flag" id="flag">Marcar<kbd>M</kbd></button>
+    <button type="button" class="nav" id="next" aria-label="Siguiente">→</button>
+  </div>
+</footer>
+
+<dialog id="flaggedDialog">
+  <div class="sheet">
+    <h2>Lo marcado</h2>
+    <p>Cópialo y pégamelo: con la clave me basta para encontrarlo y arreglarlo.</p>
+    <div id="flaggedList"></div>
+    <div class="sheet-actions">
+      <button type="button" id="copyFlagged">Copiar</button>
+      <button type="button" id="closeFlagged">Cerrar</button>
+    </div>
+  </div>
+</dialog>
+
+<script type="application/json" id="fragments">/*__FRAGMENTS__*/</script>
+<script>
+(() => {
+  const FRAGMENTS = JSON.parse(document.getElementById('fragments').textContent);
+  const FAMILIES = [...new Set(FRAGMENTS.map((f) => f.family))];
+  const ELEMENT = { gold: 'var(--gold)', fire: 'var(--fire)', earth: 'var(--earth)', air: 'var(--air)', water: 'var(--water)' };
+
+  // Las decisiones **no** viven en la página: viven en `db`, una por familia,
+  // con un mapa de clave → veredicto. Cuatro documentos en vez de mil quinientos
+  // porque se leen todos al abrir, y así el móvil y el portátil ven lo mismo.
+  let db = null;
+  const decisions = Object.fromEntries(FAMILIES.map((f) => [f, {}]));
+
+  let family = FAMILIES[0];
+  let index = 0;
+
+  const el = (id) => document.getElementById(id);
+  const inFamily = () => FRAGMENTS.filter((f) => f.family === family);
+
+  function decisionOf(fragment) {
+    return decisions[fragment.family]?.[fragment.key];
+  }
+
+  async function decide(status, note) {
+    const fragment = inFamily()[index];
+    if (!fragment) return;
+    decisions[family][fragment.key] = { status, note: note || '', at: new Date().toISOString() };
+    render();
+    if (db) {
+      try {
+        await db.doc('reviews/' + family).set({ decisions: decisions[family] });
+      } catch {
+        // Sin guardar no se pierde la sesión: lo de memoria sigue en pantalla.
+      }
+    }
+  }
+
+  function move(step) {
+    const list = inFamily();
+    index = Math.min(Math.max(index + step, 0), list.length - 1);
+    render();
+    window.scrollTo({ top: 0 });
+  }
+
+  /** El siguiente sin decidir, que es por donde se retoma. */
+  function resume() {
+    const list = inFamily();
+    const at = list.findIndex((f) => !decisionOf(f));
+    index = at === -1 ? 0 : at;
+  }
+
+  function renderFamilies() {
+    el('families').innerHTML = FAMILIES.map((f) => {
+      const list = FRAGMENTS.filter((x) => x.family === f);
+      const done = list.filter((x) => decisions[f]?.[x.key]).length;
+      return `<button type="button" class="family" data-family="${f}" aria-pressed="${f === family}">
+        ${f}<span class="count">${done}/${list.length}</span></button>`;
+    }).join('');
+  }
+
+  function renderProgress() {
+    const list = inFamily();
+    const done = list.filter((x) => decisionOf(x)?.status === 'ok').length;
+    const flagged = list.filter((x) => decisionOf(x)?.status === 'flagged').length;
+    el('barDone').style.width = (done / list.length) * 100 + '%';
+    el('barFlagged').style.width = (flagged / list.length) * 100 + '%';
+    el('tally').textContent = `${index + 1} de ${list.length} · ${flagged} marcados`;
+  }
+
+  function renderCard() {
+    const fragment = inFamily()[index];
+    if (!fragment) return;
+    const verdict = decisionOf(fragment);
+    const dots = Array.from({ length: 5 }, (_, i) =>
+      `<span class="dot${i < fragment.energyScore ? ' on' : ''}"></span>`).join('');
+
+    el('card').innerHTML = `
+      ${verdict ? `<div class="verdict ${verdict.status === 'ok' ? 'ok' : 'flagged'}">${
+        verdict.status === 'ok' ? 'Revisado' : 'Marcado'}</div>` : ''}
+      <p class="subject">${fragment.subject}</p>
+      <p class="rawkey">${fragment.key}</p>
+      <h1 class="headline">${fragment.headline}</h1>
+      <p class="body">${fragment.body}</p>
+      <div class="advice"><b>Consejo</b>${fragment.advice}</div>
+      <div class="meta">
+        <span><span class="swatch" style="background:${ELEMENT[fragment.colorOfDay] || 'var(--gold)'}"></span>${fragment.colorOfDay}</span>
+        <span class="dots" title="Energía ${fragment.energyScore} de 5">${dots}</span>
+      </div>
+      <textarea class="note" id="noteField" placeholder="Qué le pasa, si lo marcas">${verdict?.note || ''}</textarea>
+      <p class="hint">A vale · M marcar · ← → moverse</p>`;
+  }
+
+  function render() {
+    renderFamilies();
+    renderProgress();
+    renderCard();
+  }
+
+  el('families').addEventListener('click', (event) => {
+    const button = event.target.closest('[data-family]');
+    if (!button) return;
+    family = button.dataset.family;
+    resume();
+    render();
+  });
+
+  el('approve').addEventListener('click', () => decide('ok').then(() => move(1)));
+  el('flag').addEventListener('click', () => decide('flagged', el('noteField')?.value).then(() => move(1)));
+  el('prev').addEventListener('click', () => move(-1));
+  el('next').addEventListener('click', () => move(1));
+
+  document.addEventListener('keydown', (event) => {
+    if (event.target.tagName === 'TEXTAREA') return;
+    if (event.key === 'a' || event.key === 'A') el('approve').click();
+    else if (event.key === 'm' || event.key === 'M') el('flag').click();
+    else if (event.key === 'ArrowLeft') move(-1);
+    else if (event.key === 'ArrowRight') move(1);
+  });
+
+  el('openFlagged').addEventListener('click', () => {
+    const flagged = FRAGMENTS.filter((f) => decisions[f.family]?.[f.key]?.status === 'flagged');
+    el('flaggedList').innerHTML = flagged.length
+      ? flagged.map((f) => `<div class="flagged-item">
+          <div class="k">${f.key}</div>
+          <div class="h">${f.headline}</div>
+          <div class="n">${decisions[f.family][f.key].note || 'sin nota'}</div></div>`).join('')
+      : '<p>Nada marcado todavía.</p>';
+    el('flaggedDialog').showModal();
+  });
+
+  el('closeFlagged').addEventListener('click', () => el('flaggedDialog').close());
+
+  el('copyFlagged').addEventListener('click', async () => {
+    const flagged = FRAGMENTS.filter((f) => decisions[f.family]?.[f.key]?.status === 'flagged')
+      .map((f) => ({ key: f.key, headline: f.headline, note: decisions[f.family][f.key].note }));
+    await navigator.clipboard.writeText(JSON.stringify(flagged, null, 2));
+    el('copyFlagged').textContent = 'Copiado';
+    setTimeout(() => { el('copyFlagged').textContent = 'Copiar'; }, 1600);
+  });
+
+  render();
+
+  // El almacén llega tarde y puede no llegar: la página funciona sin él —lo
+  // decidido se ve— y se enciende cuando responde.
+  claude.use('db').then((store) => {
+    if (!store) return;
+    db = store;
+    for (const each of FAMILIES) {
+      db.doc('reviews/' + each).onSnapshot((snap) => {
+        decisions[each] = snap.data()?.decisions || {};
+        if (each === family && !decisionOf(inFamily()[index])) resume();
+        render();
+      });
+    }
+  });
+})();
+</script>
