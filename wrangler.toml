@@ -19,3 +19,24 @@ compatibility_date = "2026-09-01"
 
 [assets]
 directory = "./_site"
+
+# **Un día que no existe tiene que dar 404**, y es el defecto: `CdnDailyRepository`
+# lo lee como «ese día no está publicado», que no es un fallo sino un estado con
+# pantalla propia (artboard 27). Si esto se pusiera a servir `index.html` en su
+# lugar —el `single-page-application` que usan las apps web— la app recibiría
+# HTML donde espera JSON y el día saldría roto en vez de no publicado.
+not_found_handling = "none"
+
+# Los dos avisos que salieron en el primer despliegue, contestados a propósito
+# en vez de dejados al defecto:
+#
+# `workers.dev` es la URL de prueba y hoy es la única que hay. **Pasa a `false`
+# el día que el dominio propio esté sirviendo**: dos URL públicas con el mismo
+# contenido son dos sitios que mantener, y la que se hornea en la app tiene que
+# ser una sola.
+workers_dev = true
+
+# Y sin URL de previsualización: cada commit publicaría otra copia del diario en
+# una dirección distinta, y aquí no hay nada que previsualizar — el contenido lo
+# revisa una persona en el PR, antes de llegar.
+preview_urls = false

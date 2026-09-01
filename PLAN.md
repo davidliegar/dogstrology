@@ -1484,12 +1484,14 @@ primera versión publicada congela la decisión para siempre.
       es Workers, no Pages clásico—, así que la carpeta se declara aquí y el
       deploy es `npx wrangler deploy`. Sin `main`: es un sitio estático, no un
       Worker
-- [ ] **Proyecto de Cloudflare** (D11), con estos ajustes:
-      - Build command: `bash scripts/build-cdn.sh`
-      - Deploy command: `npx wrangler deploy`
-      - Root directory: `/`
-      - ⚠️ **`name` en `wrangler.toml` tiene que ser el del Worker en el panel.**
-        Si no coincide, el deploy crea otro Worker y el dominio apunta al vacío
+- [x] **Proyecto de Cloudflare, sirviendo** (2026-09-01):
+      `https://dogstrology.davidliegar.workers.dev/daily/AAAA-MM-DD.json`. Build
+      `bash scripts/build-cdn.sh`, deploy `npx wrangler deploy`, raíz `/`.
+      Comprobado contra el CDN de verdad: el JSON responde 200 con su
+      `cache-control` de una hora, y **un día que no existe responde 404**, que
+      es lo que `CdnDailyRepository` lee como «no publicado» (artboard 27). Si
+      hubiera caído en el `index.html` de las apps web, la app habría recibido
+      HTML donde espera JSON
 - [ ] Dominio propio, apuntando al CDN
 - [ ] `contentBaseUrl` con el dominio propio, **antes del primer build de
       tienda**
