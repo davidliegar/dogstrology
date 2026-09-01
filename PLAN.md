@@ -1696,7 +1696,21 @@ justo lo que no sale barato, porque la URL se hornea en cada instalación.
       vez**. Son tres y no dos: el artboard 11 pinta el vitalicio
 - [ ] Integrar PostHog EU, sin identificadores de dispositivo (D10)
 - [ ] Capturas de store **renderizadas desde la app real**, nunca generadas (BRD §11.2.4)
-- [ ] Ficha de Play optimizada para ASO (D9)
+- [x] **Política de privacidad publicada** (2026-09-01): `/privacidad` en el
+      mismo CDN. Escrita contra el código —una sola llamada de red, sin
+      analítica, avisos locales, foto en almacenamiento privado— y nombrando a
+      RevenueCat con sus servidores en EE. UU. ⚠️ El formulario de seguridad de
+      datos de Play tiene que cuadrar con ella, y las dos hay que actualizarlas
+      **antes** de que entre PostHog
+- [x] **Los textos de la ficha** (2026-09-01): `store/play-es.md` — nombre,
+      descripción breve y completa, versionados porque **son contenido de
+      producto** y D9 hace de la ficha el canal de captación, no papeleo. El
+      nombre queda en `Dogstrology: Astrología Canina`, 30 exactos: el guion del
+      original hacía 31 y los dos puntos ahorran el carácter. La ficha **no
+      promete nada de fase 2** —eso puede hacerlo el paywall, acotado por el
+      artboard 29, pero una ficha de tienda no— y describe la app **con D19
+      construido**, que es el estado con el que se publica
+- [ ] Capturas, icono de 512, gráfico destacado, categoría y público objetivo
 - [ ] Disclaimer de entretenimiento visible en app y ficha (BRD §14). **En la
       app ya está** (sesión 26, pie fijo de Ajustes); queda la ficha de store
 - [ ] Registrar `Dogstrology` en EUIPO
