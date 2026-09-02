@@ -28,9 +28,11 @@ const offerings = (...packages: unknown[]) =>
  * acento— y no el que el código esperaba: mirar por nombre fue justo el fallo
  * que se coló hasta el móvil.
  */
-const customer = (entitlement?: { productIdentifier: string; expirationDate: string | null }) =>
+const customer = (entitlement?: { productIdentifier: string; expirationDate: string | null; willRenew?: boolean }) =>
   ({
-    entitlements: { active: entitlement ? { 'dogstrology_cósmico': entitlement } : {} },
+    entitlements: {
+      active: entitlement ? { 'dogstrology_cósmico': { willRenew: true, ...entitlement } } : {},
+    },
   }) as unknown as CustomerInfo;
 
 const ANNUAL = pack(PACKAGE_TYPE.ANNUAL, 'cosmico-anual', 19.99, '19,99 €');
@@ -293,5 +295,26 @@ describe('RevenueCatSubscriptionGateway · el nombre del derecho', () => {
     } as unknown as CustomerInfo);
 
     expect((await gateway().current()).isPremium()).toBe(true);
+  });
+});
+
+describe('RevenueCatSubscriptionGateway · cancelada en la tienda', () => {
+  it('sigue dando acceso hasta el final del periodo pagado', async () => {
+    // Cancelar para la renovación, no el acceso. Lo que se ha pagado, pagado.
+    mocked.getCustomerInfo.mockResolvedValueOnce(
+      customer({ productIdentifier: 'cosmico-anual', expirationDate: '2027-09-02T08:30:00Z', willRenew: false }),
+    );
+
+    expect((await gateway().current()).isPremium()).toBe(true);
+  });
+
+  it('pero su fecha ya no es cuándo se cobra, así que no se enseña', async () => {
+    // Ese día **termina**, no se renueva. Decirlo al revés sería mentir en la
+    // única pantalla que habla de dinero.
+    mocked.getCustomerInfo.mockResolvedValueOnce(
+      customer({ productIdentifier: 'cosmico-anual', expirationDate: '2027-09-02T08:30:00Z', willRenew: false }),
+    );
+
+    expect((await gateway().current()).renewsAt()).toBeUndefined();
   });
 });

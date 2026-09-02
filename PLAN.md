@@ -4779,3 +4779,18 @@ Llegaron 27 artboards. Se implementan **17 y 27**; el 26 va en tanda propia.
   monta con los tonos y los tokens que ya existen, y queda anotado como hueco
   de diseño
 - 559 tests, lint y `tsc` limpios
+
+### 2026-09-02 (54f) — cancelar no es caducar
+- **Cancelar en la tienda no quita el acceso**: para la renovación, y lo pagado
+  sigue hasta el final del periodo. La app lo refleja bien sin hacer nada — es
+  RevenueCat quien mantiene el derecho activo— y con los periodos acelerados de
+  tester ese final llega en 5 o 30 minutos
+- ⚠️ **Pero la fecha cambiaba de significado y nadie lo decía.** Cancelada, la
+  caducidad ya no es cuándo se cobra sino cuándo se acaba, y Ajustes seguía
+  diciendo «se renueva el 2 de septiembre» de algo que ese día **termina**. Se
+  calla cuando `willRenew` es falso: es la tercera vez que este adaptador
+  prefiere no decir nada antes que decir una fecha que no es
+- ⚠️ **Lo que la app sigue sin saber decir es «cancelada, te queda hasta el
+  X»**, igual que no sabe decir «hay un problema con tu pago». Las dos son el
+  mismo hueco de diseño en la tarjeta del artboard 30, y las dos son fase 2
+- 561 tests, lint y `tsc` limpios

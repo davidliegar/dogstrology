@@ -259,6 +259,12 @@ export class RevenueCatSubscriptionGateway implements SubscriptionGateway {
    * suscripción activa hasta que deja de estarlo.
    */
   private nextChargeOf(entitlement: PurchasesEntitlementInfo): string | undefined {
+    // **Cancelada no es lo mismo que caducada.** Al cancelar en la tienda el
+    // acceso sigue hasta el final del periodo pagado, así que la fecha sigue
+    // ahí — pero ya no es cuándo se cobra, es cuándo se acaba. Decir «se
+    // renueva el 2 de septiembre» de algo que ese día **termina** es mentir en
+    // la única pantalla que habla de dinero, así que se calla.
+    if (!entitlement.willRenew) return undefined;
     if (entitlement.expirationDate === null) return undefined;
 
     const expiration = new Date(entitlement.expirationDate);
