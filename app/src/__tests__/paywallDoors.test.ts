@@ -2,12 +2,14 @@ import { readdirSync, readFileSync, statSync } from 'node:fs';
 import { join, relative, resolve } from 'node:path';
 
 /**
- * **Al paywall se llega por tres puertas y la oferta fría, y por nada más**
+ * **Al paywall se llega por cuatro puertas y la oferta fría, y por nada más**
  * (nota del artboard 11, D19). Cada una nace de una falta distinta:
  *
  * - **Un fragmento del día bajo candado** — la Luna o el Ascendente, en la
  *   fila de oro que cierra lo bloqueado (artboard 36);
  * - **la carta natal**, que sin Cósmico sale velada entera (artboard 37);
+ * - **las casas de Explorar**, donde caen los planetas — que es carta natal
+ *   servida en rejilla, y por eso se bloquea con ella (2026-09-02);
  * - **la segunda mascota**, que es la caliente: el usuario quiere hacer algo
  *   concreto que el plan incluye;
  * - y **la oferta de Ajustes**, la fría: quien la toca ha ido a buscarla.
@@ -15,10 +17,11 @@ import { join, relative, resolve } from 'node:path';
  * La regla que las junta: **la puerta se pinta donde el usuario topa con el
  * límite, y si no topa, no se pinta.** Ninguna es un aviso interpuesto.
  *
- * Son cuatro puertas, no cuatro ficheros: la fila de añadir se dibuja en dos
- * sitios —la hoja del artboard 26 y la lista del 32— y es **la misma puerta**,
- * con el mismo trato en los dos: sin candado, con el nombre del plan de
- * subtítulo, y llevando al alta en vez de al 11 cuando el plan ya está activo.
+ * Son puertas, no ficheros: la de añadir mascota se dibuja en dos sitios
+ * —la hoja del artboard 26 y la lista del 32— con el mismo trato en los dos, y
+ * la de las casas en otros dos —la rejilla y el detalle—. La fila de añadir va
+ * además sin candado, con el nombre del plan de subtítulo, y lleva al alta en
+ * vez de al 11 cuando el plan ya está activo.
  *
  * Es una regla que no se rompe con un error de compilación ni con un fallo en
  * la pantalla: se rompe cuando alguien añade una puerta nueva porque le viene
@@ -41,6 +44,10 @@ const DOORS = {
   'src/content/ui/UnlockRow.tsx': 'la fila de oro de lo bloqueado',
   /** La carta natal velada (artboard 37). */
   'app/pet/[id]/chart.tsx': 'el botón de la carta bloqueada',
+  /** Las casas de Explorar: la rejilla… */
+  'app/(tabs)/explore.tsx': 'la fila de oro de la rejilla de casas',
+  /** …y el detalle de cada una, donde la fila sale en las doce por igual. */
+  'app/house/[house].tsx': 'la fila de oro del detalle de casa',
 };
 
 /**
@@ -74,7 +81,7 @@ const navigatingFiles = () =>
     .sort();
 
 describe('las puertas del paywall', () => {
-  it('solo llevan al 11 las tres puertas y la oferta fría', () => {
+  it('solo llevan al 11 las cuatro puertas y la oferta fría', () => {
     expect(navigatingFiles()).toEqual(Object.keys(DOORS).sort());
   });
 

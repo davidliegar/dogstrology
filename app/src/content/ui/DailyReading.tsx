@@ -10,7 +10,7 @@ import { CardDegree, DailyCard } from './DailyCard';
 import { dailyAxisCards, lockedAxes } from './dailyCards';
 import { EnergyDots } from './EnergyDots';
 import { DAILY_AXIS_LABELS, SKY_LABEL, UNPUBLISHED, relativeDay, staleReadingLabel } from './labels';
-import { UnlockRow } from './UnlockRow';
+import { DailyUnlockRow } from './UnlockRow';
 
 import { colors, elementColor, spacing, typography } from '@/design/theme';
 
@@ -116,7 +116,7 @@ export function DailyReading({ reading, chart, petId, staleDays, offline }: Dail
         />
       ))}
 
-      {locked.length > 0 && petId ? <UnlockRow axes={locked} petId={petId} /> : null}
+      {locked.length > 0 && petId ? <DailyUnlockRow axes={locked} petId={petId} /> : null}
 
       {/* Artboard 27. **No es el 17 con otro texto**: sin red el usuario puede
           hacer algo —moverse, esperar cobertura— y aquí no, así que no se le

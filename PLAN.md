@@ -4806,3 +4806,23 @@ Llegaron 27 artboards. Se implementan **17 y 27**; el 26 va en tanda propia.
   plan, quien tiene una topa con el límite y lo que toca ahí es la puerta al 11,
   no una acción que no va a poder completar; con dos o más, la pestaña ya es la
   lista y trae la suya. ⚠️ Derivación: el artboard 25 no la dibuja
+
+### 2026-09-02 (54g) — Explorar regalaba media carta natal
+- **La casa se colaba, el signo no.** El detalle de signo enseña el Sol, la
+  Luna y el Ascendente de la mascota, y esos tres los regala D19 a propósito —se
+  dieron en la revelación del onboarding, y por eso la carta bloqueada deja el
+  titular en claro—. Pero la rejilla resaltaba **la casa donde cae su Sol** y el
+  detalle enseñaba **qué planetas suyos caen dentro**: eso es exactamente lo que
+  el artboard 37 tapa, y con doce casillas y un rato se reconstruía media carta
+- **Un resaltado no se puede velar**, y esa es la diferencia con las tarjetas
+  del día: difuminar la casilla marcada seguiría diciendo cuál es. Aquí se
+  quita el resaltado y se dice con la fila de oro
+- **Y la fila sale en las doce casas por igual**, esté o no un planeta dentro:
+  si solo apareciera donde cae algo, su presencia ya diría en cuáles cae. Lo
+  que se oculta hay que ocultarlo también cuando no hay nada que ocultar
+- **La fila de oro sale a `_ui/components/UnlockRow`**: la piden dos contextos
+  y la puerta al paywall tiene que reconocerse como la misma. El texto y el
+  destino los pone quien la usa
+- **Cuatro puertas, y el test lo cazó solo**: `paywallDoors.test.ts` falló al
+  aparecer los dos ficheros nuevos, que es justo para lo que está
+- 561 tests, lint y `tsc` limpios

@@ -331,3 +331,16 @@ export const LOCKED_CHART_ROWS = {
 } as const;
 
 export const LOCKED_CHART_CTA = 'Ver su carta completa';
+
+/**
+ * La fila de oro de Explorar → Casas, sin plan (D19).
+ *
+ * **En qué casa cae cada planeta es carta natal**, y es justo lo que la carta
+ * bloqueada tapa: «Las doce casas» es una de sus tres filas con candado. Sin
+ * esto, un usuario sin plan recorría las doce y reconstruía media carta a mano.
+ *
+ * Los signos **no** se tocan: los tres del eje se dieron en la revelación del
+ * onboarding y la carta bloqueada los deja en claro por eso mismo. Y las fases
+ * son del cielo de hoy, iguales para todos los perros.
+ */
+export const UNLOCK_HOUSES = 'Ver en qué casas cae su carta';

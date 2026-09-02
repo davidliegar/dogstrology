@@ -15,7 +15,7 @@ import type { DailyEdition } from '../domain/DailyEdition';
 import { DailyCard } from './DailyCard';
 import { dailyAxisCards, lockedAxes } from './dailyCards';
 import { EnergyDots } from './EnergyDots';
-import { UnlockRow } from './UnlockRow';
+import { DailyUnlockRow } from './UnlockRow';
 import { DAILY_AXIS_LABELS, ENERGY_LABEL, SKY_LABEL, readingOf } from './labels';
 
 import {
@@ -164,7 +164,7 @@ export function PetReading({
         );
       })}
 
-      {locked.length > 0 ? <UnlockRow axes={locked} petId={pet.id()} /> : null}
+      {locked.length > 0 ? <DailyUnlockRow axes={locked} petId={pet.id()} /> : null}
     </View>
   );
 }

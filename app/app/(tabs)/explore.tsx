@@ -10,9 +10,11 @@ import { InitialBadge } from '@/_ui/components/InitialBadge';
 import { MoonDisc } from '@/chart/ui/MoonDisc';
 import { useMoonSky, useNatalCharts } from '@/chart/ui/chartQueries';
 import { HOUSE_NUMERALS, SIGN_GLYPHS } from '@/chart/ui/glyphs';
-import { HOUSE_LABELS, MOON_PHASE_LABELS, SIGN_LABELS } from '@/chart/ui/labels';
+import { HOUSE_LABELS, MOON_PHASE_LABELS, SIGN_LABELS, UNLOCK_HOUSES } from '@/chart/ui/labels';
 import { archetypalIllumination, isWaningPhase } from '@/chart/ui/moonPhase';
 import { exploreCaption, type ExploreFilter, type PetHighlight } from '@/chart/ui/exploreCaptions';
+import { UnlockRow } from '@/_ui/components/UnlockRow';
+import { useContentAccess } from '@/subscription/ui/subscriptionQueries';
 import { HOUSES, elementOfHouse } from '@/chart/domain/House';
 import { MOON_PHASE_NAMES, type MoonPhaseName } from '@/chart/domain/NatalChart';
 import { SIGNS, elementOfSign, type Sign } from '@/chart/domain/PlanetPosition';
@@ -84,14 +86,25 @@ export default function Explore() {
   // Quién resalta qué, alineado con la lista de mascotas. La rejilla de casas
   // puede dejar fuera a una que sí está en la de signos: sin hora y lugar no
   // hay casa que resaltar (BRD §12.3), y eso lo cuenta la leyenda.
+  // **La casa es carta natal, y el signo no** (D19). Los tres signos del eje se
+  // dieron en la revelación del onboarding —por eso la carta bloqueada los deja
+  // en claro—, pero dónde caen los planetas es lo que el artboard 37 tapa. Sin
+  // esto, doce casillas y un rato reconstruían media carta a mano.
+  //
+  // Y **no se puede velar un resaltado**: difuminar la casilla marcada seguiría
+  // diciendo cuál es. Aquí se quita, y se dice con la fila de oro.
+  const canReadChart = useContentAccess().canReadNatalChart();
+
   const owners = (pets ?? []).map((pet, index) => {
     const chart = charts[index]?.data;
     return {
       name: pet.name(),
       sign: chart?.sunSign(),
-      house: chart?.planet('sun')?.house(),
+      house: canReadChart ? chart?.planet('sun')?.house() : undefined,
     };
   });
+
+  const housesLocked = filter === 'houses' && !canReadChart;
 
   const highlights: Record<Filter, PetHighlight[]> = {
     signs: owners.map(({ name, sign }) => ({ name, cell: sign && SIGN_LABELS[sign] })),
@@ -119,7 +132,11 @@ export default function Explore() {
       {filter === 'houses' ? <HouseGrid side={side} owners={owners} /> : null}
       {filter === 'phases' ? <PhaseGrid side={side} today={sky?.phase.name} /> : null}
 
-      <Text style={styles.caption}>{exploreCaption({ filter, pets: highlights[filter] })}</Text>
+      {housesLocked ? (
+        <UnlockRow label={UNLOCK_HOUSES} onPress={() => router.push('/paywall')} />
+      ) : (
+        <Text style={styles.caption}>{exploreCaption({ filter, pets: highlights[filter] })}</Text>
+      )}
     </Screen>
   );
 }
