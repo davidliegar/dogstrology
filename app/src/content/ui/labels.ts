@@ -15,6 +15,29 @@ export const DAILY_AXIS_LABELS: Record<DailyAxis, string> = {
 export const SKY_LABEL = 'El cielo de hoy';
 
 /**
+ * Los mismos tres ejes, **dentro de una frase**: «Leer su Luna y su
+ * Ascendente». No se derivan de `DAILY_AXIS_LABELS` bajando la primera letra
+ * porque eso no es una propiedad de la etiqueta, es una regla del español —y
+ * el día que la app salga en otro idioma, la tabla es lo que se traduce.
+ */
+const AXIS_IN_SENTENCE: Record<DailyAxis, string> = {
+  sun: 'su Sol',
+  moon: 'su Luna',
+  ascendant: 'su Ascendente',
+};
+
+/**
+ * La fila de oro que cierra lo bloqueado (artboard 36).
+ *
+ * **Nombra los ejes que están bajo candado y solo esos**: un perro sin hora de
+ * nacimiento no tiene Ascendente, así que prometérselo sería vender algo que
+ * no existe ni pagando. Con dos, «y» las une; con uno, la frase se queda corta
+ * y sigue siendo la misma fila.
+ */
+export const unlockDailyLabel = (axes: DailyAxis[]): string =>
+  `Leer ${axes.map((axis) => AXIS_IN_SENTENCE[axis]).join(' y ')}`;
+
+/**
  * El título de Hoy cambia de sujeto con la segunda mascota (artboard 30).
  *
  * Con una, la pantalla es el día **de alguien** y se llama por su nombre. Con

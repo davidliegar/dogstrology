@@ -41,15 +41,35 @@ export const PLAN_PERIODS: Record<PlanId, string> = {
 export const PAYWALL_TITLE = 'Su Sol es el principio. Falta su Luna.';
 
 /**
- * Los cuatro del artboard 11, en su orden. El primero es el que sostiene el
- * titular; los otros tres son fase 2 y en el 11 se prometen, no se enseñan.
+ * **Los beneficios son dos, y los dos existen** (artboard 11, D19). Eran
+ * cuatro, y tres de ellos eran fase 2: compatibilidades, calendario cósmico,
+ * previsión mensual y PDF **no se nombran hasta que estén**, porque prometer
+ * en la ficha de una tienda algo que no está es de lo que tumba una revisión
+ * (BRD §10.4).
+ *
+ * Y no son una lista de sustantivos: van **con su ejemplo real**, el mismo
+ * texto que el usuario tenía borroso hace un segundo. Una lista no se puede
+ * comprobar y una tarjeta sí.
  */
-export const PAYWALL_BENEFITS = [
-  'Luna, Ascendente, casas y aspectos',
-  'Mascotas ilimitadas y dinámica de manada',
-  'Compatibilidades y calendario cósmico',
-  'Su carta en alta resolución, para imprimir',
-];
+export const PAYWALL_DAILY_BENEFIT = 'La lectura del día de su Luna y su Ascendente, cada mañana.';
+
+/** El rótulo del segundo beneficio. El mismo que encabeza la carta velada. */
+export const PAYWALL_CHART_OVERLINE = 'Su carta entera';
+
+/**
+ * El segundo beneficio, sin punto final: la pantalla le engancha detrás el
+ * Ascendente al grado del propio perro —**su** dato, no un ejemplo— cuando lo
+ * hay.
+ */
+export const PAYWALL_CHART_BENEFIT = 'Rueda, casas, aspectos y su Ascendente al grado';
+
+/**
+ * Las mascotas ilimitadas, **como línea menor** (artboard 11). Era uno de los
+ * cuatro beneficios y ha bajado de rango a propósito: con un perro por dueño,
+ * que es el caso típico, encabezar la oferta con el segundo perro es hablarle
+ * a casi nadie.
+ */
+export const PAYWALL_PETS_NOTE = 'Y todas las mascotas que quieras.';
 
 export const PAYWALL_CTA = 'Empezar';
 export const RESTORE_LABEL = 'Restaurar compra';

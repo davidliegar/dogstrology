@@ -187,7 +187,7 @@ export default function Today() {
         <DailySkeleton />
       ) : (
         <>
-          <DailyReading reading={reading} chart={chart} staleDays={staleDays} offline={offline} />
+          <DailyReading reading={reading} chart={chart} petId={pet?.id()} staleDays={staleDays} offline={offline} />
 
           {/* Y en vez de dejar la pantalla vacía, lo que sí se puede leer: lo
               que no depende del día. Es la mitad del artboard 27 que convierte

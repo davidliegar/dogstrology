@@ -337,6 +337,60 @@ export const glow = {
   },
 } as const;
 
+/**
+ * El velo del contenido de pago (D19; artboards 36 y 37). **Se bloquea, no se
+ * quita**: lo que hay debajo sigue ahí, ocupando su sitio, y el usuario ve que
+ * hay algo escrito sobre su perro aunque no pueda leerlo.
+ *
+ * **Son dos capas, y las dos hacen falta** (números afinados en un móvil, un
+ * Galaxy S24 con Android 16, el 2026-09-02):
+ *
+ * 1. un `BlurView` que emborrona lo de debajo;
+ * 2. **encima, el color de la propia superficie**, que es lo que devuelve el
+ *    velo al azul de la app.
+ *
+ * La segunda no es adorno. Difuminar texto claro sobre fondo oscuro da **el
+ * promedio de los dos: un gris**, y con radios altos ese gris se vuelve plano
+ * y sale un cuadrado pegado encima de la tarjeta. Es lo que se veía. El color
+ * de la superficie por encima lo tiñe de vuelta y deja los bultos del texto.
+ *
+ * Difuminar el texto en sí —pintarlo transparente y dejar su sombra— se probó
+ * antes y no vale: una sombra no borra el glifo, lo engorda.
+ */
+export const veil = {
+  /**
+   * Cuánto tiñe nuestra capa con el color de debajo. **Es el mando
+   * principal**: subirlo disimula más y enseña menos que hay algo escrito;
+   * bajarlo saca el gris del desenfoque. A 0,55 el velo es del color de la
+   * tarjeta y aún se ven las líneas de texto.
+   */
+  scrim: 0.55,
+  /**
+   * Android. `intensity` gradúa **dos cosas a la vez** —el radio y la opacidad
+   * del tinte gris, que es fijo y no se puede elegir— pero el radio se
+   * recupera por otro lado: es `intensity / reduction`. Así que la intensidad
+   * se deja en el suelo, que es donde el tinte desaparece (a 2 sale a menos
+   * del 2%), y el divisor pone el radio donde toca.
+   *
+   * **Radio 4 y no 25**: con el radio al tope el texto se disuelve del todo y
+   * el velo pierde lo único que tenía que decir, que ahí hay algo escrito.
+   */
+  android: { intensity: 2, reduction: 0.5, tint: 'systemChromeMaterialDark' },
+  /**
+   * iOS. Aquí no hay divisor y la intensidad manda las dos cosas, así que el
+   * número tiene que ser el del desenfoque y el tinte es el material más fino
+   * que existe. **Sin ver todavía en un iPhone.**
+   */
+  ios: { intensity: 45, tint: 'systemUltraThinMaterialDark' },
+  /**
+   * La rueda natal es la excepción y no necesita nada de esto: la dibuja Skia,
+   * así que se difumina en el propio lienzo con un gaussiano de verdad. Radio
+   * en px y su opacidad — a 0,5 no se adivinaba que hubiera una rueda debajo,
+   * y de eso va todo esto.
+   */
+  wheel: { blur: 7, opacity: 0.75 },
+} as const;
+
 export const opacity = {
   disabled: 0.4,
   pressed: 0.72,
@@ -385,6 +439,7 @@ export const theme = {
   fonts,
   typography,
   glow,
+  veil,
   opacity,
   motion,
 } as const;

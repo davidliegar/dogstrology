@@ -3,12 +3,16 @@ import { z } from 'zod';
 import { Model } from '@/_kernel/architecture';
 import { DomainError } from '@/_kernel/DomainError';
 import { ErrorCode } from '@/_kernel/ErrorCodes';
+import { FREE_DAILY_AXES, type DailyAxis } from './ContentAccess';
 import { PLAN_IDS, type PlanId } from './Plan';
 
 /**
- * Una mascota en el tier gratuito (BRD §10.3). Es **el** límite del MVP: no
- * hay anuncios, así que la segunda mascota es lo único por lo que se cobra
- * hasta que llegue la fase 2.
+ * Una mascota en el tier gratuito (BRD §10.3).
+ *
+ * **Era el único límite del MVP y ya no lo es** (D19): con un perro por dueño,
+ * que es el caso típico, cobrar solo por el segundo dejaba a la app sin nada
+ * que vender. Ahora acompaña a la Luna, al Ascendente y a la carta natal, que
+ * son los límites que topa todo el mundo.
  */
 export const FREE_PET_LIMIT = 1;
 
@@ -107,6 +111,35 @@ export class Subscription extends Model {
    */
   canAddPet(currentPets: number): boolean {
     return currentPets < this.petLimit();
+  }
+
+  /**
+   * Si la lectura del día de este eje se lee entera, o sale borrosa con
+   * candado (D19).
+   *
+   * **`false` no quiere decir que la tarjeta desaparezca**, y esa es toda la
+   * decisión: la tarjeta se pinta, con su antetítulo legible —«Su Luna ·
+   * Cáncer»— y la lectura entera bajo el velo. Ver que hay algo escrito sobre
+   * tu perro y no poder leerlo es lo que convierte el límite en deseo; no
+   * saber que existe no convierte nada.
+   *
+   * Qué eje es gratis lo dice `FREE_DAILY_AXES`, no esta función.
+   */
+  canReadDaily(axis: DailyAxis): boolean {
+    return this.isPremium() || FREE_DAILY_AXES.includes(axis);
+  }
+
+  /**
+   * La carta natal completa: la rueda con sus casas y sus aspectos, y la
+   * posición exacta del Ascendente (BRD §10.4).
+   *
+   * Es **una sola pregunta y no cuatro** porque el candado es uno: el artboard
+   * 37 difumina la rueda entera y deja el titular en claro. Los tres signos ya
+   * se dieron en el onboarding, así que repetirlos no regala nada — lo que se
+   * cobra es dónde caen.
+   */
+  canReadNatalChart(): boolean {
+    return this.isPremium();
   }
 
   toData(): SubscriptionData {

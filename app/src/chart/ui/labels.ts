@@ -286,3 +286,48 @@ export const CONFIDENCE_NOTICES: Record<
       `Su carta está completa. Fecha, hora y lugar: nada de lo que la app cuenta sobre ${name} se está estimando.`,
   },
 };
+
+/* La carta sin Cósmico — artboard 37 (D19). */
+
+/** El rótulo de lo que hay bajo el velo. El mismo que usa el paywall. */
+export const LOCKED_CHART_OVERLINE = 'Su carta entera';
+
+/**
+ * El titular de la carta bloqueada, **y se queda en claro**: los tres signos
+ * del eje ya se dieron en la revelación del onboarding, así que taparlos sería
+ * mentir sobre lo que la app le regaló. Lo que se cobra no es qué signos son,
+ * es dónde caen.
+ *
+ * Sin hora no hay Ascendente y la frase se queda en dos: prometer el tercero a
+ * quien no puede tenerlo sería vender un dato que no existe ni pagando.
+ */
+export const lockedChartTitle = ({
+  sun,
+  moon,
+  ascendant,
+}: {
+  sun: string;
+  moon: string;
+  ascendant?: string;
+}): string =>
+  [`Sol en ${sun}`, `Luna en ${moon}`, ascendant ? `Ascendente en ${ascendant}` : undefined]
+    .filter(Boolean)
+    .join(', ');
+
+/** Sobre la rueda difuminada, en el centro. */
+export const LOCKED_WHEEL_LABEL = 'Rueda, casas y aspectos';
+
+/**
+ * Las tres filas que dicen **con palabras** lo que hay bajo el velo. Un
+ * borroso solo enseña que hay algo; no explica qué se compra.
+ *
+ * La del Ascendente enseña además su valor difuminado al lado, para que se vea
+ * que el dato existe y está calculado — no es una promesa, es una cortina.
+ */
+export const LOCKED_CHART_ROWS = {
+  houses: 'Las doce casas',
+  aspects: 'Los aspectos entre planetas',
+  ascendant: 'Su Ascendente al grado',
+} as const;
+
+export const LOCKED_CHART_CTA = 'Ver su carta completa';

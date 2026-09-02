@@ -1,6 +1,6 @@
 import { memo, useEffect, useMemo } from 'react';
 import { Pressable, StyleSheet, Text, View, type StyleProp, type TextStyle } from 'react-native';
-import { BlurMask, Canvas, Circle, DashPathEffect, Group, Path, Skia, vec } from '@shopify/react-native-skia';
+import { Blur, BlurMask, Canvas, Circle, DashPathEffect, Group, Paint, Path, Skia, vec } from '@shopify/react-native-skia';
 import Animated, {
   Easing,
   useAnimatedStyle,
@@ -34,7 +34,7 @@ import {
   spreadAngles,
 } from './wheel';
 
-import { colors, fonts, motion, touchTarget } from '@/design/theme';
+import { colors, fonts, motion, touchTarget, veil } from '@/design/theme';
 
 /**
  * Opacidades del artboard 5. Son tres y siempre las mismas: el filo de la
@@ -243,6 +243,14 @@ export interface NatalWheelProps {
   /** El planeta cuya hoja está abierta: se queda marcado detrás del velo. */
   selected?: PlanetId;
   onSelectPlanet?: (planet: PlanetId) => void;
+  /**
+   * La rueda entera bajo el velo del contenido de pago (D19, artboard 37).
+   *
+   * **No es una rueda distinta ni una silueta**: es esta misma, con su carta
+   * de verdad, difuminada. Que debajo esté lo que de verdad se ha calculado es
+   * lo que hace que el borroso sea una promesa y no un adorno.
+   */
+  veiled?: boolean;
 }
 
 /**
@@ -266,10 +274,14 @@ export const NatalWheel = memo(function NatalWheel({
   size,
   selected,
   onSelectPlanet,
+  veiled = false,
 }: NatalWheelProps) {
   // Quien ha pedido menos movimiento ve la rueda entera desde el primer
   // fotograma. No es una versión pobre: es la misma rueda sin el trayecto.
-  const animate = !useReducedMotion();
+  //
+  // **Bajo el velo tampoco se revela**: trazar durante un segundo y medio algo
+  // que no se va a poder leer es hacer esperar por nada.
+  const animate = !useReducedMotion() && !veiled;
 
   const layout = useMemo(() => buildLayout(chart), [chart]);
   const scale = size / CANVAS;
@@ -301,9 +313,12 @@ export const NatalWheel = memo(function NatalWheel({
   const housesStyle = useAnimatedStyle(() => ({ opacity: houses.value }));
 
   return (
-    <View style={{ width: size, height: size }}>
+    <View style={{ width: size, height: size, opacity: veiled ? veil.wheel.opacity : 1 }}>
       <Canvas style={StyleSheet.absoluteFill} {...DECORATIVE}>
-        <Group transform={[{ scale }]}>
+        {/* El desenfoque lo pone Skia y no un `filter` de React Native, que en
+            iOS no existe —allí solo hay `brightness` y `opacity`— y habría
+            dejado la carta de pago nítida en media plataforma. */}
+        <Group transform={[{ scale }]} layer={veiled ? VEIL_PAINT : undefined}>
           <Path
             path={ringPaths.outer}
             end={rings}
@@ -365,57 +380,72 @@ export const NatalWheel = memo(function NatalWheel({
       </Canvas>
 
       {/* La capa de texto. No recibe toques salvo los discos de planeta, que
-          son los únicos que llevan algo debajo. */}
-      <View style={StyleSheet.absoluteFill} pointerEvents="box-none">
-        <Animated.View style={[StyleSheet.absoluteFill, signsStyle]} pointerEvents="none" {...DECORATIVE}>
-          {layout.signs.map(({ sign, glyph }) => (
-            <Marker key={sign} at={glyph} scale={scale} fontSize={TEXT.signGlyph} style={styles.signGlyph}>
-              {SIGN_GLYPHS[sign]}
-            </Marker>
-          ))}
-        </Animated.View>
+          son los únicos que llevan algo debajo.
 
-        <Animated.View style={[StyleSheet.absoluteFill, housesStyle]} pointerEvents="none" {...DECORATIVE}>
-          {layout.houses.map(({ numeral, at }) => (
-            <Marker key={numeral} at={at} scale={scale} fontSize={TEXT.houseNumeral} style={styles.houseNumeral}>
-              {numeral}
-            </Marker>
-          ))}
-          {layout.angles.map(({ label, at }) => (
-            <Marker key={label} at={at} scale={scale} fontSize={TEXT.angleLabel} style={styles.angleLabel}>
-              {label}
-            </Marker>
-          ))}
+          **Bajo el velo no se pinta**: a 7 px de desenfoque un glifo de 18 es
+          una mancha, y las manchas ya las ponen los discos, que son Skia y se
+          difuminan con el resto. Así, además, no queda ni un objetivo que
+          tocar ni una posición que un lector de pantalla pueda leer en voz
+          alta — que sería regalar por audio lo que la vista no alcanza. */}
+      {veiled ? null : (
+        <View style={StyleSheet.absoluteFill} pointerEvents="box-none">
+          <Animated.View style={[StyleSheet.absoluteFill, signsStyle]} pointerEvents="none" {...DECORATIVE}>
+            {layout.signs.map(({ sign, glyph }) => (
+              <Marker key={sign} at={glyph} scale={scale} fontSize={TEXT.signGlyph} style={styles.signGlyph}>
+                {SIGN_GLYPHS[sign]}
+              </Marker>
+            ))}
+          </Animated.View>
 
-          {/* Sin casas, el hueco del centro deja de ser el eje de una rueda y
-              pasa a ser el sitio donde cabe decir qué falta. El rótulo nombra
-              el dato que se echa en falta, no el defecto: es lo que lo vuelve
-              accionable. Entra en el turno que habrían ocupado las casas. */}
-          {layout.hasHouses ? null : (
-            <>
-              <HubLabel y={CENTER - HUB_LINE_GAP / 2} scale={scale}>
-                {CONFIDENCE_LABELS[chart.confidence()].toUpperCase()}
-              </HubLabel>
-              <HubLabel y={CENTER + HUB_LINE_GAP / 2} scale={scale}>
-                NO HAY CASAS
-              </HubLabel>
-            </>
-          )}
-        </Animated.View>
+          <Animated.View style={[StyleSheet.absoluteFill, housesStyle]} pointerEvents="none" {...DECORATIVE}>
+            {layout.houses.map(({ numeral, at }) => (
+              <Marker key={numeral} at={at} scale={scale} fontSize={TEXT.houseNumeral} style={styles.houseNumeral}>
+                {numeral}
+              </Marker>
+            ))}
+            {layout.angles.map(({ label, at }) => (
+              <Marker key={label} at={at} scale={scale} fontSize={TEXT.angleLabel} style={styles.angleLabel}>
+                {label}
+              </Marker>
+            ))}
 
-        {layout.marks.map((mark) => (
-          <PlanetGlyph
-            key={mark.id}
-            mark={mark}
-            scale={scale}
-            animate={animate}
-            onPress={onSelectPlanet ? () => onSelectPlanet(mark.id) : undefined}
-          />
-        ))}
-      </View>
+            {/* Sin casas, el hueco del centro deja de ser el eje de una rueda y
+                pasa a ser el sitio donde cabe decir qué falta. El rótulo nombra
+                el dato que se echa en falta, no el defecto: es lo que lo vuelve
+                accionable. Entra en el turno que habrían ocupado las casas. */}
+            {layout.hasHouses ? null : (
+              <>
+                <HubLabel y={CENTER - HUB_LINE_GAP / 2} scale={scale}>
+                  {CONFIDENCE_LABELS[chart.confidence()].toUpperCase()}
+                </HubLabel>
+                <HubLabel y={CENTER + HUB_LINE_GAP / 2} scale={scale}>
+                  NO HAY CASAS
+                </HubLabel>
+              </>
+            )}
+          </Animated.View>
+
+          {layout.marks.map((mark) => (
+            <PlanetGlyph
+              key={mark.id}
+              mark={mark}
+              scale={scale}
+              animate={animate}
+              onPress={onSelectPlanet ? () => onSelectPlanet(mark.id) : undefined}
+            />
+          ))}
+        </View>
+      )}
     </View>
   );
 });
+
+/** El velo de la rueda (artboard 37), montado una vez y no por render. */
+const VEIL_PAINT = (
+  <Paint>
+    <Blur blur={veil.wheel.blur} />
+  </Paint>
+);
 
 /**
  * Un planeta en el lienzo: su guía, su disco y —cuando está abierto en la

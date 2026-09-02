@@ -1,5 +1,6 @@
 import { elementOfSign, type Sign } from '@/chart/domain/PlanetPosition';
 import type { NatalChart } from '@/chart/domain/NatalChart';
+import type { Subscription } from '@/subscription/domain/Subscription';
 import type { DailyEdition } from '../domain/DailyEdition';
 import type { DailyAxis } from '../domain/DailyKey';
 
@@ -75,6 +76,21 @@ export function dailyAxisCards(
     ];
   });
 }
+
+/**
+ * Cuáles de estas tarjetas salen bajo candado (D19, artboard 36).
+ *
+ * Sale de aquí y no de cada pantalla porque **son dos las que las pintan** —el
+ * día de un perro y el de la casa, con dos maquetaciones distintas— y el
+ * candado tiene que caer en las mismas. Una de las dos olvidándose sería
+ * regalar contenido de pago sin que nada avise.
+ *
+ * Devuelve los ejes y no las tarjetas porque es lo que necesitan los dos que
+ * preguntan: la tarjeta, para saber si le toca; y la fila de oro, para
+ * nombrarlos.
+ */
+export const lockedAxes = (cards: DailyAxisCard[], subscription: Subscription): DailyAxis[] =>
+  cards.filter((card) => !subscription.canReadDaily(card.axis)).map((card) => card.axis);
 
 /**
  * Desde cuántas mascotas Hoy deja de ser el día de un perro y pasa a ser el de

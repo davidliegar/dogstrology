@@ -1,4 +1,4 @@
-import { router } from 'expo-router';
+import { router, useLocalSearchParams } from 'expo-router';
 import { useState } from 'react';
 import { ActivityIndicator, Pressable, StyleSheet, Text, View, type TextStyle } from 'react-native';
 
@@ -6,10 +6,22 @@ import { CloseMark } from '@/_ui/components/CloseMark';
 import { PrimaryButton } from '@/_ui/components/PrimaryButton';
 import { Screen } from '@/_ui/components/Screen';
 import { text } from '@/_ui/typography';
+import type { NatalChart } from '@/chart/domain/NatalChart';
+import { useNatalChart } from '@/chart/ui/chartQueries';
+import { formatPosition } from '@/chart/ui/format';
+import { SIGN_LABELS } from '@/chart/ui/labels';
+import { dailyAxisCards } from '@/content/ui/dailyCards';
+import { useDailyEdition } from '@/content/ui/dailyQueries';
+import { DAILY_AXIS_LABELS } from '@/content/ui/labels';
+import { useCalendarDay } from '@/content/ui/useCalendarDay';
+import { usePet, usePets } from '@/pet/ui/petQueries';
 import type { Plan, PlanId } from '@/subscription/domain/Plan';
 import { formatMonthlyBreakdown, formatPurchaseCta, formatSavings } from '@/subscription/ui/format';
 import {
-  PAYWALL_BENEFITS,
+  PAYWALL_CHART_BENEFIT,
+  PAYWALL_CHART_OVERLINE,
+  PAYWALL_DAILY_BENEFIT,
+  PAYWALL_PETS_NOTE,
   PAYWALL_TITLE,
   PLAN_LABELS,
   PREMIUM_NAME,
@@ -24,14 +36,11 @@ import {
   useRestorePurchases,
 } from '@/subscription/ui/subscriptionQueries';
 
-import { colors, radii, spacing, touchTarget, typography } from '@/design/theme';
+import { colors, elementColor, glow, radii, screenPadding, spacing, touchTarget, typography } from '@/design/theme';
 
 /** Altos de fila del artboard 11: el ancla es más alta porque lleva dos líneas. */
 const ANCHOR_HEIGHT = 76;
 const PLAN_HEIGHT = 64;
-/** Punto que precede a cada ventaja. Mismo diámetro que el del `Chip`. */
-const BULLET = 6;
-
 /** Los precios van uno debajo de otro: sin cifras de ancho fijo, bailan. */
 const TABULAR = { fontVariant: ['tabular-nums'] } as TextStyle;
 
@@ -39,10 +48,19 @@ const TABULAR = { fontVariant: ['tabular-nums'] } as TextStyle;
  * El paywall — artboard 11.
  *
  * **Oferta, no muro**: el aspa está arriba y a la vista desde el primer
- * momento, y no hay ni cuenta atrás ni contenido tapado detrás. Se llega por
- * dos puertas y solo dos (nota del artboard): la oferta de Ajustes, que es la
- * fría, y la fila de añadir mascota del 26, que es la caliente. En Hoy no hay
- * ninguna — el MVP no cobra por el día.
+ * momento, y no hay ni cuenta atrás ni contenido tapado detrás.
+ *
+ * **Se llega por tres puertas, cada una desde una falta distinta** (nota del
+ * artboard, D19): tocar un fragmento bloqueado del día, entrar en la carta
+ * natal, y añadir una segunda mascota. La oferta de Ajustes, arriba y una sola
+ * vez, es la puerta fría: quien la toca ha ido a buscarla. Ninguna es un aviso
+ * interpuesto — la puerta se pinta donde el usuario topa con el límite, y si no
+ * topa, no se pinta: la pantalla que se abre cada mañana no pide nada.
+ *
+ * **Los dos beneficios van con el dato del perro**, no con una lista de
+ * sustantivos: la misma tarjeta de la Luna que acaba de ver borrosa, con su
+ * titular de hoy, y su Ascendente al grado. Una lista no se puede comprobar y
+ * una tarjeta sí.
  *
  * **Tocar un plan lo selecciona; comprar lo hace el botón, y uno solo.** El
  * filo de oro marca el plan elegido y arranca en el anual porque es el
@@ -56,6 +74,18 @@ const TABULAR = { fontVariant: ['tabular-nums'] } as TextStyle;
  * con la selección: son propiedades del plan, no del estado de la pantalla.
  */
 export default function Paywall() {
+  // De qué perro se enseña el ejemplo. Lo dice la puerta que ha traído hasta
+  // aquí —la tarjeta bloqueada sabe de quién era— y, si no lo dice (la oferta
+  // fría de Ajustes, la fila de añadir), es el primero: con un perro por dueño
+  // no hay ambigüedad, y con varios cualquiera de ellos enseña lo mismo.
+  const { pet: petId } = useLocalSearchParams<{ pet?: string }>();
+  const { data: pets } = usePets();
+  const { data: named } = usePet(petId);
+  const pet = named ?? pets?.[0];
+  const { data: chart } = useNatalChart(pet);
+  const today = useCalendarDay();
+  const { data: edition } = useDailyEdition(today);
+
   const { data: plans } = usePlans();
   const purchase = usePurchasePlan();
   const restore = useRestorePurchases();
@@ -104,6 +134,13 @@ export default function Paywall() {
       }
       footer={
         <>
+          {/* **El aviso va aquí y no al final del cuerpo**, que es donde
+              estaba: con la tarjeta de beneficios y los tres planes por
+              encima, quedaba fuera de pantalla y el usuario veía fallar la
+              compra sin que nada se lo dijera. Visto en un móvil (2026-09-02).
+              Un aviso sobre dinero se pone donde está el botón que lo
+              provocó. */}
+          {failed ? <Text style={styles.failed}>{PURCHASE_FAILED_NOTE}</Text> : null}
           <PrimaryButton
             label={formatPurchaseCta(selected)}
             loading={purchase.isPending}
@@ -140,14 +177,9 @@ export default function Paywall() {
         <Text style={styles.title}>{PAYWALL_TITLE}</Text>
       </View>
 
-      <View style={styles.benefits}>
-        {PAYWALL_BENEFITS.map((benefit) => (
-          <View key={benefit} style={styles.benefit}>
-            <View style={styles.bullet} />
-            <Text style={styles.benefitLabel}>{benefit}</Text>
-          </View>
-        ))}
-      </View>
+      <Benefits chart={chart} moon={dailyAxisCards(edition, chart).find((card) => card.axis === 'moon')} />
+
+      <Text style={styles.petsNote}>{PAYWALL_PETS_NOTE}</Text>
 
       <View style={styles.plans}>
         {plans ? (
@@ -165,9 +197,60 @@ export default function Paywall() {
           <ActivityIndicator color={colors.accent} />
         )}
       </View>
-
-      {failed ? <Text style={styles.failed}>{PURCHASE_FAILED_NOTE}</Text> : null}
     </Screen>
+  );
+}
+
+/**
+ * Los dos beneficios, en una tarjeta y con el dato del perro dentro (artboard
+ * 11).
+ *
+ * **Es la misma tarjeta que estaba borrosa**, con el mismo rótulo teñido por
+ * el elemento de su Luna y el mismo titular de hoy: quien llega desde el
+ * candado reconoce lo que acaba de no poder leer, y esa continuidad es lo que
+ * convierte la oferta en concreta.
+ *
+ * Lo que no hay, no se finge: sin lectura del día no se pinta titular, y sin
+ * hora de nacimiento no hay grado que enseñar. La frase sigue siendo cierta
+ * —el plan incluye el Ascendente al grado— y lo que desaparece es el ejemplo.
+ */
+function Benefits({
+  chart,
+  moon,
+}: {
+  chart: NatalChart | undefined;
+  moon: ReturnType<typeof dailyAxisCards>[number] | undefined;
+}) {
+  const ascendant = chart?.ascendant();
+  const moonSign = chart ? SIGN_LABELS[chart.moonSign()] : undefined;
+
+  return (
+    <View style={styles.benefits}>
+      <View style={styles.benefit}>
+        {moonSign ? (
+          <Text style={[styles.benefitOverline, { color: elementColor(moon?.element ?? '') }]}>
+            {`${DAILY_AXIS_LABELS.moon} · ${moonSign}`}
+          </Text>
+        ) : null}
+        {moon ? <Text style={styles.benefitHeadline}>{moon.headline}</Text> : null}
+        <Text style={styles.benefitBody}>{PAYWALL_DAILY_BENEFIT}</Text>
+      </View>
+
+      <View style={styles.benefitDivider} />
+
+      <View style={styles.benefit}>
+        <Text style={styles.benefitChartOverline}>{PAYWALL_CHART_OVERLINE}</Text>
+        <Text style={styles.benefitBody}>
+          {PAYWALL_CHART_BENEFIT}
+          {ascendant ? (
+            <Text style={[styles.benefitValue, TABULAR]}>
+              {`: ${formatPosition({ degree: ascendant.degree, sign: SIGN_LABELS[ascendant.sign] })}`}
+            </Text>
+          ) : null}
+          .
+        </Text>
+      </View>
+    </View>
   );
 }
 
@@ -249,26 +332,45 @@ const styles = StyleSheet.create({
     ...typography.title,
     color: colors.text,
   },
+  /** La tarjeta de los dos beneficios: la misma caja que una del día. */
   benefits: {
-    gap: spacing[1],
+    borderRadius: radii.card,
+    backgroundColor: colors.surface,
+    borderWidth: 1,
+    borderColor: colors.border,
+    ...glow.card,
+    padding: screenPadding,
+    gap: spacing[4],
   },
   benefit: {
-    flexDirection: 'row',
-    alignItems: 'baseline',
     gap: spacing[3],
-    paddingVertical: spacing[3],
   },
-  bullet: {
-    width: BULLET,
-    height: BULLET,
-    borderRadius: radii.pill,
-    backgroundColor: colors.accent,
-    flexShrink: 0,
+  benefitDivider: {
+    height: 1,
+    backgroundColor: colors.divider,
   },
-  benefitLabel: {
+  benefitOverline: {
+    ...typography.overline,
+  },
+  benefitChartOverline: {
+    ...typography.overline,
+    color: colors.accent,
+  },
+  benefitHeadline: {
+    ...typography.section,
+    color: colors.text,
+  },
+  benefitBody: {
     ...typography.body,
     color: colors.textMuted,
-    flexShrink: 1,
+  },
+  /** Su grado, dentro de la frase: el dato es el que se destaca, no la frase. */
+  benefitValue: {
+    color: colors.text,
+  },
+  petsNote: {
+    ...typography.caption,
+    color: colors.textFaint,
   },
   plans: {
     gap: spacing[3],
@@ -342,6 +444,7 @@ const styles = StyleSheet.create({
   failed: {
     ...typography.caption,
     color: colors.textMuted,
+    textAlign: 'center',
   },
   links: {
     flexDirection: 'row',

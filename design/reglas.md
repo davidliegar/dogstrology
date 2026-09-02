@@ -3,7 +3,7 @@
 Extraído de las notas del canvas. Cada regla va con el artboard donde se decidió, para poder volver a la pantalla que la justifica. El canvas manda sobre este documento: si los dos discrepan, gana el artboard.
 
 > **Copia del proyecto de Claude Design** (`Reglas de diseño.md`, importado el
-> 2026-08-30). Vive aquí porque **las notas son lo que se pierde al importar
+> 2026-09-02). Vive aquí porque **las notas son lo que se pierde al importar
 > artboards** y es donde están las decisiones: el artboard 17 entero —enseñar
 > la última lectura que llegó— estaba en su nota y no en el dibujo. No se edita
 > a mano: se vuelve a importar.
@@ -166,9 +166,21 @@ Sin enlaces salientes: cada fila nombra la fuente y su licencia, que es lo que l
 
 Oferta, no muro: la X está arriba y a la vista desde el primer momento. El anual es el ancla —único plan con filo de oro y precio mensual desglosado— y el titular nombra exactamente lo que el usuario acaba de no ver.
 
-Al 11 se llega por dos puertas y solo dos, cada una desde una falta distinta. La oferta de Ajustes, arriba y una sola vez, que es la puerta fría: quien la toca ha ido a buscarla. Y la fila de añadir mascota del 26, que es la caliente: el usuario quiere hacer algo concreto que el plan incluye.
+Los beneficios son dos, y los dos existen en el MVP: la lectura del día de la Luna y el Ascendente, y la carta natal completa. Van con su ejemplo real —el mismo texto que el usuario tenía borroso hace un segundo— porque una lista de sustantivos no se puede comprobar y una tarjeta sí. Fuera del paywall las promesas de fase 2: compatibilidades, calendario cósmico, previsión mensual y PDF no se nombran hasta que estén, que prometer en la ficha de tienda algo que no está es de lo que tumba una revisión.
 
-Ninguna de las dos es un aviso interpuesto ni un candado sobre contenido ya visible, y en el 04 no hay ninguna: el MVP no cobra por el día, así que la pantalla que se abre cada mañana no pide nada. En las dos el nombre del plan aparece antes del precio, para que el 11 no sea la primera vez que se lee «Dogstrology Cósmico». La regla: la puerta se pinta donde el usuario topa con el límite, y si no topa, no se pinta.
+Al 11 se llega por tres puertas, cada una desde una falta distinta. Tocar un fragmento bloqueado del día. Entrar en la carta natal. Y añadir una segunda mascota, que es la caliente: el usuario quiere hacer algo concreto que el plan incluye. La oferta de Ajustes, arriba y una sola vez, sigue siendo la puerta fría: quien la toca ha ido a buscarla.
+
+Ninguna es un aviso interpuesto. D19 bloquea, no quita: el contenido de pago se queda en su sitio, con el titular legible y el cuerpo borroso, y la puerta se abre cuando el usuario toca ese candado. Lo que no se cobra nunca es el hábito —el cielo y el Sol se leen enteros cada mañana—, así que en el 04 no hay ninguna puerta: la pantalla que se abre al despertar no pide nada, y el 36 enseña la misma pantalla sin Cósmico, con la Luna y el Ascendente bajo candado. En las tres el nombre del plan aparece antes del precio, para que el 11 no sea la primera vez que se lee «Dogstrology Cósmico». La regla: la puerta se pinta donde el usuario topa con el límite, y si no topa, no se pinta.
+
+### 36 Hoy sin Cósmico · 37 Carta sin Cósmico
+
+*El estado bloqueado*
+
+Se bloquea, no se quita. Una tarjeta de pago conserva su sitio, su radio y su antetítulo con el color de su elemento; lo que cambia es que el cuerpo se difumina 5 px al 55% y el grado se sustituye por un candado de 20 px en trazo 1,75 y gris terciario. El titular se queda legible a propósito: es lo que convierte el borroso en una falta concreta —«hoy quiere el sofá» y no sé por qué— en vez de un hueco gris que se lee como error de carga.
+
+La llamada va al final de lo bloqueado, no encima: fila de 44 px, oro al 12% con su filo, candado y una sola frase que nombra los dos ejes. Se toca o se ignora, y el scroll sigue.
+
+En la carta la rueda se difumina entera y solo el titular queda en claro, porque los tres signos del eje ya se dieron en la revelación del onboarding y ocultarlos sería mentir sobre lo que la app regaló. Debajo, tres filas dicen con palabras lo que hay bajo el velo —casas, aspectos, Ascendente al grado— porque un borroso solo no explica qué se compra; el grado aparece difuminado junto a su fila para que se vea que el dato existe y está calculado.
 
 ### Un día que le queda pequeño
 
