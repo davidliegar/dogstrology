@@ -159,6 +159,17 @@ export const TERMS_SECTIONS: { title: string; body: string }[] = [
 export const TERMS_PRICING_TITLE = 'Qué se cobra';
 
 /**
+ * Cuando los planes no llegan.
+ *
+ * **No dice de quién es la culpa**, y es a propósito: puede ser la red, puede
+ * ser la tienda, y puede ser que los productos estén mal configurados en el
+ * panel —que fue lo que pasó la primera vez que este build habló con Google—.
+ * Atribuirlo a la conexión sería mentir en dos de los tres casos.
+ */
+export const PLANS_FAILED_NOTE = 'Los planes no se han podido cargar.';
+export const RETRY_LABEL = 'Reintentar';
+
+/**
  * Cuando la tienda rechaza la compra. Cancelar **no** trae mensaje: cerrar la
  * hoja de compra es una decisión, no un fallo, y contestarle con un aviso
  * sería regañar a quien solo ha mirado el precio.

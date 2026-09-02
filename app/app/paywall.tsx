@@ -23,10 +23,12 @@ import {
   PAYWALL_DAILY_BENEFIT,
   PAYWALL_PETS_NOTE,
   PAYWALL_TITLE,
+  PLANS_FAILED_NOTE,
   PLAN_LABELS,
   PREMIUM_NAME,
   PURCHASE_FAILED_NOTE,
   RESTORE_LABEL,
+  RETRY_LABEL,
   TERMS_LINK,
 } from '@/subscription/ui/labels';
 import {
@@ -86,7 +88,7 @@ export default function Paywall() {
   const today = useCalendarDay();
   const { data: edition } = useDailyEdition(today);
 
-  const { data: plans } = usePlans();
+  const { data: plans, isError: plansFailed, refetch: retryPlans } = usePlans();
   const purchase = usePurchasePlan();
   const restore = useRestorePurchases();
 
@@ -193,6 +195,22 @@ export default function Paywall() {
               onPress={() => setChosen(plan.id())}
             />
           ))
+        ) : plansFailed ? (
+          // **Fallar no es cargar**, y hasta que esto existió eran la misma
+          // pantalla: la ruleta se quedaba girando para siempre y no había
+          // forma de saber que la consulta había muerto. Pasó de verdad, con
+          // los productos sin registrar en el panel (2026-09-02).
+          <View style={styles.plansFailed}>
+            <Text style={styles.failed}>{PLANS_FAILED_NOTE}</Text>
+            <Pressable
+              onPress={() => retryPlans()}
+              accessibilityRole="button"
+              accessibilityLabel={RETRY_LABEL}
+              style={styles.link}
+            >
+              <Text style={styles.retry}>{RETRY_LABEL}</Text>
+            </Pressable>
+          </View>
         ) : (
           <ActivityIndicator color={colors.accent} />
         )}
@@ -374,6 +392,14 @@ const styles = StyleSheet.create({
   },
   plans: {
     gap: spacing[3],
+  },
+  plansFailed: {
+    alignItems: 'center',
+    gap: spacing[2],
+  },
+  retry: {
+    ...typography.caption,
+    color: colors.accent,
   },
   plan: {
     borderRadius: radii.m,

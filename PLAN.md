@@ -4760,3 +4760,22 @@ Llegaron 27 artboards. Se implementan **17 y 27**; el 26 va en tanda propia.
   con la compra hecha, así que para volver a ver la app bloqueada hay que
   borrar los datos de la app o resetear al cliente en el panel
 - 558 tests, lint y `tsc` limpios
+
+### 2026-09-02 (54e) — el primer build interno habla con Google
+- **Y el paywall se quedó cargando para siempre.** El error, textual del móvil:
+  `ConfigurationError: You have configured the SDK with a Play Store API key,
+  but there are no Play Store products registered in the RevenueCat dashboard
+  for your offerings` — los productos de Play están dados de alta y colgados
+  del entitlement, pero **no metidos en los paquetes del offering**, que
+  seguían con los del Test Store
+- ⚠️ **Y lo que lo hizo indistinguible de una carga lenta era mío**: la
+  pantalla pintaba la ruleta siempre que `plans` fuera `undefined`, y una
+  consulta que falla deja exactamente eso. **Fallar no es cargar**: ahora el
+  hueco de los planes dice que no se han podido cargar y ofrece reintentar
+- **El texto no atribuye culpa** —«Los planes no se han podido cargar»— porque
+  puede ser la red, la tienda o el panel mal configurado, y echárselo a la
+  conexión sería mentir en dos de los tres casos
+- ⚠️ **Derivación, no dibujo**: no hay artboard para el paywall sin planes. Se
+  monta con los tonos y los tokens que ya existen, y queda anotado como hueco
+  de diseño
+- 559 tests, lint y `tsc` limpios
