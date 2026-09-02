@@ -48,10 +48,9 @@ export interface PetHubProps {
  * que compone la imagen del día. Va abajo y en gris porque es la única acción
  * de la pantalla y no compite con los tres destinos.
  *
- * **Dice «Compartir su día» y el artboard 25 dice «su carta»**, y es decisión
- * tomada (2026-09-01): la única composición dibujada —el artboard 12— es una
- * lectura, rótulo, titular y texto, no la rueda. Rotularla «su carta» prometería
- * una imagen que no existe. El que se corrige es el 25.
+ * **La fila dice «Compartir su cielo»** (25 y 26, corregidos en el canvas el
+ * 2026-09-02). Pasó por «su carta», que prometía una rueda que no se compone,
+ * y por «su día»; el texto vive en `sharing/ui/labels.ts` y el porqué también.
  *
  * **El nombre abre el selector** (artboard 26), y sigue haciéndolo aunque la
  * lista exista — con otro trabajo: **saltar entre perfiles sin volver a la
