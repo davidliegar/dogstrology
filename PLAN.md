@@ -4799,3 +4799,10 @@ Llegaron 27 artboards. Se implementan **17 y 27**; el 26 va en tanda propia.
   hubiera entrado. Es donde termina también el onboarding. Va con `dismissAll`
   antes de navegar: lo apilado encima de las pestañas deja de tener sentido en
   cuanto la compra está hecha
+- **La casa entera estaba detrás de un gesto que hay que adivinar.** Con una
+  sola mascota la pestaña es el hub, no la lista, y la única forma de añadir la
+  segunda era tocar el nombre para abrir la hoja del 26. Ahora el pie del hub
+  lleva «Añadir otra mascota» **con el plan activo y una sola mascota**: sin
+  plan, quien tiene una topa con el límite y lo que toca ahí es la puerta al 11,
+  no una acción que no va a poder completar; con dos o más, la pestaña ya es la
+  lista y trae la suya. ⚠️ Derivación: el artboard 25 no la dibuja
