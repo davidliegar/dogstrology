@@ -48,7 +48,7 @@ mantiene dentro porque sin anuncios la suscripción es la única monetización.
 | F12 | Offline (7 días) | ✅ |
 | F8 | **Aviso diario** | ✅ — local, sin servidor. **Probado en un móvil**: pide permiso, llega a su hora y se apaga solo si se revoca |
 | F9 | **Compartir** | ✅ — la imagen del día con marca de agua, tres lienzos. **Probada en un móvil** |
-| — | **Paywall de suscripción** | 🟡 — la pantalla y sus dos puertas están; faltan el adaptador de RevenueCat y **lo que se vende** (D19) |
+| — | **Paywall de suscripción** | 🟡 — la pantalla, sus tres puertas, lo que se vende (D19) y el adaptador de RevenueCat están. Falta **la cuenta y los productos**: sin clave en `app.json` la app monta el doble |
 
 **Diez de once, y la undécima a medias.** El paywall ya existe como producto —se
 llega por sus dos puertas, se eligen los tres planes y la app sabe quién ha
@@ -75,7 +75,7 @@ Más el Bloque 6 entero, que es papeleo de lanzamiento: dar de alta los tres
 productos en Play Console —el precio ya está fijado—, PostHog, capturas, ficha
 de ASO, EUIPO.
 
-**Última sesión**: 2026-08-31
+**Última sesión**: 2026-09-02
 **Decisión: los builds de EAS se posponen.** Consumen cuota limitada (15+15
 builds/mes); un build local (`npx expo run:ios` / `run:android`) es
 ilimitado y sirve igual para desarrollar contra módulos nativos (RevenueCat,
@@ -160,7 +160,7 @@ legible el artboard 12, que era lo que faltaba:
 - [x] **Y que quepa**: el texto encoge hasta caber en vez de salirse por debajo.
       Con los 320 caracteres que admite el esquema no cabía en ningún lienzo
 
-### ⚠️ Lo que se vende — decidido y sin construir (D19, 2026-09-01)
+### Lo que se vende — construido (D19, 2026-09-02)
 
 **El paywall vendía algo que la app regalaba.** Salió al preparar RevenueCat, y
 las cuatro fuentes se contradecían entre ellas:
@@ -195,22 +195,44 @@ saber que existe no convierte nada.
 
 Lo que hace falta para construirlo:
 
-- [ ] **Diseño**: el estado borroso con candado no está dibujado en ninguna
-      parte. Hay precedente de degradación —el artboard 14, la carta sin hora—
-      así que no se parte de cero, pero es un encargo: cómo se difumina, dónde
-      va el candado, qué dice y a dónde lleva
-- [ ] ⚠️ **Corregir el artboard 04 en el canvas**: su nota dice «el MVP no cobra
-      por el día» y D19 la desmiente. Va con las otras dos correcciones
-      pendientes del canvas (el 29 con 24,99 € y el 25 con «Compartir su carta»)
-- [ ] **El guardarraíl en el dominio**: hoy `Subscription` solo sabe contar
-      mascotas (`canAddPet`). Necesita responder también qué se puede leer, y
-      esa regla vive en `subscription/`, no repartida por las pantallas
-- [ ] **Los sitios**: las tarjetas de Luna y Ascendente de Hoy (04 y 33), la
-      rueda de la carta (05), y decidir qué pasa con el trío del hub (25), que
-      hoy enseña Sol · Luna · Ascendente de un vistazo
-- [ ] **Repasar el copy del paywall** contra lo que de verdad desbloquea: los
-      cuatro beneficios del artboard 11 son uno real y tres de fase 2, y ahora
-      pasan a ser dos reales y el resto prometidos
+- [x] **Diseño, dibujado** (2026-09-02): **artboard 36** —Hoy sin Cósmico, en
+      F3— y **artboard 37** —la carta sin Cósmico, en F4—. El 36 deja el cielo
+      y el Sol enteros, y en Luna y Ascendente deja legibles el antetítulo y el
+      titular con el cuerpo borroso a 5 px, candado en el sitio del grado y una
+      fila de oro **al final de lo bloqueado, no interpuesta**. El 37 difumina
+      la rueda entera con el candado centrado, deja el titular en claro —los
+      tres signos ya se dieron en el onboarding— y nombra en tres filas lo que
+      hay debajo: casas, aspectos y el Ascendente al grado, con su valor
+      difuminado al lado
+- [x] **El artboard 11, rehecho** (2026-09-02): los cuatro beneficios pasan a
+      **dos, cada uno con su ejemplo real** —la misma tarjeta de Luna que se
+      acaba de ver borrosa, y la carta con el grado exacto—; las mascotas
+      ilimitadas quedan como línea menor y **la fase 2 sale del paywall**. La
+      nota pasa a **tres puertas**: fragmento bloqueado, carta natal y segunda
+      mascota
+- [x] **Las tres correcciones del canvas** (2026-09-02): el **04** ya dice que
+      es la pantalla con Cósmico y apunta al 36; **«Compartir su cielo»** en el
+      25 y el 26; y los precios del 11 y el 29 ya eran 3,99 / 19,99 / 29,99 —
+      **el 24,99 no estaba en el canvas**, era del BRD y del repo, y ahí ya
+      está corregido
+- [x] **El guardarraíl en el dominio** (2026-09-02): `subscription/domain/
+      ContentAccess.ts` dice qué se lee gratis —solo el Sol— y `Subscription`
+      contesta `canReadDaily(axis)` y `canReadNatalChart()`. Los ejes están
+      escritos a los dos lados y los ata un test: si divergen, la tarjeta de un
+      eje que `subscription/` no conoce se pintaría **abierta**
+- [x] **Los sitios** (2026-09-02): las tarjetas de Luna y Ascendente en las dos
+      pantallas que las pintan —el día de un perro y el de la casa— y la rueda
+      de la carta, velada entera. **El trío del hub (25) se queda como está**, y
+      lo resuelve el canvas: los tres signos se dieron en la revelación del
+      onboarding, así que taparlos sería mentir sobre lo que la app regaló. Lo
+      que se cobra es dónde caen, no cuáles son
+- [x] **El copy del paywall** (2026-09-02): dos beneficios en una tarjeta, cada
+      uno con el dato del perro dentro — su Luna con el titular de hoy, y su
+      Ascendente al grado. Las mascotas ilimitadas bajan a línea menor y la
+      fase 2 sale del paywall
+- [x] **`paywallDoors.test.ts`, reescrito**: tres puertas y la oferta fría, con
+      Hoy todavía en la lista de las que **no** pueden pedir dinero — porque
+      sigue sin pedirlo: quien lo pide es el candado, y vive en su fichero
 
 **No bloquea el build interno ni RevenueCat**: se puede montar después, y solo
 tiene que estar antes de publicar.
@@ -236,19 +258,100 @@ Dos cabos sueltos, los dos menores y anotados donde toca:
   mía, no un dibujo: reusa la caja de filas del 35 debajo de las filas sueltas
   del cielo
 
-### Y RevenueCat, cuando haya cuentas
+### Y RevenueCat: el código ya está, faltan las cuentas
 
-Los pasos 1 a 4 del encargo anterior están hechos, así que **el 5 es sustituir
-un doble por un adaptador**: una sola línea en `src/index.ts`. Lo que hace
-falta antes no es código:
+**El adaptador está escrito y probado** (2026-09-02), así que ya no hay ninguna
+línea que cambiar: `src/index.ts` monta RevenueCat **si hay clave** en
+`expo.extra.revenueCatApiKey` y el doble si no. Pegar la clave en `app.json` es
+todo lo que queda del lado del código. Lo que hace falta antes no lo es:
 
-- Cuenta de RevenueCat y sus claves
-- Productos y precio en Play Console — punto de partida **3,99 €/mes ·
-  19,99 €/año · 29,99 € para siempre** (BRD §10.4, §15.3). **Son tres**: el
-  artboard 11 pinta el vitalicio, que el encargo anterior daba por cortado
+- ~~Cuenta de RevenueCat y su clave pública de Android~~ — hecho el 2026-09-02.
+  La clave de Play (`goog_…`) está en `app.json`; **la del Test Store se usa
+  exportando `REVENUECAT_API_KEY`**, que es lo que deja probar compras en el
+  dev build sin tocar el fichero que se hornea en el build de tienda
 - **Un build nativo nuevo** cuando entre el módulo. Y la lección de la sesión
   33: **una dependencia se añade con `npm install <paquete>`, nunca editando
   `package.json` a mano**, o `npm ci` revienta en la nube y no en local
+
+#### Lo que se está dando de alta, y con qué valores (2026-09-02)
+
+La beta privada está abierta, así que Play Console ya deja crear productos.
+**Tres, y uno por plan** (BRD §10.4, §15.3):
+
+| Plan | Tipo en Play | ID de producto | Plan base / opción | Precio |
+|---|---|---|---|---|
+| Anual | Suscripción, **un solo plan base** | `anual` | `cosmico-anual` | 19,99 € |
+| Mensual | Suscripción, **un solo plan base** | `cosmico_mensual` | `cosmico-mensual` | 3,99 € |
+| Para siempre | **Producto único** (in-app) | `cosmico_siempre` | `cosmico-siempre` | 29,99 € |
+
+Los tres ids **no siguen el mismo patrón** —el anual se quedó en `anual` a
+secas— y da igual: son inmutables y la app no los mira. Queda escrito aquí para
+que nadie los busque por el nombre que «debería» tener.
+
+- **Los ids son libres y la app no los conoce**: selecciona por *tipo de
+  paquete* (`ANNUAL`, `MONTHLY`, `LIFETIME`), que es lo que deja renombrar
+  productos sin publicar versión. Guion o guion bajo da igual
+- **Y que el producto lleve `_` y su plan base `-` tampoco importa**, aunque
+  parezca frágil: lo que separa los dos nombres es el `:` con el que Google los
+  une (`cosmico_siempre:cosmico-siempre`), y el adaptador guarda los dos. Pasa
+  también en el producto único, que en el Play Console de ahora tiene «opciones
+  de compra» igual que una suscripción tiene planes base
+- ⚠️ **Un producto de suscripción por plan, con un solo plan base cada uno.**
+  No es estética: la oferta entrega `<suscripción>:<plan base>` y `CustomerInfo`
+  solo `<suscripción>`, así que dos planes base bajo un mismo producto dejan el
+  nombre corto sin dueño y **el plan deja de poder nombrarse** en Ajustes
+- **Lo único con nombre fijo es el entitlement: `cosmico`**, en minúsculas y sin
+  acento, escrito en el adaptador. Los tres productos cuelgan de él —los tres
+  venden lo mismo y lo único que cambia es cada cuánto se paga— y el *offering*
+  marcado como **current** lleva los tres paquetes.
+  ⚠️ El asistente de RevenueCat propone llamarlo **«Dogstrology Pro»**: hay que
+  cambiarlo. No por gusto —el identificador es libre— sino porque el que lee el
+  código es `cosmico`, y «Pro» además no es como se llama esto en ninguna
+  pantalla
+- **Los paquetes, con identificador reservado** (`$rc_annual`, `$rc_monthly`,
+  `$rc_lifetime`), que es lo que les da tipo. El asistente propone `yearly`,
+  `monthly` y `lifetime`, y **un identificador que no es de los reservados
+  llega como `CUSTOM`**: la tabla por tipo no lo reconocería y el paywall
+  saldría con los tres precios en blanco y el botón apagado, sin un solo error
+  — la misma forma de romperse que una clave de contenido mal escrita. El
+  adaptador mira ahora también el nombre (`yearly` incluido), así que no se
+  rompe; aun así conviene el reservado, que es el que dice qué es cada cosa
+- **Nombres de cara al usuario**: `Cósmico anual`, `Cósmico mensual`,
+  `Cósmico para siempre`. Google los enseña junto al nombre de la app, y son
+  los mismos que dice Ajustes con la suscripción activa: que la tienda y la
+  pantalla nombren lo mismo es lo que evita creer que se ha comprado otra cosa
+- **Las cuatro ventajas de la ficha, solo lo que existe** (D19): la lectura
+  diaria de su Luna · la lectura diaria de su Ascendente · su carta natal
+  completa · mascotas ilimitadas. **Ni una de fase 2**, por lo mismo que la
+  ficha de la app (BRD §10.4)
+- **Sin periodo de prueba ni oferta inicial**, y es decisión de producto: el
+  botón del paywall dice «Empezar · 19,99 € al año», así que una prueba gratis
+  configurada solo en Play sería la app prometiendo una cosa y la tienda
+  cobrando otra. Si algún día se quiere, hay que reescribir el botón y el
+  apartado «Qué se cobra» del artboard 29
+- **Periodo de gracia de 7 días, solo en el anual** (decisión de David,
+  2026-09-02). Al código le da igual que lo tengan uno, dos o ninguno: lo que
+  hace el adaptador —callar la fecha de renovación cuando ya ha pasado— vale
+  igual para los tres. Ver el porqué en el registro de la sesión 54c.
+  ⚠️ El mensual sin gracia significa que **un cobro fallido corta el acceso el
+  mismo día**; es dinero que se recupera solo con activarla, si algún día se
+  quiere
+- **El icono de producto sale del icono de la app** (`store/icono-producto-1024.png`,
+  1024×1024 y PNG de 32 bits, que es lo que Play pide). Uno distinto por
+  producto sería un encargo de dibujo y no lo pide nadie
+- **Categoría fiscal «Ventas de apps digitales»** y cumplimiento «Servicio».
+  La clasificación por edad se deja vacía: es opcional, solo aplica en algunos
+  estados de EE. UU. y el producto no restringe nada que la app no restrinja
+- ⚠️ **Probar la compra con una cuenta de tester de licencia** dada de alta en
+  Play Console, o Google cobra de verdad. Y hace falta el build de la beta: los
+  productos solo existen para el `applicationId` de producción
+- **La cuenta de servicio que conecta RevenueCat con Play** vive en el proyecto
+  de Cloud `dogstrology-507413` (`revenuecat@…iam.gserviceaccount.com`), con la
+  Google Play Android Developer API habilitada ahí y esos permisos concedidos
+  en Play Console. ⚠️ **Al darlos de alta, RevenueCat dice que no puede validar
+  las compras durante un rato**: son los permisos propagándose por Google —
+  hasta 36 horas según su documentación, en la práctica un rato— y no hay nada
+  que arreglar. Se resolvió solo (2026-09-02)
 
 ### Los huecos que dejó el paywall, cerrados (sesión 43)
 
@@ -278,13 +381,14 @@ en Play Console, no dos. El desfase entre el artboard 11 (19,99) y el 29
 (24,99) se resuelve a favor del 11, que es también lo que dicen BRD §10.4 y
 §15.3. BRD §15.3 pasa de "se fija antes de publicar" a fijado.
 
-⚠️ **El artboard 29 hay que corregirlo en el canvas**: sigue diciendo 24,99 €.
-En la app no importa —la frase de «Qué se cobra» se compone con lo que dice la
-tienda—, pero el dibujo es la referencia y así como está desmiente al 11.
+**Y el 24,99 nunca estuvo en el canvas** (2026-09-02): el 11 y el 29 ya decían
+3,99 / 19,99 / 29,99 al ir a corregirlos. La cifra vieja vivía en el BRD y en
+estas notas, y es donde se ha corregido.
 
-⚠️ **Y el artboard 25 con él**: su fila del pie dice «Compartir su carta» y lo
-que existe —y lo que se decidió— es «Compartir su día». La composición dibujada
-(artboard 12) es una lectura, no la rueda.
+**La fila del pie del hub se llama «Compartir su cielo»** (25 y 26, corregidos
+en el canvas el 2026-09-02, y ya en la app). Es la tercera palabra que lleva:
+«su carta» prometía una rueda que no se compone y «su día» era exacto pero
+estrecho.
 
 ### Y lo que no se puede comprimir al final
 
@@ -4486,3 +4590,173 @@ Llegaron 27 artboards. Se implementan **17 y 27**; el 26 va en tanda propia.
   necesario
 - **El cuadrado se queda**: está dibujado en el artboard 12 y ya no se rompe
 - 508 tests, lint y `tsc` limpios
+
+### 2026-09-02 (54) — el candado, en el dominio
+- **D19 tiene diseño** (lo hizo David en el canvas): artboards **36** —Hoy sin
+  Cósmico— y **37** —la carta sin Cósmico—, el **11** rehecho con dos
+  beneficios y su ejemplo real en vez de cuatro, y las tres correcciones
+  pendientes cerradas. `Reglas de diseño.md` del canvas lleva la sección nueva
+  del estado bloqueado y el bloque del paywall reescrito
+- **El guardarraíl, en `subscription/` y no en las pantallas**:
+  `domain/ContentAccess.ts` con `DAILY_AXES` y `FREE_DAILY_AXES`, y
+  `Subscription.canReadDaily(axis)` / `canReadNatalChart()`. La regla es del
+  plan, no de la tarjeta que la sufre: cuando la fase 2 la mueva, se mueve en
+  un fichero
+- **Los ejes se escriben dos veces a propósito** —el dominio de un contexto no
+  importa el de otro— y los ata `src/__tests__/contentAccess.test.ts`. La
+  divergencia no daría error: un eje que `subscription/` no conociera saldría
+  **abierto**, que es regalar contenido de pago en silencio
+- **Mientras la suscripción no ha llegado se contesta como el tier gratuito**,
+  no como `false` a todo. Es el lado que no regala nada, y como el Sol es
+  gratis en los dos, Hoy no parpadea con un candado que se cae solo
+- **«Compartir su día» pasa a «Compartir su cielo»** (artboards 25 y 26). Manda
+  el canvas
+- ⚠️ **`DesignSync` no está autorizado**: `/design-login` antes de maquetar el
+  36 y el 37. Lo que queda de D19 es pantalla, y la pantalla se lee del canvas
+- 526 tests (eran 508), lint y `tsc` limpios
+
+### 2026-09-02 (54b) — el candado, dibujado
+- **D19 entero, contra los artboards 36, 37 y 11** (leídos del canvas con
+  `/design-login`, que era el bloqueo de la sesión anterior)
+- **El velo es una capa por encima, y llegar ahí costó dos intentos.**
+  `filter: blur` de React Native **solo existe en Android** —en iOS hay
+  `brightness` y `opacity` y nada más—, así que habría dejado el contenido de
+  pago legible en media plataforma sin que nada avisara. El segundo intento fue
+  difuminar el texto con su propia sombra (glifo transparente, sombra sin
+  desplazamiento) y **en el móvil se leía igual**: una sombra no borra el
+  glifo, lo engorda. El que vale es `expo-blur` — un `BlurView` encima, del
+  tamaño exacto de lo que tapa, con el texto de debajo sin tocar
+- **La rueda sí la difumina Skia**, que ya la dibuja: un `layer` con `Blur` de
+  7 px. Y bajo el velo **la capa de texto no se pinta** — a 7 px un glifo de 18
+  es una mancha, las manchas ya las ponen los discos, y así no queda ni un
+  objetivo que tocar ni una posición que un lector de pantalla pueda leer en
+  voz alta
+- **Lo blurreado no lo lee un lector de pantalla**, que sería regalar por audio
+  lo que la vista no alcanza. Lo que sí se lee es el titular, que se queda en
+  claro, y la fila que ofrece abrirlo
+- **`lockedAxes` vive en `dailyCards.ts`** porque las tarjetas del día las
+  pintan **dos** componentes con maquetaciones distintas (el día de un perro y
+  el de la casa): una de las dos olvidándose del candado sería regalar
+  contenido de pago sin que nada avise
+- **La puerta lleva el perro puesto**: `/paywall?pet=<id>`, para que el 11
+  enseñe **su** Luna y **su** grado y no los del primero de la casa. Sin
+  parámetro —la oferta fría de Ajustes, la fila de añadir— es el primero
+- **`veil` es un token del tema** (5 px al 55% el cuerpo, 7 al 50% la rueda, 4
+  al 60% un valor), no un efecto suelto repartido por las pantallas
+- **El titular también se vela**, que es la otra corrección de haberlo visto
+  corriendo: con él en claro la tarjeta se entendía sola y no quedaba nada que
+  comprar. Lo legible es el antetítulo —«Su Luna · Cáncer»—, que dice de quién
+  y de qué es lo que no se puede leer
+- **En Android hay que decirle qué fotografiar**: el `BlurView` difumina la
+  vista que le pasas en `blurTarget`, y esa vista **necesita fondo opaco** —sin
+  él, la copia borrosa sale transparente y el texto nítido de debajo se lee a
+  través. De ahí que `Veil` pida el color de la superficie en vez de heredarlo
+- ⚠️ **`expo-blur` es un módulo nativo**: hace falta un build nuevo
+  (`npx expo prebuild --clean` y `run:android`) para que el velo exista en el
+  móvil. Se añadió con `npx expo install`, no editando `package.json`
+- **El velo se afinó en un móvil de verdad** (Galaxy S24, Android 16), y lo
+  que se aprendió no estaba en ninguna documentación:
+  - **`intensity` gradúa dos cosas a la vez**: el radio *y* la opacidad del
+    tinte gris, que además es fijo y no se puede elegir. A 96 salía una losa
+  - **con el radio al tope el texto se disuelve del todo** y el velo pierde lo
+    único que tiene que decir: que ahí hay algo escrito. Radio 4, no 25
+  - **el gris no era ningún tinte**: difuminar texto claro sobre fondo oscuro
+    da el promedio de los dos, que es gris. Por eso encima va **el color de la
+    propia superficie** (`veil.scrim` a 0,55), que lo devuelve al azul de la app
+  - y **el velo va a sangre**, saliéndose por el padding de la tarjeta hasta
+    sus bordes: dentro del margen era una caja dentro de otra, y se leía como
+    un parche pegado encima en vez de como la tarjeta apagada
+  - la separación radio/tinte solo existe en Android; en iOS la intensidad
+    manda las dos cosas y **está sin ver todavía**
+- **La rueda pasa de opacidad 0,5 a 0,75**: al 0,5 no se adivinaba que hubiera
+  una rueda debajo, que es justo lo que tenía que enseñar
+- **El ciclo entero, comprobado en el móvil**: Hoy con el cielo y el Sol
+  enteros y la Luna y el Ascendente velados con su fila de oro, la carta velada
+  con las tres filas y el grado difuminado, el paywall con la Luna real del día
+  y el Ascendente al grado —18°58′ Cáncer, el suyo—, y al comprar, todo abierto
+- ⚠️ **El artboard 36 no dibuja ni la tira de la Luna ni la tarjeta del cielo**,
+  y la app las mantiene: su propia nota dice que el cielo y el Sol se leen
+  enteros, y quitarlos sería tocar el hábito, que es justo lo que D19 protege.
+  El dibujo comprime para que quepan los tres estados en 844 px
+- ⚠️ **El 37 dibuja una cabecera más simple que el 05** (sin el nombre de la
+  mascota encima). Se queda la del 05: el estado bloqueado no cambia de quién
+  es la pantalla
+- **Compartir sigue siendo del Sol**, así que no hay fuga por ahí: la imagen se
+  compone del eje gratis
+- 533 tests (eran 526), lint y `tsc` limpios
+
+### 2026-09-02 (54c) — el adaptador de RevenueCat
+- **El último puerto sin adaptador ya lo tiene**, y con él se acaba el código
+  del MVP: `subscription/infrastructure/RevenueCatSubscriptionGateway`
+- **Se elige por si hay clave, no por una línea que alguien recuerde cambiar.**
+  Con `expo.extra.revenueCatApiKey` en `app.json`, RevenueCat; sin ella, el
+  doble. Así el cambio de motor no coincide con un despliegue: la clave se pega
+  y ya está
+- **La correspondencia va por tipo de paquete, no por identificador de
+  producto** (`ANNUAL → annual`…). Es lo que deja crear los productos en Play
+  Console con el nombre que sea sin volver a publicar la app
+- **Un entitlement y no tres** (`cosmico`): los tres planes venden lo mismo y
+  lo único que cambia es cada cuánto se paga
+- **Un paquete que no es ninguno de los tres se ignora**, en vez de pintar una
+  fila sin rótulo en la pantalla que cobra
+- **Qué plan tiene comprado sale del producto que la oferta enseñó**, porque el
+  cliente dice producto y la tabla habla de paquetes. Si el producto ya no está
+  en la oferta —retirado del panel después de venderlo— se cae a lo que se sabe
+  sin preguntar: sin caducidad, vitalicio. El error posible es llamar «anual» a
+  un mensual en una tarjeta de Ajustes; **si ha pagado y si caduca no se
+  equivoca nunca**, que es lo que decide lo que se ve
+- **Cancelar se distingue de fallar por el código de error** y no por la
+  bandera `userCancelled`, que el SDK marca como obsoleta
+- **Ni un número de dinero en el código**: `priceString` es lo que Google va a
+  cobrar, en su moneda y con sus impuestos
+- 12 tests del adaptador con el módulo nativo sustituido, como los de
+  `expo-notifications`. 545 en total, lint y `tsc` limpios
+- **Los dos lados de RevenueCat no dicen lo mismo en Google Play**, y esto sí
+  habría llegado al móvil: la oferta entrega `<suscripción>:<plan base>`
+  —porque lo que se compra es un plan base, no una suscripción— y
+  `CustomerInfo` devuelve solo `<suscripción>`. Sin traducirlo **no acertaría
+  ni un suscriptor** y todos habrían caído en la degradación: «Cósmico · anual»
+  para quien paga el mensual. El adaptador guarda los dos nombres, y el corto
+  solo si no hay ambigüedad
+- ⚠️ **De ahí sale una condición para Play Console**: **un producto de
+  suscripción por plan**, cada uno con un solo plan base. Dos planes base bajo
+  una misma suscripción dejan el nombre corto sin dueño y el plan deja de poder
+  nombrarse
+- **Con periodo de gracia de 7 días** (puesto en Play Console): un cobro que
+  falla no cierra la suscripción, Google reintenta y RevenueCat mantiene el
+  derecho activo. La app no hace nada para eso —el dominio no modela ningún
+  estado intermedio a propósito— pero **sí calla la fecha de renovación cuando
+  ya ha pasado**: «se renueva el 30 de agosto» un 2 de septiembre, en la única
+  pantalla que habla de dinero, sería mentir. La tarjeta de Ajustes ya sabe
+  pintarse sin esa línea
+- ⚠️ **Lo que la app no sabe decir es «hay un problema con tu pago»**. Es fase
+  2 y hace falta diseño; hasta entonces el usuario ve su suscripción activa
+  hasta que deja de estarlo
+- ⚠️ **Sin ver en el móvil todavía**: sin clave la app sigue montando el doble,
+  así que no hay nada que mirar hasta que exista la cuenta
+- ⚠️ **Un build de tienda sin clave cobraría de mentira.** Hoy no puede pasar
+  —no hay productos que vender— pero es lo que hay que comprobar antes de
+  publicar
+
+### 2026-09-02 (54d) — el paywall, contra RevenueCat de verdad
+- **Probado en un móvil contra el Test Store**, que es lo que deja recorrer la
+  compra entera sin depender de Play: la oferta llega, los tres planes salen
+  con el precio y la moneda de la tienda, y el paywall calcula solo el desglose
+  mensual y el «Ahorras». Cancelar, fallar y comprar, los tres caminos
+- **Y salieron dos fallos que ningún test podía ver**:
+- ⚠️ **El derecho se buscaba por nombre, y el nombre no coincidía.** El panel lo
+  creó como `dogstrology_cósmico` y el código buscaba `cosmico`: **la compra se
+  completó de verdad y la app siguió diciendo que nadie había pagado**. Sin
+  error y con el dinero cobrado — la peor forma de fallar que tenía este
+  fichero. Ahora **vale cualquier derecho activo**: esta app vende una sola
+  cosa, así que la pregunta del dominio es «¿ha pagado?» y no «¿tiene el
+  derecho que se llama X?». El día que haya un segundo producto que vender
+  —la manada— esa función es la que hay que cambiar
+- ⚠️ **El aviso de compra fallida vivía fuera de pantalla.** Estaba al final del
+  cuerpo, debajo de los tres planes, así que fallar una compra no decía nada:
+  el usuario pulsaba «Empezar» y volvía la misma pantalla. Pasa al pie, encima
+  del botón — un aviso sobre dinero se pone donde está el botón que lo provocó
+- **El estado del Test Store persiste**: el usuario anónimo del móvil se quedó
+  con la compra hecha, así que para volver a ver la app bloqueada hay que
+  borrar los datos de la app o resetear al cliente en el panel
+- 558 tests, lint y `tsc` limpios

@@ -42,10 +42,11 @@ src/
 │   ├── infrastructure/       expo-sharing + el fichero temporal en caché
 │   └── ui/                   Los tres lienzos, la marca de agua y el render
 ├── subscription/             Bounded context: quién ha pagado y qué se vende
-│   ├── domain/               Plan, Subscription, puerto SubscriptionGateway
+│   ├── domain/               Plan, Subscription, ContentAccess, el puerto
 │   ├── application/          Leer, listar planes, comprar y restaurar
+│   ├── infrastructure/       RevenueCat, y el único sitio que lo importa
 │   ├── ui/                   labels.ts, format.ts y los hooks de compra
-│   └── testing/              El doble en memoria, que **hoy es el adaptador**
+│   └── testing/              El doble en memoria, para cuando no hay clave
 └── content/                  Bounded context: lo que el usuario lee (BRD §7.3, §7.4)
     ├── domain/               Capa 1: ContentKey, Fragment, ContentRepository
     │                         Capa 2: DailyKey, DailyEdition, DailyRepository, DailyCache
@@ -87,14 +88,23 @@ diseño, con sus tokens y su tipografía— y **el caso de uso entrega**. Por es
 puerto recibe el PNG en base64 y un nombre, y no una ruta: dónde se escribe el
 fichero mientras el sistema lo lee es del adaptador.
 
-**`subscription/` no tiene infraestructura todavía, y es a propósito.**
-RevenueCat necesita cuenta, productos en Play Console y un build nativo (BRD
-§15.4), y nada de eso se hace desde el editor. El puerto y su doble dejan
-construir y probar el paywall entero antes; el día que entre el módulo, lo
-único que cambia es la línea de `src/index.ts` que hoy monta
-`InMemorySubscriptionGateway`. El doble no persiste: cada arranque vuelve al
-tier gratuito, que es también lo que hace obvio que esto no es todavía una
+**El adaptador de la suscripción se elige solo, y por si hay con qué cobrar.**
+Con `expo.extra.revenueCatApiKey` puesta en `app.json`, la app monta
+`RevenueCatSubscriptionGateway`; sin ella, el doble en memoria. RevenueCat
+necesita cuenta, productos en Play Console y un build nativo (BRD §15.4), y
+nada de eso se hace desde el editor — así que el paywall entero se construyó y
+se probó contra el doble, y el día que la clave esté puesta **cobra de verdad
+sin tocar una línea de código**. El doble no persiste: cada arranque vuelve al
+tier gratuito, que es también lo que hace obvio que eso todavía no es una
 suscripción de verdad.
+
+**Lo que se bloquea y lo que no vive en `subscription/domain/ContentAccess.ts`**
+(D19): es una regla del plan, no de la pantalla que la sufre. `Subscription`
+contesta `canReadDaily(axis)` y `canReadNatalChart()`, y la UI lo pregunta con
+`useContentAccess()`. Los ejes del diario están escritos a los dos lados —un
+contexto no importa el dominio de otro— y los ata
+`src/__tests__/contentAccess.test.ts`: si divergen, un eje que `subscription/`
+no conociera se pintaría **abierto**.
 
 Las rutas van en `app/`, y el grupo `app/(tabs)/` son **los cuatro destinos
 raíz** de la barra de pestañas. Todo lo demás se apila encima y por eso tapa la

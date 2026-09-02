@@ -20,7 +20,13 @@ const base = {
   scheme: 'dogstrology',
   ios: { bundleIdentifier: 'com.nexus.zoodiac', supportsTablet: true },
   android: { package: 'com.nexus.zoodiac', adaptiveIcon: { backgroundColor: colors.background } },
-  extra: { contentBaseUrl: 'https://ejemplo/daily/', eas: { projectId: 'abc' } },
+  extra: {
+    contentBaseUrl: 'https://ejemplo/daily/',
+    // Una clave de Google válida por defecto: así cada bloque prueba su eje y
+    // no se cae por el guardarraíl del otro.
+    revenueCatApiKey: 'goog_una_clave',
+    eas: { projectId: 'abc' },
+  },
 } as unknown as ExpoConfig;
 
 const resolve = (variant?: string): ExpoConfig => {
@@ -210,5 +216,56 @@ describe('la puerta del build interno', () => {
 
   it('sin la variable, sigue parando', () => {
     expect(() => resolveInternal()).toThrow(/no puede salir de/);
+  });
+});
+
+/**
+ * **Y la tercera cosa que no se puede deshacer publicando**: con qué se cobra.
+ *
+ * Sin clave, la app monta el doble en memoria y el paywall no cobra a nadie;
+ * con una clave del Test Store, las compras van a la tienda de pruebas de
+ * RevenueCat. Las dos enseñan la pantalla, dejan pulsar «Empezar» y no
+ * ingresan un euro — sin error, sin aviso y sin que nadie se entere hasta
+ * mirar la cuenta.
+ */
+describe('con qué se cobra', () => {
+  const withKey = (variant: string, key?: string): ExpoConfig => {
+    process.env.APP_VARIANT = variant;
+    const extra = { ...base.extra, revenueCatApiKey: key };
+    return defineConfig({ config: { ...base, extra } as ExpoConfig } as ConfigContext);
+  };
+
+  beforeEach(() => {
+    jest.spyOn(console, 'warn').mockImplementation(() => undefined);
+  });
+
+  afterEach(() => {
+    jest.restoreAllMocks();
+    delete process.env.APP_VARIANT;
+    delete process.env.ALLOW_TEST_PURCHASES;
+    delete process.env.REVENUECAT_API_KEY;
+  });
+
+  it('desarrollo y pruebas corren sin clave: es como se ha construido el paywall', () => {
+    expect(withKey('development', undefined).extra?.revenueCatApiKey).toBe('');
+    expect(withKey('preview', 'test_una_clave').extra?.revenueCatApiKey).toBe('test_una_clave');
+  });
+
+  it('producción sin clave no se puede construir', () => {
+    expect(() => withKey('production', undefined)).toThrow(/no cobra a nadie/);
+  });
+
+  it('ni con una clave del Test Store, que cobraría de mentira', () => {
+    expect(() => withKey('production', 'test_DvxmFRwqcGSOiwYxbtRJuoNraES')).toThrow(/Test Store/);
+  });
+
+  it('con la clave de Google pasa sin decir nada', () => {
+    expect(withKey('production', 'goog_una_clave').extra?.revenueCatApiKey).toBe('goog_una_clave');
+  });
+
+  it('la puerta del canal interno deja pasar el Test Store, y lo dice en voz alta', () => {
+    process.env.ALLOW_TEST_PURCHASES = 'internal';
+    expect(withKey('production', 'test_una_clave').extra?.revenueCatApiKey).toBe('test_una_clave');
+    expect(console.warn).toHaveBeenCalledWith(expect.stringContaining('no se puede publicar'));
   });
 });

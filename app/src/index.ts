@@ -1,6 +1,6 @@
 import { openDatabase } from './_db/base';
 import type { DatabaseProvider } from './_db/types';
-import { contentBaseUrl } from './_kernel/config';
+import { contentBaseUrl, revenueCatApiKey } from './_kernel/config';
 import type { ChartCalculator } from './chart/domain/ChartCalculator';
 import { AstronomyEngineChartCalculator } from './chart/infrastructure/AstronomyEngineChartCalculator';
 import CalculateNatalChartUseCase from './chart/application/CalculateNatalChartUseCase';
@@ -27,6 +27,7 @@ import { SqlitePreferencesRepository } from './settings/infrastructure/SqlitePre
 import GetPreferencesUseCase from './settings/application/GetPreferencesUseCase';
 import SetHouseSystemUseCase from './settings/application/SetHouseSystemUseCase';
 import type { SubscriptionGateway } from './subscription/domain/SubscriptionGateway';
+import { RevenueCatSubscriptionGateway } from './subscription/infrastructure/RevenueCatSubscriptionGateway';
 import { InMemorySubscriptionGateway } from './subscription/testing/InMemorySubscriptionGateway';
 import GetSubscriptionUseCase from './subscription/application/GetSubscriptionUseCase';
 import ListPlansUseCase from './subscription/application/ListPlansUseCase';
@@ -113,11 +114,13 @@ export class Dogstrology {
     this.contentRepository = contentRepository ?? BundledCatalogContentRepository.create();
     this.preferencesRepository = preferencesRepository ?? SqlitePreferencesRepository.create({ db });
     this.shareSheet = shareSheet ?? ExpoShareSheet.create();
-    // El único puerto sin adaptador de verdad. RevenueCat necesita cuenta,
-    // productos en Play Console y un build nativo (BRD §15.4), así que hasta
-    // entonces la app corre con el doble y **esta línea es todo lo que hay que
-    // cambiar** el día que entre el módulo.
-    this.subscriptionGateway = subscriptionGateway ?? InMemorySubscriptionGateway.create();
+    // **El único adaptador que se elige solo, y por si hay con qué cobrar.**
+    // RevenueCat necesita cuenta, productos en Play Console y un build nativo
+    // (BRD §15.4); mientras no haya clave en `app.json`, la app corre con el
+    // doble y el paywall se recorre entero sin cobrar. El día que la clave
+    // esté puesta, cobra de verdad **sin tocar una línea de código**, que es
+    // lo que evita que el cambio de motor coincida con un despliegue.
+    this.subscriptionGateway = subscriptionGateway ?? defaultSubscriptionGateway();
   }
 
   private useCase<T>(name: string, build: () => T): T {
@@ -296,4 +299,16 @@ export class Dogstrology {
       });
     return this.dailyRepository;
   }
+}
+
+/**
+ * Con clave, RevenueCat; sin ella, el doble en memoria.
+ *
+ * Se decide aquí y no dentro de ningún caso de uso porque **elegir
+ * implementación es trabajo del composition root**, y es el único sitio de la
+ * app donde eso está permitido.
+ */
+function defaultSubscriptionGateway(): SubscriptionGateway {
+  const apiKey = revenueCatApiKey();
+  return apiKey ? RevenueCatSubscriptionGateway.create({ apiKey }) : InMemorySubscriptionGateway.create();
 }

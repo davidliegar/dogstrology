@@ -100,6 +100,66 @@ const PROVISIONAL_ORIGINS = ['github.io', 'workers.dev', 'pages.dev', 'vercel.ap
 const PROVISIONAL_OVERRIDE = 'ALLOW_PROVISIONAL_CONTENT_URL';
 
 /**
+ * Las claves del **Test Store** de RevenueCat, que empiezan por `test_`.
+ *
+ * Funcionan igual que las de verdad y por eso son peligrosas: encaminan las
+ * compras a la tienda de pruebas de RevenueCat en vez de a Google Play, así
+ * que un build de tienda con una de estas **enseña el paywall, deja "comprar"
+ * y no cobra a nadie**. No hay error, no hay aviso y no hay ingresos.
+ */
+const TEST_STORE_PREFIX = 'test_';
+
+/**
+ * La misma puerta que `PROVISIONAL_OVERRIDE`, para lo mismo: el build del
+ * canal interno, donde probar con el Test Store —o sin clave— es justo lo que
+ * se quiere. El perfil `internal` de `eas.json` pone las dos.
+ */
+const TEST_PURCHASES_OVERRIDE = 'ALLOW_TEST_PURCHASES';
+
+/**
+ * La clave de RevenueCat que se hornea en el build.
+ *
+ * **Sin clave, la app monta el doble en memoria**: el paywall se recorre
+ * entero y nadie paga nunca. Es lo correcto mientras se construye y es
+ * exactamente lo que no puede salir a una tienda, así que producción lo exige
+ * — y exige además que no sea del Test Store.
+ *
+ * Es un fallo de build y no una nota que alguien recuerde, por lo mismo que
+ * el origen del contenido: lo que se rompe en silencio hay que romperlo aquí.
+ */
+function readRevenueCatApiKey(variant: VariantName, key: string | undefined): string {
+  const value = process.env.REVENUECAT_API_KEY ?? key ?? '';
+  if (variant !== 'production') return value;
+
+  if (process.env[TEST_PURCHASES_OVERRIDE] === 'internal') {
+    console.warn(
+      value.startsWith(TEST_STORE_PREFIX)
+        ? '⚠️  Compras contra el Test Store de RevenueCat: este build **no se puede publicar**.'
+        : '⚠️  Sin clave de RevenueCat: el paywall no cobra. Este build **no se puede publicar**.',
+    );
+    return value;
+  }
+
+  if (value === '') {
+    throw new Error(
+      'Falta expo.extra.revenueCatApiKey: sin ella la app monta el doble en memoria y ' +
+        'el paywall no cobra a nadie. Pon la clave pública de Android (`goog_…`), o ' +
+        `exporta ${TEST_PURCHASES_OVERRIDE}=internal si esta build es para el canal interno.`,
+    );
+  }
+
+  if (value.startsWith(TEST_STORE_PREFIX)) {
+    throw new Error(
+      'La clave de RevenueCat es del Test Store: las compras irían a la tienda de pruebas ' +
+        'y nadie pagaría de verdad. Pon la clave pública de Android (`goog_…`), o ' +
+        `exporta ${TEST_PURCHASES_OVERRIDE}=internal si esta build es para el canal interno.`,
+    );
+  }
+
+  return value;
+}
+
+/**
  * El CDN se puede apuntar a otro sitio sin tocar el código: es lo que permitirá
  * que una build de test lea contenido de prueba el día que haya dos orígenes.
  * Hoy los tres leen el mismo, y eso está bien — el diario es contenido público
@@ -164,6 +224,7 @@ export default ({ config }: ConfigContext): ExpoConfig => {
       ...config.extra,
       variant,
       contentBaseUrl: readContentBaseUrl(variant, config.extra?.contentBaseUrl as string),
+      revenueCatApiKey: readRevenueCatApiKey(variant, config.extra?.revenueCatApiKey as string),
     },
   };
 };

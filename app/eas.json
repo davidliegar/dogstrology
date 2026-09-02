@@ -32,7 +32,8 @@
     "internal": {
       "extends": "production",
       "env": {
-        "ALLOW_PROVISIONAL_CONTENT_URL": "internal"
+        "ALLOW_PROVISIONAL_CONTENT_URL": "internal",
+        "ALLOW_TEST_PURCHASES": "internal"
       }
     }
   },
