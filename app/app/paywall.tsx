@@ -108,11 +108,29 @@ export default function Paywall() {
   // decisión, y contestarla con un aviso sería regañar a quien solo miraba.
   const failed = purchase.isError && !isPurchaseCancelled(purchase.error);
 
-  // Comprado, la pantalla se va sola: el usuario venía de otro sitio con algo
-  // que hacer, y quedarse en la oferta que acaba de aceptar no es un destino.
+  /**
+   * Comprado, la pantalla se va sola y **aterriza en Hoy** (decisión de David,
+   * 2026-09-02).
+   *
+   * Antes volvía a donde estabas, que dejaba el destino a merced de por qué
+   * puerta se hubiera entrado: la hoja del selector de mascota, la carta, los
+   * ajustes. Hoy es lo que la app **es** —lo que se abre cada mañana, ahora con
+   * las tres tarjetas enteras— y es donde termina también el onboarding, que es
+   * el otro momento en que alguien acaba algo y hay que dejarlo en algún sitio.
+   *
+   * `dismissAll` antes de navegar: lo que hubiera apilado encima de las
+   * pestañas —la carta, el paywall— deja de tener sentido en cuanto la compra
+   * se ha hecho, y sin descartarlo el atrás desde Hoy volvería a la pantalla
+   * que acabas de dejar. Solo se descarta si hay algo que descartar.
+   */
   const buy = () => {
     if (selectedId === undefined) return;
-    purchase.mutate(selectedId, { onSuccess: () => router.back() });
+    purchase.mutate(selectedId, {
+      onSuccess: () => {
+        if (router.canDismiss()) router.dismissAll();
+        router.replace('/today');
+      },
+    });
   };
 
   return (

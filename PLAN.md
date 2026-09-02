@@ -4794,3 +4794,8 @@ Llegaron 27 artboards. Se implementan **17 y 27**; el 26 va en tanda propia.
   X»**, igual que no sabe decir «hay un problema con tu pago». Las dos son el
   mismo hueco de diseño en la tarjeta del artboard 30, y las dos son fase 2
 - 561 tests, lint y `tsc` limpios
+- **Comprado, se aterriza en Hoy** (decisión de David, 2026-09-02) y no de
+  vuelta a donde estabas, que dejaba el destino a merced de por qué puerta se
+  hubiera entrado. Es donde termina también el onboarding. Va con `dismissAll`
+  antes de navegar: lo apilado encima de las pestañas deja de tener sentido en
+  cuanto la compra está hecha
