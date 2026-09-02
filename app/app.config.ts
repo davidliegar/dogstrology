@@ -131,11 +131,14 @@ function readRevenueCatApiKey(variant: VariantName, key: string | undefined): st
   const value = process.env.REVENUECAT_API_KEY ?? key ?? '';
   if (variant !== 'production') return value;
 
-  if (process.env[TEST_PURCHASES_OVERRIDE] === 'internal') {
+  // La puerta del canal interno solo habla cuando hay algo que decir: con una
+  // clave buena, un build interno cobra igual que uno de tienda y avisar de lo
+  // contrario sería el aviso mintiendo, que es peor que no tenerlo.
+  if (process.env[TEST_PURCHASES_OVERRIDE] === 'internal' && (value === '' || value.startsWith(TEST_STORE_PREFIX))) {
     console.warn(
-      value.startsWith(TEST_STORE_PREFIX)
-        ? '⚠️  Compras contra el Test Store de RevenueCat: este build **no se puede publicar**.'
-        : '⚠️  Sin clave de RevenueCat: el paywall no cobra. Este build **no se puede publicar**.',
+      value === ''
+        ? '⚠️  Sin clave de RevenueCat: el paywall no cobra. Este build **no se puede publicar**.'
+        : '⚠️  Compras contra el Test Store de RevenueCat: este build **no se puede publicar**.',
     );
     return value;
   }

@@ -263,6 +263,15 @@ describe('con qué se cobra', () => {
     expect(withKey('production', 'goog_una_clave').extra?.revenueCatApiKey).toBe('goog_una_clave');
   });
 
+  it('un build interno con la clave buena cobra igual, y no dice nada', () => {
+    // El aviso solo habla cuando hay algo que decir. Un build del canal
+    // interno con la clave de Google cobra como uno de tienda, y avisar de que
+    // «el paywall no cobra» sería el aviso mintiendo.
+    process.env.ALLOW_TEST_PURCHASES = 'internal';
+    expect(withKey('production', 'goog_una_clave').extra?.revenueCatApiKey).toBe('goog_una_clave');
+    expect(console.warn).not.toHaveBeenCalled();
+  });
+
   it('la puerta del canal interno deja pasar el Test Store, y lo dice en voz alta', () => {
     process.env.ALLOW_TEST_PURCHASES = 'internal';
     expect(withKey('production', 'test_una_clave').extra?.revenueCatApiKey).toBe('test_una_clave');
