@@ -48,14 +48,13 @@ mantiene dentro porque sin anuncios la suscripción es la única monetización.
 | F12 | Offline (7 días) | ✅ |
 | F8 | **Aviso diario** | ✅ — local, sin servidor. **Probado en un móvil**: pide permiso, llega a su hora y se apaga solo si se revoca |
 | F9 | **Compartir** | ✅ — la imagen del día con marca de agua, tres lienzos. **Probada en un móvil** |
-| — | **Paywall de suscripción** | 🟡 — la pantalla, sus tres puertas, lo que se vende (D19) y el adaptador de RevenueCat están. Falta **la cuenta y los productos**: sin clave en `app.json` la app monta el doble |
+| — | **Paywall de suscripción** | ✅ — **cobra de verdad**. Probado en un móvil contra Google Play, con el build interno y una compra real (2026-09-02) |
 
-**Diez de once, y la undécima a medias.** El paywall ya existe como producto —se
-llega por sus dos puertas, se eligen los tres planes y la app sabe quién ha
-pagado—, pero **no cobra**: detrás del puerto hay un doble en memoria y no
-RevenueCat, que necesita cuenta, productos en Play Console y un build nativo.
-**Lo que queda del MVP en código es el último tramo del dinero**: el adaptador
-de RevenueCat, que son cuentas y un build, no programación.
+**Once de once, y el MVP no tiene código pendiente.** El paywall cobra: los tres
+productos están en Play Console, RevenueCat validado contra la cuenta de
+servicio, y la compra —comprar, cancelar, fallar, restaurar, caducar— recorrida
+en un Galaxy S24. Lo que queda para publicar **no es programar**: es un dominio,
+1.560 fragmentos que tiene que leer una persona, y el papeleo del Bloque 6.
 
 **F8 no necesita servidor** y eso es lo que lo hace gratis: el aviso lo programa
 el propio móvil con el disparador diario del sistema. No hay token de push, ni
@@ -75,7 +74,7 @@ Más el Bloque 6 entero, que es papeleo de lanzamiento: dar de alta los tres
 productos en Play Console —el precio ya está fijado—, PostHog, capturas, ficha
 de ASO, EUIPO.
 
-**Última sesión**: 2026-09-02
+**Última sesión**: 2026-09-03
 **Decisión: los builds de EAS se posponen.** Consumen cuota limitada (15+15
 builds/mes); un build local (`npx expo run:ios` / `run:android`) es
 ilimitado y sirve igual para desarrollar contra módulos nativos (RevenueCat,
@@ -97,23 +96,44 @@ el resumen habrían salido mal. Antes de maquetar **cualquier** pantalla,
 importar su artboard. En F3 volvió a pasar: los dos artboards de la carta natal
 están marcados F4, y eso no estaba en ningún resumen.
 
-## Siguiente sesión: **RevenueCat, y lo que se vende**
+## Siguiente sesión: **el dominio, y la revisión del catálogo**
 
-**Las once features del MVP están y probadas en un móvil.** Lo que queda es el
-dinero: el adaptador de RevenueCat —bloqueado solo por subir un build al canal
-interno de Play, que es lo que desbloquea crear los productos— y **D19, lo que
-el paywall vende de verdad**, que es la deuda de producto más gorda que queda y
-está decidida pero sin construir.
+**Ya no queda código del MVP.** Lo que falta para publicar son tres cosas, y
+ninguna se resuelve escribiendo:
 
-Lo siguiente es el **Bloque 4b**, y es lo más urgente de todo lo que queda por
-una razón de calendario: **`contentBaseUrl` se hornea en cada instalación**, así
-que tiene que llevar el dominio definitivo **antes del primer build que salga a
-la tienda**. Cambiarlo después obliga a publicar una versión nueva y deja a
-quien no actualice sin diario.
+1. **El dominio propio**, y es lo más urgente por calendario:
+   `contentBaseUrl` se hornea en cada instalación, así que tiene que llevar el
+   definitivo **antes del primer build que salga a la tienda**. Hoy apunta a
+   `workers.dev` y el guardarraíl de `app.config.ts` impide construir
+   producción con él — el build interno pasa por la puerta de `eas.json` y
+   avisa de que no se puede publicar. Recomendado: `dogstrology.app` con el CDN
+   en `contenido.dogstrology.app`. Detalle en el Bloque 4b.
+2. **La revisión humana de los 1.560 fragmentos**, con 8 hechos. Es lo único
+   que **no se puede comprimir al final**: lo limita una persona leyendo, y BRD
+   §7.5 + §14 R1 dicen que nada se publica sin ella.
+3. **El Bloque 6**: PostHog, capturas desde la app real, ficha de ASO, EUIPO.
 
-En orden: proyecto de Cloudflare Pages sirviendo `content/daily/`, dominio
-propio apuntando ahí, `contentBaseUrl` cambiado, y retirar o dejar en paralelo
-`publish-content.yml`.
+### Y los huecos de diseño que ha dejado D19
+
+Todos son derivaciones que existen y funcionan, pero **ningún artboard las
+dibuja**. Van juntas al canvas cuando toque:
+
+- **La fila «Añadir otra mascota» del hub** (25), que es la única entrada a la
+  casa cuando solo hay un perro
+- **El paywall sin planes**: cuando la consulta falla, dice que no se han
+  podido cargar y ofrece reintentar
+- **Las mascotas que deja de ver quien vuelve al básico**: no se le dice que
+  siguen ahí, ni elige cuál conserva
+- **La tarjeta de Ajustes (30) tiene más estados que «renueva el X»**:
+  cancelada —«te queda hasta el X»— y problema de cobro. Hoy las dos se
+  resuelven callando la fecha, que es honesto y mudo
+
+Y **dos notas del canvas que ya no dicen la verdad**:
+
+- el **36** dice que el titular se queda legible, y se vela desde que se vio en
+  un móvil que con él en claro la tarjeta se entendía sola;
+- el **11** dice tres puertas, y son cuatro: la carta natal se sirve también
+  por las casas de Explorar y por las facetas de «Quién es».
 
 ### Lo que sigue sin verse en un móvil
 
