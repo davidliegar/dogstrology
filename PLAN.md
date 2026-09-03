@@ -1907,11 +1907,14 @@ justo lo que no sale barato, porque la URL se hornea en cada instalación.
 - [ ] ⚠️ **Desplegar Cloudflare**: la política de privacidad nueva está escrita
       pero **la URL sigue sirviendo la vieja**, la que dice que no hay
       analítica — y es la que Google lee al revisar
-- [ ] ⚠️ **Quitar los permisos de cámara y micrófono**, que mete
-      `expo-image-picker` por si abres la cámara: la app solo elige de la
-      galería. Un usuario que ve «Cámara y micrófono» en una app de astrología
-      para perros desconfía, y alarga la revisión. Se apagan desde su config
-      plugin y un `prebuild`
+- [x] **Cámara y micrófono, fuera** (2026-09-03). `expo-image-picker` los
+      declaraba por su cuenta —por si abres la cámara— y la app solo elige de
+      la galería. Se bloquean con `cameraPermission: false` y
+      `microphonePermission: false` en su plugin, y hay un test que lo ata:
+      basta que alguien reinstale la dependencia sin las opciones para que
+      vuelvan, sin error y sin notarse hasta estar publicado. De paso, el texto
+      del permiso de fotos explica para qué es. ⚠️ **Necesita `prebuild`**: hasta
+      el próximo build nativo, el manifest sigue con los dos
 - [ ] **Cuando llegue el dominio, cambiarlo en tres sitios**: `app.json`, la
       declaración de Política de Privacidad y la de eliminación de datos
 - [ ] Registrar `Dogstrology` en EUIPO
