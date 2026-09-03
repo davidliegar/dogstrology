@@ -98,6 +98,22 @@ export function DailyCard({
     );
   }, [entrance, index, reduceMotion]);
 
+  // El rótulo y el candado. Bloqueada, **es lo único que se lee**, y va encima
+  // del velo en vez de fuera de él: así el desenfoque llega de borde a borde de
+  // la tarjeta y no arranca a media altura, con una raya donde empieza.
+  const head = (
+    <View style={styles.head}>
+      {glyph}
+      <Text style={[styles.overline, { color: tint }]} numberOfLines={1}>
+        {overline}
+      </Text>
+      {/* El candado va donde iría el grado, y **se lo come**: es el mismo
+          hueco, y con los dos a la vez el rótulo tendría dos cosas a la
+          derecha peleándose por el sitio. */}
+      {locked ? <Lock /> : meta}
+    </View>
+  );
+
   const style = useAnimatedStyle(() => ({
     opacity: entrance.value,
     transform: [{ translateY: (1 - entrance.value) * RISE }],
@@ -107,16 +123,7 @@ export function DailyCard({
     <Animated.View
       style={[styles.card, featured && [styles.featured, { borderColor: tint }], style]}
     >
-      <View style={styles.head}>
-        {glyph}
-        <Text style={[styles.overline, { color: tint }]} numberOfLines={1}>
-          {overline}
-        </Text>
-        {/* El candado va donde iría el grado, y **se lo come**: es el mismo
-            hueco, y con los dos a la vez el rótulo tendría dos cosas a la
-            derecha peleándose por el sitio. */}
-        {locked ? <Lock /> : meta}
-      </View>
+      {locked ? null : head}
       {/* **La lectura entera va bajo el velo, titular incluido** (visto en un
           móvil, 2026-09-02: con el titular en claro la tarjeta se entendía
           sola y no quedaba nada que comprar). Lo que queda legible es el
@@ -124,7 +131,13 @@ export function DailyCard({
           se puede leer: sigue siendo una falta concreta y no un hueco gris que
           parezca un fallo de carga. */}
       {locked ? (
-        <Veil background={colors.surface} gap={spacing[4]} bleed={screenPadding} radius={radii.card}>
+        <Veil
+          background={colors.surface}
+          gap={spacing[4]}
+          bleed={screenPadding}
+          radius={radii.card}
+          sharp={head}
+        >
           <Text style={styles.headline}>{headline}</Text>
           <Text style={styles.body}>{body}</Text>
         </Veil>

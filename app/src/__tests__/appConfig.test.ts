@@ -229,9 +229,9 @@ describe('la puerta del build interno', () => {
  * mirar la cuenta.
  */
 describe('con qué se cobra', () => {
-  const withKey = (variant: string, key?: string): ExpoConfig => {
+  const withKey = (variant: string, key?: string, testKey?: string): ExpoConfig => {
     process.env.APP_VARIANT = variant;
-    const extra = { ...base.extra, revenueCatApiKey: key };
+    const extra = { ...base.extra, revenueCatApiKey: key, revenueCatTestApiKey: testKey };
     return defineConfig({ config: { ...base, extra } as ExpoConfig } as ConfigContext);
   };
 
@@ -249,6 +249,24 @@ describe('con qué se cobra', () => {
   it('desarrollo y pruebas corren sin clave: es como se ha construido el paywall', () => {
     expect(withKey('development', undefined).extra?.revenueCatApiKey).toBe('');
     expect(withKey('preview', 'test_una_clave').extra?.revenueCatApiKey).toBe('test_una_clave');
+  });
+
+  it('fuera de producción manda la del Test Store, no la de Play', () => {
+    // La de Play es de `com.nexus.zoodiac` y estas variantes llevan sufijo:
+    // con ella puesta, Google no les sirve ni un producto y el paywall se cae
+    // en cada recarga.
+    expect(withKey('development', 'goog_una_clave', 'test_una_clave').extra?.revenueCatApiKey).toBe(
+      'test_una_clave',
+    );
+    expect(withKey('preview', 'goog_una_clave', 'test_una_clave').extra?.revenueCatApiKey).toBe(
+      'test_una_clave',
+    );
+  });
+
+  it('y producción sigue con la de Play, con la del Test Store al lado', () => {
+    expect(withKey('production', 'goog_una_clave', 'test_una_clave').extra?.revenueCatApiKey).toBe(
+      'goog_una_clave',
+    );
   });
 
   it('producción sin clave no se puede construir', () => {

@@ -4826,3 +4826,17 @@ Llegaron 27 artboards. Se implementan **17 y 27**; el 26 va en tanda propia.
 - **Cuatro puertas, y el test lo cazó solo**: `paywallDoors.test.ts` falló al
   aparecer los dos ficheros nuevos, que es justo para lo que está
 - 561 tests, lint y `tsc` limpios
+
+### 2026-09-03 (55) — el velo entero, y una clave por variante
+- **El velo cubre la tarjeta de borde a borde**, y el rótulo con su candado se
+  pintan **encima**. Antes arrancaba bajo la cabeza y se veía la raya donde
+  empezaba; ahora el desenfoque es de la tarjeta y lo legible flota sobre él
+- **El rótulo se pinta dos veces**, dentro del velo y encima, y la duplicación
+  vive **dentro de `Veil`**: es la clase de cosa que se hace mal si cada
+  pantalla la resuelve por su cuenta
+- ⚠️ **El dev build se caía en cada recarga** con `ConfigurationError: None of
+  the products could be fetched from the Play Store`, y era de esperar: la
+  clave de Play es de `com.nexus.zoodiac` y el dev build lleva sufijo. **Ahora
+  cada variante usa la suya** —`revenueCatTestApiKey` fuera de producción— sin
+  depender de acordarse de una variable de entorno
+- 563 tests, lint y `tsc` limpios

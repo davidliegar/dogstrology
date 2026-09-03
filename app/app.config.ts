@@ -127,9 +127,23 @@ const TEST_PURCHASES_OVERRIDE = 'ALLOW_TEST_PURCHASES';
  * Es un fallo de build y no una nota que alguien recuerde, por lo mismo que
  * el origen del contenido: lo que se rompe en silencio hay que romperlo aquí.
  */
-function readRevenueCatApiKey(variant: VariantName, key: string | undefined): string {
-  const value = process.env.REVENUECAT_API_KEY ?? key ?? '';
-  if (variant !== 'production') return value;
+function readRevenueCatApiKey(
+  variant: VariantName,
+  key: string | undefined,
+  testKey: string | undefined,
+): string {
+  // **Fuera de producción manda la clave del Test Store**, y no es comodidad:
+  // la de Play es específica de `com.nexus.zoodiac`, y las otras dos variantes
+  // se instalan con sufijo. Con la de Play puesta, Google no les sirve ni un
+  // producto y el paywall se cae con un `ConfigurationError` en cada recarga —
+  // que es exactamente lo que pasó el 2026-09-02.
+  //
+  // Así cada variante usa la suya sin acordarse de nada, y `REVENUECAT_API_KEY`
+  // sigue mandando por encima de las dos para el caso raro.
+  const override = process.env.REVENUECAT_API_KEY;
+  if (variant !== 'production') return override ?? testKey ?? key ?? '';
+
+  const value = override ?? key ?? '';
 
   // La puerta del canal interno solo habla cuando hay algo que decir: con una
   // clave buena, un build interno cobra igual que uno de tienda y avisar de lo
@@ -227,7 +241,11 @@ export default ({ config }: ConfigContext): ExpoConfig => {
       ...config.extra,
       variant,
       contentBaseUrl: readContentBaseUrl(variant, config.extra?.contentBaseUrl as string),
-      revenueCatApiKey: readRevenueCatApiKey(variant, config.extra?.revenueCatApiKey as string),
+      revenueCatApiKey: readRevenueCatApiKey(
+        variant,
+        config.extra?.revenueCatApiKey as string,
+        config.extra?.revenueCatTestApiKey as string,
+      ),
     },
   };
 };

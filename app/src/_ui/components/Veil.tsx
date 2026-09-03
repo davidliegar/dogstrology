@@ -30,8 +30,19 @@ export interface VeilProps {
    * propia tarjeta apagada, que es lo que es.
    */
   bleed?: number;
-  /** El radio de las esquinas de abajo, cuando el velo llega al borde. */
+  /** El radio de las esquinas, cuando el velo llega a los bordes. */
   radius?: number;
+  /**
+   * Lo que se queda **legible encima del velo**: el rótulo de la tarjeta y su
+   * candado, que son los que dicen de quién y de qué es lo que no se puede
+   * leer.
+   *
+   * Se pinta dos veces a propósito —dentro del velo, para que ocupe su sitio y
+   * el desenfoque le llegue por debajo, y encima, nítido— y por eso lo recibe
+   * el componente en vez de dejarlo al que llama: **duplicar un nodo es la
+   * clase de cosa que se hace mal si cada pantalla la resuelve por su cuenta.**
+   */
+  sharp?: ReactNode;
 }
 
 /**
@@ -67,7 +78,7 @@ export interface VeilProps {
  */
 const SETTINGS = Platform.OS === 'android' ? veil.android : veil.ios;
 
-export function Veil({ children, background, gap, bleed = 0, radius }: VeilProps) {
+export function Veil({ children, background, gap, bleed = 0, radius, sharp }: VeilProps) {
   // En Android el desenfoque no sale del aire: hay que decirle **qué** vista
   // fotografiar. En iOS `BlurTargetView` es una `View` normal y el efecto es
   // del sistema, que difumina lo que tenga detrás.
@@ -111,6 +122,8 @@ export function Veil({ children, background, gap, bleed = 0, radius }: VeilProps
           camino para no tener que componer un `rgba` con el token de al lado:
           el color es el mismo, lo que cambia es cuánto pesa. */}
       <View style={[styles.layer, { backgroundColor: background, opacity: veil.scrim }]} pointerEvents="none" />
+      {/* Y encima de las dos capas, otra vez lo que tiene que leerse. */}
+      {sharp ? <View style={[styles.sharp, { top: bleed, left: bleed, right: bleed }]}>{sharp}</View> : null}
     </View>
   );
 }
@@ -128,5 +141,8 @@ const styles = StyleSheet.create({
     left: 0,
     right: 0,
     bottom: 0,
+  },
+  sharp: {
+    position: 'absolute',
   },
 });
