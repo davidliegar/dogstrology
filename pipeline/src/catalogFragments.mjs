@@ -90,7 +90,15 @@ export function breedSignFragments() {
     for (const sign of SIGNS) {
       fragments.push({
         key: `breed=${breed.id};sign=${sign}`,
-        userMessage: `Escribe la interpretación permanente del catálogo para: un perro de raza ${breed.label} con signo solar ${label(SIGN_LABELS, sign)}.`,
+        // **Nombrar los dos es obligatorio, y por eso se pide.** La primera
+        // tanda salió con 162 de 780 que no decían ni la raza ni el signo
+        // —«un perro que organiza el salón», que vale para cualquiera— y eso
+        // vacía justo lo que hace diferencial a este cruce (BRD §7.3): si el
+        // texto no nombra al bulldog, no es la ficha del bulldog.
+        userMessage:
+          `Escribe la interpretación permanente del catálogo para: un perro de raza ${breed.label} ` +
+          `con signo solar ${label(SIGN_LABELS, sign)}. Nombra la raza y el signo dentro del texto: ` +
+          `quien lo lea tiene que reconocer que habla de su perro y no de un perro cualquiera.`,
       });
     }
   }
