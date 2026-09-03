@@ -1828,11 +1828,22 @@ justo lo que no sale barato, porque la URL se hornea en cada instalación.
       esto es cumplir esa promesa. Explica qué se manda —hechos, no contenido—,
       que el identificador es propio y no el de publicidad, que se borra al
       desinstalar, y que no se graba la pantalla
-- [ ] ⚠️ **El formulario de seguridad de datos de Play**, que tiene que cuadrar
-      con la política. Hoy está rellenado como si no hubiera analítica, y
-      rellenarlo mal es motivo de **retirada**, no de aviso. Lo que hay que
-      declarar: identificadores de usuario (el aleatorio propio), acciones en la
-      app, y que **no** se comparten con terceros para publicidad ni se venden
+- [x] **El formulario de seguridad de datos, rehecho** (2026-09-03) con
+      analítica dentro. Tres tipos y ni uno más: **Historial de compras**
+      (funcionalidad), **Interacciones con la aplicación** (análisis) e **IDs de
+      dispositivo o de otro tipo** (las dos). Recogidos **sí**, compartidos
+      **no** —transferir a un proveedor que procesa por ti está exento, y
+      marcarlo diría en la ficha que se venden datos—, no temporales, y
+      obligatorios porque hoy no hay forma de desactivar la analítica
+      - **El identificador va en «IDs de dispositivo», no en «Información
+        personal → IDs de usuario»**: los de usuario son de una persona
+        identificable y aquí no hay cuenta. El nuestro es de instalación, como
+        el *Firebase installation ID* que la propia Google pone de ejemplo
+      - **Ubicación en NO**, aunque la app pida un lugar de nacimiento: es de la
+        mascota, lo teclea el usuario y **no sale del móvil**. Play solo
+        pregunta por lo que se transmite. Es el que más tienta a marcar por error
+      - **Y sin cuenta**: no se crean, no se puede iniciar sesión con una de
+        fuera, y la vía para pedir la eliminación es el correo de la política
 - [x] **Capturas de store, hechas** (2026-09-03), compuestas en Claude Design
       (`Capturas Play.dc.html` → `assets/play/captura-*.png`)
       - ⚠️ **Diverge de BRD §11.2.4 y de `CLAUDE.md`**, que dicen «renderizadas
@@ -1881,15 +1892,28 @@ justo lo que no sale barato, porque la URL se hornea en cada instalación.
         apps de horóscopos **no lo puede decir una etiqueta**: lo tienen que
         ganar el título, las descripciones y las capturas
 - [x] **Icono de 512 y gráfico destacado** (2026-09-03)
-- [ ] Público objetivo — **adultos, y marcada como no dirigida a niños**: decir
-      que sí abre el programa Familias y sus requisitos, que esta app no
-      necesita
+- [ ] ⚠️ **Público objetivo: hoy está marcado 13-15, 16-17 y 18+**, y conviene
+      dejar solo **18+**. Con público adolescente declarado, Google aplica
+      requisitos adicionales sobre recogida de datos — justo ahora que entra
+      analítica con identificador persistente. No pierde alcance: el grupo dice
+      a quién va *dirigida*, no quién puede instalarla, y lo que se vende es una
+      suscripción
 - [x] **Disclaimer de entretenimiento, en los dos sitios** (2026-09-03). En la
       app estaba desde la sesión 26 —pie fijo de Ajustes— y ahora también en la
       ficha, al final de la descripción y pegado al guardarraíl de salud. Cierra
       la contradicción que llevaba abierta desde el 2026-09-01 entre BRD §14 R1,
       `CLAUDE.md` y la decisión de no usar la palabra en el copy: los tres
       sitios dicen ya lo mismo
+- [ ] ⚠️ **Desplegar Cloudflare**: la política de privacidad nueva está escrita
+      pero **la URL sigue sirviendo la vieja**, la que dice que no hay
+      analítica — y es la que Google lee al revisar
+- [ ] ⚠️ **Quitar los permisos de cámara y micrófono**, que mete
+      `expo-image-picker` por si abres la cámara: la app solo elige de la
+      galería. Un usuario que ve «Cámara y micrófono» en una app de astrología
+      para perros desconfía, y alarga la revisión. Se apagan desde su config
+      plugin y un `prebuild`
+- [ ] **Cuando llegue el dominio, cambiarlo en tres sitios**: `app.json`, la
+      declaración de Política de Privacidad y la de eliminación de datos
 - [ ] Registrar `Dogstrology` en EUIPO
 - [ ] Revisar y probar todo lo que toque producción antes de publicar
 
