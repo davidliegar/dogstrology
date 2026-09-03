@@ -1880,9 +1880,10 @@ justo lo que no sale barato, porque la URL se hornea en cada instalación.
         la lista de Play. Lo que separa a Dogstrology de las otras cincuenta
         apps de horóscopos **no lo puede decir una etiqueta**: lo tienen que
         ganar el título, las descripciones y las capturas
-- [ ] Icono de 512, gráfico destacado y público objetivo — **adultos, y
-      marcada como no dirigida a niños**: decir que sí abre el programa
-      Familias y sus requisitos, que esta app no necesita
+- [x] **Icono de 512 y gráfico destacado** (2026-09-03)
+- [ ] Público objetivo — **adultos, y marcada como no dirigida a niños**: decir
+      que sí abre el programa Familias y sus requisitos, que esta app no
+      necesita
 - [x] **Disclaimer de entretenimiento, en los dos sitios** (2026-09-03). En la
       app estaba desde la sesión 26 —pie fijo de Ajustes— y ahora también en la
       ficha, al final de la descripción y pegado al guardarraíl de salud. Cierra
