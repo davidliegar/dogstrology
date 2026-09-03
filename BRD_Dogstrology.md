@@ -541,7 +541,7 @@ Alcance de §8.1. Objetivo: validar que el contenido diario genera hábito (DAU/
   ⚠️ Esto introduce **datos personales del usuario** (fecha y lugar de nacimiento) → obligaciones GDPR. Mantenerlo local en el dispositivo mientras se pueda.
 - **Multi-mascota**: la casa entera. "Dinámica de manada" — mapa de tensiones y afinidades entre los 3 perros de casa. Feature premium natural y muy diferencial.
   El **MVP deja el terreno hecho** (§8.1, consecuencia de vender mascotas ilimitadas): varias mascotas conviviendo en Hoy, la pestaña convertida en selector y el perfil de cada una a un toque. La manada es la capa de *relación* encima de eso — sinastría entre las cartas que ya se calculan—, no la que enseña que hay dos perros.
-  ⚠️ El paywall ya promete "dinámica de manada" en su lista de ventajas (artboard 11). Mientras sea fase 2, es una **promesa y no un destino**: la lista del paywall no enlaza a ningún sitio, y no puede empezar a hacerlo hasta que exista.
+  ⚠️ ~~El paywall ya promete "dinámica de manada" en su lista de ventajas (artboard 11).~~ **Ya no** (D19, 2026-09-02): el artboard 11 se rehízo con dos beneficios y los dos existen, y las promesas de fase 2 salieron del paywall — prometer en la ficha de una tienda algo que no está es de lo que tumba una revisión. Cuando la manada exista, entra como beneficio real; hasta entonces no se nombra en ningún sitio de cara al usuario.
 
 ### Fase 3 — Momentos y calendario cósmico (est. +3 semanas) · **la utilidad disfrazada**
 
