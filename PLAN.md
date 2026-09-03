@@ -5008,3 +5008,33 @@ Llegaron 27 artboards. Se implementan **17 y 27**; el 26 va en tanda propia.
   privacidad y el formulario de datos de Play** antes de encenderlo: hoy los
   dos dicen que la app no tiene analítica
 - 570 tests, lint y `tsc` limpios
+
+### 2026-09-03 (57) — la pre-revisión, y un fallo de generación
+- **`scripts/pre-review.mjs` no revisa: ordena.** Busca lo que el filtro de
+  salud no puede ver —repetición, muletillas, textos que no hablan de su
+  asunto— para que la lectura humana empiece por donde más probable es que haya
+  algo. Cada fragmento por separado está bien escrito: el problema solo existe
+  leyéndolos juntos
+- ⚠️ **197 de 1.560 no nombran su asunto, y 162 son de raza × signo** — uno de
+  cada cinco. `german-shepherd;sign=scorpio` no dice «pastor alemán» en ninguna
+  parte: habla del Sol en Escorpio y de un perro cualquiera. **Ese cruce es el
+  contenido diferencial** (BRD §7.3, artboard 06), y un texto que valdría para
+  cualquier raza lo vacía entero. `aspects` sale limpio: 0 de 500
+- **La causa era el prompt**, que pedía escribir «para un perro de raza X con
+  signo Y» sin exigir nombrarlos en el texto. Corregido ahí, que es donde se
+  arregla para siempre y no fragmento a fragmento
+- **`--keys <fichero>` en `generateCatalog.mjs`**, y es el contrario de
+  `--missing`: pide claves concretas y **sustituye** las publicadas. Existe
+  porque un fragmento puede estar publicado y ser malo, y regenerarlo cuesta
+  menos que reescribirlo. ⚠️ Sustituye sin preguntar, **incluido lo ya revisado
+  por una persona**: el fichero se repasa antes de lanzarlo
+- **El fichero lo escribe la propia pre-revisión** (`pre-review.keys`), y solo
+  con los que no nombran su asunto. Las repeticiones no entran: ahí hay que
+  decidir cuál de los tres clones se queda, y eso es criterio, no automatismo
+- **Coste de rehacer los 197: ~$2,16** según la simulación. Menos que una hora
+  de leerlos
+- **50 titulares repetidos**, con un cliché por signo muy visible: seis «el
+  diplomático de…» en Libra, tres «motor de arranque…» en Aries. Y 70 aperturas
+  repetidas en tres o más fragmentos
+- 78 tests del pipeline, con uno nuevo que ata lo peligroso: que regenerar por
+  claves sustituya lo pedido y **no toque lo demás**

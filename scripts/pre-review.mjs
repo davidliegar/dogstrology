@@ -218,7 +218,24 @@ ${[...long, ...short].slice(0, 15).map((f) => `- \`${f.key}\` — ${f.body.lengt
 `;
 
 writeFileSync(join(root, 'pre-review.md'), report);
-console.log(`Pre-revisión de ${catalog.length} fragmentos → pre-review.md`);
+
+/**
+ * Y las claves sueltas, para dárselas a `generateCatalog.mjs --keys`.
+ *
+ * **Solo las que no nombran su asunto.** Ese fallo no se arregla leyendo: el
+ * texto está bien escrito y no dice nada prohibido, simplemente no es el
+ * fragmento que se pidió, y regenerarlo con el prompt corregido cuesta menos
+ * que reescribirlo a mano. Las repeticiones y las muletillas **no entran**:
+ * ahí hay que decidir cuál de los tres clones se queda, y eso es criterio.
+ */
+writeFileSync(
+  join(root, 'pre-review.keys'),
+  ['# Fragmentos que no nombran su asunto (pre-review.mjs).',
+   '# Regenerar: node pipeline/src/generateCatalog.mjs --keys ../pre-review.keys --confirm',
+   '# ⚠️ Sustituye lo publicado. Repasa la lista antes de lanzarla.',
+   ...offTopic.map((fragment) => fragment.key), ''].join('\n'),
+);
+console.log(`Pre-revisión de ${catalog.length} fragmentos → pre-review.md, pre-review.keys`);
 console.log(`  frases repetidas ....... ${repeated.length}`);
 console.log(`  aperturas repetidas .... ${openings.length}`);
 console.log(`  titulares repetidos .... ${headlines.length}`);

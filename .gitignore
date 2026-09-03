@@ -12,3 +12,4 @@ _site/
 # crece cada noche con el cron: se regenera, no se versiona.
 review.html
 pre-review.md
+pre-review.keys
