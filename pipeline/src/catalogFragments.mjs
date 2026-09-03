@@ -98,7 +98,9 @@ export function breedSignFragments() {
         userMessage:
           `Escribe la interpretación permanente del catálogo para: un perro de raza ${breed.label} ` +
           `con signo solar ${label(SIGN_LABELS, sign)}. Nombra la raza y el signo dentro del texto: ` +
-          `quien lo lea tiene que reconocer que habla de su perro y no de un perro cualquiera.`,
+          `quien lo lea tiene que reconocer que habla de su perro y no de un perro cualquiera. ` +
+          `El titular tiene que salir de esta raza en concreto, no del signo: «el diplomático de la ` +
+          `manada» vale para los doce Libra y por eso no vale para ninguno.`,
       });
     }
   }

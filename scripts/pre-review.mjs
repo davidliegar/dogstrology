@@ -220,20 +220,32 @@ ${[...long, ...short].slice(0, 15).map((f) => `- \`${f.key}\` — ${f.body.lengt
 writeFileSync(join(root, 'pre-review.md'), report);
 
 /**
+ * Los clones de titular, **menos el primero de cada grupo**.
+ *
+ * Alguno se queda porque el titular en sí suele estar bien: lo que sobra es
+ * que se repita. Y se queda el primero por no fingir un criterio que no hay —
+ * cuál de los tres «diplomáticos» es el bueno no lo decide un script.
+ */
+const clones = headlines.flatMap(([, keys]) => keys.slice(1));
+
+/**
  * Y las claves sueltas, para dárselas a `generateCatalog.mjs --keys`.
  *
- * **Solo las que no nombran su asunto.** Ese fallo no se arregla leyendo: el
- * texto está bien escrito y no dice nada prohibido, simplemente no es el
- * fragmento que se pidió, y regenerarlo con el prompt corregido cuesta menos
- * que reescribirlo a mano. Las repeticiones y las muletillas **no entran**:
- * ahí hay que decidir cuál de los tres clones se queda, y eso es criterio.
+ * **Los que no nombran su asunto y los titulares clonados.** Los dos fallos
+ * son de generación, no de escritura: el texto está bien hecho y no dice nada
+ * prohibido, simplemente no es el fragmento que se pidió o es el mismo que el
+ * de otro perro. Regenerarlos con el prompt corregido cuesta menos que
+ * reescribirlos, y van en la misma tanda porque el lote se paga una vez.
+ *
+ * Las frases repetidas dentro del cuerpo y las muletillas **no entran**: ahí
+ * hay que leer para decidir, y eso es criterio.
  */
 writeFileSync(
   join(root, 'pre-review.keys'),
   ['# Fragmentos que no nombran su asunto (pre-review.mjs).',
    '# Regenerar: node pipeline/src/generateCatalog.mjs --keys ../pre-review.keys --confirm',
    '# ⚠️ Sustituye lo publicado. Repasa la lista antes de lanzarla.',
-   ...offTopic.map((fragment) => fragment.key), ''].join('\n'),
+   ...new Set([...offTopic.map((fragment) => fragment.key), ...clones]), ''].join('\n'),
 );
 console.log(`Pre-revisión de ${catalog.length} fragmentos → pre-review.md, pre-review.keys`);
 console.log(`  frases repetidas ....... ${repeated.length}`);
@@ -241,4 +253,5 @@ console.log(`  aperturas repetidas .... ${openings.length}`);
 console.log(`  titulares repetidos .... ${headlines.length}`);
 console.log(`  sin nombrar su asunto .. ${offTopic.length}`);
 console.log(`  con muletillas ......... ${tics.reduce((total, [, keys]) => total + keys.length, 0)}`);
+console.log(`  → a regenerar .......... ${new Set([...offTopic.map((f) => f.key), ...clones]).size}`);
 console.log(`  longitud fuera de rango  ${long.length + short.length}`);
