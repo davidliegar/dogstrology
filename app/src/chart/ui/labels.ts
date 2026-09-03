@@ -344,3 +344,18 @@ export const LOCKED_CHART_CTA = 'Ver su carta completa';
  * son del cielo de hoy, iguales para todos los perros.
  */
 export const UNLOCK_HOUSES = 'Ver en qué casas cae su carta';
+
+/**
+ * La fila de oro de «Quién es», sin plan (D19).
+ *
+ * **Las facetas son la carta desglosada**: «Mercurio en Géminis», «Venus en
+ * Escorpio», una por planeta y con su texto. Es más de lo que enseña la carta
+ * bloqueada, que solo deja los tres signos del eje — y es justo lo que
+ * CLAUDE.md llama la profundidad: *premium no es mejor prosa, es más
+ * profundidad*.
+ *
+ * Lo que se queda: el retrato de raza × signo, que es el contenido diferencial
+ * y el gancho de la ficha, y la barra de elementos, que es un agregado y no
+ * dice dónde cae ningún planeta.
+ */
+export const UNLOCK_FACETS = 'Ver su carácter planeta a planeta';

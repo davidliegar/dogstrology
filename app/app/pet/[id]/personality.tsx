@@ -4,13 +4,16 @@ import { ActivityIndicator, StyleSheet, Text, View } from 'react-native';
 import { Screen } from '@/_ui/components/Screen';
 import { ScreenHeader } from '@/_ui/components/ScreenHeader';
 import { ElementBalance } from '@/chart/ui/ElementBalance';
+import { UnlockRow } from '@/_ui/components/UnlockRow';
+import { Veil } from '@/_ui/components/Veil';
+import { useContentAccess } from '@/subscription/ui/subscriptionQueries';
 import { useNatalChart, usePersonality, type PersonalityContent } from '@/chart/ui/chartQueries';
 import { PLANET_GLYPHS } from '@/chart/ui/glyphs';
-import { PLANET_LABELS, SIGN_LABELS } from '@/chart/ui/labels';
+import { PLANET_LABELS, SIGN_LABELS, UNLOCK_FACETS } from '@/chart/ui/labels';
 import { breedLabel } from '@/pet/ui/format';
 import { usePet } from '@/pet/ui/petQueries';
 
-import { colors, elementColor, screenPadding, spacing, glyphSize, typography } from '@/design/theme';
+import { colors, elementColor, radii, screenPadding, spacing, glyphSize, typography } from '@/design/theme';
 
 /** Ancho de la columna del glifo, igual que en la carta natal. */
 const GLYPH_COLUMN = 28;
@@ -30,6 +33,11 @@ export default function PetPersonality() {
   const { data: pet, isPending, isError } = usePet(id);
   const { data: chart } = useNatalChart(pet);
   const { data: personality } = usePersonality(pet, chart);
+  // El retrato de raza × signo y la barra de elementos se quedan: son el
+  // «perfil de personalidad básico» del BRD §10.3. Las facetas no —planeta a
+  // planeta con su signo es la carta desglosada, y más de lo que enseña la
+  // carta velada, que solo deja los tres signos del eje.
+  const canReadChart = useContentAccess().canReadNatalChart();
 
   if (isPending) {
     return (
@@ -77,11 +85,30 @@ export default function PetPersonality() {
 
           <ElementBalance balance={chart.elementBalance()} />
 
-          <View>
-            {personality.facets.map((facet, index) => (
-              <Facet key={facet.planet} facet={facet} divided={index > 0} />
-            ))}
-          </View>
+          {/*
+            Aquí el velo **sí vale**, al revés que en la rejilla de Explorar: lo
+            que se tapa es texto, y taparlo entero no filtra nada. En la rejilla
+            lo que había que ocultar era un resaltado, y un resaltado velado
+            sigue diciendo cuál es.
+          */}
+          {canReadChart ? (
+            <View>
+              {personality.facets.map((facet, index) => (
+                <Facet key={facet.planet} facet={facet} divided={index > 0} />
+              ))}
+            </View>
+          ) : (
+            <>
+              <Veil background={colors.background} radius={radii.m}>
+                <View style={styles.peek}>
+                  {personality.facets.map((facet, index) => (
+                    <Facet key={facet.planet} facet={facet} divided={index > 0} />
+                  ))}
+                </View>
+              </Veil>
+              <UnlockRow label={UNLOCK_FACETS} onPress={() => router.push('/paywall')} />
+            </>
+          )}
         </>
       ) : (
         <View style={styles.centered}>
@@ -109,7 +136,25 @@ function Facet({ facet, divided }: { facet: PersonalityContent['facets'][number]
   );
 }
 
+/**
+ * Cuánto asoma de las facetas bajo el velo.
+ *
+ * **El desenfoque tiene que caber en pantalla.** Android lo calcula sobre lo
+ * que se está viendo, así que un bloque de diez facetas —miles de píxeles— se
+ * quedaba nítido por abajo: bastaba desplazar para leer lo que se estaba
+ * cobrando. Visto en un móvil el 2026-09-03.
+ *
+ * Y recortar no quita nada: lo que el velo tiene que decir es que hay una
+ * lista escrita sobre este perro, y eso se dice igual con dos facetas que con
+ * diez.
+ */
+const PEEK = 220;
+
 const styles = StyleSheet.create({
+  peek: {
+    height: PEEK,
+    overflow: 'hidden',
+  },
   centered: {
     flex: 1,
     alignItems: 'center',

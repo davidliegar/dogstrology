@@ -4840,3 +4840,16 @@ Llegaron 27 artboards. Se implementan **17 y 27**; el 26 va en tanda propia.
   cada variante usa la suya** —`revenueCatTestApiKey` fuera de producción— sin
   depender de acordarse de una variable de entorno
 - 563 tests, lint y `tsc` limpios
+- **«Quién es» regalaba la carta desglosada.** El retrato de raza × signo y la
+  barra de elementos se quedan —son el «perfil básico» del BRD §10.3 y el
+  gancho de la ficha—, pero las facetas son «Mercurio en Géminis», «Venus en
+  Escorpio»… planeta a planeta y con su texto: más de lo que enseña la carta
+  velada, que solo deja los tres signos del eje. Van bajo el velo
+- **Aquí el velo sí vale**, al revés que en la rejilla de Explorar: lo que se
+  tapa es texto y taparlo entero no filtra nada; allí era un resaltado, y un
+  resaltado velado sigue diciendo cuál es
+- ⚠️ **Y un límite del desenfoque que solo se ve en un móvil**: Android lo
+  calcula sobre lo que está en pantalla, así que un bloque velado más alto que
+  el viewport **se queda nítido por abajo** — bastaba desplazar para leer lo
+  que se estaba cobrando. Las facetas se recortan a 220 px, que además dicen lo
+  mismo: que hay una lista escrita sobre este perro

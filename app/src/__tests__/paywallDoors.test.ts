@@ -8,8 +8,9 @@ import { join, relative, resolve } from 'node:path';
  * - **Un fragmento del día bajo candado** — la Luna o el Ascendente, en la
  *   fila de oro que cierra lo bloqueado (artboard 36);
  * - **la carta natal**, que sin Cósmico sale velada entera (artboard 37);
- * - **las casas de Explorar**, donde caen los planetas — que es carta natal
- *   servida en rejilla, y por eso se bloquea con ella (2026-09-02);
+ * - **la carta natal servida por otro lado**: las casas de Explorar, donde
+ *   caen los planetas, y las facetas de «Quién es», que son la carta
+ *   desglosada planeta a planeta. Es la misma falta pintada en tres pantallas;
  * - **la segunda mascota**, que es la caliente: el usuario quiere hacer algo
  *   concreto que el plan incluye;
  * - y **la oferta de Ajustes**, la fría: quien la toca ha ido a buscarla.
@@ -48,6 +49,8 @@ const DOORS = {
   'app/(tabs)/explore.tsx': 'la fila de oro de la rejilla de casas',
   /** …y el detalle de cada una, donde la fila sale en las doce por igual. */
   'app/house/[house].tsx': 'la fila de oro del detalle de casa',
+  /** Las facetas de «Quién es», que son la carta desglosada planeta a planeta. */
+  'app/pet/[id]/personality.tsx': 'la fila de oro de las facetas',
 };
 
 /**

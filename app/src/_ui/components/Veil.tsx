@@ -88,24 +88,13 @@ export function Veil({ children, background, gap, bleed = 0, radius, sharp }: Ve
     <View
       accessibilityElementsHidden
       importantForAccessibility="no-hide-descendants"
-      style={[
-        styles.frame,
-        {
-          marginHorizontal: -bleed,
-          marginBottom: -bleed,
-          borderBottomLeftRadius: radius,
-          borderBottomRightRadius: radius,
-          // Sin sangrado el velo no toca ningún borde: es una etiqueta suelta
-          // —el grado del Ascendente— y se redondea entera.
-          borderTopLeftRadius: bleed === 0 ? radius : undefined,
-          borderTopRightRadius: bleed === 0 ? radius : undefined,
-        },
-      ]}
+      // El sangrado va a los cuatro lados: el velo es la tarjeta entera, de
+      // borde a borde, y el aire que se come lo devuelve el `padding` de
+      // dentro para que el texto no se mueva ni un píxel al bloquearse.
+      style={[styles.frame, { margin: -bleed, borderRadius: radius }]}
     >
-      <BlurTargetView
-        ref={target}
-        style={{ backgroundColor: background, gap, paddingHorizontal: bleed, paddingBottom: bleed }}
-      >
+      <BlurTargetView ref={target} style={{ backgroundColor: background, gap, padding: bleed }}>
+        {sharp}
         {children}
       </BlurTargetView>
       <BlurView
