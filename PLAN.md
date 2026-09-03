@@ -1917,7 +1917,20 @@ justo lo que no sale barato, porque la URL se hornea en cada instalación.
       el próximo build nativo, el manifest sigue con los dos
 - [ ] **Cuando llegue el dominio, cambiarlo en tres sitios**: `app.json`, la
       declaración de Política de Privacidad y la de eliminación de datos
-- [ ] Registrar `Dogstrology` en EUIPO
+- [~] **EUIPO, fuera por coste** (decisión de David, 2026-09-03). Registrar la
+      marca en la UE son **850 € por una clase** y el MVP todavía no ha
+      facturado un euro: no se paga una defensa antes de saber si hay algo que
+      defender. Se retoma cuando la app justifique el gasto.
+      - **Lo que cuesta cero y conviene hacer igual**: buscar `Dogstrology` en
+        *eSearch plus* de EUIPO. Si alguien la tiene registrada en clase 9
+        —software— el problema no es no tener marca, es estar infringiendo la
+        de otro, y eso sí se paga
+      - **El riesgo asimétrico**: el nombre comercial es renombrable sin coste
+        técnico (`Dogstrology` → `Zoodiac`, CLAUDE.md), pero el `applicationId`
+        **no se puede cambiar nunca**. Cambiar de nombre es barato hoy y
+        carísimo con la app publicada y reseñada
+      - La clase que tocaría es la **9** (software descargable); la 42 (SaaS)
+        solo el día que haya backend
 - [ ] Revisar y probar todo lo que toque producción antes de publicar
 
 ---
