@@ -1844,7 +1844,25 @@ justo lo que no sale barato, porque la URL se hornea en cada instalación.
         disclaimer de entretenimiento en app y ficha, y el pie de Ajustes lo
         dice.** O se cambian los tres sitios o se cambia la ficha: hoy no
         coinciden, y esto hay que cerrarlo antes de publicar
-- [ ] Capturas, icono de 512, gráfico destacado, categoría y público objetivo
+- [x] **Categoría y etiquetas** (2026-09-03): **Estilo de vida**, con
+      **Horóscopo · Estilo de vida · Entretenimiento · Autoayuda**.
+      - La categoría la arrastra la etiqueta: «Horóscopo» **pertenece** a
+        Estilo de vida, y es la que trae instalaciones. *Entretenimiento* como
+        categoría habría hecho de disclaimer, pero ahí se compite con vídeo y
+        juegos casuales y el público no busca por ahí (D9: ASO puro)
+      - ⚠️ **Fuera «Meditación»**, que era lo que había: pertenece a *Salud y
+        fitness*, así que le decía a Play que esto es una app de salud — la
+        clasificación que hay que evitar, porque mete la ficha en las políticas
+        de salud de Google
+      - **La quinta etiqueta se deja vacía a propósito.** Cada etiqueta ajena
+        trae instalaciones que no vuelven, y Play aprende de las desinstalaciones
+      - ⚠️ **No existe ninguna etiqueta de mascotas, animales ni perros** en toda
+        la lista de Play. Lo que separa a Dogstrology de las otras cincuenta
+        apps de horóscopos **no lo puede decir una etiqueta**: lo tienen que
+        ganar el título, las descripciones y las capturas
+- [ ] Icono de 512, gráfico destacado y público objetivo — **adultos, y
+      marcada como no dirigida a niños**: decir que sí abre el programa
+      Familias y sus requisitos, que esta app no necesita
 - [ ] Disclaimer de entretenimiento visible en app y ficha (BRD §14). **En la
       app ya está** (sesión 26, pie fijo de Ajustes); queda la ficha de store
 - [ ] Registrar `Dogstrology` en EUIPO
