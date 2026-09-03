@@ -1821,7 +1821,15 @@ justo lo que no sale barato, porque la URL se hornea en cada instalación.
       configuración exacta —ids, entitlement, paquetes, periodo de gracia— está
       en «Y RevenueCat» más arriba
 - [ ] Integrar PostHog EU, sin identificadores de dispositivo (D10)
-- [ ] Capturas de store **renderizadas desde la app real**, nunca generadas (BRD §11.2.4)
+- [x] **Capturas de store, hechas** (2026-09-03), compuestas en Claude Design
+      (`Capturas Play.dc.html` → `assets/play/captura-*.png`)
+      - ⚠️ **Diverge de BRD §11.2.4 y de `CLAUDE.md`**, que dicen «renderizadas
+        desde la app real, nunca generadas». La regla existe porque una captura
+        dibujada promete una app que no existe, y eso lo paga la reseña. **Si
+        dentro del montaje va la pantalla real fotografiada, la regla se cumple
+        y esto es solo un marco**; si la pantalla está redibujada, no. Queda
+        para comprobar en la revisión previa a publicar, que es el último punto
+        de este bloque
 - [x] **Política de privacidad publicada** (2026-09-01): `/privacidad` en el
       mismo CDN. Escrita contra el código —una sola llamada de red, sin
       analítica, avisos locales, foto en almacenamiento privado— y nombrando a
@@ -1863,8 +1871,12 @@ justo lo que no sale barato, porque la URL se hornea en cada instalación.
 - [ ] Icono de 512, gráfico destacado y público objetivo — **adultos, y
       marcada como no dirigida a niños**: decir que sí abre el programa
       Familias y sus requisitos, que esta app no necesita
-- [ ] Disclaimer de entretenimiento visible en app y ficha (BRD §14). **En la
-      app ya está** (sesión 26, pie fijo de Ajustes); queda la ficha de store
+- [x] **Disclaimer de entretenimiento, en los dos sitios** (2026-09-03). En la
+      app estaba desde la sesión 26 —pie fijo de Ajustes— y ahora también en la
+      ficha, al final de la descripción y pegado al guardarraíl de salud. Cierra
+      la contradicción que llevaba abierta desde el 2026-09-01 entre BRD §14 R1,
+      `CLAUDE.md` y la decisión de no usar la palabra en el copy: los tres
+      sitios dicen ya lo mismo
 - [ ] Registrar `Dogstrology` en EUIPO
 - [ ] Revisar y probar todo lo que toque producción antes de publicar
 
