@@ -137,7 +137,7 @@ export default function Settings() {
         <View style={styles.offer}>
           <Text style={styles.offerName}>{PREMIUM_NAME}</Text>
           <Text style={styles.offerTitle}>{OFFER_TITLE}</Text>
-          <PrimaryButton label={OFFER_CTA} onPress={() => router.push('/paywall')} />
+          <PrimaryButton label={OFFER_CTA} onPress={() => router.push({ pathname: '/paywall', params: { door: 'settings' } })} />
         </View>
       ) : null}
 

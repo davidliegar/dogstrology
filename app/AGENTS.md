@@ -41,6 +41,11 @@ src/
 │   ├── application/          ShareImageUseCase
 │   ├── infrastructure/       expo-sharing + el fichero temporal en caché
 │   └── ui/                   Los tres lienzos, la marca de agua y el render
+├── analytics/                Bounded context: lo que se mide (BRD §13, D10)
+│   ├── domain/               El vocabulario cerrado de eventos y el puerto
+│   ├── infrastructure/       PostHog EU, y el único sitio que lo importa
+│   ├── ui/                   useAnalytics(), para la pantalla que sabe qué pasó
+│   └── testing/              El doble, que además es el adaptador sin clave
 ├── subscription/             Bounded context: quién ha pagado y qué se vende
 │   ├── domain/               Plan, Subscription, ContentAccess, el puerto
 │   ├── application/          Leer, listar planes, comprar y restaurar
@@ -97,6 +102,19 @@ se probó contra el doble, y el día que la clave esté puesta **cobra de verdad
 sin tocar una línea de código**. El doble no persiste: cada arranque vuelve al
 tier gratuito, que es también lo que hace obvio que eso todavía no es una
 suscripción de verdad.
+
+**La analítica es un vocabulario cerrado, no una función libre.** Los eventos
+viven en `analytics/domain/AnalyticsEvent.ts` y no se inventan por el camino:
+una analítica se estropea sola el día que alguien mide `paywall_view` donde ya
+había `paywall_viewed`, y a los tres meses hay dos gráficas que dicen cosas
+distintas. Lo mismo con las propiedades — números y vocabularios cerrados,
+nunca texto libre, porque un campo abierto acaba llevando el nombre de la
+mascota y convierte una analítica anónima en datos personales (D10).
+
+**Y se mide desde la UI, no desde los casos de uso**: por qué puerta se abrió
+el paywall o si el usuario canceló la compra son cosas que solo sabe la
+pantalla. `track` no devuelve nada y no se espera, así que no puede colarse en
+una condición ni retrasar lo que ve el usuario.
 
 **Lo que se bloquea y lo que no vive en `subscription/domain/ContentAccess.ts`**
 (D19): es una regla del plan, no de la pantalla que la sufre. `Subscription`

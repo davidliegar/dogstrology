@@ -1,7 +1,9 @@
 import { router, useLocalSearchParams } from 'expo-router';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { ActivityIndicator, Pressable, StyleSheet, Text, View, type TextStyle } from 'react-native';
 
+import type { PaywallDoor } from '@/analytics/domain/AnalyticsEvent';
+import { useAnalytics } from '@/analytics/ui/useAnalytics';
 import { CloseMark } from '@/_ui/components/CloseMark';
 import { PrimaryButton } from '@/_ui/components/PrimaryButton';
 import { Screen } from '@/_ui/components/Screen';
@@ -80,7 +82,7 @@ export default function Paywall() {
   // aquí —la tarjeta bloqueada sabe de quién era— y, si no lo dice (la oferta
   // fría de Ajustes, la fila de añadir), es el primero: con un perro por dueño
   // no hay ambigüedad, y con varios cualquiera de ellos enseña lo mismo.
-  const { pet: petId } = useLocalSearchParams<{ pet?: string }>();
+  const { pet: petId, door } = useLocalSearchParams<{ pet?: string; door?: PaywallDoor }>();
   const { data: pets } = usePets();
   const { data: named } = usePet(petId);
   const pet = named ?? pets?.[0];
@@ -89,6 +91,14 @@ export default function Paywall() {
   const { data: edition } = useDailyEdition(today);
 
   const { data: plans, isError: plansFailed, refetch: retryPlans } = usePlans();
+
+  // **La puerta es lo que convierte la conversión en accionable** (BRD §13):
+  // sin ella se sabe cuánta gente compra, y con ella qué falta la empuja. Se
+  // mide una vez por apertura, no en cada render.
+  const analytics = useAnalytics();
+  useEffect(() => {
+    analytics.track('paywall_viewed', door ? { door } : undefined);
+  }, [analytics, door]);
   const purchase = usePurchasePlan();
   const restore = useRestorePurchases();
 
@@ -125,10 +135,21 @@ export default function Paywall() {
    */
   const buy = () => {
     if (selectedId === undefined) return;
+    analytics.track('purchase_started', { plan: selectedId, ...(door ? { door } : {}) });
     purchase.mutate(selectedId, {
       onSuccess: () => {
+        analytics.track('purchase_completed', { plan: selectedId, ...(door ? { door } : {}) });
         if (router.canDismiss()) router.dismissAll();
         router.replace('/today');
+      },
+      // Cancelar y fallar se miden por separado **porque significan cosas
+      // distintas**: uno es un precio que no convence y el otro una tienda que
+      // no responde, y confundirlos haría creer que el paywall no funciona
+      // cuando lo que no funciona es el cobro.
+      onError: (error) => {
+        analytics.track(isPurchaseCancelled(error) ? 'purchase_cancelled' : 'purchase_failed', {
+          plan: selectedId,
+        });
       },
     });
   };
@@ -172,7 +193,7 @@ export default function Paywall() {
               compra es donde se abandona. */}
           <View style={styles.links}>
             <Pressable
-              onPress={() => restore.mutate()}
+              onPress={() => restore.mutate(undefined, { onSuccess: () => analytics.track('restore_completed') })}
               disabled={busy}
               accessibilityRole="button"
               accessibilityLabel={RESTORE_LABEL}

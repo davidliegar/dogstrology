@@ -56,7 +56,8 @@
         "projectId": "0a43767b-8ca7-481f-af35-661652f8f79f"
       },
       "revenueCatApiKey": "goog_eRaxcjDruTUzVMJzeMJRWdoWsVY",
-      "revenueCatTestApiKey": "test_DvxmFRwqcGSOiwYxbtRJuoNraES"
+      "revenueCatTestApiKey": "test_DvxmFRwqcGSOiwYxbtRJuoNraES",
+      "posthogApiKey": ""
     },
     "owner": "davidliegars-team"
   }

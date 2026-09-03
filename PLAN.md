@@ -4923,3 +4923,35 @@ Llegaron 27 artboards. Se implementan **17 y 27**; el 26 va en tanda propia.
   pone el repositorio, así que el usuario no elige cuál conserva mientras dura
   el plan básico. Tampoco se le dice que las otras siguen ahí — las dos cosas
   son hueco de diseño
+
+### 2026-09-03 (56) — PostHog, detrás de un puerto
+- **Contexto `analytics/`** con el vocabulario cerrado, el puerto, el adaptador
+  de PostHog EU y el doble. Se elige por si hay clave, como RevenueCat: sin
+  `posthogApiKey` en `app.json` la app mide contra el doble y **no manda un solo
+  evento a ninguna parte**
+- **El vocabulario es cerrado a propósito.** Una analítica se estropea sola:
+  alguien mide `paywall_view` donde había `paywall_viewed` y a los tres meses
+  hay dos gráficas que dicen cosas distintas. Un evento nuevo se añade a mano,
+  y eso obliga a preguntarse para qué
+- **Las propiedades también**: números y vocabularios cerrados, nunca texto
+  libre. Un campo abierto acaba llevando el nombre de la mascota el día que
+  alguien tenga prisa, y eso convierte una analítica anónima en datos
+  personales (D10, BRD §12.2)
+- **Decidido: identificador anónimo propio y persistente** (2026-09-03). No es
+  el de publicidad ni el de Android —los dos que obligan a pedir
+  consentimiento— y **es la única forma de que exista DAU/MAU**, el KPI norte:
+  sin id estable no se cuentan personas, se cuentan aperturas. ⚠️ Guarda algo en
+  el terminal, así que **la política de privacidad tiene que decirlo**
+- **Session replay apagado**, y no por rendimiento: aquí dentro se ven el
+  nombre del perro y su fecha de nacimiento, así que grabar la pantalla sería
+  recoger datos personales por la puerta de atrás
+- **Cada puerta del paywall va etiquetada** (`settings · daily · chart · houses
+  · facets · add_pet`) y hay un test que falla si alguien añade una sin
+  etiqueta: sin la puerta se sabe cuánta gente compra, con ella qué falta la
+  empuja — que es lo que decide dónde se invierte después
+- **Cancelar y fallar se miden por separado**, porque uno es un precio que no
+  convence y el otro una tienda que no responde
+- ⚠️ **Falta la cuenta de PostHog y su clave**, y actualizar **la política de
+  privacidad y el formulario de datos de Play** antes de encenderlo: hoy los
+  dos dicen que la app no tiene analítica
+- 570 tests, lint y `tsc` limpios

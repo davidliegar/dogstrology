@@ -79,7 +79,9 @@ export default function PetTab() {
       ))}
       <AddPetRow
         note={canAddPet ? undefined : ADD_PET_NOTE}
-        onPress={() => router.push(canAddPet ? '/onboarding/name' : '/paywall')}
+        onPress={() => canAddPet
+              ? router.push('/onboarding/name')
+              : router.push({ pathname: '/paywall', params: { door: 'add_pet' } })}
       />
     </Screen>
   );

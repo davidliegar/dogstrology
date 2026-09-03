@@ -193,7 +193,8 @@ export function PetHub({ pet, onBack }: PetHubProps) {
           addNote={canAddPet ? undefined : ADD_PET_NOTE}
           onAdd={() => {
             setSelectorOpen(false);
-            router.push(canAddPet ? '/onboarding/name' : '/paywall');
+            if (canAddPet) router.push('/onboarding/name');
+            else router.push({ pathname: '/paywall', params: { door: 'add_pet' } });
           }}
           onClose={() => setSelectorOpen(false)}
         />

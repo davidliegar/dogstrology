@@ -1,6 +1,6 @@
 import { openDatabase } from './_db/base';
 import type { DatabaseProvider } from './_db/types';
-import { contentBaseUrl, revenueCatApiKey } from './_kernel/config';
+import { contentBaseUrl, posthogApiKey, revenueCatApiKey } from './_kernel/config';
 import type { ChartCalculator } from './chart/domain/ChartCalculator';
 import { AstronomyEngineChartCalculator } from './chart/infrastructure/AstronomyEngineChartCalculator';
 import CalculateNatalChartUseCase from './chart/application/CalculateNatalChartUseCase';
@@ -27,6 +27,9 @@ import { SqlitePreferencesRepository } from './settings/infrastructure/SqlitePre
 import GetPreferencesUseCase from './settings/application/GetPreferencesUseCase';
 import SetHouseSystemUseCase from './settings/application/SetHouseSystemUseCase';
 import type { SubscriptionGateway } from './subscription/domain/SubscriptionGateway';
+import type { Analytics } from './analytics/domain/Analytics';
+import { PostHogAnalytics } from './analytics/infrastructure/PostHogAnalytics';
+import { InMemoryAnalytics } from './analytics/testing/InMemoryAnalytics';
 import { RevenueCatSubscriptionGateway } from './subscription/infrastructure/RevenueCatSubscriptionGateway';
 import { InMemorySubscriptionGateway } from './subscription/testing/InMemorySubscriptionGateway';
 import GetSubscriptionUseCase from './subscription/application/GetSubscriptionUseCase';
@@ -60,6 +63,7 @@ export interface DogstrologyDependencies {
   notificationScheduler?: NotificationScheduler;
   shareSheet?: ShareSheet;
   subscriptionGateway?: SubscriptionGateway;
+  analytics?: Analytics;
 }
 
 /**
@@ -87,6 +91,12 @@ export class Dogstrology {
   private notificationScheduler?: NotificationScheduler;
   private readonly shareSheet: ShareSheet;
   private readonly subscriptionGateway: SubscriptionGateway;
+  /**
+   * Público a propósito: los eventos los manda la UI, que es quien sabe qué ha
+   * pasado —por qué puerta se abrió el paywall, si el usuario canceló— y
+   * envolver cada uno en un caso de uso sería fontanería sin dueño.
+   */
+  readonly analytics: Analytics;
   private readonly useCases = new Map<string, unknown>();
 
   static create(dependencies: DogstrologyDependencies = {}): Dogstrology {
@@ -104,6 +114,7 @@ export class Dogstrology {
     notificationScheduler,
     shareSheet,
     subscriptionGateway,
+    analytics,
   }: DogstrologyDependencies = {}) {
     this.db = db;
     this.dailyRepositoryOverride = dailyRepository;
@@ -121,6 +132,7 @@ export class Dogstrology {
     // esté puesta, cobra de verdad **sin tocar una línea de código**, que es
     // lo que evita que el cambio de motor coincida con un despliegue.
     this.subscriptionGateway = subscriptionGateway ?? defaultSubscriptionGateway();
+    this.analytics = analytics ?? defaultAnalytics();
   }
 
   private useCase<T>(name: string, build: () => T): T {
@@ -308,6 +320,12 @@ export class Dogstrology {
  * implementación es trabajo del composition root**, y es el único sitio de la
  * app donde eso está permitido.
  */
+/** Con clave, PostHog; sin ella, el doble que no manda nada a ninguna parte. */
+function defaultAnalytics(): Analytics {
+  const apiKey = posthogApiKey();
+  return apiKey ? PostHogAnalytics.create({ apiKey }) : InMemoryAnalytics.create();
+}
+
 function defaultSubscriptionGateway(): SubscriptionGateway {
   const apiKey = revenueCatApiKey();
   return apiKey ? RevenueCatSubscriptionGateway.create({ apiKey }) : InMemorySubscriptionGateway.create();

@@ -133,7 +133,7 @@ export default function Explore() {
       {filter === 'phases' ? <PhaseGrid side={side} today={sky?.phase.name} /> : null}
 
       {housesLocked ? (
-        <UnlockRow label={UNLOCK_HOUSES} onPress={() => router.push('/paywall')} />
+        <UnlockRow label={UNLOCK_HOUSES} onPress={() => router.push({ pathname: '/paywall', params: { door: 'houses' } })} />
       ) : (
         <Text style={styles.caption}>{exploreCaption({ filter, pets: highlights[filter] })}</Text>
       )}

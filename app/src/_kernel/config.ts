@@ -17,6 +17,7 @@ import Constants from 'expo-constants';
 interface Extra {
   contentBaseUrl?: string;
   revenueCatApiKey?: string;
+  posthogApiKey?: string;
 }
 
 const extra = (Constants.expoConfig?.extra ?? {}) as Extra;
@@ -57,3 +58,13 @@ export const contentBaseUrl = (): string => required('contentBaseUrl', extra.con
  * publicar (PLAN.md, Bloque 5).
  */
 export const revenueCatApiKey = (): string | undefined => extra.revenueCatApiKey || undefined;
+
+/**
+ * La clave de proyecto de PostHog, o nada si todavía no hay cuenta.
+ *
+ * Como la de RevenueCat, **puede faltar y no pasa nada**: sin ella la app mide
+ * contra el doble en memoria y no manda un solo evento a ninguna parte, que es
+ * lo que tiene que ocurrir mientras se desarrolla. Es pública —solo escribe— y
+ * viaja en cada instalación.
+ */
+export const posthogApiKey = (): string | undefined => extra.posthogApiKey || undefined;

@@ -27,7 +27,7 @@ export function DailyUnlockRow({ axes, petId }: DailyUnlockRowProps) {
   return (
     <UnlockRow
       label={unlockDailyLabel(axes)}
-      onPress={() => router.push({ pathname: '/paywall', params: { pet: petId } })}
+      onPress={() => router.push({ pathname: '/paywall', params: { pet: petId, door: 'daily' } })}
     />
   );
 }

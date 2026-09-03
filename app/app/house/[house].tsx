@@ -123,7 +123,7 @@ export default function HouseDetail() {
           cuando no hay nada que ocultar.
         */
         !canReadChart ? (
-          <UnlockRow label={UNLOCK_HOUSES} onPress={() => router.push('/paywall')} />
+          <UnlockRow label={UNLOCK_HOUSES} onPress={() => router.push({ pathname: '/paywall', params: { door: 'houses' } })} />
         ) : several ? (
           connections.length > 0 ? (
             <ConnectionList connections={connections} />

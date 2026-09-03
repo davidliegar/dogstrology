@@ -106,7 +106,7 @@ export default function PetPersonality() {
                   ))}
                 </View>
               </Veil>
-              <UnlockRow label={UNLOCK_FACETS} onPress={() => router.push('/paywall')} />
+              <UnlockRow label={UNLOCK_FACETS} onPress={() => router.push({ pathname: '/paywall', params: { door: 'facets' } })} />
             </>
           )}
         </>

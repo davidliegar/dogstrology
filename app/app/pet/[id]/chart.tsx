@@ -110,7 +110,7 @@ export default function PetChart() {
             // Con el perro puesto: el 11 enseña **su** Luna y **su** grado, y
             // en una casa de varios el ejemplo tiene que ser el del que se
             // estaba mirando.
-            onPress={() => router.push({ pathname: '/paywall', params: { pet: pet.id() } })}
+            onPress={() => router.push({ pathname: '/paywall', params: { pet: pet.id(), door: 'chart' } })}
           />
         }
       >
