@@ -1820,7 +1820,19 @@ justo lo que no sale barato, porque la URL se hornea en cada instalación.
       cuenta de servicio y una compra real recorrida en un móvil. La
       configuración exacta —ids, entitlement, paquetes, periodo de gracia— está
       en «Y RevenueCat» más arriba
-- [ ] Integrar PostHog EU, sin identificadores de dispositivo (D10)
+- [x] **PostHog EU integrado** (2026-09-03): contexto `analytics/` con el
+      vocabulario cerrado, el puerto y el adaptador; clave en `app.json`. Ver el
+      registro de la sesión 56 para las decisiones
+- [x] **La política de privacidad, actualizada y publicada** (2026-09-03). Decía
+      que no había analítica **y prometía actualizarse antes de que la hubiera**:
+      esto es cumplir esa promesa. Explica qué se manda —hechos, no contenido—,
+      que el identificador es propio y no el de publicidad, que se borra al
+      desinstalar, y que no se graba la pantalla
+- [ ] ⚠️ **El formulario de seguridad de datos de Play**, que tiene que cuadrar
+      con la política. Hoy está rellenado como si no hubiera analítica, y
+      rellenarlo mal es motivo de **retirada**, no de aviso. Lo que hay que
+      declarar: identificadores de usuario (el aleatorio propio), acciones en la
+      app, y que **no** se comparten con terceros para publicidad ni se venden
 - [x] **Capturas de store, hechas** (2026-09-03), compuestas en Claude Design
       (`Capturas Play.dc.html` → `assets/play/captura-*.png`)
       - ⚠️ **Diverge de BRD §11.2.4 y de `CLAUDE.md`**, que dicen «renderizadas
