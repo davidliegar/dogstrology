@@ -1815,9 +1815,11 @@ justo lo que no sale barato, porque la URL se hornea en cada instalación.
       ahorra la verificación de identidad y —si sigue vigente— el test cerrado
       de 12 testers durante 14 días que Google exige a las cuentas personales
       nuevas. Era la puerta de calendario más larga que quedaba
-- [ ] Dar de alta los **tres productos** en Play Console — precio ya fijado
-      (BRD §15.3, 2026-08-31): **3,99 €/mes · 19,99 €/año · 29,99 € una sola
-      vez**. Son tres y no dos: el artboard 11 pinta el vitalicio
+- [x] **Los tres productos, dados de alta y cobrando** (2026-09-02): 3,99 €/mes
+      · 19,99 €/año · 29,99 € una sola vez, con RevenueCat conectado a Play por
+      cuenta de servicio y una compra real recorrida en un móvil. La
+      configuración exacta —ids, entitlement, paquetes, periodo de gracia— está
+      en «Y RevenueCat» más arriba
 - [ ] Integrar PostHog EU, sin identificadores de dispositivo (D10)
 - [ ] Capturas de store **renderizadas desde la app real**, nunca generadas (BRD §11.2.4)
 - [x] **Política de privacidad publicada** (2026-09-01): `/privacidad` en el
