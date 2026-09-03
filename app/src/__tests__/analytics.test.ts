@@ -55,3 +55,34 @@ describe('lo que la app mide', () => {
     expect(ANALYTICS_EVENTS.every((event) => /^[a-z][a-z0-9_]*$/.test(event))).toBe(true);
   });
 });
+
+/**
+ * **Un evento declarado que nadie dispara es peor que no tenerlo**: aparece en
+ * el vocabulario, se cuenta con él al mirar el panel, y la gráfica sale vacía
+ * sin que nadie sepa si es que no pasa o es que no se mide.
+ *
+ * Los que faltan van en `PENDING` a mano, y esa lista es la deuda: se vacía
+ * cableándolos, no ampliándola.
+ */
+describe('los eventos declarados se disparan', () => {
+  /** Aún sin cablear. Engagement, no embudo: ninguno bloquea una decisión. */
+  const PENDING = ['chart_opened', 'personality_opened', 'explore_opened', 'reminder_enabled', 'reminder_disabled'];
+
+  const code = [...sources(join(ROOT, 'app')), ...sources(join(ROOT, 'src'))]
+    .filter((path) => !path.includes('analytics/domain'))
+    .map((path) => readFileSync(path, 'utf8'))
+    .join('\n');
+
+  it('todo el embudo está medido: activación, hábito y compra', () => {
+    const wired = ANALYTICS_EVENTS.filter((event) => !PENDING.includes(event));
+    const missing = wired.filter((event) => !code.includes(`'${event}'`));
+
+    expect(missing).toEqual([]);
+  });
+
+  it('y lo que falta está en la lista, no suelto por ahí', () => {
+    // Si alguien cablea uno de los pendientes, este test le recuerda quitarlo
+    // de `PENDING` — si no, la deuda se queda escrita cuando ya no existe.
+    expect(PENDING.filter((event) => code.includes(`'${event}'`))).toEqual([]);
+  });
+});

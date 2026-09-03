@@ -5038,3 +5038,21 @@ Llegaron 27 artboards. Se implementan **17 y 27**; el 26 va en tanda propia.
   repetidas en tres o más fragmentos
 - 78 tests del pipeline, con uno nuevo que ata lo peligroso: que regenerar por
   claves sustituya lo pedido y **no toque lo demás**
+
+### 2026-09-03 (58) — el embudo, medido antes de la beta
+- **Los catorce días de parada son la primera muestra de datos**, no tiempo
+  muerto: doce testers usando la app con analítica encendida es el primer
+  DAU/MAU real, y ese número decide el roadmap entero (BRD §9). No se repite,
+  así que medir bien **antes** de que entren es la prioridad
+- **Cableada la activación entera**: `onboarding_started` (el denominador, sin
+  el cual una tasa de completado no es nada), `pet_created`, `reveal_seen` —el
+  primer valor, y se mide cuando la carta existe: entrar y mirar una ruleta no
+  es haber visto nada—, `birth_time_added` y `shared`
+- **Todo se mide al conseguirlo, no al pulsarlo.** Una mascota que no llegó a
+  guardarse inflaría la activación con perros que no existen
+- **Y un test que caza el evento declarado que nadie dispara**, que es el otro
+  fallo mudo de una analítica: aparece en el panel, la gráfica sale vacía y
+  nadie sabe si es que no pasa o es que no se mide. Los cinco que faltan
+  —engagement, ninguno bloquea una decisión— van en una lista que se vacía
+  cableándolos
+- 575 tests, lint y `tsc` limpios

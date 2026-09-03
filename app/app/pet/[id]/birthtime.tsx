@@ -4,6 +4,7 @@ import { Pressable, StyleSheet, Text, View } from 'react-native';
 
 import { NoticeCard } from '@/_ui/components/NoticeCard';
 import { PrimaryButton } from '@/_ui/components/PrimaryButton';
+import { useAnalytics } from '@/analytics/ui/useAnalytics';
 import { Screen } from '@/_ui/components/Screen';
 import { ScreenHeader } from '@/_ui/components/ScreenHeader';
 import { TimeClock } from '@/_ui/components/TimeClock';
@@ -58,6 +59,7 @@ export default function BirthTimeEditor() {
   const town = birth?.placeName()?.split(',')[0];
   const time = timeOf(entry);
   const valid = time !== undefined;
+  const analytics = useAnalytics();
 
   // Qué Luna se le había enseñado hasta ahora, y solo si se le enseñó como
   // aproximada: si el signo ya era firme, no hay nada que rectificar.
@@ -69,6 +71,10 @@ export default function BirthTimeEditor() {
       { id, changes: { birth: withBirthTime(birth, time) } },
       {
         onSuccess: () => {
+          // Solo al **dar** la hora, no al quitarla: lo que interesa medir es
+          // cuánta gente completa la carta, que es lo que decide si el paywall
+          // tiene algo que vender (la casa y el Ascendente salen de aquí).
+          if (time) analytics.track('birth_time_added');
           // Dar la hora puede mover la Luna de signo, y callarlo dejaría en
           // duda todo lo que la app dijo antes. La pantalla de aviso decide si
           // cambió de verdad; aquí solo se le pasa lo que se afirmaba.

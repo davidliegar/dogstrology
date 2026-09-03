@@ -8,6 +8,7 @@ import { PrimaryButton } from '@/_ui/components/PrimaryButton';
 import { ProgressSteps } from '@/_ui/components/ProgressSteps';
 import { Screen } from '@/_ui/components/Screen';
 import { accuracyFor, useOnboardingStore } from '@/pet/ui/onboardingStore';
+import { useAnalytics } from '@/analytics/ui/useAnalytics';
 import { useCreatePet } from '@/pet/ui/petQueries';
 
 import { colors, feedback, spacing, typography } from '@/design/theme';
@@ -20,6 +21,7 @@ export default function OnboardingDate() {
 
   const [parts, setParts] = useState<DateParts>(EMPTY_DATE);
   const createPet = useCreatePet();
+  const analytics = useAnalytics();
 
   const isoDate = toIsoDate(parts);
   // Una fecha futura pasa todas las validaciones de forma y produce una carta
@@ -38,7 +40,16 @@ export default function OnboardingDate() {
         // Hora y lugar se piden después, como mejora progresiva (BRD §11.3).
         birth: { date: isoDate, accuracy: accuracyFor(dateIsApproximate) },
       },
-      { onSuccess: (pet) => router.replace({ pathname: '/onboarding/reveal', params: { petId: pet.id() } }) },
+      {
+        onSuccess: (pet) => {
+          // Se mide **al guardar**, no al pulsar: si el guardado falla, no hay
+          // mascota, y contarla inflaría la activación con perros que no
+          // existen. La exactitud de la fecha viaja porque separa a quien sabe
+          // el día de quien adoptó — y son dos perfiles distintos.
+          analytics.track('pet_created', { confidence: accuracyFor(dateIsApproximate) });
+          router.replace({ pathname: '/onboarding/reveal', params: { petId: pet.id() } });
+        },
+      },
     );
   };
 
