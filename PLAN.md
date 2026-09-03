@@ -4853,3 +4853,21 @@ Llegaron 27 artboards. Se implementan **17 y 27**; el 26 va en tanda propia.
   el viewport **se queda nítido por abajo** — bastaba desplazar para leer lo
   que se estaba cobrando. Las facetas se recortan a 220 px, que además dicen lo
   mismo: que hay una lista escrita sobre este perro
+
+### 2026-09-03 (55b) — volver al plan básico con varias mascotas
+- **El límite de mascotas se aplicaba solo al alta**, así que quien tenía tres y
+  dejaba de pagar seguía viéndolas todas: el carrusel de Hoy, la lista, el pie
+  de las fichas. El plan no valía para nada en media app
+- **Ahora recorta `usePets`**, que es por donde pasan todas, y las tres
+  consecuencias salen solas sin que ninguna pantalla sepa del plan: Hoy vuelve
+  a ser el día de un perro, la pestaña vuelve a ser su hub y Explorar resalta
+  lo de uno
+- **No se borra nada**: las demás siguen en el móvil con su carta y vuelven
+  enteras al pagar. Lo que cambia es cuántas se ven, no cuántas hay
+- **Y añadir se sigue midiendo con las que existen** (`useAllPets`), no con las
+  que se ven: si no, quien tiene tres y ve una creería que puede añadir la
+  segunda y toparía con el límite tras rellenar el onboarding entero
+- ⚠️ **Se quedan las primeras, y eso es una decisión sin dibujo**: el orden lo
+  pone el repositorio, así que el usuario no elige cuál conserva mientras dura
+  el plan básico. Tampoco se le dice que las otras siguen ahí — las dos cosas
+  son hueco de diseño

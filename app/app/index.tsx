@@ -1,7 +1,7 @@
 import { Redirect } from 'expo-router';
 import { ActivityIndicator, StyleSheet, Text, View } from 'react-native';
 
-import { usePets } from '@/pet/ui/petQueries';
+import { useAllPets } from '@/pet/ui/petQueries';
 
 import { colors, screenPadding, spacing, typography } from '@/design/theme';
 
@@ -15,7 +15,10 @@ import { colors, screenPadding, spacing, typography } from '@/design/theme';
  * acabaría creando una mascota duplicada, así que se dice.
  */
 export default function Index() {
-  const { data: pets, isPending, isError } = usePets();
+  // **Todas, sin recortar por plan**: el reparto de arranque pregunta si hay
+  // alguna mascota, no cuántas se pueden enseñar. Quien tiene tres y ha dejado
+  // de pagar sigue teniendo app, no un onboarding.
+  const { data: pets, isPending, isError } = useAllPets();
 
   if (isPending) {
     return (

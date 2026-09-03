@@ -11,12 +11,11 @@ import { ChartTrio } from '@/chart/ui/ChartTrio';
 import { useNatalChart } from '@/chart/ui/chartQueries';
 import { MISSING_DATUM_NOTES, SIGN_LABELS } from '@/chart/ui/labels';
 import { ADD_PET_LABEL, ADD_PET_NOTE } from '@/subscription/ui/labels';
-import { useCanAddPet } from '@/subscription/ui/subscriptionQueries';
 import type { Pet } from '../domain/Pet';
 import { breedLabel, formatLongDate } from './format';
 import { PetIdentity } from './PetIdentity';
 import { PetSelectorSheet } from './PetSelectorSheet';
-import { usePets, usePetPhotoUri } from './petQueries';
+import { useCanAddPet, usePets, usePetPhotoUri } from './petQueries';
 
 import { SHARE_TITLE } from '@/sharing/ui/labels';
 
