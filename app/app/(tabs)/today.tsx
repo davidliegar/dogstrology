@@ -151,7 +151,7 @@ export default function Today() {
         header={<ScreenHeader overline={formatWeekdayDate(today)} title={HOUSE_DAY_TITLE} />}
         footer={footer}
       >
-        {moon ? <MoonStrip compact sky={moon} /> : null}
+        {moon ? <MoonStrip compact sky={moon} onPress={() => router.push('/moon')} /> : null}
 
         {isPending ? (
           <DailySkeleton />

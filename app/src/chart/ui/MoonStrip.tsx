@@ -20,11 +20,13 @@ export interface MoonStripProps {
    * La tira encogida del artboard 30, para el Hoy de varias mascotas: disco
    * más pequeño, el nombre de la fase en una línea y solo el porcentaje.
    *
-   * **Y sin punta**, así que tampoco lleva a ninguna parte: con varias
-   * mascotas el cielo compartido es contexto de lo que viene debajo, no un
-   * destino que compita con los bloques de cada perro. El artboard no la
-   * dibuja, y una zona que se pulsa sin decirlo es peor que una que no se
-   * pulsa.
+   * Encoge, pero **sigue llevando a la Luna**. El primer intento la dejaba
+   * muerta —el artboard 30 no dibuja la punta, y se leyó como que con varias
+   * mascotas el cielo es contexto y no un destino—, y el precio era que
+   * `/moon` dejaba de tener puerta: es la única entrada que hay, así que a
+   * partir de dos perros la pantalla no se podía abrir. La propia pantalla
+   * reparte una fila por perro cuando hay varios; ese código no llegaba a
+   * ejecutarse nunca.
    */
   compact?: boolean;
 }
@@ -49,7 +51,7 @@ export function MoonStrip({ sky, onPress, compact = false }: MoonStripProps) {
     : undefined;
   const illuminated = `${Math.round(phase.illumination * 100)}%`;
   const meta = [`${illuminated} iluminada`, detail].filter(Boolean).join(' · ');
-  const pressable = Boolean(onPress) && !compact;
+  const pressable = Boolean(onPress);
 
   const content = (
     <>

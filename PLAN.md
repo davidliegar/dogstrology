@@ -5089,3 +5089,10 @@ Llegaron 27 artboards. Se implementan **17 y 27**; el 26 va en tanda propia.
   varios testers escribieron su propio nombre. Ahora dice **«¿Cómo se llama tu
   mascota?»** (y la etiqueta de accesibilidad, igual). Diverge del artboard 01 a
   propósito: el feedback de uso real manda sobre el canvas
+- ⚠️ **Y con dos perros la Luna no existía.** La tira encogida del artboard 30
+  se dibujó sin `onPress` con un argumento razonable —con varias mascotas el
+  cielo compartido es contexto, no un destino—, pero esa tira es **la única
+  entrada de `/moon`**: a partir del segundo perro la pantalla no se podía
+  abrir. Y la propia pantalla reparte una fila de Luna natal por perro
+  justo cuando hay varios: código que no se ejecutaba nunca. Test de fuente
+  (`moonDoor.test.ts`) para que no vuelva, porque es de las que compilan
