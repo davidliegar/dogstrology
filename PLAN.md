@@ -5096,20 +5096,18 @@ Llegaron 27 artboards. Se implementan **17 y 27**; el 26 va en tanda propia.
   abrir. Y la propia pantalla reparte una fila de Luna natal por perro
   justo cuando hay varios: código que no se ejecutaba nunca. Test de fuente
   (`moonDoor.test.ts`) para que no vuelva, porque es de las que compilan
-- **Y las tarjetas del día llevan a la carta.** Desbloqueada, cada tarjeta de
-  eje abre su sitio en la carta natal —el Sol y la Luna, su hoja; el
-  Ascendente, la carta con su fila, porque no es un planeta y no tiene hoja—.
-  Bajo candado, la tarjeta entera va al paywall: es el mismo gesto del usuario
-  y lo que cambia es qué falta, el camino o el permiso. La punta solo sale
-  desbloqueada, porque con candado quien anuncia el toque es el candado. Y la
-  puerta del paywall sigue siendo **una** —`openDailyDoor`, en el fichero que
-  ya la tenía—, para no ensanchar la lista que vigila `paywallDoors.test.ts`
 
 ### 2026-09-04 (61) — el Ascendente deja de ser el eje mudo (D21)
 - **Las tarjetas del día llevan a la carta**, cada una a su sitio: el Sol y la
   Luna a su hoja, el Ascendente a la suya. Con candado, la tarjeta entera va al
   paywall — por `openDailyDoor`, en el fichero que ya era puerta, para no
-  ensanchar la lista que vigila `paywallDoors.test.ts`
+  ensanchar la lista que vigila `paywallDoors.test.ts`. La punta solo sale
+  desbloqueada: con candado quien anuncia el toque es el candado, y dos señales
+  en la misma esquina se estorban
+- **El aire de la tarjeta se mudó a un interior que se pulsa.** La opacidad de
+  pulsado y la de entrada en cascada son la misma propiedad, y en la misma
+  vista la de Reanimated gana siempre: la tarjeta no se habría apagado nunca al
+  tocarla
 - ⚠️ **El Ascendente no tenía nada suyo en el catálogo**, y se vio justo al
   cablear esto: el Sol y la Luna tienen retrato y hoja de planeta, y él no es
   un cuerpo —sin velocidad, sin aspectos, sin casa donde caer—. Doce fragmentos
@@ -5147,3 +5145,8 @@ Llegaron 27 artboards. Se implementan **17 y 27**; el 26 va en tanda propia.
   bloquea nada: el consejo es de dos líneas y son verbos naturales en español
 - [ ] Opcional, ~$0,07: rehacer solo esos 6 consejos
       (`pipeline/ascendant.keys` ya los lleva). Sin esto se publica igual
+- [ ] **Repaso visual en el móvil de lo de esta sesión** — no se llegó a ver en
+      pantalla porque el teléfono se bloqueó: la hoja del Ascendente, la fila
+      `ASC` pulsable de la carta, la punta de las tarjetas de eje, y que la
+      tarjeta velada se apague entera al tocarla. Lo demás sí se vio (la Luna
+      con scroll, la Luna con dos perros, el onboarding)

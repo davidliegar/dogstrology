@@ -311,8 +311,8 @@ El error que haría explotar el coste es generar el texto completo para el produ
 | Compatibilidad perro↔gato | 144 |
 | Planeta en signo / planeta en casa | 240 |
 | Momentos (evento × signo lunar) — §9 fase 3 | 180 |
-| Personalidad especie × signo, fases lunares, casas (ver nota) | 128 |
-| | **~2.194 total** |
+| Personalidad especie × signo, ascendentes, fases lunares, casas (ver nota) | 208 |
+| | **~2.274 total** |
 
 **Coste one-off del catálogo completo: ~$15–25** con Batch API, según modelo. Una vez. Para toda la vida de la app.
 
