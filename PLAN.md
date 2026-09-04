@@ -139,8 +139,9 @@ Y **dos notas del canvas que ya no dicen la verdad**:
 
 Probado ya: Hoy, Ajustes, el aviso diario y compartir. Sin ver todavía:
 
-- **El splash y el icono en el lanzador**, en las tres variantes a la vez y con
-  el tema de Android 13. Se arreglaron a ciegas en la sesión 46
+- ~~El splash y el icono en el lanzador~~ — **vistos y correctos** (2026-09-04,
+  build interno). Se arreglaron a ciegas en la sesión 46 y era el último
+  «hecho sin mirar» que quedaba
 - **El arrastre de la hoja de planeta y el de la hoja del 26** en Android
 
 **Multimascota y el paywall, probados y bien** (2026-09-01): el carrusel de Hoy,
