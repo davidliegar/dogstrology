@@ -168,19 +168,21 @@ export function personalityFragments() {
       key: `species=dog;ascendant=${sign}`,
       userMessage:
         `Escribe el retrato de personalidad permanente del catálogo para: un perro con ascendente ` +
-        `${label(SIGN_LABELS, sign)}. El Ascendente es **cómo se presenta** (casa I): lo que registra ` +
-        `quien lo ve por primera vez, antes de conocerlo. No es su carácter de fondo —eso es el Sol y ` +
-        `tiene su propia entrada—, así que escribe la presentación y no el temperamento: si los dos ` +
-        `textos se pudieran intercambiar, este está mal.\n\n` +
-        // La primera tanda (2026-09-04) salió con «un sitio nuevo» en 9 de 12 cuerpos y «dale unos
-        // segundos de margen» en 4 de 12 consejos, y la culpa era del mensaje: enumeraba escenas de
-        // ejemplo —el desconocido, la puerta, el sitio nuevo— y el modelo las copió literalmente.
-        // Doce textos que se leen seguidos en Explorar no pueden compartir el decorado, así que
-        // ahora la escena la pone el signo y las tres que se gastaron están prohibidas.
-        `La escena la eliges tú y tiene que salir de este signo en concreto. **Prohibido** usar las ` +
-        `palabras "un sitio nuevo", la fórmula "la primera impresión es" y empezar el consejo con ` +
-        `"dale unos segundos de margen": son de otro texto de esta misma serie. El titular tampoco ` +
-        `puede empezar por "Entra" ni por "Saluda".`,
+        `${label(SIGN_LABELS, sign)}. El Ascendente es la casa I: **la presentación, no el fondo**. ` +
+        `El carácter de este perro es el Sol y tiene su propia entrada, así que si los dos textos se ` +
+        `pudieran intercambiar, este está mal.\n\n` +
+        // **La regla general, y no una lista de palabras prohibidas más.** Dos tandas seguidas
+        // (2026-09-04) devolvieron literalmente la frase con la que se les pidió el texto: primero
+        // «un sitio nuevo», que era un ejemplo del encargo, y luego «quien lo ve por primera vez»,
+        // que era la definición del encargo — 9 de 12 y 8 de 12. Los doce se leen seguidos en
+        // Explorar, así que una fórmula compartida por dos tercios se nota como un disco rayado.
+        // Prohibir la fórmula de turno solo mueve el tic a la siguiente: lo que hay que prohibir es
+        // copiar del encargo, y eso vale para el que venga.
+        `**No reutilices ninguna expresión de este encargo dentro del texto.** La escena y la ` +
+        `formulación son tuyas y salen de este signo en concreto: no de una plantilla que valga para ` +
+        `los doce. En particular, están gastadas y prohibidas —son de otros textos de esta misma ` +
+        `serie— "quien lo ve por primera vez", "un sitio nuevo" y "la primera impresión es", y el ` +
+        `titular no puede empezar por "Primero", "Llega", "Entra" ni "Saluda".`,
     });
   }
 

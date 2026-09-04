@@ -107,13 +107,13 @@ describe('personality', () => {
     const fragments = personalityFragments();
     const asc = fragments.find((f) => f.key === 'species=dog;ascendant=scorpio');
     assert.match(asc.userMessage, /ascendente Escorpio/);
-    assert.match(asc.userMessage, /cómo se presenta/);
-    assert.match(asc.userMessage, /No es su carácter de fondo/);
-    // Y lo que gastó la primera tanda, prohibido por escrito: doce textos que
-    // se leen seguidos no pueden compartir el decorado.
-    assert.match(asc.userMessage, /Prohibido/);
+    assert.match(asc.userMessage, /la presentación, no el fondo/);
+    assert.match(asc.userMessage, /El carácter de este perro es el Sol/);
+    // La regla que sobrevive al tic de turno: no copiar del encargo. Dos tandas
+    // seguidas devolvieron la frase con la que se les pidió el texto.
+    assert.match(asc.userMessage, /No reutilices ninguna expresión de este encargo/);
+    assert.match(asc.userMessage, /quien lo ve por primera vez/);
     assert.match(asc.userMessage, /un sitio nuevo/);
-    assert.match(asc.userMessage, /dale unos segundos de margen/);
 
     // Y no pisa al retrato del signo solar, que es otra clave y otro texto.
     const solar = fragments.find((f) => f.key === 'species=dog;sign=scorpio');

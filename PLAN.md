@@ -5121,16 +5121,19 @@ Llegaron 27 artboards. Se implementan **17 y 27**; el 26 va en tanda propia.
 - `Sheet` sale de `PlanetSheet` a `_ui`: las dos hojas comparten cómo suben, se
   arrastran y se cierran, y nada más — un planeta tiene tres cosas que un
   ángulo no tiene
-- [ ] **Generar los 12 fragmentos del Ascendente** (~$0,13):
-      `node src/generateCatalog.mjs --categories personality --missing --confirm`.
-      Hasta entonces `catalogCoverage` canta las 12 que faltan, que es su
-      trabajo. El `ANTHROPIC_API_KEY` del entorno es el revocado: da 401
-- ⚠️ **La primera tanda de los 12 salió con el decorado repetido, y la culpa
-  era del mensaje**: enumeraba escenas de ejemplo —el desconocido, la puerta,
-  «un sitio nuevo»— y el modelo las copió literalmente. «Un sitio nuevo» en 9
-  de 12 cuerpos, «dale unos segundos de margen» en 4 de 12 consejos, tres
-  titulares empezando por «Entra» y tres por «Saluda». Los doce se leen
-  seguidos en Explorar, así que eso no vale. Mensaje reescrito —la escena la
-  pone el signo, y las fórmulas gastadas van prohibidas por escrito— y los 12
-  a rehacer:
-      `node src/generateCatalog.mjs --keys ascendant.keys --confirm`
+- [x] **Generados los 12 fragmentos del Ascendente** (~$0,26, dos tandas).
+      El catálogo pasa de 1.560 a **1.572**
+- ⚠️ **El modelo devuelve la frase con la que se le pide el texto, y lo hizo
+  dos veces seguidas.** Primera tanda: «un sitio nuevo» —un ejemplo del
+  encargo— en 9 de 12 cuerpos, y «dale unos segundos de margen» abriendo 4 de
+  12 consejos. Reescrito el mensaje y rehechos, la segunda salió notablemente
+  mejor —los consejos ya no comparten apertura y las escenas salen del signo—
+  pero con «quien lo ve por primera vez», que era **la definición** del
+  encargo, en 8 de 12.
+- **Prohibir la fórmula de turno solo mueve el tic a la siguiente**, así que lo
+  que dice ahora el mensaje es la regla general: no reutilizar ninguna
+  expresión del encargo. Es lo que hay que copiar cuando aparezca una categoría
+  nueva — y se ve solo poniendo los doce en fila, porque ningún test lo detecta.
+- [ ] Tercera tanda con la regla general (~$0,13, opcional — lo publicado ya es
+      publicable): `node src/generateCatalog.mjs --keys ascendant.keys --confirm`
+      y luego `npm run generate:catalog` en `app/`
