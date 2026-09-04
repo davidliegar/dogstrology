@@ -5096,3 +5096,11 @@ Llegaron 27 artboards. Se implementan **17 y 27**; el 26 va en tanda propia.
   abrir. Y la propia pantalla reparte una fila de Luna natal por perro
   justo cuando hay varios: código que no se ejecutaba nunca. Test de fuente
   (`moonDoor.test.ts`) para que no vuelva, porque es de las que compilan
+- **Y las tarjetas del día llevan a la carta.** Desbloqueada, cada tarjeta de
+  eje abre su sitio en la carta natal —el Sol y la Luna, su hoja; el
+  Ascendente, la carta con su fila, porque no es un planeta y no tiene hoja—.
+  Bajo candado, la tarjeta entera va al paywall: es el mismo gesto del usuario
+  y lo que cambia es qué falta, el camino o el permiso. La punta solo sale
+  desbloqueada, porque con candado quien anuncia el toque es el candado. Y la
+  puerta del paywall sigue siendo **una** —`openDailyDoor`, en el fichero que
+  ya la tenía—, para no ensanchar la lista que vigila `paywallDoors.test.ts`

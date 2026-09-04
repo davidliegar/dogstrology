@@ -93,6 +93,25 @@ export const lockedAxes = (cards: DailyAxisCard[], subscription: Subscription): 
   cards.filter((card) => !subscription.canReadDaily(card.axis)).map((card) => card.axis);
 
 /**
+ * Dónde cae, en la carta, lo que la tarjeta del día está contando.
+ *
+ * La tarjeta dice «su Luna en Libra hace trígono…» y la carta tiene esa Luna
+ * con su grado, su casa y su hoja: es la misma cosa vista de cerca, y el
+ * parámetro `planet` de la ruta ya existía para esto —lo usa el pie del
+ * detalle de un signo o de una casa—.
+ *
+ * **El Ascendente no lleva parámetro**: no es un planeta, no tiene hoja, y su
+ * sitio en la carta es una fila. Aterrizar en la carta con la fila a la vista
+ * es lo más cerca que se puede llegar, y prometer más abriría una hoja que no
+ * existe.
+ */
+export const axisChartHref = (axis: DailyAxis, petId: string) =>
+  ({
+    pathname: '/pet/[id]/chart',
+    params: axis === 'ascendant' ? { id: petId } : { id: petId, planet: axis },
+  }) as const;
+
+/**
  * Desde cuántas mascotas Hoy deja de ser el día de un perro y pasa a ser el de
  * la casa (artboards 30 y 33): dos.
  *

@@ -1,5 +1,5 @@
 import { useEffect } from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import { Pressable, StyleSheet, Text, View } from 'react-native';
 import Animated, {
   Easing,
   useAnimatedStyle,
@@ -9,10 +9,11 @@ import Animated, {
   withTiming,
 } from 'react-native-reanimated';
 
+import { Chevron } from '@/_ui/components/Chevron';
 import { Lock } from '@/_ui/components/Lock';
 import { Veil } from '@/_ui/components/Veil';
 import { text } from '@/_ui/typography';
-import { colors, glow, motion, radii, screenPadding, spacing, typography } from '@/design/theme';
+import { colors, glow, motion, opacity, radii, screenPadding, spacing, typography } from '@/design/theme';
 
 /**
  * El retardo que se acumula por tarjeta. Sale de la nota del artboard 04:
@@ -62,6 +63,17 @@ export interface DailyCardProps {
    * cuerpo—, y el candado ocupa el hueco del grado.
    */
   locked?: boolean;
+  /**
+   * La tarjeta lleva a algún sitio. Las de eje llevan a su sitio en la carta;
+   * bajo candado, al paywall — **quien la pone decide a dónde**, porque el
+   * destino depende del plan y la tarjeta no pregunta por él.
+   *
+   * El cielo del día no lo lleva: no es de nadie, y en la carta no hay nada
+   * que sea eso.
+   */
+  onPress?: () => void;
+  /** Qué anuncia el toque. Obligatorio de hecho: sin él la punta es muda. */
+  accessibilityLabel?: string;
 }
 
 /**
@@ -83,6 +95,8 @@ export function DailyCard({
   index = 0,
   footer,
   locked = false,
+  onPress,
+  accessibilityLabel,
 }: DailyCardProps) {
   const reduceMotion = useReducedMotion();
   const entrance = useSharedValue(reduceMotion ? 1 : 0);
@@ -111,6 +125,11 @@ export function DailyCard({
           hueco, y con los dos a la vez el rótulo tendría dos cosas a la
           derecha peleándose por el sitio. */}
       {locked ? <Lock /> : meta}
+      {/* La punta, **solo cuando se puede leer**: bajo candado el que anuncia
+          el toque es el candado, y dos señales en la misma esquina se
+          estorbarían. Una zona que se pulsa sin decirlo es peor que una que no
+          se pulsa — la misma regla que la tira de la Luna. */}
+      {onPress && !locked ? <Chevron direction="right" size={8} color={colors.textFaint} /> : null}
     </View>
   );
 
@@ -119,10 +138,14 @@ export function DailyCard({
     transform: [{ translateY: (1 - entrance.value) * RISE }],
   }));
 
-  return (
-    <Animated.View
-      style={[styles.card, featured && [styles.featured, { borderColor: tint }], style]}
-    >
+  // El aire vive dentro y no en la caja animada: la opacidad de pulsado y la
+  // de entrada son la misma propiedad, y en la misma vista la de Reanimated
+  // gana siempre. Separadas, la tarjeta se puede apagar al tocarla sin que la
+  // cascada se entere. El velo sigue sangrando hasta el filo: sangra lo que
+  // mide este relleno, que es el mismo de antes, solo que una vista más
+  // adentro.
+  const content = (
+    <>
       {locked ? null : head}
       {/* **La lectura entera va bajo el velo, titular incluido** (visto en un
           móvil, 2026-09-02: con el titular en claro la tarjeta se entendía
@@ -148,6 +171,23 @@ export function DailyCard({
         </>
       )}
       {footer}
+    </>
+  );
+
+  return (
+    <Animated.View style={[styles.card, featured && [styles.featured, { borderColor: tint }], style]}>
+      {onPress ? (
+        <Pressable
+          onPress={onPress}
+          accessibilityRole="button"
+          accessibilityLabel={accessibilityLabel}
+          style={({ pressed }) => [styles.inner, pressed && styles.pressed]}
+        >
+          {content}
+        </Pressable>
+      ) : (
+        <View style={styles.inner}>{content}</View>
+      )}
     </Animated.View>
   );
 }
@@ -163,8 +203,13 @@ const styles = StyleSheet.create({
     backgroundColor: colors.surface,
     borderWidth: 1,
     borderColor: colors.divider,
+  },
+  inner: {
     padding: screenPadding,
     gap: spacing[4],
+  },
+  pressed: {
+    opacity: opacity.pressed,
   },
   featured: {
     ...glow.card,

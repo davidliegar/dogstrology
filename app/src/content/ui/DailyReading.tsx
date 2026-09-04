@@ -1,3 +1,4 @@
+import { router } from 'expo-router';
 import { StyleSheet, Text, View } from 'react-native';
 
 import { ApproximateBadge } from '@/_ui/components/ApproximateBadge';
@@ -5,12 +6,21 @@ import type { NatalChart } from '@/chart/domain/NatalChart';
 import { formatDegree, formatWeekdayAndDay } from '@/chart/ui/format';
 import { SIGN_LABELS } from '@/chart/ui/labels';
 import { useContentAccess } from '@/subscription/ui/subscriptionQueries';
+import type { DailyAxis } from '../domain/DailyKey';
 import type { DailyEdition } from '../domain/DailyEdition';
 import { CardDegree, DailyCard } from './DailyCard';
-import { dailyAxisCards, lockedAxes } from './dailyCards';
+import { axisChartHref, dailyAxisCards, lockedAxes } from './dailyCards';
 import { EnergyDots } from './EnergyDots';
-import { DAILY_AXIS_LABELS, SKY_LABEL, UNPUBLISHED, relativeDay, staleReadingLabel } from './labels';
-import { DailyUnlockRow } from './UnlockRow';
+import {
+  DAILY_AXIS_LABELS,
+  SKY_LABEL,
+  UNPUBLISHED,
+  openAxisLabel,
+  relativeDay,
+  staleReadingLabel,
+  unlockDailyLabel,
+} from './labels';
+import { DailyUnlockRow, openDailyDoor } from './UnlockRow';
 
 import { colors, elementColor, spacing, typography } from '@/design/theme';
 
@@ -29,6 +39,27 @@ export interface DailyReadingProps {
    * publicado es afirmar algo que no se sabe.
    */
   offline: boolean;
+}
+
+/**
+ * A dónde lleva tocar una tarjeta de eje, y qué anuncia el toque.
+ *
+ * **Desbloqueada va a su sitio en la carta; con candado, al paywall.** Es el
+ * mismo gesto leído dos veces: quiero esto de cerca. Lo que cambia es qué
+ * falta —el permiso o el camino—, y por eso el destino lo decide el plan y no
+ * la tarjeta.
+ *
+ * Sin mascota no hay ni una cosa ni la otra: las dos rutas la nombran.
+ *
+ * Vive aquí y en `HouseDay` no se copia: las dos pantallas lo llaman, porque
+ * un destino que solo se acuerda una de las dos es exactamente el fallo que ya
+ * costó el candado.
+ */
+export function axisPress(axis: DailyAxis, petId: string | undefined, locked: boolean) {
+  if (!petId) return {};
+  return locked
+    ? { onPress: () => openDailyDoor(petId), accessibilityLabel: unlockDailyLabel([axis]) }
+    : { onPress: () => router.push(axisChartHref(axis, petId)), accessibilityLabel: openAxisLabel(axis) };
 }
 
 /** Si hay algo que leer: el cielo del día o alguna tarjeta de eje. */
@@ -97,6 +128,7 @@ export function DailyReading({ reading, chart, petId, staleDays, offline }: Dail
       {cards.map((card, position) => (
         <DailyCard
           key={card.axis}
+          {...axisPress(card.axis, petId, locked.includes(card.axis))}
           // La cascada cuenta desde la del cielo, que es la primera: si cada
           // tarjeta contara desde su propio bloque, la segunda tanda volvería
           // a empezar y se leería como dos llegadas.

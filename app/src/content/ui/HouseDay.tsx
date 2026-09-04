@@ -13,6 +13,7 @@ import { usePetPhotoUri } from '@/pet/ui/petQueries';
 import { useContentAccess } from '@/subscription/ui/subscriptionQueries';
 import type { DailyEdition } from '../domain/DailyEdition';
 import { DailyCard } from './DailyCard';
+import { axisPress } from './DailyReading';
 import { dailyAxisCards, lockedAxes } from './dailyCards';
 import { EnergyDots } from './EnergyDots';
 import { DailyUnlockRow } from './UnlockRow';
@@ -138,6 +139,7 @@ export function PetReading({
         return (
           <DailyCard
             key={card.axis}
+            {...axisPress(card.axis, pet.id(), locked.includes(card.axis))}
             index={position}
             glyph={<AxisGlyph axis={card.axis} tint={tint} />}
             overline={`${DAILY_AXIS_LABELS[card.axis]} · ${SIGN_LABELS[card.sign]}`}

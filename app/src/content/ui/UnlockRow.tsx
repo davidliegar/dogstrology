@@ -12,6 +12,21 @@ export interface DailyUnlockRowProps {
 }
 
 /**
+ * Ir al paywall por lo bloqueado del día.
+ *
+ * Vive suelto además de en la fila porque **la tarjeta velada también se
+ * toca**: con candado, tocarla lleva aquí y no a la carta. Son el mismo gesto
+ * del usuario —quiero esto que no puedo leer— y tienen que caer en el mismo
+ * sitio, con el mismo perro puesto para que el 11 enseñe su ejemplo.
+ *
+ * Y es una función y no una ruta copiada: `paywallDoors.test.ts` cuenta los
+ * ficheros que nombran `/paywall`, y la regla que vigila es que las puertas
+ * sean las que son. Esto no abre una nueva — ensancha la que ya había.
+ */
+export const openDailyDoor = (petId: string) =>
+  router.push({ pathname: '/paywall', params: { pet: petId, door: 'daily' } });
+
+/**
  * La fila que abre lo bloqueado del día — artboard 36 (D19).
  *
  * Es **una de las puertas** del paywall, y la que nace de la falta más
@@ -27,7 +42,7 @@ export function DailyUnlockRow({ axes, petId }: DailyUnlockRowProps) {
   return (
     <UnlockRow
       label={unlockDailyLabel(axes)}
-      onPress={() => router.push({ pathname: '/paywall', params: { pet: petId, door: 'daily' } })}
+      onPress={() => openDailyDoor(petId)}
     />
   );
 }

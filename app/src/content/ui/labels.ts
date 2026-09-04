@@ -38,6 +38,17 @@ export const unlockDailyLabel = (axes: DailyAxis[]): string =>
   `Leer ${axes.map((axis) => AXIS_IN_SENTENCE[axis]).join(' y ')}`;
 
 /**
+ * Lo que anuncia una tarjeta desbloqueada al lector de pantalla: que se puede
+ * abrir, y dónde cae.
+ *
+ * La punta lo dice a la vista y esto lo dice a quien no la ve. Nombra el
+ * destino —la carta— porque el toque cambia de pantalla: «ver más» no
+ * distinguiría esto de desplegar la propia tarjeta.
+ */
+export const openAxisLabel = (axis: DailyAxis): string =>
+  `Ver ${AXIS_IN_SENTENCE[axis]} en su carta`;
+
+/**
  * El título de Hoy cambia de sujeto con la segunda mascota (artboard 30).
  *
  * Con una, la pantalla es el día **de alguien** y se llama por su nombre. Con
