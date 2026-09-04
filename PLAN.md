@@ -5134,6 +5134,16 @@ Llegaron 27 artboards. Se implementan **17 y 27**; el 26 va en tanda propia.
   que dice ahora el mensaje es la regla general: no reutilizar ninguna
   expresión del encargo. Es lo que hay que copiar cuando aparezca una categoría
   nueva — y se ve solo poniendo los doce en fila, porque ningún test lo detecta.
-- [ ] Tercera tanda con la regla general (~$0,13, opcional — lo publicado ya es
-      publicable): `node src/generateCatalog.mjs --keys ascendant.keys --confirm`
-      y luego `npm run generate:catalog` en `app/`
+- **La tercera tanda, con la regla general, es la que se publica.** Ni una de
+  las fórmulas prohibidas, ni un 3-grama compartido entre los cuerpos salvo
+  «cuando decide que» (3 de 12), y las escenas son suyas: el cubo de la fregona
+  de Acuario, «aire de perro que lleva años en el cargo» de Capricornio, «los
+  desconocidos le inventan un pasado dramático» de Piscis
+- ⚠️ **Queda un residuo en el consejo**: «dale (unos segundos de) margen» en 4
+  de 12 y «a su ritmo» en 3 de 12. Sobrevivió a la prohibición porque estaba
+  escrita con las palabras exactas de la tanda anterior —«dale unos segundos de
+  margen»— y basta cambiar dos para esquivarla. Es lo mismo otra vez en
+  pequeño: **lo que se prohíbe es la forma, y el modelo cambia la forma.** No
+  bloquea nada: el consejo es de dos líneas y son verbos naturales en español
+- [ ] Opcional, ~$0,07: rehacer solo esos 6 consejos
+      (`pipeline/ascendant.keys` ya los lleva). Sin esto se publica igual
