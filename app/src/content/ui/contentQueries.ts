@@ -60,6 +60,31 @@ export function useSignPersonality(sign: string | undefined) {
 }
 
 /**
+ * El retrato del Ascendente: `species=dog;ascendant=scorpio`.
+ *
+ * Hermano de `useSignPersonality` y **no el mismo**: aquel es el carácter de
+ * fondo y este la primera impresión. Con Sol y Ascendente en el mismo signo
+ * los dos textos siguen siendo distintos, que es justo la prueba de que hacía
+ * falta una clave propia.
+ */
+export const ascendantPersonalityKeys = {
+  all: ['fragments', 'ascendantPersonality'] as const,
+  of: (sign: string) => [...ascendantPersonalityKeys.all, sign] as const,
+};
+
+export function useAscendantPersonality(sign: string | undefined) {
+  const domain = useDomain();
+  return useQuery({
+    queryKey: ascendantPersonalityKeys.of(sign ?? ''),
+    queryFn: async () =>
+      (await domain.GetFragmentUseCase.execute({
+        key: ContentKey.personalityOfAscendant({ sign: sign as string }),
+      })) ?? null,
+    enabled: Boolean(sign),
+  });
+}
+
+/**
  * La entrada de glosario de una casa: `species=dog;house=5`.
  *
  * Vive aquí por lo mismo que el retrato de un signo: es catálogo puro, el

@@ -18,14 +18,17 @@ import { PrimaryButton } from '@/_ui/components/PrimaryButton';
 import { Screen } from '@/_ui/components/Screen';
 import { ScreenHeader } from '@/_ui/components/ScreenHeader';
 import { text } from '@/_ui/typography';
+import { AscendantSheet } from '@/chart/ui/AscendantSheet';
 import { LockedChart } from '@/chart/ui/LockedChart';
 import { NatalWheel } from '@/chart/ui/NatalWheel';
 import { PlanetSheet } from '@/chart/ui/PlanetSheet';
 import { useNatalChart } from '@/chart/ui/chartQueries';
+import { ASCENDANT_PARAM } from '@/chart/ui/chartParams';
 import { formatPosition } from '@/chart/ui/format';
 import { editMissingDatum } from '@/chart/ui/missingDatum';
 import { PLANET_GLYPHS } from '@/chart/ui/glyphs';
 import {
+  ASCENDANT_LABEL,
   CONFIDENCE_NOTICES,
   HOUSE_SYSTEM_LABELS,
   LOCKED_CHART_CTA,
@@ -37,7 +40,7 @@ import { PLANET_IDS, type PlanetId, type PlanetPosition } from '@/chart/domain/P
 import { usePet } from '@/pet/ui/petQueries';
 import { useContentAccess } from '@/subscription/ui/subscriptionQueries';
 
-import { colors, glyphSize, screenPadding, spacing, typography } from '@/design/theme';
+import { colors, glyphSize, opacity, screenPadding, spacing, typography } from '@/design/theme';
 
 /** Alto de una fila de posición, del artboard 5. */
 const ROW_HEIGHT = 56;
@@ -76,6 +79,11 @@ export default function PetChart() {
   const [selected, setSelected] = useState<PlanetId | undefined>(() =>
     PLANET_IDS.includes(planet as PlanetId) ? (planet as PlanetId) : undefined,
   );
+  // El Ascendente va aparte y no dentro de `selected` porque **no es un
+  // planeta**: no está en `PLANET_IDS`, no tiene `PlanetPosition` y su hoja es
+  // otra (D21). Meterlo en el mismo estado habría obligado a un tipo unión que
+  // solo sirve para volver a separarlo dos líneas después.
+  const [ascendantOpen, setAscendantOpen] = useState(() => planet === ASCENDANT_PARAM);
   const access = useContentAccess();
 
   if (isPending) {
@@ -196,6 +204,13 @@ export default function PetChart() {
                   glyphStyle={styles.angleGlyph}
                   label="Ascendente"
                   value={formatPosition({ degree: ascendant.degree, sign: SIGN_LABELS[ascendant.sign] })}
+                  // **La fila es la puerta de su hoja**, y el Sol y la Luna no
+                  // la necesitan: sus discos están en la rueda y se tocan ahí.
+                  // El Ascendente no tiene disco —es la línea del horizonte—,
+                  // así que sin esto su texto no se podría abrir desde la
+                  // propia carta.
+                  onPress={() => setAscendantOpen(true)}
+                  onPressLabel={`Ver ${ASCENDANT_LABEL.toLowerCase()}`}
                 />
               ) : (
                 <Row
@@ -220,6 +235,10 @@ export default function PetChart() {
 
       {chart && selectedPlanet ? (
         <PlanetSheet chart={chart} planet={selectedPlanet} onClose={() => setSelected(undefined)} />
+      ) : null}
+
+      {ascendant && ascendantOpen ? (
+        <AscendantSheet ascendant={ascendant} onClose={() => setAscendantOpen(false)} />
       ) : null}
     </>
   );
@@ -250,6 +269,8 @@ function Row({
   value,
   badge,
   action,
+  onPress,
+  onPressLabel,
 }: {
   glyph: string;
   glyphStyle?: StyleProp<TextStyle>;
@@ -258,9 +279,12 @@ function Row({
   value?: string;
   badge?: string;
   action?: { label: string; onPress: () => void };
+  /** La fila entera abre algo. Hoy solo el Ascendente (D21). */
+  onPress?: () => void;
+  onPressLabel?: string;
 }) {
-  return (
-    <View style={styles.row}>
+  const body = (
+    <>
       <View style={styles.identity}>
         <Text style={[styles.glyph, glyphStyle]}>{glyph}</Text>
         <Text style={[styles.label, labelStyle]}>{label}</Text>
@@ -272,7 +296,21 @@ function Row({
         </Pressable>
       ) : null}
       {!badge && !action && value ? <Text style={styles.value}>{value}</Text> : null}
-    </View>
+      {onPress ? <Chevron direction="right" size={8} color={colors.textFaint} /> : null}
+    </>
+  );
+
+  if (!onPress) return <View style={styles.row}>{body}</View>;
+
+  return (
+    <Pressable
+      onPress={onPress}
+      accessibilityRole="button"
+      accessibilityLabel={onPressLabel ?? label}
+      style={({ pressed }) => [styles.row, pressed && styles.pressedRow]}
+    >
+      {body}
+    </Pressable>
   );
 }
 
@@ -306,6 +344,9 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'space-between',
     gap: spacing[3],
+  },
+  pressedRow: {
+    opacity: opacity.pressed,
   },
   identity: {
     flexDirection: 'row',

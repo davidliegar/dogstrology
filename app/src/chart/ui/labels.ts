@@ -126,6 +126,23 @@ export const SIGN_RULERS: Record<Sign, PlanetId> = {
   pisces: 'neptune',
 };
 
+/** El rótulo del Ascendente en su hoja (D21). En la carta la fila dice «ASC». */
+export const ASCENDANT_LABEL = 'Su Ascendente';
+
+/**
+ * Qué es un Ascendente, en una línea, dentro de su hoja.
+ *
+ * Lo lleva esta hoja y no la de un planeta porque el Sol y la Luna se explican
+ * solos por el nombre y este no: mucha gente llega sabiendo que "tiene uno" y
+ * poco más, y el texto del catálogo describe al perro sin definir el término.
+ *
+ * **No dice "la máscara"**, que es como lo cuenta media astrología: aplicado a
+ * un perro insinúa que finge, y un perro no finge. Dice lo que sí es
+ * observable — lo primero que se ve.
+ */
+export const ASCENDANT_NOTE =
+  'El signo que asomaba por el horizonte al nacer: cómo se presenta, no cómo es por dentro.';
+
 /**
  * Cómo se nombra "su X" en el pie del detalle de signo. Solo estos tres: son
  * los que el usuario reconoce, y con los demás la frase sale rara ("El Marte

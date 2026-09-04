@@ -7,12 +7,16 @@ import { BREEDS } from '../pet/ui/breeds';
 
 const HOUSES = Array.from({ length: 12 }, (_, i) => i + 1);
 
-/** Todo lo que la app sabe pedir. Desde 2026-08-27, todo está publicado. */
-const EVERY_KEY = 1560;
+/**
+ * Todo lo que la app sabe pedir. Las 12 últimas son los retratos de Ascendente
+ * (D21): la app las construye desde que su hoja existe, y hasta que el lote
+ * esté publicado este fichero es lo que lo dice en voz alta.
+ */
+const EVERY_KEY = 1572;
 
 /**
  * **Todas** las claves que la app puede llegar a construir con el vocabulario
- * que tiene hoy. No es una muestra: son las 1.560, generadas desde las mismas
+ * que tiene hoy. No es una muestra: son las 1.572, generadas desde las mismas
  * constantes que usan las pantallas.
  */
 function everyKeyTheAppCanAsk(): ContentKey[] {
@@ -34,6 +38,7 @@ function everyKeyTheAppCanAsk(): ContentKey[] {
   }
 
   for (const sign of SIGNS) keys.push(ContentKey.personalityOfSign({ sign }));
+  for (const sign of SIGNS) keys.push(ContentKey.personalityOfAscendant({ sign }));
   for (const moonPhase of MOON_PHASE_NAMES) keys.push(ContentKey.personalityOfMoonPhase({ moonPhase }));
   for (const moonPhase of MOON_PHASE_NAMES) keys.push(ContentKey.moonPhaseToday({ moonPhase }));
   for (const house of HOUSES) keys.push(ContentKey.houseGlossary({ house }));

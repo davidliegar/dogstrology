@@ -20,7 +20,7 @@ Lo que sostiene eso, por si hay que tocarlo:
 - **La arquitectura**: hexagonal por contexto —`pet`, `chart`, `settings`,
   `content`—, con las capas impuestas por ESLint, UUIDv7, borrado lógico y
   composition root. Nadie fuera de la infraestructura ve SQL ni el motor.
-- **El contenido en dos capas** (BRD §7.4): los **1.560** fragmentos del
+- **El contenido en dos capas** (BRD §7.4): los **1.572** fragmentos del
   catálogo inmutable dentro del binario, y el **diario** descargado del CDN con
   caché de siete días. Los produce el mismo `schema.mjs` y los separa su ciclo
   de vida.
@@ -54,7 +54,7 @@ mantiene dentro porque sin anuncios la suscripción es la única monetización.
 productos están en Play Console, RevenueCat validado contra la cuenta de
 servicio, y la compra —comprar, cancelar, fallar, restaurar, caducar— recorrida
 en un Galaxy S24. Lo que queda para publicar **no es programar**: es un dominio,
-1.560 fragmentos que tiene que leer una persona, y el papeleo del Bloque 6.
+1.572 fragmentos que tiene que leer una persona, y el papeleo del Bloque 6.
 
 **F8 no necesita servidor** y eso es lo que lo hace gratis: el aviso lo programa
 el propio móvil con el disparador diario del sistema. No hay token de push, ni
@@ -64,7 +64,7 @@ existe.
 
 **Y hay dos cosas que no son features y bloquean igual**:
 
-- **La revisión humana del contenido** — 1.560 fragmentos, 8 revisados. BRD
+- **La revisión humana del contenido** — 1.572 fragmentos, 8 revisados. BRD
   §7.5 y §14 R1: nada se publica sin ella. Es lo único que **no se puede
   comprimir al final**, porque lo limita una persona leyendo.
 - **Salir de GitHub Pages con un dominio propio** antes del primer build de
@@ -108,7 +108,7 @@ ninguna se resuelve escribiendo:
    producción con él — el build interno pasa por la puerta de `eas.json` y
    avisa de que no se puede publicar. Recomendado: `dogstrology.app` con el CDN
    en `contenido.dogstrology.app`. Detalle en el Bloque 4b.
-2. **La revisión humana de los 1.560 fragmentos**, con 8 hechos. Es lo único
+2. **La revisión humana de los 1.572 fragmentos**, con 8 hechos. Es lo único
    que **no se puede comprimir al final**: lo limita una persona leyendo, y BRD
    §7.5 + §14 R1 dicen que nada se publica sin ella.
 3. **El Bloque 6**: PostHog, capturas desde la app real, ficha de ASO, EUIPO.
@@ -413,7 +413,7 @@ estrecho.
 
 ### Y lo que no se puede comprimir al final
 
-**La revisión humana de los 1.560 fragmentos del catálogo.** Van 8 revisados,
+**La revisión humana de los 1.572 fragmentos del catálogo.** Van 8 revisados,
 y con el cron encendido crecen cada noche. Lo limita una persona leyendo, y
 BRD §7.5 + §14 R1 dicen que nada se publica sin ella. Conviene ir por tandas
 ya, en paralelo con todo lo demás.
@@ -5104,3 +5104,24 @@ Llegaron 27 artboards. Se implementan **17 y 27**; el 26 va en tanda propia.
   desbloqueada, porque con candado quien anuncia el toque es el candado. Y la
   puerta del paywall sigue siendo **una** —`openDailyDoor`, en el fichero que
   ya la tenía—, para no ensanchar la lista que vigila `paywallDoors.test.ts`
+
+### 2026-09-04 (61) — el Ascendente deja de ser el eje mudo (D21)
+- **Las tarjetas del día llevan a la carta**, cada una a su sitio: el Sol y la
+  Luna a su hoja, el Ascendente a la suya. Con candado, la tarjeta entera va al
+  paywall — por `openDailyDoor`, en el fichero que ya era puerta, para no
+  ensanchar la lista que vigila `paywallDoors.test.ts`
+- ⚠️ **El Ascendente no tenía nada suyo en el catálogo**, y se vio justo al
+  cablear esto: el Sol y la Luna tienen retrato y hoja de planeta, y él no es
+  un cuerpo —sin velocidad, sin aspectos, sin casa donde caer—. Doce fragmentos
+  nuevos (`species=dog;ascendant=<signo>`), hoja propia, y su fila de la carta
+  pasa a ser pulsable: es el único de los tres que no tiene disco en la rueda,
+  así que sin eso su texto no se abriría desde la propia carta
+- **Reutilizar el retrato del signo solar era la tentación y era la trampa**:
+  un perro con Sol y Ascendente en Escorpio vería el mismo párrafo dos veces
+- `Sheet` sale de `PlanetSheet` a `_ui`: las dos hojas comparten cómo suben, se
+  arrastran y se cierran, y nada más — un planeta tiene tres cosas que un
+  ángulo no tiene
+- [ ] **Generar los 12 fragmentos del Ascendente** (~$0,13):
+      `node src/generateCatalog.mjs --categories personality --missing --confirm`.
+      Hasta entonces `catalogCoverage` canta las 12 que faltan, que es su
+      trabajo. El `ANTHROPIC_API_KEY` del entorno es el revocado: da 401

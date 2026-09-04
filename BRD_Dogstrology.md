@@ -325,8 +325,8 @@ criterio de la lista es la **prevalencia real en España**; la cobertura de los
 entran igual —"Pitbull" y los mestizos, partidos por tamaño— porque el selector
 de F2 tiene que hablar como habla el dueño, no como habla el estándar.
 
-**Personalidad: 32 en el MVP, 128 en la previsión a 4 especies** (corregido
-2026-08-26, al construir la categoría). El 68 que figuraba aquí salía de
+**Personalidad: 52 en el MVP, 208 en la previsión a 4 especies** (corregido
+2026-08-26, al construir la categoría; ampliado dos veces desde entonces). El 68 que figuraba aquí salía de
 `4 especies × 12 signos + 8 fases + 12 casas`, es decir, de dar por hecho que las
 fases y las casas se comparten entre especies. **No se comparten.** Al escribir
 el mensaje que se le manda al modelo se ve enseguida: "un perro nacido en luna
@@ -335,7 +335,16 @@ llena" y "la casa IV es su cama y su territorio" son prosa de perro — de hecho
 la versión neutra nunca existió. Los tres ejes llevan `species=dog` en la clave,
 y la previsión pasa a `4 × 32`.
 
-Para el MVP la cifra no cambia: **32** (`12 signos + 8 fases + 12 casas`).
+Para el MVP la cifra es **52** (`12 signos + 12 ascendentes + 8 fases natales +
+8 fases de cielo + 12 casas`). Los 32 originales crecieron dos veces, y las dos
+por lo mismo — la construcción encontró un texto que la tabla no había previsto:
+
+- **+8 fases de cielo** (2026-08-27, sesión 23). Una fase lunar se lee de dos
+  maneras que no se sustituyen: el perro **nacido** en luna llena, que es
+  carácter y no cambia nunca, y qué se nota en **todos** los perros mientras
+  dura. El artboard 23 rotulaba "En un perro" un texto de cielo, y lo único
+  publicado era el retrato natal.
+- **+12 ascendentes** (2026-09-04, D21). Ver abajo.
 
 Y merece la pena señalar el patrón, porque es el segundo caso en esta misma
 tabla después de las razas: **estos números eran aritmética de una estimación de
@@ -1094,6 +1103,7 @@ Si en algún momento se revierte D10 y hay identificadores, recuperar la métric
 | D7 | **Dos sistemas de casas**: signos enteros por defecto, Placidus en modo avanzado | §12.3 nueva. Coste de contenido: **cero** (ver el razonamiento allí) |
 | D8 | **Sin anuncios en el lanzamiento**. Rewarded cuando haya volumen | §10.3. Evita el flujo UMP, la superficie extra de revisión y el daño a la retención que se está midiendo |
 | D9 | **Adquisición: ASO puro**, con perfiles de Instagram como apoyo | El *cómo* de la captación queda fuera del alcance de este BRD. Lo que sí entra son sus consecuencias de producto: ver la nota bajo §8.1 |
+| D21 | **El Ascendente tiene texto propio y hoja propia** (2026-09-04). Doce fragmentos nuevos —`species=dog;ascendant=<signo>`, personalidad 40 → 52— y una hoja que enseña signo, grado y ese texto, abierta desde su fila en la carta o desde la tarjeta del día | §7.3. Es el único de los tres ejes que Hoy enseña que no tenía nada suyo: el Sol y la Luna tienen retrato **y** hoja de planeta, y el Ascendente no es un cuerpo —sin velocidad, sin aspectos, sin casa donde caer—, así que la hoja de planeta no le servía. Se vio al hacer que las tarjetas del día llevaran a la carta: dos abrían algo y la tercera no. **Reutilizar el retrato del signo solar habría sido peor que no tener nada** — un perro con Sol y Ascendente en Escorpio vería el mismo párrafo dos veces, y eso le dice que su Ascendente no significa nada aparte. Coste: ~$0,13, una vez |
 | D19 | **El contenido de pago se bloquea, no se quita** (2026-09-01). La Luna y el Ascendente —tanto su lectura del día como su posición en la carta— se ven **borrosos con un candado**, no ausentes. La rueda natal completa, con casas y aspectos, igual | §10.3 y §10.4 rescritas. Nació de una contradicción que el paywall al cobrar sacó a la luz: el BRD decía que el tier gratuito era «carta del día basada en el signo solar» y que la Luna y el Ascendente no se regalan (§7), el paywall los vendía —«Su Sol es el principio. Falta su Luna»—, y **la app los daba gratis**: la única puerta de todo el código era la segunda mascota. Con un perro por dueño, que es el caso típico, eso dejaba al MVP sin nada que vender. Bloquear en vez de esconder es lo que convierte el límite en deseo: el usuario ve que hay algo escrito sobre su perro y que no puede leerlo, que es más fuerte que no saber que existe. Dibujado el 2026-09-02: **artboard 36** (Hoy sin Cósmico) y **artboard 37** (la carta sin Cósmico), el 11 rehecho con dos beneficios y su ejemplo real, y la nota del 04 corregida — decía «el MVP no cobra por el día» y D19 la desmiente |
 | D18 | **La rueda natal se adelanta a F3 en SVG; F4 es el tratamiento** (2026-08-27). Los dos artboards de carta natal del canvas están marcados F4, así que F3 —"carta natal integrada"— no tenía diseño propio. Se implementa el diseño que existe con `react-native-svg`, y F4 se queda con Skia, el revelado y el movimiento | §8.1 (F3, F4). La alternativa era inventarse una pantalla de lista que el diseño no tiene, o parar F3 entero esperando artboard. La geometría queda resuelta y con tests (`chart/ui/wheel.ts`), validada contra las coordenadas del propio artboard: F4 cambia el motor de pintado, no dónde va cada cosa. **Queda sin dibujar el estado sin hora de la carta**, que es justo la degradación que F3 prometía |
 | D17 | **Guardado atómico en el perfil: cada acción escribe sola** (2026-08-26). No hay botón "Guardar" que confirme la pantalla entera; elegir raza, sexo, fecha, hora, lugar, foto o día de adopción guarda en el momento | §8.1 (F2). Nació de un fallo real: con borrador en memoria, volver de un editor no enseñaba el dato hasta confirmar. Mantener sincronizados borrador y pantalla es trabajo permanente que se evita entero si la verdad es siempre el repositorio — que es además lo que ya exigía la arquitectura. **El artboard A del canvas todavía dibuja "Guardar" y hay que corregirlo** |

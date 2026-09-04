@@ -252,7 +252,7 @@ Dos consecuencias que conviene tener claras:
 - **Ninguna clave de contenido se escribe interpolando fuera de
   `content/domain/ContentKey`.** Es la gramática que el pipeline construye por
   su lado, y una errata no da error: da una tarjeta vacía (BRD §7.3.1).
-  `src/__tests__/catalogCoverage.test.ts` genera las **1.560** claves que la app
+  `src/__tests__/catalogCoverage.test.ts` genera las **1.572** claves que la app
   sabe pedir y comprueba que están todas publicadas — y que no sobra ninguna.
 - Casos de uso: `{Acción}{Entidad}UseCase`, `export default`, con
   `static create({ deps })`.

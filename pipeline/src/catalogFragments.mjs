@@ -108,9 +108,9 @@ export function breedSignFragments() {
 }
 
 /**
- * Personalidad: 12 signos + 8 fases natales + 8 fases de cielo + 12 casas =
- * **40** para el MVP (BRD §7.3; el 68 de la tabla es una previsión para 4
- * especies).
+ * Personalidad: 12 signos + 12 ascendentes + 8 fases natales + 8 fases de
+ * cielo + 12 casas = **52** para el MVP (BRD §7.3; el 68 de la tabla es una
+ * previsión para 4 especies).
  *
  * **Las fases van dos veces, y no es un descuido.** Una fase lunar se lee de
  * dos maneras que no se sustituyen:
@@ -134,6 +134,15 @@ export function breedSignFragments() {
  * F6, la frase que remata la revelación de F1 y el glosario de Explorar
  * (BRD §11.4).
  *
+ * **El Ascendente lleva sus doce y no se apoya en las del signo** (D21). Es el
+ * único de los tres ejes que Hoy enseña que no tenía nada suyo en el catálogo:
+ * el Sol tiene su retrato y su hoja de planeta, la Luna igual, y el Ascendente
+ * no es un cuerpo —no tiene velocidad, ni aspectos, ni casa donde caer—, así
+ * que la hoja de planeta no le sirve. Reutilizar `species=dog;sign=aries`
+ * habría sido peor que no tener nada: son dos cosas distintas —el carácter de
+ * fondo y la primera impresión— y enseñar el mismo párrafo en los dos sitios
+ * le dice al usuario que su Ascendente no significa nada aparte.
+ *
  * **Los tres ejes llevan `species=dog`**, incluidos fases y casas. La aritmética
  * del 68 (`4×12 + 8 + 12`) daba por hecho que fases y casas se comparten entre
  * especies, y al escribir el mensaje se ve que no: "un perro nacido en luna
@@ -149,6 +158,20 @@ export function personalityFragments() {
     fragments.push({
       key: `species=dog;sign=${sign}`,
       userMessage: `Escribe el retrato de personalidad permanente del catálogo para: un perro de signo ${label(SIGN_LABELS, sign)}. Es el texto que define su carácter, no la lectura de una posición concreta.`,
+    });
+  }
+
+  // El Ascendente, que no es el Sol dicho de otra manera. Ver el porqué en el
+  // bloque de arriba.
+  for (const sign of SIGNS) {
+    fragments.push({
+      key: `species=dog;ascendant=${sign}`,
+      userMessage:
+        `Escribe el retrato de personalidad permanente del catálogo para: un perro con ascendente ` +
+        `${label(SIGN_LABELS, sign)}. El Ascendente es **cómo se presenta** (casa I): lo primero que ve ` +
+        `quien se lo cruza en la calle, cómo saluda a un desconocido, qué cara pone al entrar en un sitio ` +
+        `nuevo. No es su carácter de fondo —eso es el Sol y tiene su propia entrada—, así que escribe la ` +
+        `primera impresión y no el temperamento: si los dos textos se pudieran intercambiar, este está mal.`,
     });
   }
 
@@ -186,7 +209,7 @@ export const CATEGORIES = [
   { id: 'aspects', count: 500, build: aspectFragments },
   { id: 'planet-sign-house', count: 240, build: planetSignHouseFragments },
   { id: 'breed-sign', count: BREEDS.length * 12, build: breedSignFragments },
-  { id: 'personality', count: 40, build: personalityFragments },
+  { id: 'personality', count: 52, build: personalityFragments },
 ];
 
 /**

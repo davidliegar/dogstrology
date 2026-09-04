@@ -144,6 +144,19 @@ export class ContentKey extends Model {
     return ContentKey.of(`species=${SPECIES};sign=${token('sign', sign)}`);
   }
 
+  /**
+   * El retrato del Ascendente: **cómo se presenta**, que no es su carácter.
+   *
+   * Clave propia y no `personalityOfSign` con otro valor. Son dos lecturas
+   * distintas del mismo signo —el temperamento de fondo y la primera
+   * impresión— y un perro con Sol en Escorpio y ascendente Escorpio pediría
+   * el mismo texto dos veces, diciéndole al usuario que su Ascendente no
+   * significa nada aparte.
+   */
+  static personalityOfAscendant({ sign }: { sign: string }): ContentKey {
+    return ContentKey.of(`species=${SPECIES};ascendant=${token('sign', sign)}`);
+  }
+
   /** El retrato de quien nació en esa fase lunar. */
   static personalityOfMoonPhase({ moonPhase }: { moonPhase: string }): ContentKey {
     return ContentKey.of(`species=${SPECIES};moon_phase=${token('moonPhase', moonPhase)}`);

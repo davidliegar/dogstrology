@@ -75,11 +75,12 @@ test('planetSignHouseFragments cubre los 12 signs para cada uno de los 10 cuerpo
  * exporta del motor.
  */
 describe('personality', () => {
-  test('son 40: 12 signos + 8 fases natales + 8 de cielo + 12 casas', () => {
+  test('son 52: 12 signos + 12 ascendentes + 8 fases natales + 8 de cielo + 12 casas', () => {
     const fragments = personalityFragments();
-    assert.equal(fragments.length, 40);
+    assert.equal(fragments.length, 52);
     const porEje = (campo) => fragments.filter((f) => f.key.includes(`;${campo}=`)).length;
     assert.equal(porEje('sign'), 12);
+    assert.equal(porEje('ascendant'), 12);
     assert.equal(porEje('house'), 12);
     // Las fases van dos veces: el perro nacido en ella y lo que se nota en
     // todos los perros mientras dura. `when=today` es lo que las separa.
@@ -95,6 +96,24 @@ describe('personality', () => {
     assert.equal(cielo.length, 8);
     // La de cielo es la natal más el calificador: misma fase, otra lectura.
     for (const natal of natales) assert.ok(cielo.includes(`${natal};when=today`), `falta el cielo de ${natal}`);
+  });
+
+  /**
+   * El Ascendente es el eje del que menos texto hay escrito ahí fuera, y el
+   * modelo tiende a rellenarlo con el retrato del signo solar. El mensaje se
+   * lo prohíbe por escrito; esto fija que se lo siga prohibiendo.
+   */
+  test('el ascendente pide la primera impresión, no el carácter de fondo', () => {
+    const fragments = personalityFragments();
+    const asc = fragments.find((f) => f.key === 'species=dog;ascendant=scorpio');
+    assert.match(asc.userMessage, /ascendente Escorpio/);
+    assert.match(asc.userMessage, /cómo se presenta/);
+    assert.match(asc.userMessage, /No es su carácter de fondo/);
+
+    // Y no pisa al retrato del signo solar, que es otra clave y otro texto.
+    const solar = fragments.find((f) => f.key === 'species=dog;sign=scorpio');
+    assert.ok(solar);
+    assert.notEqual(asc.userMessage, solar.userMessage);
   });
 
   test('el mensaje de cielo no se confunde con el natal', () => {

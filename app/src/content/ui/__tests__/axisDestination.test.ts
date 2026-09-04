@@ -1,6 +1,7 @@
 import { readFileSync } from 'node:fs';
 import { join, resolve } from 'node:path';
 
+import { ASCENDANT_PARAM } from '@/chart/ui/chartParams';
 import { axisChartHref } from '../dailyCards';
 import { openAxisLabel, unlockDailyLabel } from '../labels';
 
@@ -19,12 +20,13 @@ describe('a dónde lleva una tarjeta del día', () => {
   });
 
   /**
-   * El Ascendente no es un planeta: no está en el vocabulario que valida la
-   * carta, y no tiene hoja. Mandarlo con `planet=ascendant` no abriría nada
-   * —la ruta lo descarta— pero dejaría en la URL una promesa falsa.
+   * El Ascendente va igual que los otros dos aunque no sea un planeta: tiene
+   * su propia hoja y sus doce fragmentos (D21). La pantalla lo separa al
+   * llegar, porque `PLANET_IDS` sigue sin incluirlo y su hoja es otra.
    */
-  it('el Ascendente aterriza en la carta, sin prometer una hoja que no existe', () => {
-    expect(axisChartHref('ascendant', 'p1').params).toEqual({ id: 'p1' });
+  it('el Ascendente también abre lo suyo, con la misma forma de ruta', () => {
+    expect(axisChartHref('ascendant', 'p1').params).toEqual({ id: 'p1', planet: 'ascendant' });
+    expect(axisChartHref('ascendant', 'p1').params.planet).toBe(ASCENDANT_PARAM);
   });
 
   it('lo que se anuncia es el destino, y con candado el destino es otro', () => {

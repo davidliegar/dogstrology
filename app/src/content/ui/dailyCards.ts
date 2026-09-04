@@ -100,16 +100,14 @@ export const lockedAxes = (cards: DailyAxisCard[], subscription: Subscription): 
  * parámetro `planet` de la ruta ya existía para esto —lo usa el pie del
  * detalle de un signo o de una casa—.
  *
- * **El Ascendente no lleva parámetro**: no es un planeta, no tiene hoja, y su
- * sitio en la carta es una fila. Aterrizar en la carta con la fila a la vista
- * es lo más cerca que se puede llegar, y prometer más abriría una hoja que no
- * existe.
+ * **Los tres ejes van igual, Ascendente incluido** (D21). Al principio no:
+ * el Ascendente aterrizaba en la carta pelada, porque no es un planeta y la
+ * hoja de planeta no le sirve. Se quedaba en una asimetría que el usuario
+ * notaba —dos tarjetas abrían algo y la tercera no— y la respuesta fue darle
+ * hoja propia y doce fragmentos suyos, no quitarle el toque.
  */
 export const axisChartHref = (axis: DailyAxis, petId: string) =>
-  ({
-    pathname: '/pet/[id]/chart',
-    params: axis === 'ascendant' ? { id: petId } : { id: petId, planet: axis },
-  }) as const;
+  ({ pathname: '/pet/[id]/chart', params: { id: petId, planet: axis } }) as const;
 
 /**
  * Desde cuántas mascotas Hoy deja de ser el día de un perro y pasa a ser el de
