@@ -33,33 +33,33 @@
   },
   {
     "key": "planet=sun;sign=leo",
-    "headline": "Nacido para el centro del salón",
-    "body": "El Sol en su propio signo da un perro con presencia: entra en una habitación y espera, con toda naturalidad, que alguien lo note. Le gustan los aplausos, posa cuando saca el juguete y sostiene la mirada más que otros. Si hay visita, el protagonista está claro.",
-    "advice": "Dale un momento de atención exclusiva al día, con nombre y caricias, aunque haya más perros o gente en casa.",
+    "headline": "Nació sabiendo que le estaban mirando",
+    "body": "Fuego fijo en su versión más teatral: entra en cualquier habitación como si alguien lo hubiera anunciado. Elige el sitio con mejor vista, saluda a los invitados uno por uno y repite el truco que funcionó si sospecha que hay público. La indiferencia le sienta peor que un regaño.",
+    "advice": "Dedícale ratos de juego con público y aplausos sinceros: el reconocimiento le motiva más que cualquier premio.",
     "energyScore": 4,
-    "colorOfDay": "fire"
+    "colorOfDay": "gold"
   },
   {
     "key": "planet=sun;sign=virgo",
-    "headline": "El perro que lo revisa todo dos veces",
-    "body": "Tierra mutable en estado puro: observa antes de actuar, huele el juguete nuevo tres veces antes de aceptarlo y coloca su manta como quiere él, no como la dejaste tú. Aprende rápido cuando la orden es clara y se queda mirándote fijo cuando algo en la casa está fuera de su sitio.",
-    "advice": "Mantén el orden de sus cosas y sus horarios estables: la cama en el mismo rincón y el paseo a la misma hora le sientan de maravilla.",
+    "headline": "El perro que revisa el perímetro",
+    "body": "Virgo pone el carácter en los detalles: olfatea cada esquina antes de decidir, coloca el juguete siempre en el mismo rincón y nota si has movido la cama dos dedos. No es un perro de arrebatos, es de método. Si el plan cambia sin avisar, te mira esperando explicaciones.",
+    "advice": "Mantén los horarios de paseo y de comida bastante estables: un perro así se relaja cuando sabe qué viene después.",
     "energyScore": 3,
     "colorOfDay": "earth"
   },
   {
     "key": "planet=sun;sign=libra",
-    "headline": "El diplomático de la casa",
-    "body": "El Sol en Libra da un perro que mide el ambiente antes de decidir nada. Saluda con buenas formas, se lleva bien con casi todo el mundo y detesta la tensión: si levantas la voz en la cocina, aparece por la puerta a comprobar que todo va bien. Le cuesta elegir entre dos juguetes.",
-    "advice": "Preséntale a gente y perros nuevos en sitios tranquilos, y mantén un ritmo de casa sin sobresaltos ni voces altas.",
+    "headline": "Negocia antes de ladrar",
+    "body": "Con el Sol en Libra el conflicto le da pereza: si dos perros se enzarzan, se aparta o se mete en medio a repartir calma. Le cuesta decidir entre la pelota y el mordedor y acaba mirándote a ti para que elijas tú. La compañía le sienta mejor que el silencio de una casa vacía.",
+    "advice": "Búscale ratos de parque con perros que ya conoce y deja que elija el juguete sin prisa, aunque tarde en decidirse.",
     "energyScore": 3,
     "colorOfDay": "air"
   },
   {
     "key": "planet=sun;sign=scorpio",
-    "headline": "Un perro de mirada fija y lealtad total",
-    "body": "Escorpio no reparte su intensidad: la concentra. Elige a una persona, la vigila desde el otro lado del sofá y sabe que vas a coger las llaves antes de que las cojas. En el juego va a por el juguete como si fuera lo único importante del mundo, y no lo suelta.",
-    "advice": "Ofrécele juegos con final claro, tira y afloja o buscar algo escondido, y respeta su rincón cuando se retira a observar.",
+    "headline": "Mira mucho antes de moverse",
+    "body": "Escorpio no reparte confianza: la concede. Observa desde la puerta antes de entrar, elige a una persona y se le pega con una lealtad casi incómoda. En el juego no suelta el mordedor: es suyo y lo defiende con una paciencia enorme. Nada de escándalo, todo intensidad callada.",
+    "advice": "Presentaciones lentas con la gente nueva y un juguete que sea solo suyo: la confianza le llega por costumbre.",
     "energyScore": 3,
     "colorOfDay": "water"
   },
@@ -73,9 +73,9 @@
   },
   {
     "key": "planet=sun;sign=capricorn",
-    "headline": "El perro que se toma la vida en serio",
-    "body": "Tierra cardinal: lleva dentro un perro adulto desde cachorro. Cumple el horario mejor que tú, se planta cuando decide que ya está y defiende el orden que ha aprendido. No pide atención a ladridos: espera, te mira fijamente y gana por pura insistencia.",
-    "advice": "Dale una rutina fija de paseos y una tarea que repetir a diario: un 'quieto' largo o buscar el juguete escondido.",
+    "headline": "Un perro con currículum propio",
+    "body": "Se toma la vida en serio: aprende despacio, pero lo que aprende no se le olvida nunca. Vigila la puerta como si le pagaran por ello, respeta los horarios mejor que tú y, cuando decide que algo no toca, plantará las cuatro patas y esperará a que cambies de idea.",
+    "advice": "Dale una tarea fija que sea suya: traer la correa, esperar en el mismo sitio antes de salir. La constancia le sienta bien.",
     "energyScore": 3,
     "colorOfDay": "earth"
   },
@@ -137,9 +137,9 @@
   },
   {
     "key": "planet=sun;house=6",
-    "headline": "El reloj de la casa tiene cuatro patas",
-    "body": "Su carácter se organiza alrededor de la rutina: sabe a qué hora sales, a qué hora vuelves y a qué hora toca el paseo, y te lo recuerda plantándose delante de ti. Brilla cuando el día es previsible y protesta con miradas largas si le cambias el orden de las cosas sin avisar.",
-    "advice": "Manten horarios estables de paseo y juego, y cuando algo cambie, dale unos días de repetición para que el nuevo orden le encaje.",
+    "headline": "Su identidad cabe en un horario",
+    "body": "El Sol en la sexta casa hace de la rutina su carácter: sabe a qué hora sales, a qué hora vuelves y te lo recuerda plantándose delante de la puerta con cinco minutos de antelación. Brilla cuando el día va en orden y se descoloca si cambias el guion sin avisar.",
+    "advice": "Mantén fijos los horarios de paseo; si tienes que moverlos, hazlo poco a poco y con un rato de juego de por medio.",
     "energyScore": 3,
     "colorOfDay": "earth"
   },
@@ -193,9 +193,9 @@
   },
   {
     "key": "planet=moon;sign=aries",
-    "headline": "El consuelo lo quiere ya, y breve",
-    "body": "Su afecto funciona a toque de arranque: te reclama con un empujón de morro, acepta veinte segundos de caricias y se marcha a inspeccionar la puerta. Las esperas le sientan fatal, protesta a la primera y lo olvida a la segunda. Se recupera de los sustos antes que tú.",
-    "advice": "Atiende su reclamo de mimos en el momento y déjale irse cuando se cansa: un tira y afloja corto le va mejor que el sofá.",
+    "headline": "El consuelo lo quiere ya y en marcha",
+    "body": "Su ánimo funciona con interruptor: de la calma al entusiasmo sin escalones intermedios. Cuando busca consuelo no quiere brazos ni manta, quiere que te levantes y hagas algo. Se frustra en cuanto hay espera —un empujón de hocico, un ladrido corto— y se le pasa igual de rápido.",
+    "advice": "Ten un juguete a mano para redirigir esos arranques: dos minutos de tira y afloja bastan para rebajar el ímpetu.",
     "energyScore": 4,
     "colorOfDay": "fire"
   },
@@ -209,17 +209,17 @@
   },
   {
     "key": "planet=moon;sign=gemini",
-    "headline": "Un apego que cambia de habitación",
-    "body": "Busca compañía a ratos y luego se marcha a investigar otra esquina de la casa. Cambia de cama dos o tres veces antes de dormirse, contesta a tu voz con un repertorio amplio de gruñiditos y ladridos cortos, y se tranquiliza antes con una novedad que con silencio.",
-    "advice": "Varía el recorrido del paseo a menudo y esconde el juguete en sitios nuevos: con la cabeza ocupada se ordena mejor.",
-    "energyScore": 3,
+    "headline": "Se consuela cambiando de sitio",
+    "body": "Su vínculo contigo es real, pero inquieto: empieza la siesta en el sofá, la sigue en la alfombra y la termina junto a la puerta. Cuando algo le desconcierta no se apaga, se distrae, y busca ventana, ruido nuevo o juguete antes que regazo. El consuelo le entra por la curiosidad.",
+    "advice": "Ten dos o tres juguetes que roten cada semana y un rato corto de olfateo por el barrio: le calma más que quedarse quieto.",
+    "energyScore": 4,
     "colorOfDay": "air"
   },
   {
     "key": "planet=moon;sign=cancer",
-    "headline": "El corazón blando de la manada",
-    "body": "La Luna en su propio signo convierte el apego en tema central: te sigue de habitación en habitación, se acomoda donde tú te sientas y detecta un cambio de humor antes de que abras la boca. La puerta cerrada le pesa más que a otros perros, y su cama es territorio sagrado.",
-    "advice": "Manténle un rincón fijo con su manta y practica salidas cortas y sin drama, para que la puerta deje de ser un asunto grave.",
+    "headline": "El apego elevado a bellas artes",
+    "body": "La Luna está en su propia casa, así que el radar afectivo va siempre encendido: te sigue de habitación en habitación, se tumba donde acabas de sentarte y suspira si cierras una puerta. Nota los cambios de tono en tu voz antes de que acabes la frase y busca contacto para calmarse.",
+    "advice": "Mantén un rincón fijo con su manta cerca de la zona donde más paras, y dedícale unos minutos de caricias tranquilas al volver a casa.",
     "energyScore": 2,
     "colorOfDay": "water"
   },
@@ -241,9 +241,9 @@
   },
   {
     "key": "planet=moon;sign=libra",
-    "headline": "Diplomacia con cuatro patas",
-    "body": "Su consuelo pasa por la compañía: se coloca a media distancia de todos, ni encima ni lejos, y ajusta su ánimo al de la casa. Si hay voces altas o tensión entre dos personas, aparece con un juguete o se interpone. Solo en una habitación, se pone a esperar en la puerta.",
-    "advice": "Dale un sitio de descanso en la zona de paso de casa, donde os vea a todos sin tener que elegir compañía.",
+    "headline": "Diplomacia canina en estado puro",
+    "body": "La Luna en Libra le da un radar para el ambiente: si dos personas discuten en la cocina, aparece y se sienta justo en medio. Necesita compañía para estar tranquilo y prefiere el sofá compartido a la siesta en solitario. Cuando el tono de casa sube, se levanta y busca contacto.",
+    "advice": "Manténle un sitio de descanso en la zona común de la casa y saluda siempre al llegar: el contacto breve y previsible le ordena el día.",
     "energyScore": 3,
     "colorOfDay": "air"
   },
@@ -265,9 +265,9 @@
   },
   {
     "key": "planet=moon;sign=capricorn",
-    "headline": "El perro que se consuela con horarios",
-    "body": "No es de los que se derrumban cuando cierras la puerta: se acomoda en su sitio y espera. Pide caricias a su hora y prefiere apoyarse en tu pierna a subirse encima. La rutina le sostiene más que cualquier mimo, y si le cambias el horario, lo nota antes que tú.",
-    "advice": "Mantén estables las horas de paseo y de cena: con este apego, la previsibilidad vale más que veinte caricias seguidas.",
+    "headline": "Un apego serio, con sus horarios",
+    "body": "No es de los que se derriten en cuanto entras por la puerta: te mira, comprueba que estás y vuelve a su sitio. Su consuelo es la previsibilidad —la misma cama, la misma hora, el mismo orden— y con eso construye una calma que no necesita testigos.",
+    "advice": "Mantén horarios estables de paseo y descanso, y busca su cama para las caricias: agradece el cariño en su terreno.",
     "energyScore": 2,
     "colorOfDay": "earth"
   },
@@ -282,8 +282,8 @@
   {
     "key": "planet=moon;sign=pisces",
     "headline": "Una esponja emocional con cuatro patas",
-    "body": "La Luna en Piscis convierte el apego en radar: nota tu estado de ánimo antes de que digas nada y ajusta el suyo al tuyo. Te sigue de habitación en habitación, suspira al tumbarse y elige siempre el rincón del sofá que huele más a ti. Las despedidas le pesan.",
-    "advice": "Mantén despedidas y regresos breves y tranquilos, y déjale una manta con tu olor en su sitio de siempre.",
+    "body": "Tiene el radar puesto en ti: si suspiras en el sofá, aparece. La Luna en Piscis diluye la frontera entre su ánimo y el tuyo, así que copia tu calma y también tus prisas. Duerme profundo, con las patas en marcha, y pide contacto físico antes que juguetes nuevos.",
+    "advice": "Reserva un rato fijo de sofá y caricias lentas cada día: le asienta el ánimo mejor que cualquier juguete nuevo.",
     "energyScore": 2,
     "colorOfDay": "water"
   },
@@ -305,10 +305,10 @@
   },
   {
     "key": "planet=moon;house=3",
-    "headline": "Su ánimo cabe en una vuelta al barrio",
-    "body": "Se le regula el humor en la calle: una vuelta por el barrio le coloca las cosas mejor que una siesta. Reconoce esquinas, portales y perros habituales, y si cambias la ruta de golpe se le nota en el paso. Suele volver a casa más entero de lo que salió.",
-    "advice": "Mantén un recorrido fijo como base y añade de tanto en tanto una calle nueva: la novedad justa le sienta bien.",
-    "energyScore": 3,
+    "headline": "Se le arregla el ánimo en la esquina",
+    "body": "Con la Luna en la casa 3, el estado de ánimo se le regula fuera de casa: sale inquieto y vuelve otro. Cada farola nueva le cambia la cara, y si el paseo se acorta lo nota y te lo hace saber desde la ventana. Reconoce vecinos, perros y coches concretos, y reacciona distinto a cada uno.",
+    "advice": "Alterna dos o tres rutas conocidas y deja que marque el ritmo en las paradas de olfateo, sin tirar de la correa.",
+    "energyScore": 4,
     "colorOfDay": "air"
   },
   {
@@ -417,9 +417,9 @@
   },
   {
     "key": "planet=mercury;sign=leo",
-    "headline": "Ladra con público y aprende con aplausos",
-    "body": "Su voz no es un aviso, es una entrada en escena: ladra fuerte, claro y con pausa para ver el efecto que ha causado. Aprende rápido cuando alguien celebra el acierto, y se apaga con el entrenamiento seco y sin espectadores. Repite la gracia que le funcionó una vez.",
-    "advice": "Celebra cada orden bien hecha con voz alegre y un aplauso, aunque sea la vigésima vez: el reconocimiento le sostiene la atención.",
+    "headline": "Su ladrido siempre busca público",
+    "body": "Anuncia las visitas con un ladrido rotundo, de los que esperan respuesta. Aprende deprisa cuando hay alguien mirando y celebrando el acierto; sin público, el mismo ejercicio le parece un trámite. Y repite el truco que más aplausos le dio, aunque nadie se lo haya pedido.",
+    "advice": "Entrena en sesiones cortas y celebra en voz alta: un \"¡muy bien!\" con teatro le rinde más que diez repeticiones.",
     "energyScore": 4,
     "colorOfDay": "gold"
   },
@@ -474,8 +474,8 @@
   {
     "key": "planet=mercury;sign=pisces",
     "headline": "Entiende el tono, no las palabras",
-    "body": "Aprende por atmósfera: capta tu humor antes de que abras la boca, y una orden dicha con prisa le entra a medias. Su vocalización va más de suspiro y gemido largo que de ladrido seco. En clase de obediencia se queda mirando al infinito y luego lo hace bien.",
-    "advice": "Entrena en sesiones cortas, con voz baja y mucho gesto de mano, y usa siempre la misma palabra para cada orden.",
+    "body": "No aprende por órdenes, sino por atmósfera: capta tu tono antes que la palabra y responde mejor a un susurro que a un grito. Su repertorio va del suspiro al aullido extraño, y a mitad de un ejercicio se queda mirando el aire. Con repetición tranquila acaba entendiéndolo todo.",
+    "advice": "Entrena en sesiones cortas y en voz baja, con las mismas palabras: la calma le llega mucho más que la firmeza.",
     "energyScore": 2,
     "colorOfDay": "water"
   },
@@ -506,10 +506,10 @@
   {
     "key": "planet=mercury;house=4",
     "headline": "El comentarista oficial del pasillo",
-    "body": "Aprende mejor en casa que en ningún otro sitio: lo que practicáis en el salón se le queda, lo del parque se le olvida a mitad de camino. Y opina sobre todo lo que pasa en su territorio: el ascensor, la puerta del vecino, la bolsa de la compra que sube por la escalera.",
-    "advice": "Practica las órdenes nuevas dentro de casa, en sesiones cortas, y dale un rato tranquilo en su cama después de cada visita.",
+    "body": "Mercurio en la casa 4 le pone la voz dentro de casa: ladra al ascensor, gruñe bajito mientras se acomoda en su cama y te informa de cada ruido del rellano. Aprende mejor en el salón que en el parque, sin público ni distracciones, y recuerda dónde dejó cada juguete.",
+    "advice": "Haz las sesiones de entrenamiento en casa, cortas y siempre en el mismo rincón: en su territorio retiene el doble.",
     "energyScore": 3,
-    "colorOfDay": "water"
+    "colorOfDay": "earth"
   },
   {
     "key": "planet=mercury;house=5",
@@ -554,8 +554,8 @@
   {
     "key": "planet=mercury;house=10",
     "headline": "El portavoz oficial de la casa",
-    "body": "Ladra como quien da un parte: alguien llega y lo anuncia con dos tonos distintos, uno para el vecino y otro para el repartidor. Aprende rápido cuando hay público delante y le gusta que se le vea obedecer. En casa lleva el registro de quién entra y quién sale.",
-    "advice": "Practica una orden sencilla con visitas delante: le encanta lucirse y le ordena la cabeza tener un papel claro.",
+    "body": "Ladra con intención de informar: alguien en el portal, el ascensor, una visita que sube. No es escándalo, es un parte de novedades. Aprende los comandos más rápido cuando hay público delante, y se le nota que le gusta el reconocimiento: se sienta más recto si sabe que lo miran.",
+    "advice": "Dale una tarea con nombre —buscar la correa, avisar de que llegas— y celébrala delante de quien esté en casa.",
     "energyScore": 3,
     "colorOfDay": "air"
   },
@@ -577,9 +577,9 @@
   },
   {
     "key": "planet=venus;sign=aries",
-    "headline": "El cariño le llega en ráfagas",
-    "body": "Su manera de querer es un embate: se te tira encima, te lame la cara y diez segundos después ya mira hacia la puerta. Con los premios no negocia, los arranca. El afecto lo pide sin rodeos, y si no contestas al momento insiste con el hocico en la rodilla.",
-    "advice": "Responde a esas ráfagas con dos minutos de juego intenso y premios que se ganen rápido: el cariño breve y claro le encaja.",
+    "headline": "El cariño le llega a embestidas",
+    "body": "Venus en Aries quiere ahora: se lanza a tu regazo sin avisar, te da tres lametones y se marcha a otra cosa. Con los premios igual, te salta a la mano antes de que acabes la frase. No es un perro de mimos largos, es de arranques intensos y afecto sin protocolo.",
+    "advice": "Aprovecha los arranques cuando llegan: treinta segundos de caricias intensas y le dejas volver a lo suyo.",
     "energyScore": 4,
     "colorOfDay": "fire"
   },
@@ -593,9 +593,9 @@
   },
   {
     "key": "planet=venus;sign=gemini",
-    "headline": "Cariño en formato conversación",
-    "body": "Su forma de querer es ligera y móvil: se acerca, te da un empujón con el morro, se deja acariciar treinta segundos y se va a investigar otra cosa. Con los premios es igual de curioso, le interesa más la novedad del juguete nuevo que el que ya conoce de memoria.",
-    "advice": "Rota sus juguetes y varía los premios: agradece la variedad más que las sesiones largas de mimos.",
+    "headline": "Cariño en ráfagas cortas y frecuentes",
+    "body": "Su afecto funciona por ráfagas: se acerca, te pide dos caricias, se va a mirar por la ventana y vuelve a los cinco minutos. Con los premios pasa lo mismo, la novedad le gana a lo de siempre, y el juguete recién estrenado desbanca al favorito de toda la vida.",
+    "advice": "Rota dos o tres juguetes y reparte las caricias en ratos cortos: prefiere muchos saludos breves a un abrazo largo.",
     "energyScore": 3,
     "colorOfDay": "air"
   },
@@ -649,9 +649,9 @@
   },
   {
     "key": "planet=venus;sign=capricorn",
-    "headline": "El cariño se le gana con constancia",
-    "body": "No es de lametones ni de fiestas en la puerta: te quiere apoyando el peso en tu pierna y poco más. El afecto se gana con constancia, no con arrumacos. Con los premios es serio: sabe cuál le toca y cuándo, y te lo recuerda con la mirada si te despistas.",
-    "advice": "Reserva un rato fijo de caricias cada día, siempre a la misma hora: la repetición le vale más que el entusiasmo.",
+    "headline": "El cariño aquí se gana con horas",
+    "body": "No es de lamer caras al minuto uno: se sienta a dos metros y observa. El cariño lo demuestra apareciendo cada día en el mismo sitio y a la misma hora. No se deja comprar con cualquier premio, pero recuerda perfectamente quién cumple lo que promete.",
+    "advice": "Mantén un ritual fijo de caricias al terminar el paseo: la constancia le llega mucho más que las efusiones.",
     "energyScore": 2,
     "colorOfDay": "earth"
   },
@@ -689,10 +689,10 @@
   },
   {
     "key": "planet=venus;house=3",
-    "headline": "El encanto le funciona en la acera",
-    "body": "El cariño le sale a la calle: saluda a los vecinos, se para en el mismo portal de siempre y pide caricias a desconocidos con una técnica bastante depurada. El paseo es su territorio social, y los premios le saben mejor a tres manzanas de casa que en el salón.",
-    "advice": "Alarga un poco la ruta habitual y déjale saludar a quien ya conoce: dos minutos de acera le valen por media hora de sofá.",
-    "energyScore": 4,
+    "headline": "El paseo es su forma de querer",
+    "body": "Venus en la casa tres pone el afecto en la calle: saluda a los vecinos de siempre, se para en los mismos portales y acepta caricias de desconocidos con una naturalidad que sonroja. Contigo negocia mejor con la correa floja, y un premio a mitad de ruta vale el doble que uno en el salón.",
+    "advice": "Varía la ruta de vez en cuando y déjale saludar a sus conocidos del barrio: ese rato social le cunde tanto como el ejercicio.",
+    "energyScore": 3,
     "colorOfDay": "air"
   },
   {
@@ -713,10 +713,10 @@
   },
   {
     "key": "planet=venus;house=6",
-    "headline": "El cariño con horario fijo",
-    "body": "Su forma de querer viene con agenda: el mimo de después del desayuno, el rato en el sofá a la misma hora, el premio que espera en el mismo sitio. Disfruta del entrenamiento porque le gusta el ritual, y si te saltas un paso del guion te mira como pidiendo la escena que falta.",
-    "advice": "Reserva un momento fijo de caricias en el mismo sitio cada día: le vale más que una sesión larga improvisada.",
-    "energyScore": 2,
+    "headline": "Su forma de querer tiene horario",
+    "body": "Venus en la casa 6 pone el cariño dentro de la rutina: te quiere en el momento exacto de coger la correa, del cepillado, del ratito antes de dormir. Le gustan los premios, pero más aún ganárselos con un gesto que ya conoce. Si el orden se rompe, se queda mirándote hasta que vuelve.",
+    "advice": "Reserva dos momentos fijos al día solo para vosotros: cepillado, caricias o un repaso de trucos que ya domina.",
+    "energyScore": 3,
     "colorOfDay": "earth"
   },
   {
@@ -729,9 +729,9 @@
   },
   {
     "key": "planet=venus;house=8",
-    "headline": "El cariño le sale en los truenos",
-    "body": "Su afecto no tiene término medio: o te ignora con elegancia o se pega a tu pierna como una lapa. Ante un trueno o un petardo lejano busca contacto físico antes que rincón, y guarda sus juguetes con una seriedad notable. Confía en poca gente, pero del todo.",
-    "advice": "Mantén un sitio fijo con su manta cerca de ti y una rutina de caricias tranquilas cuando el ruido de fuera arrecia.",
+    "headline": "Cariño de todo o nada, con truenos de fondo",
+    "body": "El cariño aquí no es superficial: elige a una persona y se ancla a ella. Cuando suena un trueno o un petardo, no busca un rincón cualquiera, busca tu regazo. Con los premios pasa igual: hay uno que vale más que todos y acaba escondido bajo la cama.",
+    "advice": "Con ruido fuerte, siéntate cerca y deja que se acomode contra ti: tu calma silenciosa le sirve más que hablarle.",
     "energyScore": 2,
     "colorOfDay": "water"
   },
@@ -745,9 +745,9 @@
   },
   {
     "key": "planet=venus;house=10",
-    "headline": "Encanto con cargo oficial en casa",
-    "body": "Ejerce el cariño como un cargo: recibe a las visitas antes que nadie, se coloca donde se le vea y acepta caricias con la dignidad de quien se las ha ganado. Los premios le gustan más si hay testigos, y un elogio en voz alta le vale tanto como la galleta.",
-    "advice": "Dile lo bien que lo hace en voz alta y delante de la familia: el reconocimiento público le fija las rutinas.",
+    "headline": "El encanto como cargo oficial",
+    "body": "Venus en la casa 10 pone el cariño al servicio de la reputación: se hace querer en público, saluda a las visitas como quien corta una cinta y elige con criterio a quién apoya la cabeza encima. En casa reparte mimos, pero los reparte sabiendo perfectamente quién mira.",
+    "advice": "Dale un momento de atención a solas, sin público ni visitas delante: el vínculo tranquilo le sienta tan bien como el aplauso.",
     "energyScore": 3,
     "colorOfDay": "gold"
   },
@@ -761,9 +761,9 @@
   },
   {
     "key": "planet=venus;house=12",
-    "headline": "El cariño que reparte a puerta cerrada",
-    "body": "Su ternura no sale en las fotos: aparece cuando bajas la luz y se te apoya en el pie sin ceremonia. Con público se hace el independiente; a solas te busca la mano y se queda. Puede llevarse el premio a un rincón para disfrutarlo lejos de miradas.",
-    "advice": "Reserva un rato tranquilo de caricias en su sitio favorito, sin ruido ni visitas: ahí suelta el cariño de verdad.",
+    "headline": "El cariño lo reparte cuando nadie mira",
+    "body": "Venus en la casa doce hace del afecto un asunto privado: no pide mimos en medio del salón, pero aparece a tus pies cuando la casa se queda en silencio. Puede esconder el premio en vez de aceptarlo delante de todos, y elige dormir cerca sin llegar a tocarte.",
+    "advice": "Reserva un rato de caricias en un sitio tranquilo, sin público ni juguetes de por medio, y deja que se acerque solo.",
     "energyScore": 2,
     "colorOfDay": "water"
   },
@@ -882,8 +882,8 @@
   {
     "key": "planet=mars;house=3",
     "headline": "El paseo es su deporte de contacto",
-    "body": "La calle le enciende: sale de casa con el motor ya en marcha, tira de la correa en los primeros cien metros y marca cada esquina como si fuera territorio en disputa. Registra a cada perro, cada bici y cada ruido del barrio, y a casi todos les tiene una opinión.",
-    "advice": "Cambia de ruta a menudo y deja que los primeros minutos sean de olfato sin prisa: el resto del paseo va mucho mejor.",
+    "body": "Marte en la casa tres convierte cada salida en una misión. Sale por la puerta con el motor ya caliente, marca cada esquina como si firmara y cualquier ardilla del barrio le parece un asunto personal. La correa se tensa antes de que tú decidas por dónde vais.",
+    "advice": "Empieza el paseo con un tramo rápido que gaste el arranque y deja el olfateo tranquilo para la vuelta a casa.",
     "energyScore": 5,
     "colorOfDay": "fire"
   },
@@ -1001,9 +1001,9 @@
   },
   {
     "key": "planet=jupiter;sign=virgo",
-    "headline": "Un entusiasmo con letra pequeña",
-    "body": "Su alegría no derriba muebles: aparece cuando algo encaja. Inspecciona el premio antes de aceptarlo, saluda a los conocidos con protocolo y estudia un rato a los desconocidos. Disfruta de las tareas pequeñas: buscar, repetir un ejercicio y clavarlo a la tercera.",
-    "advice": "Dale trabajos cortos con un final claro: un juguete escondido, un par de órdenes y una caricia al terminar.",
+    "headline": "Entusiasmo con letra pequeña",
+    "body": "Júpiter en Virgo hace la alegría selectiva: no saluda a todo el mundo, elige. Inspecciona el premio antes de aceptarlo, prefiere el juguete de siempre y celebra las cosas pequeñas con un menear de rabo corto y preciso. Su generosidad se ve en los detalles, no en el escándalo.",
+    "advice": "Ofrécele juegos de olfato con reglas claras: esconder premios por la alfombra y dejar que los busque a su ritmo.",
     "energyScore": 3,
     "colorOfDay": "earth"
   },
@@ -1025,9 +1025,9 @@
   },
   {
     "key": "planet=jupiter;sign=sagittarius",
-    "headline": "Entusiasmo del tamaño de una casa",
-    "body": "Júpiter juega en casa aquí: sociabilidad expansiva y apetito de mundo. Saluda a desconocidos como si fueran de la familia, entra en cualquier parque con la cola por delante y sale del coche convencido de que el destino es fantástico. Le cabe todo: rutas nuevas, perros nuevos, olores nuevos.",
-    "advice": "Varía la ruta del paseo cada pocos días y dale ratos largos de parque con otros perros: la novedad le llena más que cualquier juguete.",
+    "headline": "Un perro que saluda a todo el barrio",
+    "body": "Júpiter está en su casa aquí: entusiasmo sin freno y la certeza absoluta de que cualquier desconocido viene a hacerse su amigo. Tira de la correa hacia lo nuevo, se apunta a cualquier plan que implique salir y celebra la vuelta a casa como si llevaras un mes fuera.",
+    "advice": "Cambiad de ruta a menudo: un paseo con olores nuevos y gente a la que saludar le llena más que media hora de pelota.",
     "energyScore": 4,
     "colorOfDay": "fire"
   },
@@ -1425,9 +1425,9 @@
   },
   {
     "key": "planet=uranus;sign=aquarius",
-    "headline": "El perro que reescribe las normas",
-    "body": "Urano en su propio signo firma una camada de perros raros en el mejor sentido: hacen las cosas a su manera y el resto del parque les da igual hasta que eligen a un amigo concreto y absurdo. Aprenden solos a abrir puertas y luego te miran como si fuera evidente.",
-    "advice": "Dale juegos de ingenio y cambia de ruta en el paseo: la novedad le entretiene mucho más que repetir el mismo circuito.",
+    "headline": "El raro de la camada, y a mucha honra",
+    "body": "Urano en su propio signo firma perros con ideas propias: se sientan mirando a la pared, eligen el suelo frío teniendo cama, inventan un juego con un calcetín y lo repiten un mes. Sus hermanos de camada comparten ese aire de no seguir el guion de nadie, ni el tuyo.",
+    "advice": "Dale un tramo de paseo sin ruta fija y apúntate a sus inventos: el juego que se saca él siempre dura más.",
     "energyScore": 4,
     "colorOfDay": "air"
   },
@@ -1529,9 +1529,9 @@
   },
   {
     "key": "planet=uranus;house=12",
-    "headline": "El sueño le llega a golpes raros",
-    "body": "Duerme con un interruptor invisible: pasa de la siesta profunda al alerta total sin escala intermedia, y cambia de rincón favorito sin avisar. Sus rarezas ocurren en privado, cuando nadie mira, y luego reaparece como si nada. Los hermanos de camada comparten ese sueño eléctrico.",
-    "advice": "Déjale un rincón fijo y tranquilo para dormir, fuera del paso, y respeta sus despertares repentinos sin dramatizar.",
+    "headline": "Duerme como quien cambia de canal",
+    "body": "Cambia de sitio dos o tres veces antes de acomodarse y se despierta de golpe por un ruido que nadie más ha oído. El descanso va por rachas: siestas profundas un rato y otro rato de ojos abiertos sin motivo visible. Lo de dentro no siempre asoma por fuera.",
+    "advice": "Ofrécele un rincón fijo para dormir, lejos del paso; si el descanso se altera varios días, coméntalo con tu veterinario.",
     "energyScore": 2,
     "colorOfDay": "water"
   },
@@ -1625,9 +1625,9 @@
   },
   {
     "key": "planet=neptune;sign=pisces",
-    "headline": "El perro que sueña con los ojos abiertos",
-    "body": "Neptuno en su propio signo da un perro poroso: capta el tono de la casa antes de que nadie diga nada y se ajusta a él. Suspira en sueños, se queda mirando un punto de la pared, y luego vuelve a ti como si nada. Le afectan las voces altas más que los ruidos fuertes.",
-    "advice": "Mantén un rincón tranquilo y en penumbra donde pueda dormir sin que nadie le pase por encima, y respeta sus siestas largas.",
+    "headline": "Una generación que sueña en alta definición",
+    "body": "Neptuno tarda años en cruzar un signo, así que esto lo comparte con toda su camada: perros porosos que leen el ambiente antes que tú. Suspira dormido, mueve las patas persiguiendo algo invisible y, si hay tensión en casa, se retira sin que nadie le diga nada.",
+    "advice": "Reserva un rincón fijo y tranquilo para su cama, lejos del paso, y unas caricias lentas antes de que se duerma.",
     "energyScore": 2,
     "colorOfDay": "water"
   },
@@ -1649,10 +1649,10 @@
   },
   {
     "key": "planet=neptune;house=3",
-    "headline": "El paseo como si fuera un sueño",
-    "body": "Sale a la calle y el barrio se le vuelve niebla: se para en mitad de la acera a oler algo que tú no ves, sigue rastros invisibles y se despista con un ruido lejano. Camina más lento que el resto, y la correa funciona menos como guía que como hilo para volver.",
-    "advice": "Dale paseos largos por rutas conocidas y déjale parar a olfatear sin prisa: el recorrido tranquilo le ordena el rumbo.",
-    "energyScore": 2,
+    "headline": "El paseo como un sueño despierto",
+    "body": "Sale a la calle y el barrio se vuelve niebla: mira un portal vacío, gira la cabeza hacia un ruido que tú no oyes, olfatea la misma esquina un minuto entero. No es que no atienda: atiende a otra cosa. Vuelve cuando dices su nombre, con dos segundos de retraso.",
+    "advice": "Correa larga y rutas que ya conoce: deja que marque el ritmo y usa su nombre con calma cuando necesites que vuelva.",
+    "energyScore": 3,
     "colorOfDay": "water"
   },
   {
@@ -1785,9 +1785,9 @@
   },
   {
     "key": "planet=pluto;sign=scorpio",
-    "headline": "Intensidad de fábrica, sin escándalo",
-    "body": "Plutón en su propio signo da un perro de vínculos profundos y memoria larga: elige a su gente con criterio y no reparte confianza a la primera. Observa desde el fondo de la habitación, guarda un juguete concreto como si fuera un tesoro y se transforma cuando por fin se suelta a jugar.",
-    "advice": "Respeta su tiempo de acercamiento con desconocidos y déjale un rincón propio y un juguete que sea solo suyo.",
+    "headline": "Nada a medias, ni siquiera un olfateo",
+    "body": "Plutón en Escorpio firma una camada de perros intensos: cuando se enganchan a un olor, a un juguete o a una persona, se enganchan entera y definitivamente. No reparten el cariño, lo concentran en muy pocos. Y guardan memoria larga del sitio exacto donde escondieron algo.",
+    "advice": "Dale paseos con tiempo real de rastreo por la misma ruta: olfatear a fondo le llena más que correr sin rumbo.",
     "energyScore": 3,
     "colorOfDay": "water"
   },
@@ -1817,9 +1817,9 @@
   },
   {
     "key": "planet=pluto;sign=pisces",
-    "headline": "La generación que lee la habitación",
-    "body": "Plutón es cosa de camada entera: marca a toda una hornada de perros con un radar emocional desmedido. Nota el cambio de humor de la casa antes de que nadie diga nada, y responde pegándose a la pierna o buscando un rincón oscuro. La transformación aquí es lenta, callada y por dentro.",
-    "advice": "Mantén un rincón fijo y tranquilo donde pueda retirarse solo, y vuelve a buscarlo con una caricia cuando salga.",
+    "headline": "La camada que lee la habitación",
+    "body": "Plutón es un rasgo de generación: lo comparte con sus hermanos de camada y con los perros de su edad. Aquí se traduce en un radar fino para el ambiente de casa: nota el tono de voz antes que la palabra, se levanta si alguien suspira y acusa las despedidas largas.",
+    "advice": "Rituales de salida y llegada cortos y sin drama, y un rincón propio donde retirarse cuando la casa se llena de gente.",
     "energyScore": 2,
     "colorOfDay": "water"
   },

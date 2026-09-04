@@ -1,9 +1,9 @@
 [
   {
     "key": "species=dog;sign=aries",
-    "headline": "El primero en la puerta, siempre",
-    "body": "Aries decide antes de pensar: oye las llaves y ya está esperando con la correa en la boca. Empuja el juego, empuja el paseo, empuja al perro del parque que le pareció interesante. El aburrimiento le dura tres segundos y luego se inventa algo, normalmente ruidoso.",
-    "advice": "Reserva un rato diario de juego intenso con final claro, y trabaja el \"espera\" en la puerta para que salir no sea una carrera.",
+    "headline": "Se lanza primero y pregunta después",
+    "body": "Arranca antes de que abras la puerta del todo y decide el ritmo del paseo en los dos primeros metros. Con los juguetes va de frente: los coge, los sacude y ya quiere otro. No es que no te escuche, es que su impulso llega siempre antes que tu frase completa.",
+    "advice": "Empieza el paseo con un tramo rápido para que gaste el arranque y reserva un juguete de tirar para el final.",
     "energyScore": 5,
     "colorOfDay": "fire"
   },
@@ -65,9 +65,9 @@
   },
   {
     "key": "species=dog;sign=sagittarius",
-    "headline": "Nariz al viento y ganas de horizonte",
-    "body": "El horizonte le interesa más que el salón: en cuanto ves la correa ya está en la puerta, y en el paseo tira hacia la calle que no conocéis. Se hace amigo de cualquiera en tres segundos y se olvida de tu nombre si aparece un olor nuevo. Vuelve, eso sí, siempre vuelve.",
-    "advice": "Cambia de ruta a menudo y déjale elegir la esquina: un paseo con territorio nuevo le llena más que media hora de juego.",
+    "headline": "El perro que siempre quiere ir más lejos",
+    "body": "Fuego mutable con Júpiter detrás: cada paseo es una expedición y cada desconocido, un amigo que todavía no lo sabe. Tira hacia delante, se pierde en un rastro nuevo y vuelve cuando ya has dicho su nombre tres veces. Se sube al coche antes de saber a dónde vais.",
+    "advice": "Varía las rutas siempre que puedas y practica la llamada en sitios abiertos, con mucha fiesta cuando decida volver.",
     "energyScore": 5,
     "colorOfDay": "fire"
   },
@@ -81,17 +81,17 @@
   },
   {
     "key": "species=dog;sign=aquarius",
-    "headline": "El perro que hace las cosas a su manera",
-    "body": "Aire fijo: sociable con todo el mundo y de nadie en particular. Te saluda, se marcha a investigar un contenedor y vuelve cuando le apetece. Tiene manías propias que no negocia: su lado del sofá, sus vueltas antes de tumbarse, su ruta preferida del paseo.",
-    "advice": "Dale margen para elegir camino en el paseo y aprovecha los ratos en que se acerca solo: ese cariño vale doble.",
+    "headline": "El perro que inventa sus propias reglas",
+    "body": "Acuario es aire fijo: curiosidad de sobra y una terquedad tranquila para sostener sus rarezas. Saluda a doce desconocidos en el parque y luego se aparta solo a mirar el horizonte. Aprende rapidísimo lo que le interesa y hace oídos sordos al resto, sin dramas.",
+    "advice": "Cambia la ruta del paseo a menudo y déjale elegir alguna esquina: la novedad le entretiene más que cualquier juguete.",
     "energyScore": 3,
     "colorOfDay": "air"
   },
   {
     "key": "species=dog;sign=pisces",
-    "headline": "El perro que te lee antes de mirarte",
-    "body": "Agua mutable: absorbe el ambiente de casa como una esponja. Si levantas la voz al teléfono, se va a su cama; si te ríes, aparece con un juguete blando. Duerme profundo y mucho, con las patas en marcha. El contacto físico lento le vale más que veinte minutos de pelota.",
-    "advice": "Reserva un rato fijo de caricias tranquilas y horarios estables: la previsibilidad le sujeta más que cualquier juego.",
+    "headline": "Te lee la cara antes de que hables",
+    "body": "Piscis es agua mutable: absorbe el clima de la casa y lo devuelve. Si hay tensión, se retira a su cama; si hay calma, se derrite contra tu pierna. Sueña en voz alta, con las patas en movimiento, y a veces se queda mirando un punto de la pared como si allí pasara algo.",
+    "advice": "Mantén sus horarios y un rincón tranquilo donde retirarse: la previsibilidad es lo que le ordena el mundo por dentro.",
     "energyScore": 2,
     "colorOfDay": "water"
   },
