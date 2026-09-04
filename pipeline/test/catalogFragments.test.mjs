@@ -109,6 +109,11 @@ describe('personality', () => {
     assert.match(asc.userMessage, /ascendente Escorpio/);
     assert.match(asc.userMessage, /cómo se presenta/);
     assert.match(asc.userMessage, /No es su carácter de fondo/);
+    // Y lo que gastó la primera tanda, prohibido por escrito: doce textos que
+    // se leen seguidos no pueden compartir el decorado.
+    assert.match(asc.userMessage, /Prohibido/);
+    assert.match(asc.userMessage, /un sitio nuevo/);
+    assert.match(asc.userMessage, /dale unos segundos de margen/);
 
     // Y no pisa al retrato del signo solar, que es otra clave y otro texto.
     const solar = fragments.find((f) => f.key === 'species=dog;sign=scorpio');

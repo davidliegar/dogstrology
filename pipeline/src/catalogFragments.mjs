@@ -168,10 +168,19 @@ export function personalityFragments() {
       key: `species=dog;ascendant=${sign}`,
       userMessage:
         `Escribe el retrato de personalidad permanente del catálogo para: un perro con ascendente ` +
-        `${label(SIGN_LABELS, sign)}. El Ascendente es **cómo se presenta** (casa I): lo primero que ve ` +
-        `quien se lo cruza en la calle, cómo saluda a un desconocido, qué cara pone al entrar en un sitio ` +
-        `nuevo. No es su carácter de fondo —eso es el Sol y tiene su propia entrada—, así que escribe la ` +
-        `primera impresión y no el temperamento: si los dos textos se pudieran intercambiar, este está mal.`,
+        `${label(SIGN_LABELS, sign)}. El Ascendente es **cómo se presenta** (casa I): lo que registra ` +
+        `quien lo ve por primera vez, antes de conocerlo. No es su carácter de fondo —eso es el Sol y ` +
+        `tiene su propia entrada—, así que escribe la presentación y no el temperamento: si los dos ` +
+        `textos se pudieran intercambiar, este está mal.\n\n` +
+        // La primera tanda (2026-09-04) salió con «un sitio nuevo» en 9 de 12 cuerpos y «dale unos
+        // segundos de margen» en 4 de 12 consejos, y la culpa era del mensaje: enumeraba escenas de
+        // ejemplo —el desconocido, la puerta, el sitio nuevo— y el modelo las copió literalmente.
+        // Doce textos que se leen seguidos en Explorar no pueden compartir el decorado, así que
+        // ahora la escena la pone el signo y las tres que se gastaron están prohibidas.
+        `La escena la eliges tú y tiene que salir de este signo en concreto. **Prohibido** usar las ` +
+        `palabras "un sitio nuevo", la fórmula "la primera impresión es" y empezar el consejo con ` +
+        `"dale unos segundos de margen": son de otro texto de esta misma serie. El titular tampoco ` +
+        `puede empezar por "Entra" ni por "Saluda".`,
     });
   }
 

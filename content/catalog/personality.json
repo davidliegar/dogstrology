@@ -96,6 +96,102 @@
     "colorOfDay": "water"
   },
   {
+    "key": "species=dog;ascendant=aries",
+    "headline": "Entra primero y pregunta después",
+    "body": "Con ascendente Aries, la primera impresión es un empujón: cruza la puerta por delante de ti, va directo al desconocido y decide en dos segundos si le interesa. Nadie que se lo cruce duda de que está ahí, porque la presentación es de cabeza, pecho fuera y cola en marcha.",
+    "advice": "Practica el paso de puerta con calma y arranca los paseos con unos minutos de trote para gastar el ímpetu inicial.",
+    "energyScore": 5,
+    "colorOfDay": "fire"
+  },
+  {
+    "key": "species=dog;ascendant=taurus",
+    "headline": "Saluda como quien no tiene ninguna prisa",
+    "body": "Lo primero que se ve es la calma: no salta, no corre a la puerta, levanta la cabeza y decide si merece la pena moverse. Ante un desconocido se acerca despacio, olfatea con método y acepta la caricia sin celebrarla. En un sitio nuevo se planta, mira alrededor y elige un rincón antes de dar un paso más.",
+    "advice": "Dale unos minutos de margen al entrar en cualquier sitio nuevo: si nadie le mete prisa, se instala solo y encantado.",
+    "energyScore": 2,
+    "colorOfDay": "earth"
+  },
+  {
+    "key": "species=dog;ascendant=gemini",
+    "headline": "Se presenta hablando y sin filtro",
+    "body": "Con Géminis en la casa I, la primera impresión es un torbellino sociable: saluda al desconocido antes de que le dé tiempo a agacharse, olisquea tres cosas a la vez y ya está mirando la cuarta. Entra en sitios nuevos como si viniera a hacer un inventario y suele acompañarlo de algún comentario sonoro.",
+    "advice": "Cambiad de ruta en el paseo cada pocos días: esquinas nuevas y olores distintos le sientan mejor que el mismo circuito.",
+    "energyScore": 4,
+    "colorOfDay": "air"
+  },
+  {
+    "key": "species=dog;ascendant=cancer",
+    "headline": "Primero te mira a ti, luego al mundo",
+    "body": "Ante un desconocido no se lanza: se queda medio paso por detrás, evalúa y espera tu señal. En un sitio nuevo entra pegado a tu pierna y recorre el perímetro olfateando antes de sentarse. Y cuando decide que alguien es de los suyos, apoya el cuerpo entero y ya no se aparta.",
+    "advice": "Pide que dejen unos segundos antes de acariciar: el saludo funciona mucho mejor si arranca desde tu lado.",
+    "energyScore": 2,
+    "colorOfDay": "water"
+  },
+  {
+    "key": "species=dog;ascendant=leo",
+    "headline": "Entra en cualquier sitio como si lo hubieran invitado",
+    "body": "Ascendente Leo saluda de frente, con el pecho alto y la cola en bandera, y espera que le miren. En un bar nuevo hace una entrada: se planta en mitad del local y escanea quién va a decirle algo. Con desconocidos no es tímido, es anfitrión.",
+    "advice": "Dale un par de minutos de saludo tranquilo con quien os cruzáis; se calma antes si siente que ya le han visto.",
+    "energyScore": 4,
+    "colorOfDay": "gold"
+  },
+  {
+    "key": "species=dog;ascendant=virgo",
+    "headline": "Te inspecciona antes de saludarte",
+    "body": "Con ascendente Virgo, la primera impresión es de perro que revisa. Entra en un sitio nuevo y hace el perímetro antes de tumbarse. Al desconocido no se le lanza: se le olfatea el zapato, se le mira dos veces y, si pasa el examen, entonces sí llega la cola.",
+    "advice": "Dale unos segundos de margen cuando llegáis a un sitio nuevo, sin tirar de correa: cuando acabe su ronda, se relaja solo.",
+    "energyScore": 3,
+    "colorOfDay": "earth"
+  },
+  {
+    "key": "species=dog;ascendant=libra",
+    "headline": "El encanto como carta de presentación",
+    "body": "Entra en un sitio nuevo midiendo el ambiente: mira quién hay, espera el gesto y luego saluda con una elegancia casi ensayada. Con desconocidos pone cara de buen vecino y esquiva el roce; si otro perro se tensa, se aparta antes de que haya algo que resolver.",
+    "advice": "Preséntale gente y perros nuevos sin prisa, dejando que se acerque a su ritmo: el saludo pausado le sienta mejor.",
+    "energyScore": 3,
+    "colorOfDay": "air"
+  },
+  {
+    "key": "species=dog;ascendant=scorpio",
+    "headline": "Primero te mira, luego decide",
+    "body": "No hay saludo automático: se queda quieto, sostiene la mirada un segundo más de lo que la gente espera y decide después. Al entrar en un sitio nuevo hace el perímetro antes que las presentaciones. Los desconocidos lo leen como serio, y no es seriedad: es que no reparte confianza a la primera.",
+    "advice": "Dale unos segundos de margen antes de que alguien lo toque; que se acerque él marca la diferencia en cómo saluda.",
+    "energyScore": 3,
+    "colorOfDay": "water"
+  },
+  {
+    "key": "species=dog;ascendant=sagittarius",
+    "headline": "Entra a todas partes como si lo esperaran",
+    "body": "Lo primero que se ve es el morro por delante y la cola en bandera: entra en un sitio nuevo sin pedir permiso y saluda al desconocido como a un amigo de siempre. En el paseo va dos pasos adelante, olfateando el siguiente plan antes de acabar el de ahora. La correa tensa es puro plan, no desobediencia.",
+    "advice": "Busca rutas nuevas de vez en cuando: un barrio distinto o un camino sin estrenar le da más que el paseo de siempre.",
+    "energyScore": 5,
+    "colorOfDay": "fire"
+  },
+  {
+    "key": "species=dog;ascendant=capricorn",
+    "headline": "Saluda como quien firma un contrato",
+    "body": "Entra en un sitio nuevo sin prisa, revisa el perímetro y luego decide. Al desconocido le ofrece una cortesía seca: se deja oler, no salta, no monta fiestas. Cuesta ganárselo, y quien se lo gana queda fichado. La calle lo lee como serio mucho antes que como simpático.",
+    "advice": "Dale unos segundos de margen al llegar a un sitio nuevo: cuando acaba de mirarlo todo, se suelta él solo y saluda.",
+    "energyScore": 2,
+    "colorOfDay": "earth"
+  },
+  {
+    "key": "species=dog;ascendant=aquarius",
+    "headline": "Saluda como si te estudiara",
+    "body": "Ascendente Acuario: la primera impresión es de perro raro y encantado de serlo. No se abalanza ni huye, se queda a media distancia mirándote con una ladeada de cabeza y decide por su cuenta. En un sitio nuevo entra antes de que le digas, va directo a lo más extraño de la sala.",
+    "advice": "Deja que sea quien se acerque primero a la gente nueva y premia con voz tranquila cuando lo haga; funciona mejor que presentarlo tú.",
+    "energyScore": 3,
+    "colorOfDay": "air"
+  },
+  {
+    "key": "species=dog;ascendant=pisces",
+    "headline": "La mirada que te desarma antes de saludar",
+    "body": "Ascendente Piscis se presenta con ojos húmedos y orejas bajas, un poco derretido. No salta encima del desconocido: se acerca despacio, apoya la cabeza y espera. Al entrar en un sitio nuevo se queda en el umbral leyendo el ambiente, y la gente jura que le está diciendo algo con la mirada.",
+    "advice": "Dale unos segundos de margen al llegar a un lugar nuevo antes de presentarle a nadie: entra mejor si entra a su ritmo.",
+    "energyScore": 2,
+    "colorOfDay": "water"
+  },
+  {
     "key": "species=dog;moon_phase=new_moon",
     "headline": "La Luna invisible y todo por empezar",
     "body": "La Luna nueva no se ve, y algo de eso tiene: cuesta leerle la cara. Es de arrancar cosas sin avisar —un juego, una carrera por el pasillo, una manía nueva— y de dejarlas a medias. Su apego no se exhibe: te sigue a dos habitaciones de distancia y eso ya es una declaración.",

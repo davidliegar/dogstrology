@@ -5125,3 +5125,12 @@ Llegaron 27 artboards. Se implementan **17 y 27**; el 26 va en tanda propia.
       `node src/generateCatalog.mjs --categories personality --missing --confirm`.
       Hasta entonces `catalogCoverage` canta las 12 que faltan, que es su
       trabajo. El `ANTHROPIC_API_KEY` del entorno es el revocado: da 401
+- ⚠️ **La primera tanda de los 12 salió con el decorado repetido, y la culpa
+  era del mensaje**: enumeraba escenas de ejemplo —el desconocido, la puerta,
+  «un sitio nuevo»— y el modelo las copió literalmente. «Un sitio nuevo» en 9
+  de 12 cuerpos, «dale unos segundos de margen» en 4 de 12 consejos, tres
+  titulares empezando por «Entra» y tres por «Saluda». Los doce se leen
+  seguidos en Explorar, así que eso no vale. Mensaje reescrito —la escena la
+  pone el signo, y las fórmulas gastadas van prohibidas por escrito— y los 12
+  a rehacer:
+      `node src/generateCatalog.mjs --keys ascendant.keys --confirm`
