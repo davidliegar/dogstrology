@@ -1905,9 +1905,14 @@ justo lo que no sale barato, porque la URL se hornea en cada instalación.
       la contradicción que llevaba abierta desde el 2026-09-01 entre BRD §14 R1,
       `CLAUDE.md` y la decisión de no usar la palabra en el copy: los tres
       sitios dicen ya lo mismo
-- [ ] ⚠️ **Desplegar Cloudflare**: la política de privacidad nueva está escrita
-      pero **la URL sigue sirviendo la vieja**, la que dice que no hay
-      analítica — y es la que Google lee al revisar
+- [x] **Cloudflare al día, comprobado contra la URL** (2026-09-04). La tarea
+      decía que la política nueva estaba escrita pero la URL servía la vieja —la
+      que dice que no hay analítica—, y ya no: el despliegue se había hecho y la
+      casilla se quedó sin tachar. Verificado **comparando lo que sirve con lo
+      que produce el build**, que es la única forma de saberlo, y no por la
+      fecha: `/privacidad` y `/condiciones` salen byte a byte iguales, y las 12
+      ediciones del diario también. En vivo se lee «Sin publicidad, y una
+      analítica que no sabe quién eres», con PostHog y la retención de un año
 - [x] **Cámara y micrófono, fuera** (2026-09-03). `expo-image-picker` los
       declaraba por su cuenta —por si abres la cámara— y la app solo elige de
       la galería. Se bloquean con `cameraPermission: false` y
