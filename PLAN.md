@@ -5056,3 +5056,23 @@ Llegaron 27 artboards. Se implementan **17 y 27**; el 26 va en tanda propia.
   —engagement, ninguno bloquea una decisión— van en una lista que se vacía
   cableándolos
 - 575 tests, lint y `tsc` limpios
+
+### 2026-09-04 (59) — el build interno con todo dentro, y la analítica viva
+- **Build de EAS con el perfil `internal`**, y con el keystore que ya tenía
+  (`Build Credentials -d03wQgAcu`): uno nuevo habría hecho que Play rechazara
+  el AAB por firma, con la app ya en el canal interno
+- ⚠️ **El catálogo del binario no se regenera solo.** Los 249 fragmentos
+  rehechos vivían en `content/catalog/` y el APK lleva los `*.generated.json`
+  de la app: sin `npm run generate:catalog` el build habría salido con el
+  arreglo pagado y sin usar. Es un paso de la tabla de `AGENTS.md` que se salta
+  solo cuando hay prisa
+- **Cámara y micrófono, fuera — comprobado en el APK instalado.** Y de regalo,
+  tampoco pide `READ_MEDIA_IMAGES`: en Android 13+ el selector moderno no lo
+  necesita, así que elegir foto funciona sin acceso a la galería
+- **PostHog reporta** (verificado en el panel EU): `daily_read` y
+  `onboarding_started` llegaron en menos de un minuto, con los automáticos de
+  ciclo de vida. Era lo único de la analítica que no se había visto funcionar
+- ⚠️ **Cada instalación es una persona distinta** en el panel, que es lo que
+  hace el identificador por instalación. Con doce testers, **quien reinstale
+  cuenta doble** y el DAU/MAU sale peor de lo que es: no es para arreglarlo, es
+  para leerlo sabiéndolo
