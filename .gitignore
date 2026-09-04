@@ -11,3 +11,5 @@ _site/
 # La página de revisión del catálogo. La monta `scripts/build-review.mjs` y
 # crece cada noche con el cron: se regenera, no se versiona.
 review.html
+pre-review.md
+pre-review.keys

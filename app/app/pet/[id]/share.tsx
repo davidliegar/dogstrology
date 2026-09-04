@@ -23,6 +23,7 @@ import {
   shareFileName,
 } from '@/sharing/ui/labels';
 import { useShareTypefaces } from '@/sharing/ui/shareFonts';
+import { useAnalytics } from '@/analytics/ui/useAnalytics';
 import { useDayToShare, useShareImage } from '@/sharing/ui/sharingQueries';
 
 import { colors, radii, screenPadding, spacing, typography } from '@/design/theme';
@@ -49,6 +50,7 @@ export default function ShareDay() {
   const reading = useDayToShare(pet);
   const typefaces = useShareTypefaces();
   const share = useShareImage();
+  const analytics = useAnalytics();
 
   const [format, setFormat] = useState<ShareFormat>(DEFAULT_SHARE_FORMAT);
   const canvas = SHARE_CANVASES[format];
@@ -65,7 +67,12 @@ export default function ShareDay() {
 
   const onShare = () => {
     if (!pet || !image) return;
-    share.mutate({ element: image, canvas, name: shareFileName(pet.name(), format) });
+    share.mutate(
+      { element: image, canvas, name: shareFileName(pet.name(), format) },
+      // El bucle de adquisición (F9, D9): compartir es el único canal que la
+      // app tiene por sí misma. Se mide al conseguirlo, no al pulsar.
+      { onSuccess: () => analytics.track('shared') },
+    );
   };
 
   return (

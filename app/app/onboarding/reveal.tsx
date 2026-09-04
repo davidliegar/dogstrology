@@ -1,9 +1,11 @@
 import { router, useLocalSearchParams } from 'expo-router';
+import { useEffect } from 'react';
 import { ActivityIndicator, StyleSheet, Text, View, useWindowDimensions } from 'react-native';
 
 import { PrimaryButton } from '@/_ui/components/PrimaryButton';
 import { Screen } from '@/_ui/components/Screen';
 import { Chip } from '@/_ui/components/Chip';
+import { useAnalytics } from '@/analytics/ui/useAnalytics';
 import { Constellation } from '@/chart/ui/Constellation';
 import { formatDegree } from '@/chart/ui/format';
 import { ELEMENT_LABELS, MODALITY_LABELS, SIGN_LABELS } from '@/chart/ui/labels';
@@ -20,6 +22,16 @@ export default function OnboardingReveal() {
 
   const { data: pet, isError: petFailed } = usePet(petId);
   const { data: chart, isError: chartFailed } = useNatalChart(pet);
+
+  // **El primer valor** (BRD §13): su carta calculada y su signo en pantalla,
+  // que es lo que el onboarding promete en menos de 60 segundos. Se mide
+  // cuando la carta existe de verdad, no al entrar: entrar y quedarse mirando
+  // una ruleta no es haber visto nada.
+  const analytics = useAnalytics();
+  const revealed = Boolean(chart);
+  useEffect(() => {
+    if (revealed) analytics.track('reveal_seen');
+  }, [analytics, revealed]);
 
   const done = () => {
     // El wizard ha cumplido: a partir de aquí la verdad es el repositorio.

@@ -16,6 +16,8 @@ import Constants from 'expo-constants';
  */
 interface Extra {
   contentBaseUrl?: string;
+  revenueCatApiKey?: string;
+  posthogApiKey?: string;
 }
 
 const extra = (Constants.expoConfig?.extra ?? {}) as Extra;
@@ -38,3 +40,31 @@ function required(name: keyof Extra, value: string | undefined): string {
  * la tienda deja colgadas las instalaciones viejas.
  */
 export const contentBaseUrl = (): string => required('contentBaseUrl', extra.contentBaseUrl);
+
+/**
+ * La clave pública del SDK de RevenueCat, o nada si todavía no hay cuenta.
+ *
+ * **Es la única pieza de configuración que puede faltar**, y por eso devuelve
+ * `undefined` en vez de lanzar: sin ella la app monta el doble en memoria y el
+ * paywall se puede recorrer entero sin cobrar, que es como se ha construido.
+ * El día que la clave esté en `app.json`, la app cobra de verdad sin tocar una
+ * línea de código.
+ *
+ * La clave es **pública a propósito** —viaja dentro de cada instalación— y no
+ * da acceso a nada: lo que cuesta dinero lo valida la tienda.
+ *
+ * ⚠️ **Un build de tienda sin clave cobraría de mentira.** Hoy no puede pasar
+ * —no hay productos que vender— pero es lo que hay que comprobar antes de
+ * publicar (PLAN.md, Bloque 5).
+ */
+export const revenueCatApiKey = (): string | undefined => extra.revenueCatApiKey || undefined;
+
+/**
+ * La clave de proyecto de PostHog, o nada si todavía no hay cuenta.
+ *
+ * Como la de RevenueCat, **puede faltar y no pasa nada**: sin ella la app mide
+ * contra el doble en memoria y no manda un solo evento a ninguna parte, que es
+ * lo que tiene que ocurrir mientras se desarrolla. Es pública —solo escribe— y
+ * viaja en cada instalación.
+ */
+export const posthogApiKey = (): string | undefined => extra.posthogApiKey || undefined;

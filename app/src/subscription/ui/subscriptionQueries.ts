@@ -3,9 +3,8 @@ import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { DomainError } from '@/_kernel/DomainError';
 import { ErrorCode } from '@/_kernel/ErrorCodes';
 import { useDomain } from '@/_ui/DomainProvider';
-import { usePets } from '@/pet/ui/petQueries';
 import type { Plan, PlanId } from '../domain/Plan';
-import type { Subscription } from '../domain/Subscription';
+import { Subscription } from '../domain/Subscription';
 
 /** No lleva id: la suscripción es una y es de este usuario. */
 export const subscriptionKeys = {
@@ -65,21 +64,31 @@ export const isPurchaseCancelled = (error: unknown): boolean =>
 
 
 /**
- * Si cabe otra mascota con el plan que hay. Cruza el límite del plan con las
- * que ya existen, que es una pregunta de dos contextos y por eso se resuelve
- * aquí y no dentro de ninguno de los dos.
+ * El plan con el que contestar mientras la suscripción todavía no ha llegado.
  *
- * Es lo que decide **a dónde lleva la fila de añadir del 26** —al alta o al
- * paywall— y si lleva el subtítulo con el nombre del plan (artboard 30). No
- * decide si la fila existe ni si está activa: eso no cambia nunca.
+ * **Es el gratuito, y no es pesimismo**: equivocarse hacia ese lado deja un
+ * candado de más durante un fotograma; hacia el otro, enseña gratis lo que se
+ * cobra. Y como el Sol es gratis en los dos, la pantalla que se abre cada
+ * mañana no parpadea por esto.
  *
- * **Mientras no se sabe, `false`**, y no es pesimismo: equivocarse hacia ese
- * lado enseña una oferta; hacia el otro, abriría un alta que el plan no
- * permite.
+ * Es una constante y no una llamada por render porque el modelo es inmutable:
+ * la misma instancia contesta igual a todo el mundo, y así una pantalla que
+ * memorice no se rehace por un objeto nuevo que dice lo mismo.
  */
-export function useCanAddPet(): boolean {
+const FREE = Subscription.free();
+
+/**
+ * Qué puede leer quien está usando la app (D19).
+ *
+ * Devuelve **el plan**, no un puñado de booleanos, y por eso las preguntas se
+ * hacen en su vocabulario: `canReadDaily('moon')`, `canReadNatalChart()`. La
+ * regla de qué se cobra vive en `subscription/domain/ContentAccess.ts`; esto
+ * solo es cómo llega a la pantalla.
+ *
+ * Un hook por pregunta habría obligado a llamarlos en bucle —las tarjetas del
+ * día son tres— que es justo lo que las reglas de los hooks no dejan hacer.
+ */
+export function useContentAccess(): Subscription {
   const { data: subscription } = useSubscription();
-  const { data: pets } = usePets();
-  if (!subscription || !pets) return false;
-  return subscription.canAddPet(pets.length);
+  return subscription ?? FREE;
 }

@@ -10,10 +10,12 @@ import { SIGN_LABELS } from '@/chart/ui/labels';
 import type { Pet } from '@/pet/domain/Pet';
 import { breedLabel } from '@/pet/ui/format';
 import { usePetPhotoUri } from '@/pet/ui/petQueries';
+import { useContentAccess } from '@/subscription/ui/subscriptionQueries';
 import type { DailyEdition } from '../domain/DailyEdition';
 import { DailyCard } from './DailyCard';
-import { dailyAxisCards } from './dailyCards';
+import { dailyAxisCards, lockedAxes } from './dailyCards';
 import { EnergyDots } from './EnergyDots';
+import { DailyUnlockRow } from './UnlockRow';
 import { DAILY_AXIS_LABELS, ENERGY_LABEL, SKY_LABEL, readingOf } from './labels';
 
 import {
@@ -122,6 +124,10 @@ export function PetReading({
   chart: NatalChart | undefined;
 }) {
   const cards = dailyAxisCards(edition, chart);
+  // El candado es del plan, no de la pantalla: aquí se pregunta lo mismo que
+  // en el día de un solo perro, y sale la misma fila de oro debajo.
+  const access = useContentAccess();
+  const locked = lockedAxes(cards, access);
   if (cards.length === 0) return null;
 
   return (
@@ -139,6 +145,7 @@ export function PetReading({
             meta={card.degree === undefined ? undefined : <Text style={styles.degree}>{formatDegree(card.degree)}</Text>}
             headline={card.headline}
             body={card.body}
+            locked={locked.includes(card.axis)}
             // Solo la del Sol: la energía del día es una y no tres, y es la
             // del eje que manda la lectura.
             footer={
@@ -156,6 +163,8 @@ export function PetReading({
           />
         );
       })}
+
+      {locked.length > 0 ? <DailyUnlockRow axes={locked} petId={pet.id()} /> : null}
     </View>
   );
 }

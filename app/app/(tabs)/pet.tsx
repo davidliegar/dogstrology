@@ -7,9 +7,8 @@ import { text } from '@/_ui/typography';
 import { isHouseDay } from '@/content/ui/dailyCards';
 import { AddPetRow, PetRow } from '@/pet/ui/PetList';
 import { PetHub } from '@/pet/ui/PetHub';
-import { usePets } from '@/pet/ui/petQueries';
+import { useCanAddPet, usePets } from '@/pet/ui/petQueries';
 import { ADD_PET_NOTE, PETS_TAB_LABEL } from '@/subscription/ui/labels';
-import { useCanAddPet } from '@/subscription/ui/subscriptionQueries';
 
 import { colors, screenPadding, spacing, typography } from '@/design/theme';
 
@@ -80,7 +79,9 @@ export default function PetTab() {
       ))}
       <AddPetRow
         note={canAddPet ? undefined : ADD_PET_NOTE}
-        onPress={() => router.push(canAddPet ? '/onboarding/name' : '/paywall')}
+        onPress={() => canAddPet
+              ? router.push('/onboarding/name')
+              : router.push({ pathname: '/paywall', params: { door: 'add_pet' } })}
       />
     </Screen>
   );

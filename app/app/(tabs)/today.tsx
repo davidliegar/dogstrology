@@ -1,5 +1,5 @@
 import { router } from 'expo-router';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import {
   Image,
   Pressable,
@@ -12,6 +12,7 @@ import {
   type NativeSyntheticEvent,
 } from 'react-native';
 
+import { useAnalytics } from '@/analytics/ui/useAnalytics';
 import { NavRow } from '@/_ui/components/NavRow';
 import { Screen } from '@/_ui/components/Screen';
 import { ScreenHeader } from '@/_ui/components/ScreenHeader';
@@ -97,6 +98,7 @@ export default function Today() {
   // La fecha **se observa**, no se calcula una vez: si no, una app abierta a
   // las 00:05 seguiría enseñando el día de ayer con su contenido.
   const today = useCalendarDay();
+  const analytics = useAnalytics();
   const { data: edition, isPending, error } = useDailyEdition(today);
   const offline = isNetworkError(error);
 
@@ -107,14 +109,28 @@ export default function Today() {
   // Consulta de consolación: solo cuando la de hoy ya ha fallado por red.
   const { data: lastReading } = useLastReading({ notAfter: today, enabled: offline });
 
+  // Lo que se enseña: la de hoy si la hay y, sin cobertura, la última que
+  // llegó. Es una lectura o ninguna — nunca media de cada.
+  //
+  // Se calcula **antes de la salida sin mascota** porque de aquí cuelga la
+  // medida del hábito, y un hook no puede vivir detrás de un `return`.
+  const reading = edition ?? (offline ? lastReading : null);
+
+  // **El hábito, que es el norte** (BRD §13: DAU/MAU ≥ 0,35). Se mide cuando
+  // hay algo que leer de verdad: abrir la app sin lectura —sin red, día sin
+  // publicar— no es haber leído, y contarlo inflaría justo la métrica sobre la
+  // que se decide si el negocio funciona.
+  const readingDate = reading?.date();
+  const petCount = pets?.length ?? 0;
+  useEffect(() => {
+    if (readingDate) analytics.track('daily_read', { pets: petCount });
+  }, [analytics, readingDate, petCount]);
+
   // Sin mascota, Hoy no tiene nada que contar: entra el artboard 16 entero.
   // Se llega borrando la única mascota — el reparto de `index.tsx` manda al
   // onboarding en el primer arranque, así que esto es la vuelta, no la ida.
   if (petsLoaded && !pet) return <NoPetPrompt onAdd={() => router.push('/onboarding/name')} />;
 
-  // Lo que se enseña: la de hoy si la hay y, sin cobertura, la última que
-  // llegó. Es una lectura o ninguna — nunca media de cada.
-  const reading = edition ?? (offline ? lastReading : null);
   const staleDays = reading && reading.date() !== today ? daysBetween(reading.date(), today) : 0;
   const house = isHouseDay(pets?.length ?? 0);
 
@@ -187,7 +203,7 @@ export default function Today() {
         <DailySkeleton />
       ) : (
         <>
-          <DailyReading reading={reading} chart={chart} staleDays={staleDays} offline={offline} />
+          <DailyReading reading={reading} chart={chart} petId={pet?.id()} staleDays={staleDays} offline={offline} />
 
           {/* Y en vez de dejar la pantalla vacía, lo que sí se puede leer: lo
               que no depende del día. Es la mitad del artboard 27 que convierte

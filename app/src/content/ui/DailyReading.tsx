@@ -4,11 +4,13 @@ import { ApproximateBadge } from '@/_ui/components/ApproximateBadge';
 import type { NatalChart } from '@/chart/domain/NatalChart';
 import { formatDegree, formatWeekdayAndDay } from '@/chart/ui/format';
 import { SIGN_LABELS } from '@/chart/ui/labels';
+import { useContentAccess } from '@/subscription/ui/subscriptionQueries';
 import type { DailyEdition } from '../domain/DailyEdition';
 import { CardDegree, DailyCard } from './DailyCard';
-import { dailyAxisCards } from './dailyCards';
+import { dailyAxisCards, lockedAxes } from './dailyCards';
 import { EnergyDots } from './EnergyDots';
 import { DAILY_AXIS_LABELS, SKY_LABEL, UNPUBLISHED, relativeDay, staleReadingLabel } from './labels';
+import { DailyUnlockRow } from './UnlockRow';
 
 import { colors, elementColor, spacing, typography } from '@/design/theme';
 
@@ -16,6 +18,8 @@ export interface DailyReadingProps {
   /** La lectura que se enseña: la de hoy, o la última que llegó sin red. */
   reading: DailyEdition | null | undefined;
   chart: NatalChart | undefined;
+  /** De quién es la lectura. Lo necesita la puerta al paywall, no las tarjetas. */
+  petId: string | undefined;
   /** Cuántos días tiene la lectura. 0 es la de hoy. */
   staleDays: number;
   /**
@@ -41,11 +45,19 @@ export function hasDailyReading(reading: DailyEdition | null | undefined, chart:
  * casa (artboard 30). Son la misma lectura enseñada desde dos sitios, y
  * duplicarla habría hecho que solo una de las dos se acordara de la insignia
  * de C.2b o de callar los puntos de energía en una lectura caducada.
+ *
+ * **Y de que la Luna y el Ascendente son de pago** (D19, artboard 36), que es
+ * lo mismo: el candado se pone aquí una vez y aparece en las dos pantallas,
+ * con la misma fila de oro al final y la misma frase.
  */
-export function DailyReading({ reading, chart, staleDays, offline }: DailyReadingProps) {
+export function DailyReading({ reading, chart, petId, staleDays, offline }: DailyReadingProps) {
   const sky = reading?.sky();
   const cards = dailyAxisCards(reading, chart);
   const hasReading = Boolean(sky) || cards.length > 0;
+  // **El cielo y el Sol no se preguntan** (D19): son el hábito, y el hábito no
+  // se cobra. Lo que se pregunta es cada eje, y la respuesta la da el plan.
+  const access = useContentAccess();
+  const locked = lockedAxes(cards, access);
 
   return (
     <>
@@ -100,8 +112,11 @@ export function DailyReading({ reading, chart, staleDays, offline }: DailyReadin
           }
           headline={card.headline}
           body={card.body}
+          locked={locked.includes(card.axis)}
         />
       ))}
+
+      {locked.length > 0 && petId ? <DailyUnlockRow axes={locked} petId={petId} /> : null}
 
       {/* Artboard 27. **No es el 17 con otro texto**: sin red el usuario puede
           hacer algo —moverse, esperar cobertura— y aquí no, así que no se le

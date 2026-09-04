@@ -1,3 +1,4 @@
+import { DAILY_AXES } from '../ContentAccess';
 import { FREE_PET_LIMIT, Subscription } from '../Subscription';
 
 describe('Subscription', () => {
@@ -42,5 +43,22 @@ describe('Subscription', () => {
   it('el tier gratuito no renueva nada', () => {
     expect(Subscription.free().renews()).toBe(false);
     expect(Subscription.free().renewsAt()).toBeUndefined();
+  });
+
+  it('gratis se lee el Sol entero, y ni la Luna ni el Ascendente (D19)', () => {
+    const free = Subscription.free();
+    expect(free.canReadDaily('sun')).toBe(true);
+    expect(free.canReadDaily('moon')).toBe(false);
+    expect(free.canReadDaily('ascendant')).toBe(false);
+  });
+
+  it('con Cósmico se leen los tres ejes', () => {
+    const premium = Subscription.premium({ planId: 'annual' });
+    expect(DAILY_AXES.every((axis) => premium.canReadDaily(axis))).toBe(true);
+  });
+
+  it('la carta natal completa es de pago, y el vitalicio también la abre', () => {
+    expect(Subscription.free().canReadNatalChart()).toBe(false);
+    expect(Subscription.premium({ planId: 'lifetime' }).canReadNatalChart()).toBe(true);
   });
 });

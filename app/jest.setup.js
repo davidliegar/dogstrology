@@ -19,3 +19,25 @@ jest.mock('expo-notifications', () => ({
   AndroidImportance: { DEFAULT: 3, HIGH: 4 },
   SchedulableTriggerInputTypes: { DAILY: 'daily' },
 }));
+
+/**
+ * `react-native-purchases` es otro módulo nativo, y el composition root lo
+ * importa desde que existe el adaptador de RevenueCat. Ningún test lo monta —
+ * sin clave en `app.json` la app elige el doble en memoria, y el adaptador se
+ * prueba con este mismo mock puesto a mano en su fichero.
+ *
+ * Se sustituye entero por lo mismo que `expo-notifications`: que importar el
+ * composition root no arrastre nada nativo.
+ */
+jest.mock('react-native-purchases', () => ({
+  __esModule: true,
+  default: {
+    configure: jest.fn(),
+    getCustomerInfo: jest.fn(),
+    getOfferings: jest.fn(),
+    purchasePackage: jest.fn(),
+    restorePurchases: jest.fn(),
+  },
+  PACKAGE_TYPE: { ANNUAL: 'ANNUAL', MONTHLY: 'MONTHLY', LIFETIME: 'LIFETIME', CUSTOM: 'CUSTOM' },
+  PURCHASES_ERROR_CODE: { PURCHASE_CANCELLED_ERROR: '1' },
+}));

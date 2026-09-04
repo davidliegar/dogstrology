@@ -8,6 +8,7 @@
  *   node src/generateCatalog.mjs --categories aspects --confirm      # la genera de verdad
  *   node src/generateCatalog.mjs --categories aspects,planet-sign-house --confirm
  *   node src/generateCatalog.mjs --categories aspects --missing --confirm
+ *   node src/generateCatalog.mjs --keys ../pre-review.keys --confirm   # rehace esas
  *
  * El catálogo completo cuesta dinero real, una vez (~$15-25, BRD §7.3): por
  * eso nunca se lanza sin `--confirm`, y cada categoría se genera en su
@@ -19,6 +20,18 @@
  * tanda nunca sale completa: siempre caen algunos por longitud, por el
  * guardarraíl o por un error de la API, y regenerar los 780 para recuperar 26
  * es tirar el dinero. La fusión **nunca sustituye** un fragmento ya publicado.
+ *
+ * `--keys <fichero>` hace lo contrario, y por eso es el peligroso: pide **esas
+ * claves concretas y sustituye las que había**. Existe porque un fragmento
+ * puede estar publicado y ser malo —la primera tanda dejó 162 de 780 que no
+ * nombraban ni la raza ni el signo, y eso vacía justo lo que hace diferencial
+ * al cruce— y arreglarlos a mano cuesta más que regenerarlos con el prompt
+ * corregido.
+ *
+ * ⚠️ **Sustituye sin preguntar, incluido lo ya revisado por una persona.** El
+ * fichero es una clave por línea y lo escribe `scripts/pre-review.mjs`; se
+ * revisa antes de lanzarlo, porque lo que se pierde ahí no lo devuelve el
+ * dinero. No hace falta `--categories`: cada categoría coge las claves suyas.
  */
 
 import { mkdir, readFile, writeFile } from 'node:fs/promises';
@@ -52,10 +65,11 @@ const TOKENS_PROMPT_POR_PETICION = 3400;
 const PRECIO_ENTRADA_CACHE_MIXTO = 1.4 / 1_000_000; // ~40% escritura (1,25x), ~60% lectura (0,1x)
 
 function parseArgs(argv) {
-  const args = { confirm: false, categories: null, missing: false };
+  const args = { confirm: false, categories: null, missing: false, keysFile: null };
   for (let i = 0; i < argv.length; i++) {
     if (argv[i] === '--confirm') args.confirm = true;
     else if (argv[i] === '--missing') args.missing = true;
+    else if (argv[i] === '--keys') args.keysFile = argv[++i];
     else if (argv[i] === '--categories') args.categories = argv[++i].split(',');
   }
   return args;
@@ -96,13 +110,33 @@ export function mergeFragments(all, published, fresh) {
   return all.map((f) => byKey.get(f.key)).filter(Boolean);
 }
 
-async function generateCategory(client, category, confirm, missing) {
-  const all = category.build();
-  const published = missing ? await readPublished(category.id) : [];
-  const alreadyThere = new Set(published.map((f) => f.key));
-  const requested = missing ? all.filter((f) => !alreadyThere.has(f.key)) : all;
+/** Una clave por línea; se ignoran vacías y comentarios. */
+async function readKeys(file) {
+  const lines = (await readFile(file, 'utf8')).split('\n');
+  return new Set(lines.map((line) => line.trim()).filter((line) => line && !line.startsWith('#')));
+}
 
-  if (missing) {
+async function generateCategory(client, category, confirm, missing, keys) {
+  const all = category.build();
+  // Con `--keys` también se leen los publicados, pero para **sustituirlos**:
+  // `mergeFragments` da la victoria al nuevo en un empate de clave, que es
+  // justo lo que se pide aquí y lo contrario de lo que hace `--missing`.
+  const published = missing || keys ? await readPublished(category.id) : [];
+  const alreadyThere = new Set(published.map((f) => f.key));
+  const requested = keys
+    ? all.filter((f) => keys.has(f.key))
+    : missing
+      ? all.filter((f) => !alreadyThere.has(f.key))
+      : all;
+
+  if (keys) {
+    if (requested.length === 0) return;
+    const nuevas = requested.filter((f) => !alreadyThere.has(f.key)).length;
+    console.log(
+      `${category.id}: ${requested.length} claves pedidas — ` +
+        `${requested.length - nuevas} se **sustituyen** y ${nuevas} son nuevas.`,
+    );
+  } else if (missing) {
     console.log(`${category.id}: ${alreadyThere.size} ya publicados, faltan ${requested.length} de ${all.length}.`);
     if (requested.length === 0) return;
   }
@@ -160,14 +194,18 @@ async function generateCategory(client, category, confirm, missing) {
 }
 
 async function main() {
-  const { confirm, categories: requestedIds, missing } = parseArgs(process.argv.slice(2));
+  const { confirm, categories: requestedIds, missing, keysFile } = parseArgs(process.argv.slice(2));
 
-  if (!requestedIds) {
+  if (!requestedIds && !keysFile) {
     listCategories();
     return;
   }
 
-  const categories = requestedIds.map((id) => {
+  const keys = keysFile ? await readKeys(keysFile) : null;
+
+  // Con un fichero de claves no hace falta decir la categoría: cada una coge
+  // las suyas y las que no tienen ninguna se saltan solas.
+  const categories = (requestedIds ?? CATEGORIES.map((c) => c.id)).map((id) => {
     const category = CATEGORIES.find((c) => c.id === id);
     if (!category) {
       throw new Error(
@@ -178,9 +216,21 @@ async function main() {
     return category;
   });
 
+  if (keys) {
+    // Una clave mal escrita no da error: simplemente no se regenera, y el
+    // fragmento malo se queda publicado sin que nadie se entere.
+    const known = new Set(categories.flatMap((category) => category.build().map((f) => f.key)));
+    const unknown = [...keys].filter((key) => !known.has(key));
+    if (unknown.length) {
+      console.warn(`⚠️  ${unknown.length} claves del fichero no existen en ninguna categoría:`);
+      for (const key of unknown.slice(0, 10)) console.warn(`     ${key}`);
+    }
+    console.log(`${keys.size - unknown.length} claves a regenerar.`);
+  }
+
   const client = confirm ? new Anthropic() : null;
   for (const category of categories) {
-    await generateCategory(client, category, confirm, missing);
+    await generateCategory(client, category, confirm, missing, keys);
   }
 }
 

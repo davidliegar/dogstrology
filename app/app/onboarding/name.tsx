@@ -1,6 +1,8 @@
 import { router } from 'expo-router';
+import { useEffect } from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 
+import { useAnalytics } from '@/analytics/ui/useAnalytics';
 import { ProgressSteps } from '@/_ui/components/ProgressSteps';
 import { PrimaryButton } from '@/_ui/components/PrimaryButton';
 import { Screen } from '@/_ui/components/Screen';
@@ -13,6 +15,13 @@ import { colors, spacing, typography } from '@/design/theme';
 const MAX_NAME = 40;
 
 export default function OnboardingName() {
+  // El primer escalón del embudo (BRD §13, activación). Sin él no se sabe
+  // cuánta gente empieza, y una tasa de completado sin denominador no es nada.
+  const analytics = useAnalytics();
+  useEffect(() => {
+    analytics.track('onboarding_started');
+  }, [analytics]);
+
   const name = useOnboardingStore((state) => state.name);
   const setName = useOnboardingStore((state) => state.setName);
 

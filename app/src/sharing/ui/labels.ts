@@ -1,7 +1,14 @@
 import type { ShareFormat } from './canvases';
 
-/** La cabecera del artboard 12. */
-export const SHARE_TITLE = 'Compartir su día';
+/**
+ * La cabecera del artboard 12, y el rótulo de la fila del pie del hub.
+ *
+ * **«Su cielo», que es la tercera palabra que ha llevado esta fila** y la que
+ * corrige el canvas (25 y 26, 2026-09-02). «Su carta» prometía la rueda, que
+ * no se compone; «su día» era exacto y estrecho — lo que la imagen enseña es
+ * el cielo de ese perro ese día, que es también lo que invita a compartirlo.
+ */
+export const SHARE_TITLE = 'Compartir su cielo';
 
 export const SHARE_CTA = 'Compartir';
 

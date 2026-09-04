@@ -1,7 +1,7 @@
 import { router } from 'expo-router';
 import { useState } from 'react';
 import { Pressable, StyleSheet, Text, View } from 'react-native';
-import { Share2 } from 'lucide-react-native';
+import { Plus, Share2 } from 'lucide-react-native';
 
 import { ApproximateBadge } from '@/_ui/components/ApproximateBadge';
 import { NavRow } from '@/_ui/components/NavRow';
@@ -10,13 +10,12 @@ import { ScreenHeader } from '@/_ui/components/ScreenHeader';
 import { ChartTrio } from '@/chart/ui/ChartTrio';
 import { useNatalChart } from '@/chart/ui/chartQueries';
 import { MISSING_DATUM_NOTES, SIGN_LABELS } from '@/chart/ui/labels';
-import { ADD_PET_NOTE } from '@/subscription/ui/labels';
-import { useCanAddPet } from '@/subscription/ui/subscriptionQueries';
+import { ADD_PET_LABEL, ADD_PET_NOTE } from '@/subscription/ui/labels';
 import type { Pet } from '../domain/Pet';
 import { breedLabel, formatLongDate } from './format';
 import { PetIdentity } from './PetIdentity';
 import { PetSelectorSheet } from './PetSelectorSheet';
-import { usePets, usePetPhotoUri } from './petQueries';
+import { useCanAddPet, usePets, usePetPhotoUri } from './petQueries';
 
 import { SHARE_TITLE } from '@/sharing/ui/labels';
 
@@ -48,10 +47,9 @@ export interface PetHubProps {
  * que compone la imagen del día. Va abajo y en gris porque es la única acción
  * de la pantalla y no compite con los tres destinos.
  *
- * **Dice «Compartir su día» y el artboard 25 dice «su carta»**, y es decisión
- * tomada (2026-09-01): la única composición dibujada —el artboard 12— es una
- * lectura, rótulo, titular y texto, no la rueda. Rotularla «su carta» prometería
- * una imagen que no existe. El que se corrige es el 25.
+ * **La fila dice «Compartir su cielo»** (25 y 26, corregidos en el canvas el
+ * 2026-09-02). Pasó por «su carta», que prometía una rueda que no se compone,
+ * y por «su día»; el texto vive en `sharing/ui/labels.ts` y el porqué también.
  *
  * **El nombre abre el selector** (artboard 26), y sigue haciéndolo aunque la
  * lista exista — con otro trabajo: **saltar entre perfiles sin volver a la
@@ -136,6 +134,40 @@ export function PetHub({ pet, onBack }: PetHubProps) {
           />
         </View>
 
+        {/*
+          **La única forma de llegar a la segunda mascota cuando solo hay una.**
+          Con un perro, esta pestaña es el hub y no la lista, así que sin esta
+          fila la casa entera —el carrusel de Hoy, la lista, el pie de las
+          fichas— quedaba detrás de un gesto que hay que adivinar: tocar el
+          nombre para abrir la hoja del 26.
+
+          Sale **solo con el plan activo y una sola mascota**, y las dos mitades
+          de esa condición son la misma pregunta que ya contesta `useCanAddPet`
+          cruzada con cuántas hay:
+
+          - sin plan, quien tiene una **topa con el límite**, y ahí lo que toca
+            es la puerta al 11 —que ya está en la hoja del 26 y en Ajustes—, no
+            una acción que no va a poder completar;
+          - con dos o más, la pestaña ya es la lista del 32, que trae su propia
+            fila de añadir, y repetirla dentro de cada ficha sería ofrecer lo
+            mismo dos veces en el mismo camino.
+
+          ⚠️ Derivación, no dibujo: el artboard 25 no la tiene. Toma la forma de
+          la fila de compartir —etiqueta e icono, en el pie— y el oro de la fila
+          de añadir de las otras dos pantallas donde existe.
+        */}
+        {canAddPet && pets?.length === 1 ? (
+          <Pressable
+            onPress={() => router.push('/onboarding/name')}
+            accessibilityRole="button"
+            accessibilityLabel={ADD_PET_LABEL}
+            style={styles.add}
+          >
+            <Text style={styles.addLabel}>{ADD_PET_LABEL}</Text>
+            <Plus size={icon.size.m} strokeWidth={icon.stroke} color={colors.accent} />
+          </Pressable>
+        ) : null}
+
         <Pressable
           onPress={() => router.push({ pathname: '/pet/[id]/share', params: { id } })}
           accessibilityRole="button"
@@ -161,7 +193,8 @@ export function PetHub({ pet, onBack }: PetHubProps) {
           addNote={canAddPet ? undefined : ADD_PET_NOTE}
           onAdd={() => {
             setSelectorOpen(false);
-            router.push(canAddPet ? '/onboarding/name' : '/paywall');
+            if (canAddPet) router.push('/onboarding/name');
+            else router.push({ pathname: '/paywall', params: { door: 'add_pet' } });
           }}
           onClose={() => setSelectorOpen(false)}
         />
@@ -174,6 +207,16 @@ const styles = StyleSheet.create({
   divider: {
     height: 1,
     backgroundColor: colors.divider,
+  },
+  add: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    gap: spacing[4],
+  },
+  addLabel: {
+    ...typography.body,
+    color: colors.accent,
   },
   share: {
     flexDirection: 'row',

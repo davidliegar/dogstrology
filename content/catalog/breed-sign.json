@@ -57,9 +57,9 @@
   },
   {
     "key": "breed=german-shepherd;sign=scorpio",
-    "headline": "Intensidad con uniforme de trabajo",
-    "body": "El Sol en Escorpio le da un carácter concentrado y leal hasta la médula: elige a su persona y la vigila con una devoción que raya en lo obsesivo. Observa antes de actuar, guarda rencor a la aspiradora y no olvida una cara. Cuando se compromete con algo, un juego o una puerta, no lo suelta.",
-    "advice": "Dale una tarea con principio y final: buscar el juguete escondido, aprender un nombre nuevo de objeto, trabajo de olfato en casa.",
+    "headline": "Patrulla el pasillo como si fuera un rebaño",
+    "body": "Un pastor alemán ya vigila por oficio; con el Sol en Escorpio lo hace con expediente. Elige a una persona, la sigue de habitación en habitación y se sienta donde controle las dos salidas. No ladra por todo: reserva la intensidad para lo que de verdad le importa.",
+    "advice": "Dale un trabajo diario, como buscar un juguete escondido, y preséntale a la gente nueva con calma y sin prisas.",
     "energyScore": 4,
     "colorOfDay": "water"
   },
@@ -105,9 +105,9 @@
   },
   {
     "key": "breed=border-collie;sign=taurus",
-    "headline": "El pastor que decide cuándo se pastorea",
-    "body": "El instinto de trabajo del border collie pasa aquí por el filtro más tozudo del zodiaco: trabaja mucho, pero a su ritmo y con su orden. Aprende una secuencia y la defiende como un contrato: la misma ruta, el mismo juguete, el mismo sitio en el sofá. Y si cambias algo, te mira fijamente hasta que lo devuelvas.",
-    "advice": "Fija dos sesiones de trabajo mental al día, siempre a la misma hora y en el mismo sitio: la rutina le da más que la sorpresa.",
+    "headline": "Pastorea el mismo camino, a diario",
+    "body": "El Border collie ya viene con ganas de trabajar y el Sol en Tauro le añade horario fijo. Junta sus cosas en el mismo rincón y las quiere ahí. Aprende rápido, pero suelta lo aprendido solo cuando le convence: cambiar de ruta le parece un mal trato y lo negocia plantándose.",
+    "advice": "Una tarea corta a la misma hora cada día —pelota, frisbee, buscar juguetes por su nombre— le ordena el mundo.",
     "energyScore": 4,
     "colorOfDay": "earth"
   },
@@ -145,9 +145,9 @@
   },
   {
     "key": "breed=border-collie;sign=libra",
-    "headline": "El diplomático de la manada",
-    "body": "Un border collie con Sol en Libra reúne y negocia: mide el grupo antes de entrar, busca que nadie se quede fuera y le incomoda el conflicto entre otros perros. Trabaja pendiente de tu gesto, y si le llegan señales contradictorias se queda a medias, esperando el desempate.",
-    "advice": "Dale instrucciones claras y de una en una, y sesiones cortas de trabajo con un juguete: le organiza la cabeza y lo deja satisfecho.",
+    "headline": "El pastor que negocia en vez de arrear",
+    "body": "Un Border collie Libra pastorea con modales: se coloca en el pasillo para juntar a todos, pero afloja en cuanto alguien protesta. En el parque corta los juegos que se calientan de más. Si dos personas se van a cuartos distintos, se queda parado en medio, incapaz de elegir.",
+    "advice": "Dale tareas con final claro —buscar, traer, terminar—: así descansa de su turno de ordenar a la familia.",
     "energyScore": 4,
     "colorOfDay": "air"
   },
@@ -209,9 +209,9 @@
   },
   {
     "key": "breed=australian-shepherd;sign=gemini",
-    "headline": "Un cerebro de aire en un cuerpo de trabajo",
-    "body": "Aprende el truco nuevo en tres repeticiones y se aburre en la cuarta. El Sol en Géminis le pone un radar para todo lo que se mueve en el barrio: una hoja, un ciclista, tus llaves. Rinde mejor con ratos cortos y variados que con un paseo largo y siempre igual.",
-    "advice": "Cambia de actividad cada pocos minutos: dos órdenes, un lanzamiento, olfateo libre. La variedad le cansa más que la distancia.",
+    "headline": "Pastor con tres planes y un solo rebaño",
+    "body": "El Pastor australiano nació para organizar el movimiento de todos, y con el Sol en Géminis cambia de idea a mitad de faena: te reagrupa en el pasillo, suelta el juguete por un ruido de la calle y vuelve. Aprende un truco en tres repeticiones y se aburre en la cuarta.",
+    "advice": "Rota tres juegos cortos en lugar de uno largo y cámbiale la ruta del paseo a menudo, que el aburrimiento le pesa.",
     "energyScore": 5,
     "colorOfDay": "air"
   },
@@ -225,11 +225,11 @@
   },
   {
     "key": "breed=australian-shepherd;sign=leo",
-    "headline": "El pastor que trabaja con público",
-    "body": "Combina el instinto de organizar el mundo con una necesidad genuina de que le mires mientras lo hace. Hace mejor los ejercicios cuando hay espectadores, se coloca en el centro del salón y controla quién entra y quién sale. El aburrimiento le pesa más que el cansancio.",
-    "advice": "Dale una tarea diaria con nombre propio —traer la correa, recoger un juguete— y celébrala en voz alta al terminar.",
+    "headline": "Pastorea el salón como si fuera un escenario",
+    "body": "El pastor australiano nace con la necesidad de organizar al grupo, y en Leo lo hace de cara al público: reúne a la familia en una habitación y se planta en el centro. Te mira fijo esperando instrucciones y, si nadie se las da, se inventa un trabajo con la pelota.",
+    "advice": "Reserva un rato diario para una tarea con público: buscar el juguete escondido, dos órdenes nuevas y aplausos al final.",
     "energyScore": 5,
-    "colorOfDay": "gold"
+    "colorOfDay": "fire"
   },
   {
     "key": "breed=australian-shepherd;sign=virgo",
@@ -305,9 +305,9 @@
   },
   {
     "key": "breed=belgian-malinois;sign=gemini",
-    "headline": "Un motor de trabajo con antena de radio",
-    "body": "Aprende un ejercicio en tres repeticiones y a la cuarta ya busca otro. Puede dejar la pelota a medio camino porque ha oído algo más interesante en el portal. No le sobra energía: le sobra atención libre, y sin trabajo mental la reparte por toda la casa.",
-    "advice": "Cambia de juego cada pocos minutos y escóndele cosas para buscar: prefiere resolver algo nuevo antes que repetir.",
+    "headline": "El malinois no se apaga, solo cambia de tema",
+    "body": "Un pastor belga malinois ya viene con motor de serie; con Sol en Géminis, ese motor cambia de marcha cada tres minutos. Aprende un ejercicio a la primera y a la cuarta repetición te mira como diciendo que ya está, que pruebes otra cosa. Ladra para comentar, no para avisar.",
+    "advice": "Sesiones de entrenamiento cortas y variadas: cambia el ejercicio antes de que se aburra y esconde juguetes por casa.",
     "energyScore": 5,
     "colorOfDay": "air"
   },
@@ -377,10 +377,10 @@
   },
   {
     "key": "breed=belgian-malinois;sign=pisces",
-    "headline": "Un motor de trabajo con alma blanda",
-    "body": "Trabaja con la intensidad que le pide la raza, pero antes de cada orden te mira la cara. Un tono distinto y se para en mitad del ejercicio, juguete en boca y gesto de duda. Piscis mutable añade un radar emocional al oficio: rinde mucho y se lo toma todo muy a pecho.",
-    "advice": "Cierra cada sesión de trabajo con un juego corto y unas caricias tranquilas: necesita saber cuándo acaba el turno.",
-    "energyScore": 4,
+    "headline": "Un malinois que te lee antes de obedecer",
+    "body": "El malinois ya viene con motor de serie; lo de Piscis es la antena. Trabaja pegado a ti, anticipa el gesto antes de la orden y se le nota en las orejas cuando cambias de tono. Si le falta tarea, no se aburre: se inventa una, normalmente con tu zapatilla de protagonista.",
+    "advice": "Dale una tarea diaria con principio y final —buscar, traer, sostener— y después un rato largo de calma a tu lado.",
+    "energyScore": 5,
     "colorOfDay": "water"
   },
   {
@@ -393,9 +393,9 @@
   },
   {
     "key": "breed=rough-collie;sign=taurus",
-    "headline": "El pastor que no piensa cambiar de ritmo",
-    "body": "Tauro le da un paso propio y cero interés en negociarlo: elige su sitio en casa y lo ocupa con calma absoluta. Vigila la puerta, agrupa a los suyos con la mirada y te sigue de habitación en habitación, pero siempre a su velocidad. Mueve un horario y te lo hará notar.",
-    "advice": "Mantén horarios fijos de paseo y haz del cepillado un rato tranquilo y repetido: lo previsible le sienta de maravilla.",
+    "headline": "El collie que pastorea el salón",
+    "body": "Tu Collie de pelo largo lleva el pastoreo en el cuerpo y Tauro en el reloj: rodea al grupo, cuenta cabezas y vuelve a su sitio. Si la cena se retrasa diez minutos, te mira fijo hasta que lo resuelvas. Cambiar los muebles le ofende más que un trueno lejano.",
+    "advice": "Un paseo largo siempre a la misma hora y un juego con reglas: pastorear un juguete le gusta más que improvisar.",
     "energyScore": 3,
     "colorOfDay": "earth"
   },
@@ -449,10 +449,10 @@
   },
   {
     "key": "breed=rough-collie;sign=sagittarius",
-    "headline": "El horizonte le interesa más que el sofá",
-    "body": "Sol en Sagitario en un perro criado para cubrir kilómetros de ladera: mira siempre lejos. Te propone rutas nuevas, se aburre del mismo recorrido de cada tarde y aprende cualquier cosa que parezca una expedición. Optimista con las puertas abiertas, así que vigílalas.",
-    "advice": "Varía el recorrido del paseo a menudo y reserva un tramo largo por semana: la novedad le entretiene más que cualquier juguete.",
-    "energyScore": 5,
+    "headline": "Melena al viento y el rebaño en la cabeza",
+    "body": "El Collie de pelo largo trae de serie el instinto de contar la manada y mantenerla junta; con el Sol en Sagitario, además pretende que esa manada se vaya de excursión. Vigila el grupo a distancia, se adelanta a explorar y vuelve para comprobar que sigues donde te dejó.",
+    "advice": "Alterna rutas nuevas y largas con ratos de trabajo mental: esconder juguetes, buscar por olor, recoger la pelota.",
+    "energyScore": 4,
     "colorOfDay": "fire"
   },
   {
@@ -481,10 +481,10 @@
   },
   {
     "key": "breed=welsh-corgi-pembroke;sign=aries",
-    "headline": "Patas cortas, ambición de general",
-    "body": "El Sol en Aries mete carácter de mando en un cuerpo bajo: será el primero en cruzar la puerta, el primero en ladrar al timbre y el que decide la dirección del paseo antes que tú. El instinto de pastoreo remata la faena: tus talones van vigilados de cerca.",
-    "advice": "Dale juegos con reglas claras y un final marcado: primero soltar energía, después obedecer, siempre en ese orden.",
-    "energyScore": 5,
+    "headline": "Patas cortas, ambición de mastín",
+    "body": "El Welsh corgi pembroke ya nace convencido de que dirige el rebaño, y con el Sol en Aries lo dirige a empujones. Sale primero por la puerta, ladra a lo que se mueve antes de mirarlo bien y organiza a los otros perros del parque sin que nadie le haya dado el puesto.",
+    "advice": "Dale trabajo de mando: juegos de buscar y traer en orden, primero un juguete y luego otro, con reglas claras y siempre las mismas.",
+    "energyScore": 4,
     "colorOfDay": "fire"
   },
   {
@@ -497,9 +497,9 @@
   },
   {
     "key": "breed=welsh-corgi-pembroke;sign=gemini",
-    "headline": "Patas cortas, cabeza en mil sitios",
-    "body": "El Sol en Géminis le da un carácter parlanchín y despierto: opina de la puerta, del ascensor y del vecino que pasa. Aprende un truco nuevo en cuatro repeticiones y se aburre en la quinta, así que abandona el juego a medias para investigar un ruido mejor.",
-    "advice": "Cambia de juego o de ejercicio cada pocos minutos y varía la ruta del paseo: la novedad le mantiene enganchado.",
+    "headline": "Cuatro patas cortas dirigiendo el tráfico",
+    "body": "El welsh corgi pembroke viene con manual de pastor incorporado: te organiza los talones y vigila las puertas. Con el Sol en Géminis empieza tres cosas a la vez, abandona el juguete a media faena y se va a comprobar qué hace el vecino. Ladra en comentarios, no en amenazas.",
+    "advice": "Cambia de juego cada pocos minutos y reserva paseos por rutas nuevas: la cabeza le cansa antes que las patas.",
     "energyScore": 4,
     "colorOfDay": "air"
   },
@@ -529,10 +529,10 @@
   },
   {
     "key": "breed=welsh-corgi-pembroke;sign=libra",
-    "headline": "Diplomático de patas cortas",
-    "body": "El Sol en Libra le da un temperamento negociador: mide el ambiente antes de decidir, busca el punto medio entre dos personas que discuten y se coloca justo en medio del sofá. Prefiere la compañía al aislamiento y protesta con la mirada, no con el ladrido, cuando algo le parece injusto.",
-    "advice": "Preséntale perros y personas nuevas con calma y en terreno neutral: la vida social ordenada es donde mejor funciona.",
-    "energyScore": 3,
+    "headline": "Pastor de patas cortas, alma diplomática",
+    "body": "El corgi pembroke lleva el pastoreo en las patas cortas: quiere a todos en la misma habitación. Con el Sol en Libra no empuja, negocia: se planta en la puerta, te mira, ladra una vez y espera. Reparte simpatía con todo el mundo y nota cuando alguien discute en casa.",
+    "advice": "Paseos por sitios con gente y perros, y un juego de pelota que pueda empujar y ordenar a su manera.",
+    "energyScore": 4,
     "colorOfDay": "air"
   },
   {
@@ -625,17 +625,17 @@
   },
   {
     "key": "breed=french-bulldog;sign=libra",
-    "headline": "Diplomacia con ronquido incorporado",
-    "body": "El Sol en Libra le da un carácter conciliador: busca el punto medio de la casa, se coloca entre dos personas que hablan y prefiere caer bien a imponerse. En el parque saluda a todos sin pelear por el juguete, y si nota tensión se retira a su cama con cara de haber visto suficiente.",
-    "advice": "Preséntale caras nuevas en sitios tranquilos y mantén un rincón cómodo donde retirarse cuando la casa se anima.",
+    "headline": "Un bulldog francés que negocia a base de resoplidos",
+    "body": "El Bulldog francés Libra reparte simpatía sin levantarse apenas: se coloca entre dos perros que se ladran y baja el volumen solo con estar ahí. Elegir le cuesta, así que se queda a medio camino entre el sofá y la puerta, resoplando hasta que alguien decida por él.",
+    "advice": "Ofrécele dos juguetes y deja que elija sin prisa. Los paseos cortos y sociables le sientan mejor que las carreras largas.",
     "energyScore": 2,
     "colorOfDay": "air"
   },
   {
     "key": "breed=french-bulldog;sign=scorpio",
-    "headline": "Intensidad en formato compacto",
-    "body": "El Sol en Escorpio le da un carácter concentrado: elige a su gente con criterio y luego no la suelta. Observa desde su sitio antes de acercarse, y cuando decide participar, va con todo. Guarda sus juguetes favoritos como si fueran secretos de estado.",
-    "advice": "Mantén un par de rituales fijos con él, como el mismo saludo al llegar a casa: la constancia es lo que más le tranquiliza.",
+    "headline": "Las orejas de murciélago no se pierden nada",
+    "body": "Un Bulldog francés Escorpio no reparte cariño a todo el mundo: elige a una persona y la sigue de habitación en habitación con una fijeza casi cómica. Escorpio pone la intensidad y el bulldog la terquedad, así que cuando decide que el sitio bueno del sofá es suyo, no hay negociación.",
+    "advice": "Resérvale ratos de juego cortos con reglas claras y un sitio fijo a tu lado desde donde pueda vigilarte tranquilo.",
     "energyScore": 2,
     "colorOfDay": "water"
   },
@@ -649,9 +649,9 @@
   },
   {
     "key": "breed=french-bulldog;sign=capricorn",
-    "headline": "Un notario con orejas de murciélago",
-    "body": "Capricornio no negocia: la cena es a su hora y el sofá tiene un lado que es suyo. Aprende rápido lo que le conviene y hace oídos sordos al resto, con esa cara de estar revisando tus credenciales. Cuando decide que algo es norma de la casa, la defiende sin levantar la voz.",
-    "advice": "Mantén horarios fijos de paseo y siesta: con una rutina previsible te lo ganas antes que con cualquier premio.",
+    "headline": "Ejecutivo de sofá con orejas de murciélago",
+    "body": "Un Bulldog francés Capricornio no negocia: la cama es suya, el horario es suyo y el paseo lleva un recorrido fijo. Camina veinte metros, se sienta y te mira hasta que aceptas su ritmo. Cuando sube al sofá lo hace con la seguridad de quien firma una escritura.",
+    "advice": "Mantén el paseo y el juego en el mismo hueco del día: la rutina previsible le gusta más que cualquier novedad.",
     "energyScore": 2,
     "colorOfDay": "earth"
   },
@@ -689,25 +689,25 @@
   },
   {
     "key": "breed=english-bulldog;sign=gemini",
-    "headline": "Curiosidad de Géminis en cuerpo de sofá",
-    "body": "Su cabeza va tres pasos por delante de sus patas: registra cada ruido de la calle, cada bolsa que cruje, cada visita nueva. Se aburre antes de cansarse, así que abandona el juguete a medio juego y busca el siguiente estímulo. Sociable, parlanchín a su manera y muy dado a los suspiros elocuentes.",
-    "advice": "Cambia los juguetes cada pocos días y haz paseos cortos por sitios distintos: le interesa más olfatear novedades que recorrer kilómetros.",
-    "energyScore": 3,
+    "headline": "El Bulldog que cambia de plan a paso corto",
+    "body": "Tu Bulldog inglés tiene la curiosidad de Géminis metida en un cuerpo que negocia cada metro. Empieza tres planes en cinco minutos: el juguete, la puerta, tu rodilla. En el paseo se para a leer el barrio farola por farola y cambia de rumbo sin avisar. Aire mutable en formato compacto.",
+    "advice": "Paseos cortos y con rutas variadas, y dos o tres juguetes que vayas rotando para darle tema de conversación.",
+    "energyScore": 2,
     "colorOfDay": "air"
   },
   {
     "key": "breed=english-bulldog;sign=cancer",
-    "headline": "Un guardián de sofá con el corazón blando",
-    "body": "El Sol en Cáncer sobre un cuerpo hecho para el reposo da un perro que vigila la casa desde su cama y te sigue de habitación en habitación sin prisa. Nota los cambios de humor antes que tú, se pega a tus pies cuando algo suena raro y celebra tu regreso como una gesta.",
-    "advice": "Mantén su cama en un sitio desde el que te vea moverte por casa, y paseos cortos y tranquilos a horas fijas.",
+    "headline": "El bulldog que custodia el sofá y a ti",
+    "body": "Tu bulldog inglés lleva el Sol en Cáncer: al paso corto y la respiración sonora se suma un radar afectivo que te localiza en cualquier habitación. Se instala donde estés tú, suspira si cierras una puerta y prefiere su rincón de siempre antes que cualquier novedad.",
+    "advice": "Deja su manta siempre en el mismo sitio y opta por paseos cortos y tranquilos, con una ronda de caricias al volver.",
     "energyScore": 2,
     "colorOfDay": "water"
   },
   {
     "key": "breed=english-bulldog;sign=leo",
-    "headline": "Un rey que gobierna sin levantarse",
-    "body": "El Sol en Leo le da carácter de figura pública: entra en el salón como si fuera suyo y espera comentarios. Fuego fijo en un cuerpo que no piensa correr detrás de nada: prefiere que el público venga a él, colocarse en el centro de la alfombra y aceptar caricias con la dignidad de quien las merece.",
-    "advice": "Dedícale cada día un rato de aplausos y caricias en su sitio de siempre, y paseos cortos pero muy comentados.",
+    "headline": "Ese trote corto que exige alfombra roja",
+    "body": "Tu Bulldog inglés Leo camina como quien sabe que lo están mirando: despacio, con pausas estratégicas y un resoplido de fondo que suena a aprobación. Pide público más que kilómetros, se planta en el centro del salón y espera que alguien reconozca el mérito de estar tan cómodo.",
+    "advice": "Aplauso y caricias cuando traiga un juguete, y paseos cortos, tranquilos y con sombra para lucirse por el barrio.",
     "energyScore": 2,
     "colorOfDay": "gold"
   },
@@ -721,25 +721,25 @@
   },
   {
     "key": "breed=english-bulldog;sign=libra",
-    "headline": "El diplomático de la manta",
-    "body": "Con el Sol en Libra, este perro no soporta el mal ambiente: si levantas la voz o discutes por teléfono, aparece y se planta en medio como mediador. Prefiere compañía a hazañas, se adapta al ritmo de la casa y elige el sofá donde estéis todos antes que la cama más cómoda del pasillo.",
-    "advice": "Paseos cortos y tranquilos, siempre a la misma hora, y un rato de caricias en el sofá con la familia reunida.",
+    "headline": "Un Bulldog inglés que negocia desde el sofá",
+    "body": "El Bulldog inglés ya venía con vocación de mueble, y el Sol en Libra le añade modales: si hay tensión en casa, se planta en medio y espera a que la cosa se calme. Saluda a todo el mundo con la misma parsimonia y negocia los paseos a su ritmo, nunca al tuyo. Casi siempre gana.",
+    "advice": "Paseos cortos y a horas fijas, más un rato largo de caricias en su sitio de siempre: la rutina previsible le va mejor que las sorpresas.",
     "energyScore": 2,
     "colorOfDay": "air"
   },
   {
     "key": "breed=english-bulldog;sign=scorpio",
-    "headline": "Un guardián de sofá con memoria larga",
-    "body": "Escorpio no reparte su lealtad: la concentra. Elige a una persona y la sigue de habitación en habitación con paso corto y mirada fija. Guarda su juguete preferido como si fuera un secreto y, cuando decide que de ese sitio no se mueve, no se mueve.",
-    "advice": "Resérvale un rato de juego a solas contigo, siempre a la misma hora: la exclusividad le importa más que la duración.",
+    "headline": "El bulldog que resopla y nunca olvida",
+    "body": "El Bulldog inglés ya viene con calma de serie, y Escorpio le añade memoria larga: se planta en su rincón, controla quién entra, quién sale y quién le movió el juguete. No mendiga atención, la espera. Y cuando decide que alguien es de los suyos, lo es para siempre.",
+    "advice": "Rutinas fijas y presentaciones sin prisa: dale tiempo para observar a un desconocido antes de que le toque el lomo.",
     "energyScore": 2,
     "colorOfDay": "water"
   },
   {
     "key": "breed=english-bulldog;sign=sagittarius",
-    "headline": "Un explorador con carrocería de sofá",
-    "body": "El Sol en Sagitario le da ganas de mundo: quiere olfatear cada esquina nueva, saludar a desconocidos y meter la cabeza donde no le llaman. Luego, con la misma convicción, decide que la aventura ha terminado y se derrumba en el sitio más cómodo de la casa. Optimista y algo cabezota.",
-    "advice": "Cambia la ruta del paseo a menudo y déjale marcar el ritmo: prefiere olfatear sitios nuevos sin prisa antes que caminar deprisa.",
+    "headline": "Un explorador con carrocería de bulldog",
+    "body": "El Bulldog inglés viene con motor de paseo corto, y el Sol en Sagitario le pone la cabeza en el horizonte: quiere ver la esquina siguiente aunque llegue resoplando. Se apunta a cualquier plan, saluda a desconocidos como si los esperara y para cuando lo decide él.",
+    "advice": "Cambia de ruta a menudo y camina a ritmo tranquilo: recorridos nuevos y cortos le dan mundo sin pedirle prisa.",
     "energyScore": 3,
     "colorOfDay": "fire"
   },
@@ -753,9 +753,9 @@
   },
   {
     "key": "breed=english-bulldog;sign=aquarius",
-    "headline": "El excéntrico que va a su bola con paso corto",
-    "body": "El Sol en Acuario le da ideas propias: decide que la mejor ruta es la contraria, que su sitio favorito es el más raro de la casa y que las órdenes se cumplen cuando le parecen razonables. Sociable pero a distancia, saluda a todo el mundo y luego se retira a observar tranquilo.",
-    "advice": "Dale rutinas claras pero con margen para elegir: un paseo corto donde pueda husmear a su ritmo y un rincón propio para retirarse.",
+    "headline": "El resoplido más excéntrico del sofá",
+    "body": "Tu Bulldog inglés lleva el paso corto y el criterio largo: lo de Acuario se le nota en que saluda a los desconocidos antes que a ti y duerme en el rincón más absurdo de la casa. Obedece cuando le parece razonable, no cuando se lo pides, y su juego favorito lo ha inventado él.",
+    "advice": "Paseos cortos a su ritmo y con sombra a mano, y cámbiale el juego de vez en cuando: la novedad le compra la atención.",
     "energyScore": 2,
     "colorOfDay": "air"
   },
@@ -801,11 +801,11 @@
   },
   {
     "key": "breed=miniature-schnauzer;sign=leo",
-    "headline": "Barba de sabio, ego de estrella",
-    "body": "Leo fijo en un cuerpo pequeño y con opiniones: se coloca donde le vean, ladra para anunciar su llegada y espera que alguien lo celebre. Aprende trucos rapidísimo si hay aplauso, y los ignora si el público se distrae. La dignidad le importa más que el juguete.",
-    "advice": "Dedícale sesiones cortas de trucos con público y elogio en voz alta; su terquedad se disuelve cuando siente que brilla.",
+    "headline": "Barba de mosquetero, ego de león",
+    "body": "El Schnauzer miniatura ya viene de fábrica con cejas de opinión firme; con el Sol en Leo, además, quiere público. Ladra a la puerta como quien anuncia una visita de Estado, se planta en el centro del salón y espera que alguien lo mire. Si le aplaudes un truco, lo repite doce veces.",
+    "advice": "Reserva un rato diario de trucos con público: dos minutos de \"choca\" bien aplaudidos le llenan más que media hora de paseo callado.",
     "energyScore": 4,
-    "colorOfDay": "fire"
+    "colorOfDay": "gold"
   },
   {
     "key": "breed=miniature-schnauzer;sign=virgo",
@@ -825,9 +825,9 @@
   },
   {
     "key": "breed=miniature-schnauzer;sign=scorpio",
-    "headline": "Intensidad concentrada en cuatro kilos de barba",
-    "body": "El Sol en Escorpio le da un carácter que no reparte confianza a la primera: observa, decide y entonces se entrega del todo. Con la raza de fondo, esperas un perro que vigila la puerta antes que el sofá, que elige a una persona como referencia y que guarda rencor breve pero sincero a la aspiradora.",
-    "advice": "Dale un rato diario de juego de olfato o de buscar el juguete escondido: canaliza esa intensidad mejor que cualquier carrera.",
+    "headline": "Barba de sabio, guardia de escalera",
+    "body": "El Schnauzer miniatura ya viene con radar de rellano de serie; con el Sol en Escorpio, además, elige a una persona y la vigila de por vida. Ladra al ascensor antes que el ascensor, no suelta el juguete cuando se lo reclamas y guarda un rencor breve pero muy bien organizado a la aspiradora.",
+    "advice": "Un rato fijo de juego con cuerda y paseos por rutas que cambien: intensidad canalizada y barrio nuevo que auditar.",
     "energyScore": 4,
     "colorOfDay": "water"
   },
@@ -841,17 +841,17 @@
   },
   {
     "key": "breed=miniature-schnauzer;sign=capricorn",
-    "headline": "El contable del salón, con barba",
-    "body": "El Sol en Capricornio le da un temperamento serio y trabajador: le gusta saber a qué hora pasa cada cosa y avisa si te retrasas. Vigila el perímetro con esa barba de supervisor, se toma el entrenamiento como un empleo y guarda el juego para cuando el turno ha terminado.",
-    "advice": "Mantén horarios estables de paseo y comida, y dale una tarea sencilla que repetir a diario: buscar el juguete, sentarse antes de salir.",
+    "headline": "La barba gris que supervisa la casa",
+    "body": "El Schnauzer miniatura ya nace con cara de encargado, y en Capricornio la vocación se formaliza: patrulla el pasillo, avisa del ascensor y espera la cena al minuto exacto. No improvisa planes; le gusta el orden que ha establecido él y lo defiende con ladrido corto.",
+    "advice": "Horarios fijos de paseo y un cometido propio —traer la correa, revisar el balcón—: con oficio se relaja mucho más.",
     "energyScore": 3,
     "colorOfDay": "earth"
   },
   {
     "key": "breed=miniature-schnauzer;sign=aquarius",
-    "headline": "El excéntrico con barba de sabio",
-    "body": "El Sol en Acuario le da un carácter independiente y muy suyo: obedece cuando le parece razonable, no porque se lo mandes. Le fascina lo nuevo, saluda a los desconocidos con más interés que a la rutina y suele inventarse juegos que nadie le ha enseñado. Original hasta en la forma de tumbarse.",
-    "advice": "Cambia el recorrido del paseo a menudo y déjale investigar rincones nuevos: la novedad le ordena la cabeza mejor que la repetición.",
+    "headline": "Una barba gris con ideas propias",
+    "body": "El Schnauzer miniatura ya nace con vocación de vigilante de barrio, y el Sol en Acuario le añade criterio propio: avisa de lo que le parece raro y luego decide él si merece atención. Se acerca cuando quiere, se va cuando ha terminado y prefiere los juegos que se inventa solo.",
+    "advice": "Varía el recorrido del paseo y déjale elegir esquina; un juguete nuevo de vez en cuando le engancha más que repetir el de siempre.",
     "energyScore": 4,
     "colorOfDay": "air"
   },
@@ -969,10 +969,10 @@
   },
   {
     "key": "breed=rottweiler;sign=taurus",
-    "headline": "El peso muerto más cariñoso del sofá",
-    "body": "Sol en Tauro sobre un cuerpo de Rottweiler da un perro que decide cuándo se mueve y cuándo no, y esa decisión suele ser \"no\". Se apoya entero contra tu pierna como si fuera lo más normal del mundo, defiende su sitio en el sofá con paciencia infinita y aprende despacio pero para siempre.",
-    "advice": "Mantén horarios fijos de paseo y comida, y premia con caricias largas: la constancia le gusta más que la sorpresa.",
-    "energyScore": 2,
+    "headline": "Un Rottweiler no se mueve: se instala",
+    "body": "El Rottweiler ya nace con vocación de mueble sólido; con el Sol en Tauro, además elige su sitio y lo defiende sin negociar. Se apoya en tu pierna con todo su peso, aprende despacio y para siempre, y mover la hora del paseo le parece una falta de respeto personal.",
+    "advice": "Mantén el paseo y sus horarios en el mismo sitio del reloj, y pide las cosas dos veces: a la segunda va, y ya no lo olvida.",
+    "energyScore": 3,
     "colorOfDay": "earth"
   },
   {
@@ -985,9 +985,9 @@
   },
   {
     "key": "breed=rottweiler;sign=cancer",
-    "headline": "Un guardián que se derrite en el sofá",
-    "body": "Cáncer le pone corazón doméstico a esos cuarenta kilos: vigila la puerta, sí, pero sobre todo vigila que estéis todos dentro. Te sigue de habitación en habitación, se tumba en el umbral y suspira. Con las visitas nuevas tarda en decidir, y luego decide a favor.",
-    "advice": "Dale un rincón fijo con vistas a la puerta y a vosotros: saber cuál es su sitio le ordena el resto del día.",
+    "headline": "Un Rottweiler que vigila la casa desde tu sofá",
+    "body": "El Rottweiler ya nace con vocación de guardián, y en Cáncer ese guardián se vuelve doméstico: no defiende un territorio abstracto, defiende la habitación donde estás tú. Te sigue de la cocina al salón, se tumba en el umbral y suspira fuerte si cierras la puerta.",
+    "advice": "Dale un sitio fijo desde donde pueda verte y paseos largos y previsibles: ese cuerpo grande necesita gastar lo que la cabeza rumia.",
     "energyScore": 3,
     "colorOfDay": "water"
   },
@@ -1025,17 +1025,17 @@
   },
   {
     "key": "breed=rottweiler;sign=sagittarius",
-    "headline": "Un armario con alma de explorador",
-    "body": "El Sol en Sagitario le da a esa mole un motor de curiosidad constante: quiere ver qué hay detrás de la esquina, saludar al perro del otro lado de la calle y meter el hocico en cada matorral nuevo. Combina el aplomo de la raza con un optimismo que le hace tirar de la correa por puro entusiasmo, no por desobediencia.",
-    "advice": "Cambia la ruta del paseo largo varias veces por semana y déjale olfatear sin prisa; la novedad le cansa más que la distancia.",
+    "headline": "Toda esa masa de Rottweiler tirando al horizonte",
+    "body": "El Rottweiler llega con centro de gravedad bajo y vocación de quedarse pegado a tu pierna; el Sol en Sagitario le mete una curiosidad que empuja hacia delante. Resultado: te sigue de cerca, pero frena en cada esquina nueva y decide que ese camino también hay que investigarlo.",
+    "advice": "Cambia la ruta del paseo cada pocos días y déjale olfatear a su aire: explorar le ordena la cabeza más que repetir.",
     "energyScore": 4,
     "colorOfDay": "fire"
   },
   {
     "key": "breed=rottweiler;sign=capricorn",
-    "headline": "Seriedad de capataz, corazón de sofá",
-    "body": "El Sol en Capricornio le da temperamento de trabajador silencioso: mide antes de actuar, vigila la puerta como si fuera su turno asignado y no se entusiasma con cualquiera. Aprende despacio pero no olvida, y cuando decide que algo es su tarea, la repite durante años sin discutirla.",
-    "advice": "Mantén horarios fijos de paseo y de juego: la previsibilidad le sienta mucho mejor que cualquier sorpresa improvisada.",
+    "headline": "El Rottweiler que se apoya y no se mueve",
+    "body": "Tu Rottweiler Capricornio se toma el trabajo en serio: elige un sitio con vistas a la puerta, se apoya en tu pierna con todo su peso y desde ahí supervisa. Aprende rápido lo que le parece útil y discute lo que no. Cambia la hora de la cena y te lo hará saber sin ladrar.",
+    "advice": "Dale un trabajo fijo y una rutina previsible: mismo paseo largo a la misma hora, con diez minutos de obediencia y juego.",
     "energyScore": 3,
     "colorOfDay": "earth"
   },
@@ -1065,17 +1065,17 @@
   },
   {
     "key": "breed=dobermann;sign=taurus",
-    "headline": "Un tanque con horario fijo",
-    "body": "El Sol en Tauro le da a un cuerpo hecho para la acción un temperamento que prefiere lo previsible. Aguanta el juego, pero termina cuando decide que ha terminado, y vuelve al mismo sitio del sofá. Si le cambias la rutina, protesta con esa mirada larga de reproche.",
-    "advice": "Mantén las horas de paseo y de comida estables, y avísale con la voz antes de cualquier cambio de plan.",
+    "headline": "El dóberman que hace guardia sentado",
+    "body": "Tu dóberman lleva el radar de serie: oreja alta, ojo en la puerta, censo mental de quien entra y sale. Pero el Sol en Tauro le quita la prisa, así que vigila desde el sofá y solo se levanta si hace falta de verdad. Con las rutinas es de una constancia inmóvil: paseo a su hora, cama en su sitio y ni un centímetro más.",
+    "advice": "Paseo largo siempre a la misma hora y, al volver, cinco minutos de caricias en su rincón de siempre.",
     "energyScore": 3,
     "colorOfDay": "earth"
   },
   {
     "key": "breed=dobermann;sign=gemini",
-    "headline": "Antena parabólica con patas largas",
-    "body": "El Sol en Géminis le da una cabeza que va tres pasos por delante del cuerpo, y el cuerpo ya va rápido. Cambia de juguete a mitad de partida, atiende a dos cosas a la vez y aprende trucos nuevos en cuatro repeticiones, aunque el quinto día finja no recordarlos. Se aburre antes que se cansa.",
-    "advice": "Alterna dos o tres juegos cortos en la misma sesión y cambia la ruta del paseo a menudo: la novedad le ordena la cabeza.",
+    "headline": "Un dóberman que cambia de guardia a media guardia",
+    "body": "El Dóberman trae la vigilancia de serie, pero el Sol en Géminis le mueve el foco cada treinta segundos: empieza atento a la puerta y acaba investigando una bolsa de la compra. Aprende una orden nueva a la primera y se aburre de ella a la tercera repetición.",
+    "advice": "Sesiones cortas y variadas, cambiando de juego y de ruta: así mantiene la cabeza ocupada y las patas también.",
     "energyScore": 4,
     "colorOfDay": "air"
   },
@@ -1153,10 +1153,10 @@
   },
   {
     "key": "breed=cane-corso;sign=aries",
-    "headline": "Un motor de arranque con cuerpo de guardián",
-    "body": "El Sol en Aries le da el impulso de salir primero por la puerta, decidir el ritmo del paseo y proponer juego cuando a ti aún te queda café. Su corpulencia no le frena: empuja, insiste y se entusiasma con lo nuevo antes de pensarlo. La paciencia no es su virtud favorita.",
-    "advice": "Dale una salida larga y con rumbo claro cada día, y un juego de tirar de cuerda con reglas: empieza y termina cuando tú lo digas.",
-    "energyScore": 5,
+    "headline": "Cincuenta kilos que deciden antes de pensar",
+    "body": "Un Cane corso ya impone sin proponérselo; con el Sol en Aries llega primero a todo: a la puerta, al portal, al perro nuevo del parque. Decide en medio segundo y luego mira si le seguías. Ese empuje se canaliza bien con normas claras y algo concreto que hacer.",
+    "advice": "Paseo largo con paradas de obediencia y un juguete de tirar: gasta cuerpo y cabeza, y la correa deja de ser un pulso.",
+    "energyScore": 4,
     "colorOfDay": "fire"
   },
   {
@@ -1169,10 +1169,10 @@
   },
   {
     "key": "breed=cane-corso;sign=gemini",
-    "headline": "Un guardián con la cabeza en tres sitios",
-    "body": "Tiene el porte de una estatua y la atención de un cachorro: se planta en la puerta como centinela y diez segundos después ya investiga un ruido en la cocina. Cambia de juego antes de acabarlo, aprende deprisa y responde mejor si le hablas mientras trabajáis.",
-    "advice": "Varía los recorridos del paseo y mete dos o tres ejercicios cortos distintos en cada sesión: repetir lo mismo le aburre antes que a ti.",
-    "energyScore": 4,
+    "headline": "Cuarenta kilos de guardián con la cabeza en tres sitios",
+    "body": "El Cane corso viene de fábrica con vocación de portón: se coloca, mira y decide. Con el Sol en Géminis esa vigilancia se distrae sola —un ruido a la izquierda, un vecino a la derecha— y cambia de puesto tres veces. Aprende rápido y se aburre igual de rápido.",
+    "advice": "Alterna rutas y juegos: sesiones cortas de obediencia y paseos con olores nuevos le cuadran mejor que la repetición.",
+    "energyScore": 3,
     "colorOfDay": "air"
   },
   {
@@ -1201,9 +1201,9 @@
   },
   {
     "key": "breed=cane-corso;sign=libra",
-    "headline": "El diplomático de setenta kilos",
-    "body": "Con el Sol en Libra, su tamaño va por un lado y su carácter por otro: prefiere negociar antes que imponer. Mide el ambiente antes de acercarse, se incomoda si hay voces altas o tensión en casa, y busca que todo el mundo esté en el mismo sitio y tranquilo. Perro de compañía educada, no de bronca.",
-    "advice": "Presenta a otros perros con calma y en terreno neutral, dándole tiempo a observar antes de saludar. La cortesía es su punto fuerte.",
+    "headline": "Cuarenta y cinco kilos de guardián cortés",
+    "body": "El Cane corso trae de serie el instinto de vigilar la puerta, y Libra le añade un filtro previo: antes de decidir si alguien pasa, te busca con la mirada. Se planta entre la visita y tú, espera tu veredicto y duda bastante antes de gruñir. Anfitrión enorme, más diplomático que aparatoso.",
+    "advice": "Preséntale a la gente nueva con un protocolo fijo de saludo: un corso de Libra se relaja cuando sabe cuál es el orden.",
     "energyScore": 3,
     "colorOfDay": "air"
   },
@@ -1225,9 +1225,9 @@
   },
   {
     "key": "breed=cane-corso;sign=capricorn",
-    "headline": "El guardián que cumple su horario mejor que tú",
-    "body": "Sol en Capricornio le da un carácter serio, medido y con una idea muy firme de cómo deben ir las cosas en casa. Aprende las rutinas al primer intento y luego las defiende: si la cena era a las ocho, a las ocho estará plantado delante de ti mirándote fijamente. Su cariño no es efusivo, es constante.",
-    "advice": "Mantén horarios estables de paseo y descanso, y premia con calma cada vez que espere en su sitio sin insistir.",
+    "headline": "El corso hace la ronda a su propio ritmo",
+    "body": "Un Cane corso ya nace con vocación de vigilante, y el Sol en Capricornio le añade agenda: la misma ronda por la casa, el mismo rincón elegido para tumbarse, la misma mirada seria cuando suena el timbre. Aprende despacio, aprende bien y no vuelve a soltarlo.",
+    "advice": "Rutinas fijas y paseos largos a paso tranquilo, con ejercicios de obediencia cortos y repetidos siempre en el mismo orden.",
     "energyScore": 3,
     "colorOfDay": "earth"
   },
@@ -1257,10 +1257,10 @@
   },
   {
     "key": "breed=presa-canario;sign=taurus",
-    "headline": "Una tonelada de calma con correa",
-    "body": "El Sol en Tauro le da un carácter macizo y sin prisas: se coloca en su sitio favorito y ese sitio pasa a ser suyo. Los cambios de mueble, de horario o de ruta le sientan regular, y su terquedad es tranquila pero granítica. Cuando decide que la caminata acabó, acabó.",
-    "advice": "Manten horarios y recorridos estables, y presenta cualquier novedad poco a poco, con premios y sin tirones de correa.",
-    "energyScore": 2,
+    "headline": "Un guardián de cincuenta kilos que decide despacio",
+    "body": "El Presa canario ya viene con freno de mano, y en Tauro se vuelve estructural: se coloca en la puerta, mira y no se mueve hasta que le convence lo que ve. Quiere el mismo sofá, el mismo horario y el mismo recorrido, y el cariño lo pide apoyando todo su peso contra tu pierna.",
+    "advice": "Mantén horarios y recorridos calcados, y trabaja la obediencia en sesiones cortas: cede antes a la costumbre que a la prisa.",
+    "energyScore": 3,
     "colorOfDay": "earth"
   },
   {
@@ -1273,57 +1273,57 @@
   },
   {
     "key": "breed=presa-canario;sign=cancer",
-    "headline": "Un guardián con el corazón en casa",
-    "body": "Cáncer le da a toda esa corpulencia un motivo doméstico: no vigila el territorio, vigila a los suyos. Se coloca entre la puerta y el sofá, te sigue de habitación en habitación y suspira cuando alguien sale. Con la gente de confianza se apoya entera contra tu pierna.",
-    "advice": "Dale un sitio fijo con vistas a la puerta y a ti: descansa mejor cuando controla ambas cosas desde su cama.",
+    "headline": "Cuarenta kilos de portero en la puerta de casa",
+    "body": "El Presa canario ya trae de serie el instinto de custodiar el umbral, y el Sol en Cáncer le añade una obsesión doméstica: no vigila tanto la calle como te vigila a ti. Se tumba en el paso de la puerta, te sigue de habitación en habitación y suspira fuerte cuando te levantas.",
+    "advice": "Dale una cama fija con vistas a la entrada y avísale antes de salir: lo previsible le relaja la guardia.",
     "energyScore": 3,
     "colorOfDay": "water"
   },
   {
     "key": "breed=presa-canario;sign=leo",
-    "headline": "Presencia de sobra y ganas de público",
-    "body": "El Sol en Leo le da un porte que no necesita ladrar para hacerse notar: se coloca en el centro del salón, elige el sitio con mejores vistas y espera que le reconozcas el mérito. Trabaja encantado si hay audiencia y, si lo ignoras un rato largo, se ofende con una dignidad enorme.",
-    "advice": "Dedícale dos minutos de atención exclusiva y elogio en voz clara cuando hace algo bien: el reconocimiento le sostiene la rutina.",
-    "energyScore": 3,
+    "headline": "El vigía del portal, ahora con corona",
+    "body": "El presa canario vigila la entrada por oficio; con el Sol en Leo lo hace además con público. Elige el punto más visible de la casa, no el más cómodo, y espera que le confirmes que ese sitio es suyo. Responde de maravilla a la orden dicha con calma y sin gritos.",
+    "advice": "Dale un trabajo con nombre: sentarse antes de que abras la puerta, y un elogio tranquilo cuando lo cumple.",
+    "energyScore": 4,
     "colorOfDay": "gold"
   },
   {
     "key": "breed=presa-canario;sign=virgo",
-    "headline": "Un vigilante con manual de instrucciones propio",
-    "body": "El Sol en Virgo le da a un perro grande y serio una obsesión por el orden: revisa el perímetro, coloca sus juguetes en el mismo rincón y te mira raro si cambias la ruta del paseo. Trabaja mejor con instrucciones claras y repetidas, y se toma su tarea con una seriedad casi administrativa.",
-    "advice": "Mantén un orden fijo en el paseo y los ratos de juego, y dale tareas sencillas de buscar y traer objetos concretos.",
+    "headline": "Guardia de puerta con manual de instrucciones",
+    "body": "Tu Presa canario patrulla la casa como un buen Virgo hace la compra: por orden, sin prisa y revisando dos veces. Se planta en el umbral, fiscaliza quién entra y luego vuelve a su sitio exacto. Si le mueves la cama dos palmos, lo nota y te lo hace saber a base de suspiros.",
+    "advice": "Mantén el mismo recorrido de paseo y el mismo rincón para su cama: la rutina fija le gusta más que cualquier sorpresa.",
     "energyScore": 3,
     "colorOfDay": "earth"
   },
   {
     "key": "breed=presa-canario;sign=libra",
-    "headline": "Un guardián que prefiere negociar",
-    "body": "Con el Sol en Libra, toda esa presencia se pone al servicio de la calma: se coloca entre dos que discuten, mira a un lado y a otro, y espera. Le cuesta decidir a qué juguete lanzarse y le molesta la voz alta más que el ruido. Vigila el reparto de caricias con una contabilidad muy suya.",
-    "advice": "Dale paseos con compañía tranquila y un orden claro de turnos en las caricias: saber que le toca le ordena el carácter.",
+    "headline": "Presa canario que prefiere el pacto",
+    "body": "Tu Presa canario junta la presencia de un guardián con el criterio de un Libra: se planta en la puerta, mide la escena y casi siempre concluye que no hace falta hacer nada. Le cuesta decidir entre dos juguetes, y si en casa hay tensión, la nota antes que tú y busca calmarla.",
+    "advice": "Rutinas claras y presentaciones tranquilas con otros perros: un paseo largo y decisiones sencillas le sientan bien.",
     "energyScore": 3,
     "colorOfDay": "air"
   },
   {
     "key": "breed=presa-canario;sign=scorpio",
-    "headline": "Intensidad de mirada fija",
-    "body": "El Sol en Escorpio le da un carácter concentrado y reservado: no reparte confianza a la primera, la concede. Observa desde la puerta antes de entrar en una habitación nueva y elige a su persona con una lealtad casi obsesiva. Cuando se compromete con un juego o con alguien, no suelta.",
-    "advice": "Dedícale sesiones cortas de juego siempre con el mismo juguete y presentaciones tranquilas a la gente nueva, sin prisas.",
+    "headline": "Un presa canario que toma nota de todo",
+    "body": "El presa canario ya trae la vigilancia de serie, y el Sol en Escorpio le añade memoria: registra quién entra, quién se acerca y en qué tono le hablas. No reparte confianza a la primera, pero cuando te elige es sin matices y te sigue de habitación en habitación.",
+    "advice": "Presenta a la gente nueva despacio y reserva un rato diario de juego de olfato: canaliza esa vigilancia en algo concreto.",
     "energyScore": 3,
     "colorOfDay": "water"
   },
   {
     "key": "breed=presa-canario;sign=sagittarius",
-    "headline": "Un gigante con alma de explorador",
-    "body": "El Sol en Sagitario le da un carácter expansivo y curioso dentro de un cuerpo que impone: quiere ir más lejos, oler la esquina siguiente, saludar a quien se cruce. Se aburre con el mismo recorrido de siempre y lo dice tirando de la correa o inventándose juegos por su cuenta.",
-    "advice": "Varía las rutas del paseo y añade ratos de olfateo libre; con un perro así, la novedad vale más que la distancia.",
+    "headline": "Un presa canario que mira más allá de la valla",
+    "body": "El presa canario lleva la vigilancia de serie: se planta en la puerta, mide a quien entra y no se altera por casi nada. Con el Sol en Sagitario, ese guardia se cansa del pasillo y pide ruta: tira hacia el camino nuevo, saluda con exceso de confianza y vuelve satisfecho.",
+    "advice": "Varía la ruta del paseo cada pocos días y añade ratos de juego con mordedor: explorar le relaja y los límites claros le ordenan.",
     "energyScore": 4,
     "colorOfDay": "fire"
   },
   {
     "key": "breed=presa-canario;sign=capricorn",
-    "headline": "Capataz de la casa con horario fijo",
-    "body": "Capricornio le da sentido del deber: vigila la puerta, controla quién entra y quién sale y espera que el paseo caiga siempre a la misma hora. No reclama juego cada dos minutos, pero lo que decide lo sostiene con una calma que no hay manera de discutir.",
-    "advice": "Mantén horarios estables de paseo y dale una tarea propia, como traer la correa o esperar sentado en la puerta antes de salir.",
+    "headline": "Un presa canario con carné de encargado",
+    "body": "El presa canario ya nace con el puesto de vigilante asignado, y el Sol en Capricornio le añade horario. Hace la ronda de la casa siempre en el mismo orden, se coloca donde controle las dos puertas y no se levanta por cualquier ruido: primero evalúa si merece la pena.",
+    "advice": "Mantén horarios fijos de paseo y dale un sitio propio con vistas a la entrada: cumplir su turno le gusta más que las sorpresas.",
     "energyScore": 3,
     "colorOfDay": "earth"
   },
@@ -1353,9 +1353,9 @@
   },
   {
     "key": "breed=dogo-argentino;sign=taurus",
-    "headline": "Cien kilos de calma con opinión propia",
-    "body": "El Sol en Tauro le da un carácter tranquilo, afectuoso y sorprendentemente terco para su tamaño. Se instala donde quiere y decide que ese es su sitio. Cuando algo le gusta —un sofá, una ruta, un juguete concreto— lo defiende con una paciencia inmensa y muy poca prisa.",
-    "advice": "Mantén rutas y horarios estables y trabaja el \"vamos\" con premios: cede antes al hábito que al tirón de correa.",
+    "headline": "Un dogo blanco anclado a su sitio",
+    "body": "El Dogo argentino ya trae potencia de sobra y Tauro le añade el freno de mano: elige un rincón, se echa y moverlo de ahí cuesta más que convencerlo. Cuando arranca, empuja con todo el cuerpo y en línea recta, y el juego de tira y afloja no lo suelta ni por educación.",
+    "advice": "Paseos largos siempre a la misma hora y un par de minutos de tira y afloja al final: la rutina le sienta mejor que la sorpresa.",
     "energyScore": 3,
     "colorOfDay": "earth"
   },
@@ -1401,17 +1401,17 @@
   },
   {
     "key": "breed=dogo-argentino;sign=scorpio",
-    "headline": "Intensidad blanca con mirada de rayos X",
-    "body": "El Sol en Escorpio le da un carácter concentrado: no reparte confianza a todo el mundo, la concede. Se fija en una persona y la vigila con una lealtad casi incómoda, y cuando algo le interesa —un juguete, un olor, una puerta que se abre— no lo suelta ni con negociación.",
-    "advice": "Dale un juego con final claro, como buscar algo escondido y entregarlo, para que canalice esa insistencia en algo que termina bien.",
+    "headline": "Cuarenta kilos de blanco que no pestañea",
+    "body": "Un Dogo argentino Escorpio no reparte su atención: elige a una persona y la vigila desde la puerta con esa calma blanca de rastreador. Ladra poco, pero registra todo —quién entra, qué suena, dónde dejaste la correa—. Y cuando decide que algo es suyo, no cambia de idea.",
+    "advice": "Paseos largos con trabajo de olfato y un rato diario de contacto físico tranquilo: necesita el gasto y su persona.",
     "energyScore": 4,
     "colorOfDay": "water"
   },
   {
     "key": "breed=dogo-argentino;sign=sagittarius",
-    "headline": "Un explorador de cuarenta kilos",
-    "body": "El Sol en Sagitario le da un optimismo que no cabe en el pasillo: tira hacia delante, saluda a desconocidos como si fueran de la familia y decide la ruta del paseo antes que tú. Aprende deprisa lo que le interesa y desconecta con elegancia de lo que no.",
-    "advice": "Cambiad de ruta a menudo y dejadle un rato largo de olfateo con correa larga: la novedad le cansa más que los kilómetros.",
+    "headline": "Un cazador blanco que quiere ver mundo",
+    "body": "El Dogo argentino ya viene con motor de rastreador y músculo para sostenerlo; súmale un Sol en Sagitario y tendrás un perro que decide la ruta del paseo antes que tú. Saluda con todo el cuerpo, celebra a cualquier desconocido y se aburre de la misma vuelta a la manzana.",
+    "advice": "Varía los recorridos y practica la correa floja en forma de juego: su entusiasmo pesa mucho y agradece rutas largas.",
     "energyScore": 5,
     "colorOfDay": "fire"
   },
@@ -1529,9 +1529,9 @@
   },
   {
     "key": "breed=spanish-mastiff;sign=pisces",
-    "headline": "Un gigante blando que se entera de todo",
-    "body": "El Sol en Piscis en un cuerpo enorme da un perro que se mueve despacio y siente rápido. Te lee la cara antes de que digas nada: si andas de bajón, aparece y se apoya contra tu pierna con todo su peso. El juego le interesa a ratos; el sofá y tu compañía, siempre.",
-    "advice": "Rutinas tranquilas y predecibles, paseos largos sin prisa y un rato diario de contacto físico en su sitio favorito.",
+    "headline": "Un mastín que vigila con los ojos cerrados",
+    "body": "El Mastín español ya trae de serie al guardián tranquilo que ocupa el hueco de la puerta; con el Sol en Piscis, ese vigilar se convierte en leer el ambiente. Nota quién entra con prisa y quién habla bajo, y contesta con un suspiro larguísimo antes de mover semejante cuerpo.",
+    "advice": "Reserva un rincón fijo con vistas a la puerta y paseos largos y sin prisa: prefiere el rumbo tranquilo a la aventura.",
     "energyScore": 2,
     "colorOfDay": "water"
   },
@@ -1545,17 +1545,17 @@
   },
   {
     "key": "breed=bernese-mountain-dog;sign=taurus",
-    "headline": "El peso tranquilo de la casa",
-    "body": "Con el Sol en Tauro, es un perro que ocupa su sitio y lo defiende con calma: la misma alfombra, el mismo rincón, el mismo orden de las cosas. Se mueve despacio, se deja querer largo rato y, cuando decide que no le apetece cambiar de plan, pesa el doble de lo que marca la báscula.",
-    "advice": "Mantén horarios estables de paseo y de cama, y reserva un rato diario de caricias largas y sin prisa en su rincón favorito.",
+    "headline": "Una montaña suiza apoyada en tu rodilla",
+    "body": "El Boyero de Berna ya viene con el freno de mano puesto y Tauro se lo aprieta un poco más: se instala en el rincón más fresco de la casa y lo defiende con la inercia de un mueble. Te sigue por el pasillo, se sienta encima de tu pie y espera la cena a la hora de siempre.",
+    "advice": "Paseos tranquilos a horas fijas, mejor con fresco, y un cepillado diario: agradece la constancia más que la sorpresa.",
     "energyScore": 2,
     "colorOfDay": "earth"
   },
   {
     "key": "breed=bernese-mountain-dog;sign=gemini",
-    "headline": "Un oso tranquilo con mente de ardilla",
-    "body": "El cuerpo dice siesta y Géminis dice \"investiguemos\". Se tumba a tu lado con toda la calma del mundo y a los cinco minutos levanta la cabeza porque ha oído algo interesante a tres calles. Aprende rápido, se aburre igual de rápido y cambia de plan sin avisar.",
-    "advice": "Alterna paseos con recorridos distintos y ratos de juego corto con varios juguetes: le interesa más la novedad que la duración.",
+    "headline": "Cuarenta kilos de curiosidad suiza",
+    "body": "El Boyero de Berna viene de serie con pausa, peso y esa manía de tumbarse justo en el paso. El Sol en Géminis le mete dentro un perro que quiere saber qué ocurre en las otras tres esquinas: se levanta despacio, cambia de juguete cada dos minutos y te sigue de habitación en habitación.",
+    "advice": "Paseos con recorridos variados y ratos cortos de juegos de olfato: cambiarle el estímulo le satisface más que la distancia.",
     "energyScore": 3,
     "colorOfDay": "air"
   },
@@ -1601,25 +1601,25 @@
   },
   {
     "key": "breed=bernese-mountain-dog;sign=sagittarius",
-    "headline": "Un gigante amable con brújula de explorador",
-    "body": "El Sol en Sagitario le da un temperamento expansivo dentro de un cuerpo tranquilo: camina despacio, pero quiere ir más lejos. Le verás elegir el camino largo, saludar a cualquiera que se cruce y quedarse mirando el horizonte como si tuviera planes. Fuego mutable en un perro de manta ancha.",
-    "advice": "Cambia la ruta del paseo cada pocos días: rutas nuevas y olores nuevos le llenan más que un rato extra de pelota.",
+    "headline": "Cuarenta kilos apoyados en tu rodilla",
+    "body": "El Boyero de Berna trae esa calma de montaña que parece mueble, y el Sol en Sagitario le añade ganas de ver qué hay detrás de la curva. Se apoya en tu pierna con todo su peso y diez minutos después pide el camino largo, el nuevo, el que huele distinto.",
+    "advice": "Alterna la ruta de siempre con senderos nuevos y déjale luego un rato largo pegado a ti en el sofá.",
     "energyScore": 3,
     "colorOfDay": "fire"
   },
   {
     "key": "breed=bernese-mountain-dog;sign=capricorn",
-    "headline": "Un jefe de obra con pelo largo",
-    "body": "Capricornio le da un sentido del deber que nadie le pidió: vigila la puerta, escolta a cada miembro de la casa y trata el horario de paseo como un contrato firmado. Aprende despacio y para siempre, así que lo que le enseñas una vez se queda. Los cambios de plan los encaja, pero con cara.",
-    "advice": "Mantén horarios fijos de paseo y dale una tarea suya, como llevar el juguete hasta casa: el orden le encanta.",
-    "energyScore": 3,
+    "headline": "Media montaña suiza apoyada en tu pie",
+    "body": "Tu Boyero de Berna trabaja como todo Capricornio: despacio, con criterio y sin necesidad de que le repitas la orden tres veces. Elige un sitio con vistas a la puerta, se tumba y desde ahí administra la casa. Si mueves la hora del paseo, te mira fijo hasta que se lo expliques.",
+    "advice": "Paseo largo, tranquilo y a la misma hora cada día, y un rincón fresco y suyo donde tumbarse a vigilar el pasillo.",
+    "energyScore": 2,
     "colorOfDay": "earth"
   },
   {
     "key": "breed=bernese-mountain-dog;sign=aquarius",
-    "headline": "Gigante tranquilo con ideas propias",
-    "body": "Pesa lo que pesa y aun así decide por su cuenta: te acompaña hasta la puerta, se sienta a dos metros y observa el barrio como si tomara notas. Le gusta la gente, pero en grupo y sin abrazos largos. Cuando se le mete una idea, la sostiene con una calma enorme.",
-    "advice": "Reservadle un rato diario de banco en el parque: la manada a la vista y sin obligarle a saludar a nadie.",
+    "headline": "Un carro suizo que elige su propia ruta",
+    "body": "El Boyero de Berna trae de serie el cuerpo de perro de tiro y la paciencia de la montaña; Acuario le añade criterio propio. Te sigue por toda la casa, se tumba justo en el paso donde estorba y saluda a todo el mundo, pero decide él cuándo se levanta y cuándo no.",
+    "advice": "Dedícale un rato largo de cepillado tranquilo y déjale elegir su sitio para tumbarse: colabora mucho mejor si le consultas.",
     "energyScore": 3,
     "colorOfDay": "air"
   },
@@ -1657,9 +1657,9 @@
   },
   {
     "key": "breed=shar-pei;sign=cancer",
-    "headline": "Un guardián de arrugas y corazón blando",
-    "body": "El Sol en Cáncer le da un carácter reservado que se derrite en casa: vigila la puerta con cara de pocos amigos y luego se pega a tu pierna en el sofá. Le importa mucho dónde duerme y quién entra. Los cambios de mueble o de horario le sientan regular.",
-    "advice": "Mantén su cama siempre en el mismo rincón y dedica diez minutos de caricias tranquilas antes de dormir.",
+    "headline": "El Shar pei que vigila desde su cama",
+    "body": "El Shar pei ya trae de serie ese aire de aduanero serio con los desconocidos, y el Sol en Cáncer le añade la parte doméstica: elige un rincón, lo declara suyo y desde ahí te vigila. No monta fiestas en la puerta, pero si cambias de habitación se levanta y va detrás.",
+    "advice": "Dale una cama fija en la habitación donde más pares y preséntale a las visitas despacio: agradece el aviso más que la sorpresa.",
     "energyScore": 2,
     "colorOfDay": "water"
   },
@@ -1689,9 +1689,9 @@
   },
   {
     "key": "breed=shar-pei;sign=scorpio",
-    "headline": "Discreto por fuera, intenso por dentro",
-    "body": "El Sol en Escorpio no reparte el carácter: elige a alguien y el resto queda en segundo plano. Observa desde su sitio antes de decidir si se acerca, y cuando confía lo hace del todo. Los desconocidos no le impresionan; los cambios de rutina, algo más.",
-    "advice": "Deja que se acerque cuando lo decida y mantén estables los horarios de paseo: la previsibilidad le sienta de maravilla.",
+    "headline": "Cara de aduanero, corazón de guardaespaldas",
+    "body": "Tu Shar pei observa antes de moverse y decide antes de observar: el Sol en Escorpio le da un círculo de confianza cortísimo y blindado. Con desconocidos elige la estatua digna, ese ceño que no es enfado sino trámite. Contigo se pega al sofá como si le pagaran por vigilarlo.",
+    "advice": "Preséntale a la gente nueva despacio y desde su sitio, sin obligarle a saludar: su cariño llega cuando lo decide.",
     "energyScore": 2,
     "colorOfDay": "water"
   },
@@ -1705,18 +1705,18 @@
   },
   {
     "key": "breed=shar-pei;sign=capricorn",
-    "headline": "El funcionario de su propia casa",
-    "body": "Sol en Capricornio le da un perro serio, de rutinas firmes y dignidad de portero veterano. No pide fiesta: pide que las cosas pasen a la hora de siempre y en el mismo orden. Cuando decide que algo no toca, se planta con la calma de quien sabe que el tiempo juega a su favor.",
-    "advice": "Mantén horarios estables de paseo y descanso, y pídele obediencia en sesiones cortas: el orden previsible es su mayor confianza.",
+    "headline": "Arrugas de funcionario con antigüedad",
+    "body": "El Shar pei ya nace con cara de haberlo visto todo, y el Sol en Capricornio le añade el expediente completo: horarios sagrados, un sitio propio que nadie discute y una lista corta de personas de confianza. Con los desconocidos no es antipático, primero observa y luego decide.",
+    "advice": "Mantén los paseos y las rutinas a horas parecidas: saber qué viene después es lo que le pone de buen humor.",
     "energyScore": 2,
     "colorOfDay": "earth"
   },
   {
     "key": "breed=shar-pei;sign=aquarius",
-    "headline": "El excéntrico que decide por su cuenta",
-    "body": "Sol en Acuario en un perro con la cara más impasible del barrio: hace las cosas cuando le parecen buena idea, no cuando se las pides. Elige sitios raros para tumbarse, saluda a quien quiere y ignora al resto con una dignidad casi ofensiva. La rutina le sirve, pero a su manera.",
-    "advice": "Ofrécele varias opciones de sitio para tumbarse y respeta la que elija; también funciona proponerle juegos nuevos sin insistir.",
-    "energyScore": 3,
+    "headline": "Arrugas de notario, ideas de inventor",
+    "body": "El Shar pei ya llega con esa cara de estar revisando tus decisiones, y el Sol en Acuario le añade criterio propio: obedece cuando le parece razonable y se inventa atajos nuevos en mitad del paseo. Cariñoso lo es, pero a su manera y desde su distancia elegida.",
+    "advice": "Déjale un rincón apartado desde donde vigilar la casa y espera a que se acerque él para las caricias largas.",
+    "energyScore": 2,
     "colorOfDay": "air"
   },
   {
@@ -1753,9 +1753,9 @@
   },
   {
     "key": "breed=ca-de-bou;sign=cancer",
-    "headline": "El guardián blando de la puerta",
-    "body": "Cáncer le da a un perro corpulento un corazón de vigilante sentimental: se coloca entre tú y la entrada, no por fiereza, sino porque ahí controla a los suyos. Se mueve poco y observa mucho, y cuando alguien de casa cambia de habitación, él cambia también.",
-    "advice": "Dale una cama fija con vistas a la puerta y a la zona de paso, y paseos tranquilos siempre por las mismas calles.",
+    "headline": "Guardián mallorquín de corazón blando",
+    "body": "El Ca de bou lleva siglos vigilando puertas mallorquinas, y en Cáncer esa vigilancia se vuelve doméstica: te sigue de habitación en habitación y se tumba en el umbral desde donde controla la casa entera. Ladra poco, pero se entera de todo. Y si sacas la maleta, lo sabe antes que tú.",
+    "advice": "Dale una cama con vistas a la puerta y paseos tranquilos por el barrio de siempre: ruta conocida, ritmo suyo.",
     "energyScore": 2,
     "colorOfDay": "water"
   },
@@ -1769,33 +1769,33 @@
   },
   {
     "key": "breed=ca-de-bou;sign=virgo",
-    "headline": "El inspector de calidad de la casa",
-    "body": "El Sol en Virgo le da un carácter metódico dentro de un cuerpo robusto: revisa el perímetro, comprueba que los juguetes estén donde los dejó y te mira raro si cambias la ruta del paseo. Poca energía derrochada, mucha atención al detalle. Aprende rápido cuando las reglas son claras y constantes.",
-    "advice": "Mantén un orden reconocible en el paseo y en su rincón de descanso: la previsibilidad le sienta mejor que cualquier sorpresa.",
+    "headline": "El Ca de bou que inspecciona su propia casa",
+    "body": "El Ca de bou ya viene con vocación de guardia tranquila, y el Sol en Virgo le añade libreta: elige un sitio con vistas a la puerta, revisa las esquinas cuando volvéis de la calle y nota si has movido la alfombra. Gasta poca energía en tonterías y mucha atención en el detalle.",
+    "advice": "Mantén el paseo a la misma hora y por una ruta conocida, y deja que revise sus rincones sin prisas al volver.",
     "energyScore": 3,
     "colorOfDay": "earth"
   },
   {
     "key": "breed=ca-de-bou;sign=libra",
-    "headline": "El diplomático de setenta kilos",
-    "body": "Un Ca de bou con Sol en Libra pesa lo que pesa y lo sabe: rara vez necesita demostrarlo. Mide a los demás perros antes de acercarse, busca el punto medio en cualquier roce del parque y se coloca donde no molesta. En casa prefiere la calma compartida a la excitación, y le incomoda el conflicto entre humanos.",
-    "advice": "Paseos con compañía conocida y presentaciones tranquilas, sin prisa: la cortesía es su forma favorita de socializar.",
+    "headline": "Un moloso mallorquín sin ganas de pelea",
+    "body": "El Ca de bou entra con pinta de guardaespaldas y luego se dedica a mediar: tu Libra se planta entre dos perros que se gruñen y espera a que la cosa se calme. Sopesa cada orden un par de segundos antes de obedecer y prefiere el sofá compartido a la carrera en solitario.",
+    "advice": "Paseos tranquilos con encuentros perrunos breves y un rato largo de caricias al volver: la compañía le asienta.",
     "energyScore": 3,
     "colorOfDay": "air"
   },
   {
     "key": "breed=ca-de-bou;sign=scorpio",
-    "headline": "Intensidad silenciosa con cuerpo de guardián",
-    "body": "El Sol en Escorpio le da un carácter concentrado: no reparte confianza a la primera, observa, decide y entonces se entrega del todo. Con su gente es de una lealtad casi pesada, de las que te sigue de habitación en habitación. Con desconocidos, se queda quieto y mira mucho antes de mover el rabo.",
-    "advice": "Presentaciones lentas y sin prisa con gente nueva, y un rato diario de juego de olfato o mordedor para canalizar esa intensidad.",
+    "headline": "Puro músculo mallorquín en modo reposo",
+    "body": "El Ca de bou vigila como quien guarda una puerta: quieto, atento, sin gastar un ladrido de más. Con el Sol en Escorpio elige a una persona y la sigue con la mirada de cuarto en cuarto. Y cuando decide jugar, lo hace con toda la contundencia de su tamaño, nunca a medias.",
+    "advice": "Sesiones cortas de mordedor firme y paseos por rutas ya conocidas: a este perro le encaja mejor la constancia que la sorpresa.",
     "energyScore": 3,
     "colorOfDay": "water"
   },
   {
     "key": "breed=ca-de-bou;sign=sagittarius",
-    "headline": "El molosillo que quiere ver mundo",
-    "body": "Con un Sol en Sagitario en un cuerpo compacto y tranquilo, tienes un perro que se mueve con calma pero que necesita que el paseo cambie de ruta. Se aburre del mismo bordillo, tira hacia lo desconocido y se queda mirando lo que hay al final de la calle. Camina despacio, pero quiere llegar lejos.",
-    "advice": "Alterna dos o tres recorridos distintos en la semana y dale tiempo para olfatear en las zonas nuevas sin prisa.",
+    "headline": "Moloso mallorquín, alma de explorador",
+    "body": "Tu Ca de bou tiene cuerpo de moloso mallorquín y cabeza de Sagitario: camina tranquilo hasta que huele un camino nuevo y entonces tira. Se cansa de la misma vuelta a la manzana, saluda a desconocidos con una calma que engaña y sube al coche sin pedir explicaciones.",
+    "advice": "Varía la ruta del paseo y déjale elegir algún desvío: la novedad le llena tanto como la siesta larga después.",
     "energyScore": 3,
     "colorOfDay": "fire"
   },
@@ -1841,9 +1841,9 @@
   },
   {
     "key": "breed=yorkshire-terrier;sign=gemini",
-    "headline": "Un terremoto de bolsillo con opinión sobre todo",
-    "body": "El Sol en Géminis en un cuerpo tan pequeño da un perro que atiende a quince cosas a la vez: la puerta, tu móvil, el vecino del cuarto, una mosca. Aprende trucos a velocidad absurda y se aburre de ellos igual de rápido. Ladra para comentar, no solo para avisar.",
-    "advice": "Cambia de juego cada pocos minutos y varía la ruta del paseo: la novedad le entretiene más que el ejercicio largo.",
+    "headline": "Dos kilos de terrier con agenda propia",
+    "body": "El Yorkshire terrier ya viene con opinión sobre cada portal del barrio; con el Sol en Géminis, además la comparte en voz alta. Cambia de juguete a mitad de partida, se gira con cualquier ruido de escalera y vuelve a lo suyo. Aprende rápido y se aburre igual de rápido.",
+    "advice": "Sesiones cortas de juego y trucos nuevos, y paseos con rutas variadas: la novedad le sienta mejor que la repetición.",
     "energyScore": 4,
     "colorOfDay": "air"
   },
@@ -1865,9 +1865,9 @@
   },
   {
     "key": "breed=yorkshire-terrier;sign=virgo",
-    "headline": "El inspector de calidad de la casa",
-    "body": "Un yorkshire con el Sol en Virgo revisa el terreno antes de disfrutarlo: olfatea la manta tres veces antes de tumbarse y detecta el juguete movido de sitio. Es pequeño, meticuloso y sorprendentemente exigente con sus horarios, que aprende antes que tú.",
-    "advice": "Manten el orden de sus cosas y el mismo recorrido de paseo casi siempre; los cambios avísalos con un par de días de rodaje.",
+    "headline": "El Yorkshire que inspecciona cada rincón",
+    "body": "Bajo ese kilo y medio de terrier hay un supervisor. Tu Yorkshire Virgo revisa el perímetro del salón, protesta si le mueves la cama dos palmos y te espera junto al armario de la correa al minuto exacto. Tamaño diminuto, criterio enorme y una lista mental de cómo van las cosas.",
+    "advice": "Mantén los horarios de paseo y deja su cama y sus juguetes siempre en el mismo sitio: le ordena el mundo.",
     "energyScore": 3,
     "colorOfDay": "earth"
   },
@@ -1881,17 +1881,17 @@
   },
   {
     "key": "breed=yorkshire-terrier;sign=scorpio",
-    "headline": "Un vigilante de bolsillo con memoria larga",
-    "body": "El Sol en Escorpio le da un carácter intenso y selectivo: elige a los suyos y con el resto guarda las distancias. Vigila la puerta desde el sofá, recuerda quién le cayó mal hace meses y, cuando se apega, lo hace en exclusiva. Poco tamaño, mucha convicción.",
-    "advice": "Preséntale a la gente nueva con calma y sin forzar el contacto: deja que se acerque cuando decida, y premia esa iniciativa.",
+    "headline": "Dos kilos de servicio secreto",
+    "body": "El Yorkshire terrier ya viene con complejo de centinela, y en Escorpio ese instinto se vuelve devoción de una sola persona: te elige, te vigila y anota quién entra por la puerta. Ladra a lo que no encaja y esconde el juguete favorito donde nadie lo vea.",
+    "advice": "Reserva un escondite fijo para sus juguetes y juega a tirar de la cuerda en ratos cortos: canaliza la intensidad.",
     "energyScore": 3,
     "colorOfDay": "water"
   },
   {
     "key": "breed=yorkshire-terrier;sign=sagittarius",
-    "headline": "Cuatro kilos de exploración sin freno",
-    "body": "El Sol en Sagitario le da un carácter aventurero que no cabe en su tamaño: tira de la correa hacia la esquina que no conocéis, se asoma a cada portal y saluda a desconocidos con un descaro impresionante. Se aburre de las rutas repetidas y lo dice ladrando en la puerta.",
-    "advice": "Cambia el recorrido del paseo a menudo y déjale olfatear calles nuevas: la variedad le importa más que la distancia.",
+    "headline": "Dos kilos de terrier con vocación de expedición",
+    "body": "El Yorkshire ya nace con opinión propia, y el Sol en Sagitario le añade ganas de horizonte. Tira hacia la calle que no conoce, saluda a perros cinco veces mayores sin pestañear y se planta junto a la puerta en cuanto alguien coge las llaves. Aburrirse le sienta fatal.",
+    "advice": "Varía la ruta del paseo a menudo y dale tiempo para olisquear esquinas nuevas: explorar le ordena el ánimo.",
     "energyScore": 4,
     "colorOfDay": "fire"
   },
@@ -2113,9 +2113,9 @@
   },
   {
     "key": "breed=american-staffordshire-terrier;sign=aries",
-    "headline": "Motor de arranque con forma de perro",
-    "body": "Sol en Aries en un cuerpo de Amstaff es puro impulso cardinal: decide primero y piensa después. Sale de casa tirando hacia delante, se lanza al juguete antes de que toque el suelo y saluda con todo el cuerpo. La frustración le dura poco, pero mientras dura la oyes.",
-    "advice": "Reserva un rato diario de juego con reglas claras: lanzar, traer, soltar. Canaliza el arranque y termina siempre tú.",
+    "headline": "Mandíbula de amstaff, arranque de Aries",
+    "body": "El American Staffordshire terrier ya viene con cuerpo de atleta y sonrisa de tonto enamorado; con el Sol en Aries, además llega primero a todo: a la puerta, al juguete, al invitado. Agarra la cuerda y no la suelta, y cuando decide algo lo decide con las cuatro patas.",
+    "advice": "Reserva dos ratos de tira y afloja al día con una orden de soltar clara: canaliza el empuje y le enseña a frenar.",
     "energyScore": 5,
     "colorOfDay": "fire"
   },
@@ -2129,18 +2129,18 @@
   },
   {
     "key": "breed=american-staffordshire-terrier;sign=gemini",
-    "headline": "Fuerza de toro, cabeza de veleta",
-    "body": "El Sol en Géminis le pone la atención en tres sitios a la vez, y ese cuerpo de amstaff se lo permite. Cambia de juguete a mitad de la partida, se gira ante cualquier ruido del pasillo y vuelve al primero como si nada. Aprende rápido, sobre todo lo que no pretendías enseñarle.",
-    "advice": "Alterna dos o tres juegos cortos en una misma sesión en vez de uno largo: se aburre antes de cansarse.",
+    "headline": "Toda esa musculatura al servicio de la distracción",
+    "body": "El American staffordshire terrier va sobrado de fuerza y de constancia, pero el Géminis le mueve la cabeza de sitio cada treinta segundos. Agarra el mordedor con una convicción tremenda y lo suelta porque pasó un pájaro. Y ladra más por comentar la jugada que por avisar de algo.",
+    "advice": "Alterna tres juegos cortos en una misma sesión: mordedor, buscar y un truco nuevo. Su cabeza se aburre antes que sus patas.",
     "energyScore": 4,
     "colorOfDay": "air"
   },
   {
     "key": "breed=american-staffordshire-terrier;sign=cancer",
-    "headline": "Un bloque de músculo con alma de peluche",
-    "body": "El Sol en Cáncer le da un carácter casero y protector: vigila la puerta, sigue tus pasos de habitación en habitación y se derrite en cuanto te sientas en el sofá. La fuerza física va por un lado y la sensibilidad por otro, y gana casi siempre la sensibilidad.",
-    "advice": "Dale un rincón fijo con su manta cerca de donde hagáis vida y respeta ese sitio: le ancla más que cualquier juguete.",
-    "energyScore": 3,
+    "headline": "Todo el músculo del amstaff, puesto a cuidar",
+    "body": "El American staffordshire terrier de Cáncer junta una fuerza tremenda con una necesidad enorme de cercanía: te sigue de habitación en habitación, se apoya con todo su peso y vigila la puerta desde su cama. Juega duro, pero levanta la cabeza para comprobar que sigues ahí.",
+    "advice": "Dale un sitio fijo junto a ti donde tumbarse y sesiones cortas de tira y afloja, siempre con un final claro.",
+    "energyScore": 4,
     "colorOfDay": "water"
   },
   {
@@ -2161,34 +2161,34 @@
   },
   {
     "key": "breed=american-staffordshire-terrier;sign=libra",
-    "headline": "El diplomático de músculo generoso",
-    "body": "Un Amstaff con Sol en Libra pesa como un tanque y negocia como un embajador. Mide al otro perro antes de entrar al juego, busca el punto medio en casa y detesta las voces altas: si hay tensión entre humanos, se pone en medio con cara de árbitro. Fuerte, pero de trato suave.",
-    "advice": "Paseos con compañía habitual y un rato de juego compartido: funciona mejor acompañado que en solitario.",
+    "headline": "Ese pecho de amstaff pide tregua, no pelea",
+    "body": "El American Staffordshire terrier viene con motor y mandíbula de sobra, y en Libra los usa para caer bien: se apoya en tu pierna, mide al otro perro antes de acercarse y espera tu visto bueno. Juega fuerte, pero suelta el juguete en cuanto nota que el ambiente se tensa.",
+    "advice": "Practica el «suelta» con un mordedor en sesiones cortas: canaliza esa fuerza y le deja clarísimo dónde está el límite.",
     "energyScore": 4,
     "colorOfDay": "air"
   },
   {
     "key": "breed=american-staffordshire-terrier;sign=scorpio",
-    "headline": "Intensidad de agua fija en cuerpo de tanque",
-    "body": "Escorpio no reparte cariño: elige. Se ata a una persona con una devoción casi teatral y vigila la puerta como si le pagaran por ello. Con la cuerda es todo o nada: agarra, aprieta y no suelta hasta que decide soltar. Nada a medias, tampoco el rencor por un baño.",
-    "advice": "Un tira y afloja diario que acabe siempre con la orden de soltar bien clara, y después un rato largo de caricias en el sofá.",
+    "headline": "El amstaff que se te sienta encima",
+    "body": "Un American staffordshire terrier ya viene con cuerpo de atleta y vocación de manta humana; con el Sol en Escorpio, además elige. Te mira fijo, decide que eres suyo y se queda pegado. Con los desconocidos no ladra: observa desde el sofá y espera a tener datos antes de mover la cola.",
+    "advice": "Sesiones cortas de tirar de cuerda con reglas claras y después sofá: gasta la fuerza y refuerza que confíe en ti.",
     "energyScore": 4,
     "colorOfDay": "water"
   },
   {
     "key": "breed=american-staffordshire-terrier;sign=sagittarius",
-    "headline": "Un explorador con cuerpo de tanque",
-    "body": "Sagitario le da un optimismo que no se apaga y unas ganas de horizonte que se le notan en la correa: cada paseo es una expedición con destino desconocido. Con el músculo de un amstaff detrás, ese entusiasmo llega compacto y saluda a medio barrio antes de que tú te enteres.",
-    "advice": "Alarga la ruta habitual con calles nuevas y practica la llamada en sitios distintos: novedad y guía a partes iguales.",
+    "headline": "Músculo compacto que insiste en subirse al sofá",
+    "body": "El American staffordshire terrier ya viene con motor de sobra, y el Sol en Sagitario le añade rumbo: tira hacia adelante en el paseo, saluda a desconocidos con el cuerpo entero y cambia de plan a mitad del juego. Aguanta el tira y afloja hasta que te cansas tú.",
+    "advice": "Paseos largos con rutas que cambien y un juguete resistente de tira y afloja: necesita destino, no solo la manzana.",
     "energyScore": 5,
     "colorOfDay": "fire"
   },
   {
     "key": "breed=american-staffordshire-terrier;sign=capricorn",
-    "headline": "Formal, tozudo y con planes propios",
-    "body": "El Sol en Capricornio le da un carácter serio y con criterio: no se emociona por cualquier cosa, pero cuando decide algo lo sostiene. Con el músculo y la insistencia del Amstaff, eso se traduce en un perro que aprende rápido lo que le interesa y se hace el sordo con el resto. La rutina le ordena el mundo.",
-    "advice": "Mantén horarios estables de paseo y juego, y pídele siempre las mismas dos o tres cosas: le encanta saber cuál es su trabajo.",
-    "energyScore": 3,
+    "headline": "Músculo de amstaff con agenda de notario",
+    "body": "El American staffordshire terrier ya viene con motor de serie y el Capricornio le añade un reloj. Aguanta el juego de la cuerda hasta que te cansas tú, y a la hora del paseo se planta junto a la puerta con una paciencia que parece un reproche. Terco, constante, nada dramático.",
+    "advice": "Horarios de paseo fijos y una sesión diaria de mordedor: sabe esperar, pero lleva la cuenta de lo que le debes.",
+    "energyScore": 4,
     "colorOfDay": "earth"
   },
   {
@@ -2201,42 +2201,42 @@
   },
   {
     "key": "breed=american-staffordshire-terrier;sign=pisces",
-    "headline": "Un armario con alma de esponja",
-    "body": "Piscis mutable dentro de un cuerpo de gimnasio: se derrite en el sofá, te sigue de habitación en habitación y capta tu humor antes de que abras la boca. Empuja con treinta kilos de cariño y luego pone cara de no haber roto un plato. El juego le pone tierno, nunca bruto.",
-    "advice": "Alterna un rato de juego de tirar con caricias largas y en calma: descarga músculo primero y reconecta contigo después.",
-    "energyScore": 3,
+    "headline": "Cuerpo de amstaff, alma de niebla",
+    "body": "Debajo del músculo de American staffordshire terrier, el Sol en Piscis le pone antenas: nota tu humor antes de que abras la boca. Juega con toda su fuerza y, si levantas la voz, se desinfla y se te pega a las piernas. Tozudez de terrier con memoria blanda.",
+    "advice": "Tira y afloja con reglas claras y un rato largo de sofá después: descarga el músculo y le devuelve la calma.",
+    "energyScore": 4,
     "colorOfDay": "water"
   },
   {
     "key": "breed=staffordshire-bull-terrier;sign=aries",
-    "headline": "Motor de arranque con forma de perro",
-    "body": "Sol en Aries pone el temperamento en modo cardinal: decide primero y piensa después. Es el que se levanta antes que tú, el que abre el juego en el parque sin pedir permiso y el que insiste con el juguete hasta que cedes. Frena de golpe solo cuando ya ha ganado.",
-    "advice": "Dale un desahogo físico diario y termina siempre con un juego que gane él: canaliza el ímpetu y deja el día cerrado.",
+    "headline": "Cincuenta centímetros de músculo con prisa",
+    "body": "El Staffordshire bull terrier ya viene con el motor montado, y en Aries arranca antes que tú. Se lanza al juguete como si llevara una idea propia, insiste sin rencor y a los diez minutos vuelve a por más. Luego se te sube encima a dormir como si nada hubiera pasado.",
+    "advice": "Dos sesiones cortas de tira y afloja al día, con un final claro y su rato de sofá pegado a ti después.",
     "energyScore": 5,
     "colorOfDay": "fire"
   },
   {
     "key": "breed=staffordshire-bull-terrier;sign=taurus",
-    "headline": "Un tanque con vocación de sofá",
-    "body": "El Sol en Tauro le da un carácter fijo y tierra pura: sabe lo que quiere y lo quiere siempre igual. Un staffie con esta posición se apoya entero contra tu pierna, aguanta el juego de tira y afloja más de lo razonable, y luego se derrumba en su sitio de siempre sin negociar.",
-    "advice": "Mantén horarios estables de paseo y juego, y respeta su rincón favorito: la rutina previsible es donde este carácter se relaja de verdad.",
+    "headline": "Un tanque que solo quiere tu sofá",
+    "body": "El Staffordshire bull terrier viene con empuje de serie; con el Sol en Tauro, ese empuje apunta al sofá y a la rutina. Se apoya en ti con todo su peso, aguanta el tira y afloja hasta que el que se cansa eres tú, y luego se derrite en la misma esquina de siempre.",
+    "advice": "Ten un juguete resistente para el tira y afloja diario y una manta fija donde volver: la constancia le encanta.",
     "energyScore": 3,
     "colorOfDay": "earth"
   },
   {
     "key": "breed=staffordshire-bull-terrier;sign=gemini",
-    "headline": "Un staffie con dos ideas a la vez",
-    "body": "El Sol en Géminis le pone motor de curiosidad a un cuerpo hecho para empujar. Empieza un juego, lo abandona a medias porque ha oído una puerta, y vuelve al juguete treinta segundos después. Aprende rápido, se aburre igual de rápido y negocia todo con la cara.",
-    "advice": "Cambia de juego cada pocos minutos y varía la ruta del paseo: la novedad le mantiene la cabeza ocupada mejor que la distancia.",
+    "headline": "El staffie que cambia de juguete a medio tirón",
+    "body": "El staffordshire bull terrier viene de una pieza: se planta, agarra y no suelta. Con el Sol en Géminis, ese motor cambia de idea a mitad de faena: muerde la cuerda, ve pasar una hoja y se va con la hoja. Te trae tres juguetes en cinco minutos y ninguno le dura entero.",
+    "advice": "Ten dos o tres juguetes de tirar a mano y rótalos en la misma sesión: el músculo se cansa antes que la curiosidad.",
     "energyScore": 4,
     "colorOfDay": "air"
   },
   {
     "key": "breed=staffordshire-bull-terrier;sign=cancer",
-    "headline": "Un tanque con corazón de esponja",
-    "body": "El Cáncer solar le da a esa mandíbula cuadrada un temperamento sorprendentemente blando: te sigue de habitación en habitación, se pega a tu pierna en el sofá y vigila la puerta cuando alguien de casa sale. Fuerte por fuera, pendiente de los suyos por dentro.",
-    "advice": "Mantén un rincón fijo con su cama y su manta preferida, y dedícale un rato de contacto tranquilo cada noche.",
-    "energyScore": 3,
+    "headline": "Un tanque de músculo que duerme en tu regazo",
+    "body": "El Staffordshire bull terrier ya viene con el músculo puesto y la vocación de sofá incluida; con el Sol en Cáncer, toda esa fuerza apunta hacia ti. Te sigue de habitación en habitación, te apoya el pecho en las piernas y vigila la puerta cada vez que alguien sale de casa.",
+    "advice": "Un rato de tirar de cuerda antes de la siesta y sofá después: gasta músculo y le confirma que su sitio es contigo.",
+    "energyScore": 4,
     "colorOfDay": "water"
   },
   {
@@ -2249,17 +2249,17 @@
   },
   {
     "key": "breed=staffordshire-bull-terrier;sign=virgo",
-    "headline": "El staffie que revisa el protocolo",
-    "body": "Con el Sol en Virgo, esa potencia de staffie viene con manual de instrucciones propio: sabe a qué hora toca el paseo, en qué orden se sacan los juguetes y qué cojín es suyo. Aprende rápido si las señales son claras y consistentes, y se desconcierta cuando cambias las reglas a mitad de partida.",
-    "advice": "Mantén un orden fijo en el paseo y el juego, y repite las mismas palabras para las mismas cosas: le da seguridad y saca su mejor versión.",
+    "headline": "Un bloque de músculo con hoja de cálculo",
+    "body": "El Staffordshire bull terrier viene con motor de sobra, y el Sol en Virgo le pone manual de instrucciones. Se apoya en tu pierna con precisión de escuadra, inspecciona el juguete antes de destrozarlo y te mira con reproche si cambias el orden del paseo.",
+    "advice": "Mantén el mismo recorrido y un rato fijo de juego con cuerda: la repetición le ordena la cabeza y le cansa el cuerpo.",
     "energyScore": 4,
     "colorOfDay": "earth"
   },
   {
     "key": "breed=staffordshire-bull-terrier;sign=libra",
-    "headline": "Diplomacia con cuerpo de gimnasio",
-    "body": "El Sol en Libra le da un temperamento conciliador dentro de un físico rotundo: se presenta con la cara blanda, busca la aprobación de todos y prefiere negociar antes que imponerse. Le cuesta decidir a solas, así que te mirará antes de elegir juguete, ruta o sofá. En el parque hace de anfitrión.",
-    "advice": "Ofrécele dos opciones claras en el juego y déjale elegir: un rato de tira y afloja compartido le sienta de maravilla.",
+    "headline": "El tanque que pide permiso para subirse",
+    "body": "El Staffordshire bull terrier va sobrado de músculo y de sonrisa, y con el Sol en Libra lo usa para negociar. Se apoya en tu pierna hasta que le haces sitio, mide a los otros perros antes de entrar al juego y suelta el juguete en cuanto nota que el tira y afloja se tensa.",
+    "advice": "Preséntale perros nuevos paseando en paralelo y sin prisa: entra mucho mejor cuando elige él el momento de acercarse.",
     "energyScore": 4,
     "colorOfDay": "air"
   },
@@ -2289,9 +2289,9 @@
   },
   {
     "key": "breed=staffordshire-bull-terrier;sign=aquarius",
-    "headline": "Cariñoso, cabezota y con teorías propias",
-    "body": "Acuario es aire fijo: se apega a sus ideas más que a tus normas. Saluda al parque entero con el mismo entusiasmo y luego decide por su cuenta cuándo toca volver. Inventa juegos que nadie le ha enseñado y los repite hasta que le sigues la corriente.",
-    "advice": "Varía la ruta del paseo y déjale elegir alguna esquina: la novedad le engancha más que cualquier juguete nuevo.",
+    "headline": "El staffie que se sienta encima y opina",
+    "body": "Un Staffordshire bull terrier va de frente: pecho, sonrisa y la cabeza en tu rodilla sin pedir permiso. Con el Sol en Acuario, el contacto lleva condiciones propias: te busca cuando lo decide, se cansa de la orden repetida tres veces y prefiere inventarse un juego antes que repetir el tuyo.",
+    "advice": "Cambia de juego cada pocos minutos y deja que proponga; un rato de tira y afloja con reglas claras encaja bien.",
     "energyScore": 4,
     "colorOfDay": "air"
   },
@@ -2313,9 +2313,9 @@
   },
   {
     "key": "breed=bull-terrier;sign=taurus",
-    "headline": "Un ladrillo cariñoso con rumbo propio",
-    "body": "Sol en Tauro le da un temperamento tranquilo, terco y sorprendentemente sentimental para su fachada de músculo. Decide dónde se tumba y ahí se queda, aunque le pases por encima. Cuando algo le gusta —un cojín, una persona, un juguete concreto— se le queda grabado y no negocia.",
-    "advice": "Mantén horarios estables de paseo y juego, y avísale con calma antes de moverlo de su sitio favorito.",
+    "headline": "Cabeza de huevo, voluntad de granito",
+    "body": "El bull terrier ya trae terquedad de serie, y en Tauro se le convierte en doctrina. Decide que ese trozo de sofá es suyo y lo defiende sentándose encima con cara de no entender la pregunta. Juega como un ariete de goma, se cansa antes de lo que aparenta y luego reclama manta.",
+    "advice": "Rutinas fijas y un juguete resistente al que pueda dedicarse en serio: negocia mucho mejor cuando sabe qué viene después.",
     "energyScore": 3,
     "colorOfDay": "earth"
   },
@@ -2361,9 +2361,9 @@
   },
   {
     "key": "breed=bull-terrier;sign=scorpio",
-    "headline": "Intensidad concentrada en cuerpo de torpedo",
-    "body": "El Sol en Escorpio le da una manera de querer que no se reparte: elige a una persona, la vigila y la sigue de habitación en habitación. En el juego no suelta, ni el juguete ni la idea. Y cuando algo le escama, no ladra: se queda quieto observando hasta decidir.",
-    "advice": "Dale un juego de tirar y aflojar con un mordedor resistente y termínalo siempre tú, con la misma señal, para que sepa dónde acaba.",
+    "headline": "Cabeza de huevo, obsesión de Escorpio",
+    "body": "El bull terrier ya viene con el volumen alto, y en Escorpio ese volumen se convierte en foco: elige un juguete, una persona y un rincón del sofá, y ahí se instala. Te sostiene la mirada más de lo que resulta cómodo y arranca carreras absurdas por el pasillo sin avisar.",
+    "advice": "Dale un juguete resistente que sea solo suyo y ratos largos de tira y afloja: gastar esa fijación le sienta bien.",
     "energyScore": 4,
     "colorOfDay": "water"
   },
@@ -2393,10 +2393,10 @@
   },
   {
     "key": "breed=bull-terrier;sign=pisces",
-    "headline": "Fuerza de bull terrier, alma de agua",
-    "body": "Tiene el cuerpo de un ariete y la sensibilidad de una esponja: capta tu tono de voz antes de que acabes la frase. Alterna carreras absurdas por el pasillo con ratos largos de mirar al infinito desde el sofá, y una reprimenda le hunde mucho más de lo que su percha hace pensar.",
-    "advice": "Anuncia el paseo siempre con la misma palabra y en tono tranquilo: entiende mucho mejor la calma que la orden seca.",
-    "energyScore": 3,
+    "headline": "Cabeza de huevo, corazón de agua",
+    "body": "El bull terrier de Piscis junta el cuerpo de un ariete con una antena para tus estados de ánimo: te sigue de habitación en habitación, se derrite en el sofá y de pronto arranca a girar sobre sí mismo con el juguete. Terco en lo suyo, blandísimo contigo.",
+    "advice": "Reserva un rato fijo de juego con mordedor y remátalo en el sofá con caricias: primero descargar, luego pegarse a ti.",
+    "energyScore": 4,
     "colorOfDay": "water"
   },
   {
@@ -2489,17 +2489,17 @@
   },
   {
     "key": "breed=fox-terrier;sign=pisces",
-    "headline": "Un terrier con el alma en remojo",
-    "body": "La maquinaria de terrier sigue intacta: olfato pegado al suelo, sacudida al juguete, obsesión con cualquier cosa que se mueva. Pero encima lleva un filtro blando y se le nota en la mirada en cuanto cambias el tono de voz. Persigue una hoja con toda el alma y dos minutos después se apoya en tu pierna.",
-    "advice": "Alterna ratos de caza con juguete y ratos de sofá sin pedirle nada: necesita las dos velocidades en su rutina.",
+    "headline": "Un terrier que caza sueños en la alfombra",
+    "body": "El fox terrier trae de serie el motor de un cazador de madrigueras, pero en Piscis ese motor arranca por corazonadas: sale disparado tras una hoja seca y diez segundos después se queda mirándote como si te leyera el pensamiento. Excava, se emociona y acaba pegado a tu pierna.",
+    "advice": "Reserva un rato diario de rastreo o de cavar en una zona permitida, y cierra siempre con caricias largas en el mismo sitio.",
     "energyScore": 4,
     "colorOfDay": "water"
   },
   {
     "key": "breed=andalusian-ratonero;sign=aries",
-    "headline": "Todo empieza antes de que digas ya",
-    "body": "El Sol en Aries le da un temperamento que arranca primero y valora después: en cuanto abres la puerta ya va tres metros por delante. Persigue todo lo que se mueva, se aburre de los juegos lentos y te devuelve el juguete antes de que lo hayas lanzado del todo.",
-    "advice": "Dale juego intenso a diario con un final marcado: dos minutos de calma y caricias para que aprenda a bajar el motor.",
+    "headline": "Radar de bodega con el freno roto",
+    "body": "El Ratonero bodeguero andaluz ya viene con el motor arrancado, y el Sol en Aries le añade el arranque antes de la decisión: sale primero y luego mira adónde. Detecta un movimiento a treinta metros, aterriza en el sofá sin escala intermedia y te trae el juguete antes de que lo lances.",
+    "advice": "Dos salidas rápidas al día y un juego de buscar cosas escondidas por casa: le cansa antes la cabeza que las patas.",
     "energyScore": 5,
     "colorOfDay": "fire"
   },
@@ -2657,9 +2657,9 @@
   },
   {
     "key": "breed=dachshund;sign=sagittarius",
-    "headline": "Un cazador de bolsillo con alma de explorador",
-    "body": "El Sol en Sagitario mete ambición de largas distancias en un cuerpo hecho para túneles. Tira de la correa hacia cualquier ruta nueva, se olvida de tu presencia en cuanto un rastro le interesa y vuelve encantado, sin sombra de culpa. Le aburre el mismo camino dos veces.",
-    "advice": "Varía el recorrido del paseo siempre que puedas y déjale tiempo para olfatear a fondo cada esquina nueva.",
+    "headline": "Patas de Teckel, planes de expedición",
+    "body": "El Teckel ya nace con nariz de túnel y criterio propio; con el Sol en Sagitario, esa nariz se convierte en itinerario. Tira hacia el seto que tú no habías visto, alarga el paseo por iniciativa propia y vuelve encantado de sí mismo. Obedece cuando el plan le parece razonable.",
+    "advice": "Cambia de ruta a menudo y déjale elegir un desvío: un olor nuevo le llena más que diez lanzamientos de pelota.",
     "energyScore": 4,
     "colorOfDay": "fire"
   },
@@ -2809,9 +2809,9 @@
   },
   {
     "key": "breed=alaskan-malamute;sign=cancer",
-    "headline": "Un oso de trineo con alma de nido",
-    "body": "Cáncer le da a esa mole de trineo un radar emocional que no baja nunca: sabe cuándo te sientas, cuándo cambias de tono, cuándo entra alguien nuevo en casa. Trabaja duro fuera y luego se derrumba contra la puerta de tu cuarto. El aullido es su censo de la manada.",
-    "advice": "Sácalo a gastar cuerpo a diario y deja su cama a la vista de la tuya: esfuerzo y cercanía le ordenan el día.",
+    "headline": "Cava un hoyo y te espera dentro",
+    "body": "El Malamute de Alaska ya viene con motor de trineo; el Cáncer le pone el corazón en la puerta de casa. Te sigue de habitación en habitación, se tumba en el umbral para controlar quién entra y suelta ese aullido grave y conversador cuando te ausentas más de lo que le parece razonable.",
+    "advice": "Salidas largas y contigo, y un ritual de vuelta idéntico siempre: mismo saludo, misma manta, mismo rincón fresco.",
     "energyScore": 4,
     "colorOfDay": "water"
   },
@@ -2897,18 +2897,18 @@
   },
   {
     "key": "breed=samoyed;sign=gemini",
-    "headline": "Un nórdico con la agenda social llena",
-    "body": "El Sol en Géminis le da una cabeza que salta de estímulo en estímulo: empieza a cavar, lo deja a medias y viene a contártelo con ese repertorio de gruñiditos y aullidos tan suyo. Se aburre antes de cansarse, y un paseo por la misma calle de siempre le sabe a poco.",
-    "advice": "Cambia de ruta a menudo y mete juegos de olfato cortos y variados: dos minutos de cada cosa le sirven más que media hora de una.",
+    "headline": "La sonrisa samoyeda no calla nunca",
+    "body": "Un Samoyedo Géminis convierte el paseo en una ronda de saludos: se para con cada vecino, cambia de idea a mitad de calle y lo comenta todo con su repertorio de gruñiditos y aullidos. El aire mutable le da una cabeza rápida que se aburre antes de terminar el ejercicio.",
+    "advice": "Varía el recorrido y mete trucos nuevos y cortos por el camino: dos minutos de cabeza le cansan más que media hora de trote.",
     "energyScore": 4,
     "colorOfDay": "air"
   },
   {
     "key": "breed=samoyed;sign=cancer",
-    "headline": "El nórdico que solo sabe querer de cerca",
-    "body": "Bajo ese abrigo blanco y esa sonrisa perpetua vive un Cáncer: te sigue de habitación en habitación, se tumba justo en el umbral donde pasas y se apoya en tus piernas como si fuera lo más normal. Trabaja bien y con ganas, pero siempre mirando hacia dónde vas tú.",
-    "advice": "Mantén un ritual de vuelta a casa siempre igual, saludo tranquilo y un par de minutos de caricias antes de cualquier otra cosa.",
-    "energyScore": 3,
+    "headline": "Un abrigo de nieve pegado a tu sofá",
+    "body": "El Sol en Cáncer le da a tu Samoyedo un radar doméstico: se tumba en el umbral por el que más pasas y te sigue de habitación en habitación. Debajo de ese pelo blanco hay un perro que cuenta a los suyos antes de dormirse y protesta con un gruñidito cantado si falta alguien.",
+    "advice": "Dale un sitio fijo con vistas al salón y ratos largos de cepillado: tener su puesto y tu mano cerca lo asienta.",
+    "energyScore": 4,
     "colorOfDay": "water"
   },
   {
@@ -2977,9 +2977,9 @@
   },
   {
     "key": "breed=pomeranian;sign=aries",
-    "headline": "Medio kilo de perro, tonelada de opinión",
-    "body": "El Sol en Aries le da un carácter que va siempre por delante del cuerpo: sale primero por la puerta, decide él la dirección del paseo y avisa de todo lo que se mueve en el portal. Se aburre rápido con lo repetido y se enciende con cualquier juego nuevo.",
-    "advice": "Dale sesiones cortas de juego con reto: esconder un juguete, cambiar de ruta, dos minutos de trucos nuevos.",
+    "headline": "Kilo y medio de pelo con complejo de mastín",
+    "body": "Un Pomerania Aries se planta en la puerta antes que tú y decide quién pasa. Le ladra al perro que le triplica el tamaño sin hacer las cuentas. Empieza un juego, lo abandona a los dos minutos y lo reabre luego: el Sol en Aries actúa primero y valora después, si acaso.",
+    "advice": "Rutas nuevas y algún tramo ancho donde vaya delante marcando el paso: canalizar esa iniciativa funciona mejor que frenarla.",
     "energyScore": 5,
     "colorOfDay": "fire"
   },
@@ -2993,9 +2993,9 @@
   },
   {
     "key": "breed=pomeranian;sign=gemini",
-    "headline": "Un altavoz diminuto con curiosidad infinita",
-    "body": "El Sol en Géminis le da una cabeza que salta de estímulo en estímulo: la hoja que se mueve, el vecino del cuarto, el ruido del portal. Comenta todo en voz alta y aprende trucos a velocidad de vértigo, aunque se aburre del mismo juego antes que tú. Va detrás de la novedad, no de la calma.",
-    "advice": "Cambia de juguete y de ruta a menudo, y dedica cinco minutos a enseñarle algo nuevo: la variedad le ordena la cabeza.",
+    "headline": "Bola de pelo con dos opiniones a la vez",
+    "body": "El Pomerania ya viene con vocación de comentarista, y en Géminis el volumen sube: ladra al ascensor, al vecino y a una hoja, y a mitad de la frase ya ha cambiado de tema. Aprende trucos a la primera y se aburre a la segunda, así que la novedad le entretiene más que la distancia.",
+    "advice": "Sesiones cortas de trucos, cambiando de ejercicio cada pocos minutos, y varía la ruta del paseo para darle olores nuevos.",
     "energyScore": 4,
     "colorOfDay": "air"
   },
@@ -3009,9 +3009,9 @@
   },
   {
     "key": "breed=pomeranian;sign=leo",
-    "headline": "Un león de bolsillo con público propio",
-    "body": "El Sol en Leo le da un temperamento nuclear de protagonista: entra en la habitación como quien pisa un escenario y espera aplauso. Ladra a lo grande para el tamaño que tiene, posa cuando saca el móvil y se le nota cuando la atención se va a otro perro.",
-    "advice": "Reserva un rato diario de juego solo para él, con nombre, aplauso y algo de escándalo: rinde mucho mejor con público.",
+    "headline": "Dos kilos de melena y un trono",
+    "body": "Un Pomerania Leo no entra en una habitación: hace su entrada. Buscará el cojín más alto del sofá para supervisar desde ahí, ladrará hasta que los invitados reconozcan su presencia y posará quieto en cuanto aparezca una cámara. El pelaje no es pelaje: es vestuario.",
+    "advice": "Dedícale un rato diario de juego con público: aplaude sus gracias y usa el juguete que elija él, no el que te apetezca.",
     "energyScore": 4,
     "colorOfDay": "gold"
   },
@@ -3033,17 +3033,17 @@
   },
   {
     "key": "breed=pomeranian;sign=scorpio",
-    "headline": "Un metro de pelo y una lealtad de hierro",
-    "body": "El Sol en Escorpio le da a este cuerpo diminuto una intensidad que no cuadra con su tamaño: elige a una persona y la vigila. Ladra al vecino que ya conoce, guarda su juguete favorito bajo el sofá y observa las visitas un buen rato antes de decidir si merecen su atención.",
-    "advice": "Respeta su ritual de acercarse cuando quiere y ten un juguete que sea solo suyo, sin obligarle a compartirlo.",
+    "headline": "Un kilo y medio de pelo con dossier sobre ti",
+    "body": "El Pomerania ya viene con vocación de centinela peludo, y el Sol en Escorpio le añade memoria y criterio: elige a una persona y monta guardia desde el respaldo del sofá. Ladra a lo que no le encaja, se calla cuando lo decide él, y no olvida quién le pisó la cola.",
+    "advice": "Dale un puesto de vigilancia con vistas, una manta en alto junto a la ventana, y horarios de paseo previsibles.",
     "energyScore": 3,
     "colorOfDay": "water"
   },
   {
     "key": "breed=pomeranian;sign=sagittarius",
-    "headline": "Cuatro kilos de expedición permanente",
-    "body": "El Sol en Sagitario en un cuerpo pequeño da un perro convencido de que el mundo entero le pertenece y de que puede recorrerlo entero. Tira hacia adelante en el paseo, se asoma a cada portal y saluda a desconocidos con una seguridad que no se corresponde con su tamaño. Se aburre de la ruta de siempre.",
-    "advice": "Alterna dos o tres recorridos distintos en los paseos y déjale olfatear a su ritmo en los tramos nuevos.",
+    "headline": "Dos kilos de pelo con vocación de explorador",
+    "body": "Tu Pomerania cabe en un bolso, pero el Sol en Sagitario le ha dado la agenda de un perro cinco veces mayor: tira de la correa hacia todo lo que no conoce, opina en voz alta sobre las novedades del barrio y se planta en mitad del parque como si fuera de su propiedad. Se aburre antes de cansarse.",
+    "advice": "Cambia de ruta a menudo y déjale olfatear portales nuevos: a un Pomerania así le sienta mejor la variedad que la distancia.",
     "energyScore": 4,
     "colorOfDay": "fire"
   },
@@ -3457,9 +3457,9 @@
   },
   {
     "key": "breed=basset-hound;sign=aries",
-    "headline": "Un tanque bajito con prisa por llegar",
-    "body": "El Sol en Aries le pone motor de arranque a un cuerpo que va a su propio ritmo: decide primero y calcula después. Se lanza al portal, a la puerta del ascensor, al otro perro del parque, aunque las patas tarden en obedecer al impulso. Cuando algo le interesa, insiste sin negociar.",
-    "advice": "Dale paseos con rastro que seguir y desvíos que elegir: liderar la ruta le calma más que cualquier juguete.",
+    "headline": "El rastro manda y las patas obedecen",
+    "body": "Tu Basset hound elige el paseo con la nariz y el Aries que lleva dentro no admite negociación: si hay rastro, va. No corre, pero avanza como un tractor y tira de la correa con una convicción que no pega con esas patas. Luego se derrumba en el sofá sin avisar.",
+    "advice": "Paseos largos por sitios nuevos donde pueda olfatear a su ritmo, y algún juego de buscar premios escondidos en casa.",
     "energyScore": 3,
     "colorOfDay": "fire"
   },
@@ -3497,9 +3497,9 @@
   },
   {
     "key": "breed=basset-hound;sign=virgo",
-    "headline": "Un inspector de olores con método propio",
-    "body": "El Sol en Virgo le da un temperamento meticuloso: revisa el mismo rincón tres veces, elige la posición exacta de la cama antes de tumbarse y protesta con la mirada cuando la rutina se sale del guion. Aprende bien, pero a su ritmo, y no le gusta que le metan prisa por el camino.",
-    "advice": "Mantén horarios estables de paseo y comida, y deja que dedique buenos minutos a olfatear cada tramo sin tirar de la correa.",
+    "headline": "Auditoría olfativa, centímetro a centímetro",
+    "body": "El Basset hound ya viene con el hocico pegado al suelo de serie; con el Sol en Virgo lo hace además por orden, sin saltarse ni un tramo de acera. Revisa la misma esquina cada día como quien cuadra un inventario. Cambia la hora del paseo y te mirará como a un error de sistema.",
+    "advice": "Paseos cortos por la misma ruta y tiempo de sobra para olfatear cada esquina: la parada larga le vale más que la distancia.",
     "energyScore": 2,
     "colorOfDay": "earth"
   },
@@ -3513,9 +3513,9 @@
   },
   {
     "key": "breed=basset-hound;sign=scorpio",
-    "headline": "Intensidad a ras de suelo",
-    "body": "El Sol en Escorpio le da una fijación absoluta: elige un rastro, un juguete o una persona y no lo suelta. Es un perro de mirada larga y silencios elocuentes, que observa la habitación entera antes de decidir dónde tumbarse. Cuando confía, confía del todo, y no reparte esa confianza a cualquiera.",
-    "advice": "Dale paseos donde pueda olfatear a su ritmo sin tirones: seguir un rastro hasta el final le ordena la cabeza como nada.",
+    "headline": "Nariz al suelo, intenciones reservadas",
+    "body": "El Basset hound ya va a lo suyo, y con Sol en Escorpio lo suyo se convierte en misión. Engancha un rastro en la acera y no lo suelta aunque le llames tres veces con voz de persona seria. Elige un humano de referencia y lo vigila de reojo desde su cama, sin aspavientos.",
+    "advice": "Reserva un tramo del paseo para que husmee a su ritmo, sin tirones: soltar el rastro por decisión propia le sienta bien.",
     "energyScore": 2,
     "colorOfDay": "water"
   },
@@ -3537,9 +3537,9 @@
   },
   {
     "key": "breed=basset-hound;sign=aquarius",
-    "headline": "El inconformista más lento del parque",
-    "body": "Acuario fijo con cuerpo de sofá: tiene teorías propias sobre por dónde se va al parque y las defiende sin discutir, simplemente plantándose. Saluda a cualquier perro con una cordialidad rara, sin fiesta y sin recelo, y luego vuelve a lo suyo: un olor que solo entiende él.",
-    "advice": "Déjale elegir la dirección en algún paseo largo y sin prisa: la nariz manda y eso le llena más que cualquier juguete.",
+    "headline": "Orejas de sabueso, ideas de inventor",
+    "body": "Tu Basset hound Acuario baja la nariz al suelo y de ahí no la saca, pero la ruta la decide el rastro, no tú: si tuerce, tuerces. Se acerca a cualquier corro del parque con toda la simpatía del mundo y a los diez minutos se va por su cuenta a investigar una farola.",
+    "advice": "Paseos largos y sin prisa donde pueda olfatear a su aire, con horarios fijos que den marco a tanta independencia.",
     "energyScore": 2,
     "colorOfDay": "air"
   },
@@ -3553,9 +3553,9 @@
   },
   {
     "key": "breed=dalmatian;sign=aries",
-    "headline": "Un cohete con manchas y opinión propia",
-    "body": "El Sol en Aries le da un carácter que arranca antes de que tú hayas cogido la correa: primero se lanza, luego valora. Es de los que abren camino en el parque, deciden el ritmo del paseo y proponen juego cuando el resto de la casa ya se ha rendido. Frenar no está en su repertorio favorito.",
-    "advice": "Dale un paseo largo con tramos de trote y un juego de lanzar antes de pedirle calma; con la energía gastada, obedece mucho mejor.",
+    "headline": "El Dálmata que sale antes del pistoletazo",
+    "body": "Un Dálmata ya viene con kilómetros de serie; con Sol en Aries, además, quiere hacerlos primero. Sale disparado en cuanto suena la correa, marca el ritmo del paseo antes que tú y vuelve con las manchas llenas de barro y cara de haber ganado una carrera que nadie corría.",
+    "advice": "Dale un tramo largo donde pueda correr de verdad y después un juego de olfato tranquilo: primero gasta, luego piensa.",
     "energyScore": 5,
     "colorOfDay": "fire"
   },
@@ -3593,9 +3593,9 @@
   },
   {
     "key": "breed=dalmatian;sign=virgo",
-    "headline": "El atleta que ordena sus juguetes",
-    "body": "Virgo pone método en un cuerpo hecho para trotar kilómetros: hace su ruta y luego comprueba que cada cosa siga donde la dejó. Nota si has movido su cama dos palmos. Aprende rápido cuando la orden es clara y se planta ante las instrucciones a medias.",
-    "advice": "Mantén un horario fijo de paseos largos y un sitio propio para sus juguetes: con la rutina clara rinde y descansa mejor.",
+    "headline": "Un dálmata que cuenta sus propias manchas",
+    "body": "El dálmata Virgo no corre sin más: corre el mismo recorrido, en el mismo orden, y pone cara larga si cambias de acera. Hereda el fondo interminable del perro de carruaje y le añade una libreta mental donde apunta a qué hora sales, dónde va su manta y qué juguete falta.",
+    "advice": "Fíjale un circuito largo y repetido, y déjale elegir las paradas: el orden del paseo le importa tanto como los kilómetros.",
     "energyScore": 4,
     "colorOfDay": "earth"
   },
@@ -3689,9 +3689,9 @@
   },
   {
     "key": "breed=brittany;sign=virgo",
-    "headline": "Un cazador con manual de instrucciones",
-    "body": "Virgo le da método a un perro que ya nació con oficio: rastrea el jardín por cuadrantes, revisa la misma esquina dos veces y vuelve a mirarte para confirmar que lo hace bien. Le gusta saber qué toca y en qué orden, y protesta a su manera cuando cambias el guion sin avisar.",
-    "advice": "Mantén un orden reconocible en los paseos y ciérralos con una búsqueda de olfato: encontrar el juguete le deja en paz.",
+    "headline": "El Bretón que peina el monte por cuadrículas",
+    "body": "El Bretón nace con el olfato pegado al suelo, y con el Sol en Virgo lo lleva con método: rastrea en zigzag, vuelve a la mata que ya olió y te mira de reojo para confirmar que va bien. Se anticipa a la hora del paseo y nota cualquier cambio de orden en casa antes que tú.",
+    "advice": "Paseos largos con olfateo libre y un par de órdenes sencillas al cerrar: acabar con una tarea clara le deja satisfecho.",
     "energyScore": 4,
     "colorOfDay": "earth"
   },
@@ -3761,9 +3761,9 @@
   },
   {
     "key": "breed=english-setter;sign=gemini",
-    "headline": "Curiosidad con patas largas y sin freno",
-    "body": "El Sol en Géminis convierte cada paseo en una investigación: olfatea tres metros, levanta la cabeza, cambia de idea y vuelve. Aprende rápido lo que le divierte y se aburre igual de rápido cuando el ejercicio se repite. Es sociable, hablador y muy pendiente de todo lo que se mueve.",
-    "advice": "Cambia de ruta con frecuencia y alterna juegos cortos de olfato y búsqueda: prefiere variedad a series largas del mismo ejercicio.",
+    "headline": "Se queda en muestra y cambia de idea",
+    "body": "El Setter inglés viene con la nariz calibrada de fábrica para el rastro, y con el Sol en Géminis localiza un olor, se congela dos segundos y sale detrás de otro completamente distinto. Cambia de plan a mitad del paseo y atiende mucho mejor a órdenes cortas que a explicaciones largas.",
+    "advice": "Varía la ruta y mete juegos de olfato en el paseo: esconderle un juguete le centra más que repetirle la orden.",
     "energyScore": 5,
     "colorOfDay": "air"
   },
@@ -3865,9 +3865,9 @@
   },
   {
     "key": "breed=weimaraner;sign=cancer",
-    "headline": "Un perro grande con alma de sombra",
-    "body": "Cáncer suma apego a un perro que ya nació pegado a ti: te sigue de la cocina al sofá y del sofá a la puerta. Tiene motor de rastreador y corazón casero, así que necesita galopar de verdad y después volver a tu lado, preferiblemente encima. Los cambios de plan le sientan mejor si se los anuncias con rutina.",
-    "advice": "Una salida larga a diario y un rato de sofá compartido al volver: primero el cuerpo cansado, luego la compañía que busca.",
+    "headline": "Una sombra gris con vocación de hogar",
+    "body": "El Braco de Weimar nace pegado a su humano, y con Sol en Cáncer ese olfato de rastreo se le va en vigilarte a ti. Te sigue de la cocina al sofá, se coloca donde pueda verte y suspira cuando cierras una puerta. Un cazador de campo abierto que prefiere el campo donde estés tú.",
+    "advice": "Dale ejercicio largo al aire libre y un rincón propio a la vista del salón: cansado y acompañado es otro perro.",
     "energyScore": 4,
     "colorOfDay": "water"
   },
@@ -3881,9 +3881,9 @@
   },
   {
     "key": "breed=weimaraner;sign=virgo",
-    "headline": "El supervisor de la casa, con rabo",
-    "body": "Virgo le da método a un perro que nació para trabajar: hace la misma ronda, en el mismo orden, y nota si le mueves la manta dos palmos. Te sigue de habitación en habitación como si llevara un inventario. Un cambio de horario le altera más que un portazo.",
-    "advice": "Dale una tarea fija —buscar el juguete, recoger, seguir un rastro corto— y respeta el orden y la hora de sus paseos.",
+    "headline": "Una sombra gris con manual de instrucciones",
+    "body": "El Braco de Weimar ya nace con la costumbre de pegarse a tu pierna, y el Sol en Virgo le añade inspección de calidad. Nota si has movido su cama, se coloca siempre en el mismo punto del sofá y te vigila mientras coges la correa con cara de que vas tarde.",
+    "advice": "Mantén el paseo largo a la misma hora y dale una tarea: buscar el juguete escondido le ordena la cabeza y las patas.",
     "energyScore": 4,
     "colorOfDay": "earth"
   },
@@ -3961,9 +3961,9 @@
   },
   {
     "key": "breed=german-shorthaired-pointer;sign=cancer",
-    "headline": "El braco que te vigila desde el sofá",
-    "body": "Un braco de agua: tiene el motor de un perro de campo y el corazón de un perro de casa. Trabaja el rastro con toda la intensidad de su raza, pero mira atrás cada pocos metros para comprobar que sigues ahí. En casa busca contacto físico y elige el sitio desde el que te ve entrar y salir.",
-    "advice": "Paseos largos con olfateo libre y, al volver, un rato de sofá y caricias sin prisa. Necesita las dos mitades.",
+    "headline": "El rastreador que no te suelta el tobillo",
+    "body": "Tu Braco alemán rastrea medio campo, pero cada veinte metros gira la cabeza para confirmar que sigues ahí: el Cáncer le ata el instinto de caza a ti. Rinde mejor contigo a la vista, y tras una hora de campo quiere sofá, tu pierna de almohada y ni un metro de distancia.",
+    "advice": "Alterna ejercicio largo con búsquedas de olfato y cierra el día en su cama, contigo cerca: gastarse y luego pegarse.",
     "energyScore": 4,
     "colorOfDay": "water"
   },
@@ -4017,17 +4017,17 @@
   },
   {
     "key": "breed=german-shorthaired-pointer;sign=aquarius",
-    "headline": "El excéntrico metódico de campo abierto",
-    "body": "Acuario fijo en un perro de trabajo da una mezcla curiosa: rastrea con obsesión pero inventa su propio método y te ignora si el tuyo le parece mejorable. Se encariña con la manada entera antes que con un solo regazo, y necesita entender el juego antes de jugarlo.",
-    "advice": "Cambia el recorrido del paseo a menudo y esconde el juguete en sitios nuevos: la novedad le ordena la cabeza mejor que la repetición.",
+    "headline": "Un rastreador que se inventa el rastro",
+    "body": "El Braco alemán trae motor de fondo y nariz de trabajo; el Acuario le añade criterio propio. Se planta en muestra ante un aspersor, ignora la paloma evidente y vuelve cuando ha acabado de pensárselo. Sociable con todo el mundo y pegajoso con nadie en concreto.",
+    "advice": "Cambia el recorrido del paseo a menudo y esconde juguetes en sitios nuevos: necesita rastrear algo distinto cada vez.",
     "energyScore": 5,
     "colorOfDay": "air"
   },
   {
     "key": "breed=german-shorthaired-pointer;sign=pisces",
-    "headline": "El braco que sueña antes de rastrear",
-    "body": "El motor de rastreo del Braco alemán se mezcla aquí con una sensibilidad de agua muy marcada: sigue el olor con el cuerpo entero, pero levanta la cabeza en cuanto cambias de tono de voz. Trabaja para ti, no para el rastro, y necesita saber dónde estás.",
-    "advice": "Paseos largos donde pueda olfatear a su ritmo, con tu voz cerca y un rato de calma en casa al terminar.",
+    "headline": "Un puntero que rastrea estados de ánimo",
+    "body": "El Braco alemán viene con motor de campo y radar en la nariz; en Piscis ese radar se gira hacia ti. Marca la muestra cuando cambias de tono, te sigue de habitación en habitación y arranca la carrera solo cuando sabe que le acompañas. Incansable fuera, blando dentro.",
+    "advice": "Combina una salida larga con trabajo de olfato y después un rato de sofá pegado a ti: necesita las dos mitades.",
     "energyScore": 4,
     "colorOfDay": "water"
   },
@@ -4105,9 +4105,9 @@
   },
   {
     "key": "breed=labrador-retriever;sign=capricorn",
-    "headline": "Un labrador que se toma el trabajo en serio",
-    "body": "Tiene el entusiasmo de labrador, pero administrado con criterio de oficinista. Aprende una tarea y la repite con una seriedad que da risa: si el juguete va al cesto, va al cesto siempre. Los horarios claros le ordenan el día, y te avisa en cuanto te retrasas con el paseo.",
-    "advice": "Dale una tarea fija en cada paseo, traer la correa o esperar en la puerta: la constancia le gusta más que la sorpresa.",
+    "headline": "El labrador que ficha antes que tú",
+    "body": "Un Labrador retriever ya nace con vocación de trabajo, y el Sol en Capricornio le añade reloj: espera en la puerta a la misma hora, aprende la rutina y no la suelta. Cobra el juguete y lo devuelve entero, pero cuando decide que se acabó, ahí se sienta y no hay quien lo mueva.",
+    "advice": "Mantén horarios parecidos de paseo y de juego, y dedícale unos minutos a lanzar y cobrar: ahí se siente útil.",
     "energyScore": 4,
     "colorOfDay": "earth"
   },
@@ -4209,17 +4209,17 @@
   },
   {
     "key": "breed=golden-retriever;sign=aquarius",
-    "headline": "El golden que piensa por su cuenta",
-    "body": "Tiene el afecto de siempre, pero con un punto de excentricidad: saluda a todo el mundo y luego se va a investigar un arbusto por su cuenta. Aprende rápido cuando el ejercicio le parece interesante y desconecta con elegancia cuando le parece repetitivo. Le gusta la gente, no la obediencia.",
-    "advice": "Cambia de ruta y de juegos con frecuencia, y déjale ratos sueltos para olfatear a su aire sin llamarle cada dos minutos.",
+    "headline": "Trae la pelota, pero a quien le apetece",
+    "body": "El Golden retriever nace para cobrar y devolver; el Acuario decide a quién. Verás que saluda a medio parque con la misma alegría y luego se aparta a observar desde un lado. Sociable de manada entera más que de un solo regazo, y con ideas propias sobre cómo se juega.",
+    "advice": "Varía el juguete que le lanzas y llévalo a sitios con perros nuevos: la novedad le engancha tanto como el cobro.",
     "energyScore": 4,
     "colorOfDay": "air"
   },
   {
     "key": "breed=golden-retriever;sign=pisces",
-    "headline": "Una esponja emocional con cuatro patas",
-    "body": "Registra tu estado de ánimo antes que tú: si suspiras en el sofá, aparece con la cabeza sobre tu rodilla. En el paseo se queda absorto oliendo una farola y hay que llamarle dos veces. Cede el juguete sin discutir y prefiere el tono suave; con voces altas se apaga un rato.",
-    "advice": "Háblale bajito y reserva un rato fijo de caricias tranquilas cada noche: le ancla más que cualquier juego.",
+    "headline": "El golden que recoge hasta tus suspiros",
+    "body": "Un Golden retriever nace con vocación de traerte cosas; con el Sol en Piscis, además, te trae el estado de ánimo de la casa. Levantas la voz al teléfono y aparece con el peluche más blando que encuentra. Boca suave, mirada de acuarela y un radar para saber quién necesita compañía.",
+    "advice": "Reserva un rato diario de lanzar y traer, y cierra siempre con cinco minutos de caricias tranquilas en su cama.",
     "energyScore": 3,
     "colorOfDay": "water"
   },
@@ -4273,10 +4273,10 @@
   },
   {
     "key": "breed=english-cocker-spaniel;sign=libra",
-    "headline": "El diplomático de la casa",
-    "body": "Un cocker con Sol en Libra mide la temperatura de la habitación antes de decidir dónde tumbarse. Busca compañía constante, se apunta a cualquier plan donde haya gente, y si dos personas discuten en la cocina, aparece con un juguete en la boca a mediar. Le cuesta estar solo.",
-    "advice": "Aprovecha su talento social: paseos en horas con gente y visitas tranquilas en casa, siempre con su rincón libre para retirarse.",
-    "energyScore": 3,
+    "headline": "Cola de cocker en movimiento perpetuo",
+    "body": "Tu cocker spaniel inglés combina el instinto de rastreo con la diplomacia de Libra: sale disparado hacia un seto y a mitad de camino se gira para comprobar que le sigues. En el parque saluda a todo el mundo por turnos y, si le ofreces dos juguetes, tarda en decidirse.",
+    "advice": "Paseos largos con olfateo tranquilo y compañía cerca; ofrécele dos juguetes y deja que elija uno sin prisa.",
+    "energyScore": 4,
     "colorOfDay": "air"
   },
   {
@@ -4289,10 +4289,10 @@
   },
   {
     "key": "breed=english-cocker-spaniel;sign=sagittarius",
-    "headline": "El horizonte le queda siempre corto",
-    "body": "El Sol en Sagitario le pone el morro en dirección al camino que no conoce: tira hacia el desvío nuevo, saluda a desconocidos como si fueran familia y celebra el maletero abierto. El rastro le puede más que tu llamada, y vuelve encantado y sin culpa.",
-    "advice": "Cambia la ruta del paseo a menudo y deja que elija algún desvío: unos minutos de olfateo libre le valen más que la prisa.",
-    "energyScore": 5,
+    "headline": "Orejas al viento, nariz tres pasos por delante",
+    "body": "El cocker spaniel inglés nace con la nariz alquilada al suelo, y en Sagitario se le añade la manía de querer ver qué hay pasada la esquina. Espera paseos largos, paradas raras y una cola que funciona como motor. Vuelve satisfecho de haber saludado a medio barrio.",
+    "advice": "Alarga el paseo por una ruta nueva de vez en cuando y déjale marcar el rastro: olfatear le llena tanto como correr.",
+    "energyScore": 4,
     "colorOfDay": "fire"
   },
   {
@@ -4305,9 +4305,9 @@
   },
   {
     "key": "breed=english-cocker-spaniel;sign=aquarius",
-    "headline": "El excéntrico encantador del barrio",
-    "body": "Sol en Acuario le da un carácter sociable pero con criterio propio: saluda a quien le cae bien y pasa de quien no. Inventa juegos que no le has enseñado, elige rincones raros para dormir y a veces te mira como si la orden que acabas de dar fuera negociable. Su cariño es real, solo que a su manera.",
-    "advice": "Cambia la ruta del paseo con frecuencia y déjale improvisar juegos nuevos: la novedad le mantiene interesado en ti.",
+    "headline": "Nariz en el matorral, cabeza en otra parte",
+    "body": "El cocker spaniel inglés lleva el rastreo en el cuerpo: el rabo no para y la nariz elige la ruta antes que tú. Con Sol en Acuario decide además qué instrucciones le parecen razonables. Obedece, sí, pero después de pensárselo dos segundos y saludar a quien pase.",
+    "advice": "Varía el recorrido del paseo a menudo y déjale olfatear a su ritmo: un rastro nuevo le compensa cualquier rutina.",
     "energyScore": 4,
     "colorOfDay": "air"
   },
@@ -4321,9 +4321,9 @@
   },
   {
     "key": "breed=english-springer-spaniel;sign=aries",
-    "headline": "Motor de arranque con orejas",
-    "body": "El Sol en Aries le da un temperamento que primero se lanza y luego mira: sale por la puerta antes de que termines de abrirla y decide el ritmo del paseo sin consultarte. En el juego es directo y ruidoso, y con el olfato de spaniel cualquier matorral se convierte en una misión urgente.",
-    "advice": "Dale una salida larga con espacio para rastrear y trabajo de olfato antes de pedirle calma en casa.",
+    "headline": "El springer que levanta matorrales sin permiso",
+    "body": "El springer spaniel inglés ya viene con motor de batida, y con el Sol en Aries arranca antes de que abras del todo la puerta. Elige la dirección del paseo, se mete en el matorral que tú habrías rodeado y vuelve con medio seto en las orejas. La cola no para ni sentado.",
+    "advice": "Dale una búsqueda diaria: esconde el juguete entre hierba alta y deja que lo rastree él, aunque tarde diez minutos.",
     "energyScore": 5,
     "colorOfDay": "fire"
   },
@@ -4385,9 +4385,9 @@
   },
   {
     "key": "breed=english-springer-spaniel;sign=sagittarius",
-    "headline": "Nariz al viento y el horizonte delante",
-    "body": "El fuego mutable de Sagitario en un perro criado para batir matorrales da un explorador incansable: se adelanta en el paseo, vuelve a por ti y se vuelve a adelantar. Saluda a desconocidos como si fueran viejos amigos y cambia de plan a mitad de camino sin avisar.",
-    "advice": "Alterna rutas y déjale rastrear con calma un rato en cada paseo: gastar nariz le cansa más que correr en línea recta.",
+    "headline": "El resorte de orejas largas que mira al horizonte",
+    "body": "El springer spaniel inglés ya viene con muelles de fábrica en las patas; con el Sol en Sagitario, esos muelles apuntan siempre hacia delante. Engancha un olor y decide que el paseo sigue dos calles más. Vuelve cuando le llamas, pero con cara de haber dejado algo a medias.",
+    "advice": "Varía las rutas y déjale elegir con la nariz algún tramo del paseo: un buen rato de rastreo le cunde más que veinte minutos de correa corta.",
     "energyScore": 5,
     "colorOfDay": "fire"
   },
@@ -4473,9 +4473,9 @@
   },
   {
     "key": "breed=spanish-water-dog;sign=scorpio",
-    "headline": "Lealtad de las que no se negocian",
-    "body": "Agua fija: elige a una persona y la sigue de habitación en habitación sin hacer ruido. Con los desconocidos se queda a dos metros, observando, hasta que decide. Y cuando decide, se apoya entero contra tu pierna. Esconde su juguete favorito y sabe siempre dónde lo dejó.",
-    "advice": "Dale ratos de juego con agua o de buscar y traer un objeto: su intensidad rinde mucho mejor cuando tiene una tarea.",
+    "headline": "Rizos empapados, lealtad de uno solo",
+    "body": "El perro de agua español trabaja para alguien concreto, no para el público, y con Sol en Escorpio ese alguien eres tú: te vigila desde la puerta, te sigue al baño y tarda dos segundos en decidir si un desconocido merece su atención. Se moja sin dudar y luego se seca pegado a ti.",
+    "advice": "Combina agua y búsqueda: charcos, manguera y juguetes escondidos por casa. Y presenta a la gente nueva con calma, sin prisa.",
     "energyScore": 4,
     "colorOfDay": "water"
   },
@@ -4513,25 +4513,25 @@
   },
   {
     "key": "breed=chihuahua;sign=aries",
-    "headline": "Cuatro kilos de declaración de intenciones",
-    "body": "El Sol en Aries le da un carácter frontal: entra primero, opina primero y decide primero, sin consultar el tamaño. Con esta raza el resultado es un perro que se plantará ante un pastor alemán con absoluta convicción y que celebra cada visita como una conquista personal.",
-    "advice": "Dale un rato diario de juego con reglas claras y presentaciones tranquilas con perros grandes, siempre a su ritmo.",
+    "headline": "Dos kilos de Chihuahua abriendo camino",
+    "body": "Un Chihuahua Aries no espera: sale por la puerta antes que tú, le ladra al perro que le saca cuatro cabezas y decide el ritmo del paseo desde el primer metro. El fuego cardinal le da arranques cortos e intensísimos, y luego cae redondo en la manta hasta el siguiente plan.",
+    "advice": "Un juego breve de tira y afloja antes de salir le baja la chispa del arranque y llegáis a la calle ya negociados.",
     "energyScore": 4,
     "colorOfDay": "fire"
   },
   {
     "key": "breed=chihuahua;sign=taurus",
-    "headline": "Pequeño de tamaño, enorme de opiniones",
-    "body": "El Sol en Tauro le da un carácter tranquilo, terco y muy apegado a sus costumbres: su sitio en el sofá es su sitio, y lo defenderá con una mirada. Le gustan los planes conocidos, las caricias largas y las novedades presentadas despacio. Cuando decide que no se mueve, no se mueve.",
-    "advice": "Mantén horarios estables de paseo y descanso, y preséntale cualquier cambio poco a poco, con caricias y su manta de siempre.",
+    "headline": "Dos kilos de Chihuahua que no negocian",
+    "body": "El Chihuahua ya viene con opinión propia; añádele un Sol en Tauro y tienes un perro que elige un cojín, lo declara suyo y no se plantea otra vida. Se coloca donde da el sol, espera su manta a la misma hora y protesta si mueves su cama dos palmos a la izquierda.",
+    "advice": "Mantén sus horarios y su cama siempre en el mismo rincón; para que se levante, un juguete y dos minutos de juego corto.",
     "energyScore": 2,
     "colorOfDay": "earth"
   },
   {
     "key": "breed=chihuahua;sign=gemini",
-    "headline": "Un kilo y medio de opiniones nuevas cada hora",
-    "body": "El Sol en Géminis en un cuerpo pequeño da un perro que se entera de todo antes que tú: la puerta del vecino, la bolsa que cruje, el pájaro del balcón. Cambia de plan a mitad de plan, ladra para comentar y aprende trucos rápido, aunque los olvide si dejan de ser interesantes.",
-    "advice": "Cambia la ruta del paseo a menudo y alterna dos o tres juguetes distintos: la novedad le entretiene más que la distancia.",
+    "headline": "Cabe en un bolso, no en una sola idea",
+    "body": "El Chihuahua ya viene con opinión de serie; con el Sol en Géminis, además, la cambia cada diez minutos. Empieza un juguete, lo abandona por la ventana, ladra a un vecino y vuelve a tu regazo. Aprende trucos a la primera y se aburre a la tercera repetición. Nada personal.",
+    "advice": "Cambia de juguete y de ruta a menudo: sesiones de cinco minutos, tres veces al día, y un rato de sofá al final.",
     "energyScore": 4,
     "colorOfDay": "air"
   },
@@ -4545,10 +4545,10 @@
   },
   {
     "key": "breed=chihuahua;sign=leo",
-    "headline": "Un kilo y medio de realeza",
-    "body": "El Sol en Leo dentro de un cuerpo diminuto produce un perro convencido de que la casa gira a su alrededor, y suele tener razón. Se coloca en el sitio más visible del sofá, reclama público cuando hace algo gracioso y protesta si el saludo va primero a otro. El tamaño no le ha llegado al ego.",
-    "advice": "Dedícale un rato de atención exclusiva cada día, con su nombre y su juguete: el reconocimiento le vale más que cualquier premio.",
-    "energyScore": 3,
+    "headline": "Dos kilos de Chihuahua ocupando el salón entero",
+    "body": "Un Chihuahua Leo no entra en una habitación: la inaugura. Le da igual medir un palmo, se planta delante del perro más grande del parque y espera el aplauso. Reclama el centro del sofá, el regazo bueno y que le mires justo cuando hace algo que considera brillante.",
+    "advice": "Reservadle un rato de juego con público: que enseñe su truco y reciba aplausos. Y respetadle su sitio en el sofá.",
+    "energyScore": 4,
     "colorOfDay": "gold"
   },
   {
@@ -4569,26 +4569,26 @@
   },
   {
     "key": "breed=chihuahua;sign=scorpio",
-    "headline": "Un vigilante diminuto con memoria de elefante",
-    "body": "El Sol en Escorpio le da una intensidad que no cabe en su tamaño: elige a una persona, la sigue de habitación en habitación y observa todo desde el sofá antes de decidir si aprueba a quien acaba de entrar. No olvida ni un desaire ni una caricia, y perdona cuando le da la gana.",
-    "advice": "Preséntale a la gente nueva despacio y sin cogerlo en brazos, dejando que se acerque él primero cuando quiera.",
+    "headline": "Dos kilos que eligen a una persona",
+    "body": "El Chihuahua ya tiende a escoger a un humano y defenderlo del resto del mundo; con el Sol en Escorpio esa elección es definitiva. Vigila desde el respaldo del sofá, mide a cada visita antes de aceptarla y guarda un juguete concreto como si fuera un secreto de estado.",
+    "advice": "Ofrécele un rincón elevado desde donde controlar la casa y respeta su ritmo con las visitas: se acerca cuando lo decide.",
     "energyScore": 3,
     "colorOfDay": "water"
   },
   {
     "key": "breed=chihuahua;sign=sagittarius",
-    "headline": "Un explorador de bolsillo con ambiciones de mastín",
-    "body": "El Sol en Sagitario le da un carácter aventurero que ignora por completo su tamaño: se lanza al final de la correa, saluda a perros diez veces mayores y quiere ver qué hay en la esquina siguiente. Se aburre con el mismo recorrido y protesta con ladridos cuando la salida se acorta.",
-    "advice": "Varía las rutas del paseo y déjale olfatear sitios nuevos: la novedad le llena más que cualquier juguete.",
+    "headline": "Dos kilos de Chihuahua con planes de expedición",
+    "body": "El Chihuahua Sagitario mide poco y planifica mucho: tira hacia la calle que no habéis pisado nunca, se asoma al bolso como quien pide billete y le ladra sin ningún complejo a perros diez veces mayores. Se aburre bastante antes de cansarse, y ese aburrimiento se oye.",
+    "advice": "Varía la ruta del paseo y déjale olfatear portales nuevos; en casa, un juego de buscar el juguete cierra bien el día.",
     "energyScore": 4,
     "colorOfDay": "fire"
   },
   {
     "key": "breed=chihuahua;sign=capricorn",
-    "headline": "Un kilo y medio de autoridad seria",
-    "body": "El Sol en Capricornio dentro de un cuerpo diminuto produce un perro que se toma su cargo muy en serio: vigila la puerta, supervisa quién entra y decide desde el sofá. Aprende las rutinas antes que tú y protesta con ladrido corto si la cena llega tarde. Terco, constante, nada tonto.",
-    "advice": "Mantén los horarios de paseo y comida siempre a la misma hora: la previsibilidad es lo que le hace confiar y relajarse.",
-    "energyScore": 2,
+    "headline": "Dos kilos de jefe con agenda propia",
+    "body": "Un Chihuahua Capricornio no pide permiso: reclama el sitio caliente del sofá y lo defiende con la seriedad de un notario. Aprende las rutinas al segundo y te avisa si te retrasas con el paseo. Con desconocidos no se lanza, observa de lejos y decide a su ritmo cuándo bajar al suelo.",
+    "advice": "Mantén el paseo siempre a la misma hora y déjale una manta fija en el salón: la constancia le asienta más que los mimos.",
+    "energyScore": 3,
     "colorOfDay": "earth"
   },
   {
@@ -4609,9 +4609,9 @@
   },
   {
     "key": "breed=pug;sign=aries",
-    "headline": "Un cabezón valiente en formato pequeño",
-    "body": "El Sol en Aries le da un carácter que arranca primero y piensa después: se lanza al juguete, al visitante y a la puerta sin medir su tamaño. Es directo, ruidoso en su entusiasmo y se aburre en cuanto la actividad se alarga. Manda mucho para lo que abulta.",
-    "advice": "Sesiones de juego cortas y con final claro, varias veces al día, mejor que un solo rato largo: así canaliza el arranque sin frustrarse.",
+    "headline": "Un carlino con complejo de mastín",
+    "body": "El Carlino ya viene con carácter propio, y en Aries la decisión llega antes que la reflexión: se lanza al pasillo, reclama el juguete con la pata y considera que el perro de la esquina le debe una explicación. Arranca a tope, se planta un rato y vuelve a arrancar.",
+    "advice": "Repartid el juego en ratos cortos y frecuentes, con una pausa tranquila entre uno y otro. Así gasta ganas sin frenazos.",
     "energyScore": 4,
     "colorOfDay": "fire"
   },
@@ -4641,9 +4641,9 @@
   },
   {
     "key": "breed=pug;sign=leo",
-    "headline": "Nació con el foco puesto encima",
-    "body": "El Sol en Leo le da un temperamento de estrella invitada: entra en la habitación esperando reacción y, si no la hay, la provoca. Se coloca en el centro exacto del salón, adopta una pose y espera. Presume de gracias delante de visitas y repite la que más risas le arranca.",
-    "advice": "Dedícale un rato diario de atención exclusiva, con caricias y dos o tres trucos aplaudidos: el reconocimiento le ordena el carácter.",
+    "headline": "El carlino que posa hasta dormido",
+    "body": "Tu Carlino Leo no entra en una habitación: la inaugura. Se planta en el centro del salón cuando llegan visitas, elige el cojín con mejores vistas y no lo cede aunque le ofrezcas otro. Si el público se distrae, aparece con un juguete y se sienta delante de la tele.",
+    "advice": "Reserva un rato fijo de juego con público: llámale por su nombre, aplaude sus gracias y déjale el sitio de honor en el sofá.",
     "energyScore": 3,
     "colorOfDay": "gold"
   },
@@ -4673,10 +4673,10 @@
   },
   {
     "key": "breed=pug;sign=sagittarius",
-    "headline": "Un explorador con patas cortas",
-    "body": "El Sol en Sagitario le da un optimismo casi cómico: cualquier puerta que se abre es una expedición y cualquier desconocido en la calle es un amigo que aún no sabe que lo es. Tira hacia lo nuevo, olfatea rutas distintas y se aburre del mismo recorrido tres días seguidos. Fuego mutable en un cuerpo compacto.",
-    "advice": "Varía la ruta del paseo siempre que puedas: calles nuevas, olores nuevos y ritmo tranquilo le mantienen la curiosidad despierta.",
-    "energyScore": 4,
+    "headline": "El carlino que se cree perro de expedición",
+    "body": "El Sol en Sagitario le da a tu Carlino un optimismo de tamaño desproporcionado: saluda a desconocidos como si volvieran de un viaje larguísimo y tira hacia la calle que no habéis tomado nunca. El cuerpo es corto, la curiosidad no, y siempre quiere una esquina más.",
+    "advice": "Alterna paseos cortos por rutas nuevas: cambiar de esquina le entretiene mucho más que doblar la distancia de siempre.",
+    "energyScore": 3,
     "colorOfDay": "fire"
   },
   {
@@ -4713,17 +4713,17 @@
   },
   {
     "key": "breed=shih-tzu;sign=taurus",
-    "headline": "El cojín es suyo y no se negocia",
-    "body": "Sol en Tauro le da un temperamento tranquilo, cabezota y muy fiel a lo conocido: mismo sitio en el sofá, mismo orden de paseo, mismo juguete de siempre. No discute, simplemente se queda quieto hasta que el mundo vuelve a hacer lo que él esperaba. Cariñoso a su ritmo, nunca al tuyo.",
-    "advice": "Mantén el paseo y los juegos a horas parecidas, y respeta su rincón: la rutina estable es lo que más le luce.",
+    "headline": "Un cojín imperial con opiniones firmes",
+    "body": "El Shih tzu ya nace con vocación de cojín, y el Sol en Tauro le añade sello notarial: elige un sitio de la casa, lo declara suyo y no lo negocia. Se deja cepillar si el momento le parece razonable; si no, se convierte en peso muerto y espera a que te canses.",
+    "advice": "Mantén el paseo y el cepillado siempre a la misma hora: un Tauro con horario fijo es un Tauro colaborador.",
     "energyScore": 2,
     "colorOfDay": "earth"
   },
   {
     "key": "breed=shih-tzu;sign=gemini",
-    "headline": "Un perro de sofá con agenda propia",
-    "body": "El Sol en Géminis le da un carácter que cambia de plan a media zancada: sale a por un juguete, se distrae con un ruido en la escalera y vuelve con otro distinto. Le gusta estar donde se habla y comenta lo que pasa en la calle con un repertorio de ladridos bastante amplio.",
-    "advice": "Alterna dos o tres juguetes en el juego y cambia de vez en cuando la ruta del paseo: la novedad le mantiene la cabeza ocupada.",
+    "headline": "Un cojín imperial que además opina",
+    "body": "El Shih tzu ya viene con vocación de sofá, pero el Sol en Géminis le añade una centralita: cambia de plan a mitad de plan, te sigue de habitación en habitación y comenta cada cosa con un repertorio de ruidos cortos. Aburrido nunca está; concentrado, tampoco mucho tiempo.",
+    "advice": "Cambia la ruta del paseo a menudo y guárdale dos juguetes distintos para el mismo rato de juego: la variedad le centra.",
     "energyScore": 3,
     "colorOfDay": "air"
   },
@@ -4737,10 +4737,10 @@
   },
   {
     "key": "breed=shih-tzu;sign=leo",
-    "headline": "Un trono pequeño, pero trono al fin",
-    "body": "El Sol en Leo le da un carácter de anfitrión: entra en la habitación esperando que alguien lo note y, si no ocurre, lo provoca. Le encanta el público, posa sin que se lo pidas y se pone regio cuando lo peinas. Cede el sofá con condiciones.",
-    "advice": "Dale un rato diario de atención exclusiva, con juego o cepillado, y celebra en voz alta lo que hace bien.",
-    "energyScore": 3,
+    "headline": "Melena de Shih tzu, protocolo de palacio",
+    "body": "El Shih tzu ya venía de sofás imperiales, y con el Sol en Leo lo asume sin discutirlo: elige el asiento con mejor vista, se coloca en el centro del salón y espera público. Aprende en dos intentos lo que le trae aplausos y olvida con elegancia lo que no. Anda poco y se deja mirar mucho.",
+    "advice": "Cepíllale siempre en el mismo sitio y a la misma hora, y déjale saludar en el paseo: el ritual y el público le sientan bien.",
+    "energyScore": 2,
     "colorOfDay": "gold"
   },
   {
@@ -4761,17 +4761,17 @@
   },
   {
     "key": "breed=shih-tzu;sign=scorpio",
-    "headline": "Lealtad absoluta en formato pequeño",
-    "body": "El Sol en Escorpio le da un carácter de una pieza: elige a su persona, la vigila desde el sofá y no reparte confianza a la primera. Bajo ese flequillo hay una mirada que te sigue por toda la casa. Y cuando decide que un juguete es suyo, la discusión está cerrada.",
-    "advice": "Reserva un rato fijo de cepillado y caricias cada día: la intimidad tranquila con su persona es lo que más valora.",
+    "headline": "Un cojín con servicios de inteligencia",
+    "body": "Tu Shih tzu Escorpio parece un adorno de sofá y en realidad está tomando notas: elige a una persona, la sigue de habitación en habitación y se coloca siempre donde controla la puerta. Con los desconocidos se queda quieto, mira fijo y decide él cuándo hay confianza.",
+    "advice": "Reserva un sitio elevado con vistas a la puerta y ratos cortos de cepillado a solas: así se vincula mejor.",
     "energyScore": 2,
     "colorOfDay": "water"
   },
   {
     "key": "breed=shih-tzu;sign=sagittarius",
-    "headline": "Un cojín con alma de explorador",
-    "body": "El Sol en Sagitario le da un optimismo que no encaja del todo con su tamaño: quiere ver qué hay en la esquina siguiente, y en la siguiente. Se aburre de la misma ruta, saluda a desconocidos sin pedir permiso y celebra cualquier novedad como si llevara meses esperándola.",
-    "advice": "Alterna dos o tres recorridos de paseo y deja que elija el desvío de vez en cuando: la variedad le sienta mejor que la distancia.",
+    "headline": "El perro de palacio que quiere ver mundo",
+    "body": "Tu Shih tzu tiene el cuerpo hecho para el cojín y el Sol en Sagitario le pide horizonte: tira hacia la calle que no conoce, saluda a desconocidos como si los esperara y se queda mirando cuando giras de vuelta a casa. Todo con esa dignidad de perro de palacio y patas cortas.",
+    "advice": "Varía la ruta del paseo y déjale marcar el ritmo del olfateo: un portal nuevo le entretiene más que un juguete caro.",
     "energyScore": 3,
     "colorOfDay": "fire"
   },
@@ -4801,17 +4801,17 @@
   },
   {
     "key": "breed=maltese;sign=aries",
-    "headline": "Un kilo y medio de decisión absoluta",
-    "body": "El Sol en Aries le da un carácter que va siempre por delante de su tamaño: entra primero, saluda primero y decide por su cuenta cuándo empieza el juego. Cardinal de Fuego significa que inicia todo y no espera permiso, así que verás cómo te trae el juguete y te lo deja encima con insistencia.",
-    "advice": "Dale una sesión de juego activo al principio del día y otra corta antes de dormir: canaliza mejor esa iniciativa cuando tiene turnos fijos.",
+    "headline": "Tres kilos de nieve y ganas de guerra",
+    "body": "El maltés viene con manual de perro de regazo y este Aries no lo ha leído: entra primero en cada habitación, avisa del timbre antes que nadie y marca el ritmo del paseo tirando de la correa. Lo llevas en brazos por tamaño, nunca por carácter, y suelta el juguete solo si lo ha ganado.",
+    "advice": "Juego con reglas cortas: dos minutos de tira y afloja, pausa, otra ronda. Así gasta el ímpetu sin creerse el jefe.",
     "energyScore": 4,
     "colorOfDay": "fire"
   },
   {
     "key": "breed=maltese;sign=taurus",
-    "headline": "Un cojín con opiniones muy firmes",
-    "body": "El Sol en Tauro le da un carácter tranquilo y sorprendentemente inamovible: elige un sitio del sofá y lo defiende con la calma de quien sabe que tiene razón. Disfruta de las caricias largas, de los horarios previsibles y de que nadie le cambie las cosas de lugar sin avisar.",
-    "advice": "Mantén sus rutinas de paseo y descanso a la misma hora: la previsibilidad es lo que más le relaja y saca su mejor versión.",
+    "headline": "El maltés que patenta su cojín",
+    "body": "El bichón maltés ya nace con vocación de sofá, y el Sol en Tauro le añade sello notarial: ese cojín es suyo, ese rincón es suyo y ese horario también. Pide caricias con insistencia tranquila, se apoya en ti hasta dormirte el brazo y protesta bajito si mueves los muebles.",
+    "advice": "Mantén fija la hora del paseo y el sitio de su cama, y convierte el cepillado diario en un ritual siempre igual.",
     "energyScore": 2,
     "colorOfDay": "earth"
   },
@@ -4849,9 +4849,9 @@
   },
   {
     "key": "breed=maltese;sign=libra",
-    "headline": "Diplomacia con flequillo",
-    "body": "El Sol en Libra le da un carácter conciliador: mide el ambiente antes de decidir y prefiere el acuerdo a la bronca. En el parque suele hacer de intermediario, y en casa se coloca justo en el punto medio entre dos personas. Le cuesta elegir, así que a veces se queda mirando el juguete sin cogerlo.",
-    "advice": "Decide tú por él cuando dude: ofrécele un solo juguete cada vez y márcale horas fijas de paseo y de caricias.",
+    "headline": "El maltés que preside el salón desde tus rodillas",
+    "body": "El Bichón maltés ya nace con vocación de acompañante, y en Libra eso se refina: te sigue de cuarto en cuarto y se coloca justo donde todos lo vean. Saluda a las visitas antes que tú, y si en casa hay voces altas prefiere bajarse del sofá y esperar a que vuelva la calma.",
+    "advice": "Convierte el cepillado en un rato fijo y tranquilo: a un maltés Libra le vale tanto por el pelo como por la compañía.",
     "energyScore": 3,
     "colorOfDay": "air"
   },
@@ -4865,9 +4865,9 @@
   },
   {
     "key": "breed=maltese;sign=sagittarius",
-    "headline": "Un kilo y medio de espíritu explorador",
-    "body": "Sagitario mutable en cuerpo de peluche: quiere saber qué hay en la esquina siguiente y en la de después. Saluda a desconocidos con una confianza que no cuadra con su tamaño, y si el paseo repite siempre la misma ruta te lo hará notar tirando hacia el lado que no toca.",
-    "advice": "Variad de recorrido a menudo y dejadle olfatear a su ritmo: media hora de barrio nuevo le llena más que una hora de lo ya sabido.",
+    "headline": "El maltés que cree que cabe en tu mochila",
+    "body": "Un Bichón maltés con Sol en Sagitario no es un perro de sofá con vistas: es un perro de puerta abierta. Tira hacia la calle que todavía no conocéis, saluda a desconocidos sin perder la compostura del pelo y vuelve a casa oliendo a sitios nuevos. La casa le gusta; la salida, más.",
+    "advice": "Cambia de ruta a menudo y déjale elegir la esquina: le importa más olfatear terreno nuevo que sumar kilómetros.",
     "energyScore": 4,
     "colorOfDay": "fire"
   },
@@ -4897,17 +4897,17 @@
   },
   {
     "key": "breed=bichon-frise;sign=aries",
-    "headline": "Un algodón con motor de carreras",
-    "body": "El Sol en Aries le da una arrancada que no cuadra con su tamaño: sale disparado de la cama, decide el ritmo del paseo y se lanza al juego antes de que tú hayas cogido el juguete. Aries inicia, así que las ideas son suyas y espera que tú te apuntes.",
-    "advice": "Dale una sesión corta de juego activo al principio del día y otra al final: canaliza el arranque y luego se deja mimar.",
+    "headline": "Bola de algodón con motor de arranque",
+    "body": "El Bichón frisé ya viene de fábrica con ganas de gustar, y el Aries le añade el botón de arranque: entra en la habitación antes que tú, decide el juego y lo empieza sin consultarlo. Ese tamaño de peluche engaña: el empuje es de perro grande y se apaga de golpe.",
+    "advice": "Propón tú alguna sesión de juego corta antes de que la reclame: dos minutos de tira y afloja y un final claro.",
     "energyScore": 4,
     "colorOfDay": "fire"
   },
   {
     "key": "breed=bichon-frise;sign=taurus",
-    "headline": "Un cojín con opiniones muy firmes",
-    "body": "El Sol en Tauro le da un carácter tranquilo, afectuoso y absolutamente inamovible cuando ha decidido algo. Elige un sitio del sofá y lo defiende con la calma de quien sabe que tiene razón. Y en un Bichón frisé, ese fondo plácido viene con ganas de estar pegado a ti la mayor parte del día.",
-    "advice": "Mantén horarios estables de paseo y de juego: la rutina previsible es lo que más le tranquiliza y evita pulsos de terquedad.",
+    "headline": "Un cojín rizado que no piensa moverse",
+    "body": "El Bichón frisé ya nace con vocación de sofá, y en Tauro eso se vuelve doctrina: elige un sitio, lo declara suyo y lo defiende con una calma pasmosa. Aprende rapidísimo lo que le conviene y olvida lo que no. Cámbiale la hora del paseo y te enterarás.",
+    "advice": "Cepíllalo siempre a la misma hora y en el mismo rincón: convierte el rato en caricia y tendrás un perro entregado.",
     "energyScore": 2,
     "colorOfDay": "earth"
   },
@@ -4921,10 +4921,10 @@
   },
   {
     "key": "breed=bichon-frise;sign=cancer",
-    "headline": "Guardián de sofá con corazón blando",
-    "body": "El Sol en Cáncer le da un carácter doméstico y muy pendiente de los suyos: te sigue de habitación en habitación y elige el sitio desde el que te vigila mejor. Con desconocidos tarda en soltarse, pero en casa tranquila es de apoyar la cabeza en tu pie y quedarse ahí.",
-    "advice": "Mantén un rincón fijo con su cama a la vista del salón y un rato de caricias a la misma hora: la rutina le asienta.",
-    "energyScore": 2,
+    "headline": "Un algodón blanco pegado a tu tobillo",
+    "body": "El Bichón frisé ya nace con vocación de sombra blanca, y el Sol en Cáncer le añade memoria emocional: sabe qué cojín es suyo, qué ruido de llaves significa que te vas y a qué hora vuelves. Te sigue de habitación en habitación y recibe tu regreso como si fueran semanas.",
+    "advice": "Dale un rincón fijo con su manta en la zona de más paso de casa: descansa mejor si puede vigilarte sin levantarse.",
+    "energyScore": 3,
     "colorOfDay": "water"
   },
   {
@@ -4937,17 +4937,17 @@
   },
   {
     "key": "breed=bichon-frise;sign=virgo",
-    "headline": "El inspector de calidad de la casa",
-    "body": "Virgo en un perro pequeño y blanco da un carácter que revisa antes de disfrutar: huele el juguete nuevo tres veces antes de aceptarlo y nota que has movido su cama diez centímetros. El paseo lo hace por el mismo lado de la acera, y le funciona.",
-    "advice": "Mantén un orden fijo en paseo y juego: un ritual predecible cada tarde le da más calma que cualquier novedad.",
+    "headline": "El bichón que revisa su propio flequillo",
+    "body": "El Bichón frisé ya viene de fábrica con vocación de mueble decorativo, y en Virgo se le añade un departamento de control de calidad: rodea la cama tres veces antes de tumbarse, devuelve el juguete a su sitio y te mira fijo si alguien mueve una silla del salón.",
+    "advice": "Mantén el mismo orden en paseos y juegos: sabe qué toca en cada momento y agradece que el guion no cambie sin avisar.",
     "energyScore": 3,
     "colorOfDay": "earth"
   },
   {
     "key": "breed=bichon-frise;sign=libra",
-    "headline": "Diplomacia con pelo de nube",
-    "body": "El Sol en Libra le da un carácter de mediador: busca el punto medio de la casa, se coloca entre dos personas que hablan alto y baja el tono de todo con su presencia. Prefiere la compañía a la hazaña y le cuesta decidir solo, así que espera tu señal antes de moverse.",
-    "advice": "Dale planes en compañía: paseos con gente conocida, juego compartido y un rato de caricias tranquilas cada día.",
+    "headline": "Un pompón blanco que reparte cortesías",
+    "body": "El Bichón frisé ya nace con vocación de salón, y con el Sol en Libra ese don social se multiplica: saluda a todo el mundo, mide el ambiente antes de elegir regazo y esquiva los piques del parque con elegancia sospechosa. Decidir solo no es su fuerte: te consulta con la mirada.",
+    "advice": "Paseos en compañía y un rato de cepillado tranquilo a diario: le encanta el contacto y presumir de ir impecable.",
     "energyScore": 3,
     "colorOfDay": "air"
   },
@@ -4985,9 +4985,9 @@
   },
   {
     "key": "breed=bichon-frise;sign=pisces",
-    "headline": "Una nube blanca con radar emocional",
-    "body": "El Sol en Piscis le da un termostato emocional finísimo: nota tu humor antes de que digas nada y ajusta el suyo al tuyo. Se adapta a cualquier plan, aunque se despiste a mitad de paseo. Alterna juego blando con siestas largas en el punto más cercano a ti.",
-    "advice": "Reserva un rato fijo de juego tranquilo y caricias antes de la siesta: la rutina le sostiene cuando algo cambia.",
+    "headline": "Nube de pelo con vocación de escenario",
+    "body": "Tu bichón frisé Piscis lee el ambiente antes que tú: cambias el tono de voz y suelta el juguete para venir a mirarte. Con público hace piruetas y busca el aplauso, pero en cuanto la casa se queda en silencio se pega a tus pies como si el mundo se acabara.",
+    "advice": "Mantén el mismo ritual de despedida y de regreso siempre: la previsibilidad le calma más que cualquier juguete nuevo.",
     "energyScore": 3,
     "colorOfDay": "water"
   },
@@ -5089,9 +5089,9 @@
   },
   {
     "key": "breed=cavalier-king-charles-spaniel;sign=aries",
-    "headline": "Corazón de sofá, arranque de cohete",
-    "body": "Aries le pone el motor delante: sale primero por la puerta, decide él el rumbo del paseo y saluda a cualquiera antes de que le pregunten. Diez minutos después se derrumba sobre tus rodillas como si nada de eso hubiera pasado. Ímpetu y regazo, en ese orden.",
-    "advice": "Arranca el paseo con unos minutos de marcha rápida o juego de traer; el rato de sofá le sabrá mucho mejor después.",
+    "headline": "El perro faldero que sale disparado",
+    "body": "El Cavalier king charles spaniel viene de serie con vocación de sofá, pero con el Sol en Aries alguien le ha instalado un motor: primero a la puerta, primero al juguete, primero a saludar al vecino. Y diez minutos después se derrumba encima de ti como si nada de eso hubiera ocurrido.",
+    "advice": "Empieza el paseo con un tramo rápido o un par de lanzamientos de pelota, y déjale el regazo para después.",
     "energyScore": 4,
     "colorOfDay": "fire"
   },
@@ -5137,9 +5137,9 @@
   },
   {
     "key": "breed=cavalier-king-charles-spaniel;sign=libra",
-    "headline": "Diplomacia con orejas y pelo largo",
-    "body": "El Sol en Libra le da un temperamento conciliador: busca el punto medio de cualquier habitación y se instala ahí, entre dos personas o dos perros. Aire cardinal, así que inicia el contacto con suavidad y luego espera respuesta. Si notas tensión en casa, va a intentar mediar apoyándose en la pierna de alguien.",
-    "advice": "Reserva un rato de compañía tranquila a diario, con contacto físico y sin exigirle nada: es su forma preferida de estar en el mundo.",
+    "headline": "El cavalier que negocia el mejor sitio del sofá",
+    "body": "El Cavalier King Charles Spaniel nace con vocación de acompañante, y en Libra la lleva al terreno diplomático: se sienta a medio camino entre dos personas para no dejar a nadie fuera. Te sigue de habitación en habitación y recibe a cualquier visita con la cola en marcha.",
+    "advice": "Resérvale un hueco a tu lado en el sofá y buscad paseos con gente por medio: el contacto tranquilo le ordena el ánimo.",
     "energyScore": 3,
     "colorOfDay": "air"
   },
@@ -5193,9 +5193,9 @@
   },
   {
     "key": "breed=lhasa-apso;sign=taurus",
-    "headline": "Un señor con opinión sobre su cojín",
-    "body": "Tauro le da un temperamento fijo y sin prisas: elige un rincón, lo declara suyo y lo defiende con la mirada. Mover los muebles le parece una ofensa personal. Y cuando decide que el paseo se ha terminado, plantará las cuatro patas y esperará a que lo entiendas.",
-    "advice": "Mantén el mismo orden en el paseo y en la hora de las caricias: en la rutina estable saca su mejor versión.",
+    "headline": "Centinela tibetano con puesto fijo",
+    "body": "El lhasa apso nació para avisar de quién sube la escalera, y con el Sol en Tauro el puesto es vitalicio: mismo rincón, misma hora, mismo ladrido corto. Se deja peinar cuando el plan le convence y se planta como un mueble cuando no. Cariñoso, pero jamás pegajoso.",
+    "advice": "Cepillados siempre a la misma hora y en el mismo sitio: si es ritual, deja de negociarlo cada vez.",
     "energyScore": 2,
     "colorOfDay": "earth"
   },
@@ -5217,9 +5217,9 @@
   },
   {
     "key": "breed=lhasa-apso;sign=leo",
-    "headline": "Un león de templo con melena propia",
-    "body": "Combina la dignidad del guardián tibetano con el gusto de Leo por la platea: elige el punto del salón desde donde se ve todo y, sobre todo, se le ve a él. Avisa de cada visita con dos ladridos y luego espera el aplauso. No corre por correr, pero desfila con criterio.",
-    "advice": "Dedícale un rato de cepillado con público y elogios: le gusta tanto el mimo como sentirse el centro de la escena.",
+    "headline": "Centinela de templo con melena de gala",
+    "body": "El Lhasa apso vigilaba monasterios desde lo alto de una escalera, y tu Leo mantiene la costumbre: elige el punto con mejor vista del salón y supervisa. Avisa de cada visita con dos ladridos secos, y acepta las caricias cuando le apetece, no cuando se le piden.",
+    "advice": "Déjale un mirador en alto y cepilla esa melena a diario: el rato de cepillado le sienta como una audiencia privada.",
     "energyScore": 3,
     "colorOfDay": "gold"
   },
@@ -5233,17 +5233,17 @@
   },
   {
     "key": "breed=lhasa-apso;sign=libra",
-    "headline": "El diplomático de pelo largo",
-    "body": "Con el Sol en Libra lleva la cortesía puesta: mide el ambiente antes de decidir si se acerca, y prefiere que nadie levante la voz en su casa. Le gusta la compañía equilibrada, sin agobios, y si hay tensión entre humanos se retira a un rincón hasta que la cosa se calma.",
-    "advice": "Presentaciones tranquilas y sin prisa con perros y visitas nuevas, dejándole decidir cuándo se acerca.",
-    "energyScore": 3,
+    "headline": "Guardián de puerta con diplomacia de Libra",
+    "body": "El Lhasa apso vigila el pasillo como si aún guardara un templo, y su Libra le pone tacto: avisa de quien llega, mide la reacción y luego decide si el visitante merece fiesta o desdén. Busca caricias cuando le apetece y se retira cuando ya le basta. Las broncas en casa lo incomodan.",
+    "advice": "Un cepillado tranquilo a la misma hora cada día: mimo, calma y una rutina que acepta sin negociar.",
+    "energyScore": 2,
     "colorOfDay": "air"
   },
   {
     "key": "breed=lhasa-apso;sign=scorpio",
-    "headline": "Un centinela con memoria de elefante",
-    "body": "Sol en Escorpio en un cuerpo de guardián de monasterio: mira antes de moverse, decide con quién se abre y no cambia de opinión. Con los suyos es intenso y pegajoso a su manera digna; con el desconocido de turno se queda quieto, observando desde el sofá hasta tenerlo claro.",
-    "advice": "Deja que se acerque a la gente nueva a su ritmo, sin cogerlo en brazos para presentarlo: la confianza que da, la sostiene.",
+    "headline": "Centinela de templo con lista de invitados",
+    "body": "El Lhasa apso ya traía siglos de vigilancia monástica en el contrato, y el Sol en Escorpio le añade memoria larga: decide quién le cae bien y no revisa el veredicto. Vigila desde el respaldo del sofá, elige a su persona y con el resto guarda una distancia muy digna.",
+    "advice": "Presenta a los desconocidos despacio y deja que se acerque cuando quiera: la confianza que gana la conserva entera.",
     "energyScore": 2,
     "colorOfDay": "water"
   },
@@ -5313,9 +5313,9 @@
   },
   {
     "key": "breed=pekingese;sign=leo",
-    "headline": "La corte gira alrededor de su cojín",
-    "body": "Sol en Leo en un cuerpo que no piensa correr detrás de nadie: espera que el mundo venga a él. Se coloca en el sitio con mejor vista del salón, recibe visitas sin levantarse y responde a las órdenes cuando le parece que la idea ha sido suya. Aplaudir funciona mejor que insistir.",
-    "advice": "Dedícale un momento fijo de atención exclusiva al día, con caricias y su nombre en voz clara: reinar sin público le sabe a poco.",
+    "headline": "El cojín del emperador tiene opinión",
+    "body": "El pekinés ya viene con aire de quien reinó en un palacio, y con el Sol en Leo la cosa se agrava: elige el mejor sitio de la casa, se instala y espera que lo admires. Camina sin prisa porque le da la gana, y avisa con un ladrido corto cuando alguien le altera el orden.",
+    "advice": "Dedícale un rato de cepillado con público y paseos cortos pero con parada, para que le vean pasar tranquilo.",
     "energyScore": 2,
     "colorOfDay": "gold"
   },
@@ -5329,9 +5329,9 @@
   },
   {
     "key": "breed=pekingese;sign=libra",
-    "headline": "Diplomacia con abrigo de peluche",
-    "body": "El pequinés ya viene con aires de dignatario, y con el Sol en Libra se le añade el don de la negociación: no impone, sugiere. Se coloca justo en el centro del salón para que nadie discuta, mide las visitas antes de decidir a quién concede su compañía y prefiere el paseo tranquilo al ejercicio heroico.",
-    "advice": "Mantén un ritual de paseo corto y sin prisas, y un rato de caricias en un sitio fijo del sofá donde pueda vigilar a todo el mundo.",
+    "headline": "El pequinés no camina: concede audiencia",
+    "body": "El pequinés ya viene con aires de corte imperial, y Libra le añade tacto: se coloca en el punto exacto del sofá desde donde vigila a todos sin comprometerse con nadie. Si hay discusión en casa, no ladra ni media, se cambia de cojín y espera a que el asunto se arregle solo.",
+    "advice": "Ofrécele dos sitios de descanso y déjale elegir. Paseos cortos, con paradas para saludar al vecindario a su ritmo.",
     "energyScore": 2,
     "colorOfDay": "air"
   },
@@ -5353,9 +5353,9 @@
   },
   {
     "key": "breed=pekingese;sign=capricorn",
-    "headline": "El pequeño emperador con agenda propia",
-    "body": "Sol en Capricornio le da un aire de dignidad que no encaja del todo con su tamaño: camina despacio, elige él el momento de bajarse del sofá y espera que las cosas ocurran a la hora de siempre. Aprende rutinas con una memoria de notario y las defiende con calma terca.",
-    "advice": "Mantén horarios estables de paseo y descanso, y ofrécele un sitio elevado desde donde supervisar la casa a su gusto.",
+    "headline": "Un pequinés no ocupa el sofá: lo hereda",
+    "body": "El pequinés ya llega con aires de palacio, y el Sol en Capricornio le añade agenda: hora de paseo, sitio fijo, orden de las cosas. Te escucha, valora la propuesta y luego decide. Si le cambias la rutina no protesta, solo se sienta a esperar que vuelvas a lo correcto.",
+    "advice": "Mantén el paseo y la siesta a la misma hora y respeta su rincón en casa: la constancia le gusta más que las sorpresas.",
     "energyScore": 2,
     "colorOfDay": "earth"
   },
@@ -5385,9 +5385,9 @@
   },
   {
     "key": "breed=papillon;sign=taurus",
-    "headline": "Un cojín con orejas de mariposa",
-    "body": "El Sol en Tauro le da un carácter tranquilo y muy fijo: elige un sitio del sofá y ese es su sitio, con testigos. Es cariñoso a su manera, sin aspavientos, y prefiere que las cosas pasen a la hora de siempre. Cuando decide que no se mueve, no se mueve.",
-    "advice": "Mantén horarios estables de paseo y juego, y respétale su rincón favorito: la rutina es lo que más le relaja.",
+    "headline": "Orejas de mariposa, cuerpo de sofá",
+    "body": "El Papillón trae de serie un motor pequeño y unas orejas que apuntan a cualquier ruido del pasillo; el Tauro le pone el ancla. Sale disparado tras el juguete, lo persigue con precisión de perro listo y luego vuelve al mismo cojín de siempre. Cambiarle el orden de las cosas se negocia, nunca se impone.",
+    "advice": "Mantén el paseo por la misma ruta y reserva diez minutos de juguete ligero antes de que se instale en su sitio.",
     "energyScore": 3,
     "colorOfDay": "earth"
   },
@@ -5425,25 +5425,25 @@
   },
   {
     "key": "breed=papillon;sign=libra",
-    "headline": "Diplomacia con orejas de mariposa",
-    "body": "El Sol en Libra le da un temperamento conciliador: mide el ambiente antes de decidir si se acerca, y prefiere que todo el mundo esté a gusto. En el parque hace de puente entre perros, y en casa se coloca justo en medio del sofá, a la misma distancia de cada humano. Le cuesta elegir juguete: los prueba todos.",
-    "advice": "Ofrécele dos juguetes y deja que decida sin prisa; ese ratito de elección le sienta mejor que cualquier ejercicio.",
-    "energyScore": 3,
+    "headline": "Orejas de mariposa, modales de embajada",
+    "body": "Tu Papillón Libra entra en cualquier grupo con las orejas por delante y sale de él con todo el mundo contento: saluda, media, se mete entre dos perros que se tensan. Pesa lo que pesa y aun así decide el clima social del parque. Le cuesta elegir juguete, nunca compañía.",
+    "advice": "Paseos con compañía y un rato de cuerda o pelota en casa: le va bien tener público, y también un juego que le ordene la cabeza.",
+    "energyScore": 4,
     "colorOfDay": "air"
   },
   {
     "key": "breed=papillon;sign=scorpio",
-    "headline": "Un vigilante diminuto con memoria de elefante",
-    "body": "El Sol en Escorpio le da una intensidad que no cuadra con su tamaño: elige a su humano, lo elige del todo y lo sigue de habitación en habitación. Observa antes de actuar, guarda rencor a la aspiradora y recuerda quién le pisó la cola en 2019. Cuando confía, se entrega sin reservas.",
-    "advice": "Presenta a la gente nueva sin prisa y dale un rincón elevado desde donde vigilar la escena: controlar le calma más que cualquier juguete.",
-    "energyScore": 3,
+    "headline": "Orejas de mariposa, radar de vigilancia",
+    "body": "El Papillón ya vigila el salón entero con esas orejas de antena; con Sol en Escorpio, además elige. Se ata a una persona, la sigue de habitación en habitación y recuerda perfectamente quién le cayó mal. Poco ladrido gratuito, mucha mirada fija desde el otro extremo del pasillo.",
+    "advice": "Dale juegos de olfato y de buscar por casa: un Papillón así necesita gastar cabeza tanto como patas.",
+    "energyScore": 4,
     "colorOfDay": "water"
   },
   {
     "key": "breed=papillon;sign=sagittarius",
-    "headline": "Explorador de bolsillo con agenda propia",
-    "body": "Sagitario en un cuerpo de dos kilos y medio: quiere ver qué hay al final de la calle, y luego al final de la siguiente. Se sube a tu regazo un minuto y ya está pidiendo salir. Aprende trucos rápido, sobre todo si sospecha que detrás hay una puerta abierta.",
-    "advice": "Cambia de ruta a menudo y deja que elija la esquina: un recorrido nuevo lo entretiene más que media hora de pelota.",
+    "headline": "Dos orejas de mariposa rumbo al horizonte",
+    "body": "El Papillón ya trae motor de perro grande en cuerpo de tres kilos, y el Sol en Sagitario le añade el itinerario. Tira hacia la calle que no conocéis, saluda a desconocidos como si los hubiera invitado él y aprende trucos nuevos por el puro placer de estrenarlos.",
+    "advice": "Cambiad la ruta del paseo cada pocos días y dejadle olfatear esquinas nuevas: la novedad le cansa más que la distancia.",
     "energyScore": 4,
     "colorOfDay": "fire"
   },
@@ -5473,10 +5473,10 @@
   },
   {
     "key": "breed=boston-terrier;sign=aries",
-    "headline": "Un motor de bolsillo con opiniones firmes",
-    "body": "El Sol en Aries le da un carácter que arranca antes de pensar: primero salta, luego valora. Se lanza a la puerta, al juguete y al perro nuevo del parque con la misma decisión, y en casa suele ser quien propone el plan. Se aburre rápido si el juego se alarga sin sorpresas.",
-    "advice": "Sesiones cortas y frecuentes de juego con arranque claro: sacar el juguete, tres o cuatro rondas intensas y guardarlo.",
-    "energyScore": 5,
+    "headline": "Esmoquin blanco y negro a toda velocidad",
+    "body": "Tu Boston terrier lleva el traje de gala de la raza y el motor de Aries debajo: elegante tres segundos, y al cuarto ya va de cabeza al juguete. Cruza la puerta primero, saluda primero y propone el juego primero. Se aburre antes que tú y te lo dice con un salto vertical.",
+    "advice": "Empieza los paseos con dos minutos de carrera o juguete lanzado: gasta el arranque antes de pedirle atención.",
+    "energyScore": 4,
     "colorOfDay": "fire"
   },
   {
@@ -5489,9 +5489,9 @@
   },
   {
     "key": "breed=boston-terrier;sign=gemini",
-    "headline": "Un chispazo con orejas de murciélago",
-    "body": "El Sol en Géminis pone la atención en modo mando a distancia: empieza a mordisquear la cuerda, se acuerda del ruido del vecino y acaba mirando por la ventana. Es sociable, hablador a su manera y aprende rapidísimo lo que le divierte, no lo que le mandas. Se aburre antes que tú.",
-    "advice": "Sesiones cortas de juego con dos o tres juguetes distintos, y un paseo con rutas que cambien de vez en cuando.",
+    "headline": "Esmoquin de gala, cabeza de dos ideas",
+    "body": "El Boston terrier ya llega con esmoquin y modales de caballero; el Géminis le añade una cabeza que cambia de tema cada treinta segundos. Te trae el juguete, lo suelta a medio camino porque ha oído algo en el rellano, y vuelve. Las orejas giran antes que el cuerpo.",
+    "advice": "Alterna dos o tres juguetes en cada sesión de juego y remata el paseo metiendo una calle nueva en el recorrido.",
     "energyScore": 4,
     "colorOfDay": "air"
   },
@@ -5521,9 +5521,9 @@
   },
   {
     "key": "breed=boston-terrier;sign=libra",
-    "headline": "Diplomacia con smoking incorporado",
-    "body": "El Sol en Libra le da un temperamento conciliador: se acerca a los desconocidos con las orejas relajadas y suele elegir el camino que no genera conflicto. Le importa mucho el ambiente de casa, y si hay tensión o voces altas, se queda mirando desde la puerta hasta que todo vuelve a su sitio.",
-    "advice": "Presentaciones tranquilas y compañía estable: le sienta bien tener a alguien cerca en las horas de calma del día.",
+    "headline": "El esmoquin le venía de fábrica",
+    "body": "Ese blanco y negro de Boston terrier ya viste solo, y con el Sol en Libra lo aprovecha: entra en el parque, saluda a todo el mundo y luego decide con quién juega. Ahí está el detalle, que decidirlo le lleva un rato. Prefiere mediar entre dos perros que elegir bando.",
+    "advice": "Dale paseos con caras conocidas y unos segundos para saludar antes de pedirle nada: se ordena mucho mejor solo.",
     "energyScore": 3,
     "colorOfDay": "air"
   },
@@ -5537,9 +5537,9 @@
   },
   {
     "key": "breed=boston-terrier;sign=sagittarius",
-    "headline": "Pequeño formato, alma de expedición",
-    "body": "El Sol en Sagitario le pone el morro en dirección al horizonte: cualquier esquina nueva del barrio le parece un continente por descubrir. Con ese cuerpo compacto rinde más de lo que aparenta y se cansa antes de que se le acabe el entusiasmo. Saluda a todo el mundo, conocido o no.",
-    "advice": "Cambia la ruta del paseo varias veces por semana: le rinde más olfatear calles nuevas que repetir el mismo circuito.",
+    "headline": "Un esmoquin diminuto con ganas de horizonte",
+    "body": "El traje blanco y negro del Boston terrier engaña: debajo hay un Sagitario convencido de que lo interesante está al final de la calle. Se presenta ante cualquier desconocido con las orejas por delante, cambia de plan a mitad del paseo y celebra una puerta abierta como una expedición.",
+    "advice": "Alterna la ruta del paseo y reserva un rato de juego con pelota: necesita novedad y alguien que se la descubra.",
     "energyScore": 4,
     "colorOfDay": "fire"
   },
@@ -5553,9 +5553,9 @@
   },
   {
     "key": "breed=boston-terrier;sign=aquarius",
-    "headline": "El excéntrico oficial de la casa",
-    "body": "Acuario le da un carácter independiente y con ideas propias: obedece cuando le parece razonable y se inventa juegos que nadie le ha enseñado. Un Boston terrier con este Sol observa a las visitas desde su rincón, decide por su cuenta y luego se lanza a saludar como si fuera idea suya.",
-    "advice": "Cambia el recorrido del paseo a menudo y déjale elegir la esquina: la novedad le mantiene atento y colaborador.",
+    "headline": "Orejas de radar y traje de etiqueta",
+    "body": "El Boston terrier ya viene con cara de estar tramando algo, y el Sol en Acuario le pone el plan. Se aburre de los juegos que se repiten, cambia las reglas a mitad de partida y elige a sus amigos del parque con criterios que solo entiende él. Cariñoso, pero a su manera.",
+    "advice": "Vete cambiando el juego: un juguete distinto, otra ruta, un escondite nuevo. La rutina calcada le aburre antes que a ti.",
     "energyScore": 4,
     "colorOfDay": "air"
   },
@@ -5617,9 +5617,9 @@
   },
   {
     "key": "breed=spanish-greyhound;sign=libra",
-    "headline": "Diplomacia con patas largas",
-    "body": "El Sol en Libra le da un carácter conciliador: mide el ambiente antes de entrar, prefiere el acuerdo a la discusión y en el parque suele hacer de mediador entre perros que se pasan de intensos. La estampa del galgo ayuda: elegancia serena, arranques cortos y luego el sofá con una calma casi solemne.",
-    "advice": "Alterna una carrera libre en zona vallada con largos ratos de manta y caricias tranquilas: necesita las dos mitades de su equilibrio.",
+    "headline": "Un sprint de treinta segundos y a negociar el sofá",
+    "body": "El galgo español Libra corre como si el mundo se acabara y treinta segundos después ya está tumbado, con cara de no haber roto nada. En el parque mira antes de entrar y, si dos perros discuten, se aparta con elegancia. Elegir entre dos mantas le cuesta más que el paseo.",
+    "advice": "Dale carreras cortas en zona vallada y después una manta gruesa: sprint breve y descanso largo es su equilibrio.",
     "energyScore": 3,
     "colorOfDay": "air"
   },
@@ -5729,10 +5729,10 @@
   },
   {
     "key": "breed=greyhound;sign=sagittarius",
-    "headline": "Un horizonte y las patas para llegar",
-    "body": "Sagitario le pone el hocico hacia lo que viene después: la esquina nueva, el camino que no habéis tomado, el olor que se mueve. Corre como si el horizonte fuera negociable y cinco minutos más tarde se dobla en el sofá con la dignidad de quien ya ha visto mundo.",
-    "advice": "Buscadle un espacio amplio y vallado donde soltarse a fondo, y respétale luego el rato largo de sofá.",
-    "energyScore": 4,
+    "headline": "Cuarenta kilómetros por hora y luego manta",
+    "body": "El Galgo inglés reparte la jornada en dos: un estallido de treinta segundos detrás de cualquier cosa que se mueva y catorce horas de sofá con las patas por fuera. Con Sol en Sagitario, ese estallido apunta al horizonte: olfatea lejos, tira lejos y vuelve encantado de haber conocido medio barrio.",
+    "advice": "Búscale un espacio cerrado y amplio donde soltar el sprint entero, y luego respeta la siesta larga sin interrumpirla.",
+    "energyScore": 3,
     "colorOfDay": "fire"
   },
   {
@@ -5761,17 +5761,17 @@
   },
   {
     "key": "breed=whippet;sign=aries",
-    "headline": "Un cohete con forma de galgo pequeño",
-    "body": "El Sol en Aries le da un temperamento de arranque inmediato: decide primero y piensa después. Verás la salida explosiva en el parque, la carrera en línea recta y el frenazo seco. Luego se enrosca en el sofá como si nada de eso hubiera pasado y te mira con cara de perro tranquilo.",
-    "advice": "Reserva un espacio seguro y vallado donde pueda soltar un par de carreras a fondo, y respeta después su siesta larga.",
+    "headline": "De cero a cien y de vuelta a la manta",
+    "body": "El Whippet de Aries no negocia el arranque: ve el hueco al fondo del parque y ya está en el otro extremo antes de que acabes la frase. Corre en línea recta, sin plan previo, y vuelve pidiendo otra. Después se enrosca en la manta y desaparece del mundo un buen rato.",
+    "advice": "Búscale una carrera suelta y larga en sitio cerrado a diario, y respeta luego esa siesta de manta sin interrupciones.",
     "energyScore": 4,
     "colorOfDay": "fire"
   },
   {
     "key": "breed=whippet;sign=taurus",
-    "headline": "Terciopelo con motor de reserva",
-    "body": "El Tauro solar le da un carácter tranquilo, previsible y muy fiel a su sitio favorito del sofá, donde se enrosca como una cinta. Cuando algo se mueve rápido, el Whippet aparece: treinta segundos de velocidad absurda y vuelta a la manta con cara de no haber hecho nada.",
-    "advice": "Un tramo de carrera libre en zona segura y, al volver, una cama blandita en el mismo rincón de siempre.",
+    "headline": "Treinta segundos de sprint, ocho horas de manta",
+    "body": "El Whippet corre en ráfagas: un estallido de veinte segundos en el parque y luego reclama el rincón más blando de la casa. Con el Sol en Tauro ese rincón es siempre el mismo, y la hora del paseo también. Si le mueves la manta, te mirará fijamente hasta que la devuelvas a su sitio.",
+    "advice": "Mantén el paseo a la misma hora y déjale una manta fija donde enroscarse: con un sprint suelto al día le basta.",
     "energyScore": 3,
     "colorOfDay": "earth"
   },
@@ -5841,9 +5841,9 @@
   },
   {
     "key": "breed=whippet;sign=aquarius",
-    "headline": "El excéntrico elegante del sofá",
-    "body": "Un Whippet con Sol en Acuario es un contraste andante: quietud absoluta durante horas y, de pronto, una carrera imposible por el jardín porque sí. Le gusta la gente a su manera, con reglas propias, y aprende rápido lo que le parece interesante, no lo que tú decidas.",
-    "advice": "Dale carreras cortas en un sitio vallado y respeta su rincón de manta después: alterna estímulo y calma sin forzar.",
+    "headline": "Un cohete que duerme dieciocho horas",
+    "body": "El Whippet ya trae de serie el contraste: cien metros de estallido y después una siesta enroscada. Con el Sol en Acuario ese arranque se vuelve raro y propio: ignora la pelota que le lanzas y sale detrás de una hoja. Es cariñoso a su manera y, sobre todo, a su horario.",
+    "advice": "Una carrera corta en sitio cerrado y luego una manta mullida donde enroscarse: sprint y sofá, ese es su pacto.",
     "energyScore": 3,
     "colorOfDay": "air"
   },
@@ -5857,17 +5857,17 @@
   },
   {
     "key": "breed=american-pit-bull-terrier;sign=aries",
-    "headline": "Motor de arranque con forma de perro",
-    "body": "El Sol en Aries le da un carácter frontal: decide primero y piensa después. Se lanza a la puerta antes de que cojas la correa, empuja el juguete contra tu pierna hasta que reaccionas y su cuerpo compacto convierte cualquier idea en impulso inmediato. La paciencia no es su asignatura favorita.",
-    "advice": "Dale una salida larga al principio del día y juegos con reglas claras: empieza y termina tú, y siempre gana algo al final.",
+    "headline": "Treinta kilos que arrancan como cien",
+    "body": "El Pitbull ya viene con motor de serie y el Aries le pone el pie en el acelerador: decide antes de pensar. Sale disparado en cuanto suena la correa, tira de la cuerda con el cuerpo entero y propone juego a todo el que pasa, invitado o no. Nada de medias tintas.",
+    "advice": "Abre el paseo con un tramo de trote o de tirón de cuerda: gasta el arranque antes de pedirle que se quede quieto.",
     "energyScore": 5,
     "colorOfDay": "fire"
   },
   {
     "key": "breed=american-pit-bull-terrier;sign=taurus",
-    "headline": "Un bloque de cemento con ganas de sofá",
-    "body": "El Sol en Tauro le da un temperamento tranquilo y tozudo: sabe lo que quiere, y lo que quiere suele ser su sitio de siempre, su juguete de siempre y tu pierna como almohada. Cuando decide plantarse, pesa el doble. Los cambios de rutina le sientan regular y lo dice con lentitud, no con drama.",
-    "advice": "Mantén horarios estables de paseo y comida, y dale un rato largo de contacto físico tranquilo cada día: es su mejor ancla.",
+    "headline": "El Pitbull que se apoya y ya no se mueve",
+    "body": "El Sol en Tauro le da a tu Pitbull esa mezcla de músculo y siesta: se recuesta contra tu pierna como un cojín con opinión propia y ahí se queda. Con el juguete de tirar aguanta lo que aguantes tú, y en cuanto suelta, vuelve a pedir caricias en la misma postura durante media hora.",
+    "advice": "Un mordedor resistente y paseos siempre a la misma hora: este Pitbull de Tauro se relaja cuando el día es previsible.",
     "energyScore": 3,
     "colorOfDay": "earth"
   },
@@ -5881,10 +5881,10 @@
   },
   {
     "key": "breed=american-pit-bull-terrier;sign=cancer",
-    "headline": "Un guardián de agua con cuerpo de gimnasio",
-    "body": "El Sol en Cáncer le da un núcleo blando dentro de un físico que impone: busca contacto, se pega a tu pierna en el sofá y vigila la puerta cuando alguien entra. Es cardinal de agua, así que él inicia el mimo, te apoya la cabeza encima y te mira hasta que cedes.",
-    "advice": "Mantén un rincón fijo con su cama cerca de la zona donde más estáis, y reserva un rato diario de caricias tranquilas.",
-    "energyScore": 3,
+    "headline": "Un Pitbull que cree que cabe en tu regazo",
+    "body": "El Pitbull ya viene con la costumbre de apoyar el cuerpo entero contra tus piernas; con el Sol en Cáncer, además te sigue de habitación en habitación y vigila la puerta desde su cama. Músculo de sobra, pero lo gasta según tu humor: si estás tranquilo, se derrite.",
+    "advice": "Dale un paseo largo cada día y un rato de sofá al volver: necesita quemar músculo y luego confirmar que sigues ahí.",
+    "energyScore": 4,
     "colorOfDay": "water"
   },
   {
@@ -5905,25 +5905,25 @@
   },
   {
     "key": "breed=american-pit-bull-terrier;sign=libra",
-    "headline": "El diplomático de la manada",
-    "body": "El Sol en Libra le da a este pitbull un talento raro: mide el ambiente antes de actuar. Se acerca despacio a los perros nuevos, se coloca entre las tensiones para bajarlas y busca constantemente tu aprobación con la mirada. Odia el conflicto y prefiere el juego compartido al juego solitario.",
-    "advice": "Llévale a paseos con perros conocidos y compañía estable: la buena convivencia es su terreno favorito y ahí se relaja.",
-    "energyScore": 3,
+    "headline": "El pitbull que pide permiso antes de apoyarse",
+    "body": "Cuerpo de pitbull y modales de Libra: mucho músculo puesto al servicio de caer bien. Se apoya en tu pierna en cuanto te sientas, mide el ambiente del parque antes de entrar y prefiere rendirse en el juego antes que tensarlo. Si dos humanos levantan la voz, aparece en medio.",
+    "advice": "Preséntale perros nuevos de uno en uno y en paseos paralelos: negocia mucho mejor caminando al lado que de frente.",
+    "energyScore": 4,
     "colorOfDay": "air"
   },
   {
     "key": "breed=american-pit-bull-terrier;sign=scorpio",
-    "headline": "Intensidad concentrada en un solo cuerpo",
-    "body": "El Sol en Escorpio le da un carácter de foco absoluto: cuando elige un juguete, una persona o un rincón del sofá, la decisión es definitiva. Observa antes de actuar, aguanta la mirada y no reparte confianza a la primera. Con quien la gana, el vínculo es de una lealtad casi incómoda de lo evidente.",
-    "advice": "Dedícale un rato de juego de tira y afloja con reglas claras y siempre a la misma hora: la constancia le asienta el carácter.",
+    "headline": "El tanque que quiere dormir en tu regazo",
+    "body": "Un Pitbull con Sol en Escorpio no reparte confianza: la concede. Se apoya en tu pierna con todo el peso, te sostiene la mirada más de lo que resulta cómodo y aguanta cuarenta minutos con la cuerda entre los dientes sin soltarla. Lo que decide querer, lo quiere entero.",
+    "advice": "Juego de cuerda con final claro y un rato de sofá después: canaliza esa intensidad y le confirma que el vínculo sigue ahí.",
     "energyScore": 4,
     "colorOfDay": "water"
   },
   {
     "key": "breed=american-pit-bull-terrier;sign=sagittarius",
-    "headline": "Un explorador con cuerpo de tanque",
-    "body": "El Sol en Sagitario le da un optimismo que no se apaga: cada paseo es una expedición y cada desconocido, un amigo por confirmar. Tira hacia el horizonte más que hacia la esquina, se aburre de las rutas repetidas y celebra cualquier novedad con todo el cuerpo, que no es poco.",
-    "advice": "Varía las rutas a menudo y añade juegos de olfato en sitios nuevos: la novedad le cansa mejor que la distancia.",
+    "headline": "Pitbull de pecho ancho, brújula de Sagitario",
+    "body": "La mezcla se ve venir: un cuerpo de pitbull, compacto y con cola de látigo que barre lo que dejes en la mesa baja, movido por la curiosidad de Sagitario. Tira hacia la calle que no conoce, saluda a cualquiera apoyando todo el peso en tu pierna y vuelve a casa la mar de satisfecho.",
+    "advice": "Varía la ruta del paseo a menudo y déjale olfatear calles nuevas: explorar le cansa más que repetir la misma esquina.",
     "energyScore": 5,
     "colorOfDay": "fire"
   },
@@ -5937,17 +5937,17 @@
   },
   {
     "key": "breed=american-pit-bull-terrier;sign=aquarius",
-    "headline": "El excéntrico de músculo y cabeza propia",
-    "body": "Sol en Acuario le da un temperamento independiente dentro de un cuerpo que pide acción: se planta a mirar cosas que nadie más ve, decide que un desconocido es su mejor amigo y luego ignora al perro que sí conoce. Cariñoso a su manera, cuando le apetece y con una lógica que solo entiende él.",
-    "advice": "Cambia la ruta del paseo a menudo y ofrécele juegos de olfato o rompecabezas: la novedad le mantiene la cabeza ocupada.",
+    "headline": "Todo el músculo pitbull al servicio de una idea rara",
+    "body": "El Pitbull trae potencia y ganas de gustar; Acuario le añade la manía de hacerlo a su manera. Espera un perro que se apoya en tus piernas con todo su peso y a los diez minutos se marcha a investigar un cubo. Aprende rápido y luego improvisa variantes de la orden que ya sabía.",
+    "advice": "Cámbiale el juego cada pocas semanas: juguete nuevo, ruta nueva, truco absurdo. Repetir el mismo guion le aburre.",
     "energyScore": 4,
     "colorOfDay": "air"
   },
   {
     "key": "breed=american-pit-bull-terrier;sign=pisces",
-    "headline": "Un músculo con alma de peluche",
-    "body": "El Sol en Piscis convierte toda esa potencia física en pura sensibilidad: nota el tono de tu voz antes de que acabes la frase y se te pega al sofá como si pesara cuatro kilos. Juega fuerte, pero se frena en seco si alguien se queja. Se adapta a lo que haya, aunque necesita saber que estás cerca.",
-    "advice": "Alterna ratos de juego intenso con caricias tranquilas en su cama: necesita descargar el cuerpo y luego reconectar contigo.",
+    "headline": "Un pitbull con cara de fuerza y alma de esponja",
+    "body": "El Pitbull Piscis tiene el cuerpo de un atleta y la sensibilidad de un sismógrafo: nota tu tono antes de que acabes la frase. Se apoya entero contra tus piernas, te sigue de habitación en habitación y, si levantas la voz al teléfono, se retira a su cama a esperar que se te pase.",
+    "advice": "Rutinas fijas, un mordedor resistente y ratos largos de sofá con tu mano encima: el contacto tranquilo le ordena el mundo.",
     "energyScore": 3,
     "colorOfDay": "water"
   },
@@ -6001,9 +6001,9 @@
   },
   {
     "key": "breed=mixed-breed-small;sign=libra",
-    "headline": "El diplomático de la correa",
-    "body": "Con el Sol en Libra, tiene un talento raro: cae bien a todo el mundo y lo sabe. Se acerca a los otros perros con esa cortesía de quien saluda primero y pregunta después, y en casa busca el equilibrio, el sofá compartido, la caricia a medias entre dos manos. Le incomoda el conflicto y las voces altas.",
-    "advice": "Llévalo donde haya gente y perros tranquilos: los encuentros sociales cortos y amables son su terreno favorito.",
+    "headline": "Cuatro razas dentro y ninguna discute",
+    "body": "En un mestizo pequeño caben genes de media docena de perros, y su Libra los pone de acuerdo: se presenta despacio, mide el ambiente y acaba junto al humano más tranquilo del salón. Ladra poco y tarde. Ante dos juguetes se queda quieto un rato largo antes de decidir.",
+    "advice": "Ofrécele dos opciones —de juguete o de ruta— y dale unos segundos para elegir; decidir con calma es medio juego para él.",
     "energyScore": 3,
     "colorOfDay": "air"
   },
@@ -6097,9 +6097,9 @@
   },
   {
     "key": "breed=mixed-breed-medium;sign=libra",
-    "headline": "El diplomático del parque",
-    "body": "Con el Sol en Libra, mide el ambiente antes de meterse en él: se acerca de lado, saluda con curva y evita el choque frontal. Le gusta que haya alguien cerca y se descoloca cuando hay tensión en casa. Prefiere el juego negociado a la competición pura.",
-    "advice": "Llévalo a sitios con perros tranquilos y déjale elegir a quién se acerca; el saludo pausado es su punto fuerte.",
+    "headline": "El mestizo mediano cabe en cualquier plan",
+    "body": "Ese cuerpo de talla media y ascendencia variada le da algo que ninguna raza pura ofrece: se adapta al sofá estrecho y a la cuesta larga con la misma soltura. Con el Sol en Libra, mide el ambiente antes de entrar al juego y elige al compañero que no le discute el juguete.",
+    "advice": "Elige paseos donde coincida con perros ya conocidos y deja que las presentaciones vayan a su ritmo, sin empujar.",
     "energyScore": 3,
     "colorOfDay": "air"
   },

@@ -14,9 +14,11 @@ import {
 import { ApproximateBadge } from '@/_ui/components/ApproximateBadge';
 import { Chevron } from '@/_ui/components/Chevron';
 import { Chip } from '@/_ui/components/Chip';
+import { PrimaryButton } from '@/_ui/components/PrimaryButton';
 import { Screen } from '@/_ui/components/Screen';
 import { ScreenHeader } from '@/_ui/components/ScreenHeader';
 import { text } from '@/_ui/typography';
+import { LockedChart } from '@/chart/ui/LockedChart';
 import { NatalWheel } from '@/chart/ui/NatalWheel';
 import { PlanetSheet } from '@/chart/ui/PlanetSheet';
 import { useNatalChart } from '@/chart/ui/chartQueries';
@@ -26,12 +28,14 @@ import { PLANET_GLYPHS } from '@/chart/ui/glyphs';
 import {
   CONFIDENCE_NOTICES,
   HOUSE_SYSTEM_LABELS,
+  LOCKED_CHART_CTA,
   PLANET_LABELS,
   SIGN_LABELS,
   missingHousesNote,
 } from '@/chart/ui/labels';
 import { PLANET_IDS, type PlanetId, type PlanetPosition } from '@/chart/domain/PlanetPosition';
 import { usePet } from '@/pet/ui/petQueries';
+import { useContentAccess } from '@/subscription/ui/subscriptionQueries';
 
 import { colors, glyphSize, screenPadding, spacing, typography } from '@/design/theme';
 
@@ -51,6 +55,10 @@ const GLYPH_COLUMN = 28;
  * Ascendente, y entonces no hay cúspides que dibujar, ni fila de Ascendente,
  * ni sistema de casas que nombrar en el pie: cada trozo desaparece porque su
  * dato es `null`, no porque haya un `if (confidence === 'no_time')`.
+ *
+ * **Y sin «Dogstrology Cósmico» sale el artboard 37**, que es otra cosa: ahí
+ * el dato está —la carta se calcula igual— y lo que falta es el permiso para
+ * leerlo. Por eso una se hereda del dato y la otra se pregunta al plan.
  */
 export default function PetChart() {
   const { id, planet } = useLocalSearchParams<{ id: string; planet?: string }>();
@@ -68,6 +76,7 @@ export default function PetChart() {
   const [selected, setSelected] = useState<PlanetId | undefined>(() =>
     PLANET_IDS.includes(planet as PlanetId) ? (planet as PlanetId) : undefined,
   );
+  const access = useContentAccess();
 
   if (isPending) {
     return (
@@ -83,6 +92,36 @@ export default function PetChart() {
         <Text style={styles.errorTitle}>No se pudo abrir su carta</Text>
         <Text style={styles.errorBody}>Sus datos siguen en el móvil. Vuelve a Hoy y entra otra vez.</Text>
       </View>
+    );
+  }
+
+  // La carta entera es de pago (D19). **La pantalla no desaparece**: sale la
+  // misma con la rueda velada, que es una de las tres puertas del paywall.
+  if (!access.canReadNatalChart()) {
+    return (
+      <Screen
+        scroll
+        align="flex-start"
+        gap={spacing[5]}
+        header={<ScreenHeader divided overline={pet.name()} title="Su carta natal" onBack={() => router.back()} />}
+        footer={
+          <PrimaryButton
+            label={LOCKED_CHART_CTA}
+            // Con el perro puesto: el 11 enseña **su** Luna y **su** grado, y
+            // en una casa de varios el ejemplo tiene que ser el del que se
+            // estaba mirando.
+            onPress={() => router.push({ pathname: '/paywall', params: { pet: pet.id(), door: 'chart' } })}
+          />
+        }
+      >
+        {chart ? (
+          <LockedChart chart={chart} width={width - screenPadding * 2} />
+        ) : (
+          <View style={styles.centered}>
+            <ActivityIndicator color={colors.accent} />
+          </View>
+        )}
+      </Screen>
     );
   }
 

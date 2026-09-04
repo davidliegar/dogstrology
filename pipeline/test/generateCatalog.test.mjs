@@ -37,3 +37,27 @@ test('ignora claves que ya no existen en la categoría', () => {
   const merged = mergeFragments(all, [{ key: 'a' }, { key: 'zz-raza-retirada' }], []);
   assert.deepEqual(merged.map((f) => f.key), ['a']);
 });
+
+test('regenerar por claves sustituye lo publicado y no toca lo demás', () => {
+  // Es lo que separa `--keys` de `--missing`: aquí sustituir es lo que se pide,
+  // porque el fragmento publicado existe y es malo. Y lo que **no** se pidió
+  // tiene que quedarse exactamente como estaba — un merge que se lleve por
+  // delante 780 fragmentos pagados no lo arregla el dinero.
+  const all = [{ key: 'a' }, { key: 'b' }, { key: 'c' }];
+  const published = [
+    { key: 'a', body: 'viejo' },
+    { key: 'b', body: 'bueno' },
+    { key: 'c', body: 'viejo' },
+  ];
+  const fresh = [
+    { key: 'a', body: 'nuevo' },
+    { key: 'c', body: 'nuevo' },
+  ];
+
+  const merged = mergeFragments(all, published, fresh);
+
+  assert.deepEqual(
+    merged.map((f) => f.body),
+    ['nuevo', 'bueno', 'nuevo'],
+  );
+});

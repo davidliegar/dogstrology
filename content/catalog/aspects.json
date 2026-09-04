@@ -361,9 +361,9 @@
   },
   {
     "key": "transit=sun;aspect=conjunction;natal=pluto",
-    "headline": "Intensidad concentrada en un solo cuerpo",
-    "body": "El Sol sobre su Plutón natal saca al perro que no hace nada a medias: mira fijo, olfatea un rastro hasta el final y decide con quién quiere estar sin margen de negociación. No es un perro nervioso, es un perro que se enfoca y no suelta. Cuando algo le importa, se le nota en todo el cuerpo.",
-    "advice": "Dale un juego con objetivo claro: buscar un juguete escondido, rastrear premios por el suelo, algo que pueda terminar.",
+    "headline": "Intensidad de perro que no suelta",
+    "body": "El Sol pasa por el rincón más intenso de su carta y saca su lado todo o nada. Se fija en un juguete concreto y lo defiende con una seriedad casi cómica, o engancha un rastro en el paseo y no lo abandona en veinte minutos. Medias tintas, ninguna.",
+    "advice": "Ofrécele juegos con final claro: tira y afloja, gana él, y el juguete se guarda. Cerrar la sesión ordena esa intensidad.",
     "energyScore": 4,
     "colorOfDay": "water"
   },
@@ -505,9 +505,9 @@
   },
   {
     "key": "transit=moon;aspect=trine;natal=mercury",
-    "headline": "Cuando la Luna le suelta la lengua",
-    "body": "Con este trígono el humor y la voz van del brazo: entiende antes de que acabes la frase y contesta con un repertorio de gruñiditos, medios ladridos y suspiros muy comentados. Es el aspecto del perro que aprende palabras nuevas casi de rebote, sin que nadie se lo proponga.",
-    "advice": "Aprovecha su facilidad y dedicad unos minutos a repasar señales conocidas o a introducir una palabra nueva, siempre en tono de juego.",
+    "headline": "Se entiende contigo sin esfuerzo",
+    "body": "El trígono entre la Luna y su Mercurio natal abre el canal: mira a la cara cuando hablas, contesta con esos medio ladridos de conversación y pilla una orden nueva en tres intentos. Nada de terquedad, solo ganas de saber qué viene después.",
+    "advice": "Aprovecha esta facilidad con sesiones cortas de trucos nuevos, cinco minutos, y hazle caso cuando te hable.",
     "energyScore": 3,
     "colorOfDay": "air"
   },
@@ -545,10 +545,10 @@
   },
   {
     "key": "transit=moon;aspect=trine;natal=venus",
-    "headline": "El cariño le sale sin esfuerzo",
-    "body": "Con la Luna en trígono a su Venus natal, el afecto circula sin fricción: se apoya contra tu pierna, aguanta caricias largas sin escaparse y pide premios con más morro que insistencia. Comparte el sofá de buena gana y protesta poco si le cambias el juguete de sitio.",
-    "advice": "Reserva un rato de caricias tranquilas y un juego suave de buscar el juguete, siempre en el mismo momento del día.",
-    "energyScore": 3,
+    "headline": "Cariño fácil y sin negociación",
+    "body": "El trígono entre la Luna y su Venus natal engrasa el afecto: se acerca sin pedir permiso, se apoya contra tu pierna y se queda ahí el tiempo que le dejes. Acepta premios con educación, tolera visitas y perros ajenos, y responde a la voz suave mejor que a cualquier orden firme.",
+    "advice": "Reserva un rato de sofá y caricias largas sin prisa: es un perro que devuelve el doble de lo que recibe en mimos.",
+    "energyScore": 2,
     "colorOfDay": "gold"
   },
   {
@@ -593,9 +593,9 @@
   },
   {
     "key": "transit=moon;aspect=opposition;natal=mars",
-    "headline": "Ganas de todo y paciencia de nada",
-    "body": "La Luna enfrente de su Marte natal levanta el motor sin freno: el juego sube de tono, el juguete acaba deshecho en dos minutos y cualquier ruido de la calle merece respuesta. Pasa de la caricia al mordisqueo de manga en un segundo, no por mala idea, sino porque le sobra impulso.",
-    "advice": "Un paseo largo antes de cualquier plan tranquilo: con el impulso ya gastado, las caricias y la manta le sientan mucho mejor.",
+    "headline": "El motor arranca antes que el freno",
+    "body": "La Luna se coloca enfrente de su Marte natal y el ánimo tira en dirección contraria al impulso: se lanza al juego y a los dos minutos gruñe al mordedor. Ladra al timbre con más convicción de la necesaria y le cuesta bajar de revoluciones una vez que ya está arriba.",
+    "advice": "Corta el juego antes de que se sobrecaliente y remátalo con diez minutos de olfateo tranquilo por el barrio, sin prisa.",
     "energyScore": 4,
     "colorOfDay": "fire"
   },
@@ -625,11 +625,11 @@
   },
   {
     "key": "transit=moon;aspect=trine;natal=jupiter",
-    "headline": "El optimismo le sale por las orejas",
-    "body": "La Luna en trígono con su Júpiter natal saca al perro más abierto que lleva dentro: saluda a todo el mundo, entra en el parque como si lo hubiera reservado y mueve el rabo antes de saber a quién. El apetito por planes le crece, y también el que tiene por los premios.",
-    "advice": "Aprovecha esa sociabilidad con un paseo largo por zonas concurridas y un rato de juego compartido con otros perros.",
+    "headline": "Un perro al que todo le parece buen plan",
+    "body": "La Luna en trígono con su Júpiter natal saca al optimista: cola alta, saludos a desconocidos como si fueran de la familia y ganas de apuntarse a cualquier plan que implique salir. Come con entusiasmo teatral y le parece buena idea todo, incluso lo que no lo es.",
+    "advice": "Dale paseos largos por sitios con gente y perros: le sienta bien tener compañía, público y algo que husmear.",
     "energyScore": 4,
-    "colorOfDay": "fire"
+    "colorOfDay": "gold"
   },
   {
     "key": "transit=moon;aspect=opposition;natal=jupiter",
@@ -649,10 +649,10 @@
   },
   {
     "key": "transit=moon;aspect=sextile;natal=saturn",
-    "headline": "La rutina le sienta como un guante",
-    "body": "El sextil entre la Luna y su Saturno natal hace que las costumbres le resulten cómodas en vez de una imposición. Es un perro que espera tranquilo en el sitio de siempre, acepta el orden del paseo sin negociar y se estabiliza solo cuando sabe qué viene después.",
-    "advice": "Mantén horarios reconocibles de paseo y descanso: la previsibilidad es justo el terreno donde saca su mejor versión.",
-    "energyScore": 3,
+    "headline": "La rutina es su manta favorita",
+    "body": "El sextil entre la Luna y su Saturno natal hace que la estructura le siente bien: se coloca en su sitio sin que se lo pidas, espera el paseo a su hora y acepta un «no» sin montar el numerito. Con un horario previsible, se relaja como pocos.",
+    "advice": "Mantén las horas de paseo y de cama más o menos fijas: la previsibilidad le calma más que cualquier juguete nuevo.",
+    "energyScore": 2,
     "colorOfDay": "earth"
   },
   {
@@ -665,9 +665,9 @@
   },
   {
     "key": "transit=moon;aspect=trine;natal=saturn",
-    "headline": "La rutina le sienta como un guante",
-    "body": "El trígono entre la Luna y su Saturno natal engrasa la maquinaria: se acuesta a su hora, acepta el \"espera\" sin discutir y no monta drama cuando cambias de plan. Es el perro que se queda tranquilo en su cama mientras cenas y que sale a la calle con una calma casi profesional.",
-    "advice": "Aprovecha esa docilidad para repasar órdenes básicas en sesiones cortas y cierra siempre con caricias en su sitio de siempre.",
+    "headline": "La rutina como forma de cariño",
+    "body": "Cuando la Luna en tránsito hace trígono con su Saturno natal, la estructura le sienta de maravilla: come a su hora, se tumba en el sitio de siempre y responde a la primera. La terquedad se le convierte en constancia y el paseo sale ordenado, sin tirones ni sobresaltos.",
+    "advice": "Respeta los horarios de paseo y de cama; con esta posición, la repetición tranquila le gusta más que cualquier plan nuevo.",
     "energyScore": 2,
     "colorOfDay": "earth"
   },
@@ -777,9 +777,9 @@
   },
   {
     "key": "transit=moon;aspect=square;natal=pluto",
-    "headline": "Intensidad concentrada en un solo juguete",
-    "body": "Cuando la Luna tensa a su Plutón natal aparece el perro obsesivo: se fija en un juguete concreto y no lo suelta, vigila la puerta con más interés del habitual y nota cualquier cambio de sitio de los muebles. Nada dramático, solo un día de emociones en volumen alto.",
-    "advice": "Practica el intercambio con dos juguetes iguales: uno sale, otro entra, y aprende que soltar no significa perder.",
+    "headline": "Se agarra a lo que quiere y no lo suelta",
+    "body": "La Luna en ángulo tenso con su Plutón natal saca al perro intenso: vigila la puerta, se pega a tus pies sin pedir permiso y defiende el juguete favorito como si fuera irremplazable. Nada dramático, solo un empeño más terco de lo habitual en cada cosa que se le mete entre los dientes.",
+    "advice": "Juegos de intercambio, un juguete por otro, y luego un rato largo de olfateo tranquilo para bajar la fijación.",
     "energyScore": 3,
     "colorOfDay": "water"
   },
@@ -905,9 +905,9 @@
   },
   {
     "key": "transit=mercury;aspect=trine;natal=mercury",
-    "headline": "Se entiende contigo sin traductor",
-    "body": "Su cabeza y la tuya van al mismo ritmo: distingues qué pide cada ladrido y él capta tu tono antes de que acabes la frase. Aprende señales nuevas con una facilidad casi sospechosa y las repite sin que haga falta insistir tres veces ni levantar la voz.",
-    "advice": "Enséñale una señal nueva en sesiones cortas y alegres, usando siempre las mismas palabras y algún premio.",
+    "headline": "Entiende la señal a la primera",
+    "body": "Mercurio de paso hace trígono con su Mercurio natal: la comunicación le fluye sin fricción. Pilla la orden antes de que acabes la frase, contesta con un ladrido corto y bien colocado, y aprende cosas nuevas en tres repeticiones. Escucháis en el mismo idioma.",
+    "advice": "Enséñale una señal nueva en sesiones cortas: dos minutos, una palabra clara y un juego al terminar.",
     "energyScore": 3,
     "colorOfDay": "air"
   },
@@ -977,9 +977,9 @@
   },
   {
     "key": "transit=mercury;aspect=square;natal=mars",
-    "headline": "Ladra primero, escucha después",
-    "body": "La palabra y el impulso tiran en direcciones distintas: ladra al juguete antes de cogerlo, sale disparado a mitad de la orden y vuelve sin saber muy bien a qué. El entrenamiento entra, pero a trompicones, y el juego se le acelera hasta perder la forma.",
-    "advice": "Sesiones de entrenamiento cortas, de dos o tres minutos, con una sola señal clara y un juego tranquilo al terminar.",
+    "headline": "La boca va más rápida que las orejas",
+    "body": "Cuando Mercurio forma ángulo tenso con su Marte natal, primero ladra y luego piensa: al timbre, al vecino, a nada en concreto. Las órdenes de siempre le entran a medias porque el motor va acelerado, y en el juego le cuesta soltar el juguete cuando toca parar.",
+    "advice": "Entrenamientos cortos, de dos minutos, y un juguete de tirar para que descargue motor antes de pedirle calma.",
     "energyScore": 4,
     "colorOfDay": "fire"
   },
@@ -1017,9 +1017,9 @@
   },
   {
     "key": "transit=mercury;aspect=square;natal=jupiter",
-    "headline": "Ladra primero, escucha después",
-    "body": "Su vocalización se desborda: avisa del timbre, del vecino y de la posibilidad del vecino, con mucho entusiasmo y poca información. Las señales que domina de sobra le entran a medias, porque su cabeza ya va tres cosas por delante. Ganas de opinar, ninguna maldad.",
-    "advice": "Sesiones cortas con una señal que ya domine, en un sitio tranquilo, y premia el silencio cuando aparece solo.",
+    "headline": "El ladrido se le va de las manos",
+    "body": "Mercurio choca con su Júpiter natal y sale un perro que opina de todo en voz alta: ladra al vecino, al ascensor y a la bolsa de la compra, siempre con más entusiasmo que información. Aprende rápido, pero se salta media orden por adelantarse al final.",
+    "advice": "Sesiones de obediencia muy cortas, de tres minutos, y pedirle que se siente antes de abrir la puerta: le ordena el entusiasmo.",
     "energyScore": 4,
     "colorOfDay": "air"
   },
@@ -1145,10 +1145,10 @@
   },
   {
     "key": "transit=mercury;aspect=trine;natal=neptune",
-    "headline": "Te entiende antes de que hables",
-    "body": "Con Mercurio en trígono al Neptuno natal, la comunicación se vuelve intuitiva: capta el gesto, el tono, el amago de coger la correa. Ladra menos y observa más, y responde a señales que ni sabías que hacías. Aprende mejor por imitación que por repetición seca.",
-    "advice": "Prueba a pedirle cosas solo con gestos y voz baja: entiende mejor el susurro que la orden repetida.",
-    "energyScore": 3,
+    "headline": "Te entiende antes de que abras la boca",
+    "body": "Mercurio se lleva bien con el Neptuno de su carta, y eso se nota en cómo capta el gesto antes que la palabra: coges las llaves y ya está en la puerta. Su repertorio de sonidos se vuelve conversación —suspiros, gruñidos de opinión— y aprende mejor con voz baja que a gritos.",
+    "advice": "Entrena con señales de mano y tono suave: capta mejor el matiz que el volumen, y el paseo se vuelve más tranquilo.",
+    "energyScore": 2,
     "colorOfDay": "water"
   },
   {
@@ -1233,10 +1233,10 @@
   },
   {
     "key": "transit=venus;aspect=opposition;natal=sun",
-    "headline": "Cariño a su manera, no a la tuya",
-    "body": "Venus se planta enfrente de su Sol y el afecto se vuelve un pulso: quiere mimos, pero en sus términos. Te apoya la cabeza en la rodilla y a los dos minutos se muda al otro sofá. También asoma el ojito clásico cada vez que suena la bolsa de premios.",
-    "advice": "Ofrece caricias cuando las pida y respeta la retirada: ese vaivén es su forma de querer, no un desplante.",
-    "energyScore": 3,
+    "headline": "Mimos sí, pero bajo sus condiciones",
+    "body": "Venus enfrentado a su Sol tira del cariño hacia los extremos: reclama caricias con insistencia y, en cuanto se las das, se aparta dos pasos y se tumba mirando a otro lado. Con los premios se vuelve selectivo, olfatea, decide que no y luego vuelve a por él cuando ya lo has guardado.",
+    "advice": "Ofrece el mimo y espera a que sea quien se acerque: el cariño le encaja mejor cuando cree que la idea fue suya.",
+    "energyScore": 2,
     "colorOfDay": "gold"
   },
   {
@@ -1266,8 +1266,8 @@
   {
     "key": "transit=venus;aspect=trine;natal=moon",
     "headline": "El cariño le sale sin esfuerzo",
-    "body": "Venus toca su Luna en un ángulo cómodo y sale un perro fácil de querer: se acerca a pedir caricias sin insistir, se conforma con un rato de sofá y acepta el premio sin montar un número. El apego se expresa tranquilo, sin vigilar la puerta ni contar los minutos que tardas.",
-    "advice": "Reserva un rato de caricias sin prisa, siempre en el mismo sitio: ese contacto tranquilo es lo que mejor le sienta.",
+    "body": "Venus roza su Luna sin fricción: un perro que se apoya en tu pierna sin motivo aparente, acepta las caricias con los ojos medio cerrados y no necesita insistir para pedirlas. Coge los premios con calma, casi con educación. El apego se le vuelve fácil en lugar de ansioso.",
+    "advice": "Reserva un rato de sofá y caricias largas sin pedirle nada a cambio; es el plan que mejor le sienta a este perro.",
     "energyScore": 2,
     "colorOfDay": "water"
   },
@@ -1313,9 +1313,9 @@
   },
   {
     "key": "transit=venus;aspect=opposition;natal=mercury",
-    "headline": "El cariño le sale en forma de ladrido",
-    "body": "Venus se coloca justo enfrente de su Mercurio natal y aparece un perro que quiere mimos, pero los negocia a voces: un gemido junto al sofá, un ladrido corto cuando tardas, el juguete soltado sobre tu pie. Pide y comenta a la vez, y no siempre en ese orden.",
-    "advice": "Responde al primer gemido con caricias en silencio y luego pídele un 'siéntate' sencillo antes de darle el premio.",
+    "headline": "Negocia caricias a base de ladridos",
+    "body": "Venus tira del cariño y Mercurio natal tira de la palabra: sale un perro que te habla para conseguir mimos. Gemidos de negociación delante del sofá, un ladrido corto cuando tardas en hacerle caso y una atención al entrenamiento que se evapora si hay premios cerca.",
+    "advice": "Premia con caricias las peticiones tranquilas y no las insistentes: aprende antes con las manos que con discursos.",
     "energyScore": 3,
     "colorOfDay": "air"
   },
@@ -1330,18 +1330,18 @@
   {
     "key": "transit=venus;aspect=sextile;natal=venus",
     "headline": "El cariño le sale sin esfuerzo",
-    "body": "Venus haciendo sextil a su Venus natal es la versión fácil del afecto: se apoya contra tu pierna sin dramatismo, acepta caricias de invitados y negocia los premios con una elegancia casi sospechosa. No pide, sugiere. Y suele conseguirlo.",
-    "advice": "Aprovecha esa disposición para reforzar el mimo tranquilo: cinco minutos de caricias sin juguetes ni prisas, solo compañía.",
+    "body": "Venus en sextil con su propio Venus abre el grifo del afecto sin dramas: se apoya contra tu pierna, acepta caricias de quien pase y negocia premios con una educación casi sospechosa. Es su registro más cómodo, cero exigencia y mucha compañía de sofá.",
+    "advice": "Reserva un rato fijo de caricias tranquilas tras el paseo: el contacto sin prisa le sienta mejor que un juguete nuevo.",
     "energyScore": 3,
     "colorOfDay": "gold"
   },
   {
     "key": "transit=venus;aspect=square;natal=venus",
-    "headline": "El cariño le sale a contratiempo",
-    "body": "Venus contra Venus desafina el termómetro del afecto: se sube al sofá, acepta treinta segundos de caricias y baja a tumbarse a un metro de ti. Con los premios pasa igual, los pide con insistencia y luego los husmea sin decidirse. No es desinterés, es afecto que negocia.",
-    "advice": "Ofrécele mimos cortos y deja que vuelva a por más: el cariño en sus términos le cuadra mejor que la sesión larga.",
+    "headline": "El cariño le sale a contrapelo",
+    "body": "Venus de paso en tensión con su Venus natal desincroniza el afecto: reclama mimos cuando te levantas y se aparta en cuanto te sientas a hacerle caso. Con los premios, igual: olisquea, deja el trozo y a los dos minutos vuelve a pedirlo. No es desamor, es cuestión de tiempos.",
+    "advice": "Ofrece la mano y espera sin insistir: si se aparta, prueba otra vez un rato después. El cariño a su ritmo cunde más.",
     "energyScore": 3,
-    "colorOfDay": "water"
+    "colorOfDay": "earth"
   },
   {
     "key": "transit=venus;aspect=trine;natal=venus",
@@ -1369,9 +1369,9 @@
   },
   {
     "key": "transit=venus;aspect=sextile;natal=mars",
-    "headline": "El cariño le sale en forma de juego",
-    "body": "Venus roza a su Marte natal con un ángulo cómodo: el mimo y el impulso se llevan bien. Se acurruca dos minutos, se levanta con el juguete en la boca y espera que sigas. El juego le sale sociable en vez de bruto, con mordida suave y pausas para mirarte a la cara.",
-    "advice": "Alterna tirones de cuerda con un rato de caricias tranquilas: le encaja mejor que solo correr o solo sofá.",
+    "headline": "El juego le sale con buenos modales",
+    "body": "Venus le pone guantes al empuje de su Marte: las ganas de perseguir siguen intactas, pero el tirón del juguete termina en lametón y no en gruñido. Trae la pelota, la suelta a la primera y vuelve a pedir más. Con otros perros modera la carga y sabe cuándo parar solo.",
+    "advice": "Alterna tira y afloja con dos minutos de caricias: se le da bien encadenar juego intenso y calma.",
     "energyScore": 4,
     "colorOfDay": "fire"
   },
@@ -1426,8 +1426,8 @@
   {
     "key": "transit=venus;aspect=trine;natal=jupiter",
     "headline": "El encanto le sale sin esfuerzo",
-    "body": "Venus en trígono con su Júpiter natal es puro roce fácil: saluda a desconocidos con la cola en marcha, acepta caricias de quien se las ofrezca y negocia premios con una cara difícil de rechazar. En el parque hace amigos antes de que tú termines de saludar al otro humano.",
-    "advice": "Presentaciones con perros nuevos en terreno neutral y sin prisa, y un rato largo de caricias al volver a casa.",
+    "body": "Venus en trígono con su Júpiter natal es el aspecto más sociable del catálogo: cariño fácil y entusiasmo de sobra. Saluda con la cola alta, hace amigos en el parque en treinta segundos y recibe cada premio como si fuera el primero de su vida.",
+    "advice": "Busca sitios con perros y gente conocida y déjale saludar a su ritmo: el rato social le llena más que un juguete nuevo.",
     "energyScore": 4,
     "colorOfDay": "gold"
   },
@@ -1489,9 +1489,9 @@
   },
   {
     "key": "transit=venus;aspect=sextile;natal=uranus",
-    "headline": "Cariño con giro inesperado",
-    "body": "El sextil de Venus al Urano natal describe un perro afectuoso a su manera, nunca por guion. Se acerca cuando no lo esperas, apoya la cabeza treinta segundos y se va a mirar por la ventana. Los premios le gustan más si aparecen en un orden que no puede predecir.",
-    "advice": "Cambia la rutina de mimos: rasca en un sitio nuevo, esconde el juguete favorito en otro rincón y deja que lo encuentre.",
+    "headline": "El cariño le llega por rutas raras",
+    "body": "Venus se entiende bien con su lado excéntrico, así que el afecto no viene por el camino previsible: se tumba a tres metros en vez de encima, reaparece con un juguete que llevaba meses ignorando y acepta caricias de gente nueva sin pedir presentaciones.",
+    "advice": "Cámbiale el juguete de sitio o inventa un saludo nuevo: agradece que el cariño llegue en formatos distintos.",
     "energyScore": 3,
     "colorOfDay": "air"
   },
@@ -1578,8 +1578,8 @@
   {
     "key": "transit=venus;aspect=square;natal=pluto",
     "headline": "El cariño en versión todo o nada",
-    "body": "Venus roza a Plutón en ángulo tenso y el afecto se vuelve asunto de propiedad: te sigue de habitación en habitación, se coloca entre tú y quien se acerca y esconde el juguete bueno donde nadie lo encuentre. Los premios los pide con insistencia de negociador.",
-    "advice": "Ten un juguete que sea solo suyo y otro para compartir: así aprende que dar algo no es perderlo para siempre.",
+    "body": "Venus toca a Plutón en ángulo tenso y el afecto se vuelve intenso: busca tu regazo con insistencia o se retira sin avisar. También se nota con los juguetes, que guarda entre las patas y vigila de reojo. Los premios pasan de dar igual a ser lo único que existe.",
+    "advice": "Practica el intercambio: ofrece otro juguete a cambio del que custodia y celebra el momento en que lo suelta, sin tirones.",
     "energyScore": 3,
     "colorOfDay": "water"
   },
@@ -1681,9 +1681,9 @@
   },
   {
     "key": "transit=mars;aspect=conjunction;natal=mercury",
-    "headline": "Ladra primero y piensa después",
-    "body": "Marte enciende la mecha de su Mercurio: ladra antes de pensar, aprende una orden en tres repeticiones y la ejecuta a toda velocidad. En el paseo comenta en voz alta cada portal y cada moto. Le entra todo rápido, pero entre la idea y las patas hay poquísimo freno.",
-    "advice": "Trabaja órdenes en tandas de tres minutos y remátalo con una carrera o un juego de olfato para que descargue el impulso.",
+    "headline": "El ladrido viene con motor",
+    "body": "Marte se pega a su Mercurio y todo lo que piensa sale por la boca a toda velocidad: ladra antes de mirar, aprende un truco en tres repeticiones y luego lo repite sin que se lo pidas. Discute con el timbre, con el aspirador y con las palabras que no le convencen.",
+    "advice": "Dale órdenes cortas y sesiones de dos minutos, varias veces al día: cuando tiene un trabajo claro, ladra bastante menos.",
     "energyScore": 4,
     "colorOfDay": "fire"
   },
@@ -1913,9 +1913,9 @@
   },
   {
     "key": "transit=mars;aspect=opposition;natal=uranus",
-    "headline": "Arranques sin previo aviso",
-    "body": "Marte enfrentado a su Urano natal es puro impulso imprevisible: sale disparado detrás de una hoja, cambia de idea a mitad de carrera y vuelve como si nada. La correa da tirones raros y los sitios conocidos le parecen nuevos. Obedece, sí, pero con dos segundos de retraso.",
-    "advice": "Arnés bien ajustado y un tramo largo de correa donde pueda arrancar sin peligro; luego, juego de olfato para bajar revoluciones.",
+    "headline": "El perro que arranca sin avisar",
+    "body": "Marte empuja contra el Urano natal y salta una chispa de imprevisibilidad: acelerones sin motivo aparente, giros de noventa grados en mitad del paseo y juego que pasa de cero a cien. No es desobediencia, es un interruptor muy sensible. Cuando descarga, descarga entero.",
+    "advice": "Arnés bien ajustado y correa larga en sitio cerrado: que suelte el arranque corriendo y no tirando de ti.",
     "energyScore": 5,
     "colorOfDay": "fire"
   },
@@ -2241,9 +2241,9 @@
   },
   {
     "key": "transit=jupiter;aspect=conjunction;natal=saturn",
-    "headline": "El entusiasmo con horario fijo",
-    "body": "Su lado disciplinado y su lado expansivo se dan la mano: sigue la rutina de siempre, pero con la cola más alta. Acepta juegos nuevos si empiezan a la hora de costumbre y aguanta sesiones largas de entrenamiento sin rechistar. La terquedad se le vuelve constancia.",
-    "advice": "Aprovecha su gusto por el orden y enséñale un truco nuevo siempre en el mismo sitio y a la misma hora del día.",
+    "headline": "El entusiasmo firma el contrato de la rutina",
+    "body": "Júpiter se sienta encima de su Saturno y sale un perro con ganas de más que no se sale del guion: espera en la puerta a la hora exacta, insiste con el juguete tres veces y luego se tumba. Amplía su repertorio, pero solo si el marco está claro.",
+    "advice": "Enséñale algo nuevo dentro de la rutina de siempre: mismo sitio, misma hora, un truco un poco más largo cada vez.",
     "energyScore": 3,
     "colorOfDay": "earth"
   },
@@ -2393,9 +2393,9 @@
   },
   {
     "key": "transit=jupiter;aspect=opposition;natal=pluto",
-    "headline": "Todo o nada, sin escalas intermedias",
-    "body": "Júpiter empuja el entusiasmo y Plutón natal lo convierte en fijación: quiere el juguete, lo quiere entero y lo quiere ya. En el parque pasa de cero a cien con el perro que menos le conviene, y en casa vigila la pelota como si fuera patrimonio familiar.",
-    "advice": "Cierra tú los juegos con una señal de fin siempre igual y guarda el juguete estrella hasta la próxima sesión.",
+    "headline": "Quiere más de todo y solo una cosa",
+    "body": "Júpiter empuja el 'más': más parque, más amigos, más juguete. Plutón natal contesta con fijación y elige una pelota concreta que no piensa negociar. Saluda a media calle con la cola en alto y después se planta en un olor durante diez minutos, sordo a su nombre.",
+    "advice": "Sesiones largas de juego con un solo juguete, y cierra tú el turno: guárdalo antes de que la fijación mande.",
     "energyScore": 4,
     "colorOfDay": "fire"
   },
@@ -2433,9 +2433,9 @@
   },
   {
     "key": "transit=saturn;aspect=opposition;natal=sun",
-    "headline": "Su carácter contra el reglamento",
-    "body": "Saturno enfrente del Sol pone a prueba quién manda: se planta a mitad del paseo, tarda en soltar el juguete y mira hacia otro lado justo cuando lo llamas. No es una rebeldía nueva, es su temperamento chocando con los límites. Con rutina previsible, la fricción baja sola.",
-    "advice": "Mantén los horarios de paseo iguales cada día y pídele una sola cosa a la vez: la constancia le ordena el mundo.",
+    "headline": "Un pulso educado contra las normas",
+    "body": "Saturno enfrente del Sol pone al carácter a discutir con los límites: la orden llega, la mira, y la cumple tres segundos tarde y con cara de estar haciéndote un favor. Se planta en mitad del paseo, elige otra esquina y sostiene la mirada. No hay rebeldía, hay opinión propia.",
+    "advice": "Reduce las órdenes a cuatro y repítelas siempre igual, con premio al primer intento. Terreno conocido y poca discusión.",
     "energyScore": 2,
     "colorOfDay": "earth"
   },
@@ -2649,10 +2649,10 @@
   },
   {
     "key": "transit=saturn;aspect=sextile;natal=saturn",
-    "headline": "La rutina le sienta como un guante",
-    "body": "Saturno se lleva bien consigo mismo, y en un perro eso se traduce en constancia sin drama: acepta los horarios, espera en su sitio, entiende dónde está el límite. La terquedad sigue ahí, pero trabaja a tu favor. Aprende despacio y luego no se le olvida nunca.",
-    "advice": "Mantén los horarios de paseo y de cama siempre a la misma hora: la previsibilidad es lo que más le tranquiliza.",
-    "energyScore": 3,
+    "headline": "Un perro que confía en el horario",
+    "body": "Saturno bien avenido consigo mismo se traduce en un perro al que el horario le encaja sin protestar: sabe que tras el paseo viene la cama y tras la cena, la calma. Aprende las normas despacio, pero se las queda para siempre y las repite sin que tengas que insistirle.",
+    "advice": "Mantén los mismos horarios de paseo y descanso: con una estructura repetida y clara se le ve seguro y tranquilo.",
+    "energyScore": 2,
     "colorOfDay": "earth"
   },
   {
@@ -2745,9 +2745,9 @@
   },
   {
     "key": "transit=saturn;aspect=trine;natal=neptune",
-    "headline": "La rutina le ordena los sueños",
-    "body": "Saturno y Neptuno se entienden sin discutir: el horario fijo no le aprieta, lo sostiene. Duerme profundo, con las patas corriendo dormidas, y se despierta entero. La misma cama, la misma hora y el mismo orden de las cosas le bastan para estar tranquilo y suelto.",
-    "advice": "Mantén el ritual de la noche siempre igual: última salida corta, su manta en el mismo sitio y luces bajas sin prisa.",
+    "headline": "La rutina le entra como una siesta",
+    "body": "Saturno y Neptuno se entienden sin discutir: la estructura no le pesa y lo blando no le desordena. Acepta el horario de paseo sin negociar, se duerme en su sitio con la casa en plena marcha y responde mejor a un tono bajo que a una orden repetida tres veces.",
+    "advice": "Mantén un orden reconocible en el día —paseo, juego, cama— y cierra la tarde con unas caricias largas y sin prisa.",
     "energyScore": 2,
     "colorOfDay": "water"
   },
@@ -2937,9 +2937,9 @@
   },
   {
     "key": "transit=uranus;aspect=square;natal=venus",
-    "headline": "El cariño le sale a contratiempo",
-    "body": "Venus rige su forma de querer y Urano la desordena: el perro mimoso de siempre se aparta un rato y el independiente aparece de golpe pidiendo sofá. Con los premios y juguetes pasa igual, el peluche sagrado pierde interés y de pronto prefiere una cuerda vieja.",
-    "advice": "Deja que sea quien inicie las caricias y ten a mano su juguete de siempre y otro distinto, por si cambia de gusto.",
+    "headline": "El cariño le sale a golpes de novedad",
+    "body": "Urano tensa su Venus y el afecto pierde horario fijo. Pasa de buscarte el regazo a ignorarte desde el otro extremo del sofá, y el premio que siempre funcionaba de pronto le parece poca cosa. No es capricho: en el terreno del cariño, la novedad le gana a la costumbre.",
+    "advice": "Ve rotando juguetes y maneras de premiar, y cuando se aparte de los mimos dale su espacio: vuelve por su cuenta.",
     "energyScore": 3,
     "colorOfDay": "air"
   },
@@ -3017,9 +3017,9 @@
   },
   {
     "key": "transit=uranus;aspect=square;natal=jupiter",
-    "headline": "El entusiasmo se le va de las manos",
-    "body": "Júpiter le da ganas de todo y Urano le quita el guion: se emociona con lo primero que aparece y abandona el plan a mitad. Saluda a desconocidos con más efusión de la habitual, cambia de juguete cada dos minutos y en el parque se apunta a cualquier grupo que pase.",
-    "advice": "Alterna rutas conocidas con algún desvío nuevo y reserva un juego largo al final para gastar ese exceso de ganas.",
+    "headline": "Entusiasmo que no mide las puertas",
+    "body": "Júpiter le da un optimismo de manual y Urano lo empuja a destiempo: se emociona con lo que no estaba en el plan y se le va el cuerpo entero. Saluda de más, salta de más y cambia de idea a mitad del salto. Sociabilidad no le falta; le sobra en el momento menos oportuno.",
+    "advice": "Antes del parque, un rato largo de olfateo tranquilo, y un juguete a mano cuando llegan visitas para encauzar la euforia.",
     "energyScore": 4,
     "colorOfDay": "air"
   },
@@ -3217,9 +3217,9 @@
   },
   {
     "key": "transit=neptune;aspect=square;natal=sun",
-    "headline": "El perro que se queda mirando la nada",
-    "body": "Neptuno le desdibuja los contornos: responde a su nombre con medio segundo de retraso, se queda mirando una esquina vacía y parece más soñador de lo habitual. No es que te ignore, es que el mundo le llega con filtro. Su carácter no desaparece, solo baja el volumen.",
-    "advice": "Usa señales cortas y de siempre, el mismo tono y recorridos que ya conoce: la rutina le devuelve los contornos.",
+    "headline": "El perro que mira a través de ti",
+    "body": "Neptuno difumina los bordes del carácter que marca su Sol: responde al nombre a la segunda, se queda quieto mirando un punto de la valla y vuelve como si nada. Las señales de siempre le llegan con retardo, y no por terquedad, sino porque anda en otra frecuencia.",
+    "advice": "Señales cortas y de una en una, y la misma rutina de paseo: cuando el mundo se le desdibuja, lo conocido le orienta.",
     "energyScore": 2,
     "colorOfDay": "water"
   },
@@ -3337,17 +3337,17 @@
   },
   {
     "key": "transit=neptune;aspect=square;natal=venus",
-    "headline": "El cariño se le vuelve niebla",
-    "body": "Neptuno tensa a su Venus natal y difumina las señales: pide mimos, y cuando llegan, se aparta. Con los premios pasa igual, los huele con interés y luego los deja ahí, medio olvidados. No es desinterés, es que le cuesta ubicar qué quiere exactamente.",
-    "advice": "Ofrécele contacto sin insistir: siéntate cerca, mano quieta, y deja que decida cuándo se apoya en ti.",
+    "headline": "Un cariño con la niebla puesta",
+    "body": "Neptuno tensa a su Venus natal y el afecto pierde contornos: pide mimos, se aparta a media caricia y vuelve dos minutos después. El premio de siempre le parece poca cosa y tu presencia le parece mucho; en el juego busca compañía más que trofeos.",
+    "advice": "Reserva cada día un rato fijo de caricias tranquilas y mantén siempre el mismo premio en las sesiones de entrenamiento.",
     "energyScore": 2,
     "colorOfDay": "water"
   },
   {
     "key": "transit=neptune;aspect=trine;natal=venus",
-    "headline": "Cariño en modo niebla suave",
-    "body": "El trígono de Neptuno con su Venus natal le da un estilo de afecto casi telepático: se apoya contra tu pierna justo cuando ibas a llamarlo, y acepta los premios con una calma rara, sin arrebatos. El cariño le sale blando, largo, sin prisa por marcar territorio con juguetes.",
-    "advice": "Reserva un rato fijo de caricias lentas en el sofá, sin juego ni premios de por medio: solo compañía tranquila.",
+    "headline": "Cariño blando y sin condiciones",
+    "body": "Neptuno en trígono con su Venus natal dibuja un perro que se apoya en tu pierna sin pedir nada a cambio, que aguanta caricias hasta que se te duerme el brazo y que perdona cualquier despiste. El premio le importa menos que el tono con el que le hablas.",
+    "advice": "Reserva un rato fijo de sofá y caricias lentas, sin juguetes de por medio: ese contacto tranquilo le basta y le sobra.",
     "energyScore": 2,
     "colorOfDay": "water"
   },
@@ -3554,8 +3554,8 @@
   {
     "key": "transit=neptune;aspect=opposition;natal=neptune",
     "headline": "El perro que sueña con los ojos abiertos",
-    "body": "Neptuno enfrentado a su propio Neptuno difumina los bordes: se queda mirando un punto de la pared, reacciona a ruidos que tú no oyes y ladra a nada evidente. Duerme profundo, con las patas en movimiento, y luego tarda unos segundos en volver del todo. Le llega el ambiente de casa antes que a nadie.",
-    "advice": "Mantén su cama en un rincón tranquilo y con horarios de descanso previsibles; al despertarlo, háblale primero y toca después.",
+    "body": "Neptuno enfrentado a sí mismo difumina los bordes: se queda mirando un punto del pasillo donde no hay nada, tarda dos segundos de más en responder a su nombre y mueve las patas dormido como si corriera en otro sitio. Nada dramático, solo una antena muy abierta.",
+    "advice": "Mantén su cama en un rincón estable y con poco paso, y déjale terminar las siestas sin despertarle de golpe.",
     "energyScore": 2,
     "colorOfDay": "water"
   },

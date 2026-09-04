@@ -1,7 +1,8 @@
 import { NatalChartMother } from '@/chart/testing/NatalChartMother';
 import { DailyEdition } from '../../domain/DailyEdition';
 import { Fragment } from '../../domain/Fragment';
-import { dailyAxisCards } from '../dailyCards';
+import { Subscription } from '@/subscription/domain/Subscription';
+import { dailyAxisCards, lockedAxes } from '../dailyCards';
 
 const DATE = '2026-08-25';
 
@@ -69,5 +70,27 @@ describe('las tarjetas de eje de Hoy', () => {
   it('sin edición o sin carta, ninguna tarjeta', () => {
     expect(dailyAxisCards(null, NatalChartMother.complete())).toEqual([]);
     expect(dailyAxisCards(editionWith(`date=${DATE};axis=sun;sign=gemini`), undefined)).toEqual([]);
+  });
+});
+
+describe('lo que se bloquea sin Cósmico (D19)', () => {
+  const edition = editionWith(
+    `date=${DATE};axis=sun;sign=gemini`,
+    `date=${DATE};axis=moon;sign=leo`,
+    `date=${DATE};axis=ascendant;sign=leo`,
+  );
+  const cards = dailyAxisCards(edition, NatalChartMother.complete());
+
+  it('gratis, la Luna y el Ascendente — nunca el Sol: el hábito no se cobra', () => {
+    expect(lockedAxes(cards, Subscription.free())).toEqual(['moon', 'ascendant']);
+  });
+
+  it('con Cósmico no se bloquea nada, y la fila de oro no se pinta', () => {
+    expect(lockedAxes(cards, Subscription.premium({ planId: 'annual' }))).toEqual([]);
+  });
+
+  it('un eje que no está no se puede bloquear: sin hora no hay Ascendente', () => {
+    const sinHora = dailyAxisCards(edition, NatalChartMother.withoutTime());
+    expect(lockedAxes(sinHora, Subscription.free())).toEqual(['moon']);
   });
 });

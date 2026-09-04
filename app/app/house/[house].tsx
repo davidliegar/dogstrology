@@ -8,6 +8,8 @@ import { ScreenHeader } from '@/_ui/components/ScreenHeader';
 import { HouseWheel } from '@/chart/ui/HouseWheel';
 import { housePlacementNote } from '@/chart/ui/houseNote';
 import { useNatalCharts } from '@/chart/ui/chartQueries';
+import { UnlockRow } from '@/_ui/components/UnlockRow';
+import { useContentAccess } from '@/subscription/ui/subscriptionQueries';
 import { HOUSE_NUMERALS, SIGN_GLYPHS } from '@/chart/ui/glyphs';
 import {
   ELEMENT_LABELS,
@@ -18,6 +20,7 @@ import {
   noneHere,
   planetsOfPet,
   possessiveOfPlanet,
+  UNLOCK_HOUSES,
 } from '@/chart/ui/labels';
 import {
   elementOfHouse,
@@ -60,6 +63,10 @@ export default function HouseDetail() {
   const charts = useNatalCharts(pets);
   const { data: fragment } = useHouseGlossary(valid ? house : undefined);
   const { width } = useWindowDimensions();
+  // Sin plan no se dice qué cae aquí (D19): qué planeta está en qué casa es
+  // carta natal, y el artboard 37 la tapa entera. Va con el resto de hooks,
+  // antes de la salida por casa inválida.
+  const canReadChart = useContentAccess().canReadNatalChart();
 
   if (!valid) {
     return (
@@ -74,10 +81,12 @@ export default function HouseDetail() {
   const art = width - screenPadding * 2 - ART_PADDING * 2;
   // Qué tiene cada mascota en esta casa. Un perro sin hora no tiene casas, así
   // que sencillamente no sale (BRD §12.3).
-  const owners = (pets ?? []).flatMap((each, index) => {
-    const planets = charts[index]?.data?.planetsInHouse(house) ?? [];
-    return planets.length > 0 ? [{ pet: each, planets: planets.map((planet) => planet.id()) }] : [];
-  });
+  const owners = canReadChart
+    ? (pets ?? []).flatMap((each, index) => {
+        const planets = charts[index]?.data?.planetsInHouse(house) ?? [];
+        return planets.length > 0 ? [{ pet: each, planets: planets.map((planet) => planet.id()) }] : [];
+      })
+    : [];
 
   const several = (pets?.length ?? 0) > 1;
   const connections: Connection[] = owners.map(({ pet, planets }) => ({
@@ -107,7 +116,15 @@ export default function HouseDetail() {
         calculado.
       */
       footer={
-        several ? (
+        /*
+          Sin plan, la fila de oro **en las doce casas por igual**, y ahí está
+          el porqué: si solo apareciera donde cae un planeta, su presencia ya
+          diría en cuáles cae. Lo que se oculta tiene que ocultarse también
+          cuando no hay nada que ocultar.
+        */
+        !canReadChart ? (
+          <UnlockRow label={UNLOCK_HOUSES} onPress={() => router.push({ pathname: '/paywall', params: { door: 'houses' } })} />
+        ) : several ? (
           connections.length > 0 ? (
             <ConnectionList connections={connections} />
           ) : (
@@ -117,7 +134,7 @@ export default function HouseDetail() {
           <Tenants house={house} petId={only.pet.id()} name={only.pet.name()} inside={only.planets} />
         ) : null
       }
-      footerDivider={several || Boolean(only)}
+      footerDivider={!canReadChart || several || Boolean(only)}
     >
       {/* El sector va sobre su propio pozo de cielo, igual que la
           constelación en la ficha de un signo: es lo que lo separa del texto

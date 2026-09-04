@@ -286,3 +286,76 @@ export const CONFIDENCE_NOTICES: Record<
       `Su carta está completa. Fecha, hora y lugar: nada de lo que la app cuenta sobre ${name} se está estimando.`,
   },
 };
+
+/* La carta sin Cósmico — artboard 37 (D19). */
+
+/** El rótulo de lo que hay bajo el velo. El mismo que usa el paywall. */
+export const LOCKED_CHART_OVERLINE = 'Su carta entera';
+
+/**
+ * El titular de la carta bloqueada, **y se queda en claro**: los tres signos
+ * del eje ya se dieron en la revelación del onboarding, así que taparlos sería
+ * mentir sobre lo que la app le regaló. Lo que se cobra no es qué signos son,
+ * es dónde caen.
+ *
+ * Sin hora no hay Ascendente y la frase se queda en dos: prometer el tercero a
+ * quien no puede tenerlo sería vender un dato que no existe ni pagando.
+ */
+export const lockedChartTitle = ({
+  sun,
+  moon,
+  ascendant,
+}: {
+  sun: string;
+  moon: string;
+  ascendant?: string;
+}): string =>
+  [`Sol en ${sun}`, `Luna en ${moon}`, ascendant ? `Ascendente en ${ascendant}` : undefined]
+    .filter(Boolean)
+    .join(', ');
+
+/** Sobre la rueda difuminada, en el centro. */
+export const LOCKED_WHEEL_LABEL = 'Rueda, casas y aspectos';
+
+/**
+ * Las tres filas que dicen **con palabras** lo que hay bajo el velo. Un
+ * borroso solo enseña que hay algo; no explica qué se compra.
+ *
+ * La del Ascendente enseña además su valor difuminado al lado, para que se vea
+ * que el dato existe y está calculado — no es una promesa, es una cortina.
+ */
+export const LOCKED_CHART_ROWS = {
+  houses: 'Las doce casas',
+  aspects: 'Los aspectos entre planetas',
+  ascendant: 'Su Ascendente al grado',
+} as const;
+
+export const LOCKED_CHART_CTA = 'Ver su carta completa';
+
+/**
+ * La fila de oro de Explorar → Casas, sin plan (D19).
+ *
+ * **En qué casa cae cada planeta es carta natal**, y es justo lo que la carta
+ * bloqueada tapa: «Las doce casas» es una de sus tres filas con candado. Sin
+ * esto, un usuario sin plan recorría las doce y reconstruía media carta a mano.
+ *
+ * Los signos **no** se tocan: los tres del eje se dieron en la revelación del
+ * onboarding y la carta bloqueada los deja en claro por eso mismo. Y las fases
+ * son del cielo de hoy, iguales para todos los perros.
+ */
+export const UNLOCK_HOUSES = 'Ver en qué casas cae su carta';
+
+/**
+ * La fila de oro de «Quién es», sin plan (D19).
+ *
+ * **Las facetas son la carta desglosada**: «Mercurio en Géminis», «Venus en
+ * Escorpio», una por planeta y con su texto. Es más de lo que enseña la carta
+ * bloqueada, que solo deja los tres signos del eje — y es justo lo que
+ * CLAUDE.md llama la profundidad: *premium no es mejor prosa, es más
+ * profundidad*.
+ *
+ * Lo que se queda: el retrato de raza × signo, que es el contenido diferencial
+ * y el gancho de la ficha, y la barra de elementos, que es un agregado y no
+ * dice dónde cae ningún planeta.
+ */
+export const UNLOCK_FACETS = 'Ver su carácter planeta a planeta';

@@ -1,1 +1,1 @@
-Fragmentos: 8 · publishable: 8 · bloqueados: 0
+Fragmentos: 34 · publishable: 34 · bloqueados: 0

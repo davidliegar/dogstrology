@@ -44,6 +44,14 @@
           "imageWidth": 200,
           "resizeMode": "contain"
         }
+      ],
+      [
+        "expo-image-picker",
+        {
+          "photosPermission": "Dogstrology usa tus fotos solo para el retrato de tu mascota. La copia se queda en el móvil.",
+          "cameraPermission": false,
+          "microphonePermission": false
+        }
       ]
     ],
     "experiments": {
@@ -54,7 +62,10 @@
       "router": {},
       "eas": {
         "projectId": "0a43767b-8ca7-481f-af35-661652f8f79f"
-      }
+      },
+      "revenueCatApiKey": "goog_eRaxcjDruTUzVMJzeMJRWdoWsVY",
+      "revenueCatTestApiKey": "test_DvxmFRwqcGSOiwYxbtRJuoNraES",
+      "posthogApiKey": "phc_sTpKhmUMm7CNRVTzLVqZ5qeCF59Yfhcm3Nwbp6anyBNa"
     },
     "owner": "davidliegars-team"
   }
