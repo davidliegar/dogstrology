@@ -5077,3 +5077,15 @@ Llegaron 27 artboards. Se implementan **17 y 27**; el 26 va en tanda propia.
   hace el identificador por instalación. Con doce testers, **quien reinstale
   cuenta doble** y el DAU/MAU sale peor de lo que es: no es para arreglarlo, es
   para leerlo sabiéndolo
+
+### 2026-09-04 (60) — dos cosas que solo se ven usándola
+- **La Luna hoy se pisaba con su propia ficha.** El cuerpo no scrolleaba: disco
+  de 220 px + titular + un fragmento del catálogo no caben entre la cabecera y
+  las filas del pie de un móvil real, y el párrafo se salía por debajo hasta
+  solaparse con «Entra en Cáncer». `scroll` + `footerDivider` en la `Screen`.
+  Es la tercera vez que aparece lo mismo: **el artboard mide 844 y los móviles
+  no** — cualquier pantalla con texto de catálogo necesita `scroll`
+- **«¿Cómo se llama?» no tiene sujeto**, y es la primera pantalla de la app:
+  varios testers escribieron su propio nombre. Ahora dice **«¿Cómo se llama tu
+  mascota?»** (y la etiqueta de accesibilidad, igual). Diverge del artboard 01 a
+  propósito: el feedback de uso real manda sobre el canvas

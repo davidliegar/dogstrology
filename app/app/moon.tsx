@@ -79,6 +79,12 @@ export default function MoonToday() {
   return (
     <Screen
       deep
+      // El cuerpo no cabe en un móvil real: el disco a 220 px, el titular y un
+      // fragmento del catálogo suman más de lo que hay entre la cabecera y la
+      // ficha, y sin scroll el texto se sale por debajo y se pisa con la
+      // primera fila. El artboard mide 844 y los móviles no.
+      scroll
+      footerDivider
       stars="moonToday"
       gap={spacing[6]}
       header={<ScreenHeader title="La Luna hoy" onBack={() => router.back()} />}

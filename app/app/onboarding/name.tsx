@@ -47,13 +47,13 @@ export default function OnboardingName() {
       }
     >
       <View style={styles.block}>
-        <Text style={styles.headline}>¿Cómo se llama?</Text>
+        <Text style={styles.headline}>¿Cómo se llama tu mascota?</Text>
         <Text style={styles.body}>Su nombre aparece en todo lo que la app te cuente. Nada más se pide ahora.</Text>
       </View>
       <TextField
         value={name}
         onChangeText={setName}
-        accessibilityLabel="Nombre de tu perro"
+        accessibilityLabel="Nombre de tu mascota"
         autoFocus
         autoCapitalize="words"
         maxLength={MAX_NAME}
