@@ -141,29 +141,46 @@ export function PetHub({ pet, onBack }: PetHubProps) {
           fichas— quedaba detrás de un gesto que hay que adivinar: tocar el
           nombre para abrir la hoja del 26.
 
-          Sale **solo con el plan activo y una sola mascota**, y las dos mitades
-          de esa condición son la misma pregunta que ya contesta `useCanAddPet`
-          cruzada con cuántas hay:
+          Sale **con una sola mascota, se pague o no**, y lo que cambia con el
+          plan es a dónde lleva: con él, al alta; sin él, al 11 con el
+          subtítulo del plan, que es exactamente lo que hace la fila de añadir
+          de la lista del 32.
 
-          - sin plan, quien tiene una **topa con el límite**, y ahí lo que toca
-            es la puerta al 11 —que ya está en la hoja del 26 y en Ajustes—, no
-            una acción que no va a poder completar;
-          - con dos o más, la pestaña ya es la lista del 32, que trae su propia
-            fila de añadir, y repetirla dentro de cada ficha sería ofrecer lo
-            mismo dos veces en el mismo camino.
+          El primer intento la condicionaba a `useCanAddPet`, con el argumento
+          de no ofrecer una acción que no se puede completar. **El argumento
+          estaba del revés**: sin plan, quien tiene un perro es justo quien topa
+          con el límite, y D19 dice que la puerta se pinta donde se topa. Lo que
+          pasaba era lo contrario de proteger —la casa entera quedaba invisible
+          para quien no paga, y su única puerta era tocar el nombre para abrir
+          la hoja del 26: un gesto que hay que adivinar.
+
+          Con dos o más sigue sin salir: la pestaña ya es la lista del 32, que
+          trae su propia fila, y repetirla dentro de cada ficha sería ofrecer lo
+          mismo dos veces en el mismo camino.
 
           ⚠️ Derivación, no dibujo: el artboard 25 no la tiene. Toma la forma de
           la fila de compartir —etiqueta e icono, en el pie— y el oro de la fila
           de añadir de las otras dos pantallas donde existe.
         */}
-        {canAddPet && pets?.length === 1 ? (
+        {pets?.length === 1 ? (
           <Pressable
-            onPress={() => router.push('/onboarding/name')}
+            onPress={() =>
+              canAddPet
+                ? router.push('/onboarding/name')
+                : router.push({ pathname: '/paywall', params: { door: 'add_pet' } })
+            }
             accessibilityRole="button"
-            accessibilityLabel={ADD_PET_LABEL}
+            accessibilityLabel={canAddPet ? ADD_PET_LABEL : `${ADD_PET_LABEL}. ${ADD_PET_NOTE}`}
             style={styles.add}
           >
-            <Text style={styles.addLabel}>{ADD_PET_LABEL}</Text>
+            <View style={styles.addTexts}>
+              <Text style={styles.addLabel}>{ADD_PET_LABEL}</Text>
+              {/* **Sin candado, y con el nombre del plan de subtítulo**: es la
+                  puerta caliente —el usuario quiere hacer algo concreto que el
+                  plan incluye—, no contenido tapado. Mismo trato que en la
+                  lista del 32 y en la hoja del 26. */}
+              {canAddPet ? null : <Text style={styles.addNote}>{ADD_PET_NOTE}</Text>}
+            </View>
             <Plus size={icon.size.m} strokeWidth={icon.stroke} color={colors.accent} />
           </Pressable>
         ) : null}
@@ -214,9 +231,17 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     gap: spacing[4],
   },
+  addTexts: {
+    gap: spacing[1],
+    flexShrink: 1,
+  },
   addLabel: {
     ...typography.body,
     color: colors.accent,
+  },
+  addNote: {
+    ...typography.caption,
+    color: colors.textFaint,
   },
   share: {
     flexDirection: 'row',

@@ -5155,3 +5155,21 @@ Llegaron 27 artboards. Se implementan **17 y 27**; el 26 va en tanda propia.
       `ASC` pulsable de la carta, la punta de las tarjetas de eje, y que la
       tarjeta velada se apague entera al tocarla. Lo demás sí se vio (la Luna
       con scroll, la Luna con dos perros, el onboarding)
+
+### 2026-09-04 (62) — la casa, visible para quien no paga
+- **La fila «Añadir otra mascota» del hub sale ahora con una mascota, se pague
+  o no**, y lo que decide el plan es a dónde lleva: con él al alta, sin él al
+  11 con «Con Dogstrology Cósmico» de subtítulo — el mismo trato que la fila de
+  añadir de la lista del 32, sin candado, porque es la puerta caliente
+- ⚠️ **Nació condicionada a `useCanAddPet` y el argumento estaba del revés.**
+  Se escribió «sin plan no se ofrece una acción que no se puede completar», y
+  el efecto real era que **la mitad multimascota de la app fuera invisible
+  justo para quien tendría que pagarla**: su única puerta era tocar el nombre
+  del perro para abrir la hoja del 26, un gesto que hay que adivinar. D19 dice
+  lo contrario — la puerta se pinta donde el usuario topa con el límite, y sin
+  plan quien tiene un perro topa
+- **Tercera vez el mismo día**: la tira de la Luna, la tarjeta del Ascendente y
+  esta fila. Las tres se apagaron con un argumento razonable, las tres dejaron
+  algo inalcanzable y ninguna rompe nada al romperse — compilan, no fallan y no
+  llevan a ningún sitio. Las tres tienen ya test de fuente
+- [ ] Repaso visual: cae dentro del que ya está apuntado arriba
