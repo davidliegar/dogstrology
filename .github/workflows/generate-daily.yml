@@ -35,8 +35,13 @@ permissions:
 jobs:
   generate:
     runs-on: ubuntu-latest
-    # El batch puede tardar hasta 1h (BRD §7.4); se deja margen de sobra.
-    timeout-minutes: 90
+    # El batch puede tardar hasta 1h (BRD §7.4). Eran 90 minutos y **no era
+    # margen de sobra**: la noche del 2026-09-02 el lote tardó más y GitHub
+    # mató el job a 1h30m34s con el batch a medias, así que la edición del
+    # 2026-09-09 no llegó a escribirse. Nadie se enteró — el run sale como
+    # "cancelled", no como fallo, y el hueco no se ve hasta que llega el día.
+    # 240 es el tope que la Batch API se compromete a no superar de largo.
+    timeout-minutes: 240
     steps:
       - uses: actions/checkout@v4
 
@@ -119,6 +124,37 @@ jobs:
             done
             echo EOF_REPORT
           } >> "$GITHUB_OUTPUT"
+
+      # **El colchón se comprueba, no se supone.** Esta es la parte que faltaba
+      # el 2026-09-05, cuando la app se quedó sin edición del día con el cron
+      # saliendo verde cada noche desde hacía una semana.
+      #
+      # Se colaron dos huecos por dos motivos distintos y ninguno hizo ruido:
+      #
+      #   - el 05 y el 06 de septiembre **nadie los pidió**. El colchón se
+      #     llenó a mano el 28/08 con ocho días —hasta el 04/09— y el cron
+      #     arrancó el 31/08 generando hoy+7, o sea el 07/09. Los dos días de
+      #     encaje se quedaron fuera de las dos ventanas;
+      #   - el 09 murió con el job cancelado por el timeout de arriba.
+      #
+      # Comprobar sale gratis y es lo único que convierte un hueco silencioso
+      # en un correo. Va **después** de generar y no antes, para que el aviso
+      # incluya lo que este run acaba de escribir; y no bloquea el PR, que
+      # lleva contenido pagado y tiene que llegar igual.
+      - name: Comprobar que no hay huecos en los próximos 7 días
+        id: gaps
+        continue-on-error: true
+        run: |
+          missing=""
+          for i in $(seq 0 7); do
+            day="$(date -u -d "+$i days" +%F)"
+            [ -f "content/daily/$day.json" ] || missing="$missing $day"
+          done
+          if [ -n "$missing" ]; then
+            echo "::error::El colchón tiene huecos:$missing — se rellenan lanzando este workflow a mano con date y days"
+            exit 1
+          fi
+          echo "Colchón completo: los próximos 8 días están publicados."
 
       - name: Abrir PR con el contenido generado
         uses: peter-evans/create-pull-request@v6

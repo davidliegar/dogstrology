@@ -1152,7 +1152,10 @@ Referencia: **BRD §7.4, §7.5**.
       **Encendida**: el cron nocturno corre a las 03:00 UTC y genera hoy + 7,
       así que el colchón se mantiene rodando solo. También se puede lanzar a
       mano (`workflow_dispatch`) — ver `pipeline/README.md`
-- [ ] Alerta si pasan 2 días sin generar
+- [x] **Aviso de huecos en el colchón** (2026-09-05). Era «alerta si pasan 2
+      días sin generar» y se quedó corto: lo que falla no es que el cron pare
+      —sale verde cada noche— sino que **el día concreto no esté**. El paso
+      recorre hoy + 7 y falla el run nombrando lo que falta
 - [ ] Cloudflare Pages: despliegue al mergear (D11)
 - [x] **Las 65 razas del MVP decididas** → `pipeline/src/breeds.mjs`, con
       espejo `app/src/pet/ui/breeds.ts` y test que los ata id a id. Era el
@@ -5173,3 +5176,26 @@ Llegaron 27 artboards. Se implementan **17 y 27**; el 26 va en tanda propia.
   algo inalcanzable y ninguna rompe nada al romperse — compilan, no fallan y no
   llevan a ningún sitio. Las tres tienen ya test de fuente
 - [ ] Repaso visual: cae dentro del que ya está apuntado arriba
+
+### 2026-09-05 (63) — el día sin contenido, y por qué nadie se enteró
+- ⚠️ **Hoy la app no tenía edición**, y faltan tres días: 05, 06 y 09 de
+  septiembre. Dos causas distintas, ninguna ruidosa:
+  - **El 05 y el 06 no los pidió nadie.** El colchón se llenó a mano el 28/08
+    con ocho días —hasta el 04/09— y el cron arrancó el 31/08 generando
+    **hoy + 7**, o sea el 07/09. Los dos días de encaje entre el final de una
+    ventana y el principio de la otra se quedaron fuera de las dos. Lleva ahí
+    desde el 31 de agosto, esperando a que el calendario llegara
+  - **El 09 murió por timeout.** El run del 02/09 se canceló a 1h30m34s
+    exactos, que es el `timeout-minutes: 90`: el lote tardó más y GitHub mató
+    el job con el batch a medias. **Un run cancelado no es un run fallido**, así
+    que no llegó ni el correo
+- **La app aguantó bien**: sin edición y con red sale la tarjeta de «todavía no
+  publicado» (artboard 27) y la tira de la Luna sigue arriba, que es cálculo
+  local. Es el estado para el que se dibujó esa pantalla, y no se lee como un
+  error
+- **Arreglada la causa**: `timeout-minutes` 90 → 240, y un paso que recorre
+  hoy + 7 y **falla el run nombrando los días que faltan**. Comprobar sale
+  gratis y es lo único que convierte un hueco silencioso en un correo
+- [ ] **Rellenar los tres días** (~1,20 €, dos lanzamientos a mano del workflow
+      «Generar contenido diario» — el dispatch necesita admin del repo):
+      `date=2026-09-05 days=2` y `date=2026-09-09 days=1`
