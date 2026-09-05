@@ -5199,3 +5199,24 @@ Llegaron 27 artboards. Se implementan **17 y 27**; el 26 va en tanda propia.
 - [ ] **Rellenar los tres días** (~1,20 €, dos lanzamientos a mano del workflow
       «Generar contenido diario» — el dispatch necesita admin del repo):
       `date=2026-09-05 days=2` y `date=2026-09-09 days=1`
+
+### 2026-09-05 (64) — dos bugs de móvil real
+- ⚠️ **Con la navegación de tres botones se cortaba el final del contenido.**
+  La zona segura de abajo la reservaba **solo el pie**, y hay pantallas sin pie
+  —«Quién es», el sistema de casas, el hub cuando se llega desde la lista—. Con
+  gestos la barra mide ~24 px y el `screenPadding` del cuerpo la disimulaba;
+  con botones mide el doble y el último bloque quedaba debajo. Lo mismo en las
+  dos hojas, que suben desde el borde de la pantalla: la del planeta/Ascendente
+  y la del selector de mascota, donde lo que se comía era justo la fila de
+  añadir. Arreglado en el armazón, no pantalla por pantalla
+- **No se había visto porque el móvil de pruebas va con gestos.** Es la clase
+  de bug que solo aparece en la mitad de los dispositivos
+- ⚠️ **Y pulsar una tarjeta velada dejaba leer lo que tapa.** La respuesta al
+  toque le bajaba la opacidad a la tarjeta, y **en Android la opacidad de un
+  contenedor se aplica a cada hijo por separado, no al grupo**: la copia
+  borrosa y el tinte se volvían translúcidos y el texto de pago se leía entero
+  mientras el dedo estuviera puesto. Pulsar descorría el velo
+- **Sin tocar el desenfoque y sin quitar la respuesta al toque**: velada, la
+  tarjeta no se apaga — **sube el velo** (`veil.scrimPressed`, 0,55 → 0,72). El
+  peor caso pasa a ser que tape de más, que es el lado correcto en el que
+  equivocarse

@@ -144,7 +144,13 @@ export function DailyCard({
   // cascada se entere. El velo sigue sangrando hasta el filo: sangra lo que
   // mide este relleno, que es el mismo de antes, solo que una vista más
   // adentro.
-  const content = (
+  //
+  // **Y bloqueada no se apaga: se vela más.** La opacidad de un contenedor en
+  // Android se aplica a cada hijo por separado y no al grupo, así que apagar
+  // la tarjeta volvía translúcidos el desenfoque y el tinte, y el texto de
+  // pago se leía entero mientras el dedo estaba puesto. Visto en un móvil,
+  // 2026-09-05.
+  const content = (pressed: boolean) => (
     <>
       {locked ? null : head}
       {/* **La lectura entera va bajo el velo, titular incluido** (visto en un
@@ -160,6 +166,7 @@ export function DailyCard({
           bleed={screenPadding}
           radius={radii.card}
           sharp={head}
+          dimmed={pressed}
         >
           <Text style={styles.headline}>{headline}</Text>
           <Text style={styles.body}>{body}</Text>
@@ -181,12 +188,14 @@ export function DailyCard({
           onPress={onPress}
           accessibilityRole="button"
           accessibilityLabel={accessibilityLabel}
-          style={({ pressed }) => [styles.inner, pressed && styles.pressed]}
+          // Apagar la tarjeta solo cuando no hay velo. Con velo, quien responde
+          // al dedo es el propio velo, que sube.
+          style={({ pressed }) => [styles.inner, pressed && !locked && styles.pressed]}
         >
-          {content}
+          {({ pressed }) => content(pressed)}
         </Pressable>
       ) : (
-        <View style={styles.inner}>{content}</View>
+        <View style={styles.inner}>{content(false)}</View>
       )}
     </Animated.View>
   );

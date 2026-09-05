@@ -43,6 +43,20 @@ export interface VeilProps {
    * clase de cosa que se hace mal si cada pantalla la resuelve por su cuenta.**
    */
   sharp?: ReactNode;
+  /**
+   * La tarjeta se está pulsando: **el velo sube**.
+   *
+   * Es la respuesta al toque de lo bloqueado, y va aquí y no fuera porque
+   * fuera no puede ir. Bajarle la opacidad a la tarjeta —lo que hace cualquier
+   * fila pulsable de la app— **descorre el velo en Android**: la opacidad de
+   * un contenedor se aplica a cada hijo por separado y no al grupo, así que la
+   * copia borrosa y el tinte se vuelven translúcidos y el texto nítido de
+   * debajo se lee entero mientras el dedo esté puesto.
+   *
+   * Subiendo el velo el peor caso es que tape de más, y se sigue notando que
+   * la tarjeta responde.
+   */
+  dimmed?: boolean;
 }
 
 /**
@@ -78,7 +92,7 @@ export interface VeilProps {
  */
 const SETTINGS = Platform.OS === 'android' ? veil.android : veil.ios;
 
-export function Veil({ children, background, gap, bleed = 0, radius, sharp }: VeilProps) {
+export function Veil({ children, background, gap, bleed = 0, radius, sharp, dimmed = false }: VeilProps) {
   // En Android el desenfoque no sale del aire: hay que decirle **qué** vista
   // fotografiar. En iOS `BlurTargetView` es una `View` normal y el efecto es
   // del sistema, que difumina lo que tenga detrás.
@@ -110,7 +124,10 @@ export function Veil({ children, background, gap, bleed = 0, radius, sharp }: Ve
           como la tarjeta apagada. Va con `opacity` y no con un color a medio
           camino para no tener que componer un `rgba` con el token de al lado:
           el color es el mismo, lo que cambia es cuánto pesa. */}
-      <View style={[styles.layer, { backgroundColor: background, opacity: veil.scrim }]} pointerEvents="none" />
+      <View
+        style={[styles.layer, { backgroundColor: background, opacity: dimmed ? veil.scrimPressed : veil.scrim }]}
+        pointerEvents="none"
+      />
       {/* Y encima de las dos capas, otra vez lo que tiene que leerse. */}
       {sharp ? <View style={[styles.sharp, { top: bleed, left: bleed, right: bleed }]}>{sharp}</View> : null}
     </View>

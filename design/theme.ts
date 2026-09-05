@@ -366,6 +366,18 @@ export const veil = {
    */
   scrim: 0.55,
   /**
+   * El mismo velo, al pulsar la tarjeta.
+   *
+   * **La respuesta al toque de lo velado sube el velo en vez de bajar la
+   * opacidad de la tarjeta**, y eso no es una preferencia estética: en Android
+   * un `opacity` sobre un contenedor se aplica **a cada hijo por separado**, no
+   * al grupo, así que la copia borrosa y esta capa se volvían translúcidas y
+   * el texto nítido de debajo se leía entero al mantener el dedo. Pulsar tenía
+   * el efecto exacto de descorrer el velo. Yendo hacia arriba el peor caso es
+   * que tape más, que es justo lo que se quiere.
+   */
+  scrimPressed: 0.72,
+  /**
    * Android. `intensity` gradúa **dos cosas a la vez** —el radio y la opacidad
    * del tinte gris, que es fijo y no se puede elegir— pero el radio se
    * recupera por otro lado: es `intensity / reduction`. Así que la intensidad

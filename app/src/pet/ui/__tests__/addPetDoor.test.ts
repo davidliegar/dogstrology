@@ -1,5 +1,5 @@
 import { readFileSync } from 'node:fs';
-import { join, resolve } from 'node:path';
+import { resolve } from 'node:path';
 
 /**
  * **La fila de añadir del hub se pinta con una mascota, se pague o no.**

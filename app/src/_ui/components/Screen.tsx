@@ -70,17 +70,41 @@ export function Screen({
   // `flexGrow: 1` + `justifyContent` es lo que deja que una pantalla scrollee
   // **y** siga centrada: con sitio de sobra se reparte como si no scrolleara,
   // y en cuanto el teclado se come el alto, el contenido se puede alcanzar.
+
+  // **La zona segura de abajo la reservaba solo el pie, y hay pantallas sin
+  // pie.** Con gestos, la barra del sistema mide ~24 px y el `screenPadding`
+  // del cuerpo la disimulaba; con la navegación de tres botones mide el doble,
+  // y el final del contenido —la última faceta de «Quién es», la última fila
+  // de un ajuste— quedaba debajo de la barra, cortado. Es el mismo bug que ya
+  // apareció por arriba con `insets.top` y no se vio por abajo porque el móvil
+  // de pruebas va con gestos.
+  //
+  // Dentro de las pestañas no se toca: ahí quien reserva el hueco es la barra
+  // de pestañas, y contarlo dos veces dejaría el contenido flotando.
+  const bodyBottom = footer || insideTabs ? 0 : insets.bottom;
+
   const body = scroll ? (
     <ScrollView
       style={styles.body}
-      contentContainerStyle={[styles.scrolled, { gap, justifyContent: align }]}
+      contentContainerStyle={[
+        styles.scrolled,
+        { gap, justifyContent: align, paddingBottom: screenPadding + bodyBottom },
+      ]}
       keyboardShouldPersistTaps="handled"
       keyboardDismissMode="on-drag"
     >
       {children}
     </ScrollView>
   ) : (
-    <View style={[styles.body, styles.staticBody, { justifyContent: align, gap }]}>{children}</View>
+    <View
+      style={[
+        styles.body,
+        styles.staticBody,
+        { justifyContent: align, gap, paddingBottom: screenPadding + bodyBottom },
+      ]}
+    >
+      {children}
+    </View>
   );
 
   return (

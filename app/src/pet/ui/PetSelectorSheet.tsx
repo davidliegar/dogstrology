@@ -8,6 +8,7 @@ import {
   View,
   useWindowDimensions,
 } from 'react-native';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { Gesture, GestureDetector } from 'react-native-gesture-handler';
 import Animated, {
   Easing,
@@ -106,6 +107,10 @@ export function PetSelectorSheet({
   onClose,
 }: PetSelectorSheetProps) {
   const { height: windowHeight } = useWindowDimensions();
+  // Sube desde el borde de la pantalla y no desde el de la zona segura: con la
+  // navegación de tres botones, la fila de añadir —que es la última— quedaba
+  // debajo de la barra del sistema.
+  const insets = useSafeAreaInsets();
 
   const offset = useSharedValue(windowHeight);
   const sheetHeight = useSharedValue(windowHeight);
@@ -148,7 +153,7 @@ export function PetSelectorSheet({
         <Pressable style={styles.fill} onPress={dismiss} accessibilityRole="button" accessibilityLabel="Cerrar" />
       </Animated.View>
       <Animated.View
-        style={[styles.sheet, sheetStyle]}
+        style={[styles.sheet, { paddingBottom: spacing[6] + insets.bottom }, sheetStyle]}
         onLayout={(event) => {
           sheetHeight.set(event.nativeEvent.layout.height);
         }}

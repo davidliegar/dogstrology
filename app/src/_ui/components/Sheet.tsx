@@ -1,5 +1,6 @@
 import { useEffect } from 'react';
 import { Pressable, ScrollView, StyleSheet, View, useWindowDimensions } from 'react-native';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { Gesture, GestureDetector } from 'react-native-gesture-handler';
 import Animated, {
   Easing,
@@ -57,6 +58,10 @@ export interface SheetProps {
  */
 export function Sheet({ children, onClose }: SheetProps) {
   const { height: windowHeight } = useWindowDimensions();
+  // La hoja sube desde el borde de la pantalla, no desde el borde de la zona
+  // segura: sin esto, con la navegación de tres botones el final de su
+  // contenido queda debajo de la barra del sistema.
+  const insets = useSafeAreaInsets();
 
   // Cuánto está bajada la hoja: 0 es abierta del todo. Arranca en el alto de
   // la **ventana** y no en el suyo porque el suyo no se sabe hasta el primer
@@ -133,7 +138,10 @@ export function Sheet({ children, onClose }: SheetProps) {
             <View style={styles.grabber} />
           </View>
         </GestureDetector>
-        <ScrollView contentContainerStyle={styles.content} showsVerticalScrollIndicator={false}>
+        <ScrollView
+          contentContainerStyle={[styles.content, { paddingBottom: spacing[6] + insets.bottom }]}
+          showsVerticalScrollIndicator={false}
+        >
           {children}
         </ScrollView>
       </Animated.View>
